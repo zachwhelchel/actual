@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { css } from 'glamor';
 
@@ -9,6 +9,7 @@ import DotsHorizontalTriple from '../../../icons/v1/DotsHorizontalTriple';
 import ArrowButtonDown1 from '../../../icons/v2/ArrowButtonDown1';
 import ArrowButtonUp1 from '../../../icons/v2/ArrowButtonUp1';
 import { colors, styles } from '../../../style';
+import { useCoach } from '../../Coach';
 import AlignedText from '../../common/AlignedText';
 import Block from '../../common/Block';
 import Button from '../../common/Button';
@@ -272,13 +273,37 @@ export function BudgetSummary({
     onToggleSummaryCollapse,
   } = useRollover();
 
+  let { setTop, setLeft, setOffset } = useCoach();
+
   let [menuOpen, setMenuOpen] = useState(false);
+
+  const inputRef = useRef(null);
+
   function onMenuOpen(e) {
+    console.log('menu opened?!');
+
+    console.log(inputRef.current.offsetWidth);
+    console.log(inputRef.current.offsetHeight);
+    console.log(inputRef.current.offsetLeft);
+    console.log(inputRef.current.offsetTop);
+
+    const { top: t, left: l } = inputRef.current.getBoundingClientRect();
+    const centerY = t + inputRef.current.offsetHeight / 2;
+
+    console.log(t);
+    console.log(l);
+
     setMenuOpen(true);
+    setTop(centerY - 50 - 30);
+    setLeft(l + inputRef.current.offsetWidth - 240);
+    setOffset(0);
   }
 
   function onMenuClose() {
     setMenuOpen(false);
+    setTop(window.innerHeight - 20 - 30);
+    setLeft(window.innerWidth - 20 - 240);
+    setOffset(100);
   }
 
   let prevMonthName = monthUtils.format(monthUtils.prevMonth(month), 'MMM');
@@ -370,7 +395,7 @@ export function BudgetSummary({
               />
             </View>
             <View style={{ userSelect: 'none', marginLeft: 2 }}>
-              <Button type="bare" onClick={onMenuOpen}>
+              <Button type="bare" onClick={onMenuOpen} ref={inputRef}>
                 <DotsHorizontalTriple
                   width={15}
                   height={15}

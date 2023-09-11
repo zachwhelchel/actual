@@ -194,6 +194,7 @@ export class BudgetTable extends Component {
       newCategoryForGroup,
       dataComponents,
       isAddingGroup,
+      categoriesRef,
       onSaveCategory,
       onSaveGroup,
       onDeleteCategory,
@@ -286,6 +287,7 @@ export class BudgetTable extends Component {
                   dataComponents={dataComponents}
                   onEditMonth={this.onEditMonth}
                   onEditName={this.onEditName}
+                  categoriesRef={categoriesRef}
                   onSaveCategory={onSaveCategory}
                   onSaveGroup={onSaveGroup}
                   onDeleteCategory={onDeleteCategory}
@@ -320,6 +322,7 @@ function SidebarCategory({
   onDragChange,
   onEditMonth,
   onEditName,
+  categoriesRef,
   onSave,
   onDelete,
   onHideNewCategory,
@@ -384,7 +387,7 @@ function SidebarCategory({
               items={[
                 {
                   name: 'toggleVisibility',
-                  text: category.hidden ? 'Show' : 'Hide',
+                  text: category.hidden ? 'Show' : 'Hide!',
                 },
                 { name: 'rename', text: 'Rename' },
                 { name: 'delete', text: 'Delete' },
@@ -394,10 +397,16 @@ function SidebarCategory({
         )}
       </View>
       <View style={{ flex: 1 }} />
-      <NotesButton
-        id={category.id}
-        style={dragging && { color: 'currentColor' }}
-      />
+      <div
+        ref={element => {
+          categoriesRef.current[category.id] = element;
+        }}
+      >
+        <NotesButton
+          id={category.id}
+          style={dragging && { color: 'currentColor' }}
+        />
+      </div>
     </View>
   );
 
@@ -469,6 +478,7 @@ function SidebarGroup({
   style,
   borderColor = colors.border,
   onEdit,
+  categoriesRef,
   onSave,
   onDelete,
   onShowNewCategory,
@@ -561,7 +571,13 @@ function SidebarGroup({
             )}
           </View>
           <View style={{ flex: 1 }} />
-          <NotesButton id={group.id} />
+          <div
+            ref={element => {
+              categoriesRef.current[group.id] = element;
+            }}
+          >
+            <NotesButton id={group.id} />
+          </div>
         </>
       )}
     </View>
@@ -744,6 +760,7 @@ function ExpenseGroup({
   itemPos,
   MonthComponent,
   onEditName,
+  categoriesRef,
   onSave,
   onDelete,
   onDragChange,
@@ -805,7 +822,6 @@ function ExpenseGroup({
       )}
 
       <DropHighlight pos={catDropPos} offset={{ top: 1 }} />
-
       <View
         innerRef={catDropRef}
         style={{
@@ -826,6 +842,7 @@ function ExpenseGroup({
           collapsed={collapsed}
           onToggleCollapse={onToggleCollapse}
           onEdit={onEditName}
+          categoriesRef={categoriesRef}
           onSave={onSave}
           onDelete={onDelete}
           onShowNewCategory={onShowNewCategory}
@@ -844,6 +861,7 @@ function ExpenseCategory({
   MonthComponent,
   onEditName,
   onEditMonth,
+  categoriesRef,
   onSave,
   onDelete,
   onBudgetAction,
@@ -900,6 +918,7 @@ function ExpenseCategory({
             editingCell.id === cat.id
           }
           onEditName={onEditName}
+          categoriesRef={categoriesRef}
           onSave={onSave}
           onDelete={onDelete}
           onDragChange={onDragChange}
@@ -928,6 +947,7 @@ function IncomeGroup({
   collapsed,
   MonthComponent,
   onEditName,
+  categoriesRef,
   onSave,
   onToggleCollapse,
   onShowNewCategory,
@@ -946,6 +966,7 @@ function IncomeGroup({
           editingCell.id === group.id
         }
         onEdit={onEditName}
+        categoriesRef={categoriesRef}
         onSave={onSave}
         onToggleCollapse={onToggleCollapse}
         onShowNewCategory={onShowNewCategory}
@@ -962,6 +983,7 @@ function IncomeCategory({
   MonthComponent,
   onEditName,
   onEditMonth,
+  categoriesRef,
   onSave,
   onDelete,
   onDragChange,
@@ -996,6 +1018,7 @@ function IncomeCategory({
           editingCell.id === cat.id
         }
         onEditName={onEditName}
+        categoriesRef={categoriesRef}
         onSave={onSave}
         onDelete={onDelete}
       />
@@ -1030,6 +1053,7 @@ const BudgetCategories = memo(
     onShowActivity,
     onEditName,
     onEditMonth,
+    categoriesRef,
     onSaveCategory,
     onSaveGroup,
     onDeleteCategory,
@@ -1167,6 +1191,7 @@ const BudgetCategories = memo(
                   <SidebarGroup
                     group={{ id: 'new', name: '' }}
                     editing={true}
+                    categoriesRef={categoriesRef}
                     onSave={onSaveGroup}
                     onHideNewGroup={onHideNewGroup}
                     onEdit={onEditName}
@@ -1204,6 +1229,7 @@ const BudgetCategories = memo(
                   MonthComponent={dataComponents.ExpenseGroupComponent}
                   dragState={dragState}
                   onEditName={onEditName}
+                  categoriesRef={categoriesRef}
                   onSave={onSaveGroup}
                   onDelete={onDeleteGroup}
                   onDragChange={onDragChange}
@@ -1223,6 +1249,7 @@ const BudgetCategories = memo(
                   dragState={dragState}
                   onEditName={onEditName}
                   onEditMonth={onEditMonth}
+                  categoriesRef={categoriesRef}
                   onSave={onSaveCategory}
                   onDelete={onDeleteCategory}
                   onDragChange={onDragChange}
@@ -1255,6 +1282,7 @@ const BudgetCategories = memo(
                   MonthComponent={dataComponents.IncomeGroupComponent}
                   collapsed={collapsed.includes(item.value.id)}
                   onEditName={onEditName}
+                  categoriesRef={categoriesRef}
                   onSave={onSaveGroup}
                   onToggleCollapse={onToggleCollapse}
                   onShowNewCategory={onShowNewCategory}
@@ -1270,6 +1298,7 @@ const BudgetCategories = memo(
                   MonthComponent={dataComponents.IncomeCategoryComponent}
                   onEditName={onEditName}
                   onEditMonth={onEditMonth}
+                  categoriesRef={categoriesRef}
                   onSave={onSaveCategory}
                   onDelete={onDeleteCategory}
                   onDragChange={onDragChange}

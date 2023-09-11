@@ -1,4 +1,4 @@
-import React, { memo, PureComponent, useContext, useMemo } from 'react';
+import React, { memo, PureComponent, useContext, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useMatch, useNavigate } from 'react-router-dom';
 
@@ -19,6 +19,7 @@ import * as monthUtils from 'loot-core/src/shared/months';
 import { useActions } from '../../hooks/useActions';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { styles } from '../../style';
+import Coach, { CoachProvider } from '../Coach';
 import View from '../common/View';
 import { TitlebarContext } from '../Titlebar';
 
@@ -216,7 +217,7 @@ class Budget extends PureComponent {
     this.props.copyPreviousMonthInto(month, this.props.categories);
   }
 
-  onSaveCategory = async category => {
+  onSaveCategory = async (category, atEnd = false) => {
     let { categoryGroups } = this.state;
 
     if (category.id === 'new') {
@@ -224,16 +225,23 @@ class Budget extends PureComponent {
         category.name,
         category.cat_group,
         category.is_income,
+        atEnd,
       );
 
       this.setState({
         newCategoryForGroup: null,
-        categoryGroups: addCategory(categoryGroups, {
-          ...category,
-          is_income: category.is_income ? 1 : 0,
-          id,
-        }),
+        categoryGroups: addCategory(
+          categoryGroups,
+          {
+            ...category,
+            is_income: category.is_income ? 1 : 0,
+            id,
+          },
+          atEnd,
+        ),
       });
+
+      return id;
     } else {
       const cat = {
         ...category,
@@ -245,6 +253,51 @@ class Budget extends PureComponent {
         categoryGroups: updateCategory(categoryGroups, cat),
       });
     }
+  };
+
+  onSaveNewCategories = async (categories, atEnd = false) => {
+    let { categoryGroups } = this.state;
+    let ids = [];
+
+    console.log('Sugar were going dowm');
+    for (var index in categories) {
+      let category = categories[index];
+      console.log('Sugar for loop');
+      console.log(category);
+
+      let id = await this.props.createCategory(
+        category.name,
+        category.cat_group,
+        category.is_income,
+        atEnd,
+      );
+      category.id = id;
+      ids.push(id);
+    }
+
+    console.log('Sugar her got ids');
+    console.log(ids);
+
+    var catGroups = categoryGroups;
+
+    for (var index in categories) {
+      let category = categories[index];
+      catGroups = addCategory(
+        catGroups,
+        {
+          ...category,
+          is_income: category.is_income ? 1 : 0,
+        },
+        atEnd,
+      );
+    }
+
+    this.setState({
+      newCategoryForGroup: null,
+      categoryGroups: catGroups,
+    });
+
+    return ids;
   };
 
   onDeleteCategory = async id => {
@@ -287,6 +340,8 @@ class Budget extends PureComponent {
           id,
         }),
       });
+
+      return id;
     } else {
       const grp = {
         ...group,
@@ -406,6 +461,7 @@ class Budget extends PureComponent {
     let {
       maxMonths,
       budgetType: type,
+      categoriesRef,
       reportComponents,
       rolloverComponents,
     } = this.props;
@@ -474,33 +530,43 @@ class Budget extends PureComponent {
           onBudgetAction={this.onBudgetAction}
           onToggleSummaryCollapse={this.onToggleCollapse}
         >
-          <DynamicBudgetTable
-            ref={el => (this.table = el)}
-            type={type}
-            categoryGroups={categoryGroups}
-            prewarmStartMonth={prewarmStartMonth}
-            startMonth={startMonth}
-            monthBounds={bounds}
-            maxMonths={maxMonths}
-            collapsed={collapsed}
-            setCollapsed={this.setCollapsed}
-            newCategoryForGroup={newCategoryForGroup}
-            isAddingGroup={isAddingGroup}
-            dataComponents={rolloverComponents}
-            onMonthSelect={this.onMonthSelect}
-            onShowNewCategory={this.onShowNewCategory}
-            onHideNewCategory={this.onHideNewCategory}
-            onShowNewGroup={this.onShowNewGroup}
-            onHideNewGroup={this.onHideNewGroup}
-            onDeleteCategory={this.onDeleteCategory}
-            onDeleteGroup={this.onDeleteGroup}
-            onSaveCategory={this.onSaveCategory}
-            onSaveGroup={this.onSaveGroup}
-            onBudgetAction={this.onBudgetAction}
-            onShowActivity={this.onShowActivity}
-            onReorderCategory={this.onReorderCategory}
-            onReorderGroup={this.onReorderGroup}
-          />
+          <CoachProvider>
+            <Coach
+              onSaveGroup={this.onSaveGroup}
+              onSaveCategory={this.onSaveCategory}
+              onSaveNewCategories={this.onSaveNewCategories}
+              categoryGroups={categoryGroups}
+              categoriesRef={categoriesRef}
+            />
+            <DynamicBudgetTable
+              ref={el => (this.table = el)}
+              type={type}
+              categoryGroups={categoryGroups}
+              prewarmStartMonth={prewarmStartMonth}
+              startMonth={startMonth}
+              monthBounds={bounds}
+              maxMonths={maxMonths}
+              collapsed={collapsed}
+              setCollapsed={this.setCollapsed}
+              newCategoryForGroup={newCategoryForGroup}
+              isAddingGroup={isAddingGroup}
+              dataComponents={rolloverComponents}
+              onMonthSelect={this.onMonthSelect}
+              onShowNewCategory={this.onShowNewCategory}
+              onHideNewCategory={this.onHideNewCategory}
+              onShowNewGroup={this.onShowNewGroup}
+              onHideNewGroup={this.onHideNewGroup}
+              onDeleteCategory={this.onDeleteCategory}
+              onDeleteGroup={this.onDeleteGroup}
+              categoriesRef={categoriesRef}
+              onSaveCategory={this.onSaveCategory}
+              onSaveGroup={this.onSaveGroup}
+              onBudgetAction={this.onBudgetAction}
+              onShowActivity={this.onShowActivity}
+              onReorderCategory={this.onReorderCategory}
+              onReorderGroup={this.onReorderGroup}
+            />
+          </CoachProvider>
         </RolloverContext>
       );
     }
@@ -570,6 +636,8 @@ export default function BudgetWrapper(props) {
     [rollover],
   );
 
+  let categoriesRef = useRef([]);
+
   // In a previous iteration, the wrapper needs `overflow: hidden` for
   // some reason. Without it at certain dimensions the width/height
   // that autosizer gives us is slightly wrong, causing scrollbars to
@@ -588,6 +656,7 @@ export default function BudgetWrapper(props) {
         budgetType={budgetType}
         maxMonths={maxMonths}
         categoryGroups={categoryGroups}
+        categoriesRef={categoriesRef}
         {...actions}
         reportComponents={reportComponents}
         rolloverComponents={rolloverComponents}

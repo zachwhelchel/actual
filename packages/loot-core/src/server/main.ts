@@ -279,6 +279,7 @@ handlers['category-create'] = mutator(async function ({
   name,
   groupId,
   isIncome,
+  atEnd,
 }) {
   return withUndo(async () => {
     if (!groupId) {
@@ -289,7 +290,7 @@ handlers['category-create'] = mutator(async function ({
       name,
       cat_group: groupId,
       is_income: isIncome ? 1 : 0,
-    });
+    }, { atEnd: atEnd });
   });
 });
 
