@@ -3,6 +3,8 @@ import React, { useState, useMemo } from 'react';
 import { type AccountEntity } from 'loot-core/src/types/models';
 
 import Add from '../../icons/v1/Add';
+import Phone from '../../icons/v1/Phone';
+import Badge from '../../icons/v1/Badge';
 import View from '../common/View';
 import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
@@ -32,6 +34,8 @@ type AccountsProps = {
   getOffBudgetBalance: () => Binding;
   showClosedAccounts: boolean;
   onAddAccount: () => void;
+  onScheduleZoom: () => void;
+  onFreeTrial: () => void;
   onToggleClosedAccounts: () => void;
   onReorder: OnDropCallback;
 };
@@ -50,6 +54,8 @@ function Accounts({
   getOffBudgetBalance,
   showClosedAccounts,
   onAddAccount,
+  onScheduleZoom,
+  onFreeTrial,
   onToggleClosedAccounts,
   onReorder,
 }: AccountsProps) {
@@ -176,6 +182,26 @@ function Accounts({
         onClick={onAddAccount}
         Icon={Add}
         title="Add account"
+      />
+
+      <SecondaryItem
+        style={{
+          marginTop: 15,
+          marginBottom: 9,
+        }}
+        onClick={onScheduleZoom}
+        Icon={Phone}
+        title="Schedule Zoom"
+      />
+
+      <SecondaryItem
+        style={{
+          marginTop: 15,
+          marginBottom: 9,
+        }}
+        onClick={onFreeTrial}
+        Icon={Badge}
+        title="Free Trial"
       />
     </View>
   );

@@ -13,6 +13,8 @@ import BudgetSummary from './modals/BudgetSummary';
 import CloseAccount from './modals/CloseAccount';
 import ConfirmCategoryDelete from './modals/ConfirmCategoryDelete';
 import CreateAccount from './modals/CreateAccount';
+import ScheduleZoom from './modals/ScheduleZoom';
+import FreeTrial from './modals/FreeTrial';
 import CreateEncryptionKey from './modals/CreateEncryptionKey';
 import CreateLocalAccount from './modals/CreateLocalAccount';
 import EditField from './modals/EditField';
@@ -72,6 +74,20 @@ export default function Modals() {
             <CreateAccount
               modalProps={modalProps}
               syncServerStatus={syncServerStatus}
+            />
+          );
+
+        case 'schedule-zoom':
+          return (
+            <ScheduleZoom
+              modalProps={modalProps}
+            />
+          );
+
+        case 'free-trial':
+          return (
+            <FreeTrial
+              modalProps={modalProps}
             />
           );
 

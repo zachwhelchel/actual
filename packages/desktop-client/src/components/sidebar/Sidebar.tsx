@@ -40,6 +40,8 @@ type SidebarProps = {
   isFloating: boolean;
   onFloat: () => void;
   onAddAccount: () => void;
+  onScheduleZoom: () => void;
+  onFreeTrial: () => void;
   onToggleClosedAccounts: () => void;
   onReorder: OnDropCallback;
 };
@@ -58,6 +60,8 @@ function Sidebar({
   isFloating,
   onFloat,
   onAddAccount,
+  onScheduleZoom,
+  onFreeTrial,
   onToggleClosedAccounts,
   onReorder,
 }: SidebarProps) {
@@ -137,6 +141,8 @@ function Sidebar({
           getOffBudgetBalance={getOffBudgetBalance}
           showClosedAccounts={showClosedAccounts}
           onAddAccount={onAddAccount}
+          onScheduleZoom={onScheduleZoom}
+          onFreeTrial={onFreeTrial}
           onToggleClosedAccounts={onToggleClosedAccounts}
           onReorder={onReorder}
         />
