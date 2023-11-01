@@ -148,13 +148,13 @@ function FinancesApp() {
     setTimeout(async () => {
       await actions.sync();
 
-      await checkForUpdateNotification(
-        actions.addNotification,
-        getIsOutdated,
-        getLatestVersion,
-        actions.loadPrefs,
-        actions.savePrefs,
-      );
+      // await checkForUpdateNotification(
+      //   actions.addNotification,
+      //   getIsOutdated,
+      //   getLatestVersion,
+      //   actions.loadPrefs,
+      //   actions.savePrefs,
+      // );
     }, 100);
   }, []);
 

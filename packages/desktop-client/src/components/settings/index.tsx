@@ -39,10 +39,6 @@ function About() {
 
   return (
     <Setting>
-      <Text>
-        <strong>Actual</strong> is a super fast privacy-focused app for managing
-        your finances.
-      </Text>
       <View
         style={{
           flexDirection: 'column',
@@ -176,16 +172,18 @@ export default function Settings() {
 
           {themesFlag && <ThemeSettings />}
           <FormatSettings />
-          <EncryptionSettings />
-          <ExportBudget />
+{/*          <EncryptionSettings />
+*/}          
+            <ExportBudget />
 
-          <AdvancedToggle>
+{/*          <AdvancedToggle>
             <AdvancedAbout />
             <ResetCache />
             <ResetSync />
             <FixSplitsTool />
             <ExperimentalFeatures />
           </AdvancedToggle>
+*/}          
         </View>
       </Page>
     </View>

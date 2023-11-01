@@ -279,7 +279,7 @@ export default function BudgetList() {
       }}
     >
       <View>
-        <Text style={{ ...styles.veryLargeText, margin: 20 }}>Files</Text>
+        <Text style={{ ...styles.veryLargeText, margin: 20 }}>Budgets</Text>
         <View
           style={{
             position: 'absolute',
@@ -329,11 +329,11 @@ export default function BudgetList() {
             pushModal('import');
           }}
         >
-          Import file
+          Import budget
         </Button>
 
         <Button type="primary" onClick={onCreate} style={{ marginLeft: 15 }}>
-          Create new file
+          Create new budget
         </Button>
 
         {isNonProductionEnvironment() && (
@@ -343,7 +343,7 @@ export default function BudgetList() {
             onClick={() => onCreate({ testMode: true })}
             style={{ marginLeft: 15 }}
           >
-            Create test file
+            Create test budget
           </Button>
         )}
       </View>
