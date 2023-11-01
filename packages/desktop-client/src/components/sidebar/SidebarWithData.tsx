@@ -150,6 +150,8 @@ function SidebarWithData() {
       onFloat={() => saveGlobalPrefs({ floatingSidebar: !floatingSidebar })}
       onReorder={onReorder}
       onAddAccount={() => replaceModal('add-account')}
+      onScheduleZoom={() => replaceModal('schedule-zoom')}
+      onFreeTrial={() => replaceModal('free-trial')}
       showClosedAccounts={prefs['ui.showClosedAccounts']}
       onToggleClosedAccounts={() =>
         savePrefs({
