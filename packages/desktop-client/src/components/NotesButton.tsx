@@ -118,7 +118,7 @@ function NotesTooltip({
           })}`}
           value={notes || ''}
           onChange={e => setNotes(e.target.value)}
-          placeholder="Notes (markdown supported)"
+          placeholder="Notes"
         />
       ) : (
         <Text {...markdownStyles}>
