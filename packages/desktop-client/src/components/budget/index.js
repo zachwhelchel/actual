@@ -199,7 +199,7 @@ function Budget(props) {
     setIsAddingGroup(false);
   };
 
-  onSaveCategory = async (category, atEnd = false) => {
+  const onSaveCategory = async (category, atEnd = false) => {
     if (category.id === 'new') {
       let id = await props.createCategory(
         category.name,
