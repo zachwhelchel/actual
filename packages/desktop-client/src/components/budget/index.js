@@ -199,17 +199,7 @@ function Budget(props) {
     setIsAddingGroup(false);
   };
 
-  setCollapsed = collapsed => {
-    this.setState({ collapsed });
-  };
-
-  onCopy(month) {
-    this.props.copyPreviousMonthInto(month, this.props.categories);
-  }
-
   onSaveCategory = async (category, atEnd = false) => {
-    let { categoryGroups } = this.state;
-
     if (category.id === 'new') {
       let id = await props.createCategory(
         category.name,
