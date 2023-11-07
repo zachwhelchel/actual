@@ -228,7 +228,7 @@ function Budget(props) {
     }
   };
 
-  onSaveNewCategories = async (categories, atEnd = false) => {
+  const onSaveNewCategories = async (categories, atEnd = false) => {
     let { categoryGroups } = this.state;
     let ids = [];
 
@@ -404,6 +404,7 @@ function Budget(props) {
   let {
     maxMonths,
     budgetType: type,
+    categoriesRef,
     reportComponents,
     rolloverComponents,
   } = props;
