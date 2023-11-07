@@ -1,11 +1,10 @@
-import React, { type CSSProperties } from 'react';
+import React from 'react';
 
 import { css } from 'glamor';
 
 import { type AccountEntity } from 'loot-core/src/types/models';
 
-// eslint-disable-next-line no-restricted-imports
-import { styles, colors } from '../../style';
+import { styles, theme, type CSSProperties } from '../../style';
 import AlignedText from '../common/AlignedText';
 import AnchorLink from '../common/AnchorLink';
 import View from '../common/View';
@@ -19,7 +18,7 @@ import {
 import { type Binding } from '../spreadsheet';
 import CellValue from '../spreadsheet/CellValue';
 
-const accountNameStyle = {
+export const accountNameStyle: CSSProperties = {
   marginTop: -2,
   marginBottom: 2,
   paddingTop: 4,
@@ -27,8 +26,8 @@ const accountNameStyle = {
   paddingRight: 15,
   paddingLeft: 10,
   textDecoration: 'none',
-  color: colors.n9,
-  ':hover': { backgroundColor: colors.n2 },
+  color: theme.sidebarItemText,
+  ':hover': { backgroundColor: theme.sidebarItemBackgroundHover },
   ...styles.smallText,
 };
 
@@ -81,21 +80,22 @@ function Account({
   });
 
   return (
-    <View innerRef={dropRef} style={[{ flexShrink: 0 }, outerStyle]}>
+    <View innerRef={dropRef} style={{ flexShrink: 0, ...outerStyle }}>
       <View>
         <DropHighlight pos={dropPos} />
         <View innerRef={dragRef}>
           <AnchorLink
             to={to}
-            style={[
-              accountNameStyle,
-              style,
-              { position: 'relative', borderLeft: '4px solid transparent' },
-              updated && { fontWeight: 700 },
-            ]}
+            style={{
+              ...accountNameStyle,
+              ...style,
+              position: 'relative',
+              borderLeft: '4px solid transparent',
+              ...(updated && { fontWeight: 700 }),
+            }}
             activeStyle={{
-              borderColor: colors.p8,
-              color: colors.p8,
+              borderColor: theme.sidebarItemAccentSelected,
+              color: theme.sidebarItemTextSelected,
               // This is kind of a hack, but we don't ever want the account
               // that the user is looking at to be "bolded" which means it
               // has unread transactions. The system does mark is read and
@@ -103,7 +103,7 @@ function Account({
               // ignores it if it's active
               fontWeight: (style && style.fontWeight) || 'normal',
               '& .dot': {
-                backgroundColor: colors.p8,
+                backgroundColor: theme.sidebarItemBackgroundSelected,
                 transform: 'translateX(-4.5px)',
               },
             }}
@@ -119,17 +119,18 @@ function Account({
               }}
             >
               <div
-                className="dot"
-                {...css({
+                className={`dot ${css({
                   marginRight: 3,
                   width: 5,
                   height: 5,
                   borderRadius: 5,
-                  backgroundColor: failed ? colors.r7 : colors.g5,
+                  backgroundColor: failed
+                    ? theme.sidebarItemBackgroundFailed
+                    : theme.sidebarItemBackgroundPositive,
                   marginLeft: 2,
                   transition: 'transform .3s',
                   opacity: connected ? 1 : 0,
-                })}
+                })}`}
               />
             </View>
 
@@ -144,5 +145,4 @@ function Account({
   );
 }
 
-export { accountNameStyle };
 export default Account;

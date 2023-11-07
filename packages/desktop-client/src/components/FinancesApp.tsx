@@ -148,13 +148,13 @@ function FinancesApp() {
     setTimeout(async () => {
       await actions.sync();
 
-      await checkForUpdateNotification(
-        actions.addNotification,
-        getIsOutdated,
-        getLatestVersion,
-        actions.loadPrefs,
-        actions.savePrefs,
-      );
+      // await checkForUpdateNotification(
+      //   actions.addNotification,
+      //   getIsOutdated,
+      //   getLatestVersion,
+      //   actions.loadPrefs,
+      //   actions.savePrefs,
+      // );
     }, 100);
   }, []);
 
@@ -274,6 +274,9 @@ function FinancesApp() {
                     </WideNotSupported>
                   }
                 />
+
+                {/* redirect all other traffic to the budget page */}
+                <Route path="/*" element={<Navigate to="/budget" replace />} />
               </Routes>
 
               <Modals />

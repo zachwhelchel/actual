@@ -1,15 +1,17 @@
-import type { CSSProperties } from 'glamor';
 import { keyframes } from 'glamor';
 
 import * as Platform from 'loot-core/src/client/platform';
 
 import tokens from '../tokens';
 
+import { type CSSProperties } from './types';
+
 export const styles = {
   incomeHeaderHeight: 70,
   cardShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
   monthRightPadding: 5,
   menuBorderRadius: 4,
+  mobileEditingPadding: 12,
   altMenuMaxHeight: 250,
   altMenuText: {
     fontSize: 13,

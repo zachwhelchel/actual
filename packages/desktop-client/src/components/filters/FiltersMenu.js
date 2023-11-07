@@ -95,17 +95,18 @@ function OpButton({ op, selected, style, onClick }) {
   return (
     <Button
       type="bare"
-      style={[
-        { backgroundColor: theme.altbuttonMenuBackground, marginBottom: 5 },
-        style,
-        selected && {
+      style={{
+        backgroundColor: theme.altbuttonMenuBackground,
+        marginBottom: 5,
+        ...style,
+        ...(selected && {
           color: theme.buttonNormalSelectedText,
           '&,:hover,:active': {
             backgroundColor: theme.buttonNormalSelectedBackground,
             color: theme.buttonNormalSelectedText,
           },
-        },
-      ]}
+        }),
+      }}
       onClick={onClick}
     >
       {friendlyOp(op)}
@@ -183,6 +184,7 @@ function ConfigureField({
           <Stack direction="row" align="flex-start">
             {field === 'amount' || field === 'date' ? (
               <Select
+                bare
                 options={
                   field === 'amount'
                     ? [
@@ -275,13 +277,12 @@ function ConfigureField({
                 style={{ flexWrap: 'wrap' }}
               >
                 {ops.slice(3, ops.length).map(currOp => (
-                  <View key={currOp}>
-                    <OpButton
-                      op={currOp}
-                      selected={currOp === op}
-                      onClick={() => dispatch({ type: 'set-op', op: currOp })}
-                    />
-                  </View>
+                  <OpButton
+                    key={currOp}
+                    op={currOp}
+                    selected={currOp === op}
+                    onClick={() => dispatch({ type: 'set-op', op: currOp })}
+                  />
                 ))}
               </Stack>
             </>
@@ -501,17 +502,15 @@ function FilterExpression({
 
   return (
     <View
-      style={[
-        {
-          backgroundColor: theme.pillBackground,
-          borderRadius: 4,
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginRight: 10,
-          marginTop: 10,
-        },
-        style,
-      ]}
+      style={{
+        backgroundColor: theme.pillBackground,
+        borderRadius: 4,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 10,
+        marginTop: 10,
+        ...style,
+      }}
     >
       <Button
         type="bare"

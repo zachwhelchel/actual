@@ -6,7 +6,7 @@ import React, {
   useState,
   useRef,
 } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 
 import { useFocusRing } from '@react-aria/focus';
@@ -23,12 +23,12 @@ import {
 import { css } from 'glamor';
 import memoizeOne from 'memoize-one';
 
-import * as actions from 'loot-core/src/client/actions';
 import q, { runQuery } from 'loot-core/src/client/query-helpers';
 import { send } from 'loot-core/src/platform/client/fetch';
 import * as monthUtils from 'loot-core/src/shared/months';
 import { getScheduledAmount } from 'loot-core/src/shared/schedules';
 import {
+  isPreviewId,
   ungroupTransactions,
   updateTransaction,
   realizeTempTransactions,
@@ -43,6 +43,8 @@ import {
   groupById,
 } from 'loot-core/src/shared/util';
 
+import { useActions } from '../../hooks/useActions';
+import useCategories from '../../hooks/useCategories';
 import { useSetThemeColor } from '../../hooks/useSetThemeColor';
 import SvgAdd from '../../icons/v1/Add';
 import CheveronLeft from '../../icons/v1/CheveronLeft';
@@ -50,7 +52,7 @@ import SvgTrash from '../../icons/v1/Trash';
 import ArrowsSynchronize from '../../icons/v2/ArrowsSynchronize';
 import CheckCircle1 from '../../icons/v2/CheckCircle1';
 import SvgPencilWriteAlternate from '../../icons/v2/PencilWriteAlternate';
-import { styles, colors, theme } from '../../style';
+import { styles, theme } from '../../style';
 import Button from '../common/Button';
 import Text from '../common/Text';
 import TextOneLine from '../common/TextOneLine';
@@ -61,17 +63,12 @@ import {
   TapField,
   InputField,
   BooleanField,
-  EDITING_PADDING,
 } from '../mobile/MobileForms';
 
 const zIndices = { SECTION_HEADING: 10 };
 
 let getPayeesById = memoizeOne(payees => groupById(payees));
 let getAccountsById = memoizeOne(accounts => groupById(accounts));
-
-function isPreviewId(id) {
-  return id.indexOf('preview/') !== -1;
-}
 
 function getDescriptionPretty(transaction, payee, transferAcct) {
   let { amount } = transaction;
@@ -140,12 +137,14 @@ export function DateHeader({ date }) {
     <ListItem
       style={{
         height: 25,
-        backgroundColor: colors.n10,
-        borderColor: colors.n9,
+        backgroundColor: theme.mobileDateBackground,
+        borderColor: theme.tableBorder,
         justifyContent: 'center',
       }}
     >
-      <Text style={[styles.text, { fontSize: 13, color: colors.n4 }]}>
+      <Text
+        style={{ ...styles.text, fontSize: 13, color: theme.alt2TableText }}
+      >
         {monthUtils.format(date, 'MMMM dd, yyyy')}
       </Text>
     </ListItem>
@@ -157,13 +156,13 @@ function Status({ status }) {
 
   switch (status) {
     case 'missed':
-      color = colors.r3;
+      color = theme.alt3ErrorText;
       break;
     case 'due':
-      color = colors.y3;
+      color = theme.alt2WarningText;
       break;
     case 'upcoming':
-      color = colors.n4;
+      color = theme.alt2TableText;
       break;
     default:
   }
@@ -174,6 +173,7 @@ function Status({ status }) {
         fontSize: 11,
         color,
         fontStyle: 'italic',
+        textAlign: 'left',
       }}
     >
       {titleFirst(status)}
@@ -225,6 +225,7 @@ class TransactionEditInner extends PureComponent {
 
     if (transactions.find(t => t.account == null)) {
       // Ignore transactions if any of them don't have an account
+      // TODO: Should we display validation error?
       return;
     }
 
@@ -242,7 +243,7 @@ class TransactionEditInner extends PureComponent {
     }
 
     this.props.onSave(transactions);
-    this.props.navigation(`/accounts/${account.id}`);
+    this.props.navigate(`/accounts/${account.id}`, { replace: true });
   };
 
   onSaveChild = childTransaction => {
@@ -292,16 +293,22 @@ class TransactionEditInner extends PureComponent {
     });
   };
 
+  onDelete = () => {
+    this.props.onDelete();
+
+    const { transactions } = this.state;
+    const [transaction, ..._childTransactions] = transactions;
+    const { account: accountId } = transaction;
+    if (accountId) {
+      this.props.navigate(`/accounts/${accountId}`, { replace: true });
+    } else {
+      this.props.navigate(-1);
+    }
+  };
+
   render() {
-    const {
-      adding,
-      categories,
-      accounts,
-      payees,
-      renderChildEdit,
-      navigation,
-      onDelete,
-    } = this.props;
+    const { adding, categories, accounts, payees, renderChildEdit, navigate } =
+      this.props;
     const { editingChild } = this.state;
     const transactions = this.serializeTransactions(
       this.state.transactions || [],
@@ -339,13 +346,13 @@ class TransactionEditInner extends PureComponent {
         style={{
           margin: 10,
           marginTop: 3,
-          backgroundColor: colors.n11,
+          backgroundColor: theme.tableHeaderBackground,
           flex: 1,
           borderRadius: 4,
 
           // This shadow make the card "pop" off of the screen below
           // it
-          shadowColor: colors.n3,
+          shadowColor: theme.cardShadow,
           shadowOffset: { width: 0, height: 0 },
           shadowRadius: 4,
           shadowOpacity: 1,
@@ -362,8 +369,8 @@ class TransactionEditInner extends PureComponent {
           <View
             style={{
               borderBottomWidth: 1,
-              borderColor: colors.n9,
-              backgroundColor: 'white',
+              borderColor: theme.tableBorder,
+              backgroundColor: theme.tableBackground,
               alignItems: 'center',
               flexDirection: 'row',
               flexShrink: 0,
@@ -373,7 +380,7 @@ class TransactionEditInner extends PureComponent {
             }}
           >
             <Link
-              to={account ? `/accounts/${account.id}` : '/budget'}
+              to={-1}
               style={{
                 alignItems: 'center',
                 display: 'flex',
@@ -383,13 +390,17 @@ class TransactionEditInner extends PureComponent {
             >
               <CheveronLeft
                 style={{
-                  color: colors.b5,
+                  color: theme.formLabelText,
                   width: 32,
                   height: 32,
                 }}
               />
               <Text
-                style={{ ...styles.text, color: colors.b5, fontWeight: 500 }}
+                style={{
+                  ...styles.text,
+                  color: theme.formLabelText,
+                  fontWeight: 500,
+                }}
               >
                 Back
               </Text>
@@ -422,7 +433,6 @@ class TransactionEditInner extends PureComponent {
             automaticallyAdjustContentInsets={false}
             keyboardShouldPersistTaps="always"
             style={{
-              backgroundColor: colors.n11,
               flexGrow: 1,
               overflow: 'hidden',
             }}
@@ -511,7 +521,7 @@ class TransactionEditInner extends PureComponent {
                   data-testid="category-field"
                 />
               ) : (
-                <Text style={{ paddingLeft: EDITING_PADDING }}>
+                <Text style={{ paddingLeft: styles.mobileEditingPadding }}>
                   Split transaction editing is not supported on mobile at this
                   time.
                 </Text>
@@ -582,12 +592,12 @@ class TransactionEditInner extends PureComponent {
             {!adding && (
               <View style={{ alignItems: 'center' }}>
                 <Button
-                  onClick={() => onDelete()}
+                  onClick={() => this.onDelete()}
                   style={{
                     borderWidth: 0,
                     paddingVertical: 5,
-                    marginLeft: EDITING_PADDING,
-                    marginRight: EDITING_PADDING,
+                    marginLeft: styles.mobileEditingPadding,
+                    marginRight: styles.mobileEditingPadding,
                     marginTop: 20,
                     marginBottom: 15,
                     backgroundColor: 'transparent',
@@ -597,11 +607,11 @@ class TransactionEditInner extends PureComponent {
                   <SvgTrash
                     width={17}
                     height={17}
-                    style={{ color: colors.r4 }}
+                    style={{ color: theme.errorText }}
                   />
                   <Text
                     style={{
-                      color: colors.r4,
+                      color: theme.errorText,
                       marginLeft: 5,
                       userSelect: 'none',
                     }}
@@ -615,22 +625,30 @@ class TransactionEditInner extends PureComponent {
 
           <View
             style={{
-              paddingLeft: EDITING_PADDING,
-              paddingRight: EDITING_PADDING,
+              paddingLeft: styles.mobileEditingPadding,
+              paddingRight: styles.mobileEditingPadding,
               paddingTop: 15,
               paddingBottom: 15,
-              backgroundColor: colors.n11,
+              backgroundColor: theme.tableHeaderBackground,
               borderTopWidth: 1,
-              borderColor: colors.n10,
+              borderColor: theme.tableBorder,
               marginTop: 'auto',
               flexShrink: 0,
             }}
           >
             {adding ? (
               <Button onClick={() => this.onAdd()}>
-                <SvgAdd width={17} height={17} style={{ color: colors.b3 }} />
+                <SvgAdd
+                  width={17}
+                  height={17}
+                  style={{ color: theme.altFormLabelText }}
+                />
                 <Text
-                  style={[styles.text, { color: colors.b3, marginLeft: 5 }]}
+                  style={{
+                    ...styles.text,
+                    color: theme.altFormLabelText,
+                    marginLeft: 5,
+                  }}
                 >
                   Add transaction
                 </Text>
@@ -638,10 +656,14 @@ class TransactionEditInner extends PureComponent {
             ) : (
               <Button onClick={() => this.onSave()}>
                 <SvgPencilWriteAlternate
-                  style={{ width: 16, height: 16, color: colors.n1 }}
+                  style={{ width: 16, height: 16, color: theme.formInputText }}
                 />
                 <Text
-                  style={[styles.text, { marginLeft: 6, color: colors.n1 }]}
+                  style={{
+                    ...styles.text,
+                    marginLeft: 6,
+                    color: theme.formInputText,
+                  }}
                 >
                   Save changes
                 </Text>
@@ -661,7 +683,7 @@ class TransactionEditInner extends PureComponent {
               editingChild && transactions.find(t => t.id === editingChild),
             amountSign: forcedSign,
             getCategoryName: id => (id ? lookupName(categories, id) : null),
-            navigation: navigation,
+            navigate: navigate,
             onEdit: this.onEdit,
             onStartClose: this.onSaveChild,
           })}
@@ -697,8 +719,7 @@ function TransactionEditUnconnected(props) {
   let transactions = [];
   let adding = false;
   let deleted = false;
-
-  useSetThemeColor(colors.p5);
+  useSetThemeColor(theme.mobileTransactionViewTheme);
 
   useEffect(() => {
     // May as well update categories / accounts when transaction ID changes
@@ -803,9 +824,6 @@ function TransactionEditUnconnected(props) {
   };
 
   const onDelete = async () => {
-    // Eagerly go back
-    navigate(`/accounts/${accountId}`);
-
     if (adding) {
       // Adding a new transactions, this disables saving when the component unmounts
       deleted = true;
@@ -822,7 +840,7 @@ function TransactionEditUnconnected(props) {
     <View
       style={{
         flex: 1,
-        backgroundColor: colors.p5,
+        backgroundColor: theme.buttonPrimaryBackground,
       }}
     >
       <TransactionEditInner
@@ -832,7 +850,7 @@ function TransactionEditUnconnected(props) {
         accounts={accounts}
         payees={payees}
         pushModal={props.pushModal}
-        navigation={navigate}
+        navigate={navigate}
         // TODO: ChildEdit is complicated and heavily relies on RN
         // renderChildEdit={props => <ChildEdit {...props} />}
         renderChildEdit={props => {}}
@@ -847,16 +865,28 @@ function TransactionEditUnconnected(props) {
   );
 }
 
-export const TransactionEdit = connect(
-  state => ({
-    categories: state.queries.categories.list,
-    payees: state.queries.payees,
-    lastTransaction: state.queries.lastTransaction,
-    accounts: state.queries.accounts,
-    dateFormat: state.prefs.local.dateFormat || 'MM/dd/yyyy',
-  }),
-  actions,
-)(TransactionEditUnconnected);
+export const TransactionEdit = props => {
+  const { list: categories } = useCategories();
+  const payees = useSelector(state => state.queries.payees);
+  const lastTransaction = useSelector(state => state.queries.lastTransaction);
+  const accounts = useSelector(state => state.queries.accounts);
+  const dateFormat = useSelector(
+    state => state.prefs.local.dateFormat || 'MM/dd/yyyy',
+  );
+  const actions = useActions();
+
+  return (
+    <TransactionEditUnconnected
+      {...props}
+      {...actions}
+      categories={categories}
+      payees={payees}
+      lastTransaction={lastTransaction}
+      accounts={accounts}
+      dateFormat={dateFormat}
+    />
+  );
+};
 
 class Transaction extends PureComponent {
   render() {
@@ -907,7 +937,7 @@ class Transaction extends PureComponent {
     let isPreview = isPreviewId(id);
     let textStyle = isPreview && {
       fontStyle: 'italic',
-      color: colors.n5,
+      color: theme.altpageTextSubdued,
     };
 
     return (
@@ -917,17 +947,20 @@ class Transaction extends PureComponent {
           backgroundColor: 'white',
           border: 'none',
           width: '100%',
-          '&:active': { opacity: 0.1 },
         }}
       >
         <ListItem
-          style={[
-            { flex: 1, height: 60, padding: '5px 10px' }, // remove padding when Button is back
-            isPreview && { backgroundColor: colors.n11 },
-            style,
-          ]}
+          style={{
+            flex: 1,
+            height: 60,
+            padding: '5px 10px', // remove padding when Button is back
+            ...(isPreview && {
+              backgroundColor: theme.tableRowHeaderBackground,
+            }),
+            ...style,
+          }}
         >
-          <View style={[{ flex: 1 }]}>
+          <View style={{ flex: 1 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               {schedule && (
                 <ArrowsSynchronize
@@ -935,20 +968,21 @@ class Transaction extends PureComponent {
                     width: 12,
                     height: 12,
                     marginRight: 5,
-                    color: textStyle.color || colors.n1,
+                    color: textStyle.color || theme.menuItemText,
                   }}
                 />
               )}
               <TextOneLine
-                style={[
-                  styles.text,
-                  textStyle,
-                  { fontSize: 14, fontWeight: added ? '600' : '400' },
-                  prettyDescription === '' && {
-                    color: colors.n6,
+                style={{
+                  ...styles.text,
+                  ...textStyle,
+                  fontSize: 14,
+                  fontWeight: added ? '600' : '400',
+                  ...(prettyDescription === '' && {
+                    color: theme.altTableText,
                     fontStyle: 'italic',
-                  },
-                ]}
+                  }),
+                }}
               >
                 {prettyDescription || 'Empty'}
               </TextOneLine>
@@ -967,7 +1001,7 @@ class Transaction extends PureComponent {
                   style={{
                     width: 11,
                     height: 11,
-                    color: cleared ? colors.g6 : colors.n8,
+                    color: cleared ? theme.noticeText : theme.altButtonBareText,
                     marginRight: 5,
                   }}
                 />
@@ -977,7 +1011,9 @@ class Transaction extends PureComponent {
                       fontSize: 11,
                       marginTop: 1,
                       fontWeight: '400',
-                      color: prettyCategory ? colors.n3 : colors.p7,
+                      color: prettyCategory
+                        ? theme.tableTextSelected
+                        : theme.altMenuItemTextSelected,
                       fontStyle: prettyCategory ? null : 'italic',
                       textAlign: 'left',
                     }}
@@ -989,11 +1025,13 @@ class Transaction extends PureComponent {
             )}
           </View>
           <Text
-            style={[
-              styles.text,
-              textStyle,
-              { marginLeft: 25, marginRight: 5, fontSize: 14 },
-            ]}
+            style={{
+              ...styles.text,
+              ...textStyle,
+              marginLeft: 25,
+              marginRight: 5,
+              fontSize: 14,
+            }}
           >
             {integerToCurrency(amount)}
           </Text>
@@ -1021,7 +1059,9 @@ export class TransactionList extends Component {
         }
 
         sections.push({
-          id: transaction.date,
+          id: `${isPreviewId(transaction.id) ? 'preview/' : ''}${
+            transaction.date
+          }`,
           date: transaction.date,
           data: [],
         });
@@ -1035,12 +1075,7 @@ export class TransactionList extends Component {
   });
 
   render() {
-    const {
-      transactions,
-      scrollProps = {},
-      onLoadMore,
-      // refreshControl
-    } = this.props;
+    const { transactions, scrollProps = {}, onLoadMore } = this.props;
 
     const sections = this.makeData(transactions);
 
@@ -1053,11 +1088,10 @@ export class TransactionList extends Component {
           label=""
           loadMore={onLoadMore}
           selectionMode="none"
-          style={{ flex: '1 auto', height: '100%', overflowY: 'auto' }}
         >
           {sections.length === 0 ? (
             <Section>
-              <Item>
+              <Item textValue="No transactions">
                 <div
                   style={{
                     display: 'flex',
@@ -1146,7 +1180,6 @@ function ListBox(props) {
           padding: 0,
           listStyle: 'none',
           margin: 0,
-          overflowY: 'auto',
           width: '100%',
         }}
       >
@@ -1171,11 +1204,11 @@ function ListBoxSection({ section, state }) {
       {section.rendered && (
         <div
           {...headingProps}
-          {...css(styles.smallText, {
-            backgroundColor: colors.n10,
-            borderBottom: `1px solid ${colors.n9}`,
-            borderTop: `1px solid ${colors.n9}`,
-            color: colors.n4,
+          className={`${css(styles.smallText, {
+            backgroundColor: theme.mobileDateBackground,
+            borderBottom: `1px solid ${theme.tableBorder}`,
+            borderTop: `1px solid ${theme.tableBorder}`,
+            color: theme.alt2TableText,
             display: 'flex',
             justifyContent: 'center',
             paddingBottom: 4,
@@ -1184,7 +1217,7 @@ function ListBoxSection({ section, state }) {
             top: '0',
             width: '100%',
             zIndex: zIndices.SECTION_HEADING,
-          })}
+          })}`}
         >
           {section.rendered}
         </div>
@@ -1223,10 +1256,12 @@ function Option({ isLast, item, state }) {
       {...mergeProps(optionProps, focusProps)}
       ref={ref}
       style={{
-        background: isSelected ? 'blueviolet' : 'transparent',
-        color: isSelected ? 'white' : null,
+        background: isSelected
+          ? theme.tableRowBackgroundHighlight
+          : theme.tableBackground,
+        color: isSelected ? theme.mobileModalText : null,
         outline: isFocusVisible ? '2px solid orange' : 'none',
-        ...(!isLast && { borderBottom: `1px solid ${colors.border}` }),
+        ...(!isLast && { borderBottom: `1px solid ${theme.tableBorder}` }),
       }}
     >
       {item.rendered}
@@ -1239,16 +1274,14 @@ const ROW_HEIGHT = 50;
 const ListItem = forwardRef(({ children, style, ...props }, ref) => {
   return (
     <View
-      style={[
-        {
-          height: ROW_HEIGHT,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingLeft: 10,
-          paddingRight: 10,
-        },
-        style,
-      ]}
+      style={{
+        height: ROW_HEIGHT,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingLeft: 10,
+        paddingRight: 10,
+        ...style,
+      }}
       ref={ref}
       {...props}
     >

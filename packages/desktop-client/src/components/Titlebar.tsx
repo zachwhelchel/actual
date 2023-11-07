@@ -5,12 +5,9 @@ import React, {
   useRef,
   useContext,
   type ReactNode,
-  type CSSProperties,
 } from 'react';
 import { useSelector } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-
-import { css, media } from 'glamor';
 
 import * as Platform from 'loot-core/src/client/platform';
 import * as queries from 'loot-core/src/client/queries';
@@ -24,15 +21,14 @@ import SvgEye from '../icons/v2/Eye';
 import SvgEyeSlashed from '../icons/v2/EyeSlashed';
 import NavigationMenu from '../icons/v2/NavigationMenu';
 import { useResponsive } from '../ResponsiveProvider';
-import { colors } from '../style';
-import tokens from '../tokens';
+import { theme, type CSSProperties } from '../style';
 
 import AccountSyncCheck from './accounts/AccountSyncCheck';
 import AnimatedRefresh from './AnimatedRefresh';
 import { MonthCountSelector } from './budget/MonthCountSelector';
 import Button, { ButtonWithLoading } from './common/Button';
-import ButtonLink from './common/ButtonLink';
 import ExternalLink from './common/ExternalLink';
+import Link from './common/Link';
 import Paragraph from './common/Paragraph';
 import Text from './common/Text';
 import View from './common/View';
@@ -73,13 +69,16 @@ function UncategorizedButton() {
   let count = useSheetValue(queries.uncategorizedCount());
   return (
     count !== 0 && (
-      <ButtonLink
+      <Link
+        variant="button"
         type="bare"
         to="/accounts/uncategorized"
-        style={{ color: colors.r5 }}
+        style={{
+          color: theme.errorText,
+        }}
       >
         {count} uncategorized {count === 1 ? 'transaction' : 'transactions'}
-      </ButtonLink>
+      </Link>
     )
   );
 }
@@ -108,8 +107,9 @@ function PrivacyButton() {
 
 type SyncButtonProps = {
   style?: CSSProperties;
+  isMobile?: boolean;
 };
-export function SyncButton({ style }: SyncButtonProps) {
+export function SyncButton({ style, isMobile = false }: SyncButtonProps) {
   let cloudFileId = useSelector(state => state.prefs.local.cloudFileId);
   let { sync } = useActions();
 
@@ -151,39 +151,35 @@ export function SyncButton({ style }: SyncButtonProps) {
 
   const mobileColor =
     syncState === 'error'
-      ? colors.r7
+      ? theme.alt4ErrorText
       : syncState === 'disabled' ||
         syncState === 'offline' ||
         syncState === 'local'
-      ? colors.n9
+      ? theme.sidebarItemText
       : style.color;
-  const activeStyle = css(
-    // mobile
-    media(`(max-width: ${tokens.breakpoint_small})`, {
-      color: mobileColor,
-    }),
-  );
+  const desktopColor =
+    syncState === 'error'
+      ? theme.alt2ErrorText
+      : syncState === 'disabled' ||
+        syncState === 'offline' ||
+        syncState === 'local'
+      ? theme.altTableText
+      : null;
+
+  const activeStyle = isMobile
+    ? {
+        color: mobileColor,
+      }
+    : {};
 
   return (
     <Button
       type="bare"
-      style={css(
-        style,
-        {
-          WebkitAppRegion: 'none',
-          color: mobileColor,
-        },
-        media(`(min-width: ${tokens.breakpoint_small})`, {
-          color:
-            syncState === 'error'
-              ? colors.r4
-              : syncState === 'disabled' ||
-                syncState === 'offline' ||
-                syncState === 'local'
-              ? colors.n6
-              : null,
-        }),
-      )}
+      style={{
+        ...style,
+        WebkitAppRegion: 'none',
+        color: isMobile ? mobileColor : desktopColor,
+      }}
       hoveredStyle={activeStyle}
       activeStyle={activeStyle}
       onClick={sync}
@@ -303,27 +299,24 @@ export default function Titlebar({ style }) {
     state => state.prefs.global.floatingSidebar,
   );
 
-  let privacyModeFeatureFlag = useFeatureFlag('privacyMode');
   let themesFlag = useFeatureFlag('themes');
 
   return isNarrowWidth ? null : (
     <View
-      style={[
-        {
-          flexDirection: 'row',
-          alignItems: 'center',
-          padding: '0 15px',
-          height: 36,
-          pointerEvents: 'none',
-          '& *': {
-            pointerEvents: 'auto',
-          },
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: '0 15px',
+        height: 36,
+        pointerEvents: 'none',
+        '& *': {
+          pointerEvents: 'auto',
         },
-        !Platform.isBrowser &&
+        ...(!Platform.isBrowser &&
           Platform.OS === 'mac' &&
-          floatingSidebar && { paddingLeft: 80 },
-        style,
-      ]}
+          floatingSidebar && { paddingLeft: 80 }),
+        ...style,
+      }}
     >
       {(floatingSidebar || sidebar.alwaysFloats) && (
         <Button
@@ -347,7 +340,7 @@ export default function Titlebar({ style }) {
         >
           <NavigationMenu
             className="menu"
-            style={{ width: 15, height: 15, color: colors.n5, left: 0 }}
+            style={{ width: 15, height: 15, color: theme.pageText, left: 0 }}
           />
         </Button>
       )}
@@ -378,7 +371,7 @@ export default function Titlebar({ style }) {
       <View style={{ flex: 1 }} />
       <UncategorizedButton />
       {themesFlag && <ThemeSelector />}
-      {privacyModeFeatureFlag && <PrivacyButton />}
+      <PrivacyButton />
       {serverURL ? <SyncButton style={{ marginLeft: 10 }} /> : null}
       <LoggedInUser style={{ marginLeft: 10 }} />
     </View>

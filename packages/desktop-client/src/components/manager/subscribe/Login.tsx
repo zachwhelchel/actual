@@ -5,7 +5,7 @@ import { createBudget } from 'loot-core/src/client/actions/budgets';
 import { loggedIn } from 'loot-core/src/client/actions/user';
 import { send } from 'loot-core/src/platform/client/fetch';
 
-import { colors } from '../../../style';
+import { theme } from '../../../style';
 import Button, { ButtonWithLoading } from '../../common/Button';
 import { BigInput } from '../../common/Input';
 import Text from '../../common/Text';
@@ -59,24 +59,23 @@ export default function Login() {
   }
 
   return (
-    <View style={{ maxWidth: 450, marginTop: -30 }}>
-      <Title text="Sign in to this Actual instance" />
+    <View style={{ maxWidth: 450, marginTop: -30, color: theme.pageText }}>
+      <Title text="MyBudgetCoach" />
       <Text
         style={{
           fontSize: 16,
-          color: colors.n2,
+          color: theme.pageTextDark,
           lineHeight: 1.4,
         }}
       >
-        If you lost your password, you likely still have access to your server
-        to manually reset it.
+        If you lost your password, contact support to get it reset.
       </Text>
 
       {error && (
         <Text
           style={{
             marginTop: 20,
-            color: colors.r4,
+            color: theme.errorText,
             borderRadius: 4,
             fontSize: 15,
           }}
@@ -115,7 +114,7 @@ export default function Login() {
       >
         <Button
           type="bare"
-          style={{ fontSize: 15, color: colors.b4, marginLeft: 10 }}
+          style={{ fontSize: 15, color: theme.pageTextLink, marginLeft: 10 }}
           onClick={onDemo}
         >
           Try Demo &rarr;

@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo,
-} from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { pushModal } from 'loot-core/src/client/actions/modals';
@@ -14,6 +8,7 @@ import * as undo from 'loot-core/src/platform/client/undo';
 import { mapField, friendlyOp } from 'loot-core/src/shared/rules';
 import { describeSchedule } from 'loot-core/src/shared/schedules';
 
+import useCategories from '../hooks/useCategories';
 import useSelected, { SelectedProvider } from '../hooks/useSelected';
 import { theme } from '../style';
 
@@ -88,12 +83,19 @@ function ManageRulesContent({ isModal, payeeId, setLoading }) {
   let dispatch = useDispatch();
 
   let { data: schedules } = SchedulesQuery.useQuery();
-  let filterData = useSelector(state => ({
+  let { list: categories } = useCategories();
+  let state = useSelector(state => ({
     payees: state.queries.payees,
-    categories: state.queries.categories.list,
     accounts: state.queries.accounts,
     schedules,
   }));
+  let filterData = useMemo(
+    () => ({
+      ...state,
+      categories,
+    }),
+    [state, categories],
+  );
 
   let filteredRules = useMemo(
     () =>
@@ -108,7 +110,6 @@ function ManageRulesContent({ isModal, payeeId, setLoading }) {
   );
   let selectedInst = useSelected('manage-rules', allRules, []);
   let [hoveredRule, setHoveredRule] = useState(null);
-  let tableRef = useRef(null);
 
   async function loadRules() {
     setLoading(true);
@@ -275,7 +276,6 @@ function ManageRulesContent({ isModal, payeeId, setLoading }) {
         <View style={{ flex: 1 }}>
           <RulesHeader />
           <SimpleTable
-            ref={tableRef}
             data={filteredRules}
             loadMore={loadMore}
             // Hide the last border of the item in the table

@@ -2,30 +2,27 @@ import { forwardRef } from 'react';
 
 import { css } from 'glamor';
 
-import { theme } from '../../style';
+import { theme, styles } from '../../style';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import Text from '../common/Text';
 import View from '../common/View';
 
-export const EDITING_PADDING = 12;
 const FIELD_HEIGHT = 40;
 
 export function FieldLabel({ title, flush, style }) {
   return (
     <Text
-      style={[
-        {
-          marginBottom: 5,
-          marginTop: flush ? 0 : 25,
-          fontSize: 13,
-          color: theme.tableRowHeaderText,
-          paddingLeft: EDITING_PADDING,
-          textTransform: 'uppercase',
-          userSelect: 'none',
-        },
-        style,
-      ]}
+      style={{
+        marginBottom: 5,
+        marginTop: flush ? 0 : 25,
+        fontSize: 13,
+        color: theme.tableRowHeaderText,
+        paddingLeft: styles.mobileEditingPadding,
+        textTransform: 'uppercase',
+        userSelect: 'none',
+        ...style,
+      }}
     >
       {title}
     </Text>
@@ -38,7 +35,7 @@ const valueStyle = {
   marginLeft: -1,
   marginRight: -1,
   height: FIELD_HEIGHT,
-  paddingHorizontal: EDITING_PADDING,
+  paddingHorizontal: styles.mobileEditingPadding,
 };
 
 export const InputField = forwardRef(function InputField(
@@ -54,15 +51,13 @@ export const InputField = forwardRef(function InputField(
       onBlur={e => {
         onUpdate?.(e.target.value);
       }}
-      style={[
-        valueStyle,
-        style,
-        {
-          backgroundColor: disabled
-            ? theme.formInputTextReadOnlySelection
-            : 'white',
-        },
-      ]}
+      style={{
+        ...valueStyle,
+        ...style,
+        backgroundColor: disabled
+          ? theme.formInputTextReadOnlySelection
+          : 'white',
+      }}
       {...props}
     />
   );
@@ -82,13 +77,16 @@ export function TapField({
     <Button
       as={View}
       onClick={!disabled ? onClick : undefined}
-      style={[
-        { flexDirection: 'row', alignItems: 'center' },
-        style,
-        valueStyle,
-        { backgroundColor: 'white' },
-        disabled && { backgroundColor: theme.formInputTextReadOnlySelection },
-      ]}
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        ...style,
+        ...valueStyle,
+        backgroundColor: 'white',
+        ...(disabled && {
+          backgroundColor: theme.formInputTextReadOnlySelection,
+        }),
+      }}
       bounce={false}
       activeStyle={{
         opacity: 0.5,
@@ -103,7 +101,7 @@ export function TapField({
       {children ? (
         children
       ) : (
-        <Text style={[{ flex: 1, userSelect: 'none' }, textStyle]}>
+        <Text style={{ flex: 1, userSelect: 'none', ...textStyle }}>
           {value}
         </Text>
       )}
@@ -118,12 +116,12 @@ export function BooleanField({ checked, onUpdate, style }) {
       type="checkbox"
       checked={checked}
       onChange={e => onUpdate(e.target.checked)}
-      {...css([
+      className={`${css([
         {
-          marginInline: EDITING_PADDING,
+          marginInline: styles.mobileEditingPadding,
         },
         style,
-      ])}
+      ])}`}
     />
   );
 }

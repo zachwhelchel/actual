@@ -10,7 +10,7 @@ import InitialFocus from '../common/InitialFocus';
 import Input from '../common/Input';
 import Text from '../common/Text';
 import View from '../common/View';
-import format from '../spreadsheet/format';
+import useFormat from '../spreadsheet/useFormat';
 import useSheetValue from '../spreadsheet/useSheetValue';
 import { Tooltip } from '../tooltips';
 
@@ -25,6 +25,7 @@ export function ReconcilingMessage({
     value: 0,
     query: balanceQuery.query.filter({ cleared: true }),
   });
+  let format = useFormat();
   let targetDiff = targetBalance - cleared;
 
   return (
@@ -95,14 +96,20 @@ export function ReconcilingMessage({
 }
 
 export function ReconcileTooltip({ account, onReconcile, onClose }) {
-  let balance = useSheetValue(queries.accountBalance(account));
+  let balanceQuery = queries.accountBalance(account);
+  let clearedBalance = useSheetValue({
+    name: balanceQuery.name + '-cleared',
+    value: null,
+    query: balanceQuery.query.filter({ cleared: true }),
+  });
+  let format = useFormat();
 
   function onSubmit(e) {
     e.preventDefault();
     let input = e.target.elements[0];
     let amount = currencyToInteger(input.value);
     if (amount != null) {
-      onReconcile(amount == null ? balance : amount);
+      onReconcile(amount == null ? clearedBalance : amount);
       onClose();
     } else {
       input.select();
@@ -117,10 +124,10 @@ export function ReconcileTooltip({ account, onReconcile, onClose }) {
           reconcile with:
         </Text>
         <form onSubmit={onSubmit}>
-          {balance != null && (
+          {clearedBalance != null && (
             <InitialFocus>
               <Input
-                defaultValue={format(balance, 'financial')}
+                defaultValue={format(clearedBalance, 'financial')}
                 style={{ margin: '7px 0' }}
               />
             </InitialFocus>

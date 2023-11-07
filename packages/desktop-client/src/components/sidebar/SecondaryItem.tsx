@@ -1,12 +1,10 @@
 import React, {
-  type CSSProperties,
   type ComponentType,
   type MouseEventHandler,
   type SVGProps,
 } from 'react';
 
-// eslint-disable-next-line no-restricted-imports
-import { colors } from '../../style';
+import { theme, type CSSProperties } from '../../style';
 import Block from '../common/Block';
 import View from '../common/View';
 
@@ -34,23 +32,6 @@ function SecondaryItem({
   bold,
   indent = 0,
 }: SecondaryItemProps) {
-  const hoverStyle = {
-    backgroundColor: colors.n2,
-  };
-  const activeStyle = {
-    borderLeft: '4px solid ' + colors.p8,
-    paddingLeft: 14 - 4 + indent,
-    color: colors.p8,
-    fontWeight: bold ? fontWeight : null,
-  };
-  const linkStyle = {
-    ...accountNameStyle,
-    color: colors.n9,
-    paddingLeft: 14 + indent,
-    fontWeight: bold ? fontWeight : null,
-    ':hover': hoverStyle,
-  };
-
   const content = (
     <View
       style={{
@@ -67,12 +48,23 @@ function SecondaryItem({
   );
 
   return (
-    <View style={[{ flexShrink: 0 }, style]}>
+    <View style={{ flexShrink: 0, ...style }}>
       <ItemContent
-        style={linkStyle}
+        style={{
+          ...accountNameStyle,
+          color: theme.sidebarItemText,
+          paddingLeft: 14 + indent,
+          fontWeight: bold ? fontWeight : null,
+          ':hover': { backgroundColor: theme.sidebarItemBackgroundHover },
+        }}
         to={to}
         onClick={onClick}
-        activeStyle={activeStyle}
+        activeStyle={{
+          borderLeft: '4px solid ' + theme.sidebarItemTextSelected,
+          paddingLeft: 14 - 4 + indent,
+          color: theme.sidebarItemTextSelected,
+          fontWeight: bold ? fontWeight : null,
+        }}
       >
         {content}
       </ItemContent>
