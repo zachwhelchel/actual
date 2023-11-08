@@ -21,6 +21,7 @@ function SidebarCategory({
   onDragChange,
   onEditMonth,
   onEditName,
+  categoriesRef,
   onSave,
   onDelete,
   onHideNewCategory,
@@ -95,10 +96,16 @@ function SidebarCategory({
         )}
       </View>
       <View style={{ flex: 1 }} />
-      <NotesButton
-        id={category.id}
-        style={dragging && { color: 'currentColor' }}
-      />
+      <div
+        ref={element => {
+          categoriesRef.current[category.id] = element;
+        }}
+      >
+        <NotesButton
+          id={category.id}
+          style={dragging && { color: 'currentColor' }}
+        />
+      </div>
     </View>
   );
 

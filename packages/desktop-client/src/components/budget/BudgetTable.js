@@ -168,6 +168,7 @@ class BudgetTable extends Component {
       newCategoryForGroup,
       dataComponents,
       isAddingGroup,
+      categoriesRef,
       onSaveCategory,
       onSaveGroup,
       onDeleteCategory,
@@ -260,6 +261,7 @@ class BudgetTable extends Component {
                   dataComponents={dataComponents}
                   onEditMonth={this.onEditMonth}
                   onEditName={this.onEditName}
+                  categoriesRef={categoriesRef}
                   onSaveCategory={onSaveCategory}
                   onSaveGroup={onSaveGroup}
                   onDeleteCategory={onDeleteCategory}

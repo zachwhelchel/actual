@@ -20,6 +20,7 @@ function SidebarGroup({
   style,
   borderColor = theme.tableBorder,
   onEdit,
+  categoriesRef,
   onSave,
   onDelete,
   onShowNewCategory,
@@ -112,7 +113,13 @@ function SidebarGroup({
             )}
           </View>
           <View style={{ flex: 1 }} />
-          <NotesButton id={group.id} />
+          <div
+            ref={element => {
+              categoriesRef.current[group.id] = element;
+            }}
+          >
+            <NotesButton id={group.id} />
+          </div>
         </>
       )}
     </View>

@@ -217,6 +217,8 @@ function Budget(props) {
         },
         atEnd),
       );
+
+      return id;
     } else {
       const cat = {
         ...category,
@@ -229,7 +231,6 @@ function Budget(props) {
   };
 
   const onSaveNewCategories = async (categories, atEnd = false) => {
-    let { categoryGroups } = this.state;
     let ids = [];
 
     console.log('Sugar were going dowm');
@@ -238,7 +239,7 @@ function Budget(props) {
       console.log('Sugar for loop');
       console.log(category);
 
-      let id = await this.props.createCategory(
+      let id = await props.createCategory(
         category.name,
         category.cat_group,
         category.is_income,
@@ -251,24 +252,18 @@ function Budget(props) {
     console.log('Sugar her got ids');
     console.log(ids);
 
-    var catGroups = categoryGroups;
-
     for (var index in categories) {
       let category = categories[index];
-      catGroups = addCategory(
-        catGroups,
-        {
+      let id = ids[index];
+      setCategoryGroups(state =>
+        addCategory(state, {
           ...category,
           is_income: category.is_income ? 1 : 0,
+          id,
         },
-        atEnd,
+        atEnd),
       );
     }
-
-    this.setState({
-      newCategoryForGroup: null,
-      categoryGroups: catGroups,
-    });
 
     return ids;
   };
@@ -306,6 +301,8 @@ function Budget(props) {
           id,
         }),
       );
+
+      return id;
     } else {
       const grp = {
         ...group,
@@ -425,11 +422,48 @@ function Budget(props) {
         onBudgetAction={onBudgetAction}
         onToggleSummaryCollapse={onToggleCollapse}
       >
+        <DynamicBudgetTable
+          ref={tableRef}
+          type={type}
+          categoryGroups={categoryGroups}
+          prewarmStartMonth={prewarmStartMonth}
+          startMonth={startMonth}
+          monthBounds={bounds}
+          maxMonths={maxMonths}
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+          newCategoryForGroup={newCategoryForGroup}
+          isAddingGroup={isAddingGroup}
+          dataComponents={reportComponents}
+          onMonthSelect={onMonthSelect}
+          onShowNewCategory={onShowNewCategory}
+          onHideNewCategory={onHideNewCategory}
+          onShowNewGroup={onShowNewGroup}
+          onHideNewGroup={onHideNewGroup}
+          onDeleteCategory={onDeleteCategory}
+          onDeleteGroup={onDeleteGroup}
+          onSaveCategory={onSaveCategory}
+          onSaveGroup={onSaveGroup}
+          onBudgetAction={onBudgetAction}
+          onShowActivity={onShowActivity}
+          onReorderCategory={onReorderCategory}
+          onReorderGroup={onReorderGroup}
+        />
+      </ReportProvider>
+    );
+  } else {
+    table = (
+      <RolloverContext
+        categoryGroups={categoryGroups}
+        summaryCollapsed={summaryCollapsed}
+        onBudgetAction={onBudgetAction}
+        onToggleSummaryCollapse={onToggleCollapse}
+      >
         <CoachProvider>
           <Coach
-            onSaveGroup={this.onSaveGroup}
-            onSaveCategory={this.onSaveCategory}
-            onSaveNewCategories={this.onSaveNewCategories}
+            onSaveGroup={onSaveGroup}
+            onSaveCategory={onSaveCategory}
+            onSaveNewCategories={onSaveNewCategories}
             categoryGroups={categoryGroups}
             categoriesRef={categoriesRef}
           />
@@ -445,7 +479,7 @@ function Budget(props) {
             setCollapsed={setCollapsed}
             newCategoryForGroup={newCategoryForGroup}
             isAddingGroup={isAddingGroup}
-            dataComponents={reportComponents}
+            dataComponents={rolloverComponents}
             onMonthSelect={onMonthSelect}
             onShowNewCategory={onShowNewCategory}
             onHideNewCategory={onHideNewCategory}
@@ -453,6 +487,7 @@ function Budget(props) {
             onHideNewGroup={onHideNewGroup}
             onDeleteCategory={onDeleteCategory}
             onDeleteGroup={onDeleteGroup}
+            categoriesRef={categoriesRef}
             onSaveCategory={onSaveCategory}
             onSaveGroup={onSaveGroup}
             onBudgetAction={onBudgetAction}
@@ -461,43 +496,6 @@ function Budget(props) {
             onReorderGroup={onReorderGroup}
           />
         </CoachProvider>
-      </ReportProvider>
-    );
-  } else {
-    table = (
-      <RolloverContext
-        categoryGroups={categoryGroups}
-        summaryCollapsed={summaryCollapsed}
-        onBudgetAction={onBudgetAction}
-        onToggleSummaryCollapse={onToggleCollapse}
-      >
-        <DynamicBudgetTable
-          ref={tableRef}
-          type={type}
-          categoryGroups={categoryGroups}
-          prewarmStartMonth={prewarmStartMonth}
-          startMonth={startMonth}
-          monthBounds={bounds}
-          maxMonths={maxMonths}
-          collapsed={collapsed}
-          setCollapsed={setCollapsed}
-          newCategoryForGroup={newCategoryForGroup}
-          isAddingGroup={isAddingGroup}
-          dataComponents={rolloverComponents}
-          onMonthSelect={onMonthSelect}
-          onShowNewCategory={onShowNewCategory}
-          onHideNewCategory={onHideNewCategory}
-          onShowNewGroup={onShowNewGroup}
-          onHideNewGroup={onHideNewGroup}
-          onDeleteCategory={onDeleteCategory}
-          onDeleteGroup={onDeleteGroup}
-          onSaveCategory={onSaveCategory}
-          onSaveGroup={onSaveGroup}
-          onBudgetAction={onBudgetAction}
-          onShowActivity={onShowActivity}
-          onReorderCategory={onReorderCategory}
-          onReorderGroup={onReorderGroup}
-        />
       </RolloverContext>
     );
   }

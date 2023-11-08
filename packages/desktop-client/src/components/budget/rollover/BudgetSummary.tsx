@@ -274,7 +274,7 @@ export function BudgetSummary({
     onToggleSummaryCollapse,
   } = useRollover();
 
-  let { setTop, setLeft, setOffset } = useCoach();
+  let { setTop, setLeft, setOffset } = useCoach(); // this is causing the errors.
 
   let [menuOpen, setMenuOpen] = useState(false);
 

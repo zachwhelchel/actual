@@ -13,6 +13,7 @@ function IncomeCategory({
   MonthComponent,
   onEditName,
   onEditMonth,
+  categoriesRef,
   onSave,
   onDelete,
   onDragChange,
@@ -47,6 +48,7 @@ function IncomeCategory({
           editingCell.id === cat.id
         }
         onEditName={onEditName}
+        categoriesRef={categoriesRef}
         onSave={onSave}
         onDelete={onDelete}
       />

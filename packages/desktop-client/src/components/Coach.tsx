@@ -12,7 +12,7 @@ export function CoachProvider({ children }) {
   let [top, setTop] = useState(window.innerHeight - 20 - 30);
   let [left, setLeft] = useState(window.innerWidth - 20 - 240);
   let [offset, setOffset] = useState(100);
-  let [dialogueId, setDialogueId] = useState('nick_1');
+  let [dialogueId, setDialogueId] = useState('nicksmith_1'); //nicktrue_1
 
   return (
     <CoachContext.Provider
@@ -82,7 +82,7 @@ export default function Coach({
     let id = await onSaveGroup(group);
     await moveTo(id);
 
-    setDialogueId('nick_3');
+    setDialogueId('nicktrue_3');
   };
 
   const setupAsRenter = async () => {
@@ -98,7 +98,7 @@ export default function Coach({
     let id = await onSaveCategory(category, true);
     await moveTo(id);
 
-    setDialogueId('nick_4');
+    setDialogueId('nicktrue_4');
   };
 
   const setupAsOwner = async () => {
@@ -114,7 +114,7 @@ export default function Coach({
     let id = await onSaveCategory(category);
     await moveTo(id);
 
-    setDialogueId('nick_escrow');
+    setDialogueId('nicktrue_escrow');
   };
 
   async function moveTo(id) {
@@ -128,6 +128,10 @@ export default function Coach({
       const centerY = t + categoriesRef.current[id].offsetHeight / 2;
       setTop(centerY - 50 - 30 - 5);
       setLeft(l + categoriesRef.current[id].offsetWidth - 240);
+      setOffset(0);
+    } else {
+      setTop(0);
+      setLeft(100);
       setOffset(0);
     }
   }
@@ -156,7 +160,7 @@ export default function Coach({
     //let id = await onSaveCategory(category2, true);
     await moveTo(ids[1]);
 
-    setDialogueId('nick_utilities');
+    setDialogueId('nicktrue_utilities');
   };
 
   const addUtilities = async () => {
@@ -201,7 +205,7 @@ export default function Coach({
       await moveTo(ids[2]);
     }
 
-    setDialogueId('nick_utilities_done');
+    setDialogueId('nicktrue_utilities_done');
   };
 
   function timeout(delay: number) {
@@ -220,20 +224,20 @@ export default function Coach({
   };
 
   let content;
-  if (dialogueId === 'nick_1') {
+  if (dialogueId === 'nicktrue_1') {
     content = (
       <div>
         Do not fear. I got you.
         <Button
           type="primary"
           style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nick_2')}
+          onClick={() => setDialogueId('nicktrue_2')}
         >
           Get Started
         </Button>
       </div>
     );
-  } else if (dialogueId === 'nick_2') {
+  } else if (dialogueId === 'nicktrue_2') {
     content = (
       <div>
         Lets get to know each other. How Type A are you?
@@ -260,7 +264,7 @@ export default function Coach({
         </Button>
       </div>
     );
-  } else if (dialogueId === 'nick_3') {
+  } else if (dialogueId === 'nicktrue_3') {
     content = (
       <div>
         Great, lets talk about Bills. Do you own or rent?
@@ -272,7 +276,7 @@ export default function Coach({
         </Button>
       </div>
     );
-  } else if (dialogueId === 'nick_4') {
+  } else if (dialogueId === 'nicktrue_4') {
     content = (
       <div>
         Cool, I got your utilities added. Lets look at the next thing.
@@ -284,7 +288,7 @@ export default function Coach({
         </Button>
       </div>
     );
-  } else if (dialogueId === 'nick_escrow') {
+  } else if (dialogueId === 'nicktrue_escrow') {
     content = (
       <div>
         Are your taxes and home owners insurance included in your mortgage
@@ -301,7 +305,7 @@ export default function Coach({
         </Button>
       </div>
     );
-  } else if (dialogueId === 'nick_utilities') {
+  } else if (dialogueId === 'nicktrue_utilities') {
     content = (
       <div>
         Lets add your utilities.
@@ -310,9 +314,22 @@ export default function Coach({
         </Button>
       </div>
     );
-  } else if (dialogueId === 'nick_utilities_done') {
+  } else if (dialogueId === 'nicktrue_utilities_done') {
     content = <div>You are off to a great start.</div>;
-  }
+  } else if (dialogueId === 'nicksmith_1') {
+    content = (
+      <div>
+        Welcome to MyBudgetCoach! MyBudgetCoach is a unique budgeting software that comes along with a virtual avatar. You selected, me, Nick Smith, as your personal coach. I look forward to helping you start a new phase of your journey to financial wellness!
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicktrue_2')}
+        >
+          Get Started
+        </Button>
+      </div>
+    );
+  } 
 
   return (
     <View>
@@ -330,7 +347,7 @@ export default function Coach({
               height: '100px',
               borderRadius: '50px',
             }}
-            src="/coach-icon-200x200.png"
+            src="/coach-icon-nicksmith-200x200.png"
             alt="coach"
           />
           <Card

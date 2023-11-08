@@ -12,6 +12,7 @@ function IncomeGroup({
   collapsed,
   MonthComponent,
   onEditName,
+  categoriesRef,
   onSave,
   onToggleCollapse,
   onShowNewCategory,
@@ -30,6 +31,7 @@ function IncomeGroup({
           editingCell.id === group.id
         }
         onEdit={onEditName}
+        categoriesRef={categoriesRef}
         onSave={onSave}
         onToggleCollapse={onToggleCollapse}
         onShowNewCategory={onShowNewCategory}
