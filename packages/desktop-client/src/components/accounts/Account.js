@@ -39,6 +39,7 @@ import {
 } from '../transactions/TransactionsTable';
 
 import { AccountHeader } from './Header';
+import Coach, { CoachProvider, useCoach } from '../Coach';
 
 function EmptyMessage({ onAdd }) {
   return (
@@ -1202,6 +1203,9 @@ class AccountInternal extends PureComponent {
             fetchAllIds={this.fetchAllIds}
             registerDispatch={dispatch => (this.dispatchSelected = dispatch)}
           >
+            <Coach
+            />
+
             <View style={styles.page}>
               <AccountHeader
                 tableRef={this.table}

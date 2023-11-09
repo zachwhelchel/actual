@@ -44,6 +44,7 @@ import Settings from './settings';
 import FloatableSidebar, { SidebarProvider } from './sidebar';
 import Titlebar, { TitlebarProvider } from './Titlebar';
 import { TransactionEdit } from './transactions/MobileTransaction';
+import Coach, { CoachProvider, useCoach } from './Coach';
 
 function NarrowNotSupported({
   redirectTo = '/budget',
@@ -299,6 +300,7 @@ export default function FinancesAppWithContext() {
   let app = useMemo(() => <FinancesApp />, []);
 
   return (
+    <CoachProvider>
     <SpreadsheetProvider>
       <TitlebarProvider>
         <SidebarProvider>
@@ -312,5 +314,6 @@ export default function FinancesAppWithContext() {
         </SidebarProvider>
       </TitlebarProvider>
     </SpreadsheetProvider>
+    </CoachProvider>
   );
 }

@@ -27,7 +27,7 @@ import { useActions } from '../../hooks/useActions';
 import useCategories from '../../hooks/useCategories';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { styles } from '../../style';
-import Coach, { CoachProvider } from '../Coach';
+import Coach, { CoachProvider, useCoach } from '../Coach';
 import View from '../common/View';
 import { TitlebarContext } from '../Titlebar';
 
@@ -314,6 +314,9 @@ function Budget(props) {
     }
   };
 
+  // let { onSaveGroupCoach } = useCoach(); // this is causing the errors.
+  // onSaveGroupCoach = onSaveGroup;
+
   const onDeleteGroup = async id => {
     let group = categoryGroups.find(g => g.id === id);
 
@@ -459,43 +462,41 @@ function Budget(props) {
         onBudgetAction={onBudgetAction}
         onToggleSummaryCollapse={onToggleCollapse}
       >
-        <CoachProvider>
-          <Coach
-            onSaveGroup={onSaveGroup}
-            onSaveCategory={onSaveCategory}
-            onSaveNewCategories={onSaveNewCategories}
-            categoryGroups={categoryGroups}
-            categoriesRef={categoriesRef}
-          />
-          <DynamicBudgetTable
-            ref={tableRef}
-            type={type}
-            categoryGroups={categoryGroups}
-            prewarmStartMonth={prewarmStartMonth}
-            startMonth={startMonth}
-            monthBounds={bounds}
-            maxMonths={maxMonths}
-            collapsed={collapsed}
-            setCollapsed={setCollapsed}
-            newCategoryForGroup={newCategoryForGroup}
-            isAddingGroup={isAddingGroup}
-            dataComponents={rolloverComponents}
-            onMonthSelect={onMonthSelect}
-            onShowNewCategory={onShowNewCategory}
-            onHideNewCategory={onHideNewCategory}
-            onShowNewGroup={onShowNewGroup}
-            onHideNewGroup={onHideNewGroup}
-            onDeleteCategory={onDeleteCategory}
-            onDeleteGroup={onDeleteGroup}
-            categoriesRef={categoriesRef}
-            onSaveCategory={onSaveCategory}
-            onSaveGroup={onSaveGroup}
-            onBudgetAction={onBudgetAction}
-            onShowActivity={onShowActivity}
-            onReorderCategory={onReorderCategory}
-            onReorderGroup={onReorderGroup}
-          />
-        </CoachProvider>
+        <Coach
+          onSaveGroup={onSaveGroup}
+          onSaveCategory={onSaveCategory}
+          onSaveNewCategories={onSaveNewCategories}
+          categoryGroups={categoryGroups}
+          categoriesRef={categoriesRef}
+        />
+        <DynamicBudgetTable
+          ref={tableRef}
+          type={type}
+          categoryGroups={categoryGroups}
+          prewarmStartMonth={prewarmStartMonth}
+          startMonth={startMonth}
+          monthBounds={bounds}
+          maxMonths={maxMonths}
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+          newCategoryForGroup={newCategoryForGroup}
+          isAddingGroup={isAddingGroup}
+          dataComponents={rolloverComponents}
+          onMonthSelect={onMonthSelect}
+          onShowNewCategory={onShowNewCategory}
+          onHideNewCategory={onHideNewCategory}
+          onShowNewGroup={onShowNewGroup}
+          onHideNewGroup={onHideNewGroup}
+          onDeleteCategory={onDeleteCategory}
+          onDeleteGroup={onDeleteGroup}
+          categoriesRef={categoriesRef}
+          onSaveCategory={onSaveCategory}
+          onSaveGroup={onSaveGroup}
+          onBudgetAction={onBudgetAction}
+          onShowActivity={onShowActivity}
+          onReorderCategory={onReorderCategory}
+          onReorderGroup={onReorderGroup}
+        />
       </RolloverContext>
     );
   }
@@ -560,7 +561,8 @@ export default function BudgetWrapper(props) {
     [rollover],
   );
 
-  let categoriesRef = useRef([]);
+  //let categoriesRef = useRef([]);
+  let { categoriesCoachRef } = useCoach(); // this is causing the errors.
 
   // In a previous iteration, the wrapper needs `overflow: hidden` for
   // some reason. Without it at certain dimensions the width/height
@@ -582,7 +584,7 @@ export default function BudgetWrapper(props) {
         budgetType={budgetType}
         maxMonths={maxMonths}
         categoryGroups={categoryGroups}
-        categoriesRef={categoriesRef}
+        categoriesRef={categoriesCoachRef}
         {...actions}
         reportComponents={reportComponents}
         rolloverComponents={rolloverComponents}
