@@ -462,13 +462,6 @@ function Budget(props) {
         onBudgetAction={onBudgetAction}
         onToggleSummaryCollapse={onToggleCollapse}
       >
-        <Coach
-          onSaveGroup={onSaveGroup}
-          onSaveCategory={onSaveCategory}
-          onSaveNewCategories={onSaveNewCategories}
-          categoryGroups={categoryGroups}
-          categoriesRef={categoriesRef}
-        />
         <DynamicBudgetTable
           ref={tableRef}
           type={type}
