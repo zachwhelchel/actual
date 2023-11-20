@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useRef } from 'react';
+import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 
 //import { useActions } from '../hooks/useActions';
 
@@ -12,13 +12,38 @@ export function CoachProvider({ children }) {
   let [top, setTop] = useState(window.innerHeight - 20);
   let [left, setLeft] = useState(window.innerWidth - 20 - 240);
   let [offset, setOffset] = useState(100);
-  let [dialogueId, setDialogueId] = useState('nicksmith_1'); //nicktrue_1 //nicksmith_1
   let categoriesCoachRef = useRef([]);
-  let [myBudgetCoachReason, setMyBudgetCoachReason] = useState('');
-  let [accountStructure, setAccountStructure] = useState('');
-  let [budgetWithPartner, setBudgetWithPartner] = useState('');
-  let [moreCardsCount, setMoreCardsCount] = useState('');
-  let [currentBalanceCalculation, setCurrentBalanceCalculation] = useState('');
+
+  let [dialogueId, setDialogueId] = useState(localStorage.getItem('dialogueId') ?? 'nicksmith_1');
+  let [myBudgetCoachReason, setMyBudgetCoachReason] = useState(localStorage.getItem('myBudgetCoachReason') ?? '');
+  let [accountStructure, setAccountStructure] = useState(localStorage.getItem('accountStructure') ?? '');
+  let [budgetWithPartner, setBudgetWithPartner] = useState(localStorage.getItem('budgetWithPartner') ?? '');
+  let [moreCardsCount, setMoreCardsCount] = useState(localStorage.getItem('moreCardsCount') ?? '');
+  let [currentBalanceCalculation, setCurrentBalanceCalculation] = useState(localStorage.getItem('currentBalanceCalculation') ?? '');
+
+  useEffect(() => {
+    localStorage.setItem('dialogueId', dialogueId);
+  }, [dialogueId]);
+
+  useEffect(() => {
+    localStorage.setItem('myBudgetCoachReason', myBudgetCoachReason);
+  }, [myBudgetCoachReason]);
+
+  useEffect(() => {
+    localStorage.setItem('accountStructure', accountStructure);
+  }, [accountStructure]);
+
+  useEffect(() => {
+    localStorage.setItem('budgetWithPartner', budgetWithPartner);
+  }, [budgetWithPartner]);
+
+  useEffect(() => {
+    localStorage.setItem('moreCardsCount', moreCardsCount);
+  }, [moreCardsCount]);
+
+  useEffect(() => {
+    localStorage.setItem('currentBalanceCalculation', currentBalanceCalculation);
+  }, [currentBalanceCalculation]);
 
   return (
     <CoachContext.Provider

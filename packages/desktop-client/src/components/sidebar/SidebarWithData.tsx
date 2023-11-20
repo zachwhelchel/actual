@@ -55,7 +55,7 @@ function EditableBudgetName({ prefs, savePrefs }: EditableBudgetNameProps) {
     { name: 'rename', text: 'Rename budget' },
     { name: 'settings', text: 'Settings' },
     ...(Platform.isBrowser ? [{ name: 'help', text: 'Help' }] : []),
-    { name: 'close', text: 'Close file' },
+    { name: 'close', text: 'Close budget' },
   ];
 
   if (editing) {

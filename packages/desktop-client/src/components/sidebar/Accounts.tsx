@@ -5,6 +5,7 @@ import { type AccountEntity } from 'loot-core/src/types/models';
 import Add from '../../icons/v1/Add';
 import Phone from '../../icons/v1/Phone';
 import Badge from '../../icons/v1/Badge';
+import Bolt from '../../icons/v1/Bolt';
 import View from '../common/View';
 import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
@@ -91,6 +92,16 @@ function Accounts({
       };
     }
     return null;
+  };
+
+  const onResetAvatar = () => {
+    localStorage.removeItem('dialogueId');
+    localStorage.removeItem('myBudgetCoachReason');
+    localStorage.removeItem('accountStructure');
+    localStorage.removeItem('budgetWithPartner');
+    localStorage.removeItem('moreCardsCount');
+    localStorage.removeItem('currentBalanceCalculation');
+    location.reload();
   };
 
   return (
@@ -194,14 +205,38 @@ function Accounts({
         title="Schedule Zoom"
       />
 
+      {process.env.REACT_APP_BILLING_STATUS === "free_trial" && (
+        <SecondaryItem
+          style={{
+            marginTop: 15,
+            marginBottom: 9,
+          }}
+          onClick={onFreeTrial}
+          Icon={Badge}
+          title="Free Trial"
+        />
+      )}
+
+      {process.env.REACT_APP_BILLING_STATUS === "paid" && (
+        <SecondaryItem
+          style={{
+            marginTop: 15,
+            marginBottom: 9,
+          }}
+          onClick={onFreeTrial}
+          Icon={Badge}
+          title="Manage Subscription"
+        />
+      )}
+
       <SecondaryItem
         style={{
           marginTop: 15,
           marginBottom: 9,
         }}
-        onClick={onFreeTrial}
-        Icon={Badge}
-        title="Free Trial"
+        onClick={onResetAvatar}
+        Icon={Bolt}
+        title="Reset Avatar"
       />
     </View>
   );
