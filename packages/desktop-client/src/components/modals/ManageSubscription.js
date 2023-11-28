@@ -7,15 +7,15 @@ import Modal from '../common/Modal';
 import Text from '../common/Text';
 import View from '../common/View';
 
-export default function ScheduleZoom({
+export default function ManageSubscription({
   modalProps,
 }) {
   return (
-    <Modal title="Schedule Zoom" {...modalProps} style={{ flex: 0 }}>
+    <Modal title="Manage Subscription" {...modalProps} style={{ flex: 0 }}>
       {() => (
         <View style={{ lineHeight: 1.5 }}>
           <Block>
-            You can schedule a Zoom call with your coach at any time ({process.env.REACT_APP_ZOOM_RATE}). You will be billed seperately. Click the button below to schedule a time that works for you.
+            To manage your subscription please contact support.
           </Block>
 
           <View
@@ -38,11 +38,11 @@ export default function ScheduleZoom({
               <Button
                 type="primary"
                 onClick={() => {
-                  window.open(process.env.REACT_APP_ZOOM_LINK, "_blank");
+                  window.location.href = "mailto:admin@mybudgetcoach.app";
                   modalProps.onClose();
                 }}
               >
-                Schedule a Zoom Call
+                Contact Support
               </Button>
             </View>
           </View>

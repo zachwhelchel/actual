@@ -3,9 +3,9 @@ import React, { useState, useMemo } from 'react';
 import { type AccountEntity } from 'loot-core/src/types/models';
 
 import Add from '../../icons/v1/Add';
-import Phone from '../../icons/v1/Phone';
-import Badge from '../../icons/v1/Badge';
-import Bolt from '../../icons/v1/Bolt';
+import Phone from '../../icons/v1/Education';
+import Badge from '../../icons/v1/UserSolidCircle';
+import Bolt from '../../icons/v1/Reload';
 import View from '../common/View';
 import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
@@ -37,6 +37,8 @@ type AccountsProps = {
   onAddAccount: () => void;
   onScheduleZoom: () => void;
   onFreeTrial: () => void;
+  onManageSubscription: () => void;
+  onResetAvatar: () => void;
   onToggleClosedAccounts: () => void;
   onReorder: OnDropCallback;
 };
@@ -57,6 +59,8 @@ function Accounts({
   onAddAccount,
   onScheduleZoom,
   onFreeTrial,
+  onManageSubscription,
+  onResetAvatar,
   onToggleClosedAccounts,
   onReorder,
 }: AccountsProps) {
@@ -94,15 +98,8 @@ function Accounts({
     return null;
   };
 
-  const onResetAvatar = () => {
-    localStorage.removeItem('dialogueId');
-    localStorage.removeItem('myBudgetCoachReason');
-    localStorage.removeItem('accountStructure');
-    localStorage.removeItem('budgetWithPartner');
-    localStorage.removeItem('moreCardsCount');
-    localStorage.removeItem('currentBalanceCalculation');
-    location.reload();
-  };
+  let coachFirstNameZoom = "Zoom with " + process.env.REACT_APP_COACH_FIRST_NAME;
+  let coachFirstNameReset = "Reset " + process.env.REACT_APP_COACH_FIRST_NAME;
 
   return (
     <View>
@@ -195,15 +192,29 @@ function Accounts({
         title="Add account"
       />
 
-      <SecondaryItem
-        style={{
-          marginTop: 15,
-          marginBottom: 9,
-        }}
-        onClick={onScheduleZoom}
-        Icon={Phone}
-        title="Schedule Zoom"
-      />
+      {process.env.REACT_APP_COACH != undefined && (
+        <SecondaryItem
+          style={{
+            marginTop: 15,
+            marginBottom: 9,
+          }}
+          onClick={onScheduleZoom}
+          Icon={Phone}
+          title={coachFirstNameZoom}
+        />
+      )}
+
+      {process.env.REACT_APP_COACH != undefined && (
+        <SecondaryItem
+          style={{
+            marginTop: 15,
+            marginBottom: 9,
+          }}
+          onClick={onResetAvatar}
+          Icon={Bolt}
+          title={coachFirstNameReset}
+        />
+      )}
 
       {process.env.REACT_APP_BILLING_STATUS === "free_trial" && (
         <SecondaryItem
@@ -223,21 +234,12 @@ function Accounts({
             marginTop: 15,
             marginBottom: 9,
           }}
-          onClick={onFreeTrial}
+          onClick={onManageSubscription}
           Icon={Badge}
           title="Manage Subscription"
         />
       )}
 
-      <SecondaryItem
-        style={{
-          marginTop: 15,
-          marginBottom: 9,
-        }}
-        onClick={onResetAvatar}
-        Icon={Bolt}
-        title="Reset Avatar"
-      />
     </View>
   );
 }

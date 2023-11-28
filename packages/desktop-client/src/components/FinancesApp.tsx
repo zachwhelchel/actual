@@ -296,11 +296,11 @@ function FinancesApp() {
   );
 }
 
-export default function FinancesAppWithContext() {
+export default function FinancesAppWithContext(budgetId) {
   let app = useMemo(() => <FinancesApp />, []);
 
   return (
-    <CoachProvider>
+    <CoachProvider budgetId={budgetId}>
     <SpreadsheetProvider>
       <TitlebarProvider>
         <SidebarProvider>

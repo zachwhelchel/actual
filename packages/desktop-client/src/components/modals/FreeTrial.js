@@ -15,7 +15,7 @@ export default function FreeTrial({
       {() => (
         <View style={{ lineHeight: 1.5 }}>
           <Block>
-            You are currently using a 34-day free trial of the MyBudgetCoach app. To upgrade your plan please contact support.
+            You are currently using a 34-day free trial of the MyBudgetCoach app. Your trial expires on {process.env.REACT_APP_TRIAL_END_DATE}. To upgrade your plan please contact support.
           </Block>
 
           <View

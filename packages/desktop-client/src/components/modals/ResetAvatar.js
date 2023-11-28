@@ -6,16 +6,19 @@ import Button from '../common/Button';
 import Modal from '../common/Modal';
 import Text from '../common/Text';
 import View from '../common/View';
+import Coach, { useCoach } from '../Coach';
 
-export default function ScheduleZoom({
+export default function ResetAvatar({
   modalProps,
 }) {
+  let { resetCoach } = useCoach();
+
   return (
-    <Modal title="Schedule Zoom" {...modalProps} style={{ flex: 0 }}>
+    <Modal title="Reset Avatar" {...modalProps} style={{ flex: 0 }}>
       {() => (
         <View style={{ lineHeight: 1.5 }}>
           <Block>
-            You can schedule a Zoom call with your coach at any time ({process.env.REACT_APP_ZOOM_RATE}). You will be billed seperately. Click the button below to schedule a time that works for you.
+            Would you like to reset your coach avatar? This will reset them to the beginning of their prompts here on the app.
           </Block>
 
           <View
@@ -38,11 +41,11 @@ export default function ScheduleZoom({
               <Button
                 type="primary"
                 onClick={() => {
-                  window.open(process.env.REACT_APP_ZOOM_LINK, "_blank");
-                  modalProps.onClose();
+                  resetCoach();
+                  location.reload();
                 }}
               >
-                Schedule a Zoom Call
+                Reset
               </Button>
             </View>
           </View>

@@ -8,46 +8,71 @@ import View from './common/View';
 
 let CoachContext = createContext();
 
-export function CoachProvider({ children }) {
+export function CoachProvider({ budgetId, children }) {
   let [top, setTop] = useState(window.innerHeight - 20);
   let [left, setLeft] = useState(window.innerWidth - 20 - 240);
   let [offset, setOffset] = useState(100);
   let categoriesCoachRef = useRef([]);
 
-  let [dialogueId, setDialogueId] = useState(localStorage.getItem('dialogueId') ?? 'nicksmith_1');
-  let [myBudgetCoachReason, setMyBudgetCoachReason] = useState(localStorage.getItem('myBudgetCoachReason') ?? '');
-  let [accountStructure, setAccountStructure] = useState(localStorage.getItem('accountStructure') ?? '');
-  let [budgetWithPartner, setBudgetWithPartner] = useState(localStorage.getItem('budgetWithPartner') ?? '');
-  let [moreCardsCount, setMoreCardsCount] = useState(localStorage.getItem('moreCardsCount') ?? '');
-  let [currentBalanceCalculation, setCurrentBalanceCalculation] = useState(localStorage.getItem('currentBalanceCalculation') ?? '');
+  console.log("budgetId");
+  console.log(budgetId);
+  console.log(budgetId.budgetId);
+
+  let dialogueId_key = "dialogueId_" + budgetId.budgetId
+
+  let nickSmith_myBudgetCoachReason_key = "nickSmith_myBudgetCoachReason_" + budgetId.budgetId
+  let nickSmith_accountStructure_key = "nickSmith_accountStructure_" + budgetId.budgetId
+  let nickSmith_budgetWithPartner_key = "nickSmith_budgetWithPartner_" + budgetId.budgetId
+  let nickSmith_moreCardsCount_key = "nickSmith_moreCardsCount_" + budgetId.budgetId
+  let nickSmith_currentBalanceCalculation_key = "nickSmith_currentBalanceCalculation_" + budgetId.budgetId
+
+
+  let [dialogueId, setDialogueId] = useState(localStorage.getItem(dialogueId_key) ?? process.env.REACT_APP_COACH + '_1');
+
+  let [nickSmith_myBudgetCoachReason, setNickSmith_myBudgetCoachReason] = useState(localStorage.getItem(nickSmith_myBudgetCoachReason_key) ?? '');
+  let [nickSmith_accountStructure, setNickSmith_accountStructure] = useState(localStorage.getItem(nickSmith_accountStructure_key) ?? '');
+  let [nickSmith_budgetWithPartner, setNickSmith_budgetWithPartner] = useState(localStorage.getItem(nickSmith_budgetWithPartner_key) ?? '');
+  let [nickSmith_moreCardsCount, setNickSmith_moreCardsCount] = useState(localStorage.getItem(nickSmith_moreCardsCount_key) ?? '');
+  let [nickSmith_currentBalanceCalculation, setNickSmith_currentBalanceCalculation] = useState(localStorage.getItem(nickSmith_currentBalanceCalculation_key) ?? '');
+
+  const resetCoach = () => {
+    console.log('reseeeeeeet');
+    localStorage.removeItem(dialogueId_key);
+    localStorage.removeItem(nickSmith_myBudgetCoachReason_key);
+    localStorage.removeItem(nickSmith_accountStructure_key);
+    localStorage.removeItem(nickSmith_budgetWithPartner_key);
+    localStorage.removeItem(nickSmith_moreCardsCount_key);
+    localStorage.removeItem(nickSmith_currentBalanceCalculation_key);
+  };
 
   useEffect(() => {
-    localStorage.setItem('dialogueId', dialogueId);
+    localStorage.setItem(dialogueId_key, dialogueId);
   }, [dialogueId]);
 
   useEffect(() => {
-    localStorage.setItem('myBudgetCoachReason', myBudgetCoachReason);
-  }, [myBudgetCoachReason]);
+    localStorage.setItem(nickSmith_myBudgetCoachReason_key, nickSmith_myBudgetCoachReason);
+  }, [nickSmith_myBudgetCoachReason]);
 
   useEffect(() => {
-    localStorage.setItem('accountStructure', accountStructure);
-  }, [accountStructure]);
+    localStorage.setItem(nickSmith_accountStructure_key, nickSmith_accountStructure);
+  }, [nickSmith_accountStructure]);
 
   useEffect(() => {
-    localStorage.setItem('budgetWithPartner', budgetWithPartner);
-  }, [budgetWithPartner]);
+    localStorage.setItem(nickSmith_budgetWithPartner_key, nickSmith_budgetWithPartner);
+  }, [nickSmith_budgetWithPartner]);
 
   useEffect(() => {
-    localStorage.setItem('moreCardsCount', moreCardsCount);
-  }, [moreCardsCount]);
+    localStorage.setItem(nickSmith_moreCardsCount_key, nickSmith_moreCardsCount);
+  }, [nickSmith_moreCardsCount]);
 
   useEffect(() => {
-    localStorage.setItem('currentBalanceCalculation', currentBalanceCalculation);
-  }, [currentBalanceCalculation]);
+    localStorage.setItem(nickSmith_currentBalanceCalculation_key, nickSmith_currentBalanceCalculation);
+  }, [nickSmith_currentBalanceCalculation]);
 
   return (
     <CoachContext.Provider
       value={{
+        resetCoach,
         top,
         setTop,
         left,
@@ -57,16 +82,16 @@ export function CoachProvider({ children }) {
         dialogueId,
         setDialogueId,
         categoriesCoachRef,
-        myBudgetCoachReason,
-        setMyBudgetCoachReason,
-        accountStructure,
-        setAccountStructure,
-        budgetWithPartner,
-        setBudgetWithPartner,
-        moreCardsCount,
-        setMoreCardsCount,
-        currentBalanceCalculation,
-        setCurrentBalanceCalculation,
+        nickSmith_myBudgetCoachReason,
+        setNickSmith_myBudgetCoachReason,
+        nickSmith_accountStructure,
+        setNickSmith_accountStructure,
+        nickSmith_budgetWithPartner,
+        setNickSmith_budgetWithPartner,
+        nickSmith_moreCardsCount,
+        setNickSmith_moreCardsCount,
+        nickSmith_currentBalanceCalculation,
+        setNickSmith_currentBalanceCalculation,
       }}
     >
       {children}
@@ -86,6 +111,7 @@ export default function Coach({
   categoriesRef,
 }) {
   let {
+    resetCoach,
     top,
     setTop,
     left,
@@ -95,16 +121,16 @@ export default function Coach({
     dialogueId,
     setDialogueId,
     categoriesCoachRef,
-    myBudgetCoachReason,
-    setMyBudgetCoachReason,
-    accountStructure,
-    setAccountStructure,
-    budgetWithPartner,
-    setBudgetWithPartner,
-    moreCardsCount,
-    setMoreCardsCount,
-    currentBalanceCalculation,
-    setCurrentBalanceCalculation,
+    nickSmith_myBudgetCoachReason,
+    setNickSmith_myBudgetCoachReason,
+    nickSmith_accountStructure,
+    setNickSmith_accountStructure,
+    nickSmith_budgetWithPartner,
+    setNickSmith_budgetWithPartner,
+    nickSmith_moreCardsCount,
+    setNickSmith_moreCardsCount,
+    nickSmith_currentBalanceCalculation,
+    setNickSmith_currentBalanceCalculation,
   } = useCoach();
 
   //const { createGroup } = useActions();
@@ -185,7 +211,7 @@ export default function Coach({
   };
 
   const nickSmithOption1 = async () => {
-    setMyBudgetCoachReason("notCloser");
+    setNickSmith_myBudgetCoachReason("notCloser");
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
@@ -193,7 +219,7 @@ export default function Coach({
   };
 
   const nickSmithOption2 = async () => {
-    setMyBudgetCoachReason("newBudget");
+    setNickSmith_myBudgetCoachReason("newBudget");
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
@@ -215,7 +241,7 @@ export default function Coach({
   };
 
   const nickSmithOption5 = async () => {
-    setAccountStructure("noCC");
+    setNickSmith_accountStructure("noCC");
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
@@ -223,7 +249,7 @@ export default function Coach({
   };
 
   const nickSmithOption6 = async () => {
-    setAccountStructure("1and1");
+    setNickSmith_accountStructure("1and1");
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
@@ -231,7 +257,7 @@ export default function Coach({
   };
 
   const nickSmithOption7 = async () => {
-    setAccountStructure("moreThanOneCC");
+    setNickSmith_accountStructure("moreThanOneCC");
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
@@ -239,7 +265,7 @@ export default function Coach({
   };
 
   const nickSmithOption8 = async () => {
-    setBudgetWithPartner("justMe");
+    setNickSmith_budgetWithPartner("justMe");
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
@@ -247,7 +273,7 @@ export default function Coach({
   };
 
   const nickSmithOption9 = async () => {
-    setBudgetWithPartner("jointConsolidated");
+    setNickSmith_budgetWithPartner("jointConsolidated");
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
@@ -255,7 +281,7 @@ export default function Coach({
   };
 
   const nickSmithOption10 = async () => {
-    setBudgetWithPartner("jointSeparate");
+    setNickSmith_budgetWithPartner("jointSeparate");
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
@@ -266,7 +292,7 @@ export default function Coach({
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
-    if (accountStructure === "noCC") {
+    if (nickSmith_accountStructure === "noCC") {
       setDialogueId('nicksmith_wrap_accounts');
     } else {
       setDialogueId('nicksmith_cc_1');
@@ -291,7 +317,7 @@ export default function Coach({
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
-    if (accountStructure === "1and1") {
+    if (nickSmith_accountStructure === "1and1") {
       setDialogueId('nicksmith_wrap_accounts');
     } else {
       setDialogueId('nicksmith_multicc_1');
@@ -306,17 +332,17 @@ export default function Coach({
   };
 
   const nickSmithOptionMultiCC1 = async () => {
-    setMoreCardsCount("one");
+    setNickSmith_moreCardsCount("one");
     setDialogueId('nicksmith_multicc_3');
   };
 
   const nickSmithOptionMultiCC2 = async () => {
-    setMoreCardsCount("two");
+    setNickSmith_moreCardsCount("two");
     setDialogueId('nicksmith_multicc_4');
   };
 
   const nickSmithOptionMultiCC3 = async () => {
-    setMoreCardsCount("three");
+    setNickSmith_moreCardsCount("three");
     setDialogueId('nicksmith_multicc_5');
   };
 
@@ -324,11 +350,11 @@ export default function Coach({
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
-    if (moreCardsCount === "one") {
+    if (nickSmith_moreCardsCount === "one") {
       setDialogueId('nicksmith_wrap_accounts');
-    } else if (moreCardsCount === "two") {
+    } else if (nickSmith_moreCardsCount === "two") {
       setDialogueId('nicksmith_multicc_9');
-    } else if (moreCardsCount === "three") {
+    } else if (nickSmith_moreCardsCount === "three") {
       setDialogueId('nicksmith_multicc_9');
     }
   };
@@ -344,9 +370,9 @@ export default function Coach({
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
-    if (moreCardsCount === "two") {
+    if (nickSmith_moreCardsCount === "two") {
       setDialogueId('nicksmith_multicc_11');
-    } else if (moreCardsCount === "three") {
+    } else if (nickSmith_moreCardsCount === "three") {
       setDialogueId('nicksmith_multicc_17');
     }
   };
@@ -390,7 +416,7 @@ export default function Coach({
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
-    if (accountStructure === "1and1" || accountStructure === "moreThanOneCC") {
+    if (nickSmith_accountStructure === "1and1" || nickSmith_accountStructure === "moreThanOneCC") {
       setDialogueId('nicksmith_act_1');
     } else {
       setDialogueId('');
@@ -412,17 +438,17 @@ export default function Coach({
   };
 
   const nickSmithOptionVAB1 = async () => {
-    setCurrentBalanceCalculation("yesPending");
+    setNickSmith_currentBalanceCalculation("yesPending");
     setDialogueId('nicksmith_vab_5');
   };
 
   const nickSmithOptionVAB2 = async () => {
-    setCurrentBalanceCalculation("yesNoPending");
+    setNickSmith_currentBalanceCalculation("yesNoPending");
     setDialogueId('nicksmith_vab_24');
   };
 
   const nickSmithOptionVAB3 = async () => {
-    setCurrentBalanceCalculation("no");
+    setNickSmith_currentBalanceCalculation("no");
     setDialogueId('nicksmith_vab_29');
   };
 
@@ -841,7 +867,7 @@ export default function Coach({
       </div>
     );
   } else if (dialogueId === 'nicksmith_14') {
-    if (accountStructure === "noCC" && (budgetWithPartner === "justMe" || budgetWithPartner === "jointSeparate")) {
+    if (nickSmith_accountStructure === "noCC" && (nickSmith_budgetWithPartner === "justMe" || nickSmith_budgetWithPartner === "jointSeparate")) {
       content = (
         <div>
           {`Based on your answers, I recommend adding just your checking account.`}
@@ -856,7 +882,7 @@ export default function Coach({
         </div>
       );
     }
-    else if (accountStructure === "noCC" && budgetWithPartner === "jointConsolidated") {
+    else if (nickSmith_accountStructure === "noCC" && nickSmith_budgetWithPartner === "jointConsolidated") {
       content = (
         <div>
           {`Based on your answers, I recommend adding just your joint checking account.`}
@@ -871,7 +897,7 @@ export default function Coach({
         </div>
       );
     }
-    else if (accountStructure === "1and1" && (budgetWithPartner === "justMe" || budgetWithPartner === "jointSeparate")) {
+    else if (nickSmith_accountStructure === "1and1" && (nickSmith_budgetWithPartner === "justMe" || nickSmith_budgetWithPartner === "jointSeparate")) {
       content = (
         <div>
           {`Based on your answers, I recommend adding your checking account first and then your main credit card account.`}
@@ -885,7 +911,7 @@ export default function Coach({
         </div>
       );
     }
-    else if (accountStructure === "1and1" && budgetWithPartner === "jointConsolidated") {
+    else if (nickSmith_accountStructure === "1and1" && nickSmith_budgetWithPartner === "jointConsolidated") {
       content = (
         <div>
           {`Based on your answers, I recommend adding your joint checking account first and then your main joint credit card account.`}
@@ -899,7 +925,7 @@ export default function Coach({
         </div>
       );
     }
-    else if (accountStructure === "moreThanOneCC" && (budgetWithPartner === "justMe" || budgetWithPartner === "jointSeparate")) {
+    else if (nickSmith_accountStructure === "moreThanOneCC" && (nickSmith_budgetWithPartner === "justMe" || nickSmith_budgetWithPartner === "jointSeparate")) {
       content = (
         <div>
           {`Based on your answers, I recommend adding your checking account first and then your main credit card account.`}
@@ -913,7 +939,7 @@ export default function Coach({
         </div>
       );
     }
-    else if (accountStructure === "moreThanOneCC" && budgetWithPartner === "jointConsolidated") {
+    else if (nickSmith_accountStructure === "moreThanOneCC" && nickSmith_budgetWithPartner === "jointConsolidated") {
       content = (
         <div>
           {`Based on your answers, I recommend adding your joint checking account first and then your main credit card account.`}
@@ -941,7 +967,7 @@ export default function Coach({
       );
     }
   } else if (dialogueId === 'nicksmith_15') {
-    if (budgetWithPartner === "jointConsolidated") {
+    if (nickSmith_budgetWithPartner === "jointConsolidated") {
       content = (
         <div>
           {`Please login to your bank now so you can gather your current balance of your joint checking account.`}
@@ -969,7 +995,7 @@ export default function Coach({
       );
     }
   } else if (dialogueId === 'nicksmith_16') {
-    if (budgetWithPartner === "jointConsolidated") {
+    if (nickSmith_budgetWithPartner === "jointConsolidated") {
       content = (
         <div>
           {`Please select the Create Local Account option. Name your joint account, and then enter the current balance of your checking account.`}
@@ -997,7 +1023,7 @@ export default function Coach({
       );
     }
   } else if (dialogueId === 'nicksmith_wrap_accounts') {
-    if (budgetWithPartner === "noCC") {
+    if (nickSmith_budgetWithPartner === "noCC") {
       content = (
         <div>
           {`Great job adding your account! You may be thinking: Let me add in my savings account next.`}
@@ -1079,7 +1105,7 @@ export default function Coach({
       </div>
     );
   } else if (dialogueId === 'nicksmith_cc_1') {
-    if (budgetWithPartner === "jointConsolidated") {
+    if (nickSmith_budgetWithPartner === "jointConsolidated") {
       content = (
         <div>
           {`Let's now add your joint credit card account.`}
@@ -2449,42 +2475,48 @@ export default function Coach({
     );
   }
 
-
-
-  return (
-    <View>
-      <View onMouseLeave={onMouseOverCaptureHandler} style={style}>
-        <div
-          style={{
-            flex: 1,
-            display: 'flex',
-            position: 'relative',
-          }}
-        >
-          <img
+  if (content === undefined) {
+    return (
+      <View>
+      </View>
+    );
+  } else {
+    return (
+      <View>
+        <View onMouseLeave={onMouseOverCaptureHandler} style={style}>
+          <div
             style={{
-              width: '100px',
-              height: '100px',
-              borderRadius: '50px',
-            }}
-            src="/coach-icon-nicksmith-200x200.png"
-            alt="coach"
-          />
-          <Card
-            style={{
-              marginTop: 7,
-              marginBottom: 7,
-              paddingLeft: 10,
-              paddingTop: 8,
-              paddingRight: 10,
-              paddingBottom: 8,
-              width: '300px',
+              flex: 1,
+              display: 'flex',
+              position: 'relative',
             }}
           >
-            {content}
-          </Card>
-        </div>
+            <img
+              style={{
+                width: '100px',
+                height: '100px',
+                borderRadius: '50px',
+              }}
+              src="/coach-icon-nicksmith-200x200.png"
+              alt="coach"
+            />
+            <Card
+              style={{
+                marginTop: 7,
+                marginBottom: 7,
+                paddingLeft: 10,
+                paddingTop: 8,
+                paddingRight: 10,
+                paddingBottom: 8,
+                width: '300px',
+              }}
+            >
+              {content}
+            </Card>
+          </div>
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
+
 }

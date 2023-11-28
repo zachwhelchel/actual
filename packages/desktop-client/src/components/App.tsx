@@ -95,7 +95,7 @@ function App({
       {initializing ? (
         <AppBackground initializing={initializing} loadingText={loadingText} />
       ) : budgetId ? (
-        <FinancesApp />
+        <FinancesApp budgetId={budgetId} />
       ) : (
         <>
           <AppBackground

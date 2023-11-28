@@ -152,6 +152,8 @@ function SidebarWithData() {
       onAddAccount={() => replaceModal('add-account')}
       onScheduleZoom={() => replaceModal('schedule-zoom')}
       onFreeTrial={() => replaceModal('free-trial')}
+      onManageSubscription={() => replaceModal('manage-subscription')}
+      onResetAvatar={() => replaceModal('reset-avatar')}
       showClosedAccounts={prefs['ui.showClosedAccounts']}
       onToggleClosedAccounts={() =>
         savePrefs({
