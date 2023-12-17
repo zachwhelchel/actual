@@ -6,7 +6,7 @@ import Button from '../common/Button';
 import Modal from '../common/Modal';
 import Text from '../common/Text';
 import View from '../common/View';
-import Coach, { useCoach } from '../Coach';
+import Coach, { useCoach } from '../coach/Coach';
 
 export default function ResetAvatar({
   modalProps,

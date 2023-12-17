@@ -176,14 +176,14 @@ export default function Settings() {
 */}          
             <ExportBudget />
 
-{/*          <AdvancedToggle>
+          <AdvancedToggle>
             <AdvancedAbout />
             <ResetCache />
             <ResetSync />
             <FixSplitsTool />
             <ExperimentalFeatures />
           </AdvancedToggle>
-*/}          
+          
         </View>
       </Page>
     </View>

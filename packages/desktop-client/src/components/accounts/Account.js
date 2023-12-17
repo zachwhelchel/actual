@@ -39,7 +39,7 @@ import {
 } from '../transactions/TransactionsTable';
 
 import { AccountHeader } from './Header';
-import Coach, { CoachProvider, useCoach } from '../Coach';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 function EmptyMessage({ onAdd }) {
   return (

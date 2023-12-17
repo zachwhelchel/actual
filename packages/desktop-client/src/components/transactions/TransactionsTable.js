@@ -77,6 +77,8 @@ import {
 } from '../table';
 import { Tooltip } from '../tooltips';
 
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
+
 function getDisplayValue(obj, name) {
   return obj ? obj[name] : '';
 }
@@ -532,11 +534,21 @@ function PayeeCell({
 }) {
   let isCreatingPayee = useRef(false);
 
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
   // Filter out the account we're currently in as it is not a valid transfer
   accounts = accounts.filter(account => account.id !== accountId);
   payees = payees.filter(payee => payee.transfer_acct !== accountId);
 
   return (
+
+    // <div
+    //   ref={element => {
+    //     commonElementsRef.current['select_payee'] = element;
+    //   }}
+    // >
+
+
     <CustomCell
       width="flex"
       name="payee"
@@ -604,6 +616,9 @@ function PayeeCell({
         );
       }}
     </CustomCell>
+
+
+    // </div>
   );
 }
 

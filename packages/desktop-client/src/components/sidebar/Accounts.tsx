@@ -13,6 +13,8 @@ import { type Binding } from '../spreadsheet';
 import Account from './Account';
 import SecondaryItem from './SecondaryItem';
 
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
+
 const fontWeight = 600;
 
 type AccountsProps = {
@@ -98,6 +100,8 @@ function Accounts({
     return null;
   };
 
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
   let coachFirstNameZoom = "Zoom with " + process.env.REACT_APP_COACH_FIRST_NAME;
   let coachFirstNameReset = "Reset " + process.env.REACT_APP_COACH_FIRST_NAME;
 
@@ -182,26 +186,38 @@ function Accounts({
           />
         ))}
 
-      <SecondaryItem
-        style={{
-          marginTop: 15,
-          marginBottom: 9,
+      <div
+        ref={element => {
+          commonElementsRef.current['add_account'] = element;
         }}
-        onClick={onAddAccount}
-        Icon={Add}
-        title="Add account"
-      />
-
-      {process.env.REACT_APP_COACH != undefined && (
+      >
         <SecondaryItem
           style={{
             marginTop: 15,
             marginBottom: 9,
           }}
-          onClick={onScheduleZoom}
-          Icon={Phone}
-          title={coachFirstNameZoom}
+          onClick={onAddAccount}
+          Icon={Add}
+          title="Add account"
         />
+      </div>
+
+      {process.env.REACT_APP_COACH != undefined && (
+        <div
+          ref={element => {
+            commonElementsRef.current['zoom_link'] = element;
+          }}
+        >
+          <SecondaryItem
+            style={{
+              marginTop: 15,
+              marginBottom: 9,
+            }}
+            onClick={onScheduleZoom}
+            Icon={Phone}
+            title={coachFirstNameZoom}
+          />
+        </div>
       )}
 
       {process.env.REACT_APP_COACH != undefined && (

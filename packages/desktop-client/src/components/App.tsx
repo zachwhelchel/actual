@@ -38,6 +38,8 @@ type AppProps = {
   ) => Promise<void>;
   closeBudget: () => Promise<void>;
   loadGlobalPrefs: () => Promise<GlobalPrefs>;
+  someDialogues: Map;
+  initialDialogueId: string;
 };
 
 function App({
@@ -47,9 +49,15 @@ function App({
   loadBudget,
   closeBudget,
   loadGlobalPrefs,
+  someDialogues,
+  initialDialogueId,
 }: AppProps) {
   const [initializing, setInitializing] = useState(true);
   const { showBoundary: showErrorBoundary } = useErrorBoundary();
+
+  console.log("fuuuuuuuu:" + someDialogues);
+  console.log("fuuuuuuuu:" + initialDialogueId);
+
 
   async function init() {
     const socketName = await global.Actual.getServerSocket();
@@ -95,7 +103,7 @@ function App({
       {initializing ? (
         <AppBackground initializing={initializing} loadingText={loadingText} />
       ) : budgetId ? (
-        <FinancesApp budgetId={budgetId} />
+        <FinancesApp budgetId={budgetId} someDialogues={someDialogues} initialDialogueId={initialDialogueId} />
       ) : (
         <>
           <AppBackground
@@ -121,7 +129,7 @@ function ErrorFallback({ error }: FallbackProps) {
   );
 }
 
-function AppWrapper() {
+function AppWrapper({someDialogues, initialDialogueId}) {
   let budgetId = useSelector(
     state => state.prefs.local && state.prefs.local.id,
   );
@@ -185,6 +193,8 @@ function AppWrapper() {
               loadBudget={loadBudget}
               closeBudget={closeBudget}
               loadGlobalPrefs={loadGlobalPrefs}
+              someDialogues={someDialogues}
+              initialDialogueId={initialDialogueId}
             />
           </ErrorBoundary>
           <ThemeStyle />

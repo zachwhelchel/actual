@@ -27,7 +27,7 @@ import { useActions } from '../../hooks/useActions';
 import useCategories from '../../hooks/useCategories';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { styles } from '../../style';
-import Coach, { CoachProvider, useCoach } from '../Coach';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import View from '../common/View';
 import { TitlebarContext } from '../Titlebar';
 

@@ -27,6 +27,7 @@ import { useSplitsExpanded } from '../transactions/TransactionsTable';
 
 import { Balances } from './Balance';
 import { ReconcilingMessage, ReconcileTooltip } from './Reconcile';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 export function AccountHeader({
   tableRef,
@@ -100,6 +101,10 @@ export function AccountHeader({
       });
     }
   }
+
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
 
   return (
     <>
@@ -193,6 +198,7 @@ export function AccountHeader({
           showExtraBalances={showExtraBalances}
           onToggleExtraBalances={onToggleExtraBalances}
           account={account}
+          commonElementsRef={commonElementsRef}
         />
 
         <Stack
@@ -202,116 +208,157 @@ export function AccountHeader({
           style={{ marginTop: 12 }}
         >
           {((account && !account.closed) || canSync) && (
-            <Button type="bare" onClick={canSync ? onSync : onImport}>
-              {canSync ? (
-                <>
-                  <AnimatedRefresh
-                    width={13}
-                    height={13}
-                    animating={
-                      (account && accountsSyncing === account.name) ||
-                      accountsSyncing === '__all'
-                    }
-                    style={{ marginRight: 4 }}
-                  />{' '}
-                  Sync
-                </>
-              ) : (
-                <>
-                  <DownloadThickBottom
-                    width={13}
-                    height={13}
-                    style={{ marginRight: 4 }}
-                  />{' '}
-                  Import
-                </>
-              )}
-            </Button>
+            <div
+              ref={element => {
+                commonElementsRef.current['import_button'] = element;
+              }}
+            >
+              <Button type="bare" onClick={canSync ? onSync : onImport}>
+                {canSync ? (
+                  <>
+                    <AnimatedRefresh
+                      width={13}
+                      height={13}
+                      animating={
+                        (account && accountsSyncing === account.name) ||
+                        accountsSyncing === '__all'
+                      }
+                      style={{ marginRight: 4 }}
+                    />{' '}
+                    Sync
+                  </>
+                ) : (
+                  <>
+                    <DownloadThickBottom
+                      width={13}
+                      height={13}
+                      style={{ marginRight: 4 }}
+                    />{' '}
+                    Import
+                  </>
+                )}
+              </Button>
+            </div>            
           )}
           {!showEmptyMessage && (
-            <Button type="bare" onClick={onAddTransaction}>
-              <Add width={10} height={10} style={{ marginRight: 3 }} /> Add New
-            </Button>
+            <div
+              ref={element => {
+                commonElementsRef.current['add_new_button'] = element;
+              }}
+            >
+              <Button type="bare" onClick={onAddTransaction}>
+                <Add width={10} height={10} style={{ marginRight: 3 }} /> Add New
+              </Button>
+            </div>            
           )}
           <View style={{ flexShrink: 0 }}>
-            <FilterButton onApply={onApplyFilter} />
+            <div
+              ref={element => {
+                commonElementsRef.current['filter_button'] = element;
+              }}
+            >
+              <FilterButton onApply={onApplyFilter} />
+            </div>            
           </View>
           <View style={{ flex: 1 }} />
-          <Search
-            placeholder="Search"
-            value={search}
-            onChange={onSearch}
-            inputRef={searchInput}
-          />
+            <div
+              ref={element => {
+                commonElementsRef.current['search_bar'] = element;
+              }}
+            >
+              <Search
+                placeholder="Search"
+                value={search}
+                onChange={onSearch}
+                inputRef={searchInput}
+              />
+            </div>            
           {workingHard ? (
             <View>
               <AnimatedLoading style={{ width: 16, height: 16 }} />
             </View>
           ) : (
-            <SelectedTransactionsButton
-              getTransaction={id => transactions.find(t => t.id === id)}
-              onShow={onShowTransactions}
-              onDuplicate={onBatchDuplicate}
-              onDelete={onBatchDelete}
-              onEdit={onBatchEdit}
-              onUnlink={onBatchUnlink}
-              onCreateRule={onCreateRule}
-              onScheduleAction={onScheduleAction}
-              pushModal={pushModal}
-            />
+              <SelectedTransactionsButton
+                getTransaction={id => transactions.find(t => t.id === id)}
+                onShow={onShowTransactions}
+                onDuplicate={onBatchDuplicate}
+                onDelete={onBatchDelete}
+                onEdit={onBatchEdit}
+                onUnlink={onBatchUnlink}
+                onCreateRule={onCreateRule}
+                onScheduleAction={onScheduleAction}
+                pushModal={pushModal}
+              />
           )}
-          <Button
-            type="bare"
-            disabled={search !== '' || filters.length > 0}
-            style={{ padding: 6, marginLeft: 10 }}
-            onClick={onToggleSplits}
-            title={
-              splitsExpanded.state.mode === 'collapse'
-                ? 'Collapse split transactions'
-                : 'Expand split transactions'
-            }
+          <div
+            ref={element => {
+              commonElementsRef.current['split_toggle_button'] = element;
+            }}
           >
-            {splitsExpanded.state.mode === 'collapse' ? (
-              <ArrowsShrink3 style={{ width: 14, height: 14 }} />
-            ) : (
-              <ArrowsExpand3 style={{ width: 14, height: 14 }} />
-            )}
-          </Button>
-          {account ? (
-            <View>
-              <MenuButton onClick={() => setMenuOpen(true)} />
-
-              {menuOpen && (
-                <AccountMenu
-                  account={account}
-                  canSync={canSync}
-                  canShowBalances={canCalculateBalance()}
-                  isSorted={isSorted}
-                  showBalances={showBalances}
-                  showCleared={showCleared}
-                  onMenuSelect={item => {
-                    setMenuOpen(false);
-                    onMenuSelect(item);
-                  }}
-                  onReconcile={onReconcile}
-                  onClose={() => setMenuOpen(false)}
-                />
+            <Button
+              type="bare"
+              disabled={search !== '' || filters.length > 0}
+              style={{ padding: 6 }}
+              onClick={onToggleSplits}
+              title={
+                splitsExpanded.state.mode === 'collapse'
+                  ? 'Collapse split transactions'
+                  : 'Expand split transactions'
+              }
+            >
+              {splitsExpanded.state.mode === 'collapse' ? (
+                <ArrowsShrink3 style={{ width: 14, height: 14 }} />
+              ) : (
+                <ArrowsExpand3 style={{ width: 14, height: 14 }} />
               )}
+            </Button>
+          </div>            
+          {account ? (
+
+            <View>
+              <div
+                ref={element => {
+                  commonElementsRef.current['more_button'] = element;
+                }}
+              >
+                <MenuButton onClick={() => setMenuOpen(true)} />
+                {menuOpen && (
+                  <AccountMenu
+                    account={account}
+                    canSync={canSync}
+                    canShowBalances={canCalculateBalance()}
+                    isSorted={isSorted}
+                    showBalances={showBalances}
+                    showCleared={showCleared}
+                    onMenuSelect={item => {
+                      setMenuOpen(false);
+                      onMenuSelect(item);
+                    }}
+                    onReconcile={onReconcile}
+                    onClose={() => setMenuOpen(false)}
+                  />
+                )}
+              </div>            
             </View>
           ) : (
             <View>
-              <MenuButton onClick={() => setMenuOpen(true)} />
-
-              {menuOpen && (
-                <CategoryMenu
-                  onMenuSelect={item => {
-                    setMenuOpen(false);
-                    onMenuSelect(item);
-                  }}
-                  onClose={() => setMenuOpen(false)}
-                  isSorted={isSorted}
-                />
-              )}
+              <div
+                ref={element => {
+                  commonElementsRef.current['more_button'] = element;
+                }}
+              >
+                <MenuButton onClick={() => setMenuOpen(true)} />
+                {menuOpen && (
+                  <CategoryMenu
+                    onMenuSelect={item => {
+                      setMenuOpen(false);
+                      onMenuSelect(item);
+                    }}
+                    onClose={() => setMenuOpen(false)}
+                    isSorted={isSorted}
+                  />
+                )}
+              </div>            
             </View>
           )}
         </Stack>

@@ -2,9 +2,9 @@ import React, { createContext, useContext, useEffect, useState, useRef } from 'r
 
 //import { useActions } from '../hooks/useActions';
 
-import Button from './common/Button';
-import Card from './common/Card';
-import View from './common/View';
+import Button from '../common/Button';
+import Card from '../common/Card';
+import View from '../common/View';
 
 let CoachContext = createContext();
 
@@ -25,7 +25,8 @@ export function CoachProvider({ budgetId, children }) {
   let nickSmith_budgetWithPartner_key = "nickSmith_budgetWithPartner_" + budgetId.budgetId
   let nickSmith_moreCardsCount_key = "nickSmith_moreCardsCount_" + budgetId.budgetId
   let nickSmith_currentBalanceCalculation_key = "nickSmith_currentBalanceCalculation_" + budgetId.budgetId
-
+  let nickSmith_runningBalance_key = "nickSmith_runningBalance_" + budgetId.budgetId
+  //a lot of these need to be per account as well.
 
   let [dialogueId, setDialogueId] = useState(localStorage.getItem(dialogueId_key) ?? process.env.REACT_APP_COACH + '_1');
 
@@ -34,6 +35,7 @@ export function CoachProvider({ budgetId, children }) {
   let [nickSmith_budgetWithPartner, setNickSmith_budgetWithPartner] = useState(localStorage.getItem(nickSmith_budgetWithPartner_key) ?? '');
   let [nickSmith_moreCardsCount, setNickSmith_moreCardsCount] = useState(localStorage.getItem(nickSmith_moreCardsCount_key) ?? '');
   let [nickSmith_currentBalanceCalculation, setNickSmith_currentBalanceCalculation] = useState(localStorage.getItem(nickSmith_currentBalanceCalculation_key) ?? '');
+  let [nickSmith_runningBalance, setNickSmith_runningBalance] = useState(localStorage.getItem(nickSmith_runningBalance_key) ?? '');
 
   const resetCoach = () => {
     console.log('reseeeeeeet');
@@ -43,6 +45,7 @@ export function CoachProvider({ budgetId, children }) {
     localStorage.removeItem(nickSmith_budgetWithPartner_key);
     localStorage.removeItem(nickSmith_moreCardsCount_key);
     localStorage.removeItem(nickSmith_currentBalanceCalculation_key);
+    localStorage.removeItem(nickSmith_runningBalance_key);
   };
 
   useEffect(() => {
@@ -69,6 +72,10 @@ export function CoachProvider({ budgetId, children }) {
     localStorage.setItem(nickSmith_currentBalanceCalculation_key, nickSmith_currentBalanceCalculation);
   }, [nickSmith_currentBalanceCalculation]);
 
+  useEffect(() => {
+    localStorage.setItem(nickSmith_runningBalance_key, nickSmith_runningBalance);
+  }, [nickSmith_runningBalance]);
+
   return (
     <CoachContext.Provider
       value={{
@@ -92,6 +99,8 @@ export function CoachProvider({ budgetId, children }) {
         setNickSmith_moreCardsCount,
         nickSmith_currentBalanceCalculation,
         setNickSmith_currentBalanceCalculation,
+        nickSmith_runningBalance,
+        setNickSmith_runningBalance,
       }}
     >
       {children}
@@ -131,6 +140,8 @@ export default function Coach({
     setNickSmith_moreCardsCount,
     nickSmith_currentBalanceCalculation,
     setNickSmith_currentBalanceCalculation,
+    nickSmith_runningBalance,
+    setNickSmith_runningBalance,
   } = useCoach();
 
   //const { createGroup } = useActions();
@@ -342,19 +353,37 @@ export default function Coach({
   };
 
   const nickSmithOptionMultiCC3 = async () => {
-    setNickSmith_moreCardsCount("three");
+    setNickSmith_moreCardsCount("three_or_more");
     setDialogueId('nicksmith_multicc_5');
   };
+
+  const nickSmithOptionMultiCC4 = async () => {
+    setNickSmith_moreCardsCount("one");
+    setDialogueId('nicksmith_multicc_3');
+  };
+
+  const nickSmithOptionMultiCC5 = async () => {
+    setNickSmith_moreCardsCount("two_or_more");
+    setDialogueId('nicksmith_multicc_4');
+  };
+
+
 
   const nickSmithCCCheck3 = async () => {
     setTop(window.innerHeight - 20);
     setLeft(window.innerWidth - 20 - 240);
     setOffset(100);
     if (nickSmith_moreCardsCount === "one") {
-      setDialogueId('nicksmith_wrap_accounts');
+      if (nickSmith_budgetWithPartner === "jointConsolidated") {
+        setDialogueId('nicksmith_wrap_accounts_jc');
+      } else {
+        setDialogueId('nicksmith_wrap_accounts');
+      }
     } else if (nickSmith_moreCardsCount === "two") {
       setDialogueId('nicksmith_multicc_9');
-    } else if (nickSmith_moreCardsCount === "three") {
+    } else if (nickSmith_moreCardsCount === "two_or_more") {
+      setDialogueId('nicksmith_multicc_9');
+    } else if (nickSmith_moreCardsCount === "three_or_more") {
       setDialogueId('nicksmith_multicc_9');
     }
   };
@@ -372,7 +401,9 @@ export default function Coach({
     setOffset(100);
     if (nickSmith_moreCardsCount === "two") {
       setDialogueId('nicksmith_multicc_11');
-    } else if (nickSmith_moreCardsCount === "three") {
+    } else if (nickSmith_moreCardsCount === "three_or_more") {
+      setDialogueId('nicksmith_multicc_17');
+    } else if (nickSmith_moreCardsCount === "two_or_more") {
       setDialogueId('nicksmith_multicc_17');
     }
   };
@@ -450,6 +481,35 @@ export default function Coach({
   const nickSmithOptionVAB3 = async () => {
     setNickSmith_currentBalanceCalculation("no");
     setDialogueId('nicksmith_vab_29');
+  };
+
+  const nickSmithOptionNov1 = async () => {
+    setNickSmith_currentBalanceCalculation("no");
+    setDialogueId('nicksmith_vab_26');
+  };
+
+  const nickSmithOptionNov2 = async () => {
+    setNickSmith_runningBalance("yes");
+    setDialogueId('nicksmith_nov_1');
+  };
+
+  const nickSmithOptionNov3 = async () => {
+    setNickSmith_runningBalance("no");
+    setDialogueId('nicksmith_nov_2');
+  };
+
+  const nickSmithOptionNov4 = async () => {
+    setNickSmith_currentBalanceCalculation("yesNoPending");
+    setDialogueId('nicksmith_nov_4');
+  };
+
+  const nickSmithOptionNov5 = async () => {
+    setNickSmith_currentBalanceCalculation("yesPending");
+    setDialogueId('nicksmith_nov_5');
+  };
+
+  const nickSmithOptionNE1 = async () => {
+    setDialogueId('nicksmith_dec_1');
   };
 
   async function moveTo(id) {
@@ -659,16 +719,29 @@ export default function Coach({
         <Button
           type="primary"
           style={{ marginTop: 8 }}
-          onClick={() => showZoomCall()}
+          onClick={() => setDialogueId('nicksmith_1.1')}
         >
           Get Started
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_1.1') {
+    content = (
+      <div>
+        Before we begin the set-up process, I just want to let you know about some aspects of MyBudgetCoach.
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => showZoomCall()}
+        >
+          Got It
         </Button>
       </div>
     );
   } else if (dialogueId === 'nicksmith_2') {
     content = (
       <div>
-        Before we begin the set-up process, I just want to let you know about some aspects of MyBudgetCoach. If at any time you reach a point where you would like a one-on-one coaching session with me, please select the link to the left and select a time that works for you. Please note, one-on-one coaching does have an additional hourly fee, in addition to your MyBudgetCoach subscription.
+         If at any time you reach a point where you would like a one-on-one coaching session with me, please select the link to the left and select a time that works for you. Please note, one-on-one coaching does have an additional hourly fee, in addition to your MyBudgetCoach subscription.
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -728,7 +801,7 @@ export default function Coach({
     content = (
       <div>
         Thanks for your response!
-        <p>We will start off with the following steps for Account Set-Up stage.</p>
+        <p>We will start off with the following steps for the Account Set-Up stage.</p>
         <ol>
           <li>Renaming Budget</li>
           <li>Adding Accounts</li>
@@ -761,20 +834,34 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_8') {
     content = (
       <div>
-        {`Congratulations creating your first Budget! Please keep in mind you can create many budgets overtime. For example, if you have a big life event and want to start 'fresh' with the new financial reality, a new Budget can be a great way to have a re-set, knowing your prior budget will always be available for viewing at any time.`}
+        {`You can set-up multiple budgets in your MyBudgetCoach account. An example for when a new budget can be helpful is when you have a big life event, such as a change in job, and want to start 'fresh' with your new financial reality.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_8.1')}
+        >
+          Next
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_8.1') {
+    content = (
+      <div>
+        {`MyBudgetCoach allows you to name each budget. I recommend to name the Budget something specific, and end with "..._MonthYear" that you start the budget. This will help you remember which Budget was used for which time period.`}
+        <p>OK, please rename your first Budget!</p>
         <Button
           type="primary"
           style={{ marginTop: 8 }}
           onClick={() => nickSmithOption3()}
         >
-          Next
+          Sounds Good
         </Button>
       </div>
     );
   } else if (dialogueId === 'nicksmith_9') {
     content = (
       <div>
-        {`MyBudgetCoach allows you to name each budget. Since you may have multiple budgets long-term, I recommend to name the Budget something specific, and end with "..._MonthYear" that you start the budget. This will help you remember which Budget was used for which time period.`}
+        {`Select your Budget Name in the top left and select 'Rename budget' to adjust the name.`}
         <p>OK, please rename your first Budget!</p>
         <Button
           type="primary"
@@ -942,7 +1029,7 @@ export default function Coach({
     else if (nickSmith_accountStructure === "moreThanOneCC" && nickSmith_budgetWithPartner === "jointConsolidated") {
       content = (
         <div>
-          {`Based on your answers, I recommend adding your joint checking account first and then your main credit card account.`}
+          {`Based on your answers, I recommend adding your joint checking account first and then your main joint credit card account.`}
           <Button
             type="primary"
             style={{ marginTop: 8 }}
@@ -995,10 +1082,23 @@ export default function Coach({
       );
     }
   } else if (dialogueId === 'nicksmith_16') {
+    content = (
+      <div>
+        {`Please select + Add account.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_16.1')}
+        >
+          {`Done`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_16.1') {
     if (nickSmith_budgetWithPartner === "jointConsolidated") {
       content = (
         <div>
-          {`Please select the Create Local Account option. Name your joint account, and then enter the current balance of your checking account.`}
+          {`Please select Create Local Account. Name your joint account, and then enter the current balance of your joint checking account.`}
           <Button
             type="primary"
             style={{ marginTop: 8 }}
@@ -1023,11 +1123,10 @@ export default function Coach({
       );
     }
   } else if (dialogueId === 'nicksmith_wrap_accounts') {
-    if (nickSmith_budgetWithPartner === "noCC") {
+    if (nickSmith_accountStructure === "noCC") {
       content = (
         <div>
           {`Great job adding your account! You may be thinking: Let me add in my savings account next.`}
-          <p>{`Let's wait on adding that account for now.`}</p>
           <Button
             type="primary"
             style={{ marginTop: 8 }}
@@ -1041,7 +1140,6 @@ export default function Coach({
       content = (
         <div>
           {`Great job adding your accounts! You may be thinking: Let me add in my savings account next.`}
-          <p>{`Let's wait on adding that account for now.`}</p>
           <Button
             type="primary"
             style={{ marginTop: 8 }}
@@ -1052,10 +1150,108 @@ export default function Coach({
         </div>
       );
     }    
+  } else if (dialogueId === 'nicksmith_wrap_accounts_jc') {
+    content = (
+      <div>
+        {`Great job adding your joint accounts! Let me ask another question.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_wrap_accounts_jc_1')}
+        >
+          Ask Away
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_wrap_accounts_jc_1') {
+    content = (
+      <div>
+        Do you have your own credit card?
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_wrap_accounts_jc_2')}
+        >
+          {`Yes`}
+        </Button>
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_wrap_accounts_jc_3')}
+        >
+          {`No`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_wrap_accounts_jc_2') {
+    content = (
+      <div>
+        {`Understood; For now, we are going to hold off adding account(s) that are owned and managed only by you. The budget we will be establishing is for your joint income and expenses.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_wrap_accounts_jc_4')}
+        >
+          Next
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_wrap_accounts_jc_4') {
+    content = (
+      <div>
+        {`If at a later point you would like to add your own accounts, please schedule a one-on-one session with me and I would be happy to help you add the account and discuss strategies for organizing the budget.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_wrap_accounts_jc_5')}
+        >
+          Next
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_wrap_accounts_jc_3') {
+    content = (
+      <div>
+        {`Ok! Thanks for your response.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_wrap_accounts_jc_5')}
+        >
+          Next
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_wrap_accounts_jc_5') {
+    content = (
+      <div>
+        {`You may be thinking: Let me add the joint savings account next.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_wrap_accounts_jc_6')}
+        >
+          Next
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_wrap_accounts_jc_6') {
+    content = (
+      <div>
+        {`Although you may have a joint savings account, as you first start using MyBudgetCoach, I recommend to not link the Savings account at this stage.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nocc_3')}
+        >
+          Next
+        </Button>
+      </div>
+    );
   } else if (dialogueId === 'nicksmith_nocc_2') {
     content = (
       <div>
-        {`Although you may have a savings account, as you first start using MyBudgetCoach, I recommend to not link the Savings account at this stage. If at a later point, once you are a routine user, you want to add your savings account, go for it!`}
+        {`Although you may have a savings account, as you first start using MyBudgetCoach, I recommend to not link the Savings account at this stage.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1068,7 +1264,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_nocc_3') {
     content = (
       <div>
-        {`If you want to further understand the use of saving accounts, please schedule a live coaching session with me and I would be happy to walk you through best practices.`}
+        {`If you want to further understand how to easily use saving accounts in MyBudgetCoach, please schedule a one-on-one coaching session with me.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1082,19 +1278,6 @@ export default function Coach({
     content = (
       <div>
         {`You are all done adding accounts. Do you feel the momentum building towards achieving your goals!?`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_nocc_5')}
-        >
-          Next
-        </Button>
-      </div>
-    );
-  } else if (dialogueId === 'nicksmith_nocc_5') {
-    content = (
-      <div>
-        {`Let's now walk through the features and use of the Account screen.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1137,7 +1320,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_cc_2') {
     content = (
       <div>
-        {`Please select the Create Local Account option. Name your account, and then enter the current balance of your credit card.`} 
+        {`Please select + Add account and then Create Local Account. Name your account, and then enter the current balance of your credit card.`} 
         <p>{`NOTE: Since a credit card balance represents debt, when you enter the balance, add a leading '-' to make the amount entered negative.`}</p>
         <Button
           type="primary"
@@ -1151,7 +1334,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_multicc_1') {
     content = (
       <div>
-        {`You selected earlier that you have more than one credit card. Let me ask a question to understand more about your current financial structure.`} 
+        {`You selected earlier that you have more than one credit card. Let me ask some questions to understand more about your current financial structure.`} 
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1162,58 +1345,111 @@ export default function Coach({
       </div>
     );
   } else if (dialogueId === 'nicksmith_multicc_2') {
-    content = (
-      <div>
-        How many additional credit cards do you actively use each week?
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => nickSmithOptionMultiCC1()}
-        >
-          {`1`}
-        </Button>
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => nickSmithOptionMultiCC2()}
-        >
-          {`2`}
-        </Button>
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => nickSmithOptionMultiCC3()}
-        >
-          {`3 or more`}
-        </Button>
-      </div>
-    );
+    if (nickSmith_budgetWithPartner === "jointConsolidated") {
+      content = (
+        <div>
+          How many additional joint credit cards do you actively use each week?
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => nickSmithOptionMultiCC4()}
+          >
+            {`1`}
+          </Button>
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => nickSmithOptionMultiCC5()}
+          >
+            {`2 or more`}
+          </Button>
+        </div>
+      );
+
+    } else {
+      content = (
+        <div>
+          How many additional credit cards do you actively use each week?
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => nickSmithOptionMultiCC1()}
+          >
+            {`1`}
+          </Button>
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => nickSmithOptionMultiCC2()}
+          >
+            {`2`}
+          </Button>
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => nickSmithOptionMultiCC3()}
+          >
+            {`3 or more`}
+          </Button>
+        </div>
+      );
+    }    
   } else if (dialogueId === 'nicksmith_multicc_3') {
-    content = (
-      <div>
-        {`Thanks for your answer! Let's add one more account to capture your total expenses.`} 
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_multicc_6')}
-        >
-          {`Ask Away`}
-        </Button>
-      </div>
-    );
+    if (nickSmith_budgetWithPartner === "jointConsolidated") {
+      content = (
+        <div>
+          {`Thanks for your answer! Let's add one more joint account to capture your total expenses.`} 
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_multicc_6')}
+          >
+            {`Next`}
+          </Button>
+        </div>
+      );
+    } else {
+      content = (
+        <div>
+          {`Thanks for your answer! Let's add one more account to capture your total expenses.`} 
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_multicc_6')}
+          >
+            {`Next`}
+          </Button>
+        </div>
+      );
+    }    
   } else if (dialogueId === 'nicksmith_multicc_4') {
-    content = (
-      <div >
-        {`Thanks for your answer! Let's now add the credit card account that is used the most often of your remaining accounts.`} 
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_multicc_6')}
-        >
-          {`Ask Away`}
-        </Button>
-      </div>
-    );
+    if (nickSmith_budgetWithPartner === "jointConsolidated") {
+      content = (
+        <div >
+          {`Thanks for your answer! Let's add the joint credit card account that is used the most often of the remaining joint accounts.`} 
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_multicc_6')}
+          >
+            {`Next`}
+          </Button>
+        </div>
+      );
+    } else {
+      content = (
+        <div >
+          {`Thanks for your answer! Let's now add the credit card account that is used the most often of your remaining accounts.`} 
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_multicc_6')}
+          >
+            {`Next`}
+          </Button>
+        </div>
+      );
+    }    
   } else if (dialogueId === 'nicksmith_multicc_5') {
     content = (
       <div >
@@ -1223,7 +1459,7 @@ export default function Coach({
           style={{ marginTop: 8 }}
           onClick={() => setDialogueId('nicksmith_multicc_6')}
         >
-          {`Ask Away`}
+          {`Next`}
         </Button>
       </div>
     );
@@ -1243,7 +1479,8 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_multicc_7') {
     content = (
       <div >
-        {`Please select the Create Local Account option. Name your account, and then enter the current balance of your credit card, including a leading '-' to make the amount entered negative.`} 
+        {`Please select + Add account and then Create Local Account. Name your account, and then enter the current balance of your credit card.`} 
+        <p>{`NOTE: Since a credit card balance represents debt, when you enter the balance, add a leading '-' to make the amount entered negative.`}</p>
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1254,18 +1491,33 @@ export default function Coach({
       </div>
     );
   } else if (dialogueId === 'nicksmith_multicc_9') {
-    content = (
-      <div >
-        {`Congratulations on adding three accounts! As you continue to use MyBudgetCoach, please keep in mind each account requires reconciliation, a few times a week, and categorizing of transactions.`} 
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_multicc_10')}
-        >
-          {`I Understand`}
-        </Button>
-      </div>
-    );
+    if (nickSmith_budgetWithPartner === "jointConsolidated") {
+      content = (
+        <div >
+          {`Congratulations on adding three joint accounts! As you continue to use MyBudgetCoach, please keep in mind each account requires reconciliation, a few times a week, and categorizing of transactions.`} 
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_multicc_10')}
+          >
+            {`I Understand`}
+          </Button>
+        </div>
+      );
+    } else {
+      content = (
+        <div >
+          {`Congratulations on adding three accounts! As you continue to use MyBudgetCoach, please keep in mind each account requires reconciliation, a few times a week, and categorizing of transactions.`} 
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_multicc_10')}
+          >
+            {`I Understand`}
+          </Button>
+        </div>
+      );
+    }    
   } else if (dialogueId === 'nicksmith_multicc_10') {
     content = (
       <div >
@@ -1341,7 +1593,8 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_multicc_15') {
     content = (
       <div >
-        {`Please select the Create Local Account option. Name your account, and then enter the current balance of your credit card, including a leading '-' to make the amount entered negative.`} 
+        {`Please select + Add account and then Create Local Account. Name your account, and then enter the current balance of your credit card.`} 
+        <p>{`NOTE: Since a credit card balance represents debt, when you enter the balance, add a leading '-' to make the amount entered negative.`}</p>
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1385,31 +1638,64 @@ export default function Coach({
       </div>
     );
   } else if (dialogueId === 'nicksmith_multicc_18') {
-    content = (
-      <div >
-        {`Based on the number of transactions that occur per week, I would recommend leaving out the remainder of your credit card accounts for now, and then if you would like to add additional ones on a future date, feel free!`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_wrap_accounts')}
-        >
-          {`I Added My Account`}
-        </Button>
-      </div>
-    );
+    if (nickSmith_budgetWithPartner === "jointConsolidated") {
+      content = (
+        <div >
+          {`Based on the number of transactions that occur per week, I would recommend not adding the remainder of your joint credit card accounts for now.`}
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_wrap_accounts_jc')}
+          >
+            {`Got It`}
+          </Button>
+        </div>
+      );
+    } else {
+      content = (
+        <div >
+          {`Based on the number of transactions that occur per week, I would recommend leaving out the remainder of your credit card accounts for now, and then if you would like to add additional ones on a future date, feel free!`}
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_wrap_accounts')}
+          >
+            {`Got It`}
+          </Button>
+        </div>
+      );
+    }    
+
   } else if (dialogueId === 'nicksmith_multicc_19') {
-    content = (
-      <div >
-        {`Based on the number of transactions that occur per week, let's add the next most used credit card account so your expenses can be accurately captured each month.`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_multicc_20')}
-        >
-          {`Next`}
-        </Button>
-      </div>
-    );
+
+    if (nickSmith_budgetWithPartner === "jointConsolidated") {
+      content = (
+        <div >
+          {`Based on the number of transactions that occur per week, let's add the next most used joint credit card account so your joint expenses can be accurately captured each month.`}
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_multicc_20')}
+          >
+            {`Next`}
+          </Button>
+        </div>
+      );
+    } else {
+      content = (
+        <div >
+          {`Based on the number of transactions that occur per week, let's add the next most used credit card account so your expenses can be accurately captured each month.`}
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_multicc_20')}
+          >
+            {`Next`}
+          </Button>
+        </div>
+      );
+    }    
+
   } else if (dialogueId === 'nicksmith_multicc_20') {
     content = (
       <div >
@@ -1426,7 +1712,8 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_multicc_21') {
     content = (
       <div >
-        {`Please select the Create Local Account option. Name your account, and then enter the current balance of your credit card, including a leading '-' to make the amount entered negative.`}
+        {`Please select + Add account and then Create Local Account. Name your account, and then enter the current balance of your credit card.`} 
+        <p>{`NOTE: Since a credit card balance represents debt, when you enter the balance, add a leading '-' to make the amount entered negative.`}</p>
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1440,19 +1727,6 @@ export default function Coach({
     content = (
       <div >
         {`To summarize, you have now added a total of four accounts. Prior to linking a fifth account, I am going to ask you the same question as before, for the frequency of transactions.`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_multicc_23')}
-        >
-          {`Next`}
-        </Button>
-      </div>
-    );
-  } else if (dialogueId === 'nicksmith_multicc_23') {
-    content = (
-      <div >
-        {`Prior to linking a fifth account, I am going to ask you the same question as before, for the frequency of transactions.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1496,31 +1770,61 @@ export default function Coach({
       </div>
     );
   } else if (dialogueId === 'nicksmith_multicc_26') {
-    content = (
-      <div >
-        {`Based on the number of transactions that occur per week, I would recommend leaving out the additional account for now, and then if you would like to add it on a future date, feel free!`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_wrap_accounts')}
-        >
-          {`Next`}
-        </Button>
-      </div>
-    );
+    if (nickSmith_budgetWithPartner === "jointConsolidated") {
+      content = (
+        <div >
+          {`Based on the number of transactions that occur per week, I would recommend leaving out the additional joint account.`}
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_wrap_accounts_jc')}
+          >
+            {`Next`}
+          </Button>
+        </div>
+      );
+    } else {
+      content = (
+        <div >
+          {`Based on the number of transactions that occur per week, I would recommend leaving out the additional account for now, and then if you would like to add it on a future date, feel free!`}
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_wrap_accounts')}
+          >
+            {`Next`}
+          </Button>
+        </div>
+      );
+    }    
   } else if (dialogueId === 'nicksmith_multicc_27') {
-    content = (
-      <div >
-        {`Thanks for your response. I understand you have many accounts that you use routinely. To ensure we don't over complicate your account structure, let's hold off adding any additional accounts for now. If later on in your MyBudgetCoach use you determine additional accounts should be added to capture all your expense transactions, feel free to add additional accounts!`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_wrap_accounts')}
-        >
-          {`Next`}
-        </Button>
-      </div>
-    );
+    if (nickSmith_budgetWithPartner === "jointConsolidated") {
+      content = (
+        <div >
+          {`Thanks for your response. I understand you have many accounts that you use routinely. To ensure we don't over complicate your account structure, let's hold off adding any additional joint accounts.`}
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_wrap_accounts_jc')}
+          >
+            {`Next`}
+          </Button>
+        </div>
+      );
+    } else {
+      content = (
+        <div >
+          {`Thanks for your response. I understand you have many accounts that you use routinely. To ensure we don't over complicate your account structure, let's hold off adding any additional accounts for now. If later on in your MyBudgetCoach use you determine additional accounts should be added to capture all your expense transactions, feel free to add additional accounts!`}
+          <Button
+            type="primary"
+            style={{ marginTop: 8 }}
+            onClick={() => setDialogueId('nicksmith_wrap_accounts')}
+          >
+            {`Next`}
+          </Button>
+        </div>
+      );
+    }    
   } else if (dialogueId === 'nicksmith_an_1') {
     content = (
       <div>
@@ -1558,7 +1862,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_at_1') {
     content = (
       <div >
-        {`Now that we have completed the overview of the account screen, let's now add two hypothetical transactions to the checking account and two transactions to a credit card account, if applicable.`}
+        {`To verify your understanding of the account screen, I will now walk you through adding two test transactions to the checking account.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1588,29 +1892,16 @@ export default function Coach({
         <Button
           type="primary"
           style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_at_4')}
-        >
-          {`I Added A New Transaction`}
-        </Button>
-      </div>
-    );
-  } else if (dialogueId === 'nicksmith_at_4') {
-    content = (
-      <div >
-        {`Please select today's date for the transaction date. Although the system allows you to select a date in the future, I strongly recommend you don't add transactions with future dates, unless they are scheduled. We will review scheduled transactions at a later point.`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
           onClick={() => setDialogueId('nicksmith_at_5')}
         >
-          {`I Selected Today`}
+          {`I Added A New Transaction`}
         </Button>
       </div>
     );
   } else if (dialogueId === 'nicksmith_at_5') {
     content = (
       <div >
-        {`For the Payee, let's enter 'Grocery Store.'`}
+        {`For the Payee, let's enter 'Grocery Store.' Since this is a new Payee, select + Create Payee.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1689,20 +1980,20 @@ export default function Coach({
           style={{ marginTop: 8 }}
           onClick={() => setDialogueId('nicksmith_at_12')}
         >
-          {`I Added 50 As A Payment`}
+          {`Next`}
         </Button>
       </div>
     );
   } else if (dialogueId === 'nicksmith_at_11') {
     content = (
       <div >
-        {`Actually, this transaction is entered as a Payment. Let me explain. A Deposit is income coming into your checking account. For example, your paycheck would be a Deposit. Any outflow for purchases or paying bills would be entered as Payment. Let's do that now.`}
+        {`Actually, this transaction is entered as a Payment. A Deposit is income coming into your checking account. For example, your paycheck would be a Deposit. Any outflow for purchases or paying bills would be entered as Payment. Let's do that now.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
           onClick={() => setDialogueId('nicksmith_at_12')}
         >
-          {`I Added 50 As A Payment`}
+          {`Next`}
         </Button>
       </div>
     );
@@ -1739,6 +2030,19 @@ export default function Coach({
         <Button
           type="primary"
           style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_at_14.1')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_at_14.1') {
+    content = (
+      <div >
+        {`MyBudgetCoach predicts you want to add another transaction each time you add a new transaction. You are going to add another test transaction shortly. In the future, if you don't need to add another transaction, select Cancel to remove the blank row.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
           onClick={() => setDialogueId('nicksmith_at_15')}
         >
           {`Next`}
@@ -1748,8 +2052,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_at_15') {
     content = (
       <div >
-        {`Let's now add a transaction for an inflow. Please select today's date. For the Payee enter 'Employer,' Category is Income, Deposit is 500, and select 'Add.'`}
-        <p>{`Any income received, including returns or rebates, should all be entered with a Category as 'Income.'`}</p>
+        {`Let's now add a transaction for an inflow. For the Payee enter 'Employer,' select a Category of Income, enter 500 in the Deposit field, and select 'Add.'`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1775,7 +2078,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_at_17') {
     content = (
       <div >
-        {`The payment to the grocery store has been cleared, but the income has not been cleared.`}
+        {`Now that you have added two transactions, please take note that the payment to the grocery store has been cleared, but the income has not been cleared.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1788,7 +2091,86 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_at_18') {
     content = (
       <div >
-        {`Please select the Account Balance in green text to expand the Cleared total and Uncleared total. As you can see, the Uncleared total is 500. If you were to clear the transaction, the Cleared total would match the account balance and the Uncleared total would be 0.`}
+        {`Please select the Account Balance to view the Cleared and Uncleared total.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_at_18.1')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_at_18.1') {
+    content = (
+      <div >
+        {`Notice that the Uncleared total is 500.`}
+        <p>{`Please select the grey check mark to make it green to clear the transaction.`}</p>
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_at_18.2')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_at_18.2') {
+    content = (
+      <div >
+        {`The Cleared total now matches the account balance and the Uncleared total was updated to 0.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_at_18.3')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_at_18.3') {
+    content = (
+      <div >
+        {`There may be times when you want to add an upcoming transaction, but the transaction hasn't cleared at your bank yet.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_at_18.4')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_at_18.4') {
+    content = (
+      <div >
+        {`In this case, you could add the transaction but leave the checkmark grey, uncleared, until a later date when the transaction has cleared at your bank.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_at_18.5')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_at_18.5') {
+    content = (
+      <div >
+        {`Before we move to the next step, let's delete those two hypothetical transactions you added.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_at_18.6')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_at_18.6') {
+    content = (
+      <div >
+        {`Please select each of the two transactions using the box to the left of the date. Then select the link named '2 transactions' to the right of the search bar and choose Delete.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1798,11 +2180,12 @@ export default function Coach({
         </Button>
       </div>
     );
-  } else if (dialogueId === 'nicksmith_at_19') {
-    // This doesnt always make sense.
+  } 
+  else if (dialogueId === 'nicksmith_at_19') {
+    // this needs to be conditional. wait 
     content = (
       <div >
-        {`Great work! Let's now add two transactions to a credit card account.`}
+        {`Now that we have walked through how to add transactions in your checking account, let's complete a similar exercise for your main credit card account.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1815,8 +2198,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_act_1') {
     content = (
       <div >
-        {`The important difference between the credit card account compared to the checking account is that Payments increase the balance, and Deposits decrease the balance.`}
-        <p>{`This is because a credit card balance is negative and the checking account balance is positive.`}</p>
+        {`The important difference between the two types of accounts is that in a credit card account, Payments increase the balance, and Deposits decrease the balance. This is because a credit card balance is negative.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1829,7 +2211,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_act_2') {
     content = (
       <div >
-        {`Please select your main credit card account.`}
+        {`Please select your main credit card account to add two hypothetical transactions.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1842,7 +2224,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_act_3') {
     content = (
       <div >
-        {`Please select '+ Add New', select today's date, and enter a Payee of 'Verizon.'`}
+        {`Please select '+ Add New' and enter a Payee of 'Cell Phone Company.'`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1855,7 +2237,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_act_4') {
     content = (
       <div >
-        {`For the category, please select 'Bills', enter a Payment amount of 100, and clear the transaction.`}
+        {`For the category, please select 'Bills', enter a Payment amount of 100, select Add, and Clear the transaction.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1868,7 +2250,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_act_5') {
     content = (
       <div >
-        {`Notice how the credit card balance, a red negative number, increased by 100.`}
+        {`The credit card balance, a red negative number, has now increased by 100.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1894,20 +2276,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_act_7') {
     content = (
       <div >
-        {`Please select '+ Add New', select today's date, and select 'Make Transfer' for the Payee.`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_act_8')}
-        >
-          {`Next`}
-        </Button>
-      </div>
-    );
-  } else if (dialogueId === 'nicksmith_act_8') {
-    content = (
-      <div >
-        {`Select the checking account under the 'Transfer To/From'.`}
+        {`Please select '+ Add New' and for the Payee, select 'Make Transfer' and select the checking account under the 'Transfer To/From' list of accounts.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1920,7 +2289,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_act_9') {
     content = (
       <div >
-        {`Please notice how the Category field is now populated with 'Transfer'. Enter 100 in the 'Deposit' field to reduce the balance.`}
+        {`The Category field is now populated with Transfer. Enter 100 in the 'Deposit' field since this is a payment to reduce the credit card balance.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1946,7 +2315,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_act_11') {
     content = (
       <div >
-        {`Since you selected 'Make Transfer' as the Payee, this automatically added a transaction to your checking account as well.`}
+        {`Since you selected 'Make Transfer' as the Payee in your credit card account, this automatically added a transaction to your checking account as well. `}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1959,7 +2328,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_act_12') {
     content = (
       <div >
-        {`Please notice the difference between your checking account transfer is a Payment lowering the balance but the credit card account has the payment entered as a Deposit lowering the balance.`}
+        {`Please take note that the Payment field is populated for the checking account, which reduces the balance. However, the credit card account has the Deposit field populated because an inflow to a negative balance reduces the negative balance.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1972,7 +2341,33 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_act_13') {
     content = (
       <div >
-        {`KUDOS on creating transactions for both accounts.`}
+        {`KUDOS on creating transactions for both accounts!`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_act_13.1')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_act_13.1') {
+    content = (
+      <div >
+        {`Before we move to the next step, let's delete those two credit card transactions you added.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_act_13.2')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_act_13.2') {
+    content = (
+      <div >
+        {`Please select each of the two transactions using the box to the left of the date. Then select the link named '2 transactions' to the right of the search bar and choose Delete.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -1998,7 +2393,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_1') {
     content = (
       <div >
-        {`Before we flip over to the Budget and start building out your categories, let's first validate your starting balances for your checking account.`}
+        {`Before I give an overview of the Budget, let's first validate your starting balance for your checking account you entered not too long ago.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2011,7 +2406,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_2') {
     content = (
       <div >
-        {`When re-creating a copy of your financial institution transactions and balance in MyBudgetCoach, one of the most important pieces is you understand how the amount you see when you login to your bank account is calculated. Let me explain.`}
+        {`When re-creating a copy of your financial institution transactions and balance in MyBudgetCoach, one of the most important pieces is knowing how the amount you see when you login to your bank account is calculated. Let me explain.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2024,7 +2419,33 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_3') {
     content = (
       <div >
-        {`Some financial institutions calculate the balance shown after taking into account pending transactions. Others calculate the current balance only taking into account cleared transactions.`}
+        {`Some financial institutions calculate the balance shown in a bank account after taking into account pending transactions. Others calculate the current balance by only including transactions that have cleared.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_vab_3.1')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_vab_3.1') {
+    content = (
+      <div >
+        {`Please login to your bank account to research your current balance.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_vab_3.2')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_vab_3.2') {
+    content = (
+      <div >
+        {`Ok great! For this portion of the account set-up, I will be asking you questions along the way. Your responses will be used to tailor my guidance.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2064,7 +2485,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_5') {
     content = (
       <div >
-        {`Ok; This likely means that MyBudgetCoach may not match your current balance in your financial institution.`}
+        {`Ok; This means that the account balance in MyBudgetCoach may not match your current balance.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2081,22 +2502,9 @@ export default function Coach({
         <Button
           type="primary"
           style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_vab_7')}
-        >
-          {`Next`}
-        </Button>
-      </div>
-    );
-  } else if (dialogueId === 'nicksmith_vab_7') {
-    content = (
-      <div >
-        {`First, please log in to your bank account. Once logged in, please let me know.`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
           onClick={() => setDialogueId('nicksmith_vab_8')}
         >
-          {`I Am Logged In`}
+          {`Next`}
         </Button>
       </div>
     );
@@ -2156,11 +2564,11 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_11') {
     content = (
       <div >
-        {`Excellent! This means your current balance in MyBudgetCoach is correct. You now have a solid financial foundation to build on for your Budget.`}
+        {`Excellent! This means your Starting Balance in MyBudgetCoach is correct.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_vab_20')}
+          onClick={() => nickSmithOptionNE1()}
         >
           {`Next`}
         </Button>
@@ -2169,7 +2577,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_12') {
     content = (
       <div >
-        {`Ok; understood. Please pull up a calculator. Time to complete some quick math!`}
+        {`Understood. Please pull up a calculator. Time to complete a little math!`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2195,7 +2603,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_14') {
     content = (
       <div >
-        {`Ok great. Take that amount and SUBTRACT it from your current bank balance.`}
+        {`Take that amount and SUBTRACT it from your current bank balance.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2208,7 +2616,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_15') {
     content = (
       <div >
-        {`This means if your pending transactions are negative, you would be adding them back to increase your balance. If your pending transactions were positive, it would reduce your balance.`}
+        {`This means if your pending transactions are negative, you would be adding them to increase your balance. If your pending transactions were positive, it would reduce your balance.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2221,7 +2629,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_16') {
     content = (
       <div >
-        {`Please enter this new amount into your Starting Balance transaction field for your account.`}
+        {`Please enter this new amount into the Starting Balance transaction for your checking account.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2251,52 +2659,27 @@ export default function Coach({
         <Button
           type="primary"
           style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_vab_19')}
+          onClick={() => nickSmithOptionNE1()}
         >
           {`Next`}
         </Button>
       </div>
     );
-  } else if (dialogueId === 'nicksmith_vab_19') {
-    content = (
-      <div >
-        {`Different financial institutions calculate the current balance differently, so it is possible a different account on your profile won't need to complete these steps.`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_vab_20')}
-        >
-          {`Next`}
-        </Button>
-      </div>
-    );
-  } else if (dialogueId === 'nicksmith_vab_20') {
-    content = (
-      <div >
-        {`Once you select your next account, we will walk through the same exercise together to determine how best to calculate your starting balance.`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('')}
-        >
-          {`Next`}
-        </Button>
-      </div>
-    );
-  } else if (dialogueId === 'nicksmith_vab_21') {
+  } 
+  else if (dialogueId === 'nicksmith_vab_21') {
     content = (
       <div >
         {`Understood; Let's work together to adjust the Starting Balance amount.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_vab_22')}
+          onClick={() => setDialogueId('nicksmith_vab_21.1')}
         >
           {`Next`}
         </Button>
       </div>
     );
-  } else if (dialogueId === 'nicksmith_vab_21') {
+  } else if (dialogueId === 'nicksmith_vab_21.1') {
     content = (
       <div>
         {`Are there pending transactions?`}
@@ -2319,7 +2702,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_22') {
     content = (
       <div >
-        {`OK! Please adjust your starting balance amount to the balance you see in your bank account.`}
+        {`Please adjust your starting balance amount to the balance you see in your bank account.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2332,11 +2715,11 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_23') {
     content = (
       <div >
-        {`Please confirm once you have adjusted the starting balance.`}
+        {`Great work! Correcting your Starting Balance now will save much time later on during future reconciliation processes.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_vab_11')}
+          onClick={() => nickSmithOptionNE1()}
         >
           {`Next`}
         </Button>
@@ -2345,20 +2728,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_24') {
     content = (
       <div >
-        {`Ok; This likely means that MyBudgetCoach will match your financial institution.`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_vab_25')}
-        >
-          {`Next`}
-        </Button>
-      </div>
-    );
-  } else if (dialogueId === 'nicksmith_vab_25') {
-    content = (
-      <div >
-        {`First, please log in to your bank account. Once logged in, please let me know.`}
+        {`Ok; This means that the account balance in MyBudgetCoach should match your financial institution. This  assumes all transactions cleared in the bank account are entered in MyBudgetCoach.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2391,7 +2761,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_27') {
     content = (
       <div >
-        {`Understood; Please adjust your starting balance amount to the balance you see in your bank account.`}
+        {`Understood; Let's work together to adjust the Starting Balance amount.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2404,7 +2774,7 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_28') {
     content = (
       <div >
-        {`Please confirm once you have adjusted the starting balance.`}
+        {`Please adjust your starting balance amount to the balance you see in your bank account.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2417,44 +2787,32 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_29') {
     content = (
       <div >
-        {`Ok; I am here to help and I am confident we can solve this question together!`}
-        <Button
-          type="primary"
-          style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_vab_30')}
-        >
-          {`Next`}
-        </Button>
-      </div>
-    );
-  } else if (dialogueId === 'nicksmith_vab_30') {
-    content = (
-      <div >
-        {`First, please log in to your bank account. Once logged in, please let me know.`}
+        {`I completely understand. This is a question you may have not considered before. Let me ask some questions to learn more about your specific bank.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
           onClick={() => setDialogueId('nicksmith_vab_31')}
         >
-          {`I'm Logged In`}
+          {`Next`}
         </Button>
       </div>
     );
   } else if (dialogueId === 'nicksmith_vab_31') {
     content = (
       <div >
-        {`Reviewing your account, are there any pending transactions?`}
+        {`Please review your account.`}
+        <p>{`Are there any pending transactions?`}</p>
         <Button
           type="primary"
           style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('nicksmith_vab_32')}
+          onClick={() => nickSmithOptionNov1()}
         >
           {`No`}
         </Button>
         <Button
           type="primary"
           style={{ marginTop: 8 }}
-          onClick={() => setDialogueId('')}
+          onClick={() => setDialogueId('nicksmith_vab_32')}
         >
           {`Yes`}
         </Button>
@@ -2463,7 +2821,75 @@ export default function Coach({
   } else if (dialogueId === 'nicksmith_vab_32') {
     content = (
       <div >
-        {`Ok! Thanks for that information.`}
+        {`Does your bank have the option to show a running balance?`}
+        <p>{`If you aren't sure, try searching in the help section for instructions on how to show the additional column.`}</p>
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => nickSmithOptionNov2()}
+        >
+          {`Yes`}
+        </Button>
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => nickSmithOptionNov3()}
+        >
+          {`No`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_1') {
+    content = (
+      <div >
+        {`Please locate the running balance for the last cleared transaction. Please exclude any pending transactions.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nov_3')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_2') {
+    content = (
+      <div >
+        {`Thanks for answering the questions.`}
+        <p>{`I don't recommend any adjustments to your Starting Balance right now. If in the future your MyBudgetCoach account balance doesn't match your bank and you aren't sure what to do, please select the link to the left to schedule a one-on-one call with me and I would be happy to help you troubleshoot the inconsistency in the balance.`}</p>
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => nickSmithOptionNE1()}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_3') {
+    content = (
+      <div >
+        {`Is your current bank balance equal to the running balance listed for your most recent cleared transaction? `}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => nickSmithOptionNov4()}
+        >
+          {`Yes`}
+        </Button>
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => nickSmithOptionNov5()}
+        >
+          {`No`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_4') {
+    content = (
+      <div >
+        {`Thanks for this answer. This means that your bank account balance does not take into account pending transactions.`}
         <Button
           type="primary"
           style={{ marginTop: 8 }}
@@ -2473,7 +2899,177 @@ export default function Coach({
         </Button>
       </div>
     );
-  }
+  } else if (dialogueId === 'nicksmith_nov_5') {
+    content = (
+      <div >
+        {`Thanks for this answer. This means that your bank account balance does take into account pending transactions.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nov_6')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_6') {
+    content = (
+      <div >
+        {`Does your current balance match the amount in your MyBudgetCoach account that you entered for the Starting Balance?`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nov_7')}
+        >
+          {`Yes`}
+        </Button>
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nov_11')}
+        >
+          {`No`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_7') {
+    content = (
+      <div >
+        {`Understood; This means we need to update your Starting Balance. The MyBudgetCoach Starting Balance should be equal to the account balance shown after the most recent cleared transaction.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nov_8')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_8') {
+    content = (
+      <div >
+        {`If the Starting Balance is equal to the current balance (which includes adjustments for pending transactions) those transactions will be 'double counted' on a future date when you add the pending transactions to MyBudgetCoach after they have cleared.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nov_9')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_9') {
+    content = (
+      <div >
+        {`Please adjust your starting balance amount to the running balance amount shown as of the most recent cleared transaction.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nov_10')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_10') {
+    content = (
+      <div >
+        {`Great work! Correcting your Starting Balance now will save much time later on during future reconciliation processes.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => nickSmithOptionNE1()}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_11') {
+    content = (
+      <div >
+        {`Does the balance shown after the most recent cleared transaction match the amount you entered for the Starting Balance in MyBudgetCoach?`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nov_12')}
+        >
+          {`Yes`}
+        </Button>
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nov_13')}
+        >
+          {`No`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_12') {
+    content = (
+      <div >
+        {`Excellent! This means your Starting Balance in MyBudgetCoach is correct.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => nickSmithOptionNE1()}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_13') {
+    content = (
+      <div >
+        {`Understood; This means we need to update your Starting Balance. The MyBudgetCoach Starting Balance should be equal to the account balance shown after the most recent cleared transaction.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nov_14')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_14') {
+    content = (
+      <div >
+        {`Please adjust your starting balance amount to the running balance amount shown as of the most recent cleared transaction.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('nicksmith_nov_15')}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_nov_15') {
+    content = (
+      <div >
+        {`Great work! Correcting your Starting Balance now will save much time later on during future reconciliation processes.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => nickSmithOptionNE1()}
+        >
+          {`Next`}
+        </Button>
+      </div>
+    );
+  } else if (dialogueId === 'nicksmith_dec_1') {
+    content = (
+      <div >
+        {`You now have a solid financial foundation to build on for your Budget.`}
+        <Button
+          type="primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setDialogueId('')}
+        >
+          {`Done`}
+        </Button>
+      </div>
+    );
+  } 
 
   if (content === undefined) {
     return (

@@ -9,7 +9,7 @@ import DotsHorizontalTriple from '../../../icons/v1/DotsHorizontalTriple';
 import ArrowButtonDown1 from '../../../icons/v2/ArrowButtonDown1';
 import ArrowButtonUp1 from '../../../icons/v2/ArrowButtonUp1';
 import { theme, styles } from '../../../style';
-import { useCoach } from '../../Coach';
+import { useCoach } from '../../coach/Coach';
 import AlignedText from '../../common/AlignedText';
 import Block from '../../common/Block';
 import Button from '../../common/Button';

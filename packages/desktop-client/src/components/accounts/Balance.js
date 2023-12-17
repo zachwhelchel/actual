@@ -127,6 +127,7 @@ export function Balances({
   showExtraBalances,
   onToggleExtraBalances,
   account,
+  commonElementsRef,
 }) {
   let selectedItems = useSelectedItems();
 
@@ -139,44 +140,55 @@ export function Balances({
         marginLeft: -5,
       }}
     >
-      <Button
-        data-testid="account-balance"
-        type="bare"
-        onClick={onToggleExtraBalances}
-        style={{
-          '& svg': {
-            opacity: selectedItems.size > 0 || showExtraBalances ? 1 : 0,
-          },
-          '&:hover svg': { opacity: 1 },
+
+      <div
+        ref={element => {
+          commonElementsRef.current['account_balance'] = element;
         }}
       >
-        <CellValue
-          binding={{ ...balanceQuery, value: 0 }}
-          type="financial"
-          style={{ fontSize: 22, fontWeight: 400 }}
-          getStyle={value => ({
-            color:
-              value < 0
-                ? theme.errorText
-                : value > 0
-                ? theme.noticeText
-                : theme.pageTextSubdued,
-          })}
-          privacyFilter={{
-            blurIntensity: 5,
-          }}
-        />
-
-        <ArrowButtonRight1
+        <Button
+          data-testid="account-balance"
+          type="bare"
+          onClick={onToggleExtraBalances}
           style={{
-            width: 10,
-            height: 10,
-            marginLeft: 10,
-            color: theme.alt2PillText,
-            transform: showExtraBalances ? 'rotateZ(180deg)' : 'rotateZ(0)',
+            '& svg': {
+              opacity: selectedItems.size > 0 || showExtraBalances ? 1 : 0,
+            },
+            '&:hover svg': { opacity: 1 },
           }}
-        />
-      </Button>
+        >
+          <CellValue
+            binding={{ ...balanceQuery, value: 0 }}
+            type="financial"
+            style={{ fontSize: 22, fontWeight: 400 }}
+            getStyle={value => ({
+              color:
+                value < 0
+                  ? theme.errorText
+                  : value > 0
+                  ? theme.noticeText
+                  : theme.pageTextSubdued,
+            })}
+            privacyFilter={{
+              blurIntensity: 5,
+            }}
+          />
+
+          <ArrowButtonRight1
+            style={{
+              width: 10,
+              height: 10,
+              marginLeft: 10,
+              color: theme.alt2PillText,
+              transform: showExtraBalances ? 'rotateZ(180deg)' : 'rotateZ(0)',
+            }}
+          />
+        </Button>
+
+      </div>
+
+
+      
       {showExtraBalances && <MoreBalances balanceQuery={balanceQuery} />}
 
       {selectedItems.size > 0 && (
