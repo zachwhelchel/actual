@@ -107,12 +107,19 @@ function Accounts({
 
   return (
     <View>
-      <Account
-        name="All accounts"
-        to={allAccountsPath}
-        query={getAllAccountBalance()}
-        style={{ fontWeight, marginTop: 15 }}
-      />
+
+      <div
+        ref={element => {
+          commonElementsRef.current['all_accounts'] = element;
+        }}
+      >
+        <Account
+          name="All accounts"
+          to={allAccountsPath}
+          query={getAllAccountBalance()}
+          style={{ fontWeight, marginTop: 15 }}
+        />
+      </div>
 
       {budgetedAccounts.length > 0 && (
         <Account

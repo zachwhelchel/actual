@@ -314,8 +314,8 @@ function Budget(props) {
     }
   };
 
-  // let { onSaveGroupCoach } = useCoach(); // this is causing the errors.
-  // onSaveGroupCoach = onSaveGroup;
+  let { onSaveGroupCoach } = useCoach(); // this is causing the errors.
+  onSaveGroupCoach = onSaveGroup;
 
   const onDeleteGroup = async id => {
     let group = categoryGroups.find(g => g.id === id);
@@ -462,6 +462,14 @@ function Budget(props) {
         onBudgetAction={onBudgetAction}
         onToggleSummaryCollapse={onToggleCollapse}
       >
+        <Coach 
+          context="Budget"
+          onSaveGroup={onSaveGroup}
+          onDeleteGroup={onDeleteGroup}
+          onSaveCategory={onSaveCategory}
+          onSaveNewCategories={onSaveNewCategories}
+          categoryGroups={categoryGroups}
+        />
         <DynamicBudgetTable
           ref={tableRef}
           type={type}

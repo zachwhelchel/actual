@@ -17,6 +17,7 @@ import ToggleButton from './ToggleButton';
 import Tools from './Tools';
 
 import { useSidebar } from '.';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 export const SIDEBAR_WIDTH = 240;
 
@@ -71,6 +72,8 @@ function Sidebar({
 }: SidebarProps) {
   let hasWindowButtons = !Platform.isBrowser && Platform.OS === 'mac';
 
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
   const sidebar = useSidebar();
 
   return (
@@ -115,7 +118,16 @@ function Sidebar({
       </View>
 
       <View style={{ overflow: 'auto' }}>
-        <Item title="Budget" Icon={Wallet} to="/budget" />
+
+        <div
+          ref={element => {
+            commonElementsRef.current['budget_button'] = element;
+          }}
+        >
+          <Item title="Budget" Icon={Wallet} to="/budget" />
+        </div>      
+
+
         <Item title="Reports" Icon={Reports} to="/reports" />
 
         <Item title="Schedules" Icon={CalendarIcon} to="/schedules" />

@@ -154,7 +154,9 @@ export function useCoach() {
 }
 
 export default function Coach({
+  context,
   onSaveGroup,
+  onDeleteGroup,
   onSaveCategory,
   onSaveNewCategories,
   categoryGroups,
@@ -656,7 +658,7 @@ export default function Coach({
     performDialogue(pastDialogue, true);
   }
 
-  function performDialogue(dialogue, wasBackwards = false) {
+  async function performDialogue(dialogue, wasBackwards = false) {
 
     console.log("heyooo my dudes.");
     console.log(dialogue);
@@ -664,7 +666,9 @@ export default function Coach({
     //clear this out for now.
     setCurrentInput("");
 
+
     if (dialogue !== null && dialogue !== undefined) {
+
 
 
       if (dialogue.type === "autoPush") {
@@ -712,414 +716,692 @@ export default function Coach({
           }
         }
 
+
         setDialogueId(dialogue.id);
-
-
-        //start with unhighlighting...
-
-        // would these crash if not found? need to fix that.
-        if (
-          commonElementsRef.current['account_balance'] !== undefined &&
-          commonElementsRef.current['account_balance'] !== null
-        ) {
-          commonElementsRef.current['account_balance'].style.backgroundColor = null;
-          commonElementsRef.current['account_balance'].style.outlineColor = null;
-          commonElementsRef.current['account_balance'].style.outlineStyle = null;
-        }
-
-        if (
-          commonElementsRef.current['split_toggle_button'] !== undefined &&
-          commonElementsRef.current['split_toggle_button'] !== null
-        ) {
-          commonElementsRef.current['split_toggle_button'].style.backgroundColor = null;
-          commonElementsRef.current['split_toggle_button'].style.outlineColor = null;
-          commonElementsRef.current['split_toggle_button'].style.outlineStyle = null;
-        }
-
-        if (
-          commonElementsRef.current['import_button'] !== undefined &&
-          commonElementsRef.current['import_button'] !== null
-        ) {
-          commonElementsRef.current['import_button'].style.backgroundColor = null;
-          commonElementsRef.current['import_button'].style.outlineColor = null;
-          commonElementsRef.current['import_button'].style.outlineStyle = null;
-        }
-
-        if (
-          commonElementsRef.current['add_new_button'] !== undefined &&
-          commonElementsRef.current['add_new_button'] !== null
-        ) {
-          commonElementsRef.current['add_new_button'].style.backgroundColor = null;
-          commonElementsRef.current['add_new_button'].style.outlineColor = null;
-          commonElementsRef.current['add_new_button'].style.outlineStyle = null;
-        }
-
-        if (
-          commonElementsRef.current['filter_button'] !== undefined &&
-          commonElementsRef.current['filter_button'] !== null
-        ) {
-          commonElementsRef.current['filter_button'].style.backgroundColor = null;
-          commonElementsRef.current['filter_button'].style.outlineColor = null;
-          commonElementsRef.current['filter_button'].style.outlineStyle = null;
-        }
-
-        if (
-          commonElementsRef.current['search_bar'] !== undefined &&
-          commonElementsRef.current['search_bar'] !== null
-        ) {
-          commonElementsRef.current['search_bar'].style.backgroundColor = null;
-          commonElementsRef.current['search_bar'].style.outlineColor = null;
-          commonElementsRef.current['search_bar'].style.outlineStyle = null;
-        }
-
-        if (
-          commonElementsRef.current['split_toggle_button'] !== undefined &&
-          commonElementsRef.current['split_toggle_button'] !== null
-        ) {
-          commonElementsRef.current['split_toggle_button'].style.backgroundColor = null;
-          commonElementsRef.current['split_toggle_button'].style.outlineColor = null;
-          commonElementsRef.current['split_toggle_button'].style.outlineStyle = null;
-        }
-
-        if (
-          commonElementsRef.current['more_button'] !== undefined &&
-          commonElementsRef.current['more_button'] !== null
-        ) {
-          commonElementsRef.current['more_button'].style.backgroundColor = null;
-          commonElementsRef.current['more_button'].style.outlineColor = null;
-          commonElementsRef.current['more_button'].style.outlineStyle = null;
-        }
-
-        if (
-          commonElementsRef.current['select_payee'] !== undefined &&
-          commonElementsRef.current['select_payee'] !== null
-        ) {
-          commonElementsRef.current['select_payee'].style.backgroundColor = null;
-          commonElementsRef.current['select_payee'].style.outlineColor = null;
-          commonElementsRef.current['select_payee'].style.outlineStyle = null;
-        }        
-
-        // so this one is different when we refactor.
-        if (
-          commonElementsRef.current['zoom_link'] !== undefined &&
-          commonElementsRef.current['zoom_link'] !== null
-        ) {
-          commonElementsRef.current['zoom_link'].style.outlineColor = null;
-          commonElementsRef.current['zoom_link'].style.outlineStyle = null;
-        }
-
-        // so this one is different when we refactor.
-        if (
-          commonElementsRef.current['budget_name'] !== undefined &&
-          commonElementsRef.current['budget_name'] !== null
-        ) {
-          commonElementsRef.current['budget_name'].style.outlineColor = null;
-          commonElementsRef.current['budget_name'].style.outlineStyle = null;
-        }
-
-        // so this one is different when we refactor.
-        if (
-          commonElementsRef.current['add_account'] !== undefined &&
-          commonElementsRef.current['add_account'] !== null
-        ) {
-          commonElementsRef.current['add_account'].style.outlineColor = null;
-          commonElementsRef.current['add_account'].style.outlineStyle = null;
-        }
 
         let action = dialogue.action;
         if (action !== undefined && action !== null) {
-          console.log("I should do this:" + action);
-          if (action === "move_to: zoom_link") {
-            if (
-              commonElementsRef.current['zoom_link'] !== undefined &&
-              commonElementsRef.current['zoom_link'] !== null
-            ) {
-              const { top: t, left: l } =
-                commonElementsRef.current['zoom_link'].getBoundingClientRect();
-              const centerY = t;
-              setTop(centerY - 25);
-              setLeft(l + 10);
-              setOffset(0);
 
-              commonElementsRef.current['zoom_link'].style.outlineColor = "yellow";
-              commonElementsRef.current['zoom_link'].style.outlineStyle = "dashed";
-              commonElementsRef.current['zoom_link'].style.outlineWidth = 5;
 
-            } else {
-              setTop(0);
-              setLeft(100);
-              setOffset(0);
+          let catsToMake = [];
+          let catGroupsJustMade = {};
+
+          let actions = action.split("<br>");
+          for (let i = 0; i < actions.length; i++) {
+            let a = actions[i];
+
+
+            if (a.startsWith("create_category_group:")) {
+
+              let substring = a.substring(23, a.length);
+
+              console.log("I found a substring to action on");
+              console.log(substring);
+
+              let existingGroup = categoryGroups.find(g => g.name === substring);
+
+              if (existingGroup === null || existingGroup === undefined) {
+                let group = { id: 'new', name: substring };
+                console.log("About to save a group: " + substring);
+                let id = await onSaveGroup(group);
+                catGroupsJustMade[substring] = id;
+
+                console.log("Did save a group: " + substring);
+              }
+
             }
-          }
-          else if (action === "move_to: center_screen") {
-            setTop(window.innerHeight - 20);
-            setLeft(window.innerWidth - 20 - 240);
-            setOffset(100);
-          }
-          else if (action === "move_to: budget_name") {
+            else if (a.startsWith("delete_category_group:")) {
 
-            if (
-              commonElementsRef.current['budget_name'] !== undefined &&
-              commonElementsRef.current['budget_name'] !== null
-            ) {
-              const { top: t, left: l } =
-                commonElementsRef.current['budget_name'].getBoundingClientRect();
-              const centerY = t;
-              setTop(10);
-              setLeft(10);
-              setOffset(0);
+              let substring = a.substring(23, a.length);
 
-              commonElementsRef.current['budget_name'].style.outlineColor = "yellow";
-              commonElementsRef.current['budget_name'].style.outlineStyle = "dashed";
-              commonElementsRef.current['budget_name'].style.outlineWidth = 5;
+              console.log("I found a substring to action on");
+              console.log(substring);
 
-            } else {
-              setTop(10);
-              setLeft(10);
-              setOffset(0);
+              let existingGroup = categoryGroups.find(g => g.name === substring);
+
+              if (existingGroup !== null && existingGroup !== undefined) {
+                console.log(existingGroup);
+
+                let id = await onDeleteGroup(existingGroup.id);
+              }
+
+            }
+            else if (a.startsWith("create_category:")) {
+
+
+
+              let substring = a.substring(17, a.length);
+
+              let sIndex = substring.indexOf(": ") + 2; 
+
+              let cg = substring.substring(0, sIndex - 2);
+              let c = substring.substring(sIndex, substring.length);
+
+              console.log("I found a category to add for a categoy group:");
+              console.log(cg);
+              console.log(c);
+
+
+
+
+
+
+              let sIndex2 = c.indexOf("[[") + 2; 
+              let tIndex2 = c.indexOf("]]"); 
+
+              if (sIndex2 !== null && sIndex2 !== undefined && tIndex2 !== null && tIndex2 !== undefined) {
+                console.log("I found a substring to replace");
+                let substringToReplace = c.substring(sIndex2, tIndex2);
+                console.log(substringToReplace);
+
+                let replacement = coachState[substringToReplace];
+                if (replacement !== null && replacement !== undefined) {
+                  console.log("And the value for it:");
+                  console.log(replacement);
+
+                  c = c.replace("[[" + substringToReplace + "]]", replacement);
+                  console.log("So here is the new text:");
+                  console.log(c);
+
+                }
+              }
+
+
+
+
+
+              let existingGroup = categoryGroups.find(g => g.name === cg);
+
+              let idOfCatGroupJustMade = catGroupsJustMade[cg];
+
+                console.log("idOfCatGroupJustMade");
+                console.log(idOfCatGroupJustMade);
+
+              if (existingGroup !== null && existingGroup !== undefined) {
+                console.log("existingGroup found");
+
+                let existingCat = existingGroup.categories.find(g => g.name === c);
+                if (existingCat !== null && existingCat !== undefined) {
+                  console.log("existingCat found");
+
+                } else {
+                  console.log("existingCat not found");
+
+                  let category = {
+                    name: c,
+                    cat_group: existingGroup.id,
+                    is_income: false,
+                    id: 'new',
+                  };
+                  catsToMake.push(category);
+
+                }
+              } else if (idOfCatGroupJustMade !== null && idOfCatGroupJustMade !== undefined) {
+
+                console.log("looppppphole");
+
+                let category = {
+                  name: c,
+                  cat_group: idOfCatGroupJustMade,
+                  is_income: false,
+                  id: 'new',
+                };
+                catsToMake.push(category);
+
+              }
+
             }
 
 
-          }
-          else if (action === "move_to: add_account") {
-            if (
-              commonElementsRef.current['add_account'] !== undefined &&
-              commonElementsRef.current['add_account'] !== null
-            ) {
-              const { top: t, left: l } =
-                commonElementsRef.current['add_account'].getBoundingClientRect();
-              const centerY = t;
-              setTop(centerY - 25);
-              setLeft(l + 10);
-              setOffset(0);
 
-              commonElementsRef.current['add_account'].style.outlineColor = "yellow";
-              commonElementsRef.current['add_account'].style.outlineStyle = "dashed";
-              commonElementsRef.current['add_account'].style.outlineWidth = 5;
-
-            } else {
-              setTop(0);
-              setLeft(100);
-              setOffset(0);
-            }
-          }
-          else if (action === "move_to: account_balance") {
-            if (
-              commonElementsRef.current['account_balance'] !== undefined &&
-              commonElementsRef.current['account_balance'] !== null
-            ) {
-              const { top: t, left: l } =
-                commonElementsRef.current['account_balance'].getBoundingClientRect();
-              const centerY = t + commonElementsRef.current['account_balance'].offsetHeight;
-              setTop(centerY + 10);
-              setLeft(l - 240);
-              setOffset(0);
-
-              commonElementsRef.current['account_balance'].style.backgroundColor = "yellow";
-              commonElementsRef.current['account_balance'].style.outlineColor = "black";
-              commonElementsRef.current['account_balance'].style.outlineStyle = "dashed";
-              commonElementsRef.current['account_balance'].style.outlineWidth = 5;
-
-            } else {
-              setTop(0);
-              setLeft(100);
-              setOffset(0);
-            }
-          }
-          else if (action === "move_to: import_button") {
-            if (
-              commonElementsRef.current['import_button'] !== undefined &&
-              commonElementsRef.current['import_button'] !== null
-            ) {
-              const { top: t, left: l } =
-                commonElementsRef.current['import_button'].getBoundingClientRect();
-              const centerY = t + commonElementsRef.current['import_button'].offsetHeight;
-              setTop(centerY + 10);
-              setLeft(l - 240);
-              setOffset(0);
-
-              commonElementsRef.current['import_button'].style.backgroundColor = "yellow";
-              commonElementsRef.current['import_button'].style.outlineColor = "black";
-              commonElementsRef.current['import_button'].style.outlineStyle = "dashed";
-              commonElementsRef.current['import_button'].style.outlineWidth = 5;
-
-            } else {
-              setTop(0);
-              setLeft(100);
-              setOffset(0);
-            }
-          }
-          else if (action === "move_to: add_new_button") {
-            if (
-              commonElementsRef.current['add_new_button'] !== undefined &&
-              commonElementsRef.current['add_new_button'] !== null
-            ) {
-              const { top: t, left: l } =
-                commonElementsRef.current['add_new_button'].getBoundingClientRect();
-              const centerY = t + commonElementsRef.current['add_new_button'].offsetHeight;
-              setTop(centerY + 10);
-              setLeft(l - 240);
-              setOffset(0);
-
-              commonElementsRef.current['add_new_button'].style.backgroundColor = "yellow";
-              commonElementsRef.current['add_new_button'].style.outlineColor = "black";
-              commonElementsRef.current['add_new_button'].style.outlineStyle = "dashed";
-              commonElementsRef.current['add_new_button'].style.outlineWidth = 5;
-
-            } else {
-              setTop(0);
-              setLeft(100);
-              setOffset(0);
-            }
-          }
-          else if (action === "move_to: filter_button") {
-            if (
-              commonElementsRef.current['filter_button'] !== undefined &&
-              commonElementsRef.current['filter_button'] !== null
-            ) {
-              const { top: t, left: l } =
-                commonElementsRef.current['filter_button'].getBoundingClientRect();
-              const centerY = t + commonElementsRef.current['filter_button'].offsetHeight;
-              setTop(centerY - 100);
-              setLeft(l + commonElementsRef.current['filter_button'].offsetWidth - 240 + 10);
-              setOffset(0);
-
-              commonElementsRef.current['filter_button'].style.backgroundColor = "yellow";
-              commonElementsRef.current['filter_button'].style.outlineColor = "black";
-              commonElementsRef.current['filter_button'].style.outlineStyle = "dashed";
-              commonElementsRef.current['filter_button'].style.outlineWidth = 5;
-
-            } else {
-              setTop(0);
-              setLeft(100);
-              setOffset(0);
-            }
-          }
-          else if (action === "move_to: search_bar") {
-            if (
-              commonElementsRef.current['search_bar'] !== undefined &&
-              commonElementsRef.current['search_bar'] !== null
-            ) {
-              const { top: t, left: l } =
-                commonElementsRef.current['search_bar'].getBoundingClientRect();
-              const centerY = t + commonElementsRef.current['search_bar'].offsetHeight;
-              setTop(centerY + 10);
-              setLeft(l - 240 - 100);
-              setOffset(0);
-
-              commonElementsRef.current['search_bar'].style.backgroundColor = "yellow";
-              commonElementsRef.current['search_bar'].style.outlineColor = "black";
-              commonElementsRef.current['search_bar'].style.outlineStyle = "dashed";
-              commonElementsRef.current['search_bar'].style.outlineWidth = 5;
-
-            } else {
-              setTop(0);
-              setLeft(100);
-              setOffset(0);
-            }
-          }
-          else if (action === "move_to: split_toggle_button") {
-            if (
-              commonElementsRef.current['split_toggle_button'] !== undefined &&
-              commonElementsRef.current['split_toggle_button'] !== null
-            ) {
-              const { top: t, left: l } =
-                commonElementsRef.current['split_toggle_button'].getBoundingClientRect();
-              const centerY = t + commonElementsRef.current['split_toggle_button'].offsetHeight;
-              setTop(centerY + 10);
-              setLeft(l - 240 - 350);
-              setOffset(0);
-
-              commonElementsRef.current['split_toggle_button'].style.backgroundColor = "yellow";
-              commonElementsRef.current['split_toggle_button'].style.outlineColor = "black";
-              commonElementsRef.current['split_toggle_button'].style.outlineStyle = "dashed";
-              commonElementsRef.current['split_toggle_button'].style.outlineWidth = 5;
-
-            } else {
-              setTop(0);
-              setLeft(100);
-              setOffset(0);
-            }
-          }
-          else if (action === "move_to: more_button") {
-            if (
-              commonElementsRef.current['more_button'] !== undefined &&
-              commonElementsRef.current['more_button'] !== null
-            ) {
-              const { top: t, left: l } =
-                commonElementsRef.current['more_button'].getBoundingClientRect();
-              const centerY = t + commonElementsRef.current['more_button'].offsetHeight;
-              setTop(t - 100);
-              setLeft(l - 240 - 420);
-              setOffset(0);
-
-              commonElementsRef.current['more_button'].style.backgroundColor = "yellow";
-              commonElementsRef.current['more_button'].style.outlineColor = "black";
-              commonElementsRef.current['more_button'].style.outlineStyle = "dashed";
-              commonElementsRef.current['more_button'].style.outlineWidth = 5;
-
-            } else {
-              setTop(0);
-              setLeft(100);
-              setOffset(0);
-            }
-          }
-          else if (action === "move_to: select_payee") {
-            if (
-              commonElementsRef.current['select_payee'] !== undefined &&
-              commonElementsRef.current['select_payee'] !== null
-            ) {
-              const { top: t, left: l } =
-                commonElementsRef.current['select_payee'].getBoundingClientRect();
-              const centerY = t + commonElementsRef.current['select_payee'].offsetHeight;
-              setTop(centerY + 10);
-              setLeft(l - 240);
-              setOffset(0);
-
-              commonElementsRef.current['select_payee'].style.backgroundColor = "yellow";
-              commonElementsRef.current['select_payee'].style.outlineColor = "black";
-              commonElementsRef.current['select_payee'].style.outlineStyle = "dashed";
-              commonElementsRef.current['select_payee'].style.outlineWidth = 5;
-
-            } else {
-              setTop(window.innerHeight - 20);
-              setLeft(window.innerWidth - 20 - 240);
-              setOffset(100);
-            }
-          }
-          else if (action === "move_to: select_category") {
-            setTop(window.innerHeight - 20);
-            setLeft(window.innerWidth - 20 - 240);
-            setOffset(100);
-          }
-          else if (action === "move_to: payment_input") {
-            setTop(window.innerHeight - 20);
-            setLeft(window.innerWidth - 20 - 240);
-            setOffset(100);
-          }
-          else if (action === "move_to: save_transaction") {
-            setTop(window.innerHeight - 20);
-            setLeft(window.innerWidth - 20 - 240);
-            setOffset(100);
-          }
-          else if (action === "move_to: cleared_status_icon") {
-            setTop(window.innerHeight - 20);
-            setLeft(window.innerWidth - 20 - 240);
-            setOffset(100);
           }
 
-          //would be great to highlight these too...
+          
+          if (catsToMake.length > 0) {
 
+            //need a timeout here...
 
+            let ids = await onSaveNewCategories(catsToMake, true);
+          }
 
-
-        } 
-
+        }
       }
+    } else {
+      setDialogueId(null);
     }
 
   }
 
+
+  function moveToActions(dialogue) {
+
+    let xOffset = 0;
+    let yOffset = 0;
+
+    if (context === "Budget") {
+      xOffset = -9;
+      yOffset = -36;
+    } else if (context === "Accounts") {
+    }
+
+    setTop(window.innerHeight - 20 + yOffset);
+    setLeft(window.innerWidth - 20 - 240 + xOffset);
+    setOffset(100);
+
+    if (
+      commonElementsRef.current['account_balance'] !== undefined &&
+      commonElementsRef.current['account_balance'] !== null
+    ) {
+      commonElementsRef.current['account_balance'].style.backgroundColor = null;
+      commonElementsRef.current['account_balance'].style.outlineColor = null;
+      commonElementsRef.current['account_balance'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['split_toggle_button'] !== undefined &&
+      commonElementsRef.current['split_toggle_button'] !== null
+    ) {
+      commonElementsRef.current['split_toggle_button'].style.backgroundColor = null;
+      commonElementsRef.current['split_toggle_button'].style.outlineColor = null;
+      commonElementsRef.current['split_toggle_button'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['import_button'] !== undefined &&
+      commonElementsRef.current['import_button'] !== null
+    ) {
+      commonElementsRef.current['import_button'].style.backgroundColor = null;
+      commonElementsRef.current['import_button'].style.outlineColor = null;
+      commonElementsRef.current['import_button'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['add_new_button'] !== undefined &&
+      commonElementsRef.current['add_new_button'] !== null
+    ) {
+      commonElementsRef.current['add_new_button'].style.backgroundColor = null;
+      commonElementsRef.current['add_new_button'].style.outlineColor = null;
+      commonElementsRef.current['add_new_button'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['filter_button'] !== undefined &&
+      commonElementsRef.current['filter_button'] !== null
+    ) {
+      commonElementsRef.current['filter_button'].style.backgroundColor = null;
+      commonElementsRef.current['filter_button'].style.outlineColor = null;
+      commonElementsRef.current['filter_button'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['search_bar'] !== undefined &&
+      commonElementsRef.current['search_bar'] !== null
+    ) {
+      commonElementsRef.current['search_bar'].style.backgroundColor = null;
+      commonElementsRef.current['search_bar'].style.outlineColor = null;
+      commonElementsRef.current['search_bar'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['split_toggle_button'] !== undefined &&
+      commonElementsRef.current['split_toggle_button'] !== null
+    ) {
+      commonElementsRef.current['split_toggle_button'].style.backgroundColor = null;
+      commonElementsRef.current['split_toggle_button'].style.outlineColor = null;
+      commonElementsRef.current['split_toggle_button'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['more_button'] !== undefined &&
+      commonElementsRef.current['more_button'] !== null
+    ) {
+      commonElementsRef.current['more_button'].style.backgroundColor = null;
+      commonElementsRef.current['more_button'].style.outlineColor = null;
+      commonElementsRef.current['more_button'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['select_payee'] !== undefined &&
+      commonElementsRef.current['select_payee'] !== null
+    ) {
+      commonElementsRef.current['select_payee'].style.backgroundColor = null;
+      commonElementsRef.current['select_payee'].style.outlineColor = null;
+      commonElementsRef.current['select_payee'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['months_band'] !== undefined &&
+      commonElementsRef.current['months_band'] !== null
+    ) {
+      commonElementsRef.current['months_band'].style.backgroundColor = null;
+      commonElementsRef.current['months_band'].style.outlineColor = null;
+      commonElementsRef.current['months_band'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['budget_header'] !== undefined &&
+      commonElementsRef.current['budget_header'] !== null
+    ) {
+      commonElementsRef.current['budget_header'].style.backgroundColor = null;
+      commonElementsRef.current['budget_header'].style.outlineColor = null;
+      commonElementsRef.current['budget_header'].style.outlineStyle = null;
+    }
+
+
+    // so this one is different when we refactor.
+    if (
+      commonElementsRef.current['zoom_link'] !== undefined &&
+      commonElementsRef.current['zoom_link'] !== null
+    ) {
+      commonElementsRef.current['zoom_link'].style.outlineColor = null;
+      commonElementsRef.current['zoom_link'].style.outlineStyle = null;
+    }
+
+    // so this one is different when we refactor.
+    if (
+      commonElementsRef.current['budget_name'] !== undefined &&
+      commonElementsRef.current['budget_name'] !== null
+    ) {
+      commonElementsRef.current['budget_name'].style.outlineColor = null;
+      commonElementsRef.current['budget_name'].style.outlineStyle = null;
+    }
+
+    // so this one is different when we refactor.
+    if (
+      commonElementsRef.current['add_account'] !== undefined &&
+      commonElementsRef.current['add_account'] !== null
+    ) {
+      commonElementsRef.current['add_account'].style.outlineColor = null;
+      commonElementsRef.current['add_account'].style.outlineStyle = null;
+    }
+
+    // so this one is different when we refactor.
+    if (
+      commonElementsRef.current['budget_button'] !== undefined &&
+      commonElementsRef.current['budget_button'] !== null
+    ) {
+      //commonElementsRef.current['budget_button'].style.backgroundColor = null;
+    }
+
+    //The code to set the style is below and we don't want to edit the state for it. So this stops that for now.
+    //But maybe this should be on for when you switch contexts and want it to be in a different place... but I guess the highlighting wouldn't work?
+    //Idk.
+    if (dialogue.context !== context && dialogue.context !== "Anywhere") {
+      return;
+    }
+
+    //only do the move to actions here:
+
+    let action = dialogue.action;
+    if (action !== undefined && action !== null) {
+      console.log("I should do this:" + action);
+      if (action === "move_to: zoom_link") {
+        if (
+          commonElementsRef.current['zoom_link'] !== undefined &&
+          commonElementsRef.current['zoom_link'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['zoom_link'].getBoundingClientRect();
+          const centerY = t;
+          setTop(centerY - 25);
+          setLeft(l + 10);
+          setOffset(0);
+
+          commonElementsRef.current['zoom_link'].style.outlineColor = "yellow";
+          commonElementsRef.current['zoom_link'].style.outlineStyle = "dashed";
+          commonElementsRef.current['zoom_link'].style.outlineWidth = 5;
+
+        } else {
+          setTop(0);
+          setLeft(100);
+          setOffset(0);
+        }
+      }
+      else if (action === "move_to: center_screen") {
+        setTop(window.innerHeight - 20);
+        setLeft(window.innerWidth - 20 - 240);
+        setOffset(100);
+      }
+      else if (action === "move_to: budget_name") {
+
+        if (
+          commonElementsRef.current['budget_name'] !== undefined &&
+          commonElementsRef.current['budget_name'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['budget_name'].getBoundingClientRect();
+          const centerY = t;
+          setTop(10);
+          setLeft(10);
+          setOffset(0);
+
+          commonElementsRef.current['budget_name'].style.outlineColor = "yellow";
+          commonElementsRef.current['budget_name'].style.outlineStyle = "dashed";
+          commonElementsRef.current['budget_name'].style.outlineWidth = 5;
+
+        } else {
+          setTop(10);
+          setLeft(10);
+          setOffset(0);
+        }
+
+
+      }
+      else if (action === "move_to: add_account") {
+        if (
+          commonElementsRef.current['add_account'] !== undefined &&
+          commonElementsRef.current['add_account'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['add_account'].getBoundingClientRect();
+          const centerY = t;
+          setTop(centerY - 25);
+          setLeft(l + 10);
+          setOffset(0);
+
+          commonElementsRef.current['add_account'].style.outlineColor = "yellow";
+          commonElementsRef.current['add_account'].style.outlineStyle = "dashed";
+          commonElementsRef.current['add_account'].style.outlineWidth = 5;
+
+        } else {
+          setTop(0);
+          setLeft(100);
+          setOffset(0);
+        }
+      }
+      else if (action === "move_to: account_balance") {
+        if (
+          commonElementsRef.current['account_balance'] !== undefined &&
+          commonElementsRef.current['account_balance'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['account_balance'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['account_balance'].offsetHeight;
+          setTop(centerY + 10);
+          setLeft(l - 240);
+          setOffset(0);
+
+          commonElementsRef.current['account_balance'].style.backgroundColor = "yellow";
+          commonElementsRef.current['account_balance'].style.outlineColor = "black";
+          commonElementsRef.current['account_balance'].style.outlineStyle = "dashed";
+          commonElementsRef.current['account_balance'].style.outlineWidth = 5;
+
+        } else {
+          setTop(0);
+          setLeft(100);
+          setOffset(0);
+        }
+      }
+      else if (action === "move_to: import_button") {
+        if (
+          commonElementsRef.current['import_button'] !== undefined &&
+          commonElementsRef.current['import_button'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['import_button'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['import_button'].offsetHeight;
+          setTop(centerY + 10);
+          setLeft(l - 240);
+          setOffset(0);
+
+          commonElementsRef.current['import_button'].style.backgroundColor = "yellow";
+          commonElementsRef.current['import_button'].style.outlineColor = "black";
+          commonElementsRef.current['import_button'].style.outlineStyle = "dashed";
+          commonElementsRef.current['import_button'].style.outlineWidth = 5;
+
+        } else {
+          setTop(0);
+          setLeft(100);
+          setOffset(0);
+        }
+      }
+      else if (action === "move_to: add_new_button") {
+        if (
+          commonElementsRef.current['add_new_button'] !== undefined &&
+          commonElementsRef.current['add_new_button'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['add_new_button'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['add_new_button'].offsetHeight;
+          setTop(centerY + 10);
+          setLeft(l - 240);
+          setOffset(0);
+
+          commonElementsRef.current['add_new_button'].style.backgroundColor = "yellow";
+          commonElementsRef.current['add_new_button'].style.outlineColor = "black";
+          commonElementsRef.current['add_new_button'].style.outlineStyle = "dashed";
+          commonElementsRef.current['add_new_button'].style.outlineWidth = 5;
+
+        } else {
+          setTop(0);
+          setLeft(100);
+          setOffset(0);
+        }
+      }
+      else if (action === "move_to: filter_button") {
+        if (
+          commonElementsRef.current['filter_button'] !== undefined &&
+          commonElementsRef.current['filter_button'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['filter_button'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['filter_button'].offsetHeight;
+          setTop(centerY - 100);
+          setLeft(l + commonElementsRef.current['filter_button'].offsetWidth - 240 + 10);
+          setOffset(0);
+
+          commonElementsRef.current['filter_button'].style.backgroundColor = "yellow";
+          commonElementsRef.current['filter_button'].style.outlineColor = "black";
+          commonElementsRef.current['filter_button'].style.outlineStyle = "dashed";
+          commonElementsRef.current['filter_button'].style.outlineWidth = 5;
+
+        } else {
+          setTop(0);
+          setLeft(100);
+          setOffset(0);
+        }
+      }
+      else if (action === "move_to: search_bar") {
+        if (
+          commonElementsRef.current['search_bar'] !== undefined &&
+          commonElementsRef.current['search_bar'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['search_bar'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['search_bar'].offsetHeight;
+          setTop(centerY + 10);
+          setLeft(l - 240 - 100);
+          setOffset(0);
+
+          commonElementsRef.current['search_bar'].style.backgroundColor = "yellow";
+          commonElementsRef.current['search_bar'].style.outlineColor = "black";
+          commonElementsRef.current['search_bar'].style.outlineStyle = "dashed";
+          commonElementsRef.current['search_bar'].style.outlineWidth = 5;
+
+        } else {
+          setTop(0);
+          setLeft(100);
+          setOffset(0);
+        }
+      }
+      else if (action === "move_to: split_toggle_button") {
+        if (
+          commonElementsRef.current['split_toggle_button'] !== undefined &&
+          commonElementsRef.current['split_toggle_button'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['split_toggle_button'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['split_toggle_button'].offsetHeight;
+          setTop(centerY + 10);
+          setLeft(l - 240 - 350);
+          setOffset(0);
+
+          commonElementsRef.current['split_toggle_button'].style.backgroundColor = "yellow";
+          commonElementsRef.current['split_toggle_button'].style.outlineColor = "black";
+          commonElementsRef.current['split_toggle_button'].style.outlineStyle = "dashed";
+          commonElementsRef.current['split_toggle_button'].style.outlineWidth = 5;
+
+        } else {
+          setTop(0);
+          setLeft(100);
+          setOffset(0);
+        }
+      }
+      else if (action === "move_to: more_button") {
+        if (
+          commonElementsRef.current['more_button'] !== undefined &&
+          commonElementsRef.current['more_button'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['more_button'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['more_button'].offsetHeight;
+          setTop(t - 100);
+          setLeft(l - 240 - 420);
+          setOffset(0);
+
+          commonElementsRef.current['more_button'].style.backgroundColor = "yellow";
+          commonElementsRef.current['more_button'].style.outlineColor = "black";
+          commonElementsRef.current['more_button'].style.outlineStyle = "dashed";
+          commonElementsRef.current['more_button'].style.outlineWidth = 5;
+
+        } else {
+          setTop(0);
+          setLeft(100);
+          setOffset(0);
+        }
+      }
+      else if (action === "move_to: select_payee") {
+        if (
+          commonElementsRef.current['select_payee'] !== undefined &&
+          commonElementsRef.current['select_payee'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['select_payee'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['select_payee'].offsetHeight;
+          setTop(centerY + 10);
+          setLeft(l - 240);
+          setOffset(0);
+
+          commonElementsRef.current['select_payee'].style.backgroundColor = "yellow";
+          commonElementsRef.current['select_payee'].style.outlineColor = "black";
+          commonElementsRef.current['select_payee'].style.outlineStyle = "dashed";
+          commonElementsRef.current['select_payee'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20);
+          setLeft(window.innerWidth - 20 - 240);
+          setOffset(100);
+        }
+      }
+      else if (action === "move_to: select_category") {
+        setTop(window.innerHeight - 20);
+        setLeft(window.innerWidth - 20 - 240);
+        setOffset(100);
+      }
+      else if (action === "move_to: payment_input") {
+        setTop(window.innerHeight - 20);
+        setLeft(window.innerWidth - 20 - 240);
+        setOffset(100);
+      }
+      else if (action === "move_to: save_transaction") {
+        setTop(window.innerHeight - 20);
+        setLeft(window.innerWidth - 20 - 240);
+        setOffset(100);
+      }
+      else if (action === "move_to: cleared_status_icon") {
+        setTop(window.innerHeight - 20);
+        setLeft(window.innerWidth - 20 - 240);
+        setOffset(100);
+      }
+      else if (action === "move_to: months_band") {
+        if (
+          commonElementsRef.current['months_band'] !== undefined &&
+          commonElementsRef.current['months_band'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['months_band'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['months_band'].offsetHeight;
+          const centerX = l + (commonElementsRef.current['months_band'].offsetWidth / 2);
+          setTop(centerY + 10 - 35);
+          setLeft(centerX - 200 - 240);
+          setOffset(0);
+
+          commonElementsRef.current['months_band'].style.backgroundColor = "yellow";
+          commonElementsRef.current['months_band'].style.outlineColor = "black";
+          commonElementsRef.current['months_band'].style.outlineStyle = "dashed";
+          commonElementsRef.current['months_band'].style.outlineWidth = 5;
+
+        } else {
+          setTop(0);
+          setLeft(100);
+          setOffset(0);
+        }
+
+      }
+      else if (action === "move_to: calendar_icons") {
+        setTop(10);
+        setLeft(10);
+        setOffset(0);
+      }
+      else if (action === "move_to: budget_header") {
+        if (
+          commonElementsRef.current['budget_header'] !== undefined &&
+          commonElementsRef.current['budget_header'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['budget_header'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['budget_header'].offsetHeight;
+          setTop(centerY + 10 - 20);
+          setLeft(l - 740);
+          setOffset(0);
+
+          commonElementsRef.current['budget_header'].style.backgroundColor = "yellow";
+          commonElementsRef.current['budget_header'].style.outlineColor = "black";
+          commonElementsRef.current['budget_header'].style.outlineStyle = "dashed";
+          commonElementsRef.current['budget_header'].style.outlineWidth = 5;
+
+        } else {
+          setTop(0);
+          setLeft(100);
+          setOffset(0);
+        }
+
+      }
+      else if (action === "move_to: budget_table") {
+
+      }
+      else if (action === "move_to: category_column") {
+
+      }
+      else if (action === "move_to: budgeted_column") {
+
+      }
+      else if (action === "move_to: spent_column") {
+
+      }
+      else if (action === "move_to: balance_column") {
+
+      }
+      else if (action === "move_to: budget_more_button") {
+
+      }
+
+
+
+
+
+
+
+
+
+      //would be great to highlight these too...
+
+
+
+
+    } 
+
+  }
 
 
   function evaluate(item) {
@@ -1252,7 +1534,7 @@ export default function Coach({
 
   //const [left, setLeft] = useState(0);
   //maybe useEffect is how this should be done? And that covers window resizing too.
-  const style = {
+  let style = {
     position: 'absolute',
     left: left,
     top: top,
@@ -3719,29 +4001,6 @@ export default function Coach({
   let pastDialogue = allDialogues.get(dialogueStack[dialogueStack.length-1]);
 
 
-  let dialogueText = dialogue.text;
-
-  let sIndex = dialogueText.indexOf("[[") + 2; 
-  let tIndex = dialogueText.indexOf("]]"); 
-
-  if (sIndex !== null && sIndex !== undefined && tIndex !== null && tIndex !== undefined) {
-    console.log("I found a substring to replace");
-    let substringToReplace = dialogueText.substring(sIndex, tIndex);
-    console.log(substringToReplace);
-
-    let replacement = coachState[substringToReplace];
-    if (replacement !== null && replacement !== undefined) {
-      console.log("And the value for it:");
-      console.log(replacement);
-
-      dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", replacement);
-      console.log("So here is the new text:");
-      console.log(dialogueText);
-
-    } else {
-      console.log("And no value found for it.");
-    }
-  }
 
 
   console.log("the oneeee:" + dialogueId);
@@ -3749,54 +4008,234 @@ export default function Coach({
   if (dialogue !== undefined) {
 
 
-    let backContent;
-    if (pastDialogue !== undefined) {
-      backContent = (
+    moveToActions(dialogue);
+
+
+    if (dialogue.context !== context && dialogue.context !== "Anywhere") {
+
+      let dialogueText = "Please navigate to the " + dialogue.context + " to continue our conversation (click the button to the left to continue).";
+
+
+// UM WOW this is the basis for moving all of this to the point of render, solves a lot of our weird issues where we were setting it up top.
+
+      if (dialogue.context === "Accounts") {
+
+        const { top: t, left: l } =
+          commonElementsRef.current['all_accounts'].getBoundingClientRect();
+        const centerY = t;
+
+
+
+
+        style = {
+          position: 'absolute',
+          left: l + 10,
+          top: centerY - 25 - 5 - 27,
+          zIndex: 10001,
+          transform: `translate(0%,0%)`,
+        };
+
+
+      } else if (dialogue.context === "Budget") {
+
+        const { top: t, left: l } =
+          commonElementsRef.current['budget_button'].getBoundingClientRect();
+        const centerY = t;
+
+        style = {
+          position: 'absolute',
+          left: l + 10,
+          top: centerY - 25 - 5,
+          zIndex: 10001,
+          transform: `translate(0%,0%)`,
+        };
+
+      }
+
+      content = (
         <div>
-          <Button
-            type="normal"
-            style={{ marginTop: 8 }}
-            onClick={() => back()}
-          >
-            Back
-          </Button>
+          {dialogueText}
         </div>
       );
+
     } else {
-      backContent = (
-        <div>
-        </div>
-      );
-    }
 
+      let dialogueText = dialogue.text;
 
+      let sIndex = dialogueText.indexOf("[[") + 2; 
+      let tIndex = dialogueText.indexOf("]]"); 
 
+      if (sIndex !== null && sIndex !== undefined && tIndex !== null && tIndex !== undefined) {
+        console.log("I found a substring to replace");
+        let substringToReplace = dialogueText.substring(sIndex, tIndex);
+        console.log(substringToReplace);
 
+        let replacement = coachState[substringToReplace];
+        if (replacement !== null && replacement !== undefined) {
+          console.log("And the value for it:");
+          console.log(replacement);
 
+          dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", replacement);
+          console.log("So here is the new text:");
+          console.log(dialogueText);
 
-    if (dialogue.dialogueOptions.length === 1) {
-      let isInput = false;
-
-      let variableToSet = dialogue.dialogueOptions[0].variableToSet;
-      let valueToSet = dialogue.dialogueOptions[0].valueToSet;
-
-      if (variableToSet !== undefined && variableToSet !== null && valueToSet !== undefined && valueToSet !== null) {
-        if (valueToSet.startsWith('[')) {
-          isInput = true;
+        } else if (substringToReplace == "user_first_name") {
+          let userFirstName = process.env.REACT_APP_USER_FIRST_NAME
+          if (userFirstName !== null && userFirstName !== undefined) {
+            dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", userFirstName);
+          }
+          console.log("And no value found for it.");
         }
       }
 
 
-      if (isInput === false) {
+      //again, LOLZ
+      sIndex = dialogueText.indexOf("[[") + 2; 
+      tIndex = dialogueText.indexOf("]]"); 
+
+      if (sIndex !== null && sIndex !== undefined && tIndex !== null && tIndex !== undefined) {
+        console.log("I found a substring to replace");
+        let substringToReplace = dialogueText.substring(sIndex, tIndex);
+        console.log(substringToReplace);
+
+        let replacement = coachState[substringToReplace];
+        if (replacement !== null && replacement !== undefined) {
+          console.log("And the value for it:");
+          console.log(replacement);
+
+          dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", replacement);
+          console.log("So here is the new text:");
+          console.log(dialogueText);
+
+        } else if (substringToReplace == "user_first_name") {
+          let userFirstName = process.env.REACT_APP_USER_FIRST_NAME
+          if (userFirstName !== null && userFirstName !== undefined) {
+            dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", userFirstName);
+          }
+          console.log("And no value found for it.");
+        }
+      }
+
+
+
+
+      let backContent;
+      if (pastDialogue !== undefined) {
+        backContent = (
+          <div>
+            <Button
+              type="normal"
+              style={{ marginTop: 8 }}
+              onClick={() => back()}
+            >
+              Back
+            </Button>
+          </div>
+        );
+      } else {
+        backContent = (
+          <div>
+          </div>
+        );
+      }
+
+      if (dialogue.dialogueOptions.length === 1) {
+        let isInput = false;
+
+        let variableToSet = dialogue.dialogueOptions[0].variableToSet;
+        let valueToSet = dialogue.dialogueOptions[0].valueToSet;
+
+        if (variableToSet !== undefined && variableToSet !== null && valueToSet !== undefined && valueToSet !== null) {
+          if (valueToSet.startsWith('[')) {
+            isInput = true;
+          }
+        }
+
+        if (isInput === false) {
+          content = (
+            <div>
+              <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
+  {/*            <img src="https://media.giphy.com/media/CjmvTCZf2U3p09Cn0h/giphy.gif" width="100%" style={{ marginTop: 8 }} alt="gif" />
+  */}            <Button
+                type="primary"
+                style={{ marginTop: 8 }}
+                onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+              >
+                {dialogue.dialogueOptions[0].text}
+              </Button>
+              {backContent}
+            </div>
+          );
+        } else {
+          content = (
+            <div>
+              <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
+
+              <BigInput
+                autoFocus={true}
+                placeholder=""
+                value={currentInput || ''}
+                onUpdate={setCurrentInput}
+                style={{ flex: 1, marginRight: 10 }}
+              />
+
+              <Button
+                type="primary"
+                style={{ marginTop: 8 }}
+                onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+              >
+                {dialogue.dialogueOptions[0].text}
+              </Button>
+              {backContent}
+            </div>
+          );
+        }
+
+      } else if (dialogue.dialogueOptions.length === 2) {
         content = (
           <div>
-            {dialogueText}
+            <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
             >
               {dialogue.dialogueOptions[0].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
+            >
+              {dialogue.dialogueOptions[1].text}
+            </Button>
+            {backContent}
+          </div>
+        );
+      } else if (dialogue.dialogueOptions.length === 3) {
+        content = (
+          <div>
+            <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+            >
+              {dialogue.dialogueOptions[0].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
+            >
+              {dialogue.dialogueOptions[1].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
+            >
+              {dialogue.dialogueOptions[2].text}
             </Button>
             {backContent}
           </div>
@@ -3804,88 +4243,13 @@ export default function Coach({
       } else {
         content = (
           <div>
-            {dialogueText}
-
-            <BigInput
-              autoFocus={true}
-              placeholder=""
-              value={currentInput || ''}
-              onUpdate={setCurrentInput}
-              style={{ flex: 1, marginRight: 10 }}
-            />
-
-            <Button
-              type="primary"
-              style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
-            >
-              {dialogue.dialogueOptions[0].text}
-            </Button>
+            <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
             {backContent}
           </div>
         );
       }
-
-
-
-
-    } else if (dialogue.dialogueOptions.length === 2) {
-      content = (
-        <div>
-          {dialogueText}
-          <Button
-            type="primary"
-            style={{ marginTop: 8 }}
-            onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
-          >
-            {dialogue.dialogueOptions[0].text}
-          </Button>
-          <Button
-            type="primary"
-            style={{ marginTop: 8 }}
-            onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
-          >
-            {dialogue.dialogueOptions[1].text}
-          </Button>
-          {backContent}
-        </div>
-      );
-    } else if (dialogue.dialogueOptions.length === 3) {
-      content = (
-        <div>
-          {dialogueText}
-          <Button
-            type="primary"
-            style={{ marginTop: 8 }}
-            onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
-          >
-            {dialogue.dialogueOptions[0].text}
-          </Button>
-          <Button
-            type="primary"
-            style={{ marginTop: 8 }}
-            onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
-          >
-            {dialogue.dialogueOptions[1].text}
-          </Button>
-          <Button
-            type="primary"
-            style={{ marginTop: 8 }}
-            onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
-          >
-            {dialogue.dialogueOptions[2].text}
-          </Button>
-          {backContent}
-        </div>
-      );
-    } else {
-      content = (
-        <div>
-          {dialogueText}
-          {backContent}
-        </div>
-      );
     }
+
 
   } 
 

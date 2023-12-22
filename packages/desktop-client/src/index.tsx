@@ -91,6 +91,7 @@ type Dialogue = {
   dialogueOptions: [DialogueOption];
   type: string; // choose, autoPush
   action: string;
+  context: string;
 };
 
 type DialogueOption = {
@@ -142,17 +143,39 @@ await fetch(coachSrc)
 
 //Ok I think this might work... but... we need the <br> for the value saving.
 //Also the fact that labels are sometimes on the arrows themselves... are those set up to split and save variables too?
-let div = document.createElement("div");
-div.innerHTML = value;
-value = div.textContent || div.innerText || "";
+//let div = document.createElement("div");
+//div.innerHTML = value;
+//value = div.innerHTML;//div.textContent || div.innerText || "";
 
     const style = child.getAttribute("style");
 
+    let context = "Anywhere";
+
     if (value !== undefined && value !== null && style !== undefined && style !== null) {
+
+      value = value.replaceAll('<br style="border-color: var(--border-color);">', '<br>');
+
+
+
+
+      let sIndex = value.indexOf("&lt;&lt;") + 8; 
+      let tIndex = value.indexOf("&gt;&gt;<br><br>"); 
+
+
+//&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br&gt;
+      if (value.includes("&lt;&lt;")) {
+
+        console.log("dumb");
+        console.log(value);
+
+        let substringToReplace = value.substring(sIndex, tIndex);
+        value = value.replace("&lt;&lt;" + substringToReplace + "&gt;&gt;<br><br>", "");
+        context = substringToReplace;
+      }
 
       value = value.replaceAll("&nbsp;", " ");
 
-      if (style.startsWith('rounded=0;') || style.startsWith('rhombus;') || style.startsWith('html=1;whiteSpace=wrap;aspect=fixed;shape=isoRectangle;')) {
+      if (style.startsWith('rounded=0;') || style.startsWith('whiteSpace=wrap;html=1;') || style.startsWith('rhombus;') || style.startsWith('html=1;whiteSpace=wrap;aspect=fixed;shape=isoRectangle;')) {
 
         if (firstId === undefined) {
           firstId = id;
@@ -163,6 +186,7 @@ value = div.textContent || div.innerText || "";
           text: value,
           dialogueOptions: [],
           type: "choose",
+          context: context,
         };
         someDialogues.set(dia.id, dia);
 
@@ -179,6 +203,7 @@ value = div.textContent || div.innerText || "";
           text: "",
           dialogueOptions: [],
           type: "autoPush",
+          context: context,
         };
         someDialogues.set(dia.id, dia);
 
@@ -257,20 +282,12 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
 
 
 
-    if (source !== undefined && source !== null && target !== undefined && target !== null && style !== undefined && style !== null) {
+    if (source !== undefined && source !== null && style !== undefined && style !== null) {
 
       //should conditionally put this here too...
       // value = value.replaceAll("&nbsp;", " ");
 
-
-
-
-
-
-
-
-
-      if (style.startsWith('edgeStyle=orthogonalEdgeStyle;') || style.startsWith('endArrow=classic;') || style.startsWith('edgeStyle=none;rounded=0;orthogonalLoop=1') || style.startsWith('edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;')) {
+      if (style.startsWith('edgeStyle=orthogonalEdgeStyle;') || style.startsWith('edgeStyle=elbowEdgeStyle;shape=connector;') || style.startsWith('edgeStyle=none;shape=connector;') || style.startsWith('rounded=0;orthogonalLoop=1') || style.startsWith('endArrow=classic;') || style.startsWith('edgeStyle=none;rounded=0;orthogonalLoop=1') || style.startsWith('edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;')) {
         if (style.includes('dashed=1;')) {
 
         } else {

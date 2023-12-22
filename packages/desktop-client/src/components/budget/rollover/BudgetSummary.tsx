@@ -274,7 +274,7 @@ export function BudgetSummary({
     onToggleSummaryCollapse,
   } = useRollover();
 
-  let { setTop, setLeft, setOffset } = useCoach(); // this is causing the errors.
+  let { setTop, setLeft, setOffset, commonElementsRef } = useCoach(); // this is causing the errors.
 
   let [menuOpen, setMenuOpen] = useState(false);
 
@@ -310,6 +310,9 @@ export function BudgetSummary({
   let prevMonthName = monthUtils.format(monthUtils.prevMonth(month), 'MMM');
 
   let ExpandOrCollapseIcon = collapsed ? ArrowButtonDown1 : ArrowButtonUp1;
+
+  //let { commonElementsRef } = useCoach(); // this is causing the errors.
+
 
   return (
     <View
@@ -445,7 +448,6 @@ export function BudgetSummary({
             </View>
           </View>
         </View>
-
         {collapsed ? (
           <View
             style={{
@@ -467,7 +469,13 @@ export function BudgetSummary({
           <>
             <TotalsList prevMonthName={prevMonthName} />
             <View style={{ margin: '23px 0' }}>
-              <ToBudget month={month} onBudgetAction={onBudgetAction} />
+              <div
+                ref={element => {
+                  commonElementsRef.current['budget_header'] = element;
+                }}
+              >
+                <ToBudget month={month} onBudgetAction={onBudgetAction} />
+              </div>            
             </View>
           </>
         )}

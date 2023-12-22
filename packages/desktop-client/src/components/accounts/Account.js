@@ -1203,7 +1203,7 @@ class AccountInternal extends PureComponent {
             fetchAllIds={this.fetchAllIds}
             registerDispatch={dispatch => (this.dispatchSelected = dispatch)}
           >
-            <Coach
+            <Coach context="Accounts"
             />
 
             <View style={styles.page}>
