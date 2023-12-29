@@ -91,6 +91,7 @@ type Dialogue = {
   dialogueOptions: [DialogueOption];
   type: string; // choose, autoPush
   action: string;
+  gif: string;
   context: string;
 };
 
@@ -130,9 +131,11 @@ await fetch(coachSrc)
   let items = data.getElementsByTagName("mxCell");
 
   let firstId = undefined;
+  let firstIdXYTotal = 100000000;
 
 
   let actions = new Map();
+  let gifs = new Map();
 
 
   for (let i = 0; i < items.length; i++) {
@@ -147,6 +150,10 @@ await fetch(coachSrc)
 //div.innerHTML = value;
 //value = div.innerHTML;//div.textContent || div.innerText || "";
 
+
+
+
+
     const style = child.getAttribute("style");
 
     let context = "Anywhere";
@@ -155,7 +162,11 @@ await fetch(coachSrc)
 
       value = value.replaceAll('<br style="border-color: var(--border-color);">', '<br>');
 
-
+      value = value.replaceAll('<font style="font-size: 12px;">', '');
+      value = value.replaceAll('<font style="font-size: 10px;">', '');
+      value = value.replaceAll('</font>', '');
+      value = value.replaceAll('<p>', '');
+      value = value.replaceAll('</p>', '');
 
 
       let sIndex = value.indexOf("&lt;&lt;") + 8; 
@@ -175,11 +186,29 @@ await fetch(coachSrc)
 
       value = value.replaceAll("&nbsp;", " ");
 
-      if (style.startsWith('rounded=0;') || style.startsWith('whiteSpace=wrap;html=1;') || style.startsWith('rhombus;') || style.startsWith('html=1;whiteSpace=wrap;aspect=fixed;shape=isoRectangle;')) {
+      if (style.includes('shape=mxgraph.flowchart.decision;') || style.startsWith('rounded=0;') || style.startsWith('whiteSpace=wrap;html=1;') || style.startsWith('rhombus;') || style.startsWith('html=1;whiteSpace=wrap;aspect=fixed;shape=isoRectangle;')) {
 
-        if (firstId === undefined) {
-          firstId = id;
+
+        let moreChilds = child.getElementsByTagName("mxGeometry");
+
+        for (let i = 0; i < moreChilds.length; i++) {
+          const moreChild = moreChilds[i];
+
+          let xxx = moreChild.getAttribute("x");
+          let yyy = moreChild.getAttribute("y");
+
+          if (xxx !== null && xxx !== undefined && yyy !== null && yyy !== undefined) {
+            let xyTotal = Number(xxx) + Number(yyy);
+
+            console.log("id xy total:" + id + " " + xyTotal);
+
+            if (xyTotal < firstIdXYTotal) {
+              firstIdXYTotal = xyTotal;
+              firstId = id;
+            }
+          }
         }
+
 
         const dia: Dialogue = {
           id: id,
@@ -194,9 +223,27 @@ await fetch(coachSrc)
       }
       else if (style.startsWith('shape=cylinder3;')) {
 
-        if (firstId === undefined) {
-          firstId = id;
+
+        let moreChilds = child.getElementsByTagName("mxGeometry");
+
+        for (let i = 0; i < moreChilds.length; i++) {
+          const moreChild = moreChilds[i];
+
+          let xxx = moreChild.getAttribute("x");
+          let yyy = moreChild.getAttribute("y");
+
+          if (xxx !== null && xxx !== undefined && yyy !== null && yyy !== undefined) {
+            let xyTotal = Number(xxx) + Number(yyy);
+
+            console.log("id xy total:" + id + " " + xyTotal);
+
+            if (xyTotal < firstIdXYTotal) {
+              firstIdXYTotal = xyTotal;
+              firstId = id;
+            }
+          }
         }
+
 
         const dia: Dialogue = {
           id: id,
@@ -211,7 +258,23 @@ await fetch(coachSrc)
       }
       else if (style.startsWith('rounded=1')) {
 
+
+//Ok I think this might work... but... we need the <br> for the value saving.
+//Also the fact that labels are sometimes on the arrows themselves... are those set up to split and save variables too?
+// let div = document.createElement("div");
+// div.innerHTML = value;
+// value = div.textContent || div.innerText || "";
+value = value.replaceAll("</div><div>", "<br>")
+value = value.replaceAll("<div>", "")
+value = value.replaceAll("</div>", "")
+
         actions.set(id, value);
+
+        // save this as an action.
+      }
+      else if (style.startsWith('triangle')) {
+
+        gifs.set(id, value);
 
         // save this as an action.
       }
@@ -301,6 +364,20 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
             }
 
           }
+
+
+          let sourceGif = gifs.get(source);
+          if (sourceGif !== undefined && sourceGif !== null) {
+            let dialogue = someDialogues.get(target);
+
+            if (dialogue !== undefined && dialogue !== null) {
+              dialogue.gif = sourceGif;
+            }
+
+          }
+
+
+
 
 
           let dialogue = someDialogues.get(source);

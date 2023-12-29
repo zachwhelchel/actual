@@ -673,12 +673,15 @@ export default function Coach({
 
       if (dialogue.type === "autoPush") {
 
+        console.log("AUTO PUSH TIME:" + dialogue.dialogueOptions.length);
+
         // notice how none of this sets the actual setDialogueId because that would mess with back stack stuff, etc.
         let winner = null;
 
         for (let i = 0; i < dialogue.dialogueOptions.length; i++) {
 
           let option = dialogue.dialogueOptions[i];
+
 
           let passes = true;
           let and = option.and;
@@ -1410,7 +1413,7 @@ export default function Coach({
 
     if (variable !== undefined && variable !== null && value !== undefined && value !== null) {
 
-      console.log ("EVAL: " + variable + " = " + value + " state:");
+      console.log ("EVAL: " + variable + " = " + value + " state:" + coachState[variable]);
 
       return coachState[variable] === value;
     } else {
@@ -4139,6 +4142,20 @@ export default function Coach({
         );
       }
 
+
+      let gifContent;
+      if (dialogue.gif !== undefined) {
+        let stringgg = "https://media.giphy.com/media/" + dialogue.gif + "/giphy.gif"
+        gifContent = (
+          <img src={stringgg} width="100%" style={{ marginTop: 8 }} alt="gif" />
+        );
+      } else {
+        gifContent = (
+          <div>
+          </div>
+        );
+      }
+
       if (dialogue.dialogueOptions.length === 1) {
         let isInput = false;
 
@@ -4155,8 +4172,8 @@ export default function Coach({
           content = (
             <div>
               <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
-  {/*            <img src="https://media.giphy.com/media/CjmvTCZf2U3p09Cn0h/giphy.gif" width="100%" style={{ marginTop: 8 }} alt="gif" />
-  */}            <Button
+              {gifContent}
+             <Button
                 type="primary"
                 style={{ marginTop: 8 }}
                 onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
@@ -4170,7 +4187,7 @@ export default function Coach({
           content = (
             <div>
               <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
-
+              {gifContent}
               <BigInput
                 autoFocus={true}
                 placeholder=""
@@ -4195,6 +4212,7 @@ export default function Coach({
         content = (
           <div>
             <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
+            {gifContent}
             <Button
               type="primary"
               style={{ marginTop: 8 }}
@@ -4216,6 +4234,7 @@ export default function Coach({
         content = (
           <div>
             <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
+            {gifContent}
             <Button
               type="primary"
               style={{ marginTop: 8 }}
@@ -4240,10 +4259,140 @@ export default function Coach({
             {backContent}
           </div>
         );
+      } else if (dialogue.dialogueOptions.length === 4) {
+        content = (
+          <div>
+            <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
+            {gifContent}
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+            >
+              {dialogue.dialogueOptions[0].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
+            >
+              {dialogue.dialogueOptions[1].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
+            >
+              {dialogue.dialogueOptions[2].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[3])}
+            >
+              {dialogue.dialogueOptions[3].text}
+            </Button>
+            {backContent}
+          </div>
+        );
+      } else if (dialogue.dialogueOptions.length === 5) {
+        content = (
+          <div>
+            <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
+            {gifContent}
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+            >
+              {dialogue.dialogueOptions[0].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
+            >
+              {dialogue.dialogueOptions[1].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
+            >
+              {dialogue.dialogueOptions[2].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[3])}
+            >
+              {dialogue.dialogueOptions[3].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[4])}
+            >
+              {dialogue.dialogueOptions[4].text}
+            </Button>
+            {backContent}
+          </div>
+        );
+      }else if (dialogue.dialogueOptions.length === 6) {
+        content = (
+          <div>
+            <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
+            {gifContent}
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+            >
+              {dialogue.dialogueOptions[0].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
+            >
+              {dialogue.dialogueOptions[1].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
+            >
+              {dialogue.dialogueOptions[2].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[3])}
+            >
+              {dialogue.dialogueOptions[3].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[4])}
+            >
+              {dialogue.dialogueOptions[4].text}
+            </Button>
+            <Button
+              type="primary"
+              style={{ marginTop: 8 }}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[5])}
+            >
+              {dialogue.dialogueOptions[5].text}
+            </Button>
+            {backContent}
+          </div>
+        );
       } else {
         content = (
           <div>
             <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
+            {gifContent}
             {backContent}
           </div>
         );
