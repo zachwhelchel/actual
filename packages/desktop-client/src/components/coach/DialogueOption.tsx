@@ -28,7 +28,7 @@ export function CoachProvider({ budgetId, children }) {
   let nickSmith_runningBalance_key = "nickSmith_runningBalance_" + budgetId.budgetId
   //a lot of these need to be per account as well.
 
-  let [dialogueId, setDialogueId] = useState(localStorage.getItem(dialogueId_key) ?? process.env.REACT_APP_COACH + '_1');
+  let [dialogueId, setDialogueId] = useState(localStorage.getItem(dialogueId_key) ?? '');
 
   let [nickSmith_myBudgetCoachReason, setNickSmith_myBudgetCoachReason] = useState(localStorage.getItem(nickSmith_myBudgetCoachReason_key) ?? '');
   let [nickSmith_accountStructure, setNickSmith_accountStructure] = useState(localStorage.getItem(nickSmith_accountStructure_key) ?? '');

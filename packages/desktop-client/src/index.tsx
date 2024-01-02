@@ -81,8 +81,97 @@ window.$send = send;
 window.$query = runQuery;
 window.$q = q;
 
+
+/////////
+
+let url = window.location.href;
+
+let REACT_APP_BILLING_STATUS = process.env.REACT_APP_BILLING_STATUS;
+let REACT_APP_TRIAL_END_DATE = process.env.REACT_APP_TRIAL_END_DATE;
+let REACT_APP_ZOOM_RATE = process.env.REACT_APP_ZOOM_RATE;
+let REACT_APP_ZOOM_LINK = process.env.REACT_APP_ZOOM_LINK;
+let REACT_APP_COACH = process.env.REACT_APP_COACH;
+let REACT_APP_COACH_FIRST_NAME = process.env.REACT_APP_COACH_FIRST_NAME;
+let REACT_APP_USER_FIRST_NAME = process.env.REACT_APP_USER_FIRST_NAME;
+
+if (url.includes("kristinwade")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
+  REACT_APP_COACH = "kristinwade"
+  REACT_APP_COACH_FIRST_NAME = "Kristin"
+  REACT_APP_USER_FIRST_NAME = "Kristin"
+} 
+else if (url.includes("nicksmith")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 28th, 2023"
+  REACT_APP_ZOOM_RATE = "40.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://calendly.com/personalwealthadventures/one-hour-session"
+  REACT_APP_COACH = "nicksmith"
+  REACT_APP_COACH_FIRST_NAME = "Nick"
+  REACT_APP_USER_FIRST_NAME = "Nick"
+}
+else if (url.includes("jordanjung")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "39.99 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://calendly.com/jordan_denae/1-hour-meeting"
+  REACT_APP_COACH = "jordanjung"
+  REACT_APP_COACH_FIRST_NAME = "Jordan"
+  REACT_APP_USER_FIRST_NAME = "Jordan"
+}
+else if (url.includes("randidegraw")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "39.99 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://meetings.hubspot.com/randi-degraw/mybudgetcoach"
+  REACT_APP_COACH = "randidegraw"
+  REACT_APP_COACH_FIRST_NAME = "Randi"
+  REACT_APP_USER_FIRST_NAME = "Randi"
+}
+else if (url.includes("zachwhelchel")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "39.99 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://calendly.com/jordan_denae/1-hour-meeting"
+  REACT_APP_COACH = "jordanjung"
+  REACT_APP_COACH_FIRST_NAME = "Jordan"
+  REACT_APP_USER_FIRST_NAME = "Zach"
+}
+else if (url.includes("melodybarthelemy")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "35.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://calendly.com/frugallymelody/my-budget-coach"
+  REACT_APP_COACH = "melodybarthelemy"
+  REACT_APP_COACH_FIRST_NAME = "Melody"
+  REACT_APP_USER_FIRST_NAME = "Melody"
+}
+else if (url.includes("alfredomatos")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "49.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://calendly.com/cashviewpoint/mybudgetcoach"
+  REACT_APP_COACH = "alfredomatos"
+  REACT_APP_COACH_FIRST_NAME = "Alfredo"
+  REACT_APP_USER_FIRST_NAME = "Alfredo"
+}
+else if (url.includes("aitzarelysnegron")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "47.00 USD / 45 Minute Session"
+  REACT_APP_ZOOM_LINK = "https://StrategiesandTEA.as.me/MBC"
+  REACT_APP_COACH = "aitzanegron"
+  REACT_APP_COACH_FIRST_NAME = "Aitzarelys"
+  REACT_APP_USER_FIRST_NAME = "Aitzarelys"
+}
+
+//////////
+
+
 //Set up the coach dialogues.
-let coachSrc = "/data/" + process.env.REACT_APP_COACH + ".drawio.xml";
+let coachSrc = "/data/" + REACT_APP_COACH + ".drawio.xml";
 
 //coachSrc = "https://firebasestorage.googleapis.com/v0/b/mybudgetcoach-3c977.appspot.com/o/%20KristinWade.drawio-24.xml?alt=media&token=c20c8ead-89b9-4c1c-8a32-b59ced6f7f87"
 type Dialogue = {
