@@ -166,12 +166,30 @@ else if (url.includes("aitzarelysnegron")) {
   REACT_APP_COACH_FIRST_NAME = "Aitzarelys"
   REACT_APP_USER_FIRST_NAME = "Aitzarelys"
 }
+else if (url.includes("georgewu")) {
+  REACT_APP_BILLING_STATUS = "free_trial"
+  REACT_APP_TRIAL_END_DATE = "February 14th, 2024"
+  REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
+  REACT_APP_COACH = "kristinwade"
+  REACT_APP_COACH_FIRST_NAME = "Kristin"
+  REACT_APP_USER_FIRST_NAME = "George"
+} 
+// else {
+//   REACT_APP_BILLING_STATUS = "free_trial"
+//   REACT_APP_TRIAL_END_DATE = "February 14th, 2024"
+//   REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+//   REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
+//   REACT_APP_COACH = "kristinwade"
+//   REACT_APP_COACH_FIRST_NAME = "Kristin"
+//   REACT_APP_USER_FIRST_NAME = "George"
+// } 
 
 //////////
 
 
 //Set up the coach dialogues.
-let coachSrc = "/data/" + REACT_APP_COACH + ".drawio.xml";
+let coachSrc = "/avatars/" + REACT_APP_COACH + ".drawio.xml";
 
 //coachSrc = "https://firebasestorage.googleapis.com/v0/b/mybudgetcoach-3c977.appspot.com/o/%20KristinWade.drawio-24.xml?alt=media&token=c20c8ead-89b9-4c1c-8a32-b59ced6f7f87"
 type Dialogue = {
