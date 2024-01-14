@@ -58,7 +58,7 @@ export default function ExportBudget() {
       <Text>
         <strong>Export</strong> your data as a zip file containing{' '}
         <code>db.sqlite</code> and <code>metadata.json</code> files. It can be
-        imported into another Actual instance by closing an open file (if any),
+        imported into another MyBudgetCoach instance by closing an open file (if any),
         then clicking the “Import file” button, then choosing “Actual.”
       </Text>
       {encryptKeyId ? (

@@ -104,7 +104,25 @@ else if (url.includes("georgewu")) {
   REACT_APP_COACH = "kristinwade"
   REACT_APP_COACH_FIRST_NAME = "Kristin"
   REACT_APP_USER_FIRST_NAME = "George"
+}
+else if (url.includes("elizabethmckay")) {
+  REACT_APP_BILLING_STATUS = "free_trial"
+  REACT_APP_TRIAL_END_DATE = "February 18th, 2024"
+  REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
+  REACT_APP_COACH = "kristinwade"
+  REACT_APP_COACH_FIRST_NAME = "Kristin"
+  REACT_APP_USER_FIRST_NAME = "Elizabeth"
 } 
+else if (url.includes("enidnegron")) {
+  REACT_APP_BILLING_STATUS = "free_trial"
+  REACT_APP_TRIAL_END_DATE = "February 18th, 2024"
+  REACT_APP_ZOOM_RATE = "47.00 USD / 45 Minute Session"
+  REACT_APP_ZOOM_LINK = "https://StrategiesandTEA.as.me/MBC"
+  REACT_APP_COACH = "aitzanegron"
+  REACT_APP_COACH_FIRST_NAME = "Aitzarelys"
+  REACT_APP_USER_FIRST_NAME = "Enid"
+}
 // else {
 //   REACT_APP_BILLING_STATUS = "free_trial"
 //   REACT_APP_TRIAL_END_DATE = "February 14th, 2024"

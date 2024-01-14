@@ -62,7 +62,7 @@ function EmptyMessage({ onAdd }) {
         }}
       >
         <Text style={{ textAlign: 'center', lineHeight: '1.4em' }}>
-          For Actual to be useful, you need to <strong>add an account</strong>.
+          For MyBudgetCoach to be useful, you need to <strong>add an account</strong>.
           You can link an account to automatically download transactions, or
           manage it locally yourself.
         </Text>

@@ -71,7 +71,7 @@ export function getTestKeyError({ reason }) {
     case 'old-key-style':
       return (
         'This file is encrypted with an old unsupported key style. Recreate the key ' +
-        'on a device where the file is available, or use an older version of Actual to download ' +
+        'on a device where the file is available, or use an older version of MyBudgetCoach to download ' +
         'it.'
       );
     case 'decrypt-failure':

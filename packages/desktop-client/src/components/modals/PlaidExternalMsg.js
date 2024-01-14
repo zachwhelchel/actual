@@ -68,7 +68,7 @@ export default function PlaidExternalMsg({
         <View>
           <Paragraph style={{ fontSize: 15 }}>
             To link your bank account, you will be moved to your browser for
-            enhanced security. Click below and Actual will automatically resume
+            enhanced security. Click below and MyBudgetCoach will automatically resume
             when you have given your bank’s credentials.
           </Paragraph>
           {error && renderError(error)}
