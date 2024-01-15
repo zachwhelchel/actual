@@ -84,15 +84,6 @@ export default function Bootstrap() {
       )}
 
       <ConfirmPasswordForm
-        buttons={
-          <Button
-            type="bare"
-            style={{ fontSize: 15, color: theme.pageTextLink, marginRight: 15 }}
-            onClick={onDemo}
-          >
-            Try Demo
-          </Button>
-        }
         onSetPassword={onSetPassword}
         onError={setError}
       />
