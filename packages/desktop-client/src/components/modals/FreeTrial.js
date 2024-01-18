@@ -123,14 +123,41 @@ else if (url.includes("enidnegron")) {
   REACT_APP_COACH_FIRST_NAME = "Aitzarelys"
   REACT_APP_USER_FIRST_NAME = "Enid"
 }
+else if (url.includes("mirlandepetitraymond")) {
+  REACT_APP_BILLING_STATUS = "free_trial"
+  REACT_APP_TRIAL_END_DATE = "February 21st, 2024"
+  REACT_APP_ZOOM_RATE = "47.00 USD / 45 Minute Session"
+  REACT_APP_ZOOM_LINK = "https://StrategiesandTEA.as.me/MBC"
+  REACT_APP_COACH = "aitzanegron"
+  REACT_APP_COACH_FIRST_NAME = "Aitzarelys"
+  REACT_APP_USER_FIRST_NAME = "Mirlande"
+}
+else if (url.includes("reynaperdomo")) {
+  REACT_APP_BILLING_STATUS = "free_trial"
+  REACT_APP_TRIAL_END_DATE = "February 21st, 2024"
+  REACT_APP_ZOOM_RATE = "47.00 USD / 45 Minute Session"
+  REACT_APP_ZOOM_LINK = "https://StrategiesandTEA.as.me/MBC"
+  REACT_APP_COACH = "aitzanegron"
+  REACT_APP_COACH_FIRST_NAME = "Aitzarelys"
+  REACT_APP_USER_FIRST_NAME = "Reyna"
+}
+else if (url.includes("jacquelinekeeley")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "40.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://calendly.com/personalwealthadventures/one-hour-session"
+  REACT_APP_COACH = "nicksmith"
+  REACT_APP_COACH_FIRST_NAME = "Nick"
+  REACT_APP_USER_FIRST_NAME = "Jacqueline"
+}
 // else {
-//   REACT_APP_BILLING_STATUS = "free_trial"
-//   REACT_APP_TRIAL_END_DATE = "February 18th, 2024"
-//   REACT_APP_ZOOM_RATE = "47.00 USD / 45 Minute Session"
-//   REACT_APP_ZOOM_LINK = "https://StrategiesandTEA.as.me/MBC"
-//   REACT_APP_COACH = "aitzanegron"
-//   REACT_APP_COACH_FIRST_NAME = "Aitzarelys"
-//   REACT_APP_USER_FIRST_NAME = "Enid"
+//   REACT_APP_BILLING_STATUS = "paid"
+//   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+//   REACT_APP_ZOOM_RATE = "40.00 USD / hour"
+//   REACT_APP_ZOOM_LINK = "https://calendly.com/personalwealthadventures/one-hour-session"
+//   REACT_APP_COACH = "nicksmith"
+//   REACT_APP_COACH_FIRST_NAME = "Nick"
+//   REACT_APP_USER_FIRST_NAME = "Jacqueline"
 // } 
 
 //////////

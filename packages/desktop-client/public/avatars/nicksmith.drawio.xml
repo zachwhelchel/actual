@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" modified="2024-01-15T16:21:36.299Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15" etag="GvEhLyUD9SXB_T107zQJ" version="22.1.18" type="google">
+<mxfile host="app.diagrams.net" modified="2024-01-18T02:45:11.586Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15" etag="tOmdJ7OE71tLg-2gf-LA" version="22.1.21" type="google">
   <diagram name="Conversations" id="oP8GNghZ1G6uxloS-E3e">
-    <mxGraphModel dx="3705" dy="-1381" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3831" dy="-1096" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -3679,7 +3679,7 @@
           <mxGeometry x="2415.75" y="13360" width="214.25" height="190" as="geometry" />
         </mxCell>
         <mxCell id="upRpRQDEe1xkYZp5om-L-71" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;That completes your account and budget set-up overview. I have enjoyed helping you through this tutorial and I am confident you have built a successful foundation for starting a new chapter in your personal finance journey and you are now a few steps closer toward financial wellness!" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-          <mxGeometry x="7880" y="13515" width="240" height="170" as="geometry" />
+          <mxGeometry x="7880" y="13520" width="240" height="170" as="geometry" />
         </mxCell>
         <mxCell id="upRpRQDEe1xkYZp5om-L-80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.004;entryY=0.352;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="upRpRQDEe1xkYZp5om-L-68" target="boIbo5ZJyjXnLei4k4g7-120" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -4004,13 +4004,13 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="boIbo5ZJyjXnLei4k4g7-6" value="account_structure = 1_and_1 OR more_than_one_cc" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="boIbo5ZJyjXnLei4k4g7-5" connectable="0" vertex="1">
+        <mxCell id="boIbo5ZJyjXnLei4k4g7-6" value="account_structure = 1_and_1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="boIbo5ZJyjXnLei4k4g7-5" connectable="0" vertex="1">
           <mxGeometry x="0.3552" y="-2" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="boIbo5ZJyjXnLei4k4g7-1" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
-          <mxGeometry x="6110" y="13900" width="130" height="140" as="geometry" />
+          <mxGeometry x="6110" y="13890" width="130" height="140" as="geometry" />
         </mxCell>
         <mxCell id="boIbo5ZJyjXnLei4k4g7-113" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="boIbo5ZJyjXnLei4k4g7-7" target="boIbo5ZJyjXnLei4k4g7-18" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -4661,6 +4661,14 @@
         </mxCell>
         <mxCell id="lYSORhwtOTrkeaxrgMn_-2" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Similar to the credit card balance, you can either enter dollars into the Budgeted column to fund the Spent amount, or you can select the &#39;Rollover overspending&#39; option, if there is a negative amount at the end of the month.&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="5120" y="15000" width="290" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="Nd0HFoWqAjWsgLSOB8sH-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.678;entryY=-0.011;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="boIbo5ZJyjXnLei4k4g7-1" target="boIbo5ZJyjXnLei4k4g7-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Nd0HFoWqAjWsgLSOB8sH-2" value="account_structure = more_than_one_cc" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Nd0HFoWqAjWsgLSOB8sH-1">
+          <mxGeometry x="0.3179" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
