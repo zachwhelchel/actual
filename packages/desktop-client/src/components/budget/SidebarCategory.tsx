@@ -9,6 +9,7 @@ import { Button } from '../common/Button';
 import { Menu } from '../common/Menu';
 import { View } from '../common/View';
 import { NotesButton } from '../NotesButton';
+import { TemplateButton } from '../TemplateButton';
 import { InputCell } from '../table';
 import { Tooltip } from '../tooltips';
 
@@ -112,6 +113,11 @@ export function SidebarCategory({
       </View>
       <View style={{ flex: 1 }} />
       <NotesButton
+        id={category.id}
+        style={dragging && { color: 'currentColor' }}
+        defaultColor={theme.pageTextLight}
+      />
+      <TemplateButton
         id={category.id}
         style={dragging && { color: 'currentColor' }}
         defaultColor={theme.pageTextLight}
