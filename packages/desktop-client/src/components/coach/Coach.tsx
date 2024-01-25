@@ -203,6 +203,24 @@ else if (url.includes("zachdemo")) {
   REACT_APP_COACH_FIRST_NAME = "Zach"
   REACT_APP_USER_FIRST_NAME = "Coach"
 }
+else if (url.includes("spencerstephenson")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "40.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://calendly.com/personalwealthadventures/one-hour-session"
+  REACT_APP_COACH = "nicksmith"
+  REACT_APP_COACH_FIRST_NAME = "Nick"
+  REACT_APP_USER_FIRST_NAME = "Spencer"
+}
+else if (url.includes("katiesolomon")) {
+  REACT_APP_BILLING_STATUS = "free_trial"
+  REACT_APP_TRIAL_END_DATE = "February 28th, 2024"
+  REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
+  REACT_APP_COACH = "kristinwade"
+  REACT_APP_COACH_FIRST_NAME = "Kristin"
+  REACT_APP_USER_FIRST_NAME = "Katie"
+}
 // else {
 //   REACT_APP_BILLING_STATUS = "paid"
 //   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
@@ -4327,6 +4345,24 @@ else if (url.includes("zachdemo")) {
   REACT_APP_COACH = "zachdemo"
   REACT_APP_COACH_FIRST_NAME = "Zach"
   REACT_APP_USER_FIRST_NAME = "Coach"
+}
+else if (url.includes("spencerstephenson")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "40.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://calendly.com/personalwealthadventures/one-hour-session"
+  REACT_APP_COACH = "nicksmith"
+  REACT_APP_COACH_FIRST_NAME = "Nick"
+  REACT_APP_USER_FIRST_NAME = "Spencer"
+}
+else if (url.includes("katiesolomon")) {
+  REACT_APP_BILLING_STATUS = "free_trial"
+  REACT_APP_TRIAL_END_DATE = "February 28th, 2024"
+  REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
+  REACT_APP_COACH = "kristinwade"
+  REACT_APP_COACH_FIRST_NAME = "Kristin"
+  REACT_APP_USER_FIRST_NAME = "Katie"
 }
 // else {
 //   REACT_APP_BILLING_STATUS = "paid"
