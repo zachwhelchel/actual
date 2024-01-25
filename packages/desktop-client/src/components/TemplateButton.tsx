@@ -8,7 +8,7 @@ import { q } from 'loot-core/src/shared/query';
 import { SvgTarget } from '../icons/v1';
 import { type CSSProperties, theme } from '../style';
 
-import { Button } from './common/Button';
+import { Button, ButtonWithLoading } from './common/Button';
 import { View } from './common/View';
 import { Select } from './common/Select';
 import { Notes } from './Notes';
@@ -30,40 +30,23 @@ function NotesTooltip({
 
   const [primaryIntent, setPrimaryIntent] = useState<string>('be_able_to_spend');
   const [frequency, setFrequency] = useState<string>('every_month');
-  const [extras, setExtras] = useState<string>('removing');
+  const [extras, setExtras] = useState<string>('leaving');
   const [howLong, setHowLong] = useState<string>('no_matter_the_balance');
   const [repeat, setRepeat] = useState<string>('never');
   const [whenSpent, setWhenSpent] = useState<string>('all_at_once');
 
+  const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
+
   //save = budget? be_able_to_spend = budget up to?
   const primaryIntentList = [['be_able_to_spend', 'start each month with'], ['save', 'allocate']];
   const frequencyList = [['every_month', 'every month'], ['every_week', 'every week'], ['every_2_weeks', 'every 2 weeks'], ['by', 'by']];
-  const extrasList = [['removing', 'remove'], ['leaving', 'leave']];
+  const extrasList = [['leaving', 'leave'], ['removing', 'remove']];
   const howLongList = [['no_matter_the_balance', 'remove this goal'], ['until_I_save_up_to', 'save up to']];
   const repeatList = [['never', 'never'], ['every_6_months', 'every 6 months'], ['every_year', 'every year'], ['every_2_years', 'every 2 years']];
-  const whenSpentList = [['along_the_way', 'along the way'], ['all_at_once', 'all at once']];
+  const whenSpentList = [['all_at_once', 'all at once'], ['along_the_way', 'along the way']];
 
-  const [order, setOrder] = useState<string>(["I", "want", "to", "_primaryIntent", "$50", "available", "and", "_extras", "any", "extra", "balance", "that", "may", "have", "accumulated."]);
-
-  let orderList = [];
-
-  order.forEach((item, index) => {
-    if (item === '_primaryIntent') {
-      orderList.push(<Select options={primaryIntentList} value={primaryIntent} onChange={newValue => handleOnChangePrimaryIntent(newValue)}/>);
-    } else if (item === '_frequency') {
-      orderList.push(<Select options={frequencyList} value={frequency} onChange={newValue => handleOnChangeFrequency(newValue)}/>);
-    } else if (item === '_extras') {
-      orderList.push(<Select options={extrasList} value={extras} onChange={newValue => handleOnChangeExtras(newValue)}/>);
-    } else if (item === '_howLong') {
-      orderList.push(<Select options={howLongList} value={howLong} onChange={newValue => handleOnChangeHowLong(newValue)}/>);
-    } else if (item === '_repeat') {
-      orderList.push(<Select options={repeatList} value={repeat} onChange={newValue => handleOnChangeRepeat(newValue)}/>);
-    } else if (item === '_whenSpent') {
-      orderList.push(<Select options={whenSpentList} value={whenSpent} onChange={newValue => handleOnChangeWhenSpent(newValue)}/>);
-    } else {
-      orderList.push(<View>{item}</View>);
-    }
-  });
+  const [order, setOrder] = useState<string>(["I", "want", "to", "_primaryIntent", "$50", "available."]);
+  const [orderAdvanced, setOrderAdvanced] = useState<string>(["I", "want", "to", "_primaryIntent", "$50", "available", "and", "_extras", "any", "extra", "balance", "that", "may", "have", "accumulated."]);
 
   function handleOnChangePrimaryIntent(newValue) {
     setPrimaryIntent(newValue);
@@ -95,39 +78,31 @@ function NotesTooltip({
     handleStuff(primaryIntent, frequency, extras, howLong, repeat, newValue);
   }
 
-  function handleStuff(newPrimaryIntent, newFrequency, newExtras, newHowLong, newRepeat, newWhenSpent) {
+  function onShowAdvanced() {
+    if (showAdvanced === true) {
 
-    if (newPrimaryIntent === 'save' && (newFrequency === 'every_month' || newFrequency === 'every_week' || newFrequency === 'every_2_weeks') && newHowLong === 'no_matter_the_balance') {
-      setOrder(["I want to", "_primaryIntent", "$50", "_frequency", "until I", "_howLong", "."]);
-    } else if (newPrimaryIntent === 'save' && newFrequency === 'by') {
-      setOrder(["I want to", "_primaryIntent", "$50", "_frequency", "June 2024. I plan to spend this money", "_whenSpent", ". Repeat this goal", "_repeat", "."]);
-    } else if (newPrimaryIntent === 'save' && newHowLong === 'until_I_save_up_to') {
-      setOrder(["I want to", "_primaryIntent", "$50", "_frequency", "until I ", "_howLong", "$300", "."]);
-    } else if (newPrimaryIntent === 'be_able_to_spend') {
-      setOrder(["I", "want", "to", "_primaryIntent", "$50", "available", "and", "_extras", "any", "extra", "balance", "that", "may", "have", "accumulated."]);
+    } else {
+      setExtras('leaving');
+      setWhenSpent('all_at_once');
+      setRepeat('never');
     }
+    setShowAdvanced(!showAdvanced);
+  }
 
-    let newOrderList = [];
-
-    order.forEach((item, index) => {
-      if (item === '_primaryIntent') {
-        newOrderList.push(<Select options={primaryIntentList} value={primaryIntent} onChange={newValue => handleOnChangePrimaryIntent(newValue)}/>);
-      } else if (item === '_frequency') {
-        newOrderList.push(<Select options={frequencyList} value={frequency} onChange={newValue => handleOnChangeFrequency(newValue)}/>);
-      } else if (item === '_extras') {
-        newOrderList.push(<Select options={extrasList} value={extras} onChange={newValue => handleOnChangeExtras(newValue)}/>);
-      } else if (item === '_howLong') {
-        newOrderList.push(<Select options={howLongList} value={howLong} onChange={newValue => handleOnChangeHowLong(newValue)}/>);
-      } else if (item === '_repeat') {
-        newOrderList.push(<Select options={repeatList} value={repeat} onChange={newValue => handleOnChangeRepeat(newValue)}/>);
-      } else if (item === '_whenSpent') {
-        newOrderList.push(<Select options={whenSpentList} value={whenSpent} onChange={newValue => handleOnChangeWhenSpent(newValue)}/>);
-      } else {
-        newOrderList.push(<View>{item}</View>);
-      }
-    });
-
-    orderList = newOrderList;
+  function handleStuff(newPrimaryIntent, newFrequency, newExtras, newHowLong, newRepeat, newWhenSpent) {
+    if (newPrimaryIntent === 'save' && (newFrequency === 'every_month' || newFrequency === 'every_week' || newFrequency === 'every_2_weeks') && newHowLong === 'no_matter_the_balance') {
+      setOrder(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "until", "I", "_howLong", "."]);
+      setOrderAdvanced(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "until", "I", "_howLong", "."]);
+    } else if (newPrimaryIntent === 'save' && newFrequency === 'by') {
+      setOrder(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "June", "2024."]);
+      setOrderAdvanced(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "June", "2024.", "I", "plan", "to", "spend", "this", "money", "_whenSpent", ". Repeat", "this", "goal", "_repeat", "."]);
+    } else if (newPrimaryIntent === 'save' && newHowLong === 'until_I_save_up_to') {
+      setOrder(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "until", "I", "_howLong", "$300", "."]);
+      setOrderAdvanced(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "until", "I", "_howLong", "$300", "."]);
+    } else if (newPrimaryIntent === 'be_able_to_spend') {
+      setOrder(["I", "want", "to", "_primaryIntent", "$50", "available."]);
+      setOrderAdvanced(["I", "want", "to", "_primaryIntent", "$50", "available", "and", "_extras", "any", "extra", "balance", "that", "may", "have", "accumulated."]);
+    }
   }
 
 //Flavor text below. Look at you. This looks great. People use this for things like groceries, etc.
@@ -142,13 +117,76 @@ function NotesTooltip({
           flexDirection: 'row',
           flexWrap: 'wrap',
           alignItems: 'center',
-          gap: 5,
+          gap: 3,
           padding: '10px',
         }}
       >
-        <>
-        {orderList}
-        </>
+        {showAdvanced === true && (
+          <>
+            {orderAdvanced.map(function(item, index){
+              if (item === '_primaryIntent') {
+                return <Select options={primaryIntentList} value={primaryIntent} onChange={newValue => handleOnChangePrimaryIntent(newValue)}/>;
+              } else if (item === '_frequency') {
+                return <Select options={frequencyList} value={frequency} onChange={newValue => handleOnChangeFrequency(newValue)}/>;
+              } else if (item === '_extras') {
+                return <Select options={extrasList} value={extras} onChange={newValue => handleOnChangeExtras(newValue)}/>;
+              } else if (item === '_howLong') {
+                return <Select options={howLongList} value={howLong} onChange={newValue => handleOnChangeHowLong(newValue)}/>;
+              } else if (item === '_repeat') {
+                return <Select options={repeatList} value={repeat} onChange={newValue => handleOnChangeRepeat(newValue)}/>;
+              } else if (item === '_whenSpent') {
+                return <Select options={whenSpentList} value={whenSpent} onChange={newValue => handleOnChangeWhenSpent(newValue)}/>;
+              } else {
+                return <View>{item}</View>;
+              }
+            })}
+          </>       
+        )}
+        {showAdvanced === false && (
+          <>
+            {order.map(function(item, index){
+              if (item === '_primaryIntent') {
+                return <Select options={primaryIntentList} value={primaryIntent} onChange={newValue => handleOnChangePrimaryIntent(newValue)}/>;
+              } else if (item === '_frequency') {
+                return <Select options={frequencyList} value={frequency} onChange={newValue => handleOnChangeFrequency(newValue)}/>;
+              } else if (item === '_extras') {
+                return <Select options={extrasList} value={extras} onChange={newValue => handleOnChangeExtras(newValue)}/>;
+              } else if (item === '_howLong') {
+                return <Select options={howLongList} value={howLong} onChange={newValue => handleOnChangeHowLong(newValue)}/>;
+              } else if (item === '_repeat') {
+                return <Select options={repeatList} value={repeat} onChange={newValue => handleOnChangeRepeat(newValue)}/>;
+              } else if (item === '_whenSpent') {
+                return <Select options={whenSpentList} value={whenSpent} onChange={newValue => handleOnChangeWhenSpent(newValue)}/>;
+              } else {
+                return <View>{item}</View>;
+              }
+            })}
+          </>     
+        )}
+      </View>
+      <View
+        style={{
+          height: '1px',
+          backgroundColor: theme.formInputBorder,
+          marginTop: '2px',
+          marginBottom: '2px',
+        }}
+      >
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          padding: '10px',
+        }}
+      >
+        {JSON.stringify(order) !== JSON.stringify(orderAdvanced) && showAdvanced === true && (
+          <ButtonWithLoading onClick={onShowAdvanced}>Hide Advanced Options</ButtonWithLoading>
+        )}
+        {JSON.stringify(order) !== JSON.stringify(orderAdvanced) && showAdvanced === false && (
+          <ButtonWithLoading onClick={onShowAdvanced}>Show Advanced Options</ButtonWithLoading>
+        )}
+        <View style={{ flex: 1 }} />
+        <Button type="primary" aria-label="Close" style={{ flexShrink: 0 }} onClick={onClose}>Save</Button>
       </View>
     </Tooltip>
   );
