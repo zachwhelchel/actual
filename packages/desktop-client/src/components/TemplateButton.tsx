@@ -38,15 +38,15 @@ function NotesTooltip({
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
   //save = budget? be_able_to_spend = budget up to?
-  const primaryIntentList = [['be_able_to_spend', 'start each month with'], ['save', 'allocate']];
+  const primaryIntentList = [['be_able_to_spend', 'have'], ['save', 'budget']];
   const frequencyList = [['every_month', 'every month'], ['every_week', 'every week'], ['every_2_weeks', 'every 2 weeks'], ['by', 'by']];
   const extrasList = [['leaving', 'leave'], ['removing', 'remove']];
   const howLongList = [['no_matter_the_balance', 'remove this goal'], ['until_I_save_up_to', 'save up to']];
   const repeatList = [['never', 'never'], ['every_6_months', 'every 6 months'], ['every_year', 'every year'], ['every_2_years', 'every 2 years']];
   const whenSpentList = [['all_at_once', 'all at once'], ['along_the_way', 'along the way']];
 
-  const [order, setOrder] = useState<string>(["I", "want", "to", "_primaryIntent", "$50", "available."]);
-  const [orderAdvanced, setOrderAdvanced] = useState<string>(["I", "want", "to", "_primaryIntent", "$50", "available", "and", "_extras", "any", "extra", "balance", "that", "may", "have", "accumulated."]);
+  const [order, setOrder] = useState<string>(["I", "want", "to", "_primaryIntent", "$50", "available", "to", "spend", "each", "month."]);
+  const [orderAdvanced, setOrderAdvanced] = useState<string>(["I", "want", "to", "_primaryIntent", "$50", "available", "to", "spend", "each", "month", "and", "_extras", "any", "extra", "balance", "that", "may", "have", "accumulated."]);
 
   function handleOnChangePrimaryIntent(newValue) {
     setPrimaryIntent(newValue);
@@ -180,10 +180,10 @@ function NotesTooltip({
         }}
       >
         {JSON.stringify(order) !== JSON.stringify(orderAdvanced) && showAdvanced === true && (
-          <ButtonWithLoading onClick={onShowAdvanced}>Hide Advanced Options</ButtonWithLoading>
+          <ButtonWithLoading onClick={onShowAdvanced}>Basic Options</ButtonWithLoading>
         )}
         {JSON.stringify(order) !== JSON.stringify(orderAdvanced) && showAdvanced === false && (
-          <ButtonWithLoading onClick={onShowAdvanced}>Show Advanced Options</ButtonWithLoading>
+          <ButtonWithLoading onClick={onShowAdvanced}>More Options</ButtonWithLoading>
         )}
         <View style={{ flex: 1 }} />
         <Button type="primary" aria-label="Close" style={{ flexShrink: 0 }} onClick={onClose}>Save</Button>
