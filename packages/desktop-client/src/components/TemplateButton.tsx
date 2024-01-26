@@ -34,48 +34,55 @@ function NotesTooltip({
   const [howLong, setHowLong] = useState<string>('no_matter_the_balance');
   const [repeat, setRepeat] = useState<string>('never');
   const [whenSpent, setWhenSpent] = useState<string>('all_at_once');
+  const [haveOption, setHaveOption] = useState<string>('available');
 
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
   //save = budget? be_able_to_spend = budget up to?
   const primaryIntentList = [['be_able_to_spend', 'have'], ['save', 'budget']];
-  const frequencyList = [['every_month', 'every month'], ['every_week', 'every week'], ['every_2_weeks', 'every 2 weeks'], ['by', 'by']];
+  const frequencyList = [['every_month', 'each month'], ['every_week', 'every week'], ['every_2_weeks', 'every 2 weeks'], ['by', 'by']];
   const extrasList = [['leaving', 'leave'], ['removing', 'remove']];
   const howLongList = [['no_matter_the_balance', 'remove this goal'], ['until_I_save_up_to', 'save up to']];
   const repeatList = [['never', 'never'], ['every_6_months', 'every 6 months'], ['every_year', 'every year'], ['every_2_years', 'every 2 years']];
   const whenSpentList = [['all_at_once', 'all at once'], ['along_the_way', 'along the way']];
+  const haveOptionList = [['available', 'available'], ['by', 'by']];
 
-  const [order, setOrder] = useState<string>(["I", "want", "to", "_primaryIntent", "$50", "available", "to", "spend", "each", "month."]);
-  const [orderAdvanced, setOrderAdvanced] = useState<string>(["I", "want", "to", "_primaryIntent", "$50", "available", "to", "spend", "each", "month", "and", "_extras", "any", "extra", "balance", "that", "may", "have", "accumulated."]);
+  const [order, setOrder] = useState<string>(["I", "want", "to", "_primaryIntent", "$50", "_haveOption", "to", "spend", "each", "month."]);
+  const [orderAdvanced, setOrderAdvanced] = useState<string>(["I", "want", "to", "_primaryIntent", "$50", "_haveOption", "to", "spend", "each", "month", "and", "_extras", "any", "extra", "balance", "that", "may", "have", "accumulated."]);
 
   function handleOnChangePrimaryIntent(newValue) {
     setPrimaryIntent(newValue);
-    handleStuff(newValue, frequency, extras, howLong, repeat, whenSpent);
+    handleStuff(newValue, frequency, extras, howLong, repeat, whenSpent, haveOption);
   }
 
   function handleOnChangeFrequency(newValue) {
     setFrequency(newValue);
-    handleStuff(primaryIntent, newValue, extras, howLong, repeat, whenSpent);
+    handleStuff(primaryIntent, newValue, extras, howLong, repeat, whenSpent, haveOption);
   }
 
   function handleOnChangeExtras(newValue) {
     setExtras(newValue);
-    handleStuff(primaryIntent, frequency, newValue, howLong, repeat, whenSpent);
+    handleStuff(primaryIntent, frequency, newValue, howLong, repeat, whenSpent, haveOption);
   }
 
   function handleOnChangeHowLong(newValue) {
     setHowLong(newValue);
-    handleStuff(primaryIntent, frequency, extras, newValue, repeat, whenSpent);
+    handleStuff(primaryIntent, frequency, extras, newValue, repeat, whenSpent, haveOption);
   }
 
   function handleOnChangeRepeat(newValue) {
     setRepeat(newValue);
-    handleStuff(primaryIntent, frequency, extras, howLong, newValue, whenSpent);
+    handleStuff(primaryIntent, frequency, extras, howLong, newValue, whenSpent, haveOption);
   }
 
   function handleOnChangeWhenSpent(newValue) {
     setWhenSpent(newValue);
-    handleStuff(primaryIntent, frequency, extras, howLong, repeat, newValue);
+    handleStuff(primaryIntent, frequency, extras, howLong, repeat, newValue, haveOption);
+  }
+
+  function handleOnChangeHaveOption(newValue) {
+    setHaveOption(newValue);
+    handleStuff(primaryIntent, frequency, extras, howLong, repeat, whenSpent, newValue);
   }
 
   function onShowAdvanced() {
@@ -89,9 +96,12 @@ function NotesTooltip({
     setShowAdvanced(!showAdvanced);
   }
 
-  function handleStuff(newPrimaryIntent, newFrequency, newExtras, newHowLong, newRepeat, newWhenSpent) {
-    if (newPrimaryIntent === 'save' && (newFrequency === 'every_month' || newFrequency === 'every_week' || newFrequency === 'every_2_weeks') && newHowLong === 'no_matter_the_balance') {
-      setOrder(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "until", "I", "_howLong", "."]);
+  function handleStuff(newPrimaryIntent, newFrequency, newExtras, newHowLong, newRepeat, newWhenSpent, newHaveOption) {
+    if (newHaveOption === 'by' && newPrimaryIntent === 'be_able_to_spend') {
+      setOrder(["I", "want", "to", "_primaryIntent", "$50", "_haveOption", "June", "2024."]);
+      setOrderAdvanced(["I", "want", "to", "_primaryIntent", "$50", "_haveOption", "June", "2024.", "I", "plan", "to", "spend", "this", "money", "_whenSpent", ". Repeat", "this", "goal", "_repeat", "."]);
+    } else if (newPrimaryIntent === 'save' && (newFrequency === 'every_month' || newFrequency === 'every_week' || newFrequency === 'every_2_weeks') && newHowLong === 'no_matter_the_balance') {
+      setOrder(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "."]);
       setOrderAdvanced(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "until", "I", "_howLong", "."]);
     } else if (newPrimaryIntent === 'save' && newFrequency === 'by') {
       setOrder(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "June", "2024."]);
@@ -100,10 +110,13 @@ function NotesTooltip({
       setOrder(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "until", "I", "_howLong", "$300", "."]);
       setOrderAdvanced(["I", "want", "to", "_primaryIntent", "$50", "_frequency", "until", "I", "_howLong", "$300", "."]);
     } else if (newPrimaryIntent === 'be_able_to_spend') {
-      setOrder(["I", "want", "to", "_primaryIntent", "$50", "available."]);
-      setOrderAdvanced(["I", "want", "to", "_primaryIntent", "$50", "available", "and", "_extras", "any", "extra", "balance", "that", "may", "have", "accumulated."]);
-    }
+      setOrder(["I", "want", "to", "_primaryIntent", "$50", "_haveOption", "to", "spend", "each", "month."]);
+      setOrderAdvanced(["I", "want", "to", "_primaryIntent", "$50", "_haveOption", "to", "spend", "each", "month", "and", "_extras", "any", "extra", "balance", "that", "may", "have", "accumulated."]);
+    } 
   }
+
+
+//until I remove this goal CAN be taken out now right? Just make it a more thing, even though there isn't a sensisbile default now... so I don't think that's a needed requirement now with the more button.
 
 //Flavor text below. Look at you. This looks great. People use this for things like groceries, etc.
 //And then use Groceries as a key word to start them with a different one.
@@ -136,6 +149,8 @@ function NotesTooltip({
                 return <Select options={repeatList} value={repeat} onChange={newValue => handleOnChangeRepeat(newValue)}/>;
               } else if (item === '_whenSpent') {
                 return <Select options={whenSpentList} value={whenSpent} onChange={newValue => handleOnChangeWhenSpent(newValue)}/>;
+              } else if (item === '_haveOption') {
+                return <Select options={haveOptionList} value={haveOption} onChange={newValue => handleOnChangeHaveOption(newValue)}/>;
               } else {
                 return <View>{item}</View>;
               }
@@ -157,6 +172,8 @@ function NotesTooltip({
                 return <Select options={repeatList} value={repeat} onChange={newValue => handleOnChangeRepeat(newValue)}/>;
               } else if (item === '_whenSpent') {
                 return <Select options={whenSpentList} value={whenSpent} onChange={newValue => handleOnChangeWhenSpent(newValue)}/>;
+              } else if (item === '_haveOption') {
+                return <Select options={haveOptionList} value={haveOption} onChange={newValue => handleOnChangeHaveOption(newValue)}/>;
               } else {
                 return <View>{item}</View>;
               }
