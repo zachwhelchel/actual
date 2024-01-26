@@ -8,6 +8,7 @@ import Text from '../common/Text';
 import View from '../common/View';
 import Coach, { useCoach } from '../coach/Coach';
 import { BigInput } from '../common/Input';
+import { REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 
 export default function ResetAvatar({
   modalProps,
@@ -33,34 +34,45 @@ export default function ResetAvatar({
       {() => (
         <View style={{ lineHeight: 1.5 }}>
           <Block>
-            Would you like to reset your coach avatar? This will reset them to the beginning of their prompts here on the app. Alternatively you can use the <b>Jump To Id</b> button to jump straight to a specific dialogue.
+            Would you like to reset your coach avatar? This will reset them to the beginning of their prompts here on the app.
           </Block>
+          {REACT_APP_UI_MODE === 'coach' &&
+            <>
+              <View
+                style={{
+                  marginTop: 10,
+                }}
+              >
+                <Block>
+                  Alternatively you can use the <b>Jump To Id</b> button to jump straight to a specific dialogue.
+                </Block>
+              </View>
+              <View
+                style={{
+                  marginTop: 10,
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                }}
+              >
+                <BigInput
+                  autoFocus={true}
+                  placeholder=""
+                  value={currentInput || ''}
+                  onUpdate={setCurrentInput}
+                  style={{ flex: 1, marginRight: 10 }}
+                />
 
-          <View
-            style={{
-              marginTop: 10,
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-            }}
-          >
-            <BigInput
-              autoFocus={true}
-              placeholder=""
-              value={currentInput || ''}
-              onUpdate={setCurrentInput}
-              style={{ flex: 1, marginRight: 10 }}
-            />
-
-            <Button
-              type="primary"
-              style={{ marginTop: 8 }}
-              onClick={() => jumpToInput()}
-            >
-              Jump To Id
-            </Button>
-          </View>
-
+                <Button
+                  type="primary"
+                  style={{ marginTop: 8 }}
+                  onClick={() => jumpToInput()}
+                >
+                  Jump To Id
+                </Button>
+              </View>
+            </>
+          }
           <View
             style={{
               marginTop: 20,
