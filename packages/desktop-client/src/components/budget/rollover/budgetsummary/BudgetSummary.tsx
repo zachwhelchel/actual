@@ -8,6 +8,7 @@ import * as monthUtils from 'loot-core/src/shared/months';
 import { SvgDotsHorizontalTriple } from '../../../../icons/v1';
 import { SvgArrowButtonDown1, SvgArrowButtonUp1 } from '../../../../icons/v2';
 import { theme, styles } from '../../../../style';
+import { useCoach } from '../../coach/Coach';
 import { Button } from '../../../common/Button';
 import { Menu } from '../../../common/Menu';
 import { View } from '../../../common/View';
@@ -33,6 +34,8 @@ export function BudgetSummary({
     onBudgetAction,
     onToggleSummaryCollapse,
   } = useRollover();
+
+  let { setTop, setLeft, setOffset, commonElementsRef } = useCoach(); // this is causing the errors.
 
   const [menuOpen, setMenuOpen] = useState(false);
   function onMenuOpen() {
@@ -135,13 +138,29 @@ export function BudgetSummary({
               />
             </View>
             <View style={{ userSelect: 'none', marginLeft: 2 }}>
-              <Button type="bare" aria-label="Menu" onClick={onMenuOpen}>
-                <SvgDotsHorizontalTriple
-                  width={15}
-                  height={15}
-                  style={{ color: theme.pageTextLight }}
-                />
-              </Button>
+              {currentMonth === month ? (
+                <div
+                  ref={element => {
+                    commonElementsRef.current['budget_more_button'] = element;
+                  }}
+                >
+                  <Button type="bare" aria-label="Menu" onClick={onMenuOpen}>
+                    <SvgDotsHorizontalTriple
+                      width={15}
+                      height={15}
+                      style={{ color: theme.pageTextLight }}
+                    />
+                  </Button>
+                </div>            
+              ) : (
+                <Button type="bare" aria-label="Menu" onClick={onMenuOpen}>
+                  <SvgDotsHorizontalTriple
+                    width={15}
+                    height={15}
+                    style={{ color: theme.pageTextLight }}
+                  />
+                </Button>
+              )}
               {menuOpen && (
                 <Tooltip
                   position="bottom-right"
@@ -216,7 +235,17 @@ export function BudgetSummary({
               }}
             />
             <View style={{ margin: '23px 0' }}>
-              <ToBudget month={month} onBudgetAction={onBudgetAction} />
+              {currentMonth === month ? (
+                <div
+                  ref={element => {
+                    commonElementsRef.current['budget_header'] = element;
+                  }}
+                >
+                  <ToBudget month={month} onBudgetAction={onBudgetAction} />
+                </div> 
+              ) : (
+                <ToBudget month={month} onBudgetAction={onBudgetAction} />
+              )}
             </View>
           </>
         )}

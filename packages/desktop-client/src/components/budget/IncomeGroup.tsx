@@ -21,6 +21,7 @@ type IncomeGroupProps = {
   collapsed: boolean;
   MonthComponent: () => JSX.Element;
   onEditName: (id: string) => void;
+  categoriesRef: unknown;
   onSave: (group: object) => Promise<void>;
   onToggleCollapse: (id: string) => void;
   onShowNewCategory: (groupId: string) => void;
@@ -32,6 +33,7 @@ export function IncomeGroup({
   collapsed,
   MonthComponent,
   onEditName,
+  categoriesRef,
   onSave,
   onToggleCollapse,
   onShowNewCategory,
@@ -53,6 +55,7 @@ export function IncomeGroup({
           editingCell.id === group.id
         }
         onEdit={onEditName}
+        categoriesRef={categoriesRef}
         onSave={onSave}
         onToggleCollapse={onToggleCollapse}
         onShowNewCategory={onShowNewCategory}

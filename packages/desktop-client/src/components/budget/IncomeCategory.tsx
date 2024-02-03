@@ -22,6 +22,7 @@ type IncomeCategoryProps = {
   MonthComponent: ComponentProps<typeof RenderMonths>['component'];
   onEditName: ComponentProps<typeof SidebarCategory>['onEditName'];
   onEditMonth?: (id: string, monthIndex: number) => void;
+  categoriesRef: unknown;
   onSave: ComponentProps<typeof SidebarCategory>['onSave'];
   onDelete: ComponentProps<typeof SidebarCategory>['onDelete'];
   onDragChange: OnDragChangeCallback<CategoryEntity>;
@@ -37,6 +38,7 @@ export function IncomeCategory({
   MonthComponent,
   onEditName,
   onEditMonth,
+  categoriesRef,
   onSave,
   onDelete,
   onDragChange,
@@ -71,6 +73,7 @@ export function IncomeCategory({
           editingCell.id === cat.id
         }
         onEditName={onEditName}
+        categoriesRef={categoriesRef}
         onSave={onSave}
         onDelete={onDelete}
       />

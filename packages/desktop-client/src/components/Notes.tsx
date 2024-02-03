@@ -122,7 +122,7 @@ export function Notes({
       value={notes || ''}
       onChange={e => _onChange(e.target.value)}
       onBlur={e => onBlur?.(e.target.value)}
-      placeholder="Notes (markdown supported)"
+      placeholder="Notes"
     />
   ) : (
     <Text {...markdownStyles} style={{ ...getStyle?.(editable) }}>
