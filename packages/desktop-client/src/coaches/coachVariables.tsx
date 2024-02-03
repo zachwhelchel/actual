@@ -201,6 +201,16 @@ else if (url.includes("celiabenton")) {
   REACT_APP_USER_FIRST_NAME = "Celia"
   REACT_APP_UI_MODE = "coach"
 }
+else if (url.includes("bobbiolson")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
+  REACT_APP_COACH = "kristinwade"
+  REACT_APP_COACH_FIRST_NAME = "Kristin"
+  REACT_APP_USER_FIRST_NAME = "Bobbi"
+  REACT_APP_UI_MODE = "coach"
+}
 else if (url.includes("localhost")) {
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
