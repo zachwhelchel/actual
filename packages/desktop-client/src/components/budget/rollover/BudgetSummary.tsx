@@ -399,13 +399,30 @@ export function BudgetSummary({
               />
             </View>
             <View style={{ userSelect: 'none', marginLeft: 2 }}>
-              <Button type="bare" onClick={onMenuOpen} ref={inputRef}>
-                <DotsHorizontalTriple
-                  width={15}
-                  height={15}
-                  style={{ color: theme.alt2PillText }}
-                />
-              </Button>
+
+              {currentMonth === month ? (
+                <div
+                  ref={element => {
+                    commonElementsRef.current['budget_more_button'] = element;
+                  }}
+                >
+                  <Button type="bare" onClick={onMenuOpen} ref={inputRef}>
+                    <DotsHorizontalTriple
+                      width={15}
+                      height={15}
+                      style={{ color: theme.alt2PillText }}
+                    />
+                  </Button>
+                </div>            
+              ) : (
+                <Button type="bare" onClick={onMenuOpen} ref={inputRef}>
+                  <DotsHorizontalTriple
+                    width={15}
+                    height={15}
+                    style={{ color: theme.alt2PillText }}
+                  />
+                </Button>
+              )}
               {menuOpen && (
                 <Tooltip
                   position="bottom-right"
@@ -469,13 +486,17 @@ export function BudgetSummary({
           <>
             <TotalsList prevMonthName={prevMonthName} />
             <View style={{ margin: '23px 0' }}>
-              <div
-                ref={element => {
-                  commonElementsRef.current['budget_header'] = element;
-                }}
-              >
+              {currentMonth === month ? (
+                <div
+                  ref={element => {
+                    commonElementsRef.current['budget_header'] = element;
+                  }}
+                >
+                  <ToBudget month={month} onBudgetAction={onBudgetAction} />
+                </div> 
+              ) : (
                 <ToBudget month={month} onBudgetAction={onBudgetAction} />
-              </div>            
+              )}
             </View>
           </>
         )}

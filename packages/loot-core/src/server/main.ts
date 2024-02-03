@@ -130,7 +130,17 @@ handlers['transaction-delete'] = mutator(async function (transaction) {
 });
 
 handlers['transactions-parse-file'] = async function ({ filepath, options }) {
+    console.log("fifisdadasdasdflfilf");
+  console.log(filepath);
+
   return parseFile(filepath, options);
+};
+
+handlers['uploaded-avatar-parse-file'] = async function ({ filepath }) {
+  console.log("fififlfilf");
+  console.log(filepath);
+  let contents = await fs.readFile(filepath);
+  return contents;
 };
 
 handlers['transactions-export'] = async function ({

@@ -163,6 +163,7 @@ function SidebarWithData() {
       onFreeTrial={() => replaceModal('free-trial')}
       onManageSubscription={() => replaceModal('manage-subscription')}
       onResetAvatar={() => replaceModal('reset-avatar')}
+      onUploadAvatar={() => replaceModal('upload-avatar')}
       showClosedAccounts={prefs['ui.showClosedAccounts']}
       onToggleClosedAccounts={() =>
         savePrefs({

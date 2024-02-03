@@ -972,6 +972,61 @@ export default function Coach({
     }
 
     if (
+      commonElementsRef.current['select_category'] !== undefined &&
+      commonElementsRef.current['select_category'] !== null
+    ) {
+      commonElementsRef.current['select_category'].style.backgroundColor = null;
+      commonElementsRef.current['select_category'].style.outlineColor = null;
+      commonElementsRef.current['select_category'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['payment_input'] !== undefined &&
+      commonElementsRef.current['payment_input'] !== null
+    ) {
+      commonElementsRef.current['payment_input'].style.backgroundColor = null;
+      commonElementsRef.current['payment_input'].style.outlineColor = null;
+      commonElementsRef.current['payment_input'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['deposit_input'] !== undefined &&
+      commonElementsRef.current['deposit_input'] !== null
+    ) {
+      commonElementsRef.current['deposit_input'].style.backgroundColor = null;
+      commonElementsRef.current['deposit_input'].style.outlineColor = null;
+      commonElementsRef.current['deposit_input'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['cleared_status_icon'] !== undefined &&
+      commonElementsRef.current['cleared_status_icon'] !== null
+    ) {
+      commonElementsRef.current['cleared_status_icon'].style.backgroundColor = null;
+      commonElementsRef.current['cleared_status_icon'].style.outlineColor = null;
+      commonElementsRef.current['cleared_status_icon'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['budget_table'] !== undefined &&
+      commonElementsRef.current['budget_table'] !== null
+    ) {
+      commonElementsRef.current['budget_table'].style.backgroundColor = null;
+      commonElementsRef.current['budget_table'].style.outlineColor = null;
+      commonElementsRef.current['budget_table'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['calendar_icons'] !== undefined &&
+      commonElementsRef.current['calendar_icons'] !== null
+    ) {
+      commonElementsRef.current['calendar_icons'].style.backgroundColor = null;
+      commonElementsRef.current['calendar_icons'].style.outlineColor = null;
+      commonElementsRef.current['calendar_icons'].style.outlineStyle = null;
+    }
+
+
+    if (
       commonElementsRef.current['months_band'] !== undefined &&
       commonElementsRef.current['months_band'] !== null
     ) {
@@ -989,6 +1044,60 @@ export default function Coach({
       commonElementsRef.current['budget_header'].style.outlineStyle = null;
     }
 
+    if (
+      commonElementsRef.current['budgeted_column'] !== undefined &&
+      commonElementsRef.current['budgeted_column'] !== null
+    ) {
+      commonElementsRef.current['budgeted_column'].style.backgroundColor = null;
+      commonElementsRef.current['budgeted_column'].style.outlineColor = null;
+      commonElementsRef.current['budgeted_column'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['spent_column'] !== undefined &&
+      commonElementsRef.current['spent_column'] !== null
+    ) {
+      commonElementsRef.current['spent_column'].style.backgroundColor = null;
+      commonElementsRef.current['spent_column'].style.outlineColor = null;
+      commonElementsRef.current['spent_column'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['balance_column'] !== undefined &&
+      commonElementsRef.current['balance_column'] !== null
+    ) {
+      commonElementsRef.current['balance_column'].style.backgroundColor = null;
+      commonElementsRef.current['balance_column'].style.outlineColor = null;
+      commonElementsRef.current['balance_column'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['category_column'] !== undefined &&
+      commonElementsRef.current['category_column'] !== null
+    ) {
+      commonElementsRef.current['category_column'].style.backgroundColor = null;
+      commonElementsRef.current['category_column'].style.outlineColor = null;
+      commonElementsRef.current['category_column'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['received_column'] !== undefined &&
+      commonElementsRef.current['received_column'] !== null
+    ) {
+      commonElementsRef.current['received_column'].style.backgroundColor = null;
+      commonElementsRef.current['received_column'].style.outlineColor = null;
+      commonElementsRef.current['received_column'].style.outlineStyle = null;
+    }
+
+    if (
+      commonElementsRef.current['budget_more_button'] !== undefined &&
+      commonElementsRef.current['budget_more_button'] !== null
+    ) {
+      commonElementsRef.current['budget_more_button'].style.backgroundColor = null;
+      commonElementsRef.current['budget_more_button'].style.outlineColor = null;
+      commonElementsRef.current['budget_more_button'].style.outlineStyle = null;
+    }
+
 
     // so this one is different when we refactor.
     if (
@@ -998,6 +1107,16 @@ export default function Coach({
       commonElementsRef.current['zoom_link'].style.outlineColor = null;
       commonElementsRef.current['zoom_link'].style.outlineStyle = null;
     }
+
+        // so this one is different when we refactor.
+    if (
+      commonElementsRef.current['save_transaction'] !== undefined &&
+      commonElementsRef.current['save_transaction'] !== null
+    ) {
+      commonElementsRef.current['save_transaction'].style.outlineColor = null;
+      commonElementsRef.current['save_transaction'].style.outlineStyle = null;
+    }
+
 
     // so this one is different when we refactor.
     if (
@@ -1035,7 +1154,11 @@ export default function Coach({
     //only do the move to actions here:
 
     let action = dialogue.action;
+
+
     if (action !== undefined && action !== null) {
+      action = action.replaceAll("highlight: ", "move_to: ");
+
       console.log("I should do this:" + action);
       if (action === "move_to: zoom_link") {
         if (
@@ -1045,8 +1168,8 @@ export default function Coach({
           const { top: t, left: l } =
             commonElementsRef.current['zoom_link'].getBoundingClientRect();
           const centerY = t;
-          setTop(centerY - 25);
-          setLeft(l + 10);
+          setTop(centerY - 25 + yOffset);
+          setLeft(l + 10 + xOffset);
           setOffset(0);
 
           commonElementsRef.current['zoom_link'].style.outlineColor = "yellow";
@@ -1054,9 +1177,9 @@ export default function Coach({
           commonElementsRef.current['zoom_link'].style.outlineWidth = 5;
 
         } else {
-          setTop(0);
-          setLeft(100);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
       }
       else if (action === "move_to: center_screen") {
@@ -1073,8 +1196,8 @@ export default function Coach({
           const { top: t, left: l } =
             commonElementsRef.current['budget_name'].getBoundingClientRect();
           const centerY = t;
-          setTop(10);
-          setLeft(10);
+          setTop(10 + yOffset);
+          setLeft(10 + xOffset);
           setOffset(0);
 
           commonElementsRef.current['budget_name'].style.outlineColor = "yellow";
@@ -1082,9 +1205,9 @@ export default function Coach({
           commonElementsRef.current['budget_name'].style.outlineWidth = 5;
 
         } else {
-          setTop(10);
-          setLeft(10);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
 
 
@@ -1097,8 +1220,8 @@ export default function Coach({
           const { top: t, left: l } =
             commonElementsRef.current['add_account'].getBoundingClientRect();
           const centerY = t;
-          setTop(centerY - 25);
-          setLeft(l + 10);
+          setTop(centerY - 25 + yOffset);
+          setLeft(l + 10 + xOffset);
           setOffset(0);
 
           commonElementsRef.current['add_account'].style.outlineColor = "yellow";
@@ -1106,9 +1229,9 @@ export default function Coach({
           commonElementsRef.current['add_account'].style.outlineWidth = 5;
 
         } else {
-          setTop(0);
-          setLeft(100);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
       }
       else if (action === "move_to: account_balance") {
@@ -1129,9 +1252,9 @@ export default function Coach({
           commonElementsRef.current['account_balance'].style.outlineWidth = 5;
 
         } else {
-          setTop(0);
-          setLeft(100);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
       }
       else if (action === "move_to: import_button") {
@@ -1152,9 +1275,9 @@ export default function Coach({
           commonElementsRef.current['import_button'].style.outlineWidth = 5;
 
         } else {
-          setTop(0);
-          setLeft(100);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
       }
       else if (action === "move_to: add_new_button") {
@@ -1175,9 +1298,9 @@ export default function Coach({
           commonElementsRef.current['add_new_button'].style.outlineWidth = 5;
 
         } else {
-          setTop(0);
-          setLeft(100);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
       }
       else if (action === "move_to: filter_button") {
@@ -1198,9 +1321,9 @@ export default function Coach({
           commonElementsRef.current['filter_button'].style.outlineWidth = 5;
 
         } else {
-          setTop(0);
-          setLeft(100);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
       }
       else if (action === "move_to: search_bar") {
@@ -1221,9 +1344,9 @@ export default function Coach({
           commonElementsRef.current['search_bar'].style.outlineWidth = 5;
 
         } else {
-          setTop(0);
-          setLeft(100);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
       }
       else if (action === "move_to: split_toggle_button") {
@@ -1244,9 +1367,9 @@ export default function Coach({
           commonElementsRef.current['split_toggle_button'].style.outlineWidth = 5;
 
         } else {
-          setTop(0);
-          setLeft(100);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
       }
       else if (action === "move_to: more_button") {
@@ -1267,9 +1390,9 @@ export default function Coach({
           commonElementsRef.current['more_button'].style.outlineWidth = 5;
 
         } else {
-          setTop(0);
-          setLeft(100);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
       }
       else if (action === "move_to: select_payee") {
@@ -1280,9 +1403,9 @@ export default function Coach({
           const { top: t, left: l } =
             commonElementsRef.current['select_payee'].getBoundingClientRect();
           const centerY = t + commonElementsRef.current['select_payee'].offsetHeight;
-          setTop(centerY + 10);
-          setLeft(l - 240);
-          setOffset(0);
+          setTop(window.innerHeight - 20);
+          setLeft(window.innerWidth - 20 - 240);
+          setOffset(100);
 
           commonElementsRef.current['select_payee'].style.backgroundColor = "yellow";
           commonElementsRef.current['select_payee'].style.outlineColor = "black";
@@ -1290,30 +1413,124 @@ export default function Coach({
           commonElementsRef.current['select_payee'].style.outlineWidth = 5;
 
         } else {
-          setTop(window.innerHeight - 20);
-          setLeft(window.innerWidth - 20 - 240);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
           setOffset(100);
         }
       }
       else if (action === "move_to: select_category") {
-        setTop(window.innerHeight - 20);
-        setLeft(window.innerWidth - 20 - 240);
-        setOffset(100);
+        if (
+          commonElementsRef.current['select_category'] !== undefined &&
+          commonElementsRef.current['select_category'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['select_category'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['select_category'].offsetHeight;
+          setTop(window.innerHeight - 20);
+          setLeft(window.innerWidth - 20 - 240);
+          setOffset(100);
+
+          commonElementsRef.current['select_category'].style.backgroundColor = "yellow";
+          commonElementsRef.current['select_category'].style.outlineColor = "black";
+          commonElementsRef.current['select_category'].style.outlineStyle = "dashed";
+          commonElementsRef.current['select_category'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
       }
       else if (action === "move_to: payment_input") {
-        setTop(window.innerHeight - 20);
-        setLeft(window.innerWidth - 20 - 240);
-        setOffset(100);
+        if (
+          commonElementsRef.current['payment_input'] !== undefined &&
+          commonElementsRef.current['payment_input'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['payment_input'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['payment_input'].offsetHeight;
+          setTop(window.innerHeight - 20);
+          setLeft(window.innerWidth - 20 - 240);
+          setOffset(100);
+
+          commonElementsRef.current['payment_input'].style.backgroundColor = "yellow";
+          commonElementsRef.current['payment_input'].style.outlineColor = "black";
+          commonElementsRef.current['payment_input'].style.outlineStyle = "dashed";
+          commonElementsRef.current['payment_input'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
+      }
+      else if (action === "move_to: deposit_input") {
+        if (
+          commonElementsRef.current['deposit_input'] !== undefined &&
+          commonElementsRef.current['deposit_input'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['deposit_input'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['deposit_input'].offsetHeight;
+          setTop(window.innerHeight - 20);
+          setLeft(window.innerWidth - 20 - 240);
+          setOffset(100);
+
+          commonElementsRef.current['deposit_input'].style.backgroundColor = "yellow";
+          commonElementsRef.current['deposit_input'].style.outlineColor = "black";
+          commonElementsRef.current['deposit_input'].style.outlineStyle = "dashed";
+          commonElementsRef.current['deposit_input'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
       }
       else if (action === "move_to: save_transaction") {
-        setTop(window.innerHeight - 20);
-        setLeft(window.innerWidth - 20 - 240);
-        setOffset(100);
+        if (
+          commonElementsRef.current['save_transaction'] !== undefined &&
+          commonElementsRef.current['save_transaction'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['save_transaction'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['save_transaction'].offsetHeight;
+          setTop(window.innerHeight - 20);
+          setLeft(window.innerWidth - 20 - 240);
+          setOffset(100);
+
+          commonElementsRef.current['save_transaction'].style.outlineColor = "yellow";
+          commonElementsRef.current['save_transaction'].style.outlineStyle = "dashed";
+          commonElementsRef.current['save_transaction'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
       }
       else if (action === "move_to: cleared_status_icon") {
-        setTop(window.innerHeight - 20);
-        setLeft(window.innerWidth - 20 - 240);
-        setOffset(100);
+        if (
+          commonElementsRef.current['cleared_status_icon'] !== undefined &&
+          commonElementsRef.current['cleared_status_icon'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['cleared_status_icon'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['cleared_status_icon'].offsetHeight;
+          setTop(window.innerHeight - 20);
+          setLeft(window.innerWidth - 20 - 240);
+          setOffset(100);
+
+          commonElementsRef.current['cleared_status_icon'].style.backgroundColor = "yellow";
+          commonElementsRef.current['cleared_status_icon'].style.outlineColor = "black";
+          commonElementsRef.current['cleared_status_icon'].style.outlineStyle = "dashed";
+          commonElementsRef.current['cleared_status_icon'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
       }
       else if (action === "move_to: months_band") {
         if (
@@ -1334,16 +1551,34 @@ export default function Coach({
           commonElementsRef.current['months_band'].style.outlineWidth = 5;
 
         } else {
-          setTop(0);
-          setLeft(100);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
 
       }
       else if (action === "move_to: calendar_icons") {
-        setTop(10);
-        setLeft(10);
-        setOffset(0);
+        if (
+          commonElementsRef.current['calendar_icons'] !== undefined &&
+          commonElementsRef.current['calendar_icons'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['calendar_icons'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['calendar_icons'].offsetHeight;
+          setTop(0);
+          setLeft(3);
+          setOffset(0);
+
+          commonElementsRef.current['calendar_icons'].style.backgroundColor = "yellow";
+          commonElementsRef.current['calendar_icons'].style.outlineColor = "black";
+          commonElementsRef.current['calendar_icons'].style.outlineStyle = "dashed";
+          commonElementsRef.current['calendar_icons'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
       }
       else if (action === "move_to: budget_header") {
         if (
@@ -1353,8 +1588,9 @@ export default function Coach({
           const { top: t, left: l } =
             commonElementsRef.current['budget_header'].getBoundingClientRect();
           const centerY = t + commonElementsRef.current['budget_header'].offsetHeight;
-          setTop(centerY + 10 - 20);
-          setLeft(l - 740);
+          const centerX = l + (commonElementsRef.current['budget_header'].offsetWidth / 2);
+          setTop(centerY + 10 - 35);
+          setLeft(centerX - 200 - 240);
           setOffset(0);
 
           commonElementsRef.current['budget_header'].style.backgroundColor = "yellow";
@@ -1363,28 +1599,176 @@ export default function Coach({
           commonElementsRef.current['budget_header'].style.outlineWidth = 5;
 
         } else {
-          setTop(0);
-          setLeft(100);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
         }
 
       }
       else if (action === "move_to: budget_table") {
+        if (
+          commonElementsRef.current['budget_table'] !== undefined &&
+          commonElementsRef.current['budget_table'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['budget_table'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['budget_table'].offsetHeight;
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
 
+          commonElementsRef.current['budget_table'].style.backgroundColor = "yellow";
+          commonElementsRef.current['budget_table'].style.outlineColor = "black";
+          commonElementsRef.current['budget_table'].style.outlineStyle = "dashed";
+          commonElementsRef.current['budget_table'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
       }
       else if (action === "move_to: category_column") {
+        if (
+          commonElementsRef.current['category_column'] !== undefined &&
+          commonElementsRef.current['category_column'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['category_column'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['category_column'].offsetHeight;
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
 
+          commonElementsRef.current['category_column'].style.backgroundColor = "yellow";
+          commonElementsRef.current['category_column'].style.outlineColor = "black";
+          commonElementsRef.current['category_column'].style.outlineStyle = "dashed";
+          commonElementsRef.current['category_column'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
       }
       else if (action === "move_to: budgeted_column") {
+        if (
+          commonElementsRef.current['budgeted_column'] !== undefined &&
+          commonElementsRef.current['budgeted_column'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['budgeted_column'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['budgeted_column'].offsetHeight;
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
 
+          commonElementsRef.current['budgeted_column'].style.backgroundColor = "yellow";
+          commonElementsRef.current['budgeted_column'].style.outlineColor = "black";
+          commonElementsRef.current['budgeted_column'].style.outlineStyle = "dashed";
+          commonElementsRef.current['budgeted_column'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
       }
       else if (action === "move_to: spent_column") {
+        if (
+          commonElementsRef.current['spent_column'] !== undefined &&
+          commonElementsRef.current['spent_column'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['spent_column'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['spent_column'].offsetHeight;
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+
+          commonElementsRef.current['spent_column'].style.backgroundColor = "yellow";
+          commonElementsRef.current['spent_column'].style.outlineColor = "black";
+          commonElementsRef.current['spent_column'].style.outlineStyle = "dashed";
+          commonElementsRef.current['spent_column'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
 
       }
       else if (action === "move_to: balance_column") {
+        if (
+          commonElementsRef.current['balance_column'] !== undefined &&
+          commonElementsRef.current['balance_column'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['balance_column'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['balance_column'].offsetHeight;
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+
+          commonElementsRef.current['balance_column'].style.backgroundColor = "yellow";
+          commonElementsRef.current['balance_column'].style.outlineColor = "black";
+          commonElementsRef.current['balance_column'].style.outlineStyle = "dashed";
+          commonElementsRef.current['balance_column'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
 
       }
+      else if (action === "move_to: received_column") {
+        if (
+          commonElementsRef.current['received_column'] !== undefined &&
+          commonElementsRef.current['received_column'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['received_column'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['received_column'].offsetHeight;
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+
+          commonElementsRef.current['received_column'].style.backgroundColor = "yellow";
+          commonElementsRef.current['received_column'].style.outlineColor = "black";
+          commonElementsRef.current['received_column'].style.outlineStyle = "dashed";
+          commonElementsRef.current['received_column'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
+
+      }
+
       else if (action === "move_to: budget_more_button") {
+        if (
+          commonElementsRef.current['budget_more_button'] !== undefined &&
+          commonElementsRef.current['budget_more_button'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['budget_more_button'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['budget_more_button'].offsetHeight;
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+
+          commonElementsRef.current['budget_more_button'].style.backgroundColor = "yellow";
+          commonElementsRef.current['budget_more_button'].style.outlineColor = "black";
+          commonElementsRef.current['budget_more_button'].style.outlineStyle = "dashed";
+          commonElementsRef.current['budget_more_button'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
 
       }
 

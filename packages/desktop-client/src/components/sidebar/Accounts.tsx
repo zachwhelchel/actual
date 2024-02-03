@@ -5,7 +5,8 @@ import { type AccountEntity } from 'loot-core/src/types/models';
 import Add from '../../icons/v1/Add';
 import Phone from '../../icons/v1/Education';
 import Badge from '../../icons/v1/UserSolidCircle';
-import Bolt from '../../icons/v1/Reload';
+import Reload from '../../icons/v1/Reload';
+import Bolt from '../../icons/v1/Bolt';
 import View from '../common/View';
 import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
@@ -14,7 +15,7 @@ import Account from './Account';
 import SecondaryItem from './SecondaryItem';
 
 import Coach, { CoachProvider, useCoach } from '../coach/Coach';
-import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME } from '../../coaches/coachVariables';
+import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 
 const fontWeight = 600;
 
@@ -42,6 +43,7 @@ type AccountsProps = {
   onFreeTrial: () => void;
   onManageSubscription: () => void;
   onResetAvatar: () => void;
+  onUploadAvatar: () => void;
   onToggleClosedAccounts: () => void;
   onReorder: OnDropCallback;
 };
@@ -64,6 +66,7 @@ function Accounts({
   onFreeTrial,
   onManageSubscription,
   onResetAvatar,
+  onUploadAvatar,
   onToggleClosedAccounts,
   onReorder,
 }: AccountsProps) {
@@ -212,6 +215,9 @@ function Accounts({
 
       {REACT_APP_COACH != undefined && (
         <div
+          style={{
+            marginTop: 50,
+          }}
           ref={element => {
             commonElementsRef.current['zoom_link'] = element;
           }}
@@ -235,7 +241,7 @@ function Accounts({
             marginBottom: 9,
           }}
           onClick={onResetAvatar}
-          Icon={Bolt}
+          Icon={Reload}
           title={coachFirstNameReset}
         />
       )}
@@ -261,6 +267,18 @@ function Accounts({
           onClick={onManageSubscription}
           Icon={Badge}
           title="Manage Subscription"
+        />
+      )}
+
+      {REACT_APP_UI_MODE === "coach" && (
+        <SecondaryItem
+          style={{
+            marginTop: 15 + 50,
+            marginBottom: 9,
+          }}
+          onClick={onUploadAvatar}
+          Icon={Bolt}
+          title='Manage Avatar'
         />
       )}
 

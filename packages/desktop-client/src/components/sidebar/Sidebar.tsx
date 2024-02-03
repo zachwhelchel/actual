@@ -45,6 +45,7 @@ type SidebarProps = {
   onFreeTrial: () => void;
   onManageSubscription: () => void;
   onResetAvatar: () => void;
+  onUploadAvatar: () => void;
   onToggleClosedAccounts: () => void;
   onReorder: OnDropCallback;
 };
@@ -67,6 +68,7 @@ function Sidebar({
   onFreeTrial,
   onManageSubscription,
   onResetAvatar,
+  onUploadAvatar,
   onToggleClosedAccounts,
   onReorder,
 }: SidebarProps) {
@@ -161,6 +163,7 @@ function Sidebar({
           onFreeTrial={onFreeTrial}
           onManageSubscription={onManageSubscription}
           onResetAvatar={onResetAvatar}
+          onUploadAvatar={onUploadAvatar}
           onToggleClosedAccounts={onToggleClosedAccounts}
           onReorder={onReorder}
         />

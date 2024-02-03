@@ -117,17 +117,40 @@ type Condition = {
 let someDialogues = new Map();
 let initialDialogueId = undefined;
 
+let file = localStorage.getItem("uploaded_draw_io_file");
+
+console.log("I have a file here at setup");
+console.log(file);
+
+// if (file != null) {
+//   coachSrc = file;
+// }
+
 await fetch(coachSrc)
 .then((res) => res.text())
 .then(xmlString => {
+
+  let stringToUse = xmlString;
+  let file = localStorage.getItem("uploaded_draw_io_file");
+
+  if (file != null) {
+      console.log("still a file?????");
+
+    stringToUse = file;
+  }
+
   console.log("go on xml?");
-  return new window.DOMParser().parseFromString(xmlString, "text/xml")
+  console.log(stringToUse);
+  return new window.DOMParser().parseFromString(stringToUse, "text/xml")
 })
 .then(data => {
   // I guess you could just set the dialogue id here... and run checks for triggers and such. idk.
 
   console.log("good on xml?");
   //console.log(data.getElementsByTagName("mxCell")[3].getAttribute("value"));
+
+  console.log(data);
+
 
   let items = data.getElementsByTagName("mxCell");
 

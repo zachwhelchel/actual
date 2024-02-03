@@ -13,6 +13,7 @@ import IncomeHeader from './IncomeHeader';
 import SidebarCategory from './SidebarCategory';
 import SidebarGroup from './SidebarGroup';
 import { separateGroups } from './util';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 const BudgetCategories = memo(
   ({
@@ -145,8 +146,15 @@ const BudgetCategories = memo(
         setCollapsed([...collapsed, id]);
       }
     }
+    let { commonElementsRef } = useCoach(); // this is causing the errors.
 
     return (
+      <div
+        ref={element => {
+          commonElementsRef.current['budget_table'] = element;
+        }}
+      >
+
       <View
         style={{
           marginBottom: 10,
@@ -314,6 +322,7 @@ const BudgetCategories = memo(
           );
         })}
       </View>
+      </div>
     );
   },
 );

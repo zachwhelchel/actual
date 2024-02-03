@@ -77,17 +77,17 @@ const DynamicBudgetTableInner = forwardRef(
               monthBounds={monthBounds}
               onMonthSelect={onMonthSelect}
             />
-            <BudgetTable
-              ref={ref}
-              categoryGroups={categoryGroups}
-              prewarmStartMonth={prewarmStartMonth}
-              startMonth={startMonth}
-              numMonths={numMonths}
-              monthBounds={monthBounds}
-              prefs={prefs}
-              {...actions}
-              {...props}
-            />
+              <BudgetTable
+                ref={ref}
+                categoryGroups={categoryGroups}
+                prewarmStartMonth={prewarmStartMonth}
+                startMonth={startMonth}
+                numMonths={numMonths}
+                monthBounds={monthBounds}
+                prefs={prefs}
+                {...actions}
+                {...props}
+              />
           </View>
         </View>
       </CategoryGroupsContext.Provider>
