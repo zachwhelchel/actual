@@ -6,6 +6,7 @@ import Button from '../common/Button';
 import Modal from '../common/Modal';
 import Text from '../common/Text';
 import View from '../common/View';
+import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME } from '../../coaches/coachVariables';
 
 export default function ScheduleZoom({
   modalProps,
@@ -15,7 +16,7 @@ export default function ScheduleZoom({
       {() => (
         <View style={{ lineHeight: 1.5 }}>
           <Block>
-            You can schedule a Zoom call with your coach at any time. The coaching fee for Zach is currently discounted to $39.99 an hour. You will be billed seperately via PayPal. Click the button below to schedule a time that works for you.
+            You can schedule a Zoom call with your coach at any time ({REACT_APP_ZOOM_RATE}). You will be billed seperately. Click the button below to schedule a time that works for you.
           </Block>
 
           <View
@@ -38,7 +39,7 @@ export default function ScheduleZoom({
               <Button
                 type="primary"
                 onClick={() => {
-                  window.open("https://calendly.com/zach-whelchel/1-hour", "_blank");
+                  window.open(REACT_APP_ZOOM_LINK, "_blank");
                   modalProps.onClose();
                 }}
               >

@@ -3,14 +3,19 @@ import React, { useState, useMemo } from 'react';
 import { type AccountEntity } from 'loot-core/src/types/models';
 
 import Add from '../../icons/v1/Add';
-import Phone from '../../icons/v1/Phone';
-import Badge from '../../icons/v1/Badge';
+import Phone from '../../icons/v1/Education';
+import Badge from '../../icons/v1/UserSolidCircle';
+import Reload from '../../icons/v1/Reload';
+import Bolt from '../../icons/v1/Bolt';
 import View from '../common/View';
 import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
 
 import Account from './Account';
 import SecondaryItem from './SecondaryItem';
+
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
+import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 
 const fontWeight = 600;
 
@@ -36,6 +41,9 @@ type AccountsProps = {
   onAddAccount: () => void;
   onScheduleZoom: () => void;
   onFreeTrial: () => void;
+  onManageSubscription: () => void;
+  onResetAvatar: () => void;
+  onUploadAvatar: () => void;
   onToggleClosedAccounts: () => void;
   onReorder: OnDropCallback;
 };
@@ -56,6 +64,9 @@ function Accounts({
   onAddAccount,
   onScheduleZoom,
   onFreeTrial,
+  onManageSubscription,
+  onResetAvatar,
+  onUploadAvatar,
   onToggleClosedAccounts,
   onReorder,
 }: AccountsProps) {
@@ -93,14 +104,26 @@ function Accounts({
     return null;
   };
 
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
+  let coachFirstNameZoom = "Zoom with " + REACT_APP_COACH_FIRST_NAME;
+  let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
+
   return (
     <View>
-      <Account
-        name="All accounts"
-        to={allAccountsPath}
-        query={getAllAccountBalance()}
-        style={{ fontWeight, marginTop: 15 }}
-      />
+
+      <div
+        ref={element => {
+          commonElementsRef.current['all_accounts'] = element;
+        }}
+      >
+        <Account
+          name="All accounts"
+          to={allAccountsPath}
+          query={getAllAccountBalance()}
+          style={{ fontWeight, marginTop: 15 }}
+        />
+      </div>
 
       {budgetedAccounts.length > 0 && (
         <Account
@@ -174,35 +197,91 @@ function Accounts({
           />
         ))}
 
-      <SecondaryItem
-        style={{
-          marginTop: 15,
-          marginBottom: 9,
+      <div
+        ref={element => {
+          commonElementsRef.current['add_account'] = element;
         }}
-        onClick={onAddAccount}
-        Icon={Add}
-        title="Add account"
-      />
+      >
+        <SecondaryItem
+          style={{
+            marginTop: 15,
+            marginBottom: 9,
+          }}
+          onClick={onAddAccount}
+          Icon={Add}
+          title="Add account"
+        />
+      </div>
 
-      <SecondaryItem
-        style={{
-          marginTop: 15,
-          marginBottom: 9,
-        }}
-        onClick={onScheduleZoom}
-        Icon={Phone}
-        title="Schedule Zoom"
-      />
+      {REACT_APP_COACH != undefined && (
+        <div
+          style={{
+            marginTop: 50,
+          }}
+          ref={element => {
+            commonElementsRef.current['zoom_link'] = element;
+          }}
+        >
+          <SecondaryItem
+            style={{
+              marginTop: 15,
+              marginBottom: 9,
+            }}
+            onClick={onScheduleZoom}
+            Icon={Phone}
+            title={coachFirstNameZoom}
+          />
+        </div>
+      )}
 
-      <SecondaryItem
-        style={{
-          marginTop: 15,
-          marginBottom: 9,
-        }}
-        onClick={onFreeTrial}
-        Icon={Badge}
-        title="Free Trial"
-      />
+      {REACT_APP_COACH != undefined && (
+        <SecondaryItem
+          style={{
+            marginTop: 15,
+            marginBottom: 9,
+          }}
+          onClick={onResetAvatar}
+          Icon={Reload}
+          title={coachFirstNameReset}
+        />
+      )}
+
+      {REACT_APP_BILLING_STATUS === "free_trial" && (
+        <SecondaryItem
+          style={{
+            marginTop: 15,
+            marginBottom: 9,
+          }}
+          onClick={onFreeTrial}
+          Icon={Badge}
+          title="Free Trial"
+        />
+      )}
+
+      {REACT_APP_BILLING_STATUS === "paid" && (
+        <SecondaryItem
+          style={{
+            marginTop: 15,
+            marginBottom: 9,
+          }}
+          onClick={onManageSubscription}
+          Icon={Badge}
+          title="Manage Subscription"
+        />
+      )}
+
+      {REACT_APP_UI_MODE === "coach" && (
+        <SecondaryItem
+          style={{
+            marginTop: 15 + 50,
+            marginBottom: 9,
+          }}
+          onClick={onUploadAvatar}
+          Icon={Bolt}
+          title='Manage Avatar'
+        />
+      )}
+
     </View>
   );
 }

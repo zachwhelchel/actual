@@ -38,6 +38,7 @@ import { useSidebar } from './sidebar';
 import useSheetValue from './spreadsheet/useSheetValue';
 import { ThemeSelector } from './ThemeSelector';
 import { Tooltip } from './tooltips';
+import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
 export let TitlebarContext = createContext(null);
 
@@ -208,6 +209,7 @@ function BudgetTitlebar() {
 
   let [loading, setLoading] = useState(false);
   let [showTooltip, setShowTooltip] = useState(false);
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   const reportBudgetEnabled = useFeatureFlag('reportBudget');
 
@@ -224,10 +226,18 @@ function BudgetTitlebar() {
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <MonthCountSelector
-        maxMonths={maxMonths || 1}
-        onChange={value => saveGlobalPrefs({ maxMonths: value })}
-      />
+
+      <div
+        ref={element => {
+          commonElementsRef.current['calendar_icons'] = element;
+        }}
+      >
+        <MonthCountSelector
+          maxMonths={maxMonths || 1}
+          onChange={value => saveGlobalPrefs({ maxMonths: value })}
+        />
+      </div>
+
       {reportBudgetEnabled && (
         <View style={{ marginLeft: -5 }}>
           <ButtonWithLoading

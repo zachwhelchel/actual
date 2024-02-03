@@ -335,17 +335,6 @@ export default function BudgetList() {
         <Button type="primary" onClick={onCreate} style={{ marginLeft: 15 }}>
           Create new budget
         </Button>
-
-        {isNonProductionEnvironment() && (
-          <Button
-            type="primary"
-            isSubmit={false}
-            onClick={() => onCreate({ testMode: true })}
-            style={{ marginLeft: 15 }}
-          >
-            Create test budget
-          </Button>
-        )}
       </View>
     </View>
   );

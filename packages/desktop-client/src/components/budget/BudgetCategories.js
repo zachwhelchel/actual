@@ -13,6 +13,7 @@ import IncomeHeader from './IncomeHeader';
 import SidebarCategory from './SidebarCategory';
 import SidebarGroup from './SidebarGroup';
 import { separateGroups } from './util';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 const BudgetCategories = memo(
   ({
@@ -28,6 +29,7 @@ const BudgetCategories = memo(
     onShowActivity,
     onEditName,
     onEditMonth,
+    categoriesRef,
     onSaveCategory,
     onSaveGroup,
     onDeleteCategory,
@@ -144,8 +146,15 @@ const BudgetCategories = memo(
         setCollapsed([...collapsed, id]);
       }
     }
+    let { commonElementsRef } = useCoach(); // this is causing the errors.
 
     return (
+      <div
+        ref={element => {
+          commonElementsRef.current['budget_table'] = element;
+        }}
+      >
+
       <View
         style={{
           marginBottom: 10,
@@ -165,6 +174,7 @@ const BudgetCategories = memo(
                   <SidebarGroup
                     group={{ id: 'new', name: '' }}
                     editing={true}
+                    categoriesRef={categoriesRef}
                     onSave={onSaveGroup}
                     onHideNewGroup={onHideNewGroup}
                     onEdit={onEditName}
@@ -202,6 +212,7 @@ const BudgetCategories = memo(
                   MonthComponent={dataComponents.ExpenseGroupComponent}
                   dragState={dragState}
                   onEditName={onEditName}
+                  categoriesRef={categoriesRef}
                   onSave={onSaveGroup}
                   onDelete={onDeleteGroup}
                   onDragChange={onDragChange}
@@ -220,6 +231,7 @@ const BudgetCategories = memo(
                   MonthComponent={dataComponents.ExpenseCategoryComponent}
                   dragState={dragState}
                   onEditName={onEditName}
+                  categoriesRef={categoriesRef}
                   onEditMonth={onEditMonth}
                   onSave={onSaveCategory}
                   onDelete={onDeleteCategory}
@@ -253,6 +265,7 @@ const BudgetCategories = memo(
                   MonthComponent={dataComponents.IncomeGroupComponent}
                   collapsed={collapsed.includes(item.value.id)}
                   onEditName={onEditName}
+                  categoriesRef={categoriesRef}
                   onSave={onSaveGroup}
                   onToggleCollapse={onToggleCollapse}
                   onShowNewCategory={onShowNewCategory}
@@ -268,6 +281,7 @@ const BudgetCategories = memo(
                   MonthComponent={dataComponents.IncomeCategoryComponent}
                   onEditName={onEditName}
                   onEditMonth={onEditMonth}
+                  categoriesRef={categoriesRef}
                   onSave={onSaveCategory}
                   onDelete={onDeleteCategory}
                   onDragChange={onDragChange}
@@ -308,6 +322,7 @@ const BudgetCategories = memo(
           );
         })}
       </View>
+      </div>
     );
   },
 );

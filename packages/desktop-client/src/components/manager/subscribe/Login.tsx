@@ -105,21 +105,6 @@ export default function Login() {
           Sign in
         </ButtonWithLoading>
       </form>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginTop: 15,
-        }}
-      >
-        <Button
-          type="bare"
-          style={{ fontSize: 15, color: theme.pageTextLink, marginLeft: 10 }}
-          onClick={onDemo}
-        >
-          Try Demo &rarr;
-        </Button>
-      </View>
     </View>
   );
 }

@@ -15,6 +15,9 @@ import ConfirmCategoryDelete from './modals/ConfirmCategoryDelete';
 import CreateAccount from './modals/CreateAccount';
 import ScheduleZoom from './modals/ScheduleZoom';
 import FreeTrial from './modals/FreeTrial';
+import ManageSubscription from './modals/ManageSubscription';
+import ResetAvatar from './modals/ResetAvatar';
+import UploadAvatar from './modals/UploadAvatar';
 import CreateEncryptionKey from './modals/CreateEncryptionKey';
 import CreateLocalAccount from './modals/CreateLocalAccount';
 import EditField from './modals/EditField';
@@ -87,6 +90,27 @@ export default function Modals() {
         case 'free-trial':
           return (
             <FreeTrial
+              modalProps={modalProps}
+            />
+          );
+
+        case 'manage-subscription':
+          return (
+            <ManageSubscription
+              modalProps={modalProps}
+            />
+          );
+
+        case 'reset-avatar':
+          return (
+            <ResetAvatar
+              modalProps={modalProps}
+            />
+          );
+
+        case 'upload-avatar':
+          return (
+            <UploadAvatar
               modalProps={modalProps}
             />
           );

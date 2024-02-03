@@ -18,7 +18,7 @@ export default function DevelopmentTopBar() {
         flexShrink: 0,
       }}
     >
-      <View>This is a demo build of Actual.</View>
+      <View>This is a demo build of MyBudgetCoach.</View>
       <View>
         <ExternalLink
           linkColor="blue"

@@ -110,7 +110,7 @@ export default function CreateAccount({ modalProps, syncServerStatus }) {
                   Set up GoCardless for bank sync
                 </Button>
                 <Paragraph style={{ fontSize: 15 }}>
-                  Connect to an Actual server to set up{' '}
+                  Connect to an MyBudgetCoach server to set up{' '}
                   <ExternalLink
                     to="https://actualbudget.org/docs/advanced/bank-sync"
                     linkColor="muted"

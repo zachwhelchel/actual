@@ -126,7 +126,7 @@ function EmptyMessage({ onAdd }) {
   return (
     <View style={{ flex: 1, padding: 30 }}>
       <Text style={styles.text}>
-        For Actual to be useful, you need to add an account. You can link an
+        For MyBudgetCoach to be useful, you need to add an account. You can link an
         account to automatically download transactions, or manage it locally
         yourself.
       </Text>

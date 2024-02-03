@@ -55,9 +55,9 @@ export default function Bootstrap() {
 
   return (
     <View style={{ maxWidth: 450, marginTop: -30 }}>
-      <Title text="Welcome to Actual!" />
+      <Title text="Welcome to MyBudgetCoach!" />
       <Paragraph style={{ fontSize: 16, color: theme.pageTextDark }}>
-        Actual is a super fast privacy-focused app for managing your finances.
+        MyBudgetCoach is a super fast privacy-focused app for managing your finances.
         To secure your data, you’ll need to set a password for your server.
       </Paragraph>
 
@@ -84,15 +84,6 @@ export default function Bootstrap() {
       )}
 
       <ConfirmPasswordForm
-        buttons={
-          <Button
-            type="bare"
-            style={{ fontSize: 15, color: theme.pageTextLink, marginRight: 15 }}
-            onClick={onDemo}
-          >
-            Try Demo
-          </Button>
-        }
         onSetPassword={onSetPassword}
         onError={setError}
       />

@@ -224,7 +224,7 @@ export function downloadBudget(cloudFileId: string, { replace = false } = {}) {
         alert(
           `A file with id “${error.meta.id}” already exists with the name “${error.meta.name}.” ` +
             'This file will be replaced. This probably happened because files were manually ' +
-            'moved around outside of Actual.',
+            'moved around outside of MyBudgetCoach.',
         );
 
         return dispatch(downloadBudget(cloudFileId, { replace: true }));

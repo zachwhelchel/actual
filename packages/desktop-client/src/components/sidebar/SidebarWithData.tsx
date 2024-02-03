@@ -19,6 +19,7 @@ import Text from '../common/Text';
 import { Tooltip } from '../tooltips';
 
 import Sidebar from './Sidebar';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 type EditableBudgetNameProps = {
   prefs: LocalPrefs;
@@ -30,6 +31,8 @@ function EditableBudgetName({ prefs, savePrefs }: EditableBudgetNameProps) {
   let navigate = useNavigate();
   const [editing, setEditing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   function onMenuSelect(type) {
     setMenuOpen(false);
@@ -55,7 +58,7 @@ function EditableBudgetName({ prefs, savePrefs }: EditableBudgetNameProps) {
     { name: 'rename', text: 'Rename budget' },
     { name: 'settings', text: 'Settings' },
     ...(Platform.isBrowser ? [{ name: 'help', text: 'Help' }] : []),
-    { name: 'close', text: 'Close file' },
+    { name: 'close', text: 'Close budget' },
   ];
 
   if (editing) {
@@ -84,31 +87,37 @@ function EditableBudgetName({ prefs, savePrefs }: EditableBudgetNameProps) {
     );
   } else {
     return (
-      <Button
-        type="bare"
-        color={theme.buttonNormalBorder}
-        style={{
-          fontSize: 16,
-          fontWeight: 500,
-          marginLeft: -5,
-          flex: '0 auto',
+      <div
+        ref={element => {
+          commonElementsRef.current['budget_name'] = element;
         }}
-        onClick={() => setMenuOpen(true)}
       >
-        <Text style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
-          {prefs.budgetName || 'A budget has no name'}
-        </Text>
-        <ExpandArrow width={7} height={7} style={{ marginLeft: 5 }} />
-        {menuOpen && (
-          <Tooltip
-            position="bottom-left"
-            style={{ padding: 0 }}
-            onClose={() => setMenuOpen(false)}
-          >
-            <Menu onMenuSelect={onMenuSelect} items={items} />
-          </Tooltip>
-        )}
-      </Button>
+        <Button
+          type="bare"
+          color={theme.buttonNormalBorder}
+          style={{
+            fontSize: 16,
+            fontWeight: 500,
+            marginLeft: -5,
+            flex: '0 auto',
+          }}
+          onClick={() => setMenuOpen(true)}
+        >
+          <Text style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
+            {prefs.budgetName || 'A budget has no name'}
+          </Text>
+          <ExpandArrow width={7} height={7} style={{ marginLeft: 5 }} />
+          {menuOpen && (
+            <Tooltip
+              position="bottom-left"
+              style={{ padding: 0 }}
+              onClose={() => setMenuOpen(false)}
+            >
+              <Menu onMenuSelect={onMenuSelect} items={items} />
+            </Tooltip>
+          )}
+        </Button>      
+      </div>      
     );
   }
 }
@@ -152,6 +161,9 @@ function SidebarWithData() {
       onAddAccount={() => replaceModal('add-account')}
       onScheduleZoom={() => replaceModal('schedule-zoom')}
       onFreeTrial={() => replaceModal('free-trial')}
+      onManageSubscription={() => replaceModal('manage-subscription')}
+      onResetAvatar={() => replaceModal('reset-avatar')}
+      onUploadAvatar={() => replaceModal('upload-avatar')}
       showClosedAccounts={prefs['ui.showClosedAccounts']}
       onToggleClosedAccounts={() =>
         savePrefs({

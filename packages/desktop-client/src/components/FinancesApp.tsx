@@ -44,6 +44,7 @@ import Settings from './settings';
 import FloatableSidebar, { SidebarProvider } from './sidebar';
 import Titlebar, { TitlebarProvider } from './Titlebar';
 import { TransactionEdit } from './transactions/MobileTransaction';
+import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
 function NarrowNotSupported({
   redirectTo = '/budget',
@@ -137,7 +138,7 @@ function RouterBehaviors({ getAccounts }) {
   return null;
 }
 
-function FinancesApp() {
+function FinancesApp({budgetId, someDialogues, initialDialogueId }: FinancesAppProps) {
   let actions = useActions();
   useEffect(() => {
     // The default key handler scope
@@ -295,10 +296,22 @@ function FinancesApp() {
   );
 }
 
-export default function FinancesAppWithContext() {
+type FinancesAppProps = {
+  budgetId?: string;
+  someDialogues?: Map;
+  initialDialogueId?: string;
+};
+
+export default function FinancesAppWithContext({budgetId, someDialogues, initialDialogueId }: FinancesAppProps) {
   let app = useMemo(() => <FinancesApp />, []);
 
+  console.log("childcare:");
+  console.log("childcare:" + budgetId);
+  console.log("childcare:" + someDialogues);
+  console.log("childcare:" + initialDialogueId);
+
   return (
+    <CoachProvider budgetId={budgetId} allDialogues={someDialogues} initialDialogueId={initialDialogueId}>
     <SpreadsheetProvider>
       <TitlebarProvider>
         <SidebarProvider>
@@ -312,5 +325,6 @@ export default function FinancesAppWithContext() {
         </SidebarProvider>
       </TitlebarProvider>
     </SpreadsheetProvider>
+    </CoachProvider>
   );
 }

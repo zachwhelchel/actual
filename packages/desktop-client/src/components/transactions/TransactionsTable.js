@@ -77,6 +77,8 @@ import {
 } from '../table';
 import { Tooltip } from '../tooltips';
 
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
+
 function getDisplayValue(obj, name) {
   return obj ? obj[name] : '';
 }
@@ -410,6 +412,7 @@ function StatusCell({
   isChild,
   onEdit,
   onUpdate,
+  isNew = false,
 }) {
   let isClearedField = status === 'cleared' || status == null;
   let statusProps = getStatusProps(status);
@@ -429,6 +432,56 @@ function StatusCell({
     if (isClearedField) {
       onUpdate('cleared', !(status === 'cleared'));
     }
+  }
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
+  if (isNew == true) {
+    return (
+      <Cell
+        name="cleared"
+        width={23}
+        focused={focused}
+        style={{ padding: 1 }}
+        plain
+      >
+        <CellButton
+          style={{
+            padding: 3,
+            backgroundColor: 'transparent',
+            border: '1px solid transparent',
+            borderRadius: 50,
+            ':focus': {
+              border: '1px solid ' + theme.formInputBorderSelected,
+              boxShadow: '0 1px 2px ' + theme.formInputBorderSelected,
+            },
+            cursor: isClearedField ? 'pointer' : 'default',
+            ...(isChild && { visibility: 'hidden' }),
+          }}
+          onEdit={() => onEdit(id, 'cleared')}
+          onSelect={onSelect}
+        >
+          <div
+            style={{
+              width: 13,
+              height: 13,
+            }}
+            ref={element => {
+              commonElementsRef.current['cleared_status_icon'] = element;
+            }}
+          >
+            {createElement(statusProps.Icon, {
+              style: {
+                width: 13,
+                height: 13,
+                color: statusColor,
+                marginTop: status === 'due' ? -1 : 0,
+              },
+            })}
+          </div>
+        </CellButton>
+      </Cell>
+    );
   }
 
   return (
@@ -529,16 +582,33 @@ function PayeeCell({
   onManagePayees,
   onNavigateToTransferAccount,
   onNavigateToSchedule,
+  isNew = false,
 }) {
   let isCreatingPayee = useRef(false);
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   // Filter out the account we're currently in as it is not a valid transfer
   accounts = accounts.filter(account => account.id !== accountId);
   payees = payees.filter(payee => payee.transfer_acct !== accountId);
 
+  let refForHighlighting = null;
+  if (payeeId == null && isNew == true) {
+    refForHighlighting = 'select_payee';
+  }
+
   return (
+
+    // <div
+    //   ref={element => {
+    //     commonElementsRef.current['select_payee'] = element;
+    //   }}
+    // >
+
+
     <CustomCell
       width="flex"
+      refForHighlighting={refForHighlighting}
       name="payee"
       textAlign="flex"
       value={payeeId}
@@ -604,6 +674,9 @@ function PayeeCell({
         );
       }}
     </CustomCell>
+
+
+    // </div>
   );
 }
 
@@ -681,6 +754,7 @@ function PayeeIcons({
 
 const Transaction = memo(function Transaction(props) {
   let {
+    isNew,
     transaction: originalTransaction,
     editing,
     showAccount,
@@ -1012,6 +1086,7 @@ const Transaction = memo(function Transaction(props) {
           onManagePayees={onManagePayees}
           onNavigateToTransferAccount={onNavigateToTransferAccount}
           onNavigateToSchedule={onNavigateToSchedule}
+          isNew={isNew}
         />
       ))()}
 
@@ -1149,6 +1224,7 @@ const Transaction = memo(function Transaction(props) {
         <CustomCell
           /* Category field for normal and child transactions */
           name="category"
+          refForHighlighting={isNew == true ? 'select_category' : null}
           width="flex"
           textAlign="flex"
           value={categoryId}
@@ -1211,6 +1287,7 @@ const Transaction = memo(function Transaction(props) {
         type="input"
         width={90}
         name="debit"
+        refForHighlighting={isNew == true ? 'payment_input' : null}
         exposed={focusedField === 'debit'}
         focused={focusedField === 'debit'}
         value={debit === '' && credit === '' ? '0.00' : debit}
@@ -1237,6 +1314,7 @@ const Transaction = memo(function Transaction(props) {
         type="input"
         width={85}
         name="credit"
+        refForHighlighting={isNew == true ? 'deposit_input' : null}
         exposed={focusedField === 'credit'}
         focused={focusedField === 'credit'}
         value={credit}
@@ -1288,6 +1366,7 @@ const Transaction = memo(function Transaction(props) {
           isChild={isChild}
           onEdit={onEdit}
           onUpdate={onUpdate}
+          isNew={isNew}
         />
       )}
 
@@ -1389,6 +1468,8 @@ function NewTransaction({
   const error = transactions[0].error;
   const isDeposit = transactions[0].amount > 0;
 
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
   return (
     <View
       style={{
@@ -1463,7 +1544,13 @@ function NewTransaction({
             onClick={onAdd}
             data-testid="add-button"
           >
-            Add
+            <div
+              ref={element => {
+                commonElementsRef.current['save_transaction'] = element;
+              }}
+            >
+              Add
+            </div>            
           </Button>
         )}
       </View>

@@ -27,6 +27,7 @@ import { useActions } from '../../hooks/useActions';
 import useCategories from '../../hooks/useCategories';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { styles } from '../../style';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import View from '../common/View';
 import { TitlebarContext } from '../Titlebar';
 
@@ -198,12 +199,13 @@ function Budget(props) {
     setIsAddingGroup(false);
   };
 
-  const onSaveCategory = async category => {
+  const onSaveCategory = async (category, atEnd = false) => {
     if (category.id === 'new') {
       let id = await props.createCategory(
         category.name,
         category.cat_group,
         category.is_income,
+        atEnd,
       );
 
       setNewCategoryForGroup(null);
@@ -212,8 +214,11 @@ function Budget(props) {
           ...category,
           is_income: category.is_income ? 1 : 0,
           id,
-        }),
+        },
+        atEnd),
       );
+
+      return id;
     } else {
       const cat = {
         ...category,
@@ -223,6 +228,44 @@ function Budget(props) {
       props.updateCategory(cat);
       setCategoryGroups(state => updateCategory(state, cat));
     }
+  };
+
+  const onSaveNewCategories = async (categories, atEnd = false) => {
+    let ids = [];
+
+    console.log('Sugar were going dowm');
+    for (var index in categories) {
+      let category = categories[index];
+      console.log('Sugar for loop');
+      console.log(category);
+
+      let id = await props.createCategory(
+        category.name,
+        category.cat_group,
+        category.is_income,
+        atEnd,
+      );
+      category.id = id;
+      ids.push(id);
+    }
+
+    console.log('Sugar her got ids');
+    console.log(ids);
+
+    for (var index in categories) {
+      let category = categories[index];
+      let id = ids[index];
+      setCategoryGroups(state =>
+        addCategory(state, {
+          ...category,
+          is_income: category.is_income ? 1 : 0,
+          id,
+        },
+        atEnd),
+      );
+    }
+
+    return ids;
   };
 
   const onDeleteCategory = async id => {
@@ -258,6 +301,8 @@ function Budget(props) {
           id,
         }),
       );
+
+      return id;
     } else {
       const grp = {
         ...group,
@@ -268,6 +313,9 @@ function Budget(props) {
       setCategoryGroups(state => updateGroup(state, grp));
     }
   };
+
+  let { onSaveGroupCoach } = useCoach(); // this is causing the errors.
+  onSaveGroupCoach = onSaveGroup;
 
   const onDeleteGroup = async id => {
     let group = categoryGroups.find(g => g.id === id);
@@ -356,6 +404,7 @@ function Budget(props) {
   let {
     maxMonths,
     budgetType: type,
+    categoriesRef,
     reportComponents,
     rolloverComponents,
   } = props;
@@ -413,6 +462,14 @@ function Budget(props) {
         onBudgetAction={onBudgetAction}
         onToggleSummaryCollapse={onToggleCollapse}
       >
+        <Coach 
+          context="Budget"
+          onSaveGroup={onSaveGroup}
+          onDeleteGroup={onDeleteGroup}
+          onSaveCategory={onSaveCategory}
+          onSaveNewCategories={onSaveNewCategories}
+          categoryGroups={categoryGroups}
+        />
         <DynamicBudgetTable
           ref={tableRef}
           type={type}
@@ -433,6 +490,7 @@ function Budget(props) {
           onHideNewGroup={onHideNewGroup}
           onDeleteCategory={onDeleteCategory}
           onDeleteGroup={onDeleteGroup}
+          categoriesRef={categoriesRef}
           onSaveCategory={onSaveCategory}
           onSaveGroup={onSaveGroup}
           onBudgetAction={onBudgetAction}
@@ -504,6 +562,9 @@ export default function BudgetWrapper(props) {
     [rollover],
   );
 
+  //let categoriesRef = useRef([]);
+  let { categoriesCoachRef } = useCoach(); // this is causing the errors.
+
   // In a previous iteration, the wrapper needs `overflow: hidden` for
   // some reason. Without it at certain dimensions the width/height
   // that autosizer gives us is slightly wrong, causing scrollbars to
@@ -524,6 +585,7 @@ export default function BudgetWrapper(props) {
         budgetType={budgetType}
         maxMonths={maxMonths}
         categoryGroups={categoryGroups}
+        categoriesRef={categoriesCoachRef}
         {...actions}
         reportComponents={reportComponents}
         rolloverComponents={rolloverComponents}

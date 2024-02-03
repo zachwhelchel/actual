@@ -88,7 +88,7 @@ function AdvancedAbout() {
   return (
     <Setting>
       <Text>
-        <strong>IDs</strong> are the names Actual uses to identify your budget
+        <strong>IDs</strong> are the names MyBudgetCoach uses to identify your budget
         internally. There are several different IDs associated with your budget.
         The Budget ID is used to identify your budget file. The Sync ID is used
         to access the budget on the server.
@@ -176,14 +176,14 @@ export default function Settings() {
 */}          
             <ExportBudget />
 
-{/*          <AdvancedToggle>
+          <AdvancedToggle>
             <AdvancedAbout />
             <ResetCache />
             <ResetSync />
             <FixSplitsTool />
             <ExperimentalFeatures />
           </AdvancedToggle>
-*/}          
+          
         </View>
       </Page>
     </View>

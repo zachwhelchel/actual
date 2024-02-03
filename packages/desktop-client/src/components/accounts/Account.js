@@ -39,6 +39,7 @@ import {
 } from '../transactions/TransactionsTable';
 
 import { AccountHeader } from './Header';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 function EmptyMessage({ onAdd }) {
   return (
@@ -61,7 +62,7 @@ function EmptyMessage({ onAdd }) {
         }}
       >
         <Text style={{ textAlign: 'center', lineHeight: '1.4em' }}>
-          For Actual to be useful, you need to <strong>add an account</strong>.
+          For MyBudgetCoach to be useful, you need to <strong>add an account</strong>.
           You can link an account to automatically download transactions, or
           manage it locally yourself.
         </Text>
@@ -1202,6 +1203,9 @@ class AccountInternal extends PureComponent {
             fetchAllIds={this.fetchAllIds}
             registerDispatch={dispatch => (this.dispatchSelected = dispatch)}
           >
+            <Coach context="Accounts"
+            />
+
             <View style={styles.page}>
               <AccountHeader
                 tableRef={this.table}

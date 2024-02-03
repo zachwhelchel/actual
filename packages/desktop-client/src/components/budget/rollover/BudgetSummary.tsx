@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { css } from 'glamor';
 
@@ -9,6 +9,7 @@ import DotsHorizontalTriple from '../../../icons/v1/DotsHorizontalTriple';
 import ArrowButtonDown1 from '../../../icons/v2/ArrowButtonDown1';
 import ArrowButtonUp1 from '../../../icons/v2/ArrowButtonUp1';
 import { theme, styles } from '../../../style';
+import { useCoach } from '../../coach/Coach';
 import AlignedText from '../../common/AlignedText';
 import Block from '../../common/Block';
 import Button from '../../common/Button';
@@ -273,18 +274,45 @@ export function BudgetSummary({
     onToggleSummaryCollapse,
   } = useRollover();
 
+  let { setTop, setLeft, setOffset, commonElementsRef } = useCoach(); // this is causing the errors.
+
   let [menuOpen, setMenuOpen] = useState(false);
+
+  const inputRef = useRef(null);
+
   function onMenuOpen(e) {
+    console.log('menu opened?!');
+
+    console.log(inputRef.current.offsetWidth);
+    console.log(inputRef.current.offsetHeight);
+    console.log(inputRef.current.offsetLeft);
+    console.log(inputRef.current.offsetTop);
+
+    const { top: t, left: l } = inputRef.current.getBoundingClientRect();
+    const centerY = t + inputRef.current.offsetHeight / 2;
+
+    console.log(t);
+    console.log(l);
+
     setMenuOpen(true);
+    setTop(centerY - 50 - 30);
+    setLeft(l + inputRef.current.offsetWidth - 240);
+    setOffset(0);
   }
 
   function onMenuClose() {
     setMenuOpen(false);
+    setTop(window.innerHeight - 20 - 30);
+    setLeft(window.innerWidth - 20 - 240);
+    setOffset(100);
   }
 
   let prevMonthName = monthUtils.format(monthUtils.prevMonth(month), 'MMM');
 
   let ExpandOrCollapseIcon = collapsed ? ArrowButtonDown1 : ArrowButtonUp1;
+
+  //let { commonElementsRef } = useCoach(); // this is causing the errors.
+
 
   return (
     <View
@@ -371,13 +399,30 @@ export function BudgetSummary({
               />
             </View>
             <View style={{ userSelect: 'none', marginLeft: 2 }}>
-              <Button type="bare" onClick={onMenuOpen}>
-                <DotsHorizontalTriple
-                  width={15}
-                  height={15}
-                  style={{ color: theme.alt2PillText }}
-                />
-              </Button>
+
+              {currentMonth === month ? (
+                <div
+                  ref={element => {
+                    commonElementsRef.current['budget_more_button'] = element;
+                  }}
+                >
+                  <Button type="bare" onClick={onMenuOpen} ref={inputRef}>
+                    <DotsHorizontalTriple
+                      width={15}
+                      height={15}
+                      style={{ color: theme.alt2PillText }}
+                    />
+                  </Button>
+                </div>            
+              ) : (
+                <Button type="bare" onClick={onMenuOpen} ref={inputRef}>
+                  <DotsHorizontalTriple
+                    width={15}
+                    height={15}
+                    style={{ color: theme.alt2PillText }}
+                  />
+                </Button>
+              )}
               {menuOpen && (
                 <Tooltip
                   position="bottom-right"
@@ -420,7 +465,6 @@ export function BudgetSummary({
             </View>
           </View>
         </View>
-
         {collapsed ? (
           <View
             style={{
@@ -442,7 +486,17 @@ export function BudgetSummary({
           <>
             <TotalsList prevMonthName={prevMonthName} />
             <View style={{ margin: '23px 0' }}>
-              <ToBudget month={month} onBudgetAction={onBudgetAction} />
+              {currentMonth === month ? (
+                <div
+                  ref={element => {
+                    commonElementsRef.current['budget_header'] = element;
+                  }}
+                >
+                  <ToBudget month={month} onBudgetAction={onBudgetAction} />
+                </div> 
+              ) : (
+                <ToBudget month={month} onBudgetAction={onBudgetAction} />
+              )}
             </View>
           </>
         )}
