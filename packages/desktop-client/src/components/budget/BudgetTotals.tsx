@@ -9,6 +9,7 @@ import { Tooltip } from '../tooltips';
 
 import { RenderMonths } from './RenderMonths';
 import { getScrollbarWidth } from './util';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 type BudgetTotalsProps = {
   MonthComponent: ComponentProps<typeof RenderMonths>['component'];
@@ -24,6 +25,8 @@ export const BudgetTotals = memo(function BudgetTotals({
   collapseAllCategories,
 }: BudgetTotalsProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
   return (
     <View
       data-testid="budget-totals"
@@ -52,7 +55,14 @@ export const BudgetTotals = memo(function BudgetTotals({
           WebkitUserSelect: 'none',
         }}
       >
-        <View style={{ flexGrow: '1' }}>Category</View>
+        <div
+          style={{ flexGrow: '1' }}
+          ref={element => {
+            commonElementsRef.current['category_column'] = element;
+          }}
+        >
+          <View style={{ flexGrow: '1' }}>Category</View>
+        </div>            
         <Button
           type="bare"
           aria-label="Menu"

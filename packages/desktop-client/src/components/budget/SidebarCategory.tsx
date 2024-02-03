@@ -36,6 +36,7 @@ export function SidebarCategory({
   style,
   isLast,
   onEditName,
+  categoriesRef,
   onSave,
   onDelete,
   onHideNewCategory,
@@ -111,11 +112,17 @@ export function SidebarCategory({
         )}
       </View>
       <View style={{ flex: 1 }} />
-      <NotesButton
-        id={category.id}
-        style={dragging && { color: 'currentColor' }}
-        defaultColor={theme.pageTextLight}
-      />
+      <div
+        ref={element => {
+          categoriesRef.current[category.id] = element;
+        }}
+      >
+        <NotesButton
+          id={category.id}
+          style={dragging && { color: 'currentColor' }}
+          defaultColor={theme.pageTextLight}
+        />
+      </div>
     </View>
   );
 

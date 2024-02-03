@@ -1,8 +1,12 @@
 // @ts-strict-ignore
-export function addCategory(categoryGroups, cat) {
+export function addCategory(categoryGroups, cat, atEnd = false) {
   return categoryGroups.map(group => {
     if (group.id === cat.cat_group) {
-      group.categories = [cat, ...group.categories];
+      if (atEnd) {
+        group.categories = [...group.categories, cat];
+      } else {
+        group.categories = [cat, ...group.categories];
+      }
     }
     return { ...group };
   });

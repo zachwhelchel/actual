@@ -18,8 +18,8 @@ export async function checkForUpdateNotification(
 
   addNotification({
     type: 'message',
-    title: 'A new version of Actual is available!',
-    message: `Version ${latestVersion} of Actual was recently released.`,
+    title: 'A new version of MyBudgetCoach is available!',
+    message: `Version ${latestVersion} of MyBudgetCoach was recently released.`,
     sticky: true,
     id: 'update-notification',
     button: {

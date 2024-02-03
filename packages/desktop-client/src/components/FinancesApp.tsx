@@ -42,6 +42,7 @@ import { Settings } from './settings';
 import { FloatableSidebar, SidebarProvider } from './sidebar';
 import { Titlebar, TitlebarProvider } from './Titlebar';
 import { TransactionEdit } from './transactions/MobileTransaction';
+import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
 function NarrowNotSupported({
   redirectTo = '/budget',
@@ -93,7 +94,7 @@ function RouterBehaviors({ getAccounts }) {
   return null;
 }
 
-function FinancesAppWithoutContext() {
+function FinancesAppWithoutContext({budgetId, someDialogues, initialDialogueId}: FinancesAppProps) {
   const actions = useActions();
   useEffect(() => {
     // The default key handler scope
@@ -104,13 +105,13 @@ function FinancesAppWithoutContext() {
     setTimeout(async () => {
       await actions.sync();
 
-      await checkForUpdateNotification(
-        actions.addNotification,
-        getIsOutdated,
-        getLatestVersion,
-        actions.loadPrefs,
-        actions.savePrefs,
-      );
+      // await checkForUpdateNotification(
+      //   actions.addNotification,
+      //   getIsOutdated,
+      //   getLatestVersion,
+      //   actions.loadPrefs,
+      //   actions.savePrefs,
+      // );
     }, 100);
   }, []);
 
@@ -257,10 +258,22 @@ function FinancesAppWithoutContext() {
   );
 }
 
-export function FinancesApp() {
-  const app = useMemo(() => <FinancesAppWithoutContext />, []);
+type FinancesAppProps = {
+  budgetId?: string;
+  someDialogues?: Map;
+  initialDialogueId?: string;
+};
+
+export function FinancesApp({budgetId, someDialogues, initialDialogueId }: FinancesAppProps) {
+  const app = useMemo(() => <FinancesAppWithoutContext budgetId={budgetId} allDialogues={someDialogues} initialDialogueId={initialDialogueId} />, []);
+
+  console.log("childcare:");
+  console.log("childcare:" + budgetId);
+  console.log("childcare:" + someDialogues);
+  console.log("childcare:" + initialDialogueId);
 
   return (
+    <CoachProvider budgetId={budgetId} allDialogues={someDialogues} initialDialogueId={initialDialogueId}>
     <SpreadsheetProvider>
       <TitlebarProvider>
         <SidebarProvider>
@@ -276,5 +289,6 @@ export function FinancesApp() {
         </SidebarProvider>
       </TitlebarProvider>
     </SpreadsheetProvider>
+    </CoachProvider>
   );
 }

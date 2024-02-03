@@ -40,6 +40,7 @@ export function ExpenseCategory({
   MonthComponent,
   onEditName,
   onEditMonth,
+  categoriesRef,
   onSave,
   onDelete,
   onBudgetAction,
@@ -89,6 +90,7 @@ export function ExpenseCategory({
             editingCell.id === cat.id
           }
           onEditName={onEditName}
+          categoriesRef={categoriesRef}
           onSave={onSave}
           onDelete={onDelete}
         />

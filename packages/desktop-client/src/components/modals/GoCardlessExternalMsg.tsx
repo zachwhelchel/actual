@@ -203,7 +203,7 @@ export function GoCardlessExternalMsg({
         <Warning>
           By enabling bank-sync, you will be granting GoCardless (a third party
           service) read-only access to your entire account’s transaction
-          history. This service is not affiliated with Actual in any way. Make
+          history. This service is not affiliated with MyBudgetCoach in any way. Make
           sure you’ve read and understand GoCardless’s{' '}
           <ExternalLink to="https://gocardless.com/privacy/" linkColor="purple">
             Privacy Policy

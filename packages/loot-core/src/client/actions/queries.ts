@@ -137,6 +137,7 @@ export function createCategory(
   groupId: string,
   isIncome: boolean,
   hidden: boolean,
+  atEnd: boolean = false,
 ) {
   return async (dispatch: Dispatch) => {
     const id = await send('category-create', {
@@ -144,6 +145,7 @@ export function createCategory(
       groupId,
       isIncome,
       hidden,
+      atEnd,
     });
     dispatch(getCategories());
     return id;

@@ -24,14 +24,14 @@ export function WelcomeScreen() {
       <Text style={styles.veryLargeText}>Let’s get started!</Text>
       <View style={{ overflowY: 'auto' }}>
         <Paragraph>
-          Actual is a personal finance tool that focuses on beautiful design and
+          MyBudgetCoach is a personal finance tool that focuses on beautiful design and
           a slick user experience.{' '}
           <strong>Editing your data should be as fast as possible.</strong> On
           top of that, we want to provide powerful tools to allow you to do
           whatever you want with your data.
         </Paragraph>
         <Paragraph>
-          Currently, Actual implements budgeting based on a{' '}
+          Currently, MyBudgetCoach implements budgeting based on a{' '}
           <ExternalLink
             to="https://actualbudget.org/docs/budgeting/"
             linkColor="purple"
@@ -49,9 +49,9 @@ export function WelcomeScreen() {
           documentation while you’re there to learn more about advanced topics.
         </Paragraph>
         <Paragraph style={{ color: theme.pageTextLight }}>
-          Get started by importing an existing budget file from Actual or
-          another budgeting app, create a demo budget file, or start fresh with
-          an empty budget. You can always create or import another budget later.
+          Get started by importing an existing budget file from MyBudgetCoach or
+          another budgeting app, or start fresh with an empty budget. You can
+          always create or import another budget later.
         </Paragraph>
       </View>
       <View

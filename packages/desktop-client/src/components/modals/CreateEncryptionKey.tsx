@@ -101,7 +101,7 @@ export function CreateEncryptionKey({
                   </li>
                   <li>
                     If you’ve already downloaded your data on other devices, you
-                    will need to reset them. Actual will automatically take you
+                    will need to reset them. MyBudgetCoach will automatically take you
                     through this process.
                   </li>
                   <li>
@@ -117,7 +117,7 @@ export function CreateEncryptionKey({
               <Paragraph style={{ marginTop: 5 }}>
                 This will generate a new key for encrypting your data.{' '}
                 <strong>This requires a sync reset</strong> and all other
-                devices will have to revert to this version of your data. Actual
+                devices will have to revert to this version of your data. MyBudgetCoach
                 will take you through that process on those devices.{' '}
                 <ExternalLink
                   to="https://actualbudget.org/docs/getting-started/sync/#end-to-end-encryption"

@@ -43,6 +43,7 @@ import {
   type TitlebarContextValue,
   type TitlebarMessage,
 } from '../Titlebar';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 import { DynamicBudgetTable } from './DynamicBudgetTable';
 import * as report from './report/ReportComponents';
@@ -255,7 +256,7 @@ function BudgetInner(props: BudgetProps) {
     });
   };
 
-  const onSaveCategory = async category => {
+  const onSaveCategory = async (category, atEnd = false) => {
     const exists =
       (await props.getCategories()).grouped
         .filter(g => g.id === category.cat_group)[0]
@@ -276,6 +277,7 @@ function BudgetInner(props: BudgetProps) {
         category.cat_group,
         category.is_income,
         category.hidden,
+        atEnd,
       );
 
       setNewCategoryForGroup(null);
@@ -284,12 +286,53 @@ function BudgetInner(props: BudgetProps) {
           ...category,
           is_income: category.is_income ? 1 : 0,
           id,
-        }),
+        },
+        atEnd),
       );
+
+      return id;
     } else {
       props.updateCategory(category);
       setCategoryGroups(state => updateCategory(state, category));
     }
+  };
+
+  const onSaveNewCategories = async (categories, atEnd = false) => {
+    let ids = [];
+
+    console.log('Sugar were going dowm');
+    for (var index in categories) {
+      let category = categories[index];
+      console.log('Sugar for loop');
+      console.log(category);
+
+      let id = await props.createCategory(
+        category.name,
+        category.cat_group,
+        category.is_income,
+        atEnd,
+      );
+      category.id = id;
+      ids.push(id);
+    }
+
+    console.log('Sugar her got ids');
+    console.log(ids);
+
+    for (var index in categories) {
+      let category = categories[index];
+      let id = ids[index];
+      setCategoryGroups(state =>
+        addCategory(state, {
+          ...category,
+          is_income: category.is_income ? 1 : 0,
+          id,
+        },
+        atEnd),
+      );
+    }
+
+    return ids;
   };
 
   const onDeleteCategory = async id => {
@@ -325,11 +368,16 @@ function BudgetInner(props: BudgetProps) {
           id,
         }),
       );
+
+      return id;
     } else {
       props.updateGroup(group);
       setCategoryGroups(state => updateGroup(state, group));
     }
   };
+
+  let { onSaveGroupCoach } = useCoach(); // this is causing the errors.
+  onSaveGroupCoach = onSaveGroup;
 
   const onDeleteGroup = async id => {
     const group = categoryGroups.find(g => g.id === id);
@@ -432,6 +480,7 @@ function BudgetInner(props: BudgetProps) {
   const {
     maxMonths: originalMaxMonths,
     budgetType: type,
+    categoriesRef,
     reportComponents,
     rolloverComponents,
   } = props;
@@ -489,6 +538,14 @@ function BudgetInner(props: BudgetProps) {
         onBudgetAction={onBudgetAction}
         onToggleSummaryCollapse={onToggleCollapse}
       >
+        <Coach 
+          context="Budget"
+          onSaveGroup={onSaveGroup}
+          onDeleteGroup={onDeleteGroup}
+          onSaveCategory={onSaveCategory}
+          onSaveNewCategories={onSaveNewCategories}
+          categoryGroups={categoryGroups}
+        />
         <DynamicBudgetTable
           ref={tableRef}
           type={type}
@@ -509,6 +566,7 @@ function BudgetInner(props: BudgetProps) {
           onHideNewGroup={onHideNewGroup}
           onDeleteCategory={onDeleteCategory}
           onDeleteGroup={onDeleteGroup}
+          categoriesRef={categoriesRef}
           onSaveCategory={onSaveCategory}
           onSaveGroup={onSaveGroup}
           onBudgetAction={onBudgetAction}
@@ -582,6 +640,9 @@ export function Budget() {
     [rollover],
   );
 
+  //let categoriesRef = useRef([]);
+  let { categoriesCoachRef } = useCoach(); // this is causing the errors.
+
   // In a previous iteration, the wrapper needs `overflow: hidden` for
   // some reason. Without it at certain dimensions the width/height
   // that autosizer gives us is slightly wrong, causing scrollbars to
@@ -602,6 +663,7 @@ export function Budget() {
         budgetType={budgetType}
         maxMonths={maxMonths}
         categoryGroups={categoryGroups}
+        categoriesRef={categoriesCoachRef}
         {...actions}
         reportComponents={reportComponents}
         rolloverComponents={rolloverComponents}

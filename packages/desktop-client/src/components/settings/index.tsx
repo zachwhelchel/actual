@@ -39,10 +39,6 @@ function About() {
 
   return (
     <Setting>
-      <Text>
-        <strong>Actual</strong> is a super fast privacy-focused app for managing
-        your finances.
-      </Text>
       <View
         style={{
           flexDirection: 'column',
@@ -95,7 +91,7 @@ function AdvancedAbout() {
   return (
     <Setting>
       <Text>
-        <strong>IDs</strong> are the names Actual uses to identify your budget
+        <strong>IDs</strong> are the names MyBudgetCoach uses to identify your budget
         internally. There are several different IDs associated with your budget.
         The Budget ID is used to identify your budget file. The Sync ID is used
         to access the budget on the server.
@@ -169,8 +165,8 @@ export function Settings() {
 
         <ThemeSettings />
         <FormatSettings />
-        <EncryptionSettings />
-        <ExportBudget />
+{/*        <EncryptionSettings />
+*/}        <ExportBudget />
 
         <AdvancedToggle>
           <AdvancedAbout />

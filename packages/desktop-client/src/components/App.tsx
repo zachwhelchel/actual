@@ -39,6 +39,8 @@ type AppInnerProps = {
   ) => Promise<void>;
   closeBudget: () => Promise<void>;
   loadGlobalPrefs: () => Promise<GlobalPrefs>;
+  someDialogues: Map;
+  initialDialogueId: string;
 };
 
 function AppInner({
@@ -48,9 +50,15 @@ function AppInner({
   loadBudget,
   closeBudget,
   loadGlobalPrefs,
+  someDialogues,
+  initialDialogueId,
 }: AppInnerProps) {
   const [initializing, setInitializing] = useState(true);
   const { showBoundary: showErrorBoundary } = useErrorBoundary();
+
+  console.log("fuuuuuuuu:" + someDialogues);
+  console.log("fuuuuuuuu:" + initialDialogueId);
+
 
   async function init() {
     const socketName = await global.Actual.getServerSocket();
@@ -96,7 +104,7 @@ function AppInner({
       {initializing ? (
         <AppBackground initializing={initializing} loadingText={loadingText} />
       ) : budgetId ? (
-        <FinancesApp />
+        <FinancesApp budgetId={budgetId} someDialogues={someDialogues} initialDialogueId={initialDialogueId} />
       ) : (
         <>
           <AppBackground
@@ -122,8 +130,8 @@ function ErrorFallback({ error }: FallbackProps) {
   );
 }
 
-export function App() {
-  const budgetId = useSelector(
+export function App({someDialogues, initialDialogueId}) {
+  let budgetId = useSelector(
     state => state.prefs.local && state.prefs.local.id,
   );
   const cloudFileId = useSelector(
@@ -186,6 +194,8 @@ export function App() {
               loadBudget={loadBudget}
               closeBudget={closeBudget}
               loadGlobalPrefs={loadGlobalPrefs}
+              someDialogues={someDialogues}
+              initialDialogueId={initialDialogueId}
             />
           </ErrorBoundary>
           <ThemeStyle />

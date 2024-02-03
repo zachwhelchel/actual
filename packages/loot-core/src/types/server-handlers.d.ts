@@ -42,6 +42,10 @@ export interface ServerHandlers {
     options;
   }) => Promise<ParseFileResult>;
 
+  'uploaded-avatar-parse-file': (arg: {
+    filepath: string;
+  }) => Promise<unknown>;
+
   'transactions-export': (arg: {
     transactions;
     accounts?;

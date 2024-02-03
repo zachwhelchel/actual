@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-20T19:33:58.879Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15" etag="WfapQtWJihwL6fc4SgOl" version="22.1.21" type="google">
+  <diagram name="Page-1" id="2bxBstPVRJ6mf0ufkD1P">
+    <mxGraphModel dx="1203" dy="1834" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="MjpT15jqowOWvJNeViKD-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="MjpT15jqowOWvJNeViKD-1" target="MjpT15jqowOWvJNeViKD-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-1" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Hi! Zach here." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="110" y="190" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="MjpT15jqowOWvJNeViKD-2" target="MjpT15jqowOWvJNeViKD-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-2" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Well... technically I&#39;m not the real Zach... I&#39;m Zach&#39;s avatar." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="305" y="190" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="MjpT15jqowOWvJNeViKD-3" target="MjpT15jqowOWvJNeViKD-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-3" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Zach made me to help people budget!" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="500" y="189" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="MjpT15jqowOWvJNeViKD-4" target="MjpT15jqowOWvJNeViKD-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-4" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;The real Zach likes helping people budget too.&lt;br&gt;&lt;br&gt;But he also likes sleeping, and playing board games, and hanging with his kiddos." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="700" y="190" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="MjpT15jqowOWvJNeViKD-5" target="MjpT15jqowOWvJNeViKD-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-5" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;So he made me to continue his coaching 24/7, anywhere in the world. Pretty cool, huh?" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="980" y="190" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="MjpT15jqowOWvJNeViKD-11" target="MjpT15jqowOWvJNeViKD-13" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-15" value="🌶️ Spicy Next Button" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="MjpT15jqowOWvJNeViKD-14" connectable="0" vertex="1">
+          <mxGeometry x="-0.05" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-11" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Let me show you what I can do, so you can get inspired for your Avatar! First things first... let&#39;s spice up our next button below." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1260" y="190" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="MjpT15jqowOWvJNeViKD-13" target="MjpT15jqowOWvJNeViKD-16" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-18" value="I Am Totally Engaged" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="MjpT15jqowOWvJNeViKD-17" connectable="0" vertex="1">
+          <mxGeometry x="-0.0476" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-13" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;You can think of these dialogue boxes like a conversation. One in which you shape how the user responds. Use creative next buttons as a way to frame the conversation and keep the user engaged." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1660" y="190" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="MjpT15jqowOWvJNeViKD-16" target="MjpT15jqowOWvJNeViKD-19" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-24" value="Turn to Page 54" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="MjpT15jqowOWvJNeViKD-20" connectable="0" vertex="1">
+          <mxGeometry x="0.6988" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="MjpT15jqowOWvJNeViKD-16" target="MjpT15jqowOWvJNeViKD-21" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-23" value="Turn to Page 36" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="MjpT15jqowOWvJNeViKD-22" connectable="0" vertex="1">
+          <mxGeometry x="0.684" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-16" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Great! I&#39;m glad you feel engaged. Or did I give you no other option? Oops. Guess I forced the conversation in the way I wanted it to go.&lt;br&gt;&lt;br&gt;Sometimes one option is best. But we can also let users &quot;choose their own adventure&quot;. Like one of those old books..." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2060" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="MjpT15jqowOWvJNeViKD-19" target="MjpT15jqowOWvJNeViKD-28" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2900" y="425" />
+              <mxPoint x="2900" y="135" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-33" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="MjpT15jqowOWvJNeViKD-32" connectable="0" vertex="1">
+          <mxGeometry x="-0.1156" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="MjpT15jqowOWvJNeViKD-19" target="MjpT15jqowOWvJNeViKD-29" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-35" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="MjpT15jqowOWvJNeViKD-34" connectable="0" vertex="1">
+          <mxGeometry x="-0.0417" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-19" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;You fall into a large ditch that was invisible to the naked eye. You have been falling for what seems like hours now. Will you ever find the bottom of this...&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Er, wait. We were supposed to be helping people budget. Let&#39;s ask a more helpful question... Have you ever budgeted before?" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2520" y="350" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="MjpT15jqowOWvJNeViKD-21" target="MjpT15jqowOWvJNeViKD-28" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2940" y="45" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="2900" y="45" />
+              <mxPoint x="2900" y="135" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-36" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="MjpT15jqowOWvJNeViKD-26" connectable="0" vertex="1">
+          <mxGeometry x="-0.4645" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="MjpT15jqowOWvJNeViKD-21" target="MjpT15jqowOWvJNeViKD-29" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-31" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="MjpT15jqowOWvJNeViKD-30" connectable="0" vertex="1">
+          <mxGeometry x="0.1522" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-21" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;You are swallowed by a giant worm. The walls of it&#39;s stomach start to glow and you remember the potion the old woman gave you on the side of the...&lt;br&gt;&lt;br&gt;Er, wait. We were supposed to be helping people budget. Let&#39;s ask a more helpful question... Have you ever budgeted before?" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="2520" y="-30" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="MjpT15jqowOWvJNeViKD-28" target="GKZwg5FnQkhsqsVvZWjK-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-28" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Great, MBC is very similar to YNAB or another zero based budgeting software. The difference is we connect users with a coach from the gitgo. But you already know that. Let&#39;s see what else these Avatars can do." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="3080" y="60" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="MjpT15jqowOWvJNeViKD-29" target="GKZwg5FnQkhsqsVvZWjK-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MjpT15jqowOWvJNeViKD-29" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;No worries, We&#39;ll help you figure it out! Let&#39;s see what else these Avatars can do." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="3080" y="270" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-1" target="GKZwg5FnQkhsqsVvZWjK-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-7" value="Forward!" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="GKZwg5FnQkhsqsVvZWjK-6">
+          <mxGeometry x="0.05" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-1" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;What&#39;s that? It&#39;s hard to go on? You can&#39;t keep thinking about what would have happened if you picked the other page in the choose your own adventure?&lt;br&gt;&lt;br&gt;Very well... use the back button at anytime to navigate back. Once you are ready to keep going select forward!" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3600" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-5" target="GKZwg5FnQkhsqsVvZWjK-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-10" value="Show Me" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="GKZwg5FnQkhsqsVvZWjK-9">
+          <mxGeometry x="-0.04" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-5" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;One of the great things about your Avatar is its right here: in the budget! Instead of sending people to an article or a video you can talk about the numbers right in front of them. We call this &quot;contextual help&quot;. It&#39;s help that comes right in the context its needed!" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4110" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-8" target="GKZwg5FnQkhsqsVvZWjK-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-13" value="Like What?" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="GKZwg5FnQkhsqsVvZWjK-12">
+          <mxGeometry x="-0.0118" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-8" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Alright, let&#39;s talk about how you can view your account balances. See how I moved to highlight the number? You can move to all sorts of things." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4650" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-11" target="GKZwg5FnQkhsqsVvZWjK-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-11" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;You can move to the &quot;Add Account&quot; section for example. When you are walking someone through how to add their first account." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="5160" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-14" target="GKZwg5FnQkhsqsVvZWjK-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-14" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Or the &quot;Rename Your Budget&quot; section. Some people really get motivated by picking a cool name." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="5640" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-16" target="GKZwg5FnQkhsqsVvZWjK-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-16" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;You can even move to another part of the app. Like the Budget Screen. Click the Next button and I&#39;ll prompt you to head that way." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="6110" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-18" target="GKZwg5FnQkhsqsVvZWjK-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-18" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Welcome to the Budget Screen! You are getting the hang of this! We should celebrate. I know a great way to celebrate with your user... let me show you..." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="6570" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-20" target="GKZwg5FnQkhsqsVvZWjK-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-30" value="I pronounce it GIF" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="GKZwg5FnQkhsqsVvZWjK-28">
+          <mxGeometry x="0.5092" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-20" target="GKZwg5FnQkhsqsVvZWjK-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-31" value="I pronounce it JIF" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="GKZwg5FnQkhsqsVvZWjK-29">
+          <mxGeometry x="0.5227" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-20" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Celebrate with a GIF! Or JIF. No judgement either way. We&#39;re all about empowering coaches. If you are a die hard JIF person you do you." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="7040" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-22" target="GKZwg5FnQkhsqsVvZWjK-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-66" value="Next&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;future_purchase = [user_input]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="GKZwg5FnQkhsqsVvZWjK-25">
+          <mxGeometry x="-0.122" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-22" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Speaking of your taste... what is something you would love to purchase guilt free in the future? Something that cost&#39;s more than $100?" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="7760" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-33" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-24" target="GKZwg5FnQkhsqsVvZWjK-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-24" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Cool, thanks for sharing! As an Avatar you can prompt the user to type in some input and even reference that input later." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="8290" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-35" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-32" target="GKZwg5FnQkhsqsVvZWjK-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-36" value="Sounds Good" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="GKZwg5FnQkhsqsVvZWjK-35">
+          <mxGeometry y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-32" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Let&#39;s look at some other actions your Avatar can take. In addition to moving around to highlight areas you can also make changes to budget categories. Let&#39;s add one now." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="8760" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-38" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-34" target="GKZwg5FnQkhsqsVvZWjK-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-34" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Pretty cool huh? I added a category for Board Games. Did I mention I love board games? My favorite is Terraforming Mars. It&#39;s fantastic." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="9270" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-40" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-37" target="GKZwg5FnQkhsqsVvZWjK-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-37" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;But enough of what I love! Let&#39;s talk about what you love. Remember you told me about [[future_purchase]]? Let&#39;s make a category for that." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="9750" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-42" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-39" target="GKZwg5FnQkhsqsVvZWjK-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-39" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Pretty cool huh? Imagine all the different ways your Avatar can help users. Between asking questions, jumping around, creating categories, and remembering their answers... the sky is the limit. We can&#39;t wait to see how you bring your coaching wisdom to your Avatar!" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="10230" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-46" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-41" target="GKZwg5FnQkhsqsVvZWjK-45">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-41" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Oh, before I go let me make sure you can get a hold of me if you need me. Like, the real me. This is the Zoom button. Just click here to set up a call with the real Zach!" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="10690" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-48" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-45" target="GKZwg5FnQkhsqsVvZWjK-47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-49" value="How Does It End??" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="GKZwg5FnQkhsqsVvZWjK-48">
+          <mxGeometry x="-0.0608" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-45" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Also congrats on making it through this short tutorial! Consider this your victory through the &quot;choose your own adventure&quot; book." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="11110" y="160" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-51" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-47" target="GKZwg5FnQkhsqsVvZWjK-50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-52" value="Erm... a waffle?" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="GKZwg5FnQkhsqsVvZWjK-51">
+          <mxGeometry x="-0.075" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-47" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Well you defeat the worm. And you do it by using the magic spell. As your reward the old lady of the forrest gives you a magical waffle.&amp;nbsp;🧇" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="11630" y="159" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-54" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-50" target="GKZwg5FnQkhsqsVvZWjK-53">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-55" value="I Posted A Waffle Emoji 🧇&amp;nbsp;In Discord" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="GKZwg5FnQkhsqsVvZWjK-54">
+          <mxGeometry x="-0.075" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-50" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Listen I didn&#39;t write the story. She&#39;s an old lady who loves waffles. She tells me she made it from scratch and wants you to post the magical waffle emoji in the #february-launch channel on Discord. Those who also found the waffle will get it. It&#39;ll be our little secret. Can you do that for her?" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="12150" y="159" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-53" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;She thanks you kindly... and makes you ruler of the 7 Kingdoms. Well done!" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="12760" y="159" width="340" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-58" target="GKZwg5FnQkhsqsVvZWjK-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-58" value="move_to: account_balance" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4770" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-61" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-60" target="GKZwg5FnQkhsqsVvZWjK-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-60" value="move_to: add_account" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="5260" y="370" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-63" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-62" target="GKZwg5FnQkhsqsVvZWjK-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-62" value="move_to: budget_name" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="5760" y="370" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-64" target="GKZwg5FnQkhsqsVvZWjK-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-64" value="ncTvVeWqvnNu4lZQIH" style="triangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="7195" y="430" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-67" target="GKZwg5FnQkhsqsVvZWjK-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-67" value="create_category_group: Goals&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;create_category: Goals: Board Games" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="9320" y="405" width="240" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-69" target="GKZwg5FnQkhsqsVvZWjK-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-69" value="create_category: Goals: [[future_purchase]]" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="10280" y="420" width="240" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-71" target="GKZwg5FnQkhsqsVvZWjK-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-71" value="move_to: zoom_link" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="10790" y="410" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="GKZwg5FnQkhsqsVvZWjK-73" target="GKZwg5FnQkhsqsVvZWjK-50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GKZwg5FnQkhsqsVvZWjK-73" value="2IdlRNZZKFRD2" style="triangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="12290" y="410" width="60" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

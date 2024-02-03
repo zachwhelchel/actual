@@ -39,6 +39,11 @@ import { DiscoverSchedules } from './schedules/DiscoverSchedules';
 import { PostsOfflineNotification } from './schedules/PostsOfflineNotification';
 import { ScheduleDetails } from './schedules/ScheduleDetails';
 import { ScheduleLink } from './schedules/ScheduleLink';
+import { ScheduleZoom } from './modals/ScheduleZoom';
+import { FreeTrial } from './modals/FreeTrial';
+import { ManageSubscription } from './modals/ManageSubscription';
+import { ResetAvatar } from './modals/ResetAvatar';
+import { UploadAvatar } from './modals/UploadAvatar';
 
 export function Modals() {
   const modalStack = useSelector(state => state.modals.modalStack);
@@ -82,6 +87,41 @@ export function Modals() {
               modalProps={modalProps}
               syncServerStatus={syncServerStatus}
               upgradingAccountId={options?.upgradingAccountId}
+            />
+          );
+
+        case 'schedule-zoom':
+          return (
+            <ScheduleZoom
+              modalProps={modalProps}
+            />
+          );
+
+        case 'free-trial':
+          return (
+            <FreeTrial
+              modalProps={modalProps}
+            />
+          );
+
+        case 'manage-subscription':
+          return (
+            <ManageSubscription
+              modalProps={modalProps}
+            />
+          );
+
+        case 'reset-avatar':
+          return (
+            <ResetAvatar
+              modalProps={modalProps}
+            />
+          );
+
+        case 'upload-avatar':
+          return (
+            <UploadAvatar
+              modalProps={modalProps}
             />
           );
 

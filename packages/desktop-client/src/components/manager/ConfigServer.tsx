@@ -36,7 +36,7 @@ export function ConfigServer() {
       case 'network-failure':
         return 'Server is not running at this URL. Make sure you have HTTPS set up properly.';
       default:
-        return 'Server does not look like an Actual server. Is it set up correctly?';
+        return 'Server does not look like a MyBudgetCoach server. Is it set up correctly?';
     }
   }
 
@@ -103,13 +103,13 @@ export function ConfigServer() {
         {currentUrl ? (
           <>
             Existing sessions will be logged out and you will log in to this
-            server. We will validate that Actual is running at this URL.
+            server. We will validate that MyBudgetCoach is running at this URL.
           </>
         ) : (
           <>
             There is no server configured. After running the server, specify the
             URL here to use the app. You can always change this later. We will
-            validate that Actual is running at this URL.
+            validate that MyBudgetCoach is running at this URL.
           </>
         )}
       </Text>

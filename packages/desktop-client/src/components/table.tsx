@@ -43,6 +43,7 @@ import { type Binding } from './spreadsheet';
 import { useFormat } from './spreadsheet/useFormat';
 import { useSheetValue } from './spreadsheet/useSheetValue';
 import { Tooltip, IntersectionBoundary } from './tooltips';
+import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
 export const ROW_HEIGHT = 32;
 
@@ -161,6 +162,7 @@ export function Cell({
   valueStyle,
   unexposedContent,
   privacyFilter,
+  refForHighlighting = null,
   ...viewProps
 }: CellProps) {
   const mouseCoords = useRef(null);
@@ -179,6 +181,8 @@ export function Cell({
     borderColor: theme.tableBorder,
     alignItems,
   };
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   const conditionalPrivacyFilter = useMemo(
     () => (
@@ -200,7 +204,7 @@ export function Cell({
         ) : exposed ? (
           // @ts-expect-error Missing props refinement
           children()
-        ) : (
+        ) : refForHighlighting == null ? (
           <View
             style={{
               flexDirection: 'row',
@@ -232,6 +236,91 @@ export function Cell({
             {unexposedContent || (
               <UnexposedCellContent value={value} formatter={formatter} />
             )}
+          </View>
+        ) : (refForHighlighting == 'select_category' || refForHighlighting == 'payment_input') ? (
+          <View
+            style={{
+              flexDirection: 'row',
+              flex: 1,
+              padding: '0 5px',
+              alignItems: 'center',
+              ...styles.smallText,
+              ...valueStyle,
+            }}
+            // Can't use click because we only want to expose the cell if
+            // the user does a direct click, not if they also drag the
+            // mouse to select something
+            onMouseDown={e => (mouseCoords.current = [e.clientX, e.clientY])}
+            // When testing, allow the click handler to be used instead
+            onClick={
+              global.IS_TESTING
+                ? () => onExpose?.(name)
+                : e => {
+                    if (
+                      mouseCoords.current &&
+                      Math.abs(e.clientX - mouseCoords.current[0]) < 5 &&
+                      Math.abs(e.clientY - mouseCoords.current[1]) < 5
+                    ) {
+                      onExpose?.(name);
+                    }
+                  }
+            }
+          >
+            <div
+              style={{
+                width: '100%',
+              }}
+              ref={element => {
+                commonElementsRef.current[refForHighlighting] = element;
+              }}
+            >
+              {unexposedContent || (
+                <UnexposedCellContent value={value} formatter={formatter} />
+              )}
+            </div>
+          </View>
+        ) : (
+          <View
+            style={{
+              flexDirection: 'row',
+              flex: 1,
+              padding: '0 5px',
+              alignItems: 'center',
+              ...styles.smallText,
+              ...valueStyle,
+            }}
+            // Can't use click because we only want to expose the cell if
+            // the user does a direct click, not if they also drag the
+            // mouse to select something
+            onMouseDown={e => (mouseCoords.current = [e.clientX, e.clientY])}
+            // When testing, allow the click handler to be used instead
+            onClick={
+              global.IS_TESTING
+                ? () => onExpose?.(name)
+                : e => {
+                    if (
+                      mouseCoords.current &&
+                      Math.abs(e.clientX - mouseCoords.current[0]) < 5 &&
+                      Math.abs(e.clientY - mouseCoords.current[1]) < 5
+                    ) {
+                      onExpose?.(name);
+                    }
+                  }
+            }
+          >
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+              ref={element => {
+                commonElementsRef.current[refForHighlighting] = element;
+              }}
+            >
+              {unexposedContent || (
+                <UnexposedCellContent value={value} formatter={formatter} />
+              )}
+            </div>
           </View>
         )}
       </ConditionalPrivacyFilter>
@@ -370,10 +459,11 @@ export function InputCell({
   onBlur,
   textAlign,
   error,
+  refForHighlighting = null,
   ...props
 }: InputCellProps) {
   return (
-    <Cell textAlign={textAlign} {...props}>
+    <Cell textAlign={textAlign} refForHighlighting={refForHighlighting} {...props}>
       {() => (
         <>
           <InputValue
@@ -427,6 +517,7 @@ export function CustomCell({
   children,
   onUpdate,
   onBlur,
+  refForHighlighting = null,
   ...props
 }: CustomCellProps) {
   const [value, setValue] = useState(defaultValue);
@@ -454,7 +545,7 @@ export function CustomCell({
   }
 
   return (
-    <Cell {...props} value={defaultValue}>
+    <Cell {...props} refForHighlighting={refForHighlighting} value={defaultValue}>
       {() =>
         children({
           onBlur: onBlur_,

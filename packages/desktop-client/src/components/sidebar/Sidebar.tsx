@@ -16,6 +16,7 @@ import { ToggleButton } from './ToggleButton';
 import { Tools } from './Tools';
 
 import { useSidebar } from '.';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 export const SIDEBAR_WIDTH = 240;
 
@@ -39,6 +40,11 @@ type SidebarProps = {
   isFloating: boolean;
   onFloat: () => void;
   onAddAccount: () => void;
+  onScheduleZoom: () => void;
+  onFreeTrial: () => void;
+  onManageSubscription: () => void;
+  onResetAvatar: () => void;
+  onUploadAvatar: () => void;
   onToggleClosedAccounts: () => void;
   onReorder: OnDropCallback;
 };
@@ -57,10 +63,17 @@ export function Sidebar({
   isFloating,
   onFloat,
   onAddAccount,
+  onScheduleZoom,
+  onFreeTrial,
+  onManageSubscription,
+  onResetAvatar,
+  onUploadAvatar,
   onToggleClosedAccounts,
   onReorder,
 }: SidebarProps) {
   const hasWindowButtons = !Platform.isBrowser && Platform.OS === 'mac';
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   const sidebar = useSidebar();
 
@@ -106,7 +119,15 @@ export function Sidebar({
       </View>
 
       <View style={{ overflow: 'auto' }}>
-        <Item title="Budget" Icon={SvgWallet} to="/budget" />
+        <div
+          ref={element => {
+            commonElementsRef.current['budget_button'] = element;
+          }}
+        >
+          <Item title="Budget" Icon={SvgWallet} to="/budget" />
+        </div>      
+
+
         <Item title="Reports" Icon={SvgReports} to="/reports" />
 
         <Item title="Schedules" Icon={SvgCalendar} to="/schedules" />
@@ -136,6 +157,11 @@ export function Sidebar({
           getOffBudgetBalance={getOffBudgetBalance}
           showClosedAccounts={showClosedAccounts}
           onAddAccount={onAddAccount}
+          onScheduleZoom={onScheduleZoom}
+          onFreeTrial={onFreeTrial}
+          onManageSubscription={onManageSubscription}
+          onResetAvatar={onResetAvatar}
+          onUploadAvatar={onUploadAvatar}
           onToggleClosedAccounts={onToggleClosedAccounts}
           onReorder={onReorder}
         />

@@ -47,7 +47,7 @@ export function EncryptionSettings() {
         <strong>End-to-end encryption</strong> is not available when making an
         unencrypted connection to a remote server. You’ll need to enable HTTPS
         on your server to use end-to-end encryption. This problem may also occur
-        if your browser is too old to work with Actual.{' '}
+        if your browser is too old to work with MyBudgetCoach.{' '}
         <ExternalLink
           to="https://actualbudget.org/docs/config/https"
           linkColor="purple"
