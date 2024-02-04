@@ -1,31 +1,40 @@
+// @ts-strict-ignore
 import React, {
   useEffect,
   useRef,
   useLayoutEffect,
   type ReactNode,
+  useState,
 } from 'react';
 import ReactModal from 'react-modal';
 
 import hotkeys from 'hotkeys-js';
 
-import AnimatedLoading from '../../icons/AnimatedLoading';
-import Delete from '../../icons/v0/Delete';
+import { AnimatedLoading } from '../../icons/AnimatedLoading';
+import { SvgDelete } from '../../icons/v0';
 import { type CSSProperties, styles, theme } from '../../style';
-import tokens from '../../tokens';
+import { tokens } from '../../tokens';
 
-import Button from './Button';
-import Text from './Text';
-import View from './View';
+import { Button } from './Button';
+import { Input } from './Input';
+import { Text } from './Text';
+import { View } from './View';
+
+type ModalChildrenProps = {
+  isEditingTitle: boolean;
+};
 
 export type ModalProps = {
-  title: string;
+  title?: string;
   isCurrent?: boolean;
   isHidden?: boolean;
-  children: ReactNode | (() => ReactNode);
-  size?: { width?: number; height?: number };
-  padding?: number;
+  children: ReactNode | ((props: ModalChildrenProps) => ReactNode);
+  size?: { width?: CSSProperties['width']; height?: CSSProperties['height'] };
+  padding?: CSSProperties['padding'];
   showHeader?: boolean;
+  leftHeaderContent?: ReactNode;
   showTitle?: boolean;
+  editableTitle?: boolean;
   showClose?: boolean;
   showOverlay?: boolean;
   loading?: boolean;
@@ -34,19 +43,23 @@ export type ModalProps = {
   stackIndex?: number;
   parent?: HTMLElement;
   style?: CSSProperties;
+  titleStyle?: CSSProperties;
   contentStyle?: CSSProperties;
   overlayStyle?: CSSProperties;
   onClose?: () => void;
+  onTitleUpdate?: (title: string) => void;
 };
 
-const Modal = ({
+export const Modal = ({
   title,
   isCurrent,
   isHidden,
   size,
   padding = 20,
   showHeader = true,
+  leftHeaderContent,
   showTitle = true,
+  editableTitle = false,
   showClose = true,
   showOverlay = true,
   loading = false,
@@ -55,36 +68,55 @@ const Modal = ({
   stackIndex,
   parent,
   style,
+  titleStyle,
   contentStyle,
   overlayStyle,
   children,
   onClose,
+  onTitleUpdate,
 }: ModalProps) => {
   useEffect(() => {
     // This deactivates any key handlers in the "app" scope. Ideally
     // each modal would have a name so they could each have their own
     // key handlers, but we'll do that later
-    let prevScope = hotkeys.getScope();
+    const prevScope = hotkeys.getScope();
     hotkeys.setScope('modal');
     return () => hotkeys.setScope(prevScope);
   }, []);
+
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [_title, setTitle] = useState(title);
+
+  const onTitleClick = () => {
+    setIsEditingTitle(true);
+  };
+
+  const _onTitleUpdate = newTitle => {
+    if (newTitle !== title) {
+      onTitleUpdate?.(newTitle);
+    }
+    setIsEditingTitle(false);
+  };
 
   return (
     <ReactModal
       isOpen={true}
       onRequestClose={onClose}
-      shouldCloseOnOverlayClick={false}
+      shouldCloseOnOverlayClick={true}
       shouldFocusAfterRender={!global.IS_DESIGN_MODE}
       shouldReturnFocusAfterClose={focusAfterClose}
       appElement={document.querySelector('#root') as HTMLElement}
       parentSelector={parent && (() => parent)}
       style={{
         content: {
+          display: 'flex',
+          height: 'fit-content',
+          width: 'fit-content',
+          position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           overflow: 'visible',
@@ -93,9 +125,11 @@ const Modal = ({
           backgroundColor: 'transparent',
           padding: 0,
           pointerEvents: 'auto',
+          margin: 'auto',
           ...contentStyle,
         },
         overlay: {
+          display: 'flex',
           zIndex: 3000,
           backgroundColor:
             showOverlay && stackIndex === 0 ? 'rgba(0, 0, 0, .1)' : 'none',
@@ -119,7 +153,8 @@ const Modal = ({
         size={size}
         style={{
           willChange: 'opacity, transform',
-          minWidth: '100%',
+          maxWidth: '90vw',
+          minWidth: '90vw',
           minHeight: 0,
           borderRadius: 4,
           //border: '1px solid ' + theme.modalBorder,
@@ -142,6 +177,28 @@ const Modal = ({
               flexShrink: 0,
             }}
           >
+            <View
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                bottom: 0,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginLeft: 15,
+                }}
+              >
+                {leftHeaderContent && !isEditingTitle
+                  ? leftHeaderContent
+                  : null}
+              </View>
+            </View>
+
             {showTitle && (
               <View
                 style={{
@@ -154,17 +211,38 @@ const Modal = ({
                   width: 'calc(100% - 40px)',
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 25,
-                    fontWeight: 700,
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {title}
-                </Text>
+                {isEditingTitle ? (
+                  <Input
+                    style={{
+                      fontSize: 25,
+                      fontWeight: 700,
+                      textAlign: 'center',
+                    }}
+                    value={_title}
+                    onChange={e => setTitle(e.target.value)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        _onTitleUpdate(e.currentTarget.value);
+                      }
+                    }}
+                    onBlur={e => _onTitleUpdate(e.target.value)}
+                  />
+                ) : (
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      fontWeight: 700,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      ...titleStyle,
+                    }}
+                    {...(editableTitle && { onPointerUp: onTitleClick })}
+                  >
+                    {_title}
+                  </Text>
+                )}
               </View>
             )}
 
@@ -184,14 +262,14 @@ const Modal = ({
                   marginRight: 15,
                 }}
               >
-                {showClose && (
+                {showClose && !isEditingTitle && (
                   <Button
                     type="bare"
                     onClick={onClose}
                     style={{ padding: '10px 10px' }}
                     aria-label="Close"
                   >
-                    <Delete width={10} style={{ color: 'inherit' }} />
+                    <SvgDelete width={10} style={{ color: 'inherit' }} />
                   </Button>
                 )}
               </View>
@@ -199,7 +277,9 @@ const Modal = ({
           </View>
         )}
         <View style={{ padding, paddingTop: 0, flex: 1 }}>
-          {typeof children === 'function' ? children() : children}
+          {typeof children === 'function'
+            ? children({ isEditingTitle })
+            : children}
         </View>
         {loading && (
           <View
@@ -243,9 +323,9 @@ const ModalContent = ({
   stackIndex,
   children,
 }: ModalContentProps) => {
-  let contentRef = useRef(null);
-  let mounted = useRef(false);
-  let rotateFactor = useRef(Math.random() * 10 - 5);
+  const contentRef = useRef(null);
+  const mounted = useRef(false);
+  const rotateFactor = useRef(Math.random() * 10 - 5);
 
   useLayoutEffect(() => {
     if (contentRef.current == null) {
@@ -319,11 +399,11 @@ export const ModalButtons = ({
   focusButton = false,
   children,
 }: ModalButtonsProps) => {
-  let containerRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     if (focusButton && containerRef.current) {
-      let button = containerRef.current.querySelector(
+      const button = containerRef.current.querySelector(
         'button:not([data-hidden])',
       );
 
@@ -348,5 +428,3 @@ export const ModalButtons = ({
     </View>
   );
 };
-
-export default Modal;

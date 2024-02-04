@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import React, { type ReactNode, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -7,29 +8,28 @@ import * as Platform from 'loot-core/src/client/platform';
 import { listen } from 'loot-core/src/platform/client/fetch';
 
 import { useActions } from '../../hooks/useActions';
-import useFeatureFlag from '../../hooks/useFeatureFlag';
-import useLatestVersion, { useIsOutdated } from '../../hooks/useLatestVersion';
+import { useLatestVersion, useIsOutdated } from '../../hooks/useLatestVersion';
 import { useSetThemeColor } from '../../hooks/useSetThemeColor';
 import { useResponsive } from '../../ResponsiveProvider';
 import { theme } from '../../style';
-import tokens from '../../tokens';
-import Button from '../common/Button';
-import ExternalLink from '../common/ExternalLink';
-import Input from '../common/Input';
-import Text from '../common/Text';
-import View from '../common/View';
+import { tokens } from '../../tokens';
+import { Button } from '../common/Button';
+import { ExternalLink } from '../common/ExternalLink';
+import { Input } from '../common/Input';
+import { Text } from '../common/Text';
+import { View } from '../common/View';
 import { FormField, FormLabel } from '../forms';
 import { Page } from '../Page';
 import { useServerVersion } from '../ServerContext';
 
-import EncryptionSettings from './Encryption';
-import ExperimentalFeatures from './Experimental';
-import ExportBudget from './Export';
-import FixSplitsTool from './FixSplits';
-import FormatSettings from './Format';
-import GlobalSettings from './Global';
+import { EncryptionSettings } from './Encryption';
+import { ExperimentalFeatures } from './Experimental';
+import { ExportBudget } from './Export';
+import { FixSplits } from './FixSplits';
+import { FormatSettings } from './Format';
+import { GlobalSettings } from './Global';
 import { ResetCache, ResetSync } from './Reset';
-import ThemeSettings from './Themes';
+import { ThemeSettings } from './Themes';
 import { AdvancedToggle, Setting } from './UI';
 
 function About() {
@@ -63,12 +63,15 @@ function About() {
             New version available: {latestVersion}
           </ExternalLink>
         ) : (
-          <Text style={{ color: theme.alt2NoticeText, fontWeight: 600 }}>
+          <Text style={{ color: theme.noticeText, fontWeight: 600 }}>
             You’re up to date!
           </Text>
         )}
         <Text>
-          <ExternalLink to="https://actualbudget.org/docs/releases">
+          <ExternalLink
+            to="https://actualbudget.org/docs/releases"
+            linkColor="purple"
+          >
             Release Notes
           </ExternalLink>
         </Text>
@@ -82,8 +85,8 @@ function IDName({ children }: { children: ReactNode }) {
 }
 
 function AdvancedAbout() {
-  let budgetId = useSelector(state => state.prefs.local.id);
-  let groupId = useSelector(state => state.prefs.local.groupId);
+  const budgetId = useSelector(state => state.prefs.local.id);
+  const groupId = useSelector(state => state.prefs.local.groupId);
 
   return (
     <Setting>
@@ -110,16 +113,16 @@ function AdvancedAbout() {
   );
 }
 
-export default function Settings() {
-  let floatingSidebar = useSelector(
+export function Settings() {
+  const floatingSidebar = useSelector(
     state => state.prefs.global.floatingSidebar,
   );
-  let budgetName = useSelector(state => state.prefs.local.budgetName);
+  const budgetName = useSelector(state => state.prefs.local.budgetName);
 
-  let { loadPrefs, closeBudget } = useActions();
+  const { loadPrefs, closeBudget } = useActions();
 
   useEffect(() => {
-    let unlisten = listen('prefs-updated', () => {
+    const unlisten = listen('prefs-updated', () => {
       loadPrefs();
     });
 
@@ -128,64 +131,51 @@ export default function Settings() {
   }, [loadPrefs]);
 
   const { isNarrowWidth } = useResponsive();
-  const themesFlag = useFeatureFlag('themes');
 
-  useSetThemeColor(theme.mobileSettingsViewTheme);
+  useSetThemeColor(theme.mobileViewTheme);
   return (
-    <View
+    <Page
+      title="Settings"
       style={{
+        backgroundColor: isNarrowWidth && theme.mobilePageBackground,
         marginInline: floatingSidebar && !isNarrowWidth ? 'auto' : 0,
       }}
     >
-      <Page
-        title="Settings"
-        titleStyle={
-          isNarrowWidth
-            ? {
-                backgroundColor: theme.menuItemBackground,
-                color: theme.menuItemText,
-              }
-            : undefined
-        }
-      >
-        <View style={{ flexShrink: 0, gap: 30 }}>
-          {isNarrowWidth && (
-            <View
-              style={{ gap: 10, flexDirection: 'row', alignItems: 'flex-end' }}
-            >
-              {/* The only spot to close a budget on mobile */}
-              <FormField>
-                <FormLabel title="Budget Name" />
-                <Input
-                  value={budgetName}
-                  disabled
-                  style={{ color: theme.buttonNormalDisabledText }}
-                />
-              </FormField>
-              <Button onClick={closeBudget}>Close Budget</Button>
-            </View>
-          )}
+      <View style={{ flexShrink: 0, maxWidth: 530, gap: 30 }}>
+        {isNarrowWidth && (
+          <View
+            style={{ gap: 10, flexDirection: 'row', alignItems: 'flex-end' }}
+          >
+            {/* The only spot to close a budget on mobile */}
+            <FormField>
+              <FormLabel title="Budget Name" />
+              <Input
+                value={budgetName}
+                disabled
+                style={{ color: theme.buttonNormalDisabledText }}
+              />
+            </FormField>
+            <Button onClick={closeBudget}>Close Budget</Button>
+          </View>
+        )}
 
-          <About />
+        <About />
 
-          {!Platform.isBrowser && <GlobalSettings />}
+        {!Platform.isBrowser && <GlobalSettings />}
 
-          {themesFlag && <ThemeSettings />}
-          <FormatSettings />
-{/*          <EncryptionSettings />
-*/}          
-            <ExportBudget />
+        <ThemeSettings />
+        <FormatSettings />
+{/*        <EncryptionSettings />
+*/}        <ExportBudget />
 
-          <AdvancedToggle>
-            <AdvancedAbout />
-            <ResetCache />
-            <ResetSync />
-            <FixSplitsTool />
-            <ExperimentalFeatures />
-          </AdvancedToggle>
-          
-        </View>
-      </Page>
-    </View>
+        <AdvancedToggle>
+          <AdvancedAbout />
+          <ResetCache />
+          <ResetSync />
+          <FixSplits />
+          <ExperimentalFeatures />
+        </AdvancedToggle>
+      </View>
+    </Page>
   );
 }

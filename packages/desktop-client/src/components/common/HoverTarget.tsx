@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, type ReactNode } from 'react';
 
 import { type CSSProperties } from '../../style';
 
-import View from './View';
+import { View } from './View';
 
 type HoverTargetProps = {
   style?: CSSProperties;
@@ -12,22 +12,22 @@ type HoverTargetProps = {
   disabled?: boolean;
 };
 
-export default function HoverTarget({
+export function HoverTarget({
   style,
   contentStyle,
   children,
   renderContent,
   disabled,
 }: HoverTargetProps) {
-  let [hovered, setHovered] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
-  const onMouseEnter = useCallback(() => {
+  const onPointerEnter = useCallback(() => {
     if (!disabled) {
       setHovered(true);
     }
   }, [disabled]);
 
-  const onMouseLeave = useCallback(() => {
+  const onPointerLeave = useCallback(() => {
     if (!disabled) {
       setHovered(false);
     }
@@ -42,8 +42,8 @@ export default function HoverTarget({
   return (
     <View style={style}>
       <View
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
+        onPointerEnter={onPointerEnter}
+        onPointerLeave={onPointerLeave}
         style={contentStyle}
       >
         {children}

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 export function addCategory(categoryGroups, cat, atEnd = false) {
   return categoryGroups.map(group => {
     if (group.id === cat.cat_group) {
@@ -65,7 +66,7 @@ export function moveCategoryGroup(categoryGroups, id, targetId) {
     return categoryGroups;
   }
 
-  let moveGroup = categoryGroups.find(g => g.id === id);
+  const moveGroup = categoryGroups.find(g => g.id === id);
 
   categoryGroups = categoryGroups.reduce((groups, group) => {
     if (group.id === targetId) {

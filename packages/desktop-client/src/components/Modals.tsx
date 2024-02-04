@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -5,38 +6,46 @@ import { useLocation } from 'react-router-dom';
 import { send } from 'loot-core/src/platform/client/fetch';
 
 import { useActions } from '../hooks/useActions';
-import useCategories from '../hooks/useCategories';
-import useSyncServerStatus from '../hooks/useSyncServerStatus';
+import { useCategories } from '../hooks/useCategories';
+import { useSyncServerStatus } from '../hooks/useSyncServerStatus';
 import { type CommonModalProps } from '../types/modals';
 
-import BudgetSummary from './modals/BudgetSummary';
-import CloseAccount from './modals/CloseAccount';
-import ConfirmCategoryDelete from './modals/ConfirmCategoryDelete';
-import CreateAccount from './modals/CreateAccount';
-import ScheduleZoom from './modals/ScheduleZoom';
-import FreeTrial from './modals/FreeTrial';
-import ManageSubscription from './modals/ManageSubscription';
-import ResetAvatar from './modals/ResetAvatar';
-import UploadAvatar from './modals/UploadAvatar';
-import CreateEncryptionKey from './modals/CreateEncryptionKey';
-import CreateLocalAccount from './modals/CreateLocalAccount';
-import EditField from './modals/EditField';
-import EditRule from './modals/EditRule';
-import FixEncryptionKey from './modals/FixEncryptionKey';
-import GoCardlessExternalMsg from './modals/GoCardlessExternalMsg';
-import GoCardlessInitialise from './modals/GoCardlessInitialise';
-import ImportTransactions from './modals/ImportTransactions';
-import LoadBackup from './modals/LoadBackup';
-import ManageRulesModal from './modals/ManageRulesModal';
-import MergeUnusedPayees from './modals/MergeUnusedPayees';
-import PlaidExternalMsg from './modals/PlaidExternalMsg';
-import SelectLinkedAccounts from './modals/SelectLinkedAccounts';
-import DiscoverSchedules from './schedules/DiscoverSchedules';
-import ScheduleDetails from './schedules/EditSchedule';
-import ScheduleLink from './schedules/LinkSchedule';
-import PostsOfflineNotification from './schedules/PostsOfflineNotification';
+import { CategoryGroupMenu } from './modals/CategoryGroupMenu';
+import { CategoryMenu } from './modals/CategoryMenu';
+import { CloseAccount } from './modals/CloseAccount';
+import { ConfirmCategoryDelete } from './modals/ConfirmCategoryDelete';
+import { ConfirmTransactionEdit } from './modals/ConfirmTransactionEdit';
+import { CreateAccount } from './modals/CreateAccount';
+import { CreateEncryptionKey } from './modals/CreateEncryptionKey';
+import { CreateLocalAccount } from './modals/CreateLocalAccount';
+import { EditField } from './modals/EditField';
+import { EditRule } from './modals/EditRule';
+import { FixEncryptionKey } from './modals/FixEncryptionKey';
+import { GoCardlessExternalMsg } from './modals/GoCardlessExternalMsg';
+import { GoCardlessInitialise } from './modals/GoCardlessInitialise';
+import { ImportTransactions } from './modals/ImportTransactions';
+import { LoadBackup } from './modals/LoadBackup';
+import { ManageRulesModal } from './modals/ManageRulesModal';
+import { MergeUnusedPayees } from './modals/MergeUnusedPayees';
+import { Notes } from './modals/Notes';
+import { PlaidExternalMsg } from './modals/PlaidExternalMsg';
+import { ReportBudgetSummary } from './modals/ReportBudgetSummary';
+import { RolloverBudgetSummary } from './modals/RolloverBudgetSummary';
+import { SelectLinkedAccounts } from './modals/SelectLinkedAccounts';
+import { SimpleFinInitialise } from './modals/SimpleFinInitialise';
+import { SingleInput } from './modals/SingleInput';
+import { SwitchBudgetType } from './modals/SwitchBudgetType';
+import { DiscoverSchedules } from './schedules/DiscoverSchedules';
+import { PostsOfflineNotification } from './schedules/PostsOfflineNotification';
+import { ScheduleDetails } from './schedules/ScheduleDetails';
+import { ScheduleLink } from './schedules/ScheduleLink';
+import { ScheduleZoom } from './modals/ScheduleZoom';
+import { FreeTrial } from './modals/FreeTrial';
+import { ManageSubscription } from './modals/ManageSubscription';
+import { ResetAvatar } from './modals/ResetAvatar';
+import { UploadAvatar } from './modals/UploadAvatar';
 
-export default function Modals() {
+export function Modals() {
   const modalStack = useSelector(state => state.modals.modalStack);
   const isHidden = useSelector(state => state.modals.isHidden);
   const accounts = useSelector(state => state.queries.accounts);
@@ -55,7 +64,7 @@ export default function Modals() {
 
   const syncServerStatus = useSyncServerStatus();
 
-  let modals = modalStack
+  const modals = modalStack
     .map(({ name, options }, idx) => {
       const modalProps: CommonModalProps = {
         onClose: actions.popModal,
@@ -77,6 +86,7 @@ export default function Modals() {
             <CreateAccount
               modalProps={modalProps}
               syncServerStatus={syncServerStatus}
+              upgradingAccountId={options?.upgradingAccountId}
             />
           );
 
@@ -141,6 +151,7 @@ export default function Modals() {
               requisitionId={options.requisitionId}
               localAccounts={accounts.filter(acct => acct.closed === 0)}
               actions={actions}
+              syncSource={options.syncSource}
             />
           );
 
@@ -161,6 +172,15 @@ export default function Modals() {
             />
           );
 
+        case 'confirm-transaction-edit':
+          return (
+            <ConfirmTransactionEdit
+              modalProps={modalProps}
+              onConfirm={options.onConfirm}
+              confirmReason={options.confirmReason}
+            />
+          );
+
         case 'load-backup':
           return (
             <LoadBackup
@@ -176,7 +196,7 @@ export default function Modals() {
           return (
             <ManageRulesModal
               modalProps={modalProps}
-              payeeId={options.payeeId}
+              payeeId={options?.payeeId}
             />
           );
 
@@ -214,6 +234,14 @@ export default function Modals() {
         case 'gocardless-init':
           return (
             <GoCardlessInitialise
+              modalProps={modalProps}
+              onSuccess={options.onSuccess}
+            />
+          );
+
+        case 'simplefin-init':
+          return (
+            <SimpleFinInitialise
               modalProps={modalProps}
               onSuccess={options.onSuccess}
             />
@@ -259,12 +287,47 @@ export default function Modals() {
               modalProps={modalProps}
               name={options.name}
               onSubmit={options.onSubmit}
+              onClose={options.onClose}
             />
           );
 
-        case 'budget-summary':
+        case 'new-category':
           return (
-            <BudgetSummary
+            <SingleInput
+              modalProps={modalProps}
+              title="New Category"
+              inputPlaceholder="Category name"
+              buttonText="Add"
+              onValidate={options.onValidate}
+              onSubmit={options.onSubmit}
+            />
+          );
+
+        case 'new-category-group':
+          return (
+            <SingleInput
+              modalProps={modalProps}
+              title="New Category Group"
+              inputPlaceholder="Category group name"
+              buttonText="Add"
+              onValidate={options.onValidate}
+              onSubmit={options.onSubmit}
+            />
+          );
+
+        case 'rollover-budget-summary':
+          return (
+            <RolloverBudgetSummary
+              key={name}
+              modalProps={modalProps}
+              month={options.month}
+              onBudgetAction={options.onBudgetAction}
+            />
+          );
+
+        case 'report-budget-summary':
+          return (
+            <ReportBudgetSummary
               key={name}
               modalProps={modalProps}
               month={options.month}
@@ -306,6 +369,54 @@ export default function Modals() {
               key={name}
               modalProps={modalProps}
               actions={actions}
+            />
+          );
+
+        case 'switch-budget-type':
+          return (
+            <SwitchBudgetType
+              key={name}
+              modalProps={modalProps}
+              onSwitch={options?.onSwitch}
+            />
+          );
+
+        case 'category-menu':
+          return (
+            <CategoryMenu
+              key={name}
+              modalProps={modalProps}
+              categoryId={options.categoryId}
+              onSave={options.onSave}
+              onEditNotes={options.onEditNotes}
+              onDelete={options.onDelete}
+              onClose={options.onClose}
+            />
+          );
+
+        case 'category-group-menu':
+          return (
+            <CategoryGroupMenu
+              key={name}
+              modalProps={modalProps}
+              groupId={options.groupId}
+              onSave={options.onSave}
+              onAddCategory={options.onAddCategory}
+              onEditNotes={options.onEditNotes}
+              onSaveNotes={options.onSaveNotes}
+              onDelete={options.onDelete}
+              onClose={options.onClose}
+            />
+          );
+
+        case 'notes':
+          return (
+            <Notes
+              key={name}
+              modalProps={modalProps}
+              id={options.id}
+              name={options.name}
+              onSave={options.onSave}
             />
           );
 

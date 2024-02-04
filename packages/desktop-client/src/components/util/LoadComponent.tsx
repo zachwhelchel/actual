@@ -1,9 +1,9 @@
 import { type ComponentType, useEffect, useState } from 'react';
 
-import AnimatedLoading from '../../icons/AnimatedLoading';
+import { AnimatedLoading } from '../../icons/AnimatedLoading';
 import { theme, styles } from '../../style';
-import Block from '../common/Block';
-import View from '../common/View';
+import { Block } from '../common/Block';
+import { View } from '../common/View';
 
 type ProplessComponent = ComponentType<Record<string, never>>;
 type LoadComponentProps<K extends string> = {
@@ -22,7 +22,7 @@ function LoadComponentInner<K extends string>({
   message,
   importer,
 }: LoadComponentProps<K>) {
-  let [Component, setComponent] = useState<ProplessComponent | null>(null);
+  const [Component, setComponent] = useState<ProplessComponent | null>(null);
   useEffect(() => {
     importer().then(module => setComponent(() => module[name]));
   }, [name, importer]);

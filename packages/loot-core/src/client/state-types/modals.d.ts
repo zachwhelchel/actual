@@ -1,8 +1,13 @@
-import type { AccountEntity } from '../../types/models';
+import { type File } from '../../types/file';
+import type {
+  AccountEntity,
+  CategoryEntity,
+  CategoryGroupEntity,
+  GoCardlessToken,
+} from '../../types/models';
 import type { RuleEntity } from '../../types/models/rule';
 import type { EmptyObject, StripNever } from '../../types/util';
 import type * as constants from '../constants';
-
 export type ModalType = keyof FinanceModals;
 
 export type OptionlessModal = {
@@ -33,7 +38,8 @@ type FinanceModals = {
   'select-linked-accounts': {
     accounts: unknown[];
     requisitionId: string;
-    upgradingAccountId: string;
+    upgradingAccountId?: string;
+    syncSource?: AccountSyncSource;
   };
 
   'confirm-category-delete': { onDelete: () => void } & (
@@ -62,13 +68,27 @@ type FinanceModals = {
   'gocardless-init': {
     onSuccess: () => void;
   };
+  'simplefin-init': {
+    onSuccess: () => void;
+  };
+
   'gocardless-external-msg': {
     onMoveExternal: (arg: {
       institutionId: string;
     }) => Promise<{ error: string } | { data: unknown }>;
     onClose?: () => void;
-    onSuccess: (data: unknown) => Promise<void>;
+    onSuccess: (data: GoCardlessToken) => Promise<void>;
   };
+
+  'delete-budget': { file: File };
+
+  import: null;
+
+  'import-ynab4': null;
+
+  'import-ynab5': null;
+
+  'import-actual': null;
 
   'create-encryption-key': { recreate?: boolean };
   'fix-encryption-key': {
@@ -80,6 +100,7 @@ type FinanceModals = {
   'edit-field': {
     name: string;
     onSubmit: (name: string, value: string) => void;
+    onClose: () => void;
   };
 
   'budget-summary': {
@@ -93,6 +114,45 @@ type FinanceModals = {
   'schedules-discover': null;
 
   'schedule-posts-offline-notification': null;
+  'switch-budget-type': { onSwitch: () => void };
+  'category-menu': {
+    category: CategoryEntity;
+    onSave: (category: CategoryEntity) => void;
+    onEditNotes: (id: string) => void;
+    onSaveNotes: (id: string, notes: string) => void;
+    onDelete: (categoryId: string) => void;
+    onClose?: () => void;
+  };
+  'category-group-menu': {
+    group: CategoryGroupEntity;
+    onSave: (group: CategoryGroupEntity) => void;
+    onAddCategory: (groupId: string, isIncome: boolean) => void;
+    onEditNotes: (id: string) => void;
+    onDelete: (groupId: string) => void;
+    onClose?: () => void;
+  };
+  notes: {
+    id: string;
+    name: string;
+    onSave: (id: string, notes: string) => void;
+  };
+  'report-budget-summary': { month: string };
+  'rollover-budget-summary': {
+    month: string;
+    onBudgetAction: (
+      month: string,
+      type: string,
+      args: unknown,
+    ) => Promise<void>;
+  };
+  'new-category-group': {
+    onValidate?: (value: string) => string;
+    onSubmit: (value: string) => Promise<void>;
+  };
+  'new-category': {
+    onValidate?: (value: string) => string;
+    onSubmit: (value: string) => Promise<void>;
+  };
 };
 
 export type PushModalAction = {
@@ -113,11 +173,17 @@ export type CloseModalAction = {
   type: typeof constants.CLOSE_MODAL;
 };
 
+export type CollapseModalsAction = {
+  type: typeof constants.COLLAPSE_MODALS;
+  rootModalName: string;
+};
+
 export type ModalsActions =
   | PushModalAction
   | ReplaceModalAction
   | PopModalAction
-  | CloseModalAction;
+  | CloseModalAction
+  | CollapseModalsAction;
 
 export type ModalsState = {
   modalStack: Modal[];

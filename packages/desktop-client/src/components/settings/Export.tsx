@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -6,23 +7,23 @@ import { format } from 'date-fns';
 import { send } from 'loot-core/src/platform/client/fetch';
 
 import { theme } from '../../style';
-import Block from '../common/Block';
+import { Block } from '../common/Block';
 import { ButtonWithLoading } from '../common/Button';
-import Text from '../common/Text';
+import { Text } from '../common/Text';
 
 import { Setting } from './UI';
 
-export default function ExportBudget() {
-  let [isLoading, setIsLoading] = useState(false);
-  let [error, setError] = useState<string | null>(null);
-  let budgetId = useSelector(state => state.prefs.local.id);
-  let encryptKeyId = useSelector(state => state.prefs.local.encryptKeyId);
+export function ExportBudget() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const budgetId = useSelector(state => state.prefs.local.id);
+  const encryptKeyId = useSelector(state => state.prefs.local.encryptKeyId);
 
   async function onExport() {
     setIsLoading(true);
     setError(null);
 
-    let response = await send('export-budget');
+    const response = await send('export-budget');
 
     if ('error' in response) {
       setError(response.error);

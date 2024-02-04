@@ -1,8 +1,9 @@
+// @ts-strict-ignore
 import React, {
   useRef,
   type KeyboardEvent,
   type Ref,
-  type HTMLProps,
+  type InputHTMLAttributes,
 } from 'react';
 import mergeRefs from 'react-merge-refs';
 
@@ -21,7 +22,7 @@ export const defaultInputStyle = {
   border: '1px solid ' + theme.formInputBorder,
 };
 
-type InputProps = HTMLProps<HTMLInputElement> & {
+export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   style?: CSSProperties;
   inputRef?: Ref<HTMLInputElement>;
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
@@ -29,7 +30,7 @@ type InputProps = HTMLProps<HTMLInputElement> & {
   focused?: boolean;
 };
 
-export default function Input({
+export function Input({
   style,
   inputRef,
   onEnter,
@@ -37,7 +38,7 @@ export default function Input({
   focused,
   ...nativeProps
 }: InputProps) {
-  let ref = useRef();
+  const ref = useRef();
   useProperFocus(ref, focused);
 
   return (

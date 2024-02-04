@@ -38,18 +38,25 @@ module.exports = {
   extends: [
     'react-app',
     'plugin:react/recommended',
+    'plugin:prettier/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:import/typescript',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: { project: [path.join(__dirname, './tsconfig.json')] },
   reportUnusedDisableDirectives: true,
+  globals: {
+    globalThis: false,
+    vi: true,
+  },
   rules: {
     'prettier/prettier': 'warn',
+
+    // Note: base rule explicitly disabled in favor of the TS one
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {
-        args: 'none',
         varsIgnorePattern: '^_',
         ignoreRestSiblings: true,
       },
@@ -61,8 +68,16 @@ module.exports = {
       require('confusing-browser-globals').filter(g => g !== 'self'),
     ),
 
+    'react/jsx-filename-extension': [
+      'warn',
+      { extensions: ['.jsx', '.tsx'], allow: 'as-needed' },
+    ],
     'react/jsx-no-useless-fragment': 'warn',
     'react/self-closing-comp': 'warn',
+    'react/no-unstable-nested-components': [
+      'warn',
+      { allowAsProps: true, customValidators: ['formatter'] },
+    ],
 
     'rulesdir/typography': 'warn',
     'rulesdir/prefer-if-statement': 'warn',
@@ -76,7 +91,6 @@ module.exports = {
 
     // TODO: re-enable these rules
     'react-hooks/exhaustive-deps': 'off',
-    'react/no-children-prop': 'off',
     'react/display-name': 'off',
     'react/react-in-jsx-scope': 'off',
     // 'react-hooks/exhaustive-deps': [
@@ -85,6 +99,10 @@ module.exports = {
     //     additionalHooks: 'useLiveQuery',
     //   },
     // ],
+
+    'no-var': 'warn',
+    'react/jsx-curly-brace-presence': 'warn',
+    'object-shorthand': ['warn', 'properties'],
 
     'import/extensions': [
       'warn',
@@ -146,11 +164,17 @@ module.exports = {
       { patterns: [...restrictedImportPatterns, ...restrictedImportColors] },
     ],
 
+    '@typescript-eslint/ban-ts-comment': [
+      'error',
+      { 'ts-ignore': 'allow-with-description' },
+    ],
+
     // Rules disable during TS migration
     '@typescript-eslint/no-var-requires': 'off',
-    'prefer-const': 'off',
+    'prefer-const': 'warn',
     'prefer-spread': 'off',
     '@typescript-eslint/no-empty-function': 'off',
+    'import/no-default-export': 'warn',
   },
   overrides: [
     {
@@ -182,6 +206,26 @@ module.exports = {
               FC: { message: ruleFCMsg },
             },
             extendDefaults: true,
+          },
+        ],
+      },
+    },
+    {
+      files: ['./packages/desktop-client/**/*'],
+      excludedFiles: [
+        './packages/desktop-client/src/hooks/useNavigate.{ts,tsx}',
+      ],
+      rules: {
+        'no-restricted-imports': [
+          'warn',
+          {
+            patterns: [
+              {
+                group: ['react-router-dom'],
+                importNames: ['useNavigate'],
+                message: 'Please use Actual’s useNavigate() hook instead.',
+              },
+            ],
           },
         ],
       },
@@ -224,11 +268,17 @@ module.exports = {
         'no-restricted-imports': ['off', { patterns: restrictedImportColors }],
       },
     },
+    {
+      files: [
+        './packages/api/migrations/*',
+        './packages/loot-core/migrations/*',
+      ],
+      rules: {
+        'import/no-default-export': 'off',
+      },
+    },
   ],
   settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
-    },
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true,

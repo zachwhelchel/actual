@@ -7,10 +7,7 @@ const initialState: AccountState = {
   accountsSyncing: null,
 };
 
-export default function update(
-  state = initialState,
-  action: Action,
-): AccountState {
+export function update(state = initialState, action: Action): AccountState {
   switch (action.type) {
     case constants.SET_ACCOUNTS_SYNCING:
       return {
@@ -18,7 +15,7 @@ export default function update(
         accountsSyncing: action.name,
       };
     case constants.ACCOUNT_SYNC_STATUS: {
-      let failedAccounts = new Map(state.failedAccounts);
+      const failedAccounts = new Map(state.failedAccounts);
       if (action.failed) {
         failedAccounts.set(action.id, {
           type: action.errorType,
@@ -31,7 +28,7 @@ export default function update(
       return { ...state, failedAccounts };
     }
     case constants.ACCOUNT_SYNC_FAILURES: {
-      let failures = new Map();
+      const failures = new Map();
       action.syncErrors.forEach(error => {
         failures.set(error.id, {
           type: error.type,

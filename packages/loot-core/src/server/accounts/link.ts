@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { v4 as uuidv4 } from 'uuid';
 
 import * as asyncStorage from '../../platform/server/asyncStorage';
@@ -10,7 +11,7 @@ import { getServer } from '../server-config';
 import * as bankSync from './sync';
 
 export async function handoffPublicToken(institution, publicToken) {
-  let [[, userId], [, key]] = await asyncStorage.multiGet([
+  const [[, userId], [, key]] = await asyncStorage.multiGet([
     'user-id',
     'user-key',
   ]);
@@ -19,7 +20,7 @@ export async function handoffPublicToken(institution, publicToken) {
     throw new Error('Invalid institution object');
   }
 
-  let id = uuidv4();
+  const id = uuidv4();
 
   // Make sure to generate an access token first before inserting it
   // into our local database in case it fails
@@ -42,7 +43,7 @@ export async function handoffPublicToken(institution, publicToken) {
 }
 
 export async function findOrCreateBank(institution, requisitionId) {
-  let bank = await db.first(
+  const bank = await db.first(
     'SELECT id, bank_id, name FROM banks WHERE bank_id = ?',
     [requisitionId],
   );
@@ -63,7 +64,7 @@ export async function findOrCreateBank(institution, requisitionId) {
 }
 
 export async function addAccounts(bankId, accountIds, offbudgetIds = []) {
-  let [[, userId], [, userKey]] = await asyncStorage.multiGet([
+  const [[, userId], [, userKey]] = await asyncStorage.multiGet([
     'user-id',
     'user-key',
   ]);
@@ -76,8 +77,8 @@ export async function addAccounts(bankId, accountIds, offbudgetIds = []) {
 
   return Promise.all(
     accounts.map(async acct => {
-      let id = await runMutator(async () => {
-        let id = await db.insertAccount({
+      const id = await runMutator(async () => {
+        const id = await db.insertAccount({
           account_id: acct.account_id,
           name: acct.name,
           official_name: acct.official_name,
@@ -109,7 +110,7 @@ export async function addGoCardlessAccounts(
   accountIds,
   offbudgetIds = [],
 ) {
-  let [[, userId], [, userKey]] = await asyncStorage.multiGet([
+  const [[, userId], [, userKey]] = await asyncStorage.multiGet([
     'user-id',
     'user-key',
   ]);
@@ -122,8 +123,8 @@ export async function addGoCardlessAccounts(
 
   return Promise.all(
     accounts.map(async acct => {
-      let id = await runMutator(async () => {
-        let id = await db.insertAccount({
+      const id = await runMutator(async () => {
+        const id = await db.insertAccount({
           account_id: acct.account_id,
           name: acct.name,
           official_name: acct.official_name,
@@ -143,7 +144,7 @@ export async function addGoCardlessAccounts(
       });
 
       // Do an initial sync
-      await bankSync.syncGoCardlessAccount(
+      await bankSync.syncExternalAccount(
         userId,
         userKey,
         id,

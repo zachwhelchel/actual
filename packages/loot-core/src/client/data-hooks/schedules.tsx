@@ -1,9 +1,10 @@
+// @ts-strict-ignore
 import React, { createContext, useEffect, useState, useContext } from 'react';
 
-import { type Query } from '../../shared/query';
+import { q, type Query } from '../../shared/query';
 import { getStatus, getHasTransactionsQuery } from '../../shared/schedules';
 import { type ScheduleEntity } from '../../types/models';
-import q, { liveQuery } from '../query-helpers';
+import { liveQuery } from '../query-helpers';
 
 export type ScheduleStatusType = ReturnType<typeof getStatus>;
 export type ScheduleStatuses = Map<ScheduleEntity['id'], ScheduleStatusType>;
@@ -11,7 +12,7 @@ export type ScheduleStatuses = Map<ScheduleEntity['id'], ScheduleStatusType>;
 function loadStatuses(schedules: ScheduleEntity[], onData) {
   return liveQuery(getHasTransactionsQuery(schedules), onData, {
     mapper: data => {
-      let hasTrans = new Set(data.filter(Boolean).map(row => row.schedule));
+      const hasTrans = new Set(data.filter(Boolean).map(row => row.schedule));
 
       return new Map(
         schedules.map(s => [
@@ -35,9 +36,9 @@ export function useSchedules({
 
   useEffect(() => {
     const query = q('schedules').select('*');
-    let scheduleQuery, statusQuery;
+    let statusQuery;
 
-    scheduleQuery = liveQuery(
+    const scheduleQuery = liveQuery(
       transform ? transform(query) : query,
       async (schedules: ScheduleEntity[]) => {
         if (scheduleQuery) {
@@ -65,11 +66,15 @@ export function useSchedules({
   return data;
 }
 
-let SchedulesContext = createContext(null);
+const SchedulesContext = createContext(null);
 
 export function SchedulesProvider({ transform, children }) {
   const data = useSchedules({ transform });
-  return <SchedulesContext.Provider value={data} children={children} />;
+  return (
+    <SchedulesContext.Provider value={data}>
+      {children}
+    </SchedulesContext.Provider>
+  );
 }
 
 export function useCachedSchedules() {

@@ -1,57 +1,57 @@
+// @ts-strict-ignore
 import React, {
   useState,
   useContext,
   useEffect,
-  type ComponentProps,
+  type ComponentPropsWithoutRef,
 } from 'react';
 
 import { useSpreadsheet } from 'loot-core/src/client/SpreadsheetProvider';
-import evalArithmetic from 'loot-core/src/shared/arithmetic';
+import { evalArithmetic } from 'loot-core/src/shared/arithmetic';
 import { integerToCurrency, amountToInteger } from 'loot-core/src/shared/util';
 
-import CategoryAutocomplete from '../../autocomplete/CategoryAutocomplete';
-import Button from '../../common/Button';
-import InitialFocus from '../../common/InitialFocus';
-import Input from '../../common/Input';
-import View from '../../common/View';
-import NamespaceContext from '../../spreadsheet/NamespaceContext';
+import { useCategories } from '../../../hooks/useCategories';
+import { CategoryAutocomplete } from '../../autocomplete/CategoryAutocomplete';
+import { Button } from '../../common/Button';
+import { InitialFocus } from '../../common/InitialFocus';
+import { Input } from '../../common/Input';
+import { View } from '../../common/View';
+import { NamespaceContext } from '../../spreadsheet/NamespaceContext';
 import { Tooltip } from '../../tooltips';
-import { CategoryGroupsContext } from '../CategoryGroupsContext';
 import { addToBeBudgetedGroup } from '../util';
 
-type TransferTooltipProps = {
+type TransferTooltipProps = ComponentPropsWithoutRef<typeof Tooltip> & {
   initialAmount?: number;
   initialAmountName?: string;
   showToBeBudgeted?: boolean;
-  tooltipProps?: ComponentProps<typeof Tooltip>;
   onSubmit: (amount: number, category: unknown) => void;
-  onClose: () => void;
 };
-export default function TransferTooltip({
+export function TransferTooltip({
   initialAmount,
   initialAmountName,
   showToBeBudgeted,
-  tooltipProps,
   onSubmit,
   onClose,
+  position = 'bottom-right',
+  ...props
 }: TransferTooltipProps) {
-  let spreadsheet = useSpreadsheet();
-  let sheetName = useContext(NamespaceContext);
-  let categoryGroups = useContext(CategoryGroupsContext);
+  const spreadsheet = useSpreadsheet();
+  const sheetName = useContext(NamespaceContext);
+  let { grouped: categoryGroups } = useCategories();
 
   categoryGroups = categoryGroups.filter(g => !g.is_income);
   if (showToBeBudgeted) {
     categoryGroups = addToBeBudgetedGroup(categoryGroups);
   }
 
-  let [amount, setAmount] = useState(null);
-  let [category, setCategory] = useState(null);
+  const [amount, setAmount] = useState(null);
+  const [category, setCategory] = useState(null);
 
   useEffect(() => {
     (async () => {
       if (initialAmountName) {
         const node = await spreadsheet.get(sheetName, initialAmountName);
-        setAmount(integerToCurrency(Math.max(node.value, 0)));
+        setAmount(integerToCurrency(Math.max(node.value as number, 0)));
       } else {
         setAmount(integerToCurrency(Math.max(initialAmount, 0)));
       }
@@ -59,7 +59,7 @@ export default function TransferTooltip({
   }, []);
 
   function submit() {
-    let parsedAmount = evalArithmetic(amount, null);
+    const parsedAmount = evalArithmetic(amount, null);
     if (parsedAmount && category) {
       onSubmit(amountToInteger(parsedAmount), category);
       onClose();
@@ -76,11 +76,11 @@ export default function TransferTooltip({
 
   return (
     <Tooltip
-      position="bottom-right"
+      position={position}
       width={200}
       style={{ padding: 10 }}
-      {...tooltipProps}
       onClose={onClose}
+      {...props}
     >
       <View style={{ marginBottom: 5 }}>Transfer this amount:</View>
       <View>
@@ -98,7 +98,7 @@ export default function TransferTooltip({
         categoryGroups={categoryGroups}
         value={null}
         openOnFocus={true}
-        onUpdate={id => {}}
+        onUpdate={() => {}}
         onSelect={id => setCategory(id)}
         inputProps={{ onEnter: submit, placeholder: '(none)' }}
       />

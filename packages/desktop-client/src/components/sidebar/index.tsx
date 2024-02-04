@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import React, {
   createContext,
   useState,
@@ -10,10 +11,10 @@ import React, {
 import { useSelector } from 'react-redux';
 
 import { useResponsive } from '../../ResponsiveProvider';
-import View from '../common/View';
+import { View } from '../common/View';
 
 import { SIDEBAR_WIDTH } from './Sidebar';
-import SidebarWithData from './SidebarWithData';
+import { SidebarWithData } from './SidebarWithData';
 
 type SidebarContextValue = {
   hidden: boolean;
@@ -28,14 +29,14 @@ type SidebarProviderProps = {
   children: ReactNode;
 };
 
-function SidebarProvider({ children }: SidebarProviderProps) {
-  let floatingSidebar = useSelector(
+export function SidebarProvider({ children }: SidebarProviderProps) {
+  const floatingSidebar = useSelector(
     state => state.prefs.global.floatingSidebar,
   );
-  let [hidden, setHidden] = useState(true);
-  let { width } = useResponsive();
-  let alwaysFloats = width < 668;
-  let floating = floatingSidebar || alwaysFloats;
+  const [hidden, setHidden] = useState(true);
+  const { width } = useResponsive();
+  const alwaysFloats = width < 668;
+  const floating = floatingSidebar || alwaysFloats;
 
   return (
     <SidebarContext.Provider
@@ -46,8 +47,8 @@ function SidebarProvider({ children }: SidebarProviderProps) {
   );
 }
 
-function useSidebar() {
-  let { hidden, setHidden, floating, alwaysFloats } =
+export function useSidebar() {
+  const { hidden, setHidden, floating, alwaysFloats } =
     useContext(SidebarContext);
 
   return useMemo(
@@ -56,15 +57,15 @@ function useSidebar() {
   );
 }
 
-function FloatableSidebar() {
-  let floatingSidebar = useSelector(
+export function FloatableSidebar() {
+  const floatingSidebar = useSelector(
     state => state.prefs.global.floatingSidebar,
   );
 
-  let sidebar = useSidebar();
-  let { isNarrowWidth } = useResponsive();
+  const sidebar = useSidebar();
+  const { isNarrowWidth } = useResponsive();
 
-  let sidebarShouldFloat = floatingSidebar || sidebar.alwaysFloats;
+  const sidebarShouldFloat = floatingSidebar || sidebar.alwaysFloats;
 
   return isNarrowWidth ? null : (
     <View
@@ -103,6 +104,3 @@ function FloatableSidebar() {
     </View>
   );
 }
-
-export { SidebarProvider, useSidebar };
-export default FloatableSidebar;

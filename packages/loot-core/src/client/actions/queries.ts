@@ -1,6 +1,8 @@
+// @ts-strict-ignore
 import throttle from 'throttleit';
 
 import { send } from '../../platform/client/fetch';
+import { type AccountEntity } from '../../types/models';
 import * as constants from '../constants';
 
 import { pushModal } from './modals';
@@ -134,14 +136,15 @@ export function createCategory(
   name: string,
   groupId: string,
   isIncome: boolean,
+  hidden: boolean,
   atEnd: boolean = false,
 ) {
   return async (dispatch: Dispatch) => {
-    console.log('Is it here?');
-    let id = await send('category-create', {
+    const id = await send('category-create', {
       name,
       groupId,
       isIncome,
+      hidden,
       atEnd,
     });
     dispatch(getCategories());
@@ -151,7 +154,7 @@ export function createCategory(
 
 export function deleteCategory(id: string, transferId?: string) {
   return async (dispatch: Dispatch) => {
-    let { error } = await send('category-delete', { id, transferId });
+    const { error } = await send('category-delete', { id, transferId });
 
     if (error) {
       switch (error) {
@@ -201,7 +204,7 @@ export function moveCategoryGroup(id, targetId) {
 
 export function createGroup(name) {
   return async (dispatch: Dispatch) => {
-    let id = await send('category-group-create', { name });
+    const id = await send('category-group-create', { name });
     dispatch(getCategories());
     return id;
   };
@@ -219,8 +222,8 @@ export function updateGroup(group) {
   };
 }
 
-export function deleteGroup(id, transferId) {
-  return async function (dispatch, getState) {
+export function deleteGroup(id, transferId?) {
+  return async function (dispatch) {
     await send('category-group-delete', { id, transferId });
     await dispatch(getCategories());
     // See `deleteCategory` for why we need this
@@ -230,7 +233,7 @@ export function deleteGroup(id, transferId) {
 
 export function getPayees() {
   return async (dispatch: Dispatch) => {
-    let payees = await send('payees-get');
+    const payees = await send('payees-get');
     dispatch({
       type: constants.LOAD_PAYEES,
       payees,
@@ -261,7 +264,7 @@ export function getAccounts() {
   };
 }
 
-export function updateAccount(account) {
+export function updateAccount(account: AccountEntity) {
   return async (dispatch: Dispatch) => {
     dispatch({ type: constants.UPDATE_ACCOUNT, account });
     await send('account-update', account);
@@ -270,7 +273,7 @@ export function updateAccount(account) {
 
 export function createAccount(name, balance, offBudget) {
   return async (dispatch: Dispatch) => {
-    let id = await send('account-create', { name, balance, offBudget });
+    const id = await send('account-create', { name, balance, offBudget });
     await dispatch(getAccounts());
     await dispatch(getPayees());
     return id;
@@ -296,7 +299,12 @@ export function openAccountCloseModal(accountId) {
   };
 }
 
-export function closeAccount(accountId, transferAccountId, categoryId, forced) {
+export function closeAccount(
+  accountId: string,
+  transferAccountId: string,
+  categoryId: string,
+  forced?: boolean,
+) {
   return async (dispatch: Dispatch) => {
     await send('account-close', {
       id: accountId,
@@ -319,8 +327,8 @@ export function forceCloseAccount(accountId) {
   return closeAccount(accountId, null, null, true);
 }
 
-let _undo = throttle(() => send('undo'), 100);
-let _redo = throttle(() => send('redo'), 100);
+const _undo = throttle(() => send('undo'), 100);
+const _redo = throttle(() => send('redo'), 100);
 
 let _undoEnabled = true;
 export function setUndoEnabled(flag: boolean) {

@@ -7,100 +7,136 @@ import React, {
   type ReactNode,
 } from 'react';
 import { useSelector } from 'react-redux';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import * as Platform from 'loot-core/src/client/platform';
 import * as queries from 'loot-core/src/client/queries';
 import { listen } from 'loot-core/src/platform/client/fetch';
+import { type LocalPrefs } from 'loot-core/src/types/prefs';
 
 import { useActions } from '../hooks/useActions';
-import useFeatureFlag from '../hooks/useFeatureFlag';
-import ArrowLeft from '../icons/v1/ArrowLeft';
-import AlertTriangle from '../icons/v2/AlertTriangle';
-import SvgEye from '../icons/v2/Eye';
-import SvgEyeSlashed from '../icons/v2/EyeSlashed';
-import NavigationMenu from '../icons/v2/NavigationMenu';
+import { useFeatureFlag } from '../hooks/useFeatureFlag';
+import { useNavigate } from '../hooks/useNavigate';
+import { SvgArrowLeft } from '../icons/v1';
+import {
+  SvgAlertTriangle,
+  SvgNavigationMenu,
+  SvgViewHide,
+  SvgViewShow,
+} from '../icons/v2';
 import { useResponsive } from '../ResponsiveProvider';
-import { theme, type CSSProperties } from '../style';
+import { theme, type CSSProperties, styles } from '../style';
 
-import AccountSyncCheck from './accounts/AccountSyncCheck';
-import AnimatedRefresh from './AnimatedRefresh';
+import { AccountSyncCheck } from './accounts/AccountSyncCheck';
+import { AnimatedRefresh } from './AnimatedRefresh';
 import { MonthCountSelector } from './budget/MonthCountSelector';
-import Button, { ButtonWithLoading } from './common/Button';
-import ExternalLink from './common/ExternalLink';
-import Link from './common/Link';
-import Paragraph from './common/Paragraph';
-import Text from './common/Text';
-import View from './common/View';
-import LoggedInUser from './LoggedInUser';
+import { Button, ButtonWithLoading } from './common/Button';
+import { ExternalLink } from './common/ExternalLink';
+import { Link } from './common/Link';
+import { Paragraph } from './common/Paragraph';
+import { Text } from './common/Text';
+import { View } from './common/View';
+import { KeyHandlers } from './KeyHandlers';
+import { LoggedInUser } from './LoggedInUser';
 import { useServerURL } from './ServerContext';
 import { useSidebar } from './sidebar';
-import useSheetValue from './spreadsheet/useSheetValue';
+import { useSheetValue } from './spreadsheet/useSheetValue';
 import { ThemeSelector } from './ThemeSelector';
 import { Tooltip } from './tooltips';
 import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
-export let TitlebarContext = createContext(null);
+export const SWITCH_BUDGET_MESSAGE_TYPE = 'budget/switch-type';
+
+type SwitchBudgetTypeMessage = {
+  type: typeof SWITCH_BUDGET_MESSAGE_TYPE;
+  payload: {
+    newBudgetType: LocalPrefs['budgetType'];
+  };
+};
+export type TitlebarMessage = SwitchBudgetTypeMessage;
+
+type Listener = (msg: TitlebarMessage) => void;
+export type TitlebarContextValue = {
+  sendEvent: (msg: TitlebarMessage) => void;
+  subscribe: (listener: Listener) => () => void;
+};
+
+export const TitlebarContext = createContext<TitlebarContextValue>({
+  sendEvent() {
+    throw new Error('TitlebarContext not initialized');
+  },
+  subscribe() {
+    throw new Error('TitlebarContext not initialized');
+  },
+});
 
 type TitlebarProviderProps = {
   children?: ReactNode;
 };
-export function TitlebarProvider({ children }: TitlebarProviderProps) {
-  let listeners = useRef([]);
 
-  function sendEvent(msg) {
+export function TitlebarProvider({ children }: TitlebarProviderProps) {
+  const listeners = useRef<Listener[]>([]);
+
+  function sendEvent(msg: TitlebarMessage) {
     listeners.current.forEach(func => func(msg));
   }
 
-  function subscribe(listener) {
+  function subscribe(listener: Listener) {
     listeners.current.push(listener);
     return () =>
       (listeners.current = listeners.current.filter(func => func !== listener));
   }
 
   return (
-    <TitlebarContext.Provider
-      value={{ sendEvent, subscribe }}
-      children={children}
-    />
+    <TitlebarContext.Provider value={{ sendEvent, subscribe }}>
+      {children}
+    </TitlebarContext.Provider>
   );
 }
 
 function UncategorizedButton() {
-  let count = useSheetValue(queries.uncategorizedCount());
+  const count: number | null = useSheetValue(queries.uncategorizedCount());
+  if (count === null || count <= 0) {
+    return null;
+  }
+
   return (
-    count !== 0 && (
-      <Link
-        variant="button"
-        type="bare"
-        to="/accounts/uncategorized"
-        style={{
-          color: theme.errorText,
-        }}
-      >
-        {count} uncategorized {count === 1 ? 'transaction' : 'transactions'}
-      </Link>
-    )
+    <Link
+      variant="button"
+      type="bare"
+      to="/accounts/uncategorized"
+      style={{
+        color: theme.errorText,
+      }}
+    >
+      {count} uncategorized {count === 1 ? 'transaction' : 'transactions'}
+    </Link>
   );
 }
 
-function PrivacyButton() {
-  let isPrivacyEnabled = useSelector(
-    state => state.prefs.local.isPrivacyEnabled,
-  );
-  let { savePrefs } = useActions();
+type PrivacyButtonProps = {
+  style?: CSSProperties;
+};
 
-  let privacyIconStyle = { width: 23, height: 23 };
+function PrivacyButton({ style }: PrivacyButtonProps) {
+  const isPrivacyEnabled = useSelector(
+    state => state.prefs.local?.isPrivacyEnabled,
+  );
+  const { savePrefs } = useActions();
+
+  const privacyIconStyle = { width: 15, height: 15 };
 
   return (
     <Button
       type="bare"
+      aria-label={`${isPrivacyEnabled ? 'Disable' : 'Enable'} privacy mode`}
       onClick={() => savePrefs({ isPrivacyEnabled: !isPrivacyEnabled })}
+      style={style}
     >
       {isPrivacyEnabled ? (
-        <SvgEyeSlashed style={privacyIconStyle} />
+        <SvgViewHide style={privacyIconStyle} />
       ) : (
-        <SvgEye style={privacyIconStyle} />
+        <SvgViewShow style={privacyIconStyle} />
       )}
     </Button>
   );
@@ -110,15 +146,17 @@ type SyncButtonProps = {
   style?: CSSProperties;
   isMobile?: boolean;
 };
-export function SyncButton({ style, isMobile = false }: SyncButtonProps) {
-  let cloudFileId = useSelector(state => state.prefs.local.cloudFileId);
-  let { sync } = useActions();
+function SyncButton({ style, isMobile = false }: SyncButtonProps) {
+  const cloudFileId = useSelector(state => state.prefs.local?.cloudFileId);
+  const { sync } = useActions();
 
-  let [syncing, setSyncing] = useState(false);
-  let [syncState, setSyncState] = useState(null);
+  const [syncing, setSyncing] = useState(false);
+  const [syncState, setSyncState] = useState<
+    null | 'offline' | 'local' | 'disabled' | 'error'
+  >(null);
 
   useEffect(() => {
-    let unlisten = listen('sync-event', ({ type, subtype, syncDisabled }) => {
+    const unlisten = listen('sync-event', ({ type, subtype, syncDisabled }) => {
       if (type === 'start') {
         setSyncing(true);
         setSyncState(null);
@@ -152,20 +190,20 @@ export function SyncButton({ style, isMobile = false }: SyncButtonProps) {
 
   const mobileColor =
     syncState === 'error'
-      ? theme.alt4ErrorText
+      ? theme.errorText
       : syncState === 'disabled' ||
-        syncState === 'offline' ||
-        syncState === 'local'
-      ? theme.sidebarItemText
-      : style.color;
+          syncState === 'offline' ||
+          syncState === 'local'
+        ? theme.mobileHeaderTextSubdued
+        : theme.mobileHeaderText;
   const desktopColor =
     syncState === 'error'
-      ? theme.alt2ErrorText
+      ? theme.errorTextDark
       : syncState === 'disabled' ||
-        syncState === 'offline' ||
-        syncState === 'local'
-      ? theme.altTableText
-      : null;
+          syncState === 'offline' ||
+          syncState === 'local'
+        ? theme.tableTextLight
+        : 'inherit';
 
   const activeStyle = isMobile
     ? {
@@ -173,42 +211,89 @@ export function SyncButton({ style, isMobile = false }: SyncButtonProps) {
       }
     : {};
 
+  const hoveredStyle = isMobile
+    ? {
+        color: mobileColor,
+        background: theme.mobileHeaderTextHover,
+      }
+    : {};
+
+  const mobileIconStyle = {
+    color: mobileColor,
+    justifyContent: 'center',
+    margin: 10,
+    paddingLeft: 5,
+    paddingRight: 3,
+  };
+
+  const mobileTextStyle = {
+    ...styles.text,
+    fontWeight: 500,
+    marginLeft: 2,
+    marginRight: 5,
+  };
+
   return (
-    <Button
-      type="bare"
-      style={{
-        ...style,
-        WebkitAppRegion: 'none',
-        color: isMobile ? mobileColor : desktopColor,
-      }}
-      hoveredStyle={activeStyle}
-      activeStyle={activeStyle}
-      onClick={sync}
-    >
-      {syncState === 'error' ? (
-        <AlertTriangle width={13} />
-      ) : (
-        <AnimatedRefresh animating={syncing} />
-      )}
-      <Text style={{ marginLeft: 3 }}>
-        {syncState === 'disabled'
-          ? 'Disabled'
-          : syncState === 'offline'
-          ? 'Offline'
-          : 'Sync'}
-      </Text>
-    </Button>
+    <>
+      <KeyHandlers
+        keys={{
+          'ctrl+s, cmd+s': () => {
+            sync();
+          },
+        }}
+      />
+
+      <Button
+        type="bare"
+        aria-label="Sync"
+        style={
+          isMobile
+            ? {
+                ...style,
+                WebkitAppRegion: 'none',
+                ...mobileIconStyle,
+              }
+            : {
+                ...style,
+                WebkitAppRegion: 'none',
+                color: desktopColor,
+              }
+        }
+        hoveredStyle={hoveredStyle}
+        activeStyle={activeStyle}
+        onClick={sync}
+      >
+        {isMobile ? (
+          syncState === 'error' ? (
+            <SvgAlertTriangle width={14} height={14} />
+          ) : (
+            <AnimatedRefresh width={18} height={18} animating={syncing} />
+          )
+        ) : syncState === 'error' ? (
+          <SvgAlertTriangle width={13} />
+        ) : (
+          <AnimatedRefresh animating={syncing} />
+        )}
+        <Text style={isMobile ? { ...mobileTextStyle } : { marginLeft: 3 }}>
+          {syncState === 'disabled'
+            ? 'Disabled'
+            : syncState === 'offline'
+              ? 'Offline'
+              : 'Sync'}
+        </Text>
+      </Button>
+    </>
   );
 }
 
 function BudgetTitlebar() {
-  let maxMonths = useSelector(state => state.prefs.global.maxMonths);
-  let budgetType = useSelector(state => state.prefs.local.budgetType);
-  let { saveGlobalPrefs } = useActions();
-  let { sendEvent } = useContext(TitlebarContext);
+  const maxMonths = useSelector(state => state.prefs.global?.maxMonths);
+  const budgetType = useSelector(state => state.prefs.local?.budgetType);
+  const { saveGlobalPrefs } = useActions();
+  const { sendEvent } = useContext(TitlebarContext);
 
-  let [loading, setLoading] = useState(false);
-  let [showTooltip, setShowTooltip] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   const reportBudgetEnabled = useFeatureFlag('reportBudget');
@@ -216,7 +301,13 @@ function BudgetTitlebar() {
   function onSwitchType() {
     setLoading(true);
     if (!loading) {
-      sendEvent('budget/switch-type');
+      const newBudgetType = budgetType === 'rollover' ? 'report' : 'rollover';
+      sendEvent({
+        type: SWITCH_BUDGET_MESSAGE_TYPE,
+        payload: {
+          newBudgetType,
+        },
+      });
     }
   }
 
@@ -299,17 +390,19 @@ function BudgetTitlebar() {
   );
 }
 
-export default function Titlebar({ style }) {
-  let navigate = useNavigate();
-  let location = useLocation();
-  let sidebar = useSidebar();
-  let { isNarrowWidth } = useResponsive();
-  let serverURL = useServerURL();
-  let floatingSidebar = useSelector(
-    state => state.prefs.global.floatingSidebar,
-  );
+type TitlebarProps = {
+  style?: CSSProperties;
+};
 
-  let themesFlag = useFeatureFlag('themes');
+export function Titlebar({ style }: TitlebarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const sidebar = useSidebar();
+  const { isNarrowWidth } = useResponsive();
+  const serverURL = useServerURL();
+  const floatingSidebar = useSelector(
+    state => state.prefs.global?.floatingSidebar,
+  );
 
   return isNarrowWidth ? null : (
     <View
@@ -348,7 +441,7 @@ export default function Titlebar({ style }) {
             }
           }}
         >
-          <NavigationMenu
+          <SvgNavigationMenu
             className="menu"
             style={{ width: 15, height: 15, color: theme.pageText, left: 0 }}
           />
@@ -361,7 +454,7 @@ export default function Titlebar({ style }) {
           element={
             location.state?.goBack ? (
               <Button type="bare" onClick={() => navigate(-1)}>
-                <ArrowLeft
+                <SvgArrowLeft
                   width={10}
                   height={10}
                   style={{ marginRight: 5, color: 'currentColor' }}
@@ -380,8 +473,8 @@ export default function Titlebar({ style }) {
       </Routes>
       <View style={{ flex: 1 }} />
       <UncategorizedButton />
-      {themesFlag && <ThemeSelector />}
-      <PrivacyButton />
+      <ThemeSelector style={{ marginLeft: 10 }} />
+      <PrivacyButton style={{ marginLeft: 10 }} />
       {serverURL ? <SyncButton style={{ marginLeft: 10 }} /> : null}
       <LoggedInUser style={{ marginLeft: 10 }} />
     </View>

@@ -1,7 +1,8 @@
+// @ts-strict-ignore
 import React, { createContext, useContext } from 'react';
 
+import { q } from '../../shared/query';
 import { type AccountEntity } from '../../types/models';
-import q from '../query-helpers';
 import { useLiveQuery } from '../query-hooks';
 import { getAccountsById } from '../reducers/queries';
 
@@ -13,7 +14,9 @@ const AccountsContext = createContext<AccountEntity[]>(null);
 
 export function AccountsProvider({ children }) {
   const data = useAccounts();
-  return <AccountsContext.Provider value={data} children={children} />;
+  return (
+    <AccountsContext.Provider value={data}>{children}</AccountsContext.Provider>
+  );
 }
 
 export function CachedAccounts({ children, idKey }) {

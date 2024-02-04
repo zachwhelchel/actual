@@ -1,18 +1,15 @@
+// @ts-strict-ignore
 import React, { useState, useMemo } from 'react';
 
 import { type AccountEntity } from 'loot-core/src/types/models';
 
-import Add from '../../icons/v1/Add';
-import Phone from '../../icons/v1/Education';
-import Badge from '../../icons/v1/UserSolidCircle';
-import Reload from '../../icons/v1/Reload';
-import Bolt from '../../icons/v1/Bolt';
-import View from '../common/View';
+import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt } from '../../icons/v1';
+import { View } from '../common/View';
 import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
 
-import Account from './Account';
-import SecondaryItem from './SecondaryItem';
+import { Account } from './Account';
+import { SecondaryItem } from './SecondaryItem';
 
 import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
@@ -48,7 +45,7 @@ type AccountsProps = {
   onReorder: OnDropCallback;
 };
 
-function Accounts({
+export function Accounts({
   accounts,
   failedAccounts,
   updatedAccounts,
@@ -70,22 +67,22 @@ function Accounts({
   onToggleClosedAccounts,
   onReorder,
 }: AccountsProps) {
-  let [isDragging, setIsDragging] = useState(false);
-  let offbudgetAccounts = useMemo(
+  const [isDragging, setIsDragging] = useState(false);
+  const offbudgetAccounts = useMemo(
     () =>
       accounts.filter(
         account => account.closed === 0 && account.offbudget === 1,
       ),
     [accounts],
   );
-  let budgetedAccounts = useMemo(
+  const budgetedAccounts = useMemo(
     () =>
       accounts.filter(
         account => account.closed === 0 && account.offbudget === 0,
       ),
     [accounts],
   );
-  let closedAccounts = useMemo(
+  const closedAccounts = useMemo(
     () => accounts.filter(account => account.closed === 1),
     [accounts],
   );
@@ -94,7 +91,7 @@ function Accounts({
     setIsDragging(drag.state === 'start');
   }
 
-  let makeDropPadding = (i, length) => {
+  const makeDropPadding = i => {
     if (i === 0) {
       return {
         paddingTop: isDragging ? 15 : 0,
@@ -146,7 +143,7 @@ function Accounts({
           query={getBalanceQuery(account)}
           onDragChange={onDragChange}
           onDrop={onReorder}
-          outerStyle={makeDropPadding(i, budgetedAccounts.length)}
+          outerStyle={makeDropPadding(i)}
         />
       ))}
 
@@ -171,7 +168,7 @@ function Accounts({
           query={getBalanceQuery(account)}
           onDragChange={onDragChange}
           onDrop={onReorder}
-          outerStyle={makeDropPadding(i, offbudgetAccounts.length)}
+          outerStyle={makeDropPadding(i)}
         />
       ))}
 
@@ -185,7 +182,7 @@ function Accounts({
       )}
 
       {showClosedAccounts &&
-        closedAccounts.map((account, i) => (
+        closedAccounts.map(account => (
           <Account
             key={account.id}
             name={account.name}
@@ -208,7 +205,7 @@ function Accounts({
             marginBottom: 9,
           }}
           onClick={onAddAccount}
-          Icon={Add}
+          Icon={SvgAdd}
           title="Add account"
         />
       </div>
@@ -228,7 +225,7 @@ function Accounts({
               marginBottom: 9,
             }}
             onClick={onScheduleZoom}
-            Icon={Phone}
+            Icon={SvgEducation}
             title={coachFirstNameZoom}
           />
         </div>
@@ -241,7 +238,7 @@ function Accounts({
             marginBottom: 9,
           }}
           onClick={onResetAvatar}
-          Icon={Reload}
+          Icon={SvgReload}
           title={coachFirstNameReset}
         />
       )}
@@ -253,7 +250,7 @@ function Accounts({
             marginBottom: 9,
           }}
           onClick={onFreeTrial}
-          Icon={Badge}
+          Icon={SvgBadge}
           title="Free Trial"
         />
       )}
@@ -265,7 +262,7 @@ function Accounts({
             marginBottom: 9,
           }}
           onClick={onManageSubscription}
-          Icon={Badge}
+          Icon={SvgBadge}
           title="Manage Subscription"
         />
       )}
@@ -277,7 +274,7 @@ function Accounts({
             marginBottom: 9,
           }}
           onClick={onUploadAvatar}
-          Icon={Bolt}
+          Icon={SvgBolt}
           title='Manage Avatar'
         />
       )}
@@ -285,5 +282,3 @@ function Accounts({
     </View>
   );
 }
-
-export default Accounts;

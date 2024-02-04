@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import {
   type ReactNode,
   createElement,
@@ -6,10 +7,11 @@ import {
   useState,
 } from 'react';
 
-import { theme } from '../../style';
+import { type CSSProperties, theme } from '../../style';
 
-import Text from './Text';
-import View from './View';
+import { Text } from './Text';
+import { Toggle } from './Toggle';
+import { View } from './View';
 
 type KeybindingProps = {
   keyName: ReactNode;
@@ -31,36 +33,41 @@ type MenuItem = {
   iconSize?: number;
   text: string;
   key?: string;
+  style?: CSSProperties;
+  toggle?: boolean;
+  tooltip?: string;
 };
 
-type MenuProps = {
+type MenuProps<T extends MenuItem = MenuItem> = {
   header?: ReactNode;
   footer?: ReactNode;
-  items: Array<MenuItem | typeof Menu.line>;
-  onMenuSelect: (itemName: MenuItem['name']) => void;
+  items: Array<T | typeof Menu.line>;
+  onMenuSelect: (itemName: T['name']) => void;
+  style?: CSSProperties;
 };
 
-export default function Menu({
+export function Menu<T extends MenuItem>({
   header,
   footer,
   items: allItems,
   onMenuSelect,
-}: MenuProps) {
-  let elRef = useRef(null);
-  let items = allItems.filter(x => x);
-  let [hoveredIndex, setHoveredIndex] = useState(null);
+  style,
+}: MenuProps<T>) {
+  const elRef = useRef(null);
+  const items = allItems.filter(x => x);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     const el = elRef.current;
     el.focus();
 
-    let onKeyDown = e => {
-      let filteredItems = items.filter(
+    const onKeyDown = e => {
+      const filteredItems = items.filter(
         item => item && item !== Menu.line && item.type !== Menu.label,
       );
-      let currentIndex = filteredItems.indexOf(items[hoveredIndex]);
+      const currentIndex = filteredItems.indexOf(items[hoveredIndex]);
 
-      let transformIndex = idx => items.indexOf(filteredItems[idx]);
+      const transformIndex = idx => items.indexOf(filteredItems[idx]);
 
       switch (e.key) {
         case 'ArrowUp':
@@ -101,7 +108,7 @@ export default function Menu({
 
   return (
     <View
-      style={{ outline: 'none', borderRadius: 4, overflow: 'hidden' }}
+      style={{ outline: 'none', borderRadius: 4, overflow: 'hidden', ...style }}
       tabIndex={1}
       innerRef={elRef}
     >
@@ -118,7 +125,7 @@ export default function Menu({
             <Text
               key={item.name}
               style={{
-                color: theme.altMenuItemTextHeader,
+                color: theme.menuItemTextHeader,
                 fontSize: 11,
                 lineHeight: '1em',
                 textTransform: 'uppercase',
@@ -131,7 +138,7 @@ export default function Menu({
           );
         }
 
-        let lastItem = items[idx - 1];
+        const lastItem = items[idx - 1];
 
         return (
           <View
@@ -155,24 +162,53 @@ export default function Menu({
                   backgroundColor: theme.menuItemBackgroundHover,
                   color: theme.menuItemTextHover,
                 }),
+              ...item.style,
             }}
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
-            onClick={e =>
-              !item.disabled && onMenuSelect && onMenuSelect(item.name)
+            onClick={() =>
+              !item.disabled &&
+              onMenuSelect &&
+              item.toggle === undefined &&
+              onMenuSelect(item.name)
             }
           >
             {/* Force it to line up evenly */}
-            <Text style={{ lineHeight: 0 }}>
-              {item.icon &&
-                createElement(item.icon, {
-                  width: item.iconSize || 10,
-                  height: item.iconSize || 10,
-                  style: { marginRight: 7, width: 10 },
-                })}
-            </Text>
-            <Text>{item.text}</Text>
-            <View style={{ flex: 1 }} />
+            {item.toggle === undefined ? (
+              <>
+                <Text style={{ lineHeight: 0 }}>
+                  {item.icon &&
+                    createElement(item.icon, {
+                      width: item.iconSize || 10,
+                      height: item.iconSize || 10,
+                      style: {
+                        marginRight: 7,
+                        width: item.iconSize || 10,
+                      },
+                    })}
+                </Text>
+                <Text title={item.tooltip}>{item.text}</Text>
+                <View style={{ flex: 1 }} />
+              </>
+            ) : (
+              <>
+                <label htmlFor={item.name} title={item.tooltip}>
+                  {item.text}
+                </label>
+                <View style={{ flex: 1 }} />
+                <Toggle
+                  id={item.name}
+                  checked={item.toggle}
+                  onColor={theme.pageTextPositive}
+                  style={{ marginLeft: 5, ...item.style }}
+                  onToggle={() =>
+                    !item.disabled &&
+                    item.toggle !== undefined &&
+                    onMenuSelect(item.name)
+                  }
+                />
+              </>
+            )}
             {item.key && <Keybinding keyName={item.key} />}
           </View>
         );

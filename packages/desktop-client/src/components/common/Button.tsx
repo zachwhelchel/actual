@@ -1,11 +1,12 @@
+// @ts-strict-ignore
 import React, { forwardRef, type ElementType, type HTMLProps } from 'react';
 
 import { css } from 'glamor';
 
-import AnimatedLoading from '../../icons/AnimatedLoading';
+import { AnimatedLoading } from '../../icons/AnimatedLoading';
 import { type CSSProperties, styles, theme } from '../../style';
 
-import View from './View';
+import { View } from './View';
 
 type ButtonProps = HTMLProps<HTMLButtonElement> & {
   pressed?: boolean;
@@ -22,7 +23,13 @@ type ButtonProps = HTMLProps<HTMLButtonElement> & {
   as?: ElementType;
 };
 
-type ButtonType = 'normal' | 'primary' | 'bare' | 'link';
+type ButtonType =
+  | 'normal'
+  | 'primary'
+  | 'bare'
+  | 'link'
+  | 'menu'
+  | 'menuSelected';
 
 const backgroundColor = {
   normal: theme.buttonNormalBackground,
@@ -124,7 +131,7 @@ const _getActiveStyles = (type, bounce) => {
   }
 };
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       children,
@@ -143,7 +150,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    let typeWithDisabled = disabled ? type + 'Disabled' : type;
+    const typeWithDisabled = disabled ? type + 'Disabled' : type;
 
     hoveredStyle = {
       ...(type !== 'bare' && styles.shadow),
@@ -157,8 +164,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ...activeStyle,
     };
 
-    let Component = as;
-    let buttonStyle = {
+    const Component = as;
+    const buttonStyle = {
       alignItems: 'center',
       justifyContent: 'center',
       flexShrink: 0,
@@ -205,7 +212,7 @@ export const ButtonWithLoading = forwardRef<
   HTMLButtonElement,
   ButtonWithLoadingProps
 >((props, ref) => {
-  let { loading, children, ...buttonProps } = props;
+  const { loading, children, ...buttonProps } = props;
   return (
     <Button
       {...buttonProps}
@@ -239,5 +246,3 @@ export const ButtonWithLoading = forwardRef<
     </Button>
   );
 });
-
-export default Button;

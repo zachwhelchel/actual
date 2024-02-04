@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import React from 'react';
 
 import { css } from 'glamor';
@@ -5,9 +6,9 @@ import { css } from 'glamor';
 import { type AccountEntity } from 'loot-core/src/types/models';
 
 import { styles, theme, type CSSProperties } from '../../style';
-import AlignedText from '../common/AlignedText';
-import AnchorLink from '../common/AnchorLink';
-import View from '../common/View';
+import { AlignedText } from '../common/AlignedText';
+import { AnchorLink } from '../common/AnchorLink';
+import { View } from '../common/View';
 import {
   useDraggable,
   useDroppable,
@@ -16,7 +17,7 @@ import {
   type OnDropCallback,
 } from '../sort';
 import { type Binding } from '../spreadsheet';
-import CellValue from '../spreadsheet/CellValue';
+import { CellValue } from '../spreadsheet/CellValue';
 
 export const accountNameStyle: CSSProperties = {
   marginTop: -2,
@@ -41,11 +42,11 @@ type AccountProps = {
   updated?: boolean;
   style?: CSSProperties;
   outerStyle?: CSSProperties;
-  onDragChange?: OnDragChangeCallback;
+  onDragChange?: OnDragChangeCallback<{ id: string }>;
   onDrop?: OnDropCallback;
 };
 
-function Account({
+export function Account({
   name,
   account,
   connected,
@@ -58,25 +59,25 @@ function Account({
   onDragChange,
   onDrop,
 }: AccountProps) {
-  let type = account
+  const type = account
     ? account.closed
       ? 'account-closed'
       : account.offbudget
-      ? 'account-offbudget'
-      : 'account-onbudget'
+        ? 'account-offbudget'
+        : 'account-onbudget'
     : 'title';
 
-  let { dragRef } = useDraggable({
+  const { dragRef } = useDraggable({
     type,
     onDragChange,
     item: { id: account && account.id },
     canDrag: account != null,
   });
 
-  let { dropRef, dropPos } = useDroppable({
+  const { dropRef, dropPos } = useDroppable({
     types: account ? [type] : [],
     id: account && account.id,
-    onDrop: onDrop,
+    onDrop,
   });
 
   return (
@@ -103,7 +104,7 @@ function Account({
               // ignores it if it's active
               fontWeight: (style && style.fontWeight) || 'normal',
               '& .dot': {
-                backgroundColor: theme.sidebarItemBackgroundSelected,
+                backgroundColor: theme.sidebarItemAccentSelected,
                 transform: 'translateX(-4.5px)',
               },
             }}
@@ -144,5 +145,3 @@ function Account({
     </View>
   );
 }
-
-export default Account;

@@ -1,32 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import type { Theme } from 'loot-core/src/types/prefs';
 
 import { useActions } from '../hooks/useActions';
-import MoonStars from '../icons/v2/MoonStars';
-import Sun from '../icons/v2/Sun';
+import { SvgMoonStars, SvgSun, SvgSystem } from '../icons/v2';
 import { useResponsive } from '../ResponsiveProvider';
-import { useTheme } from '../style';
+import { type CSSProperties, themeOptions, useTheme } from '../style';
 
-import Button from './common/Button';
+import { Button } from './common/Button';
+import { Menu } from './common/Menu';
+import { Tooltip } from './tooltips';
 
-export function ThemeSelector() {
-  let theme = useTheme();
-  let { saveGlobalPrefs } = useActions();
+type ThemeSelectorProps = {
+  style?: CSSProperties;
+};
 
-  let { isNarrowWidth } = useResponsive();
+export function ThemeSelector({ style }: ThemeSelectorProps) {
+  const theme = useTheme();
+  const { saveGlobalPrefs } = useActions();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const { isNarrowWidth } = useResponsive();
+
+  const themeIcons = {
+    light: SvgSun,
+    dark: SvgMoonStars,
+    auto: SvgSystem,
+  } as const;
+
+  async function onMenuSelect(newTheme: string) {
+    setMenuOpen(false);
+
+    saveGlobalPrefs({
+      theme: newTheme as Theme,
+    });
+  }
+
+  const Icon = themeIcons?.[theme] || SvgSun;
 
   return isNarrowWidth ? null : (
     <Button
       type="bare"
-      onClick={() => {
-        saveGlobalPrefs({
-          theme: theme === 'dark' ? 'light' : 'dark',
-        });
-      }}
+      aria-label="Switch theme"
+      onClick={() => setMenuOpen(true)}
+      style={style}
     >
-      {theme === 'light' ? (
-        <MoonStars style={{ width: 13, height: 13, color: 'inherit' }} />
-      ) : (
-        <Sun style={{ width: 13, height: 13, color: 'inherit' }} />
+      <Icon style={{ width: 13, height: 13, color: 'inherit' }} />
+      {menuOpen && (
+        <Tooltip
+          position="bottom-right"
+          style={{ padding: 0 }}
+          onClose={() => setMenuOpen(false)}
+        >
+          <Menu
+            onMenuSelect={onMenuSelect}
+            items={themeOptions.map(([name, text]) => ({ name, text }))}
+          />
+        </Tooltip>
       )}
     </Button>
   );

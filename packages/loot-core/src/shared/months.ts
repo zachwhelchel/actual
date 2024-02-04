@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import * as d from 'date-fns';
 import memoizeOne from 'memoize-one';
 
@@ -61,7 +62,7 @@ export function _parse(value: DateLike): Date {
     // shifted backwards or forwards, doing date logic will stay
     // within the day we want.
 
-    let [year, month, day] = value.split('-');
+    const [year, month, day] = value.split('-');
     if (day != null) {
       return new Date(parseInt(year), parseInt(month) - 1, parseInt(day), 12);
     } else if (month != null) {
@@ -118,6 +119,10 @@ export function nextMonth(month: DateLike): string {
   return d.format(d.addMonths(_parse(month), 1), 'yyyy-MM');
 }
 
+export function prevYear(month: DateLike): string {
+  return d.format(d.subMonths(_parse(month), 12), 'yyyy-MM');
+}
+
 export function prevMonth(month: DateLike): string {
   return d.format(d.subMonths(_parse(month), 1), 'yyyy-MM');
 }
@@ -135,6 +140,13 @@ export function differenceInCalendarMonths(
   month2: DateLike,
 ): number {
   return d.differenceInCalendarMonths(_parse(month1), _parse(month2));
+}
+
+export function differenceInCalendarDays(
+  month1: DateLike,
+  month2: DateLike,
+): number {
+  return d.differenceInCalendarDays(_parse(month1), _parse(month2));
 }
 
 export function subMonths(month: string | Date, n: number) {
@@ -171,7 +183,7 @@ export function _range(
   end: DateLike,
   inclusive = false,
 ): string[] {
-  const months = [];
+  const months: string[] = [];
   let month = monthFromDate(start);
   while (d.isBefore(_parse(month), _parse(end))) {
     months.push(month);
@@ -198,15 +210,15 @@ export function _dayRange(
   end: DateLike,
   inclusive = false,
 ): string[] {
-  const days = [];
+  const days: string[] = [];
   let day = start;
   while (d.isBefore(_parse(day), _parse(end))) {
-    days.push(day);
+    days.push(dayFromDate(day));
     day = addDays(day, 1);
   }
 
   if (inclusive) {
-    days.push(day);
+    days.push(dayFromDate(day));
   }
 
   return days;
@@ -218,6 +230,11 @@ export function dayRange(start: DateLike, end: DateLike) {
 
 export function dayRangeInclusive(start: DateLike, end: DateLike) {
   return _dayRange(start, end, true);
+}
+
+export function getMonthFromIndex(year: string, monthIndex: number) {
+  const formatMonth = `${monthIndex + 1}`.padStart(2, '0');
+  return `${year}-${formatMonth}`;
 }
 
 export function getMonthIndex(month: string): number {
@@ -270,7 +287,7 @@ export const getDayMonthFormat = memoizeOne((format: string) => {
 });
 
 export const getDayMonthRegex = memoizeOne((format: string) => {
-  let regex = format
+  const regex = format
     .replace(/y+/g, '')
     .replace(/[^\w]$/, '')
     .replace(/^[^\w]/, '')
@@ -290,7 +307,7 @@ export const getMonthYearFormat = memoizeOne((format: string) => {
 });
 
 export const getMonthYearRegex = memoizeOne((format: string) => {
-  let regex = format
+  const regex = format
     .replace(/d+/g, '')
     .replace(/[^\w]$/, '')
     .replace(/^[^\w]/, '')
@@ -305,7 +322,7 @@ export const getShortYearFormat = memoizeOne((format: string) => {
 });
 
 export const getShortYearRegex = memoizeOne((format: string) => {
-  let regex = format
+  const regex = format
     .replace(/[^\w]$/, '')
     .replace(/^[^\w]/, '')
     .replace(/d+/g, '\\d{1,2}')

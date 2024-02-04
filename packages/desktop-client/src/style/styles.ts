@@ -1,9 +1,11 @@
+// @ts-strict-ignore
 import { keyframes } from 'glamor';
 
 import * as Platform from 'loot-core/src/client/platform';
 
-import tokens from '../tokens';
+import { tokens } from '../tokens';
 
+import { theme } from './theme';
 import { type CSSProperties } from './types';
 
 export const styles = {
@@ -38,6 +40,9 @@ export const styles = {
   },
   verySmallText: {
     fontSize: 13,
+  },
+  tinyText: {
+    fontSize: 10,
   },
   page: {
     flex: 1,
@@ -82,7 +87,6 @@ export const styles = {
     fontSize: 16,
     // lineHeight: 22.4 // TODO: This seems like trouble, but what's the right value?
   },
-
   delayedFadeIn: {
     animationName: keyframes({
       '0%': { opacity: 0 },
@@ -91,6 +95,27 @@ export const styles = {
     animationDuration: '1s',
     animationFillMode: 'both',
     animationDelay: '0.5s',
+  },
+  underlinedText: {
+    textDecoration: 'underline',
+    textDecorationThickness: 2,
+    textDecorationColor: theme.pillBorder,
+  },
+  noTapHighlight: {
+    WebkitTapHighlightColor: 'transparent',
+    ':focus': {
+      outline: 'none',
+    },
+  },
+  lineClamp: (lines: number) => {
+    return {
+      display: '-webkit-box',
+      WebkitLineClamp: lines,
+      WebkitBoxOrient: 'vertical',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      wordBreak: 'break-word',
+    };
   },
   // Dynamically set
   lightScrollbar: null as CSSProperties | null,
@@ -136,11 +161,11 @@ function onScrollbarChange() {
 
 if (Platform.env === 'web') {
   function testScrollbars() {
-    let el = document.createElement('div');
+    const el = document.createElement('div');
     el.innerHTML =
       '<div style="width:100px;height:100px;overflow:scroll;position:absolute;top:-9999px;"/>';
     document.body.appendChild(el);
-    let testNode = el.childNodes[0] as HTMLDivElement;
+    const testNode = el.childNodes[0] as HTMLDivElement;
     if (testNode.offsetWidth === testNode.clientWidth) {
       return true;
     }

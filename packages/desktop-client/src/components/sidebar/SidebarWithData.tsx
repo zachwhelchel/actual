@@ -1,6 +1,6 @@
+// @ts-strict-ignore
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
 
 import { closeBudget } from 'loot-core/src/client/actions/budgets';
 import * as Platform from 'loot-core/src/client/platform';
@@ -9,17 +9,18 @@ import { send } from 'loot-core/src/platform/client/fetch';
 import { type LocalPrefs } from 'loot-core/src/types/prefs';
 
 import { useActions } from '../../hooks/useActions';
-import ExpandArrow from '../../icons/v0/ExpandArrow';
+import { useNavigate } from '../../hooks/useNavigate';
+import { SvgExpandArrow } from '../../icons/v0';
 import { styles, theme } from '../../style';
-import Button from '../common/Button';
-import InitialFocus from '../common/InitialFocus';
-import Input from '../common/Input';
-import Menu from '../common/Menu';
-import Text from '../common/Text';
+import { Button } from '../common/Button';
+import { InitialFocus } from '../common/InitialFocus';
+import { Input } from '../common/Input';
+import { Menu } from '../common/Menu';
+import { Text } from '../common/Text';
 import { Tooltip } from '../tooltips';
 
-import Sidebar from './Sidebar';
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
+import { Sidebar } from './Sidebar';
+import { CoachProvider, useCoach } from '../coach/Coach';
 
 type EditableBudgetNameProps = {
   prefs: LocalPrefs;
@@ -27,8 +28,8 @@ type EditableBudgetNameProps = {
 };
 
 function EditableBudgetName({ prefs, savePrefs }: EditableBudgetNameProps) {
-  let dispatch = useDispatch();
-  let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [editing, setEditing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -54,7 +55,7 @@ function EditableBudgetName({ prefs, savePrefs }: EditableBudgetNameProps) {
     }
   }
 
-  let items = [
+  const items = [
     { name: 'rename', text: 'Rename budget' },
     { name: 'settings', text: 'Settings' },
     ...(Platform.isBrowser ? [{ name: 'help', text: 'Help' }] : []),
@@ -106,7 +107,7 @@ function EditableBudgetName({ prefs, savePrefs }: EditableBudgetNameProps) {
           <Text style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
             {prefs.budgetName || 'A budget has no name'}
           </Text>
-          <ExpandArrow width={7} height={7} style={{ marginLeft: 5 }} />
+          <SvgExpandArrow width={7} height={7} style={{ marginLeft: 5 }} />
           {menuOpen && (
             <Tooltip
               position="bottom-left"
@@ -122,22 +123,23 @@ function EditableBudgetName({ prefs, savePrefs }: EditableBudgetNameProps) {
   }
 }
 
-function SidebarWithData() {
-  let accounts = useSelector(state => state.queries.accounts);
-  let failedAccounts = useSelector(state => state.account.failedAccounts);
-  let updatedAccounts = useSelector(state => state.queries.updatedAccounts);
-  let prefs = useSelector(state => state.prefs.local);
-  let floatingSidebar = useSelector(
+export function SidebarWithData() {
+  const accounts = useSelector(state => state.queries.accounts);
+  const failedAccounts = useSelector(state => state.account.failedAccounts);
+  const updatedAccounts = useSelector(state => state.queries.updatedAccounts);
+  const prefs = useSelector(state => state.prefs.local);
+  const floatingSidebar = useSelector(
     state => state.prefs.global.floatingSidebar,
   );
 
-  let { getAccounts, replaceModal, savePrefs, saveGlobalPrefs } = useActions();
+  const { getAccounts, replaceModal, savePrefs, saveGlobalPrefs } =
+    useActions();
 
   useEffect(() => void getAccounts(), [getAccounts]);
 
   async function onReorder(id, dropPos, targetId) {
     if (dropPos === 'bottom') {
-      let idx = accounts.findIndex(a => a.id === targetId) + 1;
+      const idx = accounts.findIndex(a => a.id === targetId) + 1;
       targetId = idx < accounts.length ? accounts[idx].id : null;
     }
 
@@ -177,5 +179,3 @@ function SidebarWithData() {
     />
   );
 }
-
-export default SidebarWithData;

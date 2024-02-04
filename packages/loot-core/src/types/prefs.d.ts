@@ -2,10 +2,11 @@ import { type numberFormats } from '../shared/util';
 
 export type FeatureFlag =
   | 'categorySpendingReport'
+  | 'sankeyReport'
   | 'reportBudget'
   | 'goalTemplatesEnabled'
-  | 'themes'
-  | 'experimentalOfxParser';
+  | 'customReports'
+  | 'simpleFinSync';
 
 export type LocalPrefs = Partial<
   {
@@ -26,9 +27,10 @@ export type LocalPrefs = Partial<
     'expand-splits': boolean;
     [key: `show-extra-balances-${string}`]: boolean;
     [key: `hide-cleared-${string}`]: boolean;
-    'budget.collapsed': boolean;
+    'budget.collapsed': string[];
     'budget.summaryCollapsed': boolean;
     'budget.showHiddenCategories': boolean;
+    'budget.startMonth': string;
     // TODO: pull from src/components/modals/ImportTransactions.js
     [key: `parse-date-${string}-${'csv' | 'qif'}`]: string;
     [key: `csv-mappings-${string}`]: string;
@@ -48,10 +50,13 @@ export type LocalPrefs = Partial<
     userId: string;
     resetClock: boolean;
     lastScheduleRun: string;
+    reportsViewLegend: boolean;
+    reportsViewSummary: boolean;
+    reportsViewLabel: boolean;
   } & Record<`flags.${FeatureFlag}`, boolean>
 >;
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark' | 'auto';
 export type GlobalPrefs = Partial<{
   floatingSidebar: boolean;
   maxMonths: number;

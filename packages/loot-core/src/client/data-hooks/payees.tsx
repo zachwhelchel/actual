@@ -1,7 +1,8 @@
+// @ts-strict-ignore
 import React, { createContext, useContext } from 'react';
 
+import { q } from '../../shared/query';
 import { type PayeeEntity } from '../../types/models';
-import q from '../query-helpers';
 import { useLiveQuery } from '../query-hooks';
 import { getPayeesById } from '../reducers/queries';
 
@@ -13,7 +14,9 @@ const PayeesContext = createContext<PayeeEntity[]>(null);
 
 export function PayeesProvider({ children }) {
   const data = usePayees();
-  return <PayeesContext.Provider value={data} children={children} />;
+  return (
+    <PayeesContext.Provider value={data}>{children}</PayeesContext.Provider>
+  );
 }
 
 export function CachedPayees({ children, idKey }) {

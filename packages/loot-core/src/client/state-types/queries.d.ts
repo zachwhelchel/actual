@@ -1,4 +1,5 @@
 import type { Handlers } from '../../types/handlers';
+import { type AccountEntity } from '../../types/models';
 import type * as constants from '../constants';
 
 export type QueriesState = {
@@ -8,7 +9,7 @@ export type QueriesState = {
   updatedAccounts: string[];
   accounts: AccountEntity[];
   categories: Awaited<ReturnType<Handlers['get-categories']>>;
-  payees: unknown[];
+  payees: Awaited<ReturnType<Handlers['payees-get']>>;
   earliestTransaction: unknown | null;
 };
 
@@ -41,7 +42,7 @@ type LoadAccountsAction = {
 
 type UpdateAccountAction = {
   type: typeof constants.UPDATE_ACCOUNT;
-  account: unknown;
+  account: AccountEntity;
 };
 
 type LoadCategoriesAction = {
@@ -51,7 +52,7 @@ type LoadCategoriesAction = {
 
 type LoadPayeesAction = {
   type: typeof constants.LOAD_PAYEES;
-  payees: unknown[];
+  payees: State['payees'];
 };
 
 export type QueriesActions =

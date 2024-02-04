@@ -8,31 +8,28 @@ import {
 } from 'loot-core/src/types/models';
 
 import { type CSSProperties, theme } from '../../style';
-import Text from '../common/Text';
-import View from '../common/View';
+import { Text } from '../common/Text';
+import { View } from '../common/View';
 
-import ScheduleValue from './ScheduleValue';
-import Value from './Value';
+import { ScheduleValue } from './ScheduleValue';
+import { Value } from './Value';
 
-let valueStyle = {
-  color: theme.pageTextPositive,
+const valueStyle = {
+  color: theme.pillTextHighlighted,
 };
 
 type ActionExpressionProps = RuleActionEntity & {
   style?: CSSProperties;
 };
 
-export default function ActionExpression({
-  style,
-  ...props
-}: ActionExpressionProps) {
+export function ActionExpression({ style, ...props }: ActionExpressionProps) {
   return (
     <View
       style={{
         display: 'block',
         maxWidth: '100%',
-        color: theme.altPillText,
-        backgroundColor: theme.altPillBackground,
+        color: theme.pillText,
+        backgroundColor: theme.pillBackgroundLight,
         borderRadius: 4,
         padding: '3px 5px',
         whiteSpace: 'nowrap',
@@ -61,7 +58,7 @@ function SetActionExpression({
       <Text>{friendlyOp(op)}</Text>{' '}
       <Text style={valueStyle}>{mapField(field, options)}</Text>{' '}
       <Text>to </Text>
-      <Value value={value} field={field} />
+      <Value style={valueStyle} value={value} field={field} />
     </>
   );
 }

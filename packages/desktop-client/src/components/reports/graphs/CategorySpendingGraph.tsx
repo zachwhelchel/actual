@@ -4,10 +4,10 @@ import * as d from 'date-fns';
 import { VictoryAxis, VictoryBar, VictoryChart, VictoryStack } from 'victory';
 
 import { chartTheme } from '../chart-theme';
-import Container from '../Container';
-import Tooltip from '../Tooltip';
+import { Container } from '../Container';
+import { type CategorySpendingGraphData } from '../spreadsheets/category-spending-spreadsheet';
+import { Tooltip } from '../Tooltip';
 
-import { type CategorySpendingGraphData } from './category-spending-spreadsheet';
 import { Area } from './common';
 
 type CategorySpendingGraphProps = {
@@ -17,7 +17,7 @@ type CategorySpendingGraphProps = {
   compact?: boolean;
   style?: CSSProperties;
 };
-function CategorySpendingGraph({
+export function CategorySpendingGraph({
   style,
   start,
   end,
@@ -83,5 +83,3 @@ function CategorySpendingGraph({
     </Container>
   );
 }
-
-export default CategorySpendingGraph;

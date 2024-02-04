@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 // This is a special usage of the API because this package is embedded
 // into Actual itself. We only want to pull in the methods in that
 // case and ignore everything else; otherwise we'd be pulling in the
@@ -20,7 +21,7 @@ function importAccounts(data: YNAB5.Budget, entityIdMap: Map<string, string>) {
   return Promise.all(
     data.accounts.map(async account => {
       if (!account.deleted) {
-        let id = await actual.createAccount({
+        const id = await actual.createAccount({
           name: account.name,
           offbudget: account.on_budget ? false : true,
           closed: account.closed,
@@ -39,25 +40,26 @@ async function importCategories(
   // so it's already handled.
 
   const categories = await actual.getCategories();
-  const incomeCatId = categories.find(cat => cat.name === 'Income').id;
+  const incomeCatId = findIdByName(categories, 'Income');
   const ynabIncomeCategories = ['To be Budgeted', 'Inflow: Ready to Assign'];
 
   function checkSpecialCat(cat) {
     if (
       cat.category_group_id ===
-      data.category_groups.find(
-        group => group.name === 'Internal Master Category',
-      ).id
+      findIdByName(data.category_groups, 'Internal Master Category')
     ) {
-      if (ynabIncomeCategories.includes(cat.name)) {
+      if (
+        ynabIncomeCategories.some(ynabIncomeCategory =>
+          equalsIgnoreCase(cat.name, ynabIncomeCategory),
+        )
+      ) {
         return 'income';
       } else {
         return 'internal';
       }
     } else if (
       cat.category_group_id ===
-      data.category_groups.find(group => group.name === 'Credit Card Payments')
-        .id
+      findIdByName(data.category_groups, 'Credit Card Payments')
     ) {
       return 'creditCard';
     }
@@ -65,13 +67,13 @@ async function importCategories(
   // Can't be done in parallel to have
   // correct sort order.
 
-  for (let group of data.category_groups) {
+  for (const group of data.category_groups) {
     if (!group.deleted) {
       let groupId;
       // Ignores internal category and credit cards
       if (
-        group.name !== 'Internal Master Category' &&
-        group.name !== 'Credit Card Payments'
+        !equalsIgnoreCase(group.name, 'Internal Master Category') &&
+        !equalsIgnoreCase(group.name, 'Credit Card Payments')
       ) {
         groupId = await actual.createCategoryGroup({
           name: group.name,
@@ -80,18 +82,18 @@ async function importCategories(
         entityIdMap.set(group.id, groupId);
       }
 
-      let cats = data.categories.filter(
+      const cats = data.categories.filter(
         cat => cat.category_group_id === group.id,
       );
 
-      for (let cat of cats.reverse()) {
+      for (const cat of cats.reverse()) {
         if (!cat.deleted) {
           // Handles special categories. Starting balance is a payee
           // in YNAB so it's handled in importTransactions
           switch (checkSpecialCat(cat)) {
             case 'income': {
               // doesn't create new category, only assigns id
-              let id = incomeCatId;
+              const id = incomeCatId;
               entityIdMap.set(cat.id, id);
               break;
             }
@@ -99,7 +101,7 @@ async function importCategories(
             case 'internal': // uncategorized is ignored too, handled by actual
               break;
             default: {
-              let id = await actual.createCategory({
+              const id = await actual.createCategory({
                 name: cat.name,
                 group_id: groupId,
               });
@@ -117,7 +119,7 @@ function importPayees(data: YNAB5.Budget, entityIdMap: Map<string, string>) {
   return Promise.all(
     data.payees.map(async payee => {
       if (!payee.deleted) {
-        let id = await actual.createPayee({
+        const id = await actual.createPayee({
           name: payee.name,
         });
         entityIdMap.set(payee.id, id);
@@ -132,40 +134,47 @@ async function importTransactions(
 ) {
   const payees = await actual.getPayees();
   const categories = await actual.getCategories();
-  const incomeCatId = categories.find(cat => cat.name === 'Income').id;
-  const startingBalanceCatId = categories.find(
-    cat => cat.name === 'Starting Balances',
-  ).id; //better way to do it?
-  const startingPayeeYNAB = data.payees.find(
-    payee => payee.name === 'Starting Balance',
-  ).id;
+  const incomeCatId = findIdByName(categories, 'Income');
+  const startingBalanceCatId = findIdByName(categories, 'Starting Balances'); //better way to do it?
 
-  let transactionsGrouped = groupBy(data.transactions, 'account_id');
-  let subtransactionsGrouped = groupBy(data.subtransactions, 'transaction_id');
+  const startingPayeeYNAB = findIdByName(data.payees, 'Starting Balance');
+
+  const transactionsGrouped = groupBy(data.transactions, 'account_id');
+  const subtransactionsGrouped = groupBy(
+    data.subtransactions,
+    'transaction_id',
+  );
+
+  const payeesByTransferAcct = payees
+    .filter(payee => payee?.transfer_acct)
+    .map(payee => [payee.transfer_acct, payee] as [string, YNAB5.Payee]);
+  const payeeTransferAcctHashMap = new Map<string, YNAB5.Payee>(
+    payeesByTransferAcct,
+  );
 
   // Go ahead and generate ids for all of the transactions so we can
   // reliably resolve transfers
-  for (let transaction of data.transactions) {
+  for (const transaction of data.transactions) {
     entityIdMap.set(transaction.id, uuidv4());
   }
-  for (let transaction of data.subtransactions) {
+  for (const transaction of data.subtransactions) {
     entityIdMap.set(transaction.id, uuidv4());
   }
 
   await Promise.all(
     [...transactionsGrouped.keys()].map(async accountId => {
-      let transactions = transactionsGrouped.get(accountId);
+      const transactions = transactionsGrouped.get(accountId);
 
-      let toImport = transactions
+      const toImport = transactions
         .map(transaction => {
           if (transaction.deleted) {
             return null;
           }
 
-          let subtransactions = subtransactionsGrouped.get(transaction.id);
+          const subtransactions = subtransactionsGrouped.get(transaction.id);
 
           // Add transaction
-          let newTransaction = {
+          const newTransaction = {
             id: entityIdMap.get(transaction.id),
             account: entityIdMap.get(transaction.account_id),
             date: transaction.date,
@@ -178,11 +187,22 @@ async function importTransactions(
               entityIdMap.get(transaction.transfer_transaction_id) || null,
             subtransactions: subtransactions
               ? subtransactions.map(subtrans => {
+                  let payee = null;
+                  if (subtrans.transfer_account_id) {
+                    const mappedTransferAccountId = entityIdMap.get(
+                      subtrans.transfer_account_id,
+                    );
+                    payee = payeeTransferAcctHashMap.get(
+                      mappedTransferAccountId,
+                    )?.id;
+                  }
+
                   return {
                     id: entityIdMap.get(subtrans.id),
                     amount: amountFromYnab(subtrans.amount),
                     category: entityIdMap.get(subtrans.category_id) || null,
                     notes: subtrans.memo,
+                    payee,
                   };
                 })
               : null,
@@ -216,7 +236,9 @@ async function importTransactions(
         })
         .filter(x => x);
 
-      await actual.addTransactions(entityIdMap.get(accountId), toImport);
+      await actual.addTransactions(entityIdMap.get(accountId), toImport, {
+        learnCategories: true,
+      });
     }),
   );
 }
@@ -233,23 +255,25 @@ async function importBudgets(
   // Also, there could be a way to set rollover using
   // Deferred Income Subcat and Immediate Income Subcat
 
-  let budgets = sortByKey(data.months, 'month');
+  const budgets = sortByKey(data.months, 'month');
 
-  const internalCatIdYnab = data.category_groups.find(
-    group => group.name === 'Internal Master Category',
-  ).id;
-  const creditcardCatIdYnab = data.category_groups.find(
-    group => group.name === 'Credit Card Payments',
-  ).id;
+  const internalCatIdYnab = findIdByName(
+    data.category_groups,
+    'Internal Master Category',
+  );
+  const creditcardCatIdYnab = findIdByName(
+    data.category_groups,
+    'Credit Card Payments',
+  );
 
   await actual.batchBudgetUpdates(async () => {
-    for (let budget of budgets) {
-      let month = monthUtils.monthFromDate(budget.month);
+    for (const budget of budgets) {
+      const month = monthUtils.monthFromDate(budget.month);
 
       await Promise.all(
         budget.categories.map(async catBudget => {
-          let catId = entityIdMap.get(catBudget.id);
-          let amount = Math.round(catBudget.budgeted / 10);
+          const catId = entityIdMap.get(catBudget.id);
+          const amount = Math.round(catBudget.budgeted / 10);
 
           if (
             !catId ||
@@ -303,4 +327,20 @@ export function parseFile(buffer: Buffer): YNAB5.Budget {
 
 export function getBudgetName(_filepath: string, data: YNAB5.Budget) {
   return data.budget_name || data.name;
+}
+
+function equalsIgnoreCase(stringa: string, stringb: string): boolean {
+  return (
+    stringa.localeCompare(stringb, undefined, {
+      sensitivity: 'base',
+    }) === 0
+  );
+}
+
+function findByNameIgnoreCase(categories: YNAB5.CategoryGroup[], name: string) {
+  return categories.find(cat => equalsIgnoreCase(cat.name, name));
+}
+
+function findIdByName(categories: YNAB5.CategoryGroup[], name: string) {
+  return findByNameIgnoreCase(categories, name)?.id;
 }

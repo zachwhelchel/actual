@@ -1,18 +1,32 @@
-import React, { type ReactNode } from 'react';
+import React, { type ComponentPropsWithoutRef, type ReactNode } from 'react';
 
 import { useResponsive } from '../ResponsiveProvider';
 import { theme, styles, type CSSProperties } from '../style';
 
-import Text from './common/Text';
-import View from './common/View';
+import { Text } from './common/Text';
+import { View } from './common/View';
 
-function PageTitle({
-  name,
-  style,
-}: {
-  name: ReactNode;
+type PageHeaderProps = {
+  title: ReactNode;
+  titleContainerProps?: ComponentPropsWithoutRef<typeof View>;
   style?: CSSProperties;
-}) {
+  leftContentContainerProps?: ComponentPropsWithoutRef<typeof View>;
+  leftContent?: ReactNode;
+  rightContentContainerProps?: ComponentPropsWithoutRef<typeof View>;
+  rightContent?: ReactNode;
+};
+
+const HEADER_HEIGHT = 50;
+
+function PageHeader({
+  title,
+  titleContainerProps,
+  style,
+  leftContentContainerProps,
+  leftContent,
+  rightContentContainerProps,
+  rightContent,
+}: PageHeaderProps) {
   const { isNarrowWidth } = useResponsive();
 
   if (isNarrowWidth) {
@@ -20,19 +34,53 @@ function PageTitle({
       <View
         style={{
           alignItems: 'center',
-          backgroundColor: theme.sidebarItemBackground,
-          color: theme.mobileModalText,
+          backgroundColor: theme.mobileHeaderBackground,
+          color: theme.mobileHeaderText,
           flexDirection: 'row',
-          flex: '1 0 auto',
-          fontSize: 18,
-          fontWeight: 500,
-          height: 50,
-          justifyContent: 'center',
-          overflowY: 'auto',
+          flexShrink: 0,
+          height: HEADER_HEIGHT,
           ...style,
         }}
       >
-        {name}
+        <View
+          {...leftContentContainerProps}
+          style={{
+            flexBasis: '25%',
+            justifyContent: 'flex-start',
+            flexDirection: 'row',
+            ...leftContentContainerProps?.style,
+          }}
+        >
+          {leftContent}
+        </View>
+        <View
+          role="heading"
+          {...titleContainerProps}
+          style={{
+            textAlign: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'row',
+            flexBasis: '50%',
+            fontSize: 17,
+            fontWeight: 500,
+            overflowY: 'auto',
+            ...titleContainerProps?.style,
+          }}
+        >
+          {title}
+        </View>
+        <View
+          {...rightContentContainerProps}
+          style={{
+            flexBasis: '25%',
+            justifyContent: 'flex-end',
+            flexDirection: 'row',
+            ...rightContentContainerProps?.style,
+          }}
+        >
+          {rightContent}
+        </View>
       </View>
     );
   }
@@ -46,45 +94,88 @@ function PageTitle({
         ...style,
       }}
     >
-      {name}
+      {title}
     </Text>
   );
 }
 
-export function Page({
-  title,
-  children,
-  titleStyle,
-}: {
-  title: ReactNode;
+type PageProps = {
+  titleContainerProps?: PageHeaderProps['titleContainerProps'];
+  title: PageHeaderProps['title'];
+  headerStyle?: CSSProperties;
+  headerLeftContentContainerProps?: PageHeaderProps['leftContentContainerProps'];
+  headerLeftContent?: PageHeaderProps['leftContent'];
+  headerRightContentContainerProps?: PageHeaderProps['rightContentContainerProps'];
+  headerRightContent?: PageHeaderProps['rightContent'];
+  style?: CSSProperties;
+  padding?: number;
+  childrenContainerProps?: ComponentPropsWithoutRef<typeof View>;
   children: ReactNode;
-  titleStyle?: CSSProperties;
-}) {
-  let { isNarrowWidth } = useResponsive();
-  let HORIZONTAL_PADDING = isNarrowWidth ? 10 : 20;
+  footer?: ReactNode;
+};
+
+export function Page({
+  titleContainerProps,
+  title,
+  headerStyle,
+  headerLeftContentContainerProps,
+  headerLeftContent,
+  headerRightContentContainerProps,
+  headerRightContent,
+  style,
+  padding,
+  childrenContainerProps,
+  children,
+  footer,
+}: PageProps) {
+  const { isNarrowWidth } = useResponsive();
+  const _padding = padding != null ? padding : isNarrowWidth ? 10 : 20;
 
   return (
-    <View style={isNarrowWidth ? undefined : styles.page}>
-      <PageTitle
-        name={title}
+    <View
+      style={{
+        ...(!isNarrowWidth && styles.page),
+        ...style,
+      }}
+    >
+      <PageHeader
+        title={title}
+        titleContainerProps={titleContainerProps}
+        leftContentContainerProps={headerLeftContentContainerProps}
+        leftContent={headerLeftContent}
+        rightContentContainerProps={headerRightContentContainerProps}
+        rightContent={headerRightContent}
         style={{
-          ...titleStyle,
-          paddingInline: HORIZONTAL_PADDING,
+          ...(!isNarrowWidth && { paddingInline: _padding }),
+          ...headerStyle,
         }}
       />
-      <View
-        style={
-          isNarrowWidth
-            ? { overflowY: 'auto', padding: HORIZONTAL_PADDING }
-            : {
-                paddingLeft: HORIZONTAL_PADDING,
-                paddingRight: HORIZONTAL_PADDING,
-                flex: 1,
-              }
-        }
-      >
-        {children}
-      </View>
+      {isNarrowWidth ? (
+        <View
+          {...childrenContainerProps}
+          style={{
+            flex: 1,
+            overflowY: 'auto',
+            padding: _padding,
+            ...childrenContainerProps?.style,
+          }}
+        >
+          {children}
+        </View>
+      ) : (
+        <View
+          {...childrenContainerProps}
+          style={{
+            flex: 1,
+            paddingLeft: _padding,
+            paddingRight: _padding,
+            ...childrenContainerProps?.style,
+          }}
+        >
+          {children}
+        </View>
+      )}
+      {footer}
     </View>
   );
 }

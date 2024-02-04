@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import React, { useState, useMemo, type CSSProperties } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -12,17 +13,17 @@ import { getScheduledAmount } from 'loot-core/src/shared/schedules';
 import { integerToCurrency } from 'loot-core/src/shared/util';
 import { type ScheduleEntity } from 'loot-core/src/types/models';
 
-import DotsHorizontalTriple from '../../icons/v1/DotsHorizontalTriple';
-import Check from '../../icons/v2/Check';
+import { SvgDotsHorizontalTriple } from '../../icons/v1';
+import { SvgCheck } from '../../icons/v2';
 import { theme } from '../../style';
-import Button from '../common/Button';
-import Menu from '../common/Menu';
-import Text from '../common/Text';
-import View from '../common/View';
-import PrivacyFilter from '../PrivacyFilter';
+import { Button } from '../common/Button';
+import { Menu } from '../common/Menu';
+import { Text } from '../common/Text';
+import { View } from '../common/View';
+import { PrivacyFilter } from '../PrivacyFilter';
 import { Table, TableHeader, Row, Field, Cell } from '../table';
 import { Tooltip } from '../tooltips';
-import DisplayId from '../util/DisplayId';
+import { DisplayId } from '../util/DisplayId';
 
 import { StatusBadge } from './StatusBadge';
 
@@ -98,12 +99,13 @@ function OverflowMenu({
     <View>
       <Button
         type="bare"
+        aria-label="Menu"
         onClick={e => {
           e.stopPropagation();
           setOpen(true);
         }}
       >
-        <DotsHorizontalTriple
+        <SvgDotsHorizontalTriple
           width={15}
           height={15}
           style={{ transform: 'rotateZ(90deg)' }}
@@ -117,7 +119,7 @@ function OverflowMenu({
           onClose={() => setOpen(false)}
         >
           <Menu
-            onMenuSelect={(name: ScheduleItemAction) => {
+            onMenuSelect={name => {
               onAction(name, schedule.id);
               setOpen(false);
             }}
@@ -168,7 +170,7 @@ export function ScheduleAmountCell({
       <Text
         style={{
           flex: 1,
-          color: num > 0 ? theme.noticeText : theme.tableText,
+          color: num > 0 ? theme.noticeTextLight : theme.tableText,
           whiteSpace: 'nowrap',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -296,7 +298,7 @@ export function SchedulesTable({
         {!minimal && (
           <Field width={80} style={{ textAlign: 'center' }}>
             {schedule._date && schedule._date.frequency && (
-              <Check style={{ width: 13, height: 13 }} />
+              <SvgCheck style={{ width: 13, height: 13 }} />
             )}
           </Field>
         )}
@@ -344,7 +346,7 @@ export function SchedulesTable({
 
   return (
     <View style={{ flex: 1, ...tableStyle }}>
-      <TableHeader height={ROW_HEIGHT} inset={15} version="v2">
+      <TableHeader height={ROW_HEIGHT} inset={15}>
         <Field width="flex">Name</Field>
         <Field width="flex">Payee</Field>
         <Field width="flex">Account</Field>
@@ -363,7 +365,6 @@ export function SchedulesTable({
       <Table
         rowHeight={ROW_HEIGHT}
         backgroundColor="transparent"
-        version="v2"
         style={{ flex: 1, backgroundColor: 'transparent', ...style }}
         items={items as ScheduleEntity[]}
         renderItem={renderItem}

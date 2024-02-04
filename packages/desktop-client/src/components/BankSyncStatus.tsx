@@ -4,14 +4,14 @@ import { useTransition, animated } from 'react-spring';
 
 import { theme, styles } from '../style';
 
-import AnimatedRefresh from './AnimatedRefresh';
-import Text from './common/Text';
-import View from './common/View';
+import { AnimatedRefresh } from './AnimatedRefresh';
+import { Text } from './common/Text';
+import { View } from './common/View';
 
-export default function BankSyncStatus() {
-  let accountsSyncing = useSelector(state => state.account.accountsSyncing);
+export function BankSyncStatus() {
+  const accountsSyncing = useSelector(state => state.account.accountsSyncing);
 
-  let name = accountsSyncing
+  const name = accountsSyncing
     ? accountsSyncing === '__all'
       ? 'accounts'
       : accountsSyncing

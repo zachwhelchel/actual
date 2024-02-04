@@ -1,8 +1,10 @@
+// @ts-strict-ignore
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { send } from 'loot-core/src/platform/client/fetch';
 
+import { useNavigate } from '../../../hooks/useNavigate';
 import { theme } from '../../../style';
 import { useSetServerURL } from '../../ServerContext';
 
@@ -16,14 +18,14 @@ import { useSetServerURL } from '../../ServerContext';
 // they will also potentially redirect to other pages which do *not*
 // do any checks.
 export function useBootstrapped() {
-  let [checked, setChecked] = useState(false);
-  let navigate = useNavigate();
-  let location = useLocation();
-  let setServerURL = useSetServerURL();
+  const [checked, setChecked] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const setServerURL = useSetServerURL();
 
   useEffect(() => {
     async function run() {
-      let ensure = url => {
+      const ensure = url => {
         if (location.pathname !== url) {
           navigate(url);
         } else {
@@ -31,12 +33,12 @@ export function useBootstrapped() {
         }
       };
 
-      let url = await send('get-server-url');
-      let bootstrapped = await send('get-did-bootstrap');
+      const url = await send('get-server-url');
+      const bootstrapped = await send('get-did-bootstrap');
       if (url == null && !bootstrapped) {
         // A server hasn't been specified yet
-        let serverURL = window.location.origin;
-        let result = await send('subscribe-needs-bootstrap', {
+        const serverURL = window.location.origin;
+        const result = await send('subscribe-needs-bootstrap', {
           url: serverURL,
         });
         if ('error' in result || !result.hasServer) {
@@ -53,7 +55,7 @@ export function useBootstrapped() {
           ensure('/bootstrap');
         }
       } else {
-        let result = await send('subscribe-needs-bootstrap');
+        const result = await send('subscribe-needs-bootstrap');
         if ('error' in result) {
           navigate('/error', { state: { error: result.error } });
         } else if (result.bootstrapped) {

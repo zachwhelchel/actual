@@ -1,13 +1,14 @@
+// @ts-strict-ignore
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useActions } from '../hooks/useActions';
 import { theme, styles, type CSSProperties } from '../style';
 
-import Button from './common/Button';
-import Menu from './common/Menu';
-import Text from './common/Text';
-import View from './common/View';
+import { Button } from './common/Button';
+import { Menu } from './common/Menu';
+import { Text } from './common/Text';
+import { View } from './common/View';
 import { useServerURL } from './ServerContext';
 import { Tooltip } from './tooltips';
 
@@ -16,15 +17,15 @@ type LoggedInUserProps = {
   style?: CSSProperties;
   color?: string;
 };
-export default function LoggedInUser({
+export function LoggedInUser({
   hideIfNoServer,
   style,
   color,
 }: LoggedInUserProps) {
-  let userData = useSelector(state => state.user.data);
-  let { getUserData, signOut, closeBudget } = useActions();
-  let [loading, setLoading] = useState(true);
-  let [menuOpen, setMenuOpen] = useState(false);
+  const userData = useSelector(state => state.user.data);
+  const { getUserData, signOut, closeBudget } = useActions();
+  const [loading, setLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const serverUrl = useServerURL();
 
   useEffect(() => {
@@ -78,7 +79,7 @@ export default function LoggedInUser({
     return (
       <Text
         style={{
-          color: theme.altpageTextSubdued,
+          color: theme.pageTextLight,
           fontStyle: 'italic',
           ...styles.delayedFadeIn,
           ...style,
@@ -91,7 +92,11 @@ export default function LoggedInUser({
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', ...style }}>
-      <Button type="bare" onClick={() => setMenuOpen(true)} style={{ color }}>
+      <Button
+        type="bare"
+        onClick={() => setMenuOpen(true)}
+        style={color && { color }}
+      >
         {serverMessage()}
       </Button>
 

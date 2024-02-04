@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import './polyfills';
 import * as injectAPI from '@actual-app/api/injected';
 import * as CRDT from '@actual-app/crdt';
@@ -8,11 +9,11 @@ import { captureException, captureBreadcrumb } from '../platform/exceptions';
 import * as asyncStorage from '../platform/server/asyncStorage';
 import * as connection from '../platform/server/connection';
 import * as fs from '../platform/server/fs';
-import logger from '../platform/server/log';
+import { logger } from '../platform/server/log';
 import * as sqlite from '../platform/server/sqlite';
 import { isNonProductionEnvironment } from '../shared/environment';
 import * as monthUtils from '../shared/months';
-import q, { Query } from '../shared/query';
+import { q, Query } from '../shared/query';
 import { amountToInteger, stringToInteger } from '../shared/util';
 import { Handlers } from '../types/handlers';
 
@@ -23,7 +24,7 @@ import { getStartingBalancePayee } from './accounts/payees';
 import * as bankSync from './accounts/sync';
 import * as rules from './accounts/transaction-rules';
 import { batchUpdateTransactions } from './accounts/transactions';
-import installAPI from './api';
+import { installAPI } from './api';
 import { runQuery as aqlQuery } from './aql';
 import {
   getAvailableBackups,
@@ -32,23 +33,24 @@ import {
   startBackupService,
   stopBackupService,
 } from './backups';
-import budgetApp from './budget/app';
+import { app as budgetApp } from './budget/app';
 import * as budget from './budget/base';
 import * as cloudStorage from './cloud-storage';
 import * as db from './db';
 import * as mappings from './db/mappings';
 import * as encryption from './encryption';
 import { APIError, TransactionError, PostError } from './errors';
-import filtersApp from './filters/app';
+import { app as filtersApp } from './filters/app';
 import { handleBudgetImport } from './importers';
-import app from './main-app';
+import { app } from './main-app';
 import { mutator, runHandler } from './mutators';
-import notesApp from './notes/app';
+import { app as notesApp } from './notes/app';
 import * as Platform from './platform';
 import { get, post } from './post';
 import * as prefs from './prefs';
-import rulesApp from './rules/app';
-import schedulesApp from './schedules/app';
+import { app as reportsApp } from './reports/app';
+import { app as rulesApp } from './rules/app';
+import { app as schedulesApp } from './schedules/app';
 import { getServer, setServer } from './server-config';
 import * as sheet from './sheet';
 import { resolveName, unresolveName } from './spreadsheet/util';
@@ -63,19 +65,19 @@ import {
   repairSync,
 } from './sync';
 import * as syncMigrations from './sync/migrate';
-import toolsApp from './tools/app';
+import { app as toolsApp } from './tools/app';
 import { withUndo, clearUndo, undo, redo } from './undo';
 import { updateVersion } from './update';
 import { uniqueFileName, idFromFileName } from './util/budget-name';
 
-let DEMO_BUDGET_ID = '_demo-budget';
-let TEST_BUDGET_ID = '_test-budget';
+const DEMO_BUDGET_ID = '_demo-budget';
+const TEST_BUDGET_ID = '_test-budget';
 
 // util
 
 function onSheetChange({ names }) {
   const nodes = names.map(name => {
-    let node = sheet.get()._getNode(name);
+    const node = sheet.get()._getNode(name);
     return { name: node.name, value: node.value };
   });
   connection.send('cells-changed', nodes);
@@ -102,7 +104,7 @@ handlers['transactions-batch-update'] = mutator(async function ({
   learnCategories,
 }) {
   return withUndo(async () => {
-    let result = await batchUpdateTransactions({
+    const result = await batchUpdateTransactions({
       added,
       updated,
       deleted,
@@ -164,7 +166,7 @@ handlers['get-categories'] = async function () {
 };
 
 handlers['get-earliest-transaction'] = async function () {
-  let { data } = await aqlQuery(
+  const { data } = await aqlQuery(
     q('transactions')
       .options({ splits: 'none' })
       .orderBy({ date: 'asc' })
@@ -179,11 +181,11 @@ handlers['get-budget-bounds'] = async function () {
 };
 
 handlers['rollover-budget-month'] = async function ({ month }) {
-  let groups = await db.getCategoriesGrouped();
-  let sheetName = monthUtils.sheetForMonth(month);
+  const groups = await db.getCategoriesGrouped();
+  const sheetName = monthUtils.sheetForMonth(month);
 
   function value(name) {
-    let v = sheet.getCellValue(sheetName, name);
+    const v = sheet.getCellValue(sheetName, name);
     return { value: v === '' ? 0 : v, name: resolveName(sheetName, name) };
   }
 
@@ -200,11 +202,11 @@ handlers['rollover-budget-month'] = async function ({ month }) {
     value('total-leftover'),
   ];
 
-  for (let group of groups) {
+  for (const group of groups) {
     if (group.is_income) {
       values.push(value('total-income'));
 
-      for (let cat of group.categories) {
+      for (const cat of group.categories) {
         values.push(value(`sum-amount-${cat.id}`));
       }
     } else {
@@ -214,7 +216,7 @@ handlers['rollover-budget-month'] = async function ({ month }) {
         value(`group-leftover-${group.id}`),
       ]);
 
-      for (let cat of group.categories) {
+      for (const cat of group.categories) {
         values = values.concat([
           value(`budget-${cat.id}`),
           value(`sum-amount-${cat.id}`),
@@ -229,11 +231,11 @@ handlers['rollover-budget-month'] = async function ({ month }) {
 };
 
 handlers['report-budget-month'] = async function ({ month }) {
-  let groups = await db.getCategoriesGrouped();
-  let sheetName = monthUtils.sheetForMonth(month);
+  const groups = await db.getCategoriesGrouped();
+  const sheetName = monthUtils.sheetForMonth(month);
 
   function value(name) {
-    let v = sheet.getCellValue(sheetName, name);
+    const v = sheet.getCellValue(sheetName, name);
     return { value: v === '' ? 0 : v, name: resolveName(sheetName, name) };
   }
 
@@ -247,14 +249,14 @@ handlers['report-budget-month'] = async function ({ month }) {
     value('total-leftover'),
   ];
 
-  for (let group of groups) {
+  for (const group of groups) {
     values = values.concat([
       value(`group-budget-${group.id}`),
       value(`group-sum-amount-${group.id}`),
       value(`group-leftover-${group.id}`),
     ]);
 
-    for (let cat of group.categories) {
+    for (const cat of group.categories) {
       values = values.concat([
         value(`budget-${cat.id}`),
         value(`sum-amount-${cat.id}`),
@@ -288,6 +290,7 @@ handlers['category-create'] = mutator(async function ({
   name,
   groupId,
   isIncome,
+  hidden,
   atEnd,
 }) {
   return withUndo(async () => {
@@ -299,6 +302,7 @@ handlers['category-create'] = mutator(async function ({
       name,
       cat_group: groupId,
       is_income: isIncome ? 1 : 0,
+      hidden: hidden ? 1 : 0,
     }, { atEnd: atEnd });
   });
 });
@@ -330,7 +334,7 @@ handlers['category-delete'] = mutator(async function ({ id, transferId }) {
   return withUndo(async () => {
     let result = {};
     await batchMessages(async () => {
-      let row = await db.first(
+      const row = await db.first(
         'SELECT is_income FROM categories WHERE id = ?',
         [id],
       );
@@ -339,7 +343,7 @@ handlers['category-delete'] = mutator(async function ({ id, transferId }) {
         return;
       }
 
-      let transfer =
+      const transfer =
         transferId &&
         (await db.first('SELECT is_income FROM categories WHERE id = ?', [
           transferId,
@@ -438,7 +442,7 @@ handlers['must-category-transfer'] = async function ({ id }) {
     const sheetName = monthUtils.sheetForMonth(month);
     const value = sheet.get().getCellValue(sheetName, 'budget-' + id);
 
-    return value !== 0;
+    return value != null && value !== 0;
   });
 };
 
@@ -457,7 +461,7 @@ handlers['payees-get-orphaned'] = async function () {
 };
 
 handlers['payees-get-rule-counts'] = async function () {
-  let payeeCounts = {};
+  const payeeCounts = {};
 
   rules.iterateIds(rules.getRules(), 'payee', (rule, id) => {
     if (payeeCounts[id] == null) {
@@ -501,7 +505,7 @@ handlers['payees-batch-change'] = mutator(async function ({
 });
 
 handlers['payees-check-orphaned'] = async function ({ ids }) {
-  let orphaned = new Set(await db.getOrphanedPayees());
+  const orphaned = new Set(await db.getOrphanedPayees());
   return ids.filter(id => orphaned.has(id));
 };
 
@@ -515,10 +519,10 @@ handlers['make-filters-from-conditions'] = async function ({ conditions }) {
 
 handlers['getCell'] = async function ({ sheetName, name }) {
   // Fields is no longer used - hardcode
-  let fields = ['name', 'value'];
-  let node = sheet.get()._getNode(resolveName(sheetName, name));
+  const fields = ['name', 'value'];
+  const node = sheet.get()._getNode(resolveName(sheetName, name));
   if (fields) {
-    let res = {};
+    const res = {};
     fields.forEach(field => {
       if (field === 'run') {
         res[field] = node._run ? node._run.toString() : null;
@@ -537,9 +541,9 @@ handlers['getCells'] = async function ({ names }) {
 };
 
 handlers['getCellNamesInSheet'] = async function ({ sheetName }) {
-  let names = [];
-  for (let name of sheet.get().getNodes().keys()) {
-    let { sheet: nodeSheet, name: nodeName } = unresolveName(name);
+  const names = [];
+  for (const name of sheet.get().getNodes().keys()) {
+    const { sheet: nodeSheet, name: nodeName } = unresolveName(name);
     if (nodeSheet === sheetName) {
       names.push(nodeName);
     }
@@ -548,7 +552,7 @@ handlers['getCellNamesInSheet'] = async function ({ sheetName }) {
 };
 
 handlers['debugCell'] = async function ({ sheetName, name }) {
-  let node = sheet.get().getNode(resolveName(sheetName, name));
+  const node = sheet.get().getNode(resolveName(sheetName, name));
   return {
     ...node,
     _run: node._run && node._run.toString(),
@@ -619,16 +623,20 @@ handlers['accounts-link'] = async function ({
   accountId,
   upgradingId,
 }) {
-  let bankId = await link.handoffPublicToken(institution, publicToken);
+  const bankId = await link.handoffPublicToken(institution, publicToken);
 
-  let [[, userId], [, userKey]] = await asyncStorage.multiGet([
+  const [[, userId], [, userKey]] = await asyncStorage.multiGet([
     'user-id',
     'user-key',
   ]);
 
   // Get all the available accounts and find the selected one
-  let accounts = await bankSync.getGoCardlessAccounts(userId, userKey, bankId);
-  let account = accounts.find(acct => acct.account_id === accountId);
+  const accounts = await bankSync.getGoCardlessAccounts(
+    userId,
+    userKey,
+    bankId,
+  );
+  const account = accounts.find(acct => acct.account_id === accountId);
 
   await db.update('accounts', {
     id: upgradingId,
@@ -663,7 +671,7 @@ handlers['gocardless-accounts-link'] = async function ({
   upgradingId,
 }) {
   let id;
-  let bank = await link.findOrCreateBank(account.institution, requisitionId);
+  const bank = await link.findOrCreateBank(account.institution, requisitionId);
 
   if (upgradingId) {
     const accRow = await db.first('SELECT * FROM accounts WHERE id = ?', [
@@ -674,6 +682,7 @@ handlers['gocardless-accounts-link'] = async function ({
       id,
       account_id: account.account_id,
       bank: bank.id,
+      account_sync_source: 'goCardless',
     });
   } else {
     id = uuidv4();
@@ -684,6 +693,7 @@ handlers['gocardless-accounts-link'] = async function ({
       name: account.name,
       official_name: account.official_name,
       bank: bank.id,
+      account_sync_source: 'goCardless',
     });
     await db.insertPayee({
       name: '',
@@ -691,7 +701,7 @@ handlers['gocardless-accounts-link'] = async function ({
     });
   }
 
-  await bankSync.syncGoCardlessAccount(
+  await bankSync.syncExternalAccount(
     undefined,
     undefined,
     id,
@@ -707,14 +717,72 @@ handlers['gocardless-accounts-link'] = async function ({
   return 'ok';
 };
 
+handlers['simplefin-accounts-link'] = async function ({
+  externalAccount,
+  upgradingId,
+}) {
+  let id;
+
+  const institution = {
+    name: externalAccount.institution ?? 'Unknown',
+  };
+
+  const bank = await link.findOrCreateBank(
+    institution,
+    externalAccount.orgDomain,
+  );
+
+  if (upgradingId) {
+    const accRow = await db.first('SELECT * FROM accounts WHERE id = ?', [
+      upgradingId,
+    ]);
+    id = accRow.id;
+    await db.update('accounts', {
+      id,
+      account_id: externalAccount.account_id,
+      bank: bank.id,
+      account_sync_source: 'simpleFin',
+    });
+  } else {
+    id = uuidv4();
+    await db.insertWithUUID('accounts', {
+      id,
+      account_id: externalAccount.account_id,
+      name: externalAccount.name,
+      official_name: externalAccount.name,
+      bank: bank.id,
+      account_sync_source: 'simpleFin',
+    });
+    await db.insertPayee({
+      name: '',
+      transfer_acct: id,
+    });
+  }
+
+  await bankSync.syncExternalAccount(
+    undefined,
+    undefined,
+    id,
+    externalAccount.account_id,
+    bank.bank_id,
+  );
+
+  await connection.send('sync-event', {
+    type: 'success',
+    tables: ['transactions'],
+  });
+
+  return 'ok';
+};
+
 handlers['accounts-connect'] = async function ({
   institution,
   publicToken,
   accountIds,
   offbudgetIds,
 }) {
-  let bankId = await link.handoffPublicToken(institution, publicToken);
-  let ids = await link.addAccounts(bankId, accountIds, offbudgetIds);
+  const bankId = await link.handoffPublicToken(institution, publicToken);
+  const ids = await link.addAccounts(bankId, accountIds, offbudgetIds);
   return ids;
 };
 
@@ -724,8 +792,12 @@ handlers['gocardless-accounts-connect'] = async function ({
   accountIds,
   offbudgetIds,
 }) {
-  let bankId = await link.handoffPublicToken(institution, publicToken);
-  let ids = await link.addGoCardlessAccounts(bankId, accountIds, offbudgetIds);
+  const bankId = await link.handoffPublicToken(institution, publicToken);
+  const ids = await link.addGoCardlessAccounts(
+    bankId,
+    accountIds,
+    offbudgetIds,
+  );
   return ids;
 };
 
@@ -748,7 +820,7 @@ handlers['account-create'] = mutator(async function ({
     });
 
     if (balance != null && balance !== 0) {
-      let payee = await getStartingBalancePayee();
+      const payee = await getStartingBalancePayee();
 
       await db.insertTransaction({
         account: id,
@@ -777,7 +849,7 @@ handlers['account-close'] = mutator(async function ({
   await handlers['account-unlink']({ id });
 
   return withUndo(async () => {
-    let account = await db.first(
+    const account = await db.first(
       'SELECT * FROM accounts WHERE id = ? AND tombstone = 0',
       [id],
     );
@@ -796,13 +868,13 @@ handlers['account-close'] = mutator(async function ({
     if (numTransactions === 0) {
       await db.deleteAccount({ id });
     } else if (forced) {
-      let rows = await db.runQuery(
+      const rows = await db.runQuery(
         'SELECT id, transfer_id FROM v_transactions WHERE account = ?',
         [id],
         true,
       );
 
-      let { id: payeeId } = await db.first(
+      const { id: payeeId } = await db.first(
         'SELECT id FROM payees WHERE transfer_acct = ?',
         [id],
       );
@@ -839,7 +911,7 @@ handlers['account-close'] = mutator(async function ({
       // If there is a balance we need to transfer it to the specified
       // account (and possibly categorize it)
       if (balance !== 0) {
-        let { id: payeeId } = await db.first(
+        const { id: payeeId } = await db.first(
           'SELECT id FROM payees WHERE transfer_acct = ?',
           [transferAccountId],
         );
@@ -873,12 +945,12 @@ handlers['account-move'] = mutator(async function ({ id, targetId }) {
 let stopPolling = false;
 
 handlers['poll-web-token'] = async function ({ token }) {
-  let [[, userId], [, key]] = await asyncStorage.multiGet([
+  const [[, userId], [, key]] = await asyncStorage.multiGet([
     'user-id',
     'user-key',
   ]);
 
-  let startTime = Date.now();
+  const startTime = Date.now();
   stopPolling = false;
 
   async function getData(cb) {
@@ -891,7 +963,7 @@ handlers['poll-web-token'] = async function ({ token }) {
       return;
     }
 
-    let data = await post(
+    const data = await post(
       getServer().PLAID_SERVER + '/get-web-token-contents',
       {
         userId,
@@ -928,7 +1000,7 @@ handlers['poll-web-token-stop'] = async function () {
 };
 
 handlers['accounts-sync'] = async function ({ id }) {
-  let [[, userId], [, userKey]] = await asyncStorage.multiGet([
+  const [[, userId], [, userKey]] = await asyncStorage.multiGet([
     'user-id',
     'user-key',
   ]);
@@ -944,7 +1016,7 @@ handlers['accounts-sync'] = async function ({ id }) {
     accounts = accounts.filter(acct => acct.id === id);
   }
 
-  let errors = [];
+  const errors = [];
   let newTransactions = [];
   let matchedTransactions = [];
   let updatedAccounts = [];
@@ -960,7 +1032,7 @@ handlers['accounts-sync'] = async function ({ id }) {
           acct.account_id,
           acct.bankId,
         );
-        let { added, updated } = res;
+        const { added, updated } = res;
 
         newTransactions = newTransactions.concat(added);
         matchedTransactions = matchedTransactions.concat(updated);
@@ -1009,7 +1081,7 @@ handlers['accounts-sync'] = async function ({ id }) {
 };
 
 handlers['secret-set'] = async function ({ name, value }) {
-  let userToken = await asyncStorage.getItem('user-token');
+  const userToken = await asyncStorage.getItem('user-token');
 
   if (!userToken) {
     return { error: 'unauthorized' };
@@ -1033,7 +1105,7 @@ handlers['secret-set'] = async function ({ name, value }) {
 };
 
 handlers['secret-check'] = async function (name) {
-  let userToken = await asyncStorage.getItem('user-token');
+  const userToken = await asyncStorage.getItem('user-token');
 
   if (!userToken) {
     return { error: 'unauthorized' };
@@ -1053,10 +1125,10 @@ handlers['gocardless-poll-web-token'] = async function ({
   upgradingAccountId,
   requisitionId,
 }) {
-  let userToken = await asyncStorage.getItem('user-token');
-  if (!userToken) return null;
+  const userToken = await asyncStorage.getItem('user-token');
+  if (!userToken) return { error: 'unknown' };
 
-  let startTime = Date.now();
+  const startTime = Date.now();
   stopPolling = false;
 
   async function getData(cb) {
@@ -1069,7 +1141,7 @@ handlers['gocardless-poll-web-token'] = async function ({
       return;
     }
 
-    let data = await post(
+    const data = await post(
       getServer().GOCARDLESS_SERVER + '/get-accounts',
       {
         upgradingAccountId,
@@ -1118,6 +1190,38 @@ handlers['gocardless-status'] = async function () {
   );
 };
 
+handlers['simplefin-status'] = async function () {
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  return post(
+    getServer().SIMPLEFIN_SERVER + '/status',
+    {},
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+};
+
+handlers['simplefin-accounts'] = async function () {
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  return post(
+    getServer().SIMPLEFIN_SERVER + '/accounts',
+    {},
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+};
+
 handlers['gocardless-get-banks'] = async function (country) {
   const userToken = await asyncStorage.getItem('user-token');
 
@@ -1144,7 +1248,7 @@ handlers['gocardless-create-web-token'] = async function ({
   institutionId,
   accessValidForDays,
 }) {
-  let userToken = await asyncStorage.getItem('user-token');
+  const userToken = await asyncStorage.getItem('user-token');
 
   if (!userToken) {
     return { error: 'unauthorized' };
@@ -1169,7 +1273,7 @@ handlers['gocardless-create-web-token'] = async function ({
 };
 
 handlers['gocardless-accounts-sync'] = async function ({ id }) {
-  let [[, userId], [, userKey]] = await asyncStorage.multiGet([
+  const [[, userId], [, userKey]] = await asyncStorage.multiGet([
     'user-id',
     'user-key',
   ]);
@@ -1185,7 +1289,7 @@ handlers['gocardless-accounts-sync'] = async function ({ id }) {
     accounts = accounts.filter(acct => acct.id === id);
   }
 
-  let errors = [];
+  const errors = [];
   let newTransactions = [];
   let matchedTransactions = [];
   let updatedAccounts = [];
@@ -1194,14 +1298,14 @@ handlers['gocardless-accounts-sync'] = async function ({ id }) {
     const acct = accounts[i];
     if (acct.bankId) {
       try {
-        const res = await bankSync.syncGoCardlessAccount(
+        const res = await bankSync.syncExternalAccount(
           userId,
           userKey,
           acct.id,
           acct.account_id,
           acct.bankId,
         );
-        let { added, updated } = res;
+        const { added, updated } = res;
 
         newTransactions = newTransactions.concat(added);
         matchedTransactions = matchedTransactions.concat(updated);
@@ -1271,7 +1375,7 @@ handlers['transactions-import'] = mutator(function ({
 });
 
 handlers['account-unlink'] = mutator(async function ({ id }) {
-  let { bank: bankId } = await db.first(
+  const { bank: bankId } = await db.first(
     'SELECT bank FROM accounts WHERE id = ?',
     [id],
   );
@@ -1280,6 +1384,10 @@ handlers['account-unlink'] = mutator(async function ({ id }) {
     return 'ok';
   }
 
+  const accRow = await db.first('SELECT * FROM accounts WHERE id = ?', [id]);
+
+  const isGoCardless = accRow.account_sync_source === 'goCardless';
+
   await db.updateAccount({
     id,
     account_id: null,
@@ -1287,22 +1395,27 @@ handlers['account-unlink'] = mutator(async function ({ id }) {
     balance_current: null,
     balance_available: null,
     balance_limit: null,
+    account_sync_source: null,
   });
 
-  let { count } = await db.first(
+  if (isGoCardless === false) {
+    return;
+  }
+
+  const { count } = await db.first(
     'SELECT COUNT(*) as count FROM accounts WHERE bank = ?',
     [bankId],
   );
 
   // No more accounts are associated with this bank. We can remove
   // it from GoCardless.
-  let userToken = await asyncStorage.getItem('user-token');
+  const userToken = await asyncStorage.getItem('user-token');
   if (!userToken) {
     return 'ok';
   }
 
   if (count === 0) {
-    let { bank_id: requisitionId } = await db.first(
+    const { bank_id: requisitionId } = await db.first(
       'SELECT bank_id FROM banks WHERE id = ?',
       [bankId],
     );
@@ -1310,7 +1423,7 @@ handlers['account-unlink'] = mutator(async function ({ id }) {
       await post(
         getServer().GOCARDLESS_SERVER + '/remove-account',
         {
-          requisitionId: requisitionId,
+          requisitionId,
         },
         {
           'X-ACTUAL-TOKEN': userToken,
@@ -1325,13 +1438,13 @@ handlers['account-unlink'] = mutator(async function ({ id }) {
 });
 
 handlers['make-plaid-public-token'] = async function ({ bankId }) {
-  let [[, userId], [, userKey]] = await asyncStorage.multiGet([
+  const [[, userId], [, userKey]] = await asyncStorage.multiGet([
     'user-id',
     'user-key',
   ]);
 
-  let data = await post(getServer().PLAID_SERVER + '/make-public-token', {
-    userId: userId,
+  const data = await post(getServer().PLAID_SERVER + '/make-public-token', {
+    userId,
     key: userKey,
     item_id: '' + bankId,
   });
@@ -1349,7 +1462,10 @@ handlers['save-global-prefs'] = async function (prefs) {
   }
   if ('autoUpdate' in prefs) {
     await asyncStorage.setItem('auto-update', '' + prefs.autoUpdate);
-    process.send({ type: 'shouldAutoUpdate', flag: prefs.autoUpdate });
+    process.parentPort.postMessage({
+      type: 'shouldAutoUpdate',
+      flag: prefs.autoUpdate,
+    });
   }
   if ('documentDir' in prefs) {
     if (await fs.exists(prefs.documentDir)) {
@@ -1366,7 +1482,7 @@ handlers['save-global-prefs'] = async function (prefs) {
 };
 
 handlers['load-global-prefs'] = async function () {
-  let [
+  const [
     [, floatingSidebar],
     [, maxMonths],
     [, autoUpdate],
@@ -1387,16 +1503,19 @@ handlers['load-global-prefs'] = async function () {
     autoUpdate: autoUpdate == null || autoUpdate === 'true' ? true : false,
     documentDir: documentDir || getDefaultDocumentDir(),
     keyId: encryptKey && JSON.parse(encryptKey).id,
-    theme: theme === 'light' || theme === 'dark' ? theme : 'light',
+    theme:
+      theme === 'light' || theme === 'dark' || theme === 'auto'
+        ? theme
+        : 'light',
   };
 };
 
 handlers['save-prefs'] = async function (prefsToSet) {
-  let { cloudFileId } = prefs.getPrefs();
+  const { cloudFileId } = prefs.getPrefs();
 
   // Need to sync the budget name on the server as well
   if (prefsToSet.budgetName && cloudFileId) {
-    let userToken = await asyncStorage.getItem('user-token');
+    const userToken = await asyncStorage.getItem('user-token');
 
     await post(getServer().SYNC_SERVER + '/update-user-filename', {
       token: userToken,
@@ -1430,15 +1549,15 @@ handlers['key-make'] = async function ({ password }) {
     throw new Error('user-set-key must be called with file loaded');
   }
 
-  let salt = encryption.randomBytes(32).toString('base64');
-  let id = uuidv4();
-  let key = await encryption.createKey({ id, password, salt });
+  const salt = encryption.randomBytes(32).toString('base64');
+  const id = uuidv4();
+  const key = await encryption.createKey({ id, password, salt });
 
   // Load the key
   await encryption.loadKey(key);
 
   // Make some test data to use if the key is valid or not
-  let testContent = await makeTestMessage(key.getId());
+  const testContent = await makeTestMessage(key.getId());
 
   // Changing your key necessitates a sync reset as well. This will
   // clear all existing encrypted data from the server so you won't
@@ -1456,7 +1575,7 @@ handlers['key-make'] = async function ({ password }) {
 // This can be called both while a file is already loaded or not. This
 // will see if a key is valid and if so save it off.
 handlers['key-test'] = async function ({ fileId, password }) {
-  let userToken = await asyncStorage.getItem('user-token');
+  const userToken = await asyncStorage.getItem('user-token');
 
   if (fileId == null) {
     fileId = prefs.getPrefs().cloudFileId;
@@ -1473,15 +1592,16 @@ handlers['key-test'] = async function ({ fileId, password }) {
     return { error: { reason: 'network' } };
   }
 
-  let { id, salt, test } = res;
+  const { id, salt, test: originalTest } = res;
 
+  let test = originalTest;
   if (test == null) {
     return { error: { reason: 'old-key-style' } };
   }
 
   test = JSON.parse(test);
 
-  let key = await encryption.createKey({ id, password, salt });
+  const key = await encryption.createKey({ id, password, salt });
   encryption.loadKey(key);
 
   try {
@@ -1495,7 +1615,7 @@ handlers['key-test'] = async function ({ fileId, password }) {
   }
 
   // Persist key in async storage
-  let keys = JSON.parse((await asyncStorage.getItem(`encrypt-keys`)) || '{}');
+  const keys = JSON.parse((await asyncStorage.getItem(`encrypt-keys`)) || '{}');
   keys[fileId] = key.serialize();
   await asyncStorage.setItem('encrypt-keys', JSON.stringify(keys));
 
@@ -1567,7 +1687,7 @@ handlers['subscribe-get-user'] = async function () {
     return { offline: false };
   }
 
-  let userToken = await asyncStorage.getItem('user-token');
+  const userToken = await asyncStorage.getItem('user-token');
 
   if (!userToken) {
     return null;
@@ -1596,7 +1716,7 @@ handlers['subscribe-get-user'] = async function () {
 };
 
 handlers['subscribe-change-password'] = async function ({ password }) {
-  let userToken = await asyncStorage.getItem('user-token');
+  const userToken = await asyncStorage.getItem('user-token');
   if (!userToken) {
     return { error: 'not-logged-in' };
   }
@@ -1614,7 +1734,7 @@ handlers['subscribe-change-password'] = async function ({ password }) {
 };
 
 handlers['subscribe-sign-in'] = async function ({ password }) {
-  let res = await post(getServer().SIGNUP_SERVER + '/login', {
+  const res = await post(getServer().SIGNUP_SERVER + '/login', {
     password,
   });
 
@@ -1667,11 +1787,11 @@ handlers['set-server-url'] = async function ({ url, validate = true }) {
 
     if (validate) {
       // Validate the server is running
-      let { error } = await runHandler(handlers['subscribe-needs-bootstrap'], {
+      const result = await runHandler(handlers['subscribe-needs-bootstrap'], {
         url,
       });
-      if (error) {
-        return { error };
+      if ('error' in result) {
+        return { error: result.error };
       }
     }
   }
@@ -1769,7 +1889,7 @@ handlers['download-budget'] = async function ({ fileId }) {
     if (e.type === 'FileDownloadError') {
       if (e.reason === 'file-exists' && e.meta.id) {
         await prefs.loadPrefs(e.meta.id);
-        let name = prefs.getPrefs().budgetName;
+        const name = prefs.getPrefs().budgetName;
         prefs.unloadPrefs();
 
         e.meta = { ...e.meta, name };
@@ -1782,7 +1902,7 @@ handlers['download-budget'] = async function ({ fileId }) {
     }
   }
 
-  let id = result.id;
+  const id = result.id;
   await handlers['load-budget']({ id });
   result = await handlers['sync-budget']();
   await handlers['close-budget']();
@@ -1795,13 +1915,13 @@ handlers['download-budget'] = async function ({ fileId }) {
 // open and sync, but don’t close
 handlers['sync-budget'] = async function () {
   setSyncingMode('enabled');
-  let result = await initialFullSync();
+  const result = await initialFullSync();
 
   return result;
 };
 
 handlers['load-budget'] = async function ({ id }) {
-  let currentPrefs = prefs.getPrefs();
+  const currentPrefs = prefs.getPrefs();
 
   if (currentPrefs) {
     if (currentPrefs.id === id) {
@@ -1813,7 +1933,7 @@ handlers['load-budget'] = async function ({ id }) {
     }
   }
 
-  let res = await loadBudget(id);
+  const res = await loadBudget(id);
 
   return res;
 };
@@ -1860,12 +1980,12 @@ handlers['delete-budget'] = async function ({ id, cloudFileId }) {
   // If it's a cloud file, you can delete it from the server by
   // passing its cloud id
   if (cloudFileId) {
-    await cloudStorage.removeFile(cloudFileId).catch(err => {});
+    await cloudStorage.removeFile(cloudFileId).catch(() => {});
   }
 
   // If a local file exists, you can delete it by passing its local id
   if (id) {
-    let budgetDir = fs.getBudgetDir(id);
+    const budgetDir = fs.getBudgetDir(id);
     await fs.removeDirRecursively(budgetDir);
   }
 
@@ -1896,14 +2016,14 @@ handlers['create-budget'] = async function ({
     if (!budgetName) {
       // Unfortunately we need to load all of the existing files first
       // so we can detect conflicting names.
-      let files = await handlers['get-budgets']();
+      const files = await handlers['get-budgets']();
       budgetName = await uniqueFileName(files);
     }
 
     id = await idFromFileName(budgetName);
   }
 
-  let budgetDir = fs.getBudgetDir(id);
+  const budgetDir = fs.getBudgetDir(id);
   await fs.mkdir(budgetDir);
 
   // Create the initial database
@@ -1916,7 +2036,7 @@ handlers['create-budget'] = async function ({
   );
 
   // Load it in
-  let { error } = await loadBudget(id);
+  const { error } = await loadBudget(id);
   if (error) {
     console.log('Error creating budget: ' + error);
     return { error };
@@ -1944,8 +2064,8 @@ handlers['import-budget'] = async function ({ filepath, type }) {
       throw new Error(`File not found at the provided path: ${filepath}`);
     }
 
-    let buffer = Buffer.from(await fs.readFile(filepath, 'binary'));
-    let results = await handleBudgetImport(type, filepath, buffer);
+    const buffer = Buffer.from(await fs.readFile(filepath, 'binary'));
+    const results = await handleBudgetImport(type, filepath, buffer);
     return results || {};
   } catch (err) {
     err.message = 'Error importing budget: ' + err.message;
@@ -1997,7 +2117,7 @@ async function loadBudget(id) {
   // Older versions didn't tag the file with the current user, so do
   // so now
   if (!prefs.getPrefs().userId) {
-    let userId = await asyncStorage.getItem('user-token');
+    const userId = await asyncStorage.getItem('user-token');
     prefs.savePrefs({ userId });
   }
 
@@ -2140,7 +2260,15 @@ injectAPI.override((name, args) => runHandler(app.handlers[name], args));
 
 // A hack for now until we clean up everything
 app.handlers = handlers;
-app.combine(schedulesApp, budgetApp, notesApp, toolsApp, filtersApp, rulesApp);
+app.combine(
+  schedulesApp,
+  budgetApp,
+  notesApp,
+  toolsApp,
+  filtersApp,
+  reportsApp,
+  rulesApp,
+);
 
 function getDefaultDocumentDir() {
   if (Platform.isMobile) {
@@ -2187,10 +2315,10 @@ export async function initApp(isDev, socketName) {
   await Promise.all([asyncStorage.init(), fs.init()]);
   await setupDocumentsDir();
 
-  let keysStr = await asyncStorage.getItem('encrypt-keys');
+  const keysStr = await asyncStorage.getItem('encrypt-keys');
   if (keysStr) {
     try {
-      let keys = JSON.parse(keysStr);
+      const keys = JSON.parse(keysStr);
 
       // Load all the keys
       await Promise.all(
@@ -2228,8 +2356,8 @@ export async function initApp(isDev, socketName) {
   connection.init(socketName, app.handlers);
 
   if (!isDev && !Platform.isMobile && !Platform.isWeb) {
-    let autoUpdate = await asyncStorage.getItem('auto-update');
-    process.send({
+    const autoUpdate = await asyncStorage.getItem('auto-update');
+    process.parentPort.postMessage({
       type: 'shouldAutoUpdate',
       flag: autoUpdate == null || autoUpdate === 'true',
     });
@@ -2244,8 +2372,14 @@ export async function initApp(isDev, socketName) {
   }
 }
 
+export type InitConfig = {
+  dataDir?: string;
+  serverURL?: string;
+  password?: string;
+};
+
 // eslint-disable-next-line import/no-unused-modules
-export async function init(config) {
+export async function init(config: InitConfig) {
   // Get from build
 
   let dataDir, serverURL;
@@ -2287,8 +2421,11 @@ export async function init(config) {
 export const lib = {
   getDataDir: fs.getDataDir,
   sendMessage: (msg, args) => connection.send(msg, args),
-  send: async (name, args) => {
-    let res = await runHandler(app.handlers[name], args);
+  send: async <K extends keyof Handlers, T extends Handlers[K]>(
+    name: K,
+    args?: Parameters<T>[0],
+  ): Promise<Awaited<ReturnType<T>>> => {
+    const res = await runHandler(app.handlers[name], args);
     return res;
   },
   on: (name, func) => app.events.on(name, func),

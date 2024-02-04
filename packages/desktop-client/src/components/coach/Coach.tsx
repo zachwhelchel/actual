@@ -2,9 +2,9 @@ import React, { createContext, useContext, useEffect, useState, useRef } from 'r
 
 //import { useActions } from '../hooks/useActions';
 
-import Button from '../common/Button';
-import Card from '../common/Card';
-import View from '../common/View';
+import { Button } from '../common/Button';
+import { Card } from '../common/Card';
+import { View } from '../common/View';
 import { BigInput } from '../common/Input';
 import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME } from '../../coaches/coachVariables';
 

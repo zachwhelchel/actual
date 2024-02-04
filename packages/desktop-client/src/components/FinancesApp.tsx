@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import React, { type ReactElement, useEffect, useMemo } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend as Backend } from 'react-dnd-html5-backend';
@@ -5,8 +6,6 @@ import {
   Route,
   Routes,
   Navigate,
-  NavLink,
-  useNavigate,
   BrowserRouter,
   useLocation,
   useHref,
@@ -17,32 +16,31 @@ import hotkeys from 'hotkeys-js';
 import { AccountsProvider } from 'loot-core/src/client/data-hooks/accounts';
 import { PayeesProvider } from 'loot-core/src/client/data-hooks/payees';
 import { SpreadsheetProvider } from 'loot-core/src/client/SpreadsheetProvider';
-import checkForUpdateNotification from 'loot-core/src/client/update-notification';
+import { checkForUpdateNotification } from 'loot-core/src/client/update-notification';
 import * as undo from 'loot-core/src/platform/client/undo';
 
 import { useActions } from '../hooks/useActions';
-import Add from '../icons/v1/Add';
-import Cog from '../icons/v1/Cog';
-import PiggyBank from '../icons/v1/PiggyBank';
-import Wallet from '../icons/v1/Wallet';
+import { useNavigate } from '../hooks/useNavigate';
 import { useResponsive } from '../ResponsiveProvider';
-import { theme, styles } from '../style';
+import { theme } from '../style';
 import { ExposeNavigate } from '../util/router-tools';
 import { getIsOutdated, getLatestVersion } from '../util/versions';
 
-import BankSyncStatus from './BankSyncStatus';
+import { BankSyncStatus } from './BankSyncStatus';
 import { BudgetMonthCountProvider } from './budget/BudgetMonthCountContext';
-import View from './common/View';
-import GlobalKeys from './GlobalKeys';
+import { View } from './common/View';
+import { GlobalKeys } from './GlobalKeys';
 import { ManageRulesPage } from './ManageRulesPage';
-import Modals from './Modals';
-import Notifications from './Notifications';
+import { MobileNavTabs } from './mobile/MobileNavTabs';
+import { Modals } from './Modals';
+import { Notifications } from './Notifications';
 import { ManagePayeesPage } from './payees/ManagePayeesPage';
-import Reports from './reports';
+import { Reports } from './reports';
 import { NarrowAlternate, WideComponent } from './responsive';
-import Settings from './settings';
-import FloatableSidebar, { SidebarProvider } from './sidebar';
-import Titlebar, { TitlebarProvider } from './Titlebar';
+import { ScrollProvider } from './ScrollProvider';
+import { Settings } from './settings';
+import { FloatableSidebar, SidebarProvider } from './sidebar';
+import { Titlebar, TitlebarProvider } from './Titlebar';
 import { TransactionEdit } from './transactions/MobileTransaction';
 import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
@@ -74,50 +72,8 @@ function WideNotSupported({ children, redirectTo = '/budget' }) {
   return isNarrowWidth ? children : null;
 }
 
-function NavTab({ icon: TabIcon, name, path }) {
-  return (
-    <NavLink
-      to={path}
-      style={({ isActive }) => ({
-        alignItems: 'center',
-        color: isActive ? theme.mobileNavItemSelected : theme.mobileNavItem,
-        display: 'flex',
-        flexDirection: 'column',
-        textDecoration: 'none',
-      })}
-    >
-      <TabIcon width={22} height={22} style={{ marginBottom: '5px' }} />
-      {name}
-    </NavLink>
-  );
-}
-
-function MobileNavTabs() {
-  const { isNarrowWidth } = useResponsive();
-  return (
-    <div
-      style={{
-        backgroundColor: theme.mobileNavBackground,
-        borderTop: `1px solid ${theme.menuBorder}`,
-        bottom: 0,
-        ...styles.shadow,
-        display: isNarrowWidth ? 'flex' : 'none',
-        height: '80px',
-        justifyContent: 'space-around',
-        paddingTop: 10,
-        width: '100%',
-      }}
-    >
-      <NavTab name="Budget" path="/budget" icon={Wallet} />
-      <NavTab name="Accounts" path="/accounts" icon={PiggyBank} />
-      <NavTab name="Transaction" path="/transactions/new" icon={Add} />
-      <NavTab name="Settings" path="/settings" icon={Cog} />
-    </div>
-  );
-}
-
 function RouterBehaviors({ getAccounts }) {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     // Get the accounts and check if any exist. If there are no
     // accounts, we want to redirect the user to the All Accounts
@@ -129,8 +85,8 @@ function RouterBehaviors({ getAccounts }) {
     });
   }, []);
 
-  let location = useLocation();
-  let href = useHref(location);
+  const location = useLocation();
+  const href = useHref(location);
   useEffect(() => {
     undo.setUndoState('url', href);
   }, [href]);
@@ -138,8 +94,8 @@ function RouterBehaviors({ getAccounts }) {
   return null;
 }
 
-function FinancesApp({budgetId, someDialogues, initialDialogueId }: FinancesAppProps) {
-  let actions = useActions();
+function FinancesAppWithoutContext({budgetId, someDialogues, initialDialogueId}: FinancesAppProps) {
+  const actions = useActions();
   useEffect(() => {
     // The default key handler scope
     hotkeys.setScope('app');
@@ -167,7 +123,13 @@ function FinancesApp({budgetId, someDialogues, initialDialogueId }: FinancesAppP
       <View style={{ height: '100%' }}>
         <GlobalKeys />
 
-        <View style={{ flexDirection: 'row', flex: 1 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            backgroundColor: theme.pageBackground,
+            flex: 1,
+          }}
+        >
           <FloatableSidebar />
 
           <View
@@ -302,8 +264,8 @@ type FinancesAppProps = {
   initialDialogueId?: string;
 };
 
-export default function FinancesAppWithContext({budgetId, someDialogues, initialDialogueId }: FinancesAppProps) {
-  let app = useMemo(() => <FinancesApp />, []);
+export function FinancesApp({budgetId, someDialogues, initialDialogueId }: FinancesAppProps) {
+  const app = useMemo(() => <FinancesAppWithoutContext budgetId={budgetId} allDialogues={someDialogues} initialDialogueId={initialDialogueId} />, []);
 
   console.log("childcare:");
   console.log("childcare:" + budgetId);
@@ -318,7 +280,9 @@ export default function FinancesAppWithContext({budgetId, someDialogues, initial
           <BudgetMonthCountProvider>
             <PayeesProvider>
               <AccountsProvider>
-                <DndProvider backend={Backend}>{app}</DndProvider>
+                <DndProvider backend={Backend}>
+                  <ScrollProvider>{app}</ScrollProvider>
+                </DndProvider>
               </AccountsProvider>
             </PayeesProvider>
           </BudgetMonthCountProvider>

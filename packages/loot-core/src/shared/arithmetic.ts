@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { getNumberFormat } from './util';
 
 function fail(state, msg) {
@@ -15,7 +16,7 @@ function next(state) {
     return null;
   }
 
-  let ch = char(state);
+  const ch = char(state);
   state.index++;
   return ch;
 }
@@ -31,7 +32,7 @@ function nextOperator(state, op) {
 
 function parsePrimary(state) {
   // We only support numbers
-  let isNegative = char(state) === '-';
+  const isNegative = char(state) === '-';
   if (isNegative) {
     next(state);
   }
@@ -44,7 +45,7 @@ function parsePrimary(state) {
   // and we should do more strict parsing
   let numberStr = '';
   while (char(state) && char(state).match(/[0-9,.]/)) {
-    let thousandsSep = getNumberFormat().separator === ',' ? '.' : ',';
+    const thousandsSep = getNumberFormat().separator === ',' ? '.' : ',';
 
     // Don't include the thousands separator
     if (char(state) === thousandsSep) {
@@ -58,14 +59,16 @@ function parsePrimary(state) {
     fail(state, 'Unexpected character');
   }
 
-  let number = parseFloat(numberStr.replace(getNumberFormat().separator, '.'));
+  const number = parseFloat(
+    numberStr.replace(getNumberFormat().separator, '.'),
+  );
   return isNegative ? -number : number;
 }
 
 function parseParens(state) {
   if (char(state) === '(') {
     next(state);
-    let expr = parseOperator(state);
+    const expr = parseOperator(state);
 
     if (char(state) !== ')') {
       fail(state, 'Unbalanced parentheses');
@@ -91,10 +94,10 @@ function makeOperatorParser(...ops) {
 }
 
 // These operators go from high to low order of precedence
-let parseOperator = makeOperatorParser('^', '/', '*', '-', '+');
+const parseOperator = makeOperatorParser('^', '/', '*', '-', '+');
 
 function parse(expression) {
-  let state = { str: expression.replace(/\s/g, ''), index: 0 };
+  const state = { str: expression.replace(/\s/g, ''), index: 0 };
   return parseOperator(state);
 }
 
@@ -103,7 +106,7 @@ function evaluate(ast) {
     return ast;
   }
 
-  let { left, right, op } = ast;
+  const { left, right, op } = ast;
 
   switch (op) {
     case '+':
@@ -121,7 +124,7 @@ function evaluate(ast) {
   }
 }
 
-export default function evalArithmetic(expression, defaultValue = null) {
+export function evalArithmetic(expression, defaultValue = null) {
   // An empty expression always evals to the default
   if (expression === '') {
     return defaultValue;

@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import type { FeatureFlag } from 'loot-core/src/types/prefs';
 
 import { useActions } from '../../hooks/useActions';
-import useFeatureFlag from '../../hooks/useFeatureFlag';
-import { theme, useTheme } from '../../style';
-import LinkButton from '../common/LinkButton';
-import Text from '../common/Text';
-import View from '../common/View';
+import { useFeatureFlag } from '../../hooks/useFeatureFlag';
+import { theme } from '../../style';
+import { LinkButton } from '../common/LinkButton';
+import { Text } from '../common/Text';
+import { View } from '../common/View';
 import { Checkbox } from '../forms';
 
 import { Setting } from './UI';
@@ -26,8 +26,8 @@ function FeatureToggle({
   error,
   children,
 }: FeatureToggleProps) {
-  let { savePrefs } = useActions();
-  let enabled = useFeatureFlag(flag);
+  const { savePrefs } = useActions();
+  const enabled = useFeatureFlag(flag);
 
   return (
     <label style={{ display: 'flex' }}>
@@ -61,9 +61,9 @@ function FeatureToggle({
 }
 
 function ReportBudgetFeature() {
-  let budgetType = useSelector(state => state.prefs.local?.budgetType);
-  let enabled = useFeatureFlag('reportBudget');
-  let blockToggleOff = budgetType === 'report' && enabled;
+  const budgetType = useSelector(state => state.prefs.local?.budgetType);
+  const enabled = useFeatureFlag('reportBudget');
+  const blockToggleOff = budgetType === 'report' && enabled;
   return (
     <FeatureToggle
       flag="reportBudget"
@@ -75,23 +75,8 @@ function ReportBudgetFeature() {
   );
 }
 
-function ThemeFeature() {
-  let theme = useTheme();
-  let enabled = useFeatureFlag('themes');
-  let blockToggleOff = theme !== 'light' && enabled;
-  return (
-    <FeatureToggle
-      flag="themes"
-      disableToggle={blockToggleOff}
-      error="Switch to the light theme before turning off this feature"
-    >
-      Dark mode
-    </FeatureToggle>
-  );
-}
-
-export default function ExperimentalFeatures() {
-  let [expanded, setExpanded] = useState(false);
+export function ExperimentalFeatures() {
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <Setting
@@ -101,18 +86,15 @@ export default function ExperimentalFeatures() {
             <FeatureToggle flag="categorySpendingReport">
               Category spending report
             </FeatureToggle>
+            <FeatureToggle flag="customReports">Custom reports</FeatureToggle>
+            <FeatureToggle flag="sankeyReport">Sankey report</FeatureToggle>
 
             <ReportBudgetFeature />
 
             <FeatureToggle flag="goalTemplatesEnabled">
               Goal templates
             </FeatureToggle>
-
-            <FeatureToggle flag="experimentalOfxParser">
-              Experimental OFX parser
-            </FeatureToggle>
-
-            <ThemeFeature />
+            <FeatureToggle flag="simpleFinSync">SimpleFIN sync</FeatureToggle>
           </View>
         ) : (
           <LinkButton

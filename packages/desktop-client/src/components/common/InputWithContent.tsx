@@ -1,19 +1,20 @@
+// @ts-strict-ignore
 import { useState, type ComponentProps, type ReactNode } from 'react';
 
 import { type CSSProperties, theme } from '../../style';
 
-import Input, { defaultInputStyle } from './Input';
-import View from './View';
+import { Input, defaultInputStyle } from './Input';
+import { View } from './View';
 
 type InputWithContentProps = ComponentProps<typeof Input> & {
-  leftContent: ReactNode;
-  rightContent: ReactNode;
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
   inputStyle?: CSSProperties;
   focusStyle?: CSSProperties;
   style?: CSSProperties;
   getStyle?: (focused: boolean) => CSSProperties;
 };
-export default function InputWithContent({
+export function InputWithContent({
   leftContent,
   rightContent,
   inputStyle,
@@ -22,7 +23,7 @@ export default function InputWithContent({
   getStyle,
   ...props
 }: InputWithContentProps) {
-  let [focused, setFocused] = useState(false);
+  const [focused, setFocused] = useState(props.focused);
 
   return (
     <View
@@ -42,6 +43,7 @@ export default function InputWithContent({
       {leftContent}
       <Input
         {...props}
+        focused={focused}
         style={{
           ...inputStyle,
           flex: 1,

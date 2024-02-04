@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import {
   Clock,
   makeClock,
@@ -40,11 +41,11 @@ handlers['/'] = () => {
 };
 
 handlers['/sync/sync'] = async (data: Uint8Array): Promise<Uint8Array> => {
-  let requestPb = SyncProtoBuf.SyncRequest.deserializeBinary(data);
-  let since = requestPb.getSince();
-  let messages = requestPb.getMessagesList();
+  const requestPb = SyncProtoBuf.SyncRequest.deserializeBinary(data);
+  const since = requestPb.getSince();
+  const messages = requestPb.getMessagesList();
 
-  let newMessages = currentMessages.filter(msg => msg.timestamp > since);
+  const newMessages = currentMessages.filter(msg => msg.timestamp > since);
 
   messages.forEach(msg => {
     if (!currentMessages.find(m => m.timestamp === msg.getTimestamp())) {
@@ -63,11 +64,11 @@ handlers['/sync/sync'] = async (data: Uint8Array): Promise<Uint8Array> => {
 
   currentClock.merkle = merkle.prune(currentClock.merkle);
 
-  let responsePb = new SyncProtoBuf.SyncResponse();
+  const responsePb = new SyncProtoBuf.SyncResponse();
   responsePb.setMerkle(JSON.stringify(currentClock.merkle));
 
   newMessages.forEach(msg => {
-    let envelopePb = new SyncProtoBuf.MessageEnvelope();
+    const envelopePb = new SyncProtoBuf.MessageEnvelope();
     envelopePb.setTimestamp(msg.timestamp);
     envelopePb.setIsencrypted(msg.is_encrypted);
     envelopePb.setContent(msg.content);
@@ -81,7 +82,7 @@ handlers['/plaid/handoff_public_token'] = () => {
   // Do nothing
 };
 
-handlers['/plaid/accounts'] = ({ client_id, group_id, item_id }) => {
+handlers['/plaid/accounts'] = () => {
   // Ignore the parameters and just return the accounts.
   return { accounts: currentMockData.accounts };
 };
@@ -106,7 +107,7 @@ handlers['/plaid/transactions'] = ({
 };
 
 export const filterMockData = func => {
-  let copied = JSON.parse(JSON.stringify(defaultMockData));
+  const copied = JSON.parse(JSON.stringify(defaultMockData));
   currentMockData = func(copied);
 };
 
@@ -122,8 +123,8 @@ export const getClock = (): Clock => {
 
 export const getMessages = (): Message[] => {
   return currentMessages.map(msg => {
-    let { timestamp, content } = msg;
-    let fields = SyncProtoBuf.Message.deserializeBinary(content);
+    const { timestamp, content } = msg;
+    const fields = SyncProtoBuf.Message.deserializeBinary(content);
 
     return {
       timestamp: Timestamp.parse(timestamp),

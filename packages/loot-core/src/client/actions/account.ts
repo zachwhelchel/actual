@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { send } from '../../platform/client/fetch';
 import * as constants from '../constants';
 import type {
@@ -75,6 +76,17 @@ export function linkAccount(requisitionId, account, upgradingId) {
   };
 }
 
+export function linkAccountSimpleFin(externalAccount, upgradingId) {
+  return async (dispatch: Dispatch) => {
+    await send('simplefin-accounts-link', {
+      externalAccount,
+      upgradingId,
+    });
+    await dispatch(getPayees());
+    await dispatch(getAccounts());
+  };
+}
+
 // TODO: type correctly or remove (unused)
 export function connectAccounts(
   institution,
@@ -83,7 +95,7 @@ export function connectAccounts(
   offbudgetIds,
 ) {
   return async (dispatch: Dispatch) => {
-    let ids = await send('accounts-connect', {
+    const ids = await send('accounts-connect', {
       institution,
       publicToken,
       accountIds,
@@ -103,7 +115,7 @@ export function connectGoCardlessAccounts(
   offbudgetIds,
 ) {
   return async (dispatch: Dispatch) => {
-    let ids = await send('gocardless-accounts-connect', {
+    const ids = await send('gocardless-accounts-connect', {
       institution,
       publicToken,
       accountIds,
@@ -122,7 +134,7 @@ export function syncAccounts(id: string) {
     }
 
     if (id) {
-      let account = getState().queries.accounts.find(a => a.id === id);
+      const account = getState().queries.accounts.find(a => a.id === id);
       dispatch(setAccountsSyncing(account.name));
     } else {
       dispatch(setAccountsSyncing('__all'));
@@ -133,7 +145,7 @@ export function syncAccounts(id: string) {
     dispatch(setAccountsSyncing(null));
 
     if (id) {
-      let error = errors.find(error => error.accountId === id);
+      const error = errors.find(error => error.accountId === id);
 
       if (error) {
         // We only want to mark the account as having problem if it
@@ -199,7 +211,7 @@ export function setLastTransaction(
 }
 
 export function parseTransactions(filepath, options) {
-  return async (dispatch: Dispatch) => {
+  return async () => {
     return await send('transactions-parse-file', {
       filepath,
       options,
@@ -209,7 +221,7 @@ export function parseTransactions(filepath, options) {
 
 export function importTransactions(id, transactions) {
   return async (dispatch: Dispatch) => {
-    let {
+    const {
       errors = [],
       added,
       updated,
@@ -248,6 +260,6 @@ export function updateNewTransactions(changedId): UpdateNewTransactionsAction {
 export function markAccountRead(accountId): MarkAccountReadAction {
   return {
     type: constants.MARK_ACCOUNT_READ,
-    accountId: accountId,
+    accountId,
   };
 }
