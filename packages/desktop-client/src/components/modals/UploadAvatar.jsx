@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 
 import { colors } from '../../style';
-import Block from '../common/Block';
-import Button from '../common/Button';
-import Modal from '../common/Modal';
-import Text from '../common/Text';
-import View from '../common/View';
-import Coach, { useCoach } from '../coach/Coach';
+import { Block } from '../common/Block';
+import { Button } from '../common/Button';
+import { Modal } from '../common/Modal';
+import { Text } from '../common/Text';
+import { View } from '../common/View';
+import { useCoach } from '../coach/Coach';
 import { BigInput } from '../common/Input';
 import { REACT_APP_UI_MODE, testableCoachList } from '../../coaches/coachVariables';
-import DownloadThickBottom from '../../icons/v2/DownloadThickBottom';
-import Remove from '../../icons/v2/Remove';
+import { SvgDownloadThickBottom, SvgRemove } from '../../icons/v2';
 import { send } from 'loot-core/src/platform/client/fetch';
-import Select from '../common/Select';
+import { Select } from '../common/Select';
 
-export default function UploadAvatar({
+export function UploadAvatar({
   modalProps,
 }) {
   let { resetCoach, setDialogueId } = useCoach();
@@ -81,14 +80,14 @@ export default function UploadAvatar({
           {usingAlready == true && (
             <Block>
               <p>
-              You are currently testing another Avatar. Ready to go back to your default experience?
+              `You are currently testing another Avatar. Ready to go back to your default experience?`
               </p>
             </Block>
           )}
           {usingAlready == true && (
             <Button type="primary" onClick={onReset} style={{ marginTop: '0px' }}>
               <>
-                <Remove
+                <SvgRemove
                   width={13}
                   height={13}
                   style={{ marginRight: 4 }}
@@ -118,7 +117,7 @@ export default function UploadAvatar({
           </Block>
           <Button type="primary" onClick={onImport} style={{ marginTop: '0px' }}>
             <>
-              <DownloadThickBottom
+              <SvgDownloadThickBottom
                 width={13}
                 height={13}
                 style={{ marginRight: 4 }}

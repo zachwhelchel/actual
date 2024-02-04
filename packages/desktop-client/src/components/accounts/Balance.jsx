@@ -122,6 +122,7 @@ function MoreBalances({ balanceQuery }) {
   );
 }
 
+
 export function Balances({
   balanceQuery,
   showExtraBalances,
@@ -130,6 +131,7 @@ export function Balances({
   commonElementsRef,
 }) {
   const selectedItems = useSelectedItems();
+
 
   return (
     <View
@@ -140,36 +142,21 @@ export function Balances({
         marginLeft: -5,
       }}
     >
-
       <div
         ref={element => {
           commonElementsRef.current['account_balance'] = element;
         }}
       >
-        <CellValue
-          binding={{ ...balanceQuery, value: 0 }}
-          type="financial"
-          style={{ fontSize: 22, fontWeight: 400 }}
-          getStyle={value => ({
-            color:
-              value < 0
-                ? theme.errorText
-                : value > 0
-                  ? theme.noticeTextLight
-                  : theme.pageTextSubdued,
-          })}
-          privacyFilter={{
-            blurIntensity: 5,
-          }}
-        />
 
-        <SvgArrowButtonRight1
+        <Button
+          data-testid="account-balance"
+          type="bare"
+          onClick={onToggleExtraBalances}
           style={{
-            width: 10,
-            height: 10,
-            marginLeft: 10,
-            color: theme.pillText,
-            transform: showExtraBalances ? 'rotateZ(180deg)' : 'rotateZ(0)',
+            '& svg': {
+              opacity: selectedItems.size > 0 || showExtraBalances ? 1 : 0,
+            },
+            '&:hover svg': { opacity: 1 },
           }}
         >
           <CellValue
@@ -181,29 +168,26 @@ export function Balances({
                 value < 0
                   ? theme.errorText
                   : value > 0
-                  ? theme.noticeText
-                  : theme.pageTextSubdued,
+                    ? theme.noticeTextLight
+                    : theme.pageTextSubdued,
             })}
             privacyFilter={{
               blurIntensity: 5,
             }}
           />
 
-          <ArrowButtonRight1
+          <SvgArrowButtonRight1
             style={{
               width: 10,
               height: 10,
               marginLeft: 10,
-              color: theme.alt2PillText,
+              color: theme.pillText,
               transform: showExtraBalances ? 'rotateZ(180deg)' : 'rotateZ(0)',
             }}
           />
         </Button>
-
       </div>
 
-
-      
       {showExtraBalances && <MoreBalances balanceQuery={balanceQuery} />}
 
       {selectedItems.size > 0 && (

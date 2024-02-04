@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 
 import { colors } from '../../style';
-import Block from '../common/Block';
-import Button from '../common/Button';
-import Modal from '../common/Modal';
-import Text from '../common/Text';
-import View from '../common/View';
-import Coach, { useCoach } from '../coach/Coach';
+import { Block } from '../common/Block';
+import { Button } from '../common/Button';
+import { Modal } from '../common/Modal';
+import { Text } from '../common/Text';
+import { View } from '../common/View';
+import { useCoach } from '../coach/Coach';
 import { BigInput } from '../common/Input';
 import { REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 
-export default function ResetAvatar({
+export function ResetAvatar({
   modalProps,
 }) {
   let { resetCoach, setDialogueId } = useCoach();

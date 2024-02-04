@@ -8,7 +8,7 @@ import * as monthUtils from 'loot-core/src/shared/months';
 import { SvgDotsHorizontalTriple } from '../../../../icons/v1';
 import { SvgArrowButtonDown1, SvgArrowButtonUp1 } from '../../../../icons/v2';
 import { theme, styles } from '../../../../style';
-import { useCoach } from '../../coach/Coach';
+import { useCoach } from '../../../coach/Coach';
 import { Button } from '../../../common/Button';
 import { Menu } from '../../../common/Menu';
 import { View } from '../../../common/View';

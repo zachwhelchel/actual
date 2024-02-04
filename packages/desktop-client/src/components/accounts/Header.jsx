@@ -311,23 +311,24 @@ export function AccountHeader({
               commonElementsRef.current['split_toggle_button'] = element;
             }}
           >
-          <Button
-            type="bare"
-            disabled={search !== '' || filters.length > 0}
-            style={{ padding: 6 }}
-            onClick={onToggleSplits}
-            title={
-              splitsExpanded.state.mode === 'collapse'
-                ? 'Collapse split transactions'
-                : 'Expand split transactions'
-            }
-          >
-            {splitsExpanded.state.mode === 'collapse' ? (
-              <SvgArrowsShrink3 style={{ width: 14, height: 14 }} />
-            ) : (
-              <SvgArrowsExpand3 style={{ width: 14, height: 14 }} />
-            )}
-          </Button>
+            <Button
+              type="bare"
+              disabled={search !== '' || filters.length > 0}
+              style={{ padding: 6 }}
+              onClick={onToggleSplits}
+              title={
+                splitsExpanded.state.mode === 'collapse'
+                  ? 'Collapse split transactions'
+                  : 'Expand split transactions'
+              }
+            >
+              {splitsExpanded.state.mode === 'collapse' ? (
+                <SvgArrowsShrink3 style={{ width: 14, height: 14 }} />
+              ) : (
+                <SvgArrowsExpand3 style={{ width: 14, height: 14 }} />
+              )}
+            </Button>
+          </div>
           {account ? (
             <View>
               <div

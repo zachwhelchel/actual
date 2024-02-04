@@ -3,12 +3,8 @@ import React, { useState, useMemo } from 'react';
 
 import { type AccountEntity } from 'loot-core/src/types/models';
 
-import { SvgAdd } from '../../icons/v1';
+import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt } from '../../icons/v1';
 import { View } from '../common/View';
-import { Phone } from '../../icons/v1/Education';
-import { Badge } from '../../icons/v1/UserSolidCircle';
-import { Reload } from '../../icons/v1/Reload';
-import { Bolt } from '../../icons/v1/Bolt';
 import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
 
@@ -229,7 +225,7 @@ export function Accounts({
               marginBottom: 9,
             }}
             onClick={onScheduleZoom}
-            Icon={Phone}
+            Icon={SvgEducation}
             title={coachFirstNameZoom}
           />
         </div>
@@ -242,7 +238,7 @@ export function Accounts({
             marginBottom: 9,
           }}
           onClick={onResetAvatar}
-          Icon={Reload}
+          Icon={SvgReload}
           title={coachFirstNameReset}
         />
       )}
@@ -254,7 +250,7 @@ export function Accounts({
             marginBottom: 9,
           }}
           onClick={onFreeTrial}
-          Icon={Badge}
+          Icon={SvgBadge}
           title="Free Trial"
         />
       )}
@@ -266,7 +262,7 @@ export function Accounts({
             marginBottom: 9,
           }}
           onClick={onManageSubscription}
-          Icon={Badge}
+          Icon={SvgBadge}
           title="Manage Subscription"
         />
       )}
@@ -278,7 +274,7 @@ export function Accounts({
             marginBottom: 9,
           }}
           onClick={onUploadAvatar}
-          Icon={Bolt}
+          Icon={SvgBolt}
           title='Manage Avatar'
         />
       )}

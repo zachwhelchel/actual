@@ -1,26 +1,22 @@
 import React, { useState } from 'react';
 
 import { colors } from '../../style';
-import Block from '../common/Block';
-import Button from '../common/Button';
-import Modal from '../common/Modal';
-import Text from '../common/Text';
-import View from '../common/View';
+import { Block } from '../common/Block';
+import { Button } from '../common/Button';
+import { Modal } from '../common/Modal';
+import { Text } from '../common/Text';
+import { View } from '../common/View';
 import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME } from '../../coaches/coachVariables';
 
-export default function FreeTrial({
+export function ScheduleZoom({
   modalProps,
 }) {
-
-
-/////////
-
   return (
-    <Modal title="Free Trial" {...modalProps} style={{ flex: 0 }}>
+    <Modal title="Schedule Zoom" {...modalProps} style={{ flex: 0 }}>
       {() => (
         <View style={{ lineHeight: 1.5 }}>
           <Block>
-            You are currently using a 35-day free trial of the MyBudgetCoach app. Your trial expires on {REACT_APP_TRIAL_END_DATE}. To upgrade your plan please contact support.
+            You can schedule a Zoom call with your coach at any time ({REACT_APP_ZOOM_RATE}). You will be billed seperately. Click the button below to schedule a time that works for you.
           </Block>
 
           <View
@@ -43,11 +39,11 @@ export default function FreeTrial({
               <Button
                 type="primary"
                 onClick={() => {
-                  window.location.href = "mailto:admin@mybudgetcoach.app";
+                  window.open(REACT_APP_ZOOM_LINK, "_blank");
                   modalProps.onClose();
                 }}
               >
-                Contact Support
+                Schedule a Zoom Call
               </Button>
             </View>
           </View>
