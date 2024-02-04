@@ -310,6 +310,7 @@ function BudgetInner(props: BudgetProps) {
         category.name,
         category.cat_group,
         category.is_income,
+        category.hidden,
         atEnd,
       );
       category.id = id;

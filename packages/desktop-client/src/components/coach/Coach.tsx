@@ -834,6 +834,7 @@ export default function Coach({
                     cat_group: existingGroup.id,
                     is_income: false,
                     id: 'new',
+                    hidden: false,
                   };
                   catsToMake.push(category);
 
@@ -847,6 +848,7 @@ export default function Coach({
                   cat_group: idOfCatGroupJustMade,
                   is_income: false,
                   id: 'new',
+                  hidden: false,
                 };
                 catsToMake.push(category);
 
