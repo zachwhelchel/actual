@@ -211,6 +211,72 @@ else if (url.includes("bobbiolson")) {
   REACT_APP_USER_FIRST_NAME = "Bobbi"
   REACT_APP_UI_MODE = "coach"
 }
+else if (url.includes("adriennetaylor")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Adrienne"
+  REACT_APP_UI_MODE = "coach"
+}
+else if (url.includes("chelsehounshell")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Chelse"
+  REACT_APP_UI_MODE = "coach"
+}
+else if (url.includes("tashiekamaat")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Tashieka"
+  REACT_APP_UI_MODE = "coach"
+}
+else if (url.includes("naseemamcelroy")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Naseema"
+  REACT_APP_UI_MODE = "coach"
+}
+else if (url.includes("anitadombovari")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Anita"
+  REACT_APP_UI_MODE = "coach"
+}
+else if (url.includes("mikamarcondesdefreitas")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Mika"
+  REACT_APP_UI_MODE = "coach"
+}
+else if (url.includes("katsklar")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Kat"
+  REACT_APP_UI_MODE = "coach"
+}
+else if (url.includes("trevorvance")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Trevor"
+  REACT_APP_UI_MODE = "coach"
+}
+else if (url.includes("stacymastrolia")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Stacy"
+  REACT_APP_UI_MODE = "coach"
+}
+else if (url.includes("dariomartinez")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Dario"
+  REACT_APP_UI_MODE = "coach"
+}
+else if (url.includes("danielaaron")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Daniel"
+  REACT_APP_UI_MODE = "coach"
+}
 else if (url.includes("localhost")) {
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
