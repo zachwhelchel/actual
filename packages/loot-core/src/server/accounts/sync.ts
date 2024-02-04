@@ -872,7 +872,7 @@ export async function syncExternalAccount(userId, userKey, id, acctId, bankId) {
     });
   } else {
     // Otherwise, download transaction for the past 90 days
-    const startingDay = monthUtils.subDays(monthUtils.currentDay(), 90);
+    const startingDay = monthUtils.subDays(monthUtils.currentDay(), 3);
 
     let download;
 

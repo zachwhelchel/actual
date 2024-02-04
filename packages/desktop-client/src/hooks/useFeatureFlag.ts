@@ -9,7 +9,7 @@ const DEFAULT_FEATURE_FLAG_STATE: Record<FeatureFlag, boolean> = {
   reportBudget: false,
   goalTemplatesEnabled: false,
   customReports: false,
-  simpleFinSync: false,
+  simpleFinSync: true,
 };
 
 export function useFeatureFlag(name: FeatureFlag): boolean {
