@@ -265,7 +265,7 @@ type FinancesAppProps = {
 };
 
 export function FinancesApp({budgetId, someDialogues, initialDialogueId }: FinancesAppProps) {
-  const app = useMemo(() => <FinancesAppWithoutContext budgetId={budgetId} allDialogues={someDialogues} initialDialogueId={initialDialogueId} />, []);
+  const app = useMemo(() => <FinancesAppWithoutContext budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId} />, []);
 
   console.log("childcare:");
   console.log("childcare:" + budgetId);
@@ -273,7 +273,7 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId }: Finan
   console.log("childcare:" + initialDialogueId);
 
   return (
-    <CoachProvider budgetId={budgetId} allDialogues={someDialogues} initialDialogueId={initialDialogueId}>
+    <CoachProvider budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId}>
     <SpreadsheetProvider>
       <TitlebarProvider>
         <SidebarProvider>

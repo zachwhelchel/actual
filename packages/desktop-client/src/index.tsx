@@ -92,6 +92,14 @@ window.$q = q;
 let coachSrc = "/avatars/" + REACT_APP_COACH + ".drawio.xml";
 
 //coachSrc = "https://firebasestorage.googleapis.com/v0/b/mybudgetcoach-3c977.appspot.com/o/%20KristinWade.drawio-24.xml?alt=media&token=c20c8ead-89b9-4c1c-8a32-b59ced6f7f87"
+
+type Conversation = {
+  id: string;
+  title: string;
+  dialogues: Map;
+  firstDialogueId: string;
+};
+
 type Dialogue = {
   id: string;
   text: string;
@@ -120,7 +128,8 @@ type Condition = {
   test: string;
 };
 
-let someDialogues = new Map();
+//let someDialogues = new Map();
+let someConversations = new Map();
 let initialDialogueId = undefined;
 
 let file = localStorage.getItem("uploaded_draw_io_file");
@@ -155,10 +164,79 @@ await fetch(coachSrc)
   console.log("good on xml?");
   //console.log(data.getElementsByTagName("mxCell")[3].getAttribute("value"));
 
-  console.log(data);
+  //ok, how do I split these up based on tabs?
 
 
-  let items = data.getElementsByTagName("mxCell");
+  let diagrams = data.getElementsByTagName("diagram");
+
+
+  if (diagrams.length === 1) {
+
+
+    let items = data.getElementsByTagName("mxCell");
+    let [dialogues, firstDialogueId] = dialoguesForConversation(items);
+
+    const id = data.getAttribute("id");
+    const name = data.getAttribute("name");
+
+    const conversation: Conversation = {
+      id: id,
+      title: "Tutorial",
+      dialogues: dialogues,
+      firstDialogueId: firstDialogueId,
+    };
+    someConversations.set(conversation.id, conversation);
+
+  } else {
+
+    for (let i = 0; i < diagrams.length; i++) {
+      const diagram = diagrams[i];
+
+      const id = diagram.getAttribute("id");
+      const name = diagram.getAttribute("name");
+
+      let items = diagram.getElementsByTagName("mxCell");
+      let [dialogues, firstDialogueId] = dialoguesForConversation(items);
+
+      const conversation: Conversation = {
+        id: id,
+        title: name,
+        dialogues: dialogues,
+        firstDialogueId: firstDialogueId,
+      };
+      someConversations.set(conversation.id, conversation);
+
+      console.log("ousters sss " + conversation);
+    }
+
+  }
+
+  //console.log(data);
+
+  //someDialogues = dialoguesForConversation(data);
+  
+
+})
+.catch((err) => {
+  console.log("err on xml?");
+  console.log(err);
+});
+
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
+  <Provider store={store}>
+    <ServerProvider>
+      <App someDialogues={someConversations} initialDialogueId={initialDialogueId}/>
+    </ServerProvider>
+  </Provider>,
+);
+
+
+function dialoguesForConversation(items) : [Map, string] {
+
+let someDialogues = new Map();
+
 
   let firstId = undefined;
   let firstIdXYTotal = 100000000;
@@ -709,18 +787,8 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
   //setAllDialogues(someDialogues);
   initialDialogueId = firstId;
 
-})
-.catch((err) => {
-  console.log("err on xml?");
-  console.log(err);
-});
+  //return someDialogues;
 
-const container = document.getElementById('root');
-const root = createRoot(container);
-root.render(
-  <Provider store={store}>
-    <ServerProvider>
-      <App someDialogues={someDialogues} initialDialogueId={initialDialogueId}/>
-    </ServerProvider>
-  </Provider>,
-);
+    return [someDialogues, initialDialogueId];
+
+}

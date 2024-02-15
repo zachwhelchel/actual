@@ -5,8 +5,11 @@ import { type AccountEntity } from 'loot-core/src/types/models';
 
 import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt } from '../../icons/v1';
 import { View } from '../common/View';
+import { Card } from '../common/Card';
 import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
+import { theme } from '../../style';
+import { Button } from '../common/Button';
 
 import { Account } from './Account';
 import { SecondaryItem } from './SecondaryItem';
@@ -101,10 +104,11 @@ export function Accounts({
     return null;
   };
 
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  let { commonElementsRef, conversationDeck, openConversation, setOpenConversation } = useCoach(); // this is causing the errors.
 
   let coachFirstNameZoom = "Zoom with " + REACT_APP_COACH_FIRST_NAME;
   let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
+  let imgSrc = "/coach-icon-" + REACT_APP_COACH + "-200x200.png";
 
   return (
     <View>
@@ -210,38 +214,185 @@ export function Accounts({
         />
       </div>
 
-      {REACT_APP_COACH != undefined && (
-        <div
+
+      <View
+        style={{
+          height: 1,
+          backgroundColor: theme.sidebarItemBackgroundHover,
+          marginTop: 6,
+          flexShrink: 0,
+        }}
+      />
+
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          width: '100%',
+          marginTop: 16,
+        }}
+      >
+
+        {openConversation == null && (
+          <img
+            style={{
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              width: '70px',
+              height: '70px',
+              borderRadius: '50px',
+            }}
+            src={imgSrc}
+            alt="coach"
+          />
+        )}
+        {openConversation != null && (
+          <img
+            style={{
+              opacity: .1,
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              width: '70px',
+              height: '70px',
+              borderRadius: '50px',
+            }}
+            src={imgSrc}
+            alt="coach"
+          />
+        )}
+
+      </div>
+
+      <View
+        style={{
+          marginLeft: '16',
+          marginRight: '16',
+          marginTop: '8',
+          textAlign: 'center',
+        }}
+      >
+        <h3
           style={{
-            marginTop: 50,
-          }}
-          ref={element => {
-            commonElementsRef.current['zoom_link'] = element;
+            marginBottom: '0',
+            paddingBottom: '0',
           }}
         >
-          <SecondaryItem
-            style={{
-              marginTop: 15,
-              marginBottom: 9,
-            }}
-            onClick={onScheduleZoom}
-            Icon={SvgEducation}
-            title={coachFirstNameZoom}
-          />
-        </div>
-      )}
+          My Coach: Zach
+        </h3>
+      </View>
 
-      {REACT_APP_COACH != undefined && (
-        <SecondaryItem
-          style={{
-            marginTop: 15,
-            marginBottom: 9,
-          }}
-          onClick={onResetAvatar}
-          Icon={SvgReload}
-          title={coachFirstNameReset}
-        />
-      )}
+
+      <div
+        style={{
+          marginTop: 11,
+          marginLeft: 11,
+          marginRight: 11,
+        }}
+      >
+        {conversationDeck.map((conversation) => (
+
+          <>
+            {conversation.id === openConversation && (
+              <Card
+                style={{
+                  opacity: .1,
+                  marginTop: 15,
+                  marginBottom: 7,
+                  paddingLeft: 10,
+                  paddingTop: 8,
+                  paddingRight: 10,
+                  paddingBottom: 8,
+                  color: theme.pageText,
+                }}
+              >
+                <Button
+                  type="normal"
+                  onClick={() => setOpenConversation(null)}
+                >
+                  {conversation.title}
+                </Button>
+              </Card>
+            )}
+            {conversation.id !== openConversation && (
+              <Card
+                style={{
+                  opacity: 1.0,
+                  marginTop: 15,
+                  marginBottom: 7,
+                  paddingLeft: 10,
+                  paddingTop: 8,
+                  paddingRight: 10,
+                  paddingBottom: 8,
+                  color: theme.pageText,
+                }}
+              >
+                <Button
+                  type="normal"
+                  onClick={() => setOpenConversation(conversation.id)}
+                >
+                  {conversation.title}
+                </Button>
+              </Card>
+            )}
+
+          </>
+        ))}
+      </div>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginLeft: '16',
+          marginRight: '16',
+          paddingTop: '16',
+        }}
+      >
+        {REACT_APP_COACH != undefined && (
+          <Button
+            type="primary"
+            onClick={() => onResetAvatar()}
+          >
+            Reset
+          </Button>
+        )}
+
+        {REACT_APP_UI_MODE === "coach" && (
+          <Button
+            type="primary"
+            onClick={() => onUploadAvatar()}
+          >
+            Manage
+          </Button>
+        )}
+
+
+        {REACT_APP_COACH != undefined && (
+          <div
+            ref={element => {
+              commonElementsRef.current['zoom_link'] = element;
+            }}
+          >
+            <Button
+              type="primary"
+              onClick={() => onScheduleZoom()}
+            >
+              Zoom
+            </Button>
+          </div>
+        )}
+      </View>
+
+      <View
+        style={{
+          height: 1,
+          backgroundColor: theme.sidebarItemBackgroundHover,
+          marginTop: 26,
+          flexShrink: 0,
+        }}
+      />
 
       {REACT_APP_BILLING_STATUS === "free_trial" && (
         <SecondaryItem
@@ -264,18 +415,6 @@ export function Accounts({
           onClick={onManageSubscription}
           Icon={SvgBadge}
           title="Manage Subscription"
-        />
-      )}
-
-      {REACT_APP_UI_MODE === "coach" && (
-        <SecondaryItem
-          style={{
-            marginTop: 15 + 50,
-            marginBottom: 9,
-          }}
-          onClick={onUploadAvatar}
-          Icon={SvgBolt}
-          title='Manage Avatar'
         />
       )}
 

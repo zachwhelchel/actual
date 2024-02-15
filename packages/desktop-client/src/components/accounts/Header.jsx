@@ -2,12 +2,13 @@ import React, { useState, useRef } from 'react';
 
 import { useSyncServerStatus } from '../../hooks/useSyncServerStatus';
 import { AnimatedLoading } from '../../icons/AnimatedLoading';
-import { SvgAdd } from '../../icons/v1';
+import { SvgAdd, SvgQuestion } from '../../icons/v1';
 import {
   SvgArrowsExpand3,
   SvgArrowsShrink3,
   SvgDownloadThickBottom,
   SvgPencil1,
+  SvgInformationCircle,
 } from '../../icons/v2';
 import { theme, styles } from '../../style';
 import { AnimatedRefresh } from '../AnimatedRefresh';
@@ -218,6 +219,14 @@ export function AccountHeader({
           align="center"
           style={{ marginTop: 12 }}
         >
+          <Button
+            type="bare"
+            style={{ padding: 6 }}
+            onClick={onToggleSplits}
+            title={'Help'}
+          >
+            <SvgQuestion style={{ width: 14, height: 14 }} />
+          </Button>
           {((account && !account.closed) || canSync) && (
             <div
               ref={element => {
