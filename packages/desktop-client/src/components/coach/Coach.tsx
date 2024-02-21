@@ -7,9 +7,11 @@ import { Card } from '../common/Card';
 import { View } from '../common/View';
 import { BigInput } from '../common/Input';
 import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME } from '../../coaches/coachVariables';
+import { SvgClose } from '../../icons/v1';
 
 let CoachContext = createContext();
 
+//initialDialogueId can be removed....
 export function CoachProvider({ budgetId, allConversations, initialDialogueId, children }) {
   let [top, setTop] = useState(window.innerHeight - 20);
   let [left, setLeft] = useState(window.innerWidth - 20 - 240);
@@ -19,66 +21,118 @@ export function CoachProvider({ budgetId, allConversations, initialDialogueId, c
   let commonElementsRef = useRef([]);
 
 
-  let dialogueId_key = "dialogueId_" + budgetId
-
-  let storedId = localStorage.getItem(dialogueId_key);
-  if (storedId === undefined || storedId === null) {
-    storedId = initialDialogueId;
-  }
-
-  let [dialogueId, setDialogueId] = useState(storedId);
-
   let [dialogueStack, setDialogueStack] = useState([]);
   let [topStack, setTopStack] = useState([]);
   let [leftStack, setLeftStack] = useState([]);
   let [offsetStack, setOffsetStack] = useState([]);
 
 
+
+    let conversationDeck_key = "conversationDeck_" + budgetId;
+
+
   let dss = new Map();
 
   let cd = [];
 
-  let firstConvo = null;
 
     console.log("ousters kanye" + Array(allConversations).length);
 
+
+
+  // if we have some history on the conversation deck we need to use that too...
+
+
+    let simpleConversationDeck = [];
+
+    try {
+      simpleConversationDeck = JSON.parse(localStorage.getItem(conversationDeck_key));
+    } catch (error) {
+      console.error(error);
+    }
+
+    if (simpleConversationDeck == null && allConversations != null) {
+      let first = null;
+      allConversations.forEach((value, key) => {
+        if (first == null) {
+          first = key;
+          simpleConversationDeck = [first];
+        }
+      });
+    }
+
+    if (simpleConversationDeck == null) {
+      simpleConversationDeck = [];
+    }
+
+    console.log("daysinsun" + simpleConversationDeck);
+
+
+    let firstConvo = null;
+
+if (allConversations != null) {
+    simpleConversationDeck.forEach((convoId) => {
+      let title = null;
+
+      allConversations.forEach((value, key) => {
+        if (key == convoId) {
+          title = value.title;
+        }
+      });
+      if (title != null) {
+
+        if (firstConvo == null) {
+          firstConvo = convoId;
+        }
+
+        cd.push({id: convoId, title: title});
+      }
+    });
+
+}
+
+
+
+
+
+  // so pull the deck parts out from below.
+
+  // but a reset can do that.
 
   allConversations.forEach((value, key) => {
     console.log("ousters kanye" + key + value);
 
     const conversation = value;
 
-    if (firstConvo == null) {
-      firstConvo = conversation.id;
+    let dialogueStack_key = "dialogueStack_" + budgetId + "_" + conversation.id;
+
+    let ds = null;
+
+    try {
+        ds = JSON.parse(localStorage.getItem(dialogueStack_key));
+        console.log("well what did we get?" + ds);
+                  console.log("well what did we get?" + ds[0]);
+    } catch (error) {
+      console.error(error);
     }
 
-    let dialogueStack_key = "dialogueStack_" + budgetId + "_" + conversation.id;
-    let ds = localStorage.getItem(dialogueStack_key);
     if (ds == null) {
-              console.log("ousters consol" + conversation.firstDialogueId);
-
-
       ds = [conversation.firstDialogueId];
     }
 
-              console.log("ousters blessme" + conversation.id);
-              console.log("ousters blessme" + ds[0]);
+    console.log("ousters blessme" + conversation.id);
+    console.log("ousters blessme" + ds[0]);
 
     dss[conversation.id] = ds;
 
-    cd.push({id: key, title: conversation.title});
+    //cd.push({id: key, title: conversation.title});
   });
 
 
-
   let [dialogueStacks, setDialogueStacks] = useState(dss);
-              console.log("ousters nnnn" + dialogueStacks["tutorial"]);
-
-
   let [conversationDeck, setConversationDeck] = useState(cd);
-
-
   let [openConversation, setOpenConversation] = useState(firstConvo);
+
 
 
   let coachState_key = "coachState_" + REACT_APP_COACH + "_" + budgetId
@@ -89,14 +143,111 @@ export function CoachProvider({ budgetId, allConversations, initialDialogueId, c
 
   const resetCoach = () => {
     console.log('reseeeeeeet');
-    localStorage.removeItem(dialogueId_key);
+
+    localStorage.removeItem(conversationDeck_key);
+
+    allConversations.forEach((value, key) => {
+      const conversation = value;
+      let dialogueStack_key = "dialogueStack_" + budgetId + "_" + conversation.id;
+      localStorage.removeItem(dialogueStack_key);
+    });
+
     localStorage.removeItem(coachState_key);
   };
 
+  const triggerFired = (id) => {
+
+    let conversationId = null;
+    let conversationTitle = null;
+
+    allConversations.forEach((value, key) => {
+      const conversation = value;
+      conversation.triggerType;
+      if (conversation.triggerType === id) {
+        conversationId = conversation.id;
+        conversationTitle = conversation.title;
+      }
+    });
+
+    if (conversationId != null && conversationTitle != null) {
+
+      let add = true;
+      conversationDeck.forEach((convo) => {
+        if (convo.id === conversationId) {
+          add = false;
+        }
+      });
+
+      if (add) {
+        setConversationDeck([{id: conversationId, title: conversationTitle}, ...conversationDeck]);
+      }
+      setOpenConversation(conversationId);
+    }
+  };
+
+  const jumpToId = (id) => {
+
+    console.log("jump to id");
+    let conversationId = null;
+    let conversationTitle = null;
+
+
+    allConversations.forEach((value, key) => {
+      const conversation = value;
+
+      let foundDialogue = conversation.dialogues.get(id);
+
+      if (foundDialogue != null) {
+        conversationId = conversation.id;
+        conversationTitle = conversation.title;
+      }
+    });
+
+    if (conversationId != null && conversationTitle != null) {
+      let add = true;
+      conversationDeck.forEach((convo) => {
+        if (convo.id === conversationId) {
+          add = false;
+        }
+      });
+
+      if (add) {
+        setConversationDeck([{id: conversationId, title: conversationTitle}, ...conversationDeck]);
+      }
+      setOpenConversation(conversationId);
+
+      let newDialogueStacks = new Map();
+      for (const key in dialogueStacks) {
+        const value = dialogueStacks[key];
+        if (key === conversationId) {
+          newDialogueStacks[key] = [id];
+        } else {
+          newDialogueStacks[key] = value;
+        }
+      }
+      setDialogueStacks(newDialogueStacks);
+
+    }
+  };
 
   useEffect(() => {
-    localStorage.setItem(dialogueId_key, dialogueId);
-  }, [dialogueId]);
+    for (const key in dialogueStacks) {
+      const value = dialogueStacks[key];
+      let dialogueStack_key = "dialogueStack_" + budgetId + "_" + key;
+      console.log("and I saving thissss? " + dialogueStack_key);
+      localStorage.setItem(dialogueStack_key, JSON.stringify(value));
+    };
+  }, [dialogueStacks]);
+
+
+  useEffect(() => {
+    let simpleConversationDeck = [];
+    conversationDeck.forEach((convo) => {
+      simpleConversationDeck.push(convo.id);
+    });
+    localStorage.setItem(conversationDeck_key, JSON.stringify(simpleConversationDeck));
+  }, [conversationDeck]);
+
 
   useEffect(() => {
     localStorage.setItem(coachState_key, JSON.stringify(coachState));
@@ -116,8 +267,6 @@ export function CoachProvider({ budgetId, allConversations, initialDialogueId, c
         setLeft,
         offset,
         setOffset,
-        dialogueId,
-        setDialogueId,
         dialogueStacks,
         setDialogueStacks,
         openConversation,
@@ -136,6 +285,9 @@ export function CoachProvider({ budgetId, allConversations, initialDialogueId, c
         offsetStack, 
         setOffsetStack,
         conversationDeck,
+        setConversationDeck,
+        triggerFired,
+        jumpToId,
       }}
     >
       {children}
@@ -164,8 +316,6 @@ export default function Coach({
     setLeft,
     offset,
     setOffset,
-    dialogueId,
-    setDialogueId,
     dialogueStacks,
     setDialogueStacks,
     openConversation,
@@ -177,13 +327,16 @@ export default function Coach({
     setCoachState,
     dialogueStack,
     setDialogueStack,
-    topStack, 
+    topStack,
     setTopStack,
     leftStack,
     setLeftStack,
     offsetStack, 
     setOffsetStack,
     conversationDeck,
+    setConversationDeck,
+    triggerFired,
+    jumpToId,
   } = useCoach();
 
 
@@ -315,7 +468,30 @@ export default function Coach({
         }
       }
     } else {
-      setDialogueId(null);
+      //no more dialogue with the current open conversation... welp... we need to set it back to the start and remove it from the active conversations.
+
+      let newDialogueStacks = new Map();
+      for (const key in dialogueStacks) {
+        const value = dialogueStacks[key];
+        if (key === openConversation) {
+          newDialogueStacks[key] = [value[0]];
+        } else {
+          newDialogueStacks[key] = value;
+        }
+      }
+
+      let newConversationDeck = [];
+      conversationDeck.forEach((convo) => {
+        if (convo.id === openConversation) {
+          
+        } else {
+          newConversationDeck.push(convo);
+        }
+      });
+
+      setDialogueStacks(newDialogueStacks);
+      setConversationDeck(newConversationDeck);
+      setOpenConversation(null);
     }
 
   }
@@ -1509,7 +1685,6 @@ export default function Coach({
 
    //allDialogues.get(dialogueStack[dialogueStack.length-1]);
 
-  console.log("the oneeee:" + dialogueId);
   console.log(dialogue);
   if (dialogue != null) {
 
@@ -1930,15 +2105,34 @@ export default function Coach({
               position: 'relative',
             }}
           >
-            <img
+            <div
               style={{
+                position: 'relative',
                 width: '100px',
                 height: '100px',
-                borderRadius: '50px',
               }}
-              src={imgSrc}
-              alt="coach"
-            />
+            >
+
+              <img
+                style={{
+                  width: '100px',
+                  height: '100px',
+                  borderRadius: '50px',
+                }}
+                src={imgSrc}
+                alt="coach"
+              />
+              <Button
+                type="bare"
+                style={{ marginTop: -105, marginLeft: -5, opacity: .5 }}
+                onClick={() => setOpenConversation(null)}
+              >
+                <SvgClose width={10} height={10} />
+              </Button>
+
+            </div>
+            
+
             <Card
               style={{
                 marginTop: 7,

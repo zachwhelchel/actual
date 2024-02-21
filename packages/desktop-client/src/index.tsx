@@ -98,6 +98,7 @@ type Conversation = {
   title: string;
   dialogues: Map;
   firstDialogueId: string;
+  triggerType: string;
 };
 
 type Dialogue = {
@@ -172,20 +173,28 @@ await fetch(coachSrc)
 
   if (diagrams.length === 1) {
 
+    console.log("Um... hello");
 
-    let items = data.getElementsByTagName("mxCell");
-    let [dialogues, firstDialogueId] = dialoguesForConversation(items);
+    let items = diagrams[0].getElementsByTagName("mxCell");
+    let [dialogues, firstDialogueId, triggerType] = dialoguesForConversation(items);
 
-    const id = data.getAttribute("id");
-    const name = data.getAttribute("name");
+    console.log("Um... hello");
+
+    const id = diagrams[0].getAttribute("id");
+    const name = diagrams[0].getAttribute("name");
+
+    console.log("Um... hello");
 
     const conversation: Conversation = {
       id: id,
-      title: "Tutorial",
+      title: "Introduction",
       dialogues: dialogues,
       firstDialogueId: firstDialogueId,
+      triggerType: triggerType,
     };
     someConversations.set(conversation.id, conversation);
+
+    console.log("Um... hello" + conversation.id);
 
   } else {
 
@@ -196,13 +205,14 @@ await fetch(coachSrc)
       const name = diagram.getAttribute("name");
 
       let items = diagram.getElementsByTagName("mxCell");
-      let [dialogues, firstDialogueId] = dialoguesForConversation(items);
+      let [dialogues, firstDialogueId, triggerType] = dialoguesForConversation(items);
 
       const conversation: Conversation = {
         id: id,
         title: name,
         dialogues: dialogues,
         firstDialogueId: firstDialogueId,
+        triggerType: triggerType,
       };
       someConversations.set(conversation.id, conversation);
 
@@ -233,9 +243,12 @@ root.render(
 );
 
 
-function dialoguesForConversation(items) : [Map, string] {
+function dialoguesForConversation(items) : [Map, string, string] {
 
 let someDialogues = new Map();
+
+
+  let triggerType = null;
 
 
   let firstId = undefined;
@@ -364,6 +377,14 @@ let someDialogues = new Map();
 
         console.log(value);
       }
+      else if (style.startsWith('shape=step;perimeter=stepPerimeter;')) {
+
+        let xxx = child.getAttribute("value");
+        console.log('thetriggerthing' + xxx);
+        triggerType = xxx;
+
+      }
+
       else if (style.startsWith('rounded=1')) {
 
 
@@ -789,6 +810,6 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
 
   //return someDialogues;
 
-    return [someDialogues, initialDialogueId];
+    return [someDialogues, initialDialogueId, triggerType];
 
 }

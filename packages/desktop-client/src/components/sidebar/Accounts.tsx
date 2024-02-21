@@ -109,6 +109,7 @@ export function Accounts({
   let coachFirstNameZoom = "Zoom with " + REACT_APP_COACH_FIRST_NAME;
   let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
   let imgSrc = "/coach-icon-" + REACT_APP_COACH + "-200x200.png";
+  let myCoach = "My Coach: " + REACT_APP_COACH_FIRST_NAME;
 
   return (
     <View>
@@ -233,7 +234,7 @@ export function Accounts({
         }}
       >
 
-        {openConversation == null && (
+        {openConversation == null && REACT_APP_COACH_FIRST_NAME != null && (
           <img
             style={{
               display: 'block',
@@ -247,10 +248,10 @@ export function Accounts({
             alt="coach"
           />
         )}
-        {openConversation != null && (
+        {openConversation != null && REACT_APP_COACH_FIRST_NAME != null && (
           <img
             style={{
-              opacity: .1,
+              opacity: .4,
               display: 'block',
               marginLeft: 'auto',
               marginRight: 'auto',
@@ -269,18 +270,31 @@ export function Accounts({
         style={{
           marginLeft: '16',
           marginRight: '16',
-          marginTop: '8',
+          marginTop: '-5',
           textAlign: 'center',
         }}
       >
-        <h3
-          style={{
-            marginBottom: '0',
-            paddingBottom: '0',
-          }}
-        >
-          My Coach: Zach
-        </h3>
+        {openConversation == null && REACT_APP_COACH_FIRST_NAME != null && (
+          <h4
+            style={{
+              marginBottom: '0',
+              paddingBottom: '0',
+            }}
+          >
+            {myCoach}
+          </h4>
+        )}
+        {openConversation != null && REACT_APP_COACH_FIRST_NAME != null && (
+          <h4
+            style={{
+              opacity: .4,
+              marginBottom: '0',
+              paddingBottom: '0',
+            }}
+          >
+            {myCoach}
+          </h4>
+        )}
       </View>
 
 
@@ -297,7 +311,7 @@ export function Accounts({
             {conversation.id === openConversation && (
               <Card
                 style={{
-                  opacity: .1,
+                  opacity: .4,
                   marginTop: 15,
                   marginBottom: 7,
                   paddingLeft: 10,
@@ -306,13 +320,22 @@ export function Accounts({
                   paddingBottom: 8,
                   color: theme.pageText,
                 }}
+                onClick={() => setOpenConversation(null)}
               >
-                <Button
-                  type="normal"
-                  onClick={() => setOpenConversation(null)}
-                >
-                  {conversation.title}
-                </Button>
+                <h4 style={{
+                  marginTop: 0,
+                  marginBottom: 0,
+                  paddingTop: 0,
+                  paddingBottom: 0,
+                  color: theme.pageText,
+                }}>{conversation.title}</h4>
+                <p style={{
+                  marginTop: 0,
+                  marginBottom: 0,
+                  paddingTop: 0,
+                  paddingBottom: 0,
+                  color: theme.pageText,
+                }}>In progress...</p>
               </Card>
             )}
             {conversation.id !== openConversation && (
@@ -327,13 +350,22 @@ export function Accounts({
                   paddingBottom: 8,
                   color: theme.pageText,
                 }}
+                onClick={() => setOpenConversation(conversation.id)}
               >
-                <Button
-                  type="normal"
-                  onClick={() => setOpenConversation(conversation.id)}
-                >
-                  {conversation.title}
-                </Button>
+                <h4 style={{
+                  marginTop: 0,
+                  marginBottom: 0,
+                  paddingTop: 0,
+                  paddingBottom: 0,
+                  color: theme.pageText,
+                }}>{conversation.title}</h4>
+                <p style={{
+                  marginTop: 0,
+                  marginBottom: 0,
+                  paddingTop: 0,
+                  paddingBottom: 0,
+                  color: theme.pageText,
+                }}>Continue conversation...</p>
               </Card>
             )}
 
@@ -343,31 +375,11 @@ export function Accounts({
 
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
           marginLeft: '16',
           marginRight: '16',
-          paddingTop: '16',
+          paddingTop: '20',
         }}
       >
-        {REACT_APP_COACH != undefined && (
-          <Button
-            type="primary"
-            onClick={() => onResetAvatar()}
-          >
-            Reset
-          </Button>
-        )}
-
-        {REACT_APP_UI_MODE === "coach" && (
-          <Button
-            type="primary"
-            onClick={() => onUploadAvatar()}
-          >
-            Manage
-          </Button>
-        )}
-
 
         {REACT_APP_COACH != undefined && (
           <div
@@ -378,11 +390,27 @@ export function Accounts({
             <Button
               type="primary"
               onClick={() => onScheduleZoom()}
+              style={{
+                flex: 1,
+                display: 'flex',
+                width: '100%',
+              }}
             >
-              Zoom
+              Schedule Zoom
             </Button>
           </div>
         )}
+
+          <Button
+            type="primary"
+            onClick={() => onUploadAvatar()}
+            style={{
+              marginTop: '10',
+            }}
+          >
+            Manage Coach
+          </Button>
+
       </View>
 
       <View
