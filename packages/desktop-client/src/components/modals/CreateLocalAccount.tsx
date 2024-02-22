@@ -17,6 +17,7 @@ import { Modal, ModalButtons } from '../common/Modal';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { Checkbox } from '../forms';
+import { Select } from '../common/Select';
 
 type CreateLocalAccountProps = {
   modalProps: CommonModalProps;
@@ -29,13 +30,34 @@ export function CreateLocalAccount({
 }: CreateLocalAccountProps) {
   const navigate = useNavigate();
   const [name, setName] = useState('');
-  const [offbudget, setOffbudget] = useState(false);
   const [balance, setBalance] = useState('0');
 
   const [nameError, setNameError] = useState(false);
+  const [typeError, setTypeError] = useState(false);
   const [balanceError, setBalanceError] = useState(false);
 
   const validateBalance = balance => !isNaN(parseFloat(balance));
+
+  const [type, setType] = useState('select');
+  let typeList = [['select', 'Select a Type...'], 
+  ['checking', 'For Budget: Checking'],
+  ['savings', 'For Budget: Savings'],
+  ['cash', 'For Budget: Cash'],
+  ['creditCard', 'For Budget: Credit Card'],
+  ['lineOfCredit', 'For Budget: Line of Credit'],
+  ['mortgage', 'Off Budget: Mortgage'],
+  ['autoLoan', 'Off Budget: Auto Loan'],
+  ['studentLoan', 'Off Budget: Student Loan'],
+  ['personalLoan', 'Off Budget: Personal Loan'],
+  ['medicalDebt', 'Off Budget: Medical Debt'],
+  ['otherDebt', 'Off Budget: Other Debt'],
+  ['otherAsset', 'Off Budget: Other Asset'],
+  ['otherLiability', 'Off Budget: Other Liability'],
+  ];
+
+  function handleTypeChange(newValue) {
+    setType(newValue);
+  }
 
   return (
     <Modal title="Create Local Account" {...modalProps}>
@@ -48,15 +70,30 @@ export function CreateLocalAccount({
               const nameError = !name;
               setNameError(nameError);
 
+              const typeError = type === 'select';
+              setTypeError(typeError);
+
               const balanceError = !validateBalance(balance);
               setBalanceError(balanceError);
 
-              if (!nameError && !balanceError) {
+              let offBudget = false;
+
+              if (type === 'mortgage' || type === 'autoLoan' || type === 'studentLoan' || type === 'personalLoan' || type === 'medicalDebt' || type === 'otherDebt' || type === 'otherAsset' || type === 'otherLiability') {
+                offBudget = true;
+              }
+
+              let lintedBalance = toRelaxedNumber(balance);
+
+              if (type === 'creditCard' || type === 'lineOfCredit' || type === 'mortgage' || type === 'autoLoan' || type === 'studentLoan' || type === 'personalLoan' || type === 'medicalDebt' || type === 'otherDebt' || type === 'otherLiability') {
+                lintedBalance = Math.abs(lintedBalance) * -1;
+              }
+
+              if (!nameError && !typeError && !balanceError) {
                 actions.closeModal();
                 const id = await actions.createAccount(
                   name,
-                  toRelaxedNumber(balance),
-                  offbudget,
+                  lintedBalance,
+                  offBudget,
                 );
                 navigate('/accounts/' + id);
               }
@@ -82,59 +119,17 @@ export function CreateLocalAccount({
             {nameError && (
               <FormError style={{ marginLeft: 75 }}>Name is required</FormError>
             )}
+            
 
-            <View
-              style={{
-                width: '75%',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-              }}
-            >
-              <View style={{ flexDirection: 'column' }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Checkbox
-                    id="offbudget"
-                    name="offbudget"
-                    checked={offbudget}
-                    onChange={() => setOffbudget(!offbudget)}
-                  />
-                  <label
-                    htmlFor="offbudget"
-                    style={{
-                      userSelect: 'none',
-                      verticalAlign: 'center',
-                    }}
-                  >
-                    Off-budget
-                  </label>
-                </View>
-                <div
-                  style={{
-                    textAlign: 'right',
-                    fontSize: '0.7em',
-                    color: theme.pageTextLight,
-                    marginTop: 3,
-                  }}
-                >
-                  <Text>
-                    This cannot be changed later. <br /> {'\n'}
-                    See{' '}
-                    <ExternalLink
-                      linkColor="muted"
-                      to="https://actualbudget.org/docs/accounts/#off-budget-accounts"
-                    >
-                      Accounts Overview
-                    </ExternalLink>{' '}
-                    for more information.
-                  </Text>
-                </div>
-              </View>
-            </View>
+            <InlineField label="Type" width="75%">
+              <Select options={typeList} style={{ width: '100%' }} value={type} onChange={newValue => handleTypeChange(newValue)}/>
+            </InlineField>
+            {typeError && (
+              <FormError style={{ marginLeft: 75 }}>
+                Select a type
+              </FormError>
+            )}
+
 
             <InlineField label="Balance" width="75%">
               <Input

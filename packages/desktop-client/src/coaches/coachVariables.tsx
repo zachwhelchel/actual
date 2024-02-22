@@ -283,7 +283,7 @@ else if (url.includes("localhost")) {
   // REACT_APP_ZOOM_RATE = "39.99 USD / hour"
   // REACT_APP_ZOOM_LINK = "https://calendly.com/zach-whelchel/1-hour"
   // REACT_APP_COACH = "zachdemo"
-  // REACT_APP_COACH_FIRST_NAME = "Zach"
+  REACT_APP_COACH_FIRST_NAME = "Zach"
   REACT_APP_USER_FIRST_NAME = "User"
   REACT_APP_UI_MODE = "coach"
 }
