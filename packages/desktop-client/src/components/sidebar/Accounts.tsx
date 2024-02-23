@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from 'react';
 
 import { type AccountEntity } from 'loot-core/src/types/models';
+import { useNavigate } from "react-router-dom";
 
 import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt } from '../../icons/v1';
 import { View } from '../common/View';
@@ -110,6 +111,7 @@ export function Accounts({
   let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
   let imgSrc = "/coach-icon-" + REACT_APP_COACH + "-200x200.png";
   let myCoach = "My Coach: " + REACT_APP_COACH_FIRST_NAME;
+  const navigate = useNavigate();
 
   return (
     <View>
@@ -422,7 +424,7 @@ export function Accounts({
         }}
       />
 
-      {REACT_APP_BILLING_STATUS === "free_trial" && (
+      {REACT_APP_BILLING_STATUS === "free_trial" && REACT_APP_UI_MODE === "user" && (
         <SecondaryItem
           style={{
             marginTop: 15,
@@ -434,7 +436,7 @@ export function Accounts({
         />
       )}
 
-      {REACT_APP_BILLING_STATUS === "paid" && (
+      {REACT_APP_BILLING_STATUS === "paid" && REACT_APP_UI_MODE === "user" && (
         <SecondaryItem
           style={{
             marginTop: 15,
@@ -443,6 +445,18 @@ export function Accounts({
           onClick={onManageSubscription}
           Icon={SvgBadge}
           title="Manage Subscription"
+        />
+      )}
+
+      {REACT_APP_UI_MODE === "coach" && (
+        <SecondaryItem
+          style={{
+            marginTop: 15,
+            marginBottom: 9,
+          }}
+          onClick={() => navigate("/coachdashboard")}
+          Icon={SvgBadge}
+          title="Coach Dashboard"
         />
       )}
 

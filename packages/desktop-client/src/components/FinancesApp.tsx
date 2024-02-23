@@ -36,6 +36,7 @@ import { Modals } from './Modals';
 import { Notifications } from './Notifications';
 import { ManagePayeesPage } from './payees/ManagePayeesPage';
 import { Reports } from './reports';
+import { CoachDashboard } from './coachdashboard';
 import { NarrowAlternate, WideComponent } from './responsive';
 import { ScrollProvider } from './ScrollProvider';
 import { Settings } from './settings';
@@ -171,6 +172,15 @@ function FinancesAppWithoutContext({budgetId, someDialogues, initialDialogueId}:
                     <NarrowNotSupported>
                       {/* Has its own lazy loading logic */}
                       <Reports />
+                    </NarrowNotSupported>
+                  }
+                />
+
+                <Route
+                  path="/coachdashboard/"
+                  element={
+                    <NarrowNotSupported>
+                      <CoachDashboard />
                     </NarrowNotSupported>
                   }
                 />
