@@ -2,11 +2,15 @@
 import React, { useState, useMemo } from 'react';
 
 import { type AccountEntity } from 'loot-core/src/types/models';
+import { useNavigate } from "react-router-dom";
 
 import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt } from '../../icons/v1';
 import { View } from '../common/View';
+import { Card } from '../common/Card';
 import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
+import { theme } from '../../style';
+import { Button } from '../common/Button';
 
 import { Account } from './Account';
 import { SecondaryItem } from './SecondaryItem';
@@ -101,10 +105,13 @@ export function Accounts({
     return null;
   };
 
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  let { commonElementsRef, conversationDeck, openConversation, setOpenConversation } = useCoach(); // this is causing the errors.
 
   let coachFirstNameZoom = "Zoom with " + REACT_APP_COACH_FIRST_NAME;
   let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
+  let imgSrc = "/coach-icon-" + REACT_APP_COACH + "-200x200.png";
+  let myCoach = "My Coach: " + REACT_APP_COACH_FIRST_NAME;
+  const navigate = useNavigate();
 
   return (
     <View>
@@ -210,40 +217,214 @@ export function Accounts({
         />
       </div>
 
-      {REACT_APP_COACH != undefined && (
-        <div
-          style={{
-            marginTop: 50,
-          }}
-          ref={element => {
-            commonElementsRef.current['zoom_link'] = element;
-          }}
-        >
-          <SecondaryItem
+
+      <View
+        style={{
+          height: 1,
+          backgroundColor: theme.sidebarItemBackgroundHover,
+          marginTop: 6,
+          flexShrink: 0,
+        }}
+      />
+
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          width: '100%',
+          marginTop: 16,
+        }}
+      >
+
+        {openConversation == null && REACT_APP_COACH_FIRST_NAME != null && (
+          <img
             style={{
-              marginTop: 15,
-              marginBottom: 9,
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              width: '70px',
+              height: '70px',
+              borderRadius: '50px',
             }}
-            onClick={onScheduleZoom}
-            Icon={SvgEducation}
-            title={coachFirstNameZoom}
+            src={imgSrc}
+            alt="coach"
           />
-        </div>
-      )}
+        )}
+        {openConversation != null && REACT_APP_COACH_FIRST_NAME != null && (
+          <img
+            style={{
+              opacity: .4,
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              width: '70px',
+              height: '70px',
+              borderRadius: '50px',
+            }}
+            src={imgSrc}
+            alt="coach"
+          />
+        )}
 
-      {REACT_APP_COACH != undefined && (
-        <SecondaryItem
-          style={{
-            marginTop: 15,
-            marginBottom: 9,
-          }}
-          onClick={onResetAvatar}
-          Icon={SvgReload}
-          title={coachFirstNameReset}
-        />
-      )}
+      </div>
 
-      {REACT_APP_BILLING_STATUS === "free_trial" && (
+      <View
+        style={{
+          marginLeft: '16',
+          marginRight: '16',
+          marginTop: '-5',
+          textAlign: 'center',
+        }}
+      >
+        {openConversation == null && REACT_APP_COACH_FIRST_NAME != null && (
+          <h4
+            style={{
+              marginBottom: '0',
+              paddingBottom: '0',
+            }}
+          >
+            {myCoach}
+          </h4>
+        )}
+        {openConversation != null && REACT_APP_COACH_FIRST_NAME != null && (
+          <h4
+            style={{
+              opacity: .4,
+              marginBottom: '0',
+              paddingBottom: '0',
+            }}
+          >
+            {myCoach}
+          </h4>
+        )}
+      </View>
+
+
+      <div
+        style={{
+          marginTop: 11,
+          marginLeft: 11,
+          marginRight: 11,
+        }}
+      >
+        {conversationDeck.map((conversation) => (
+
+          <>
+            {conversation.id === openConversation && (
+              <Card
+                style={{
+                  opacity: .4,
+                  marginTop: 15,
+                  marginBottom: 7,
+                  paddingLeft: 10,
+                  paddingTop: 8,
+                  paddingRight: 10,
+                  paddingBottom: 8,
+                  color: theme.pageText,
+                }}
+                onClick={() => setOpenConversation(null)}
+              >
+                <h4 style={{
+                  marginTop: 0,
+                  marginBottom: 0,
+                  paddingTop: 0,
+                  paddingBottom: 0,
+                  color: theme.pageText,
+                }}>{conversation.title}</h4>
+                <p style={{
+                  marginTop: 0,
+                  marginBottom: 0,
+                  paddingTop: 0,
+                  paddingBottom: 0,
+                  color: theme.pageText,
+                }}>In progress...</p>
+              </Card>
+            )}
+            {conversation.id !== openConversation && (
+              <Card
+                style={{
+                  opacity: 1.0,
+                  marginTop: 15,
+                  marginBottom: 7,
+                  paddingLeft: 10,
+                  paddingTop: 8,
+                  paddingRight: 10,
+                  paddingBottom: 8,
+                  color: theme.pageText,
+                }}
+                onClick={() => setOpenConversation(conversation.id)}
+              >
+                <h4 style={{
+                  marginTop: 0,
+                  marginBottom: 0,
+                  paddingTop: 0,
+                  paddingBottom: 0,
+                  color: theme.pageText,
+                }}>{conversation.title}</h4>
+                <p style={{
+                  marginTop: 0,
+                  marginBottom: 0,
+                  paddingTop: 0,
+                  paddingBottom: 0,
+                  color: theme.pageText,
+                }}>Continue conversation...</p>
+              </Card>
+            )}
+
+          </>
+        ))}
+      </div>
+
+      <View
+        style={{
+          marginLeft: '16',
+          marginRight: '16',
+          paddingTop: '20',
+        }}
+      >
+
+        {REACT_APP_COACH != undefined && (
+          <div
+            ref={element => {
+              commonElementsRef.current['zoom_link'] = element;
+            }}
+          >
+            <Button
+              type="primary"
+              onClick={() => onScheduleZoom()}
+              style={{
+                flex: 1,
+                display: 'flex',
+                width: '100%',
+              }}
+            >
+              Schedule Zoom
+            </Button>
+          </div>
+        )}
+
+          <Button
+            type="primary"
+            onClick={() => onUploadAvatar()}
+            style={{
+              marginTop: '10',
+            }}
+          >
+            Manage Coach
+          </Button>
+
+      </View>
+
+      <View
+        style={{
+          height: 1,
+          backgroundColor: theme.sidebarItemBackgroundHover,
+          marginTop: 26,
+          flexShrink: 0,
+        }}
+      />
+
+      {REACT_APP_BILLING_STATUS === "free_trial" && REACT_APP_UI_MODE === "user" && (
         <SecondaryItem
           style={{
             marginTop: 15,
@@ -255,7 +436,7 @@ export function Accounts({
         />
       )}
 
-      {REACT_APP_BILLING_STATUS === "paid" && (
+      {REACT_APP_BILLING_STATUS === "paid" && REACT_APP_UI_MODE === "user" && (
         <SecondaryItem
           style={{
             marginTop: 15,
@@ -270,12 +451,12 @@ export function Accounts({
       {REACT_APP_UI_MODE === "coach" && (
         <SecondaryItem
           style={{
-            marginTop: 15 + 50,
+            marginTop: 15,
             marginBottom: 9,
           }}
-          onClick={onUploadAvatar}
-          Icon={SvgBolt}
-          title='Manage Avatar'
+          onClick={() => navigate("/coachdashboard")}
+          Icon={SvgBadge}
+          title="Coach Dashboard"
         />
       )}
 

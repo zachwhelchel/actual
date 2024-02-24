@@ -21,6 +21,7 @@ type BudgetTotalsProps = {
 export const BudgetTotals = memo(function BudgetTotals({
   MonthComponent,
   toggleHiddenCategories,
+  hiddenCategoriesState,
   expandAllCategories,
   collapseAllCategories,
 }: BudgetTotalsProps) {
@@ -99,7 +100,7 @@ export const BudgetTotals = memo(function BudgetTotals({
                 items={[
                   {
                     name: 'toggle-visibility',
-                    text: 'Toggle hidden categories',
+                    text: hiddenCategoriesState() ? 'Hide hidden categories' : 'Show hidden categories',
                   },
                   {
                     name: 'expandAllCategories',

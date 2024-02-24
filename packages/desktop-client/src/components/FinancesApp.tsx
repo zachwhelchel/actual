@@ -36,6 +36,7 @@ import { Modals } from './Modals';
 import { Notifications } from './Notifications';
 import { ManagePayeesPage } from './payees/ManagePayeesPage';
 import { Reports } from './reports';
+import { CoachDashboard } from './coachdashboard';
 import { NarrowAlternate, WideComponent } from './responsive';
 import { ScrollProvider } from './ScrollProvider';
 import { Settings } from './settings';
@@ -176,6 +177,15 @@ function FinancesAppWithoutContext({budgetId, someDialogues, initialDialogueId}:
                 />
 
                 <Route
+                  path="/coachdashboard/"
+                  element={
+                    <NarrowNotSupported>
+                      <CoachDashboard />
+                    </NarrowNotSupported>
+                  }
+                />
+
+                <Route
                   path="/budget"
                   element={<NarrowAlternate name="Budget" />}
                 />
@@ -265,7 +275,7 @@ type FinancesAppProps = {
 };
 
 export function FinancesApp({budgetId, someDialogues, initialDialogueId }: FinancesAppProps) {
-  const app = useMemo(() => <FinancesAppWithoutContext budgetId={budgetId} allDialogues={someDialogues} initialDialogueId={initialDialogueId} />, []);
+  const app = useMemo(() => <FinancesAppWithoutContext budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId} />, []);
 
   console.log("childcare:");
   console.log("childcare:" + budgetId);
@@ -273,7 +283,7 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId }: Finan
   console.log("childcare:" + initialDialogueId);
 
   return (
-    <CoachProvider budgetId={budgetId} allDialogues={someDialogues} initialDialogueId={initialDialogueId}>
+    <CoachProvider budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId}>
     <SpreadsheetProvider>
       <TitlebarProvider>
         <SidebarProvider>

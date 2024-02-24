@@ -5,12 +5,14 @@ import * as monthUtils from 'loot-core/src/shared/months';
 import { theme, styles } from '../../style';
 import { View } from '../common/View';
 import { IntersectionBoundary } from '../tooltips';
+import { Button } from '../common/Button';
 
 import { BudgetCategories } from './BudgetCategories';
 import { BudgetSummaries } from './BudgetSummaries';
 import { BudgetTotals } from './BudgetTotals';
 import { MonthsProvider } from './MonthsContext';
 import { findSortDown, findSortUp, getScrollbarWidth } from './util';
+import { SvgStepBackward, SvgStepForward } from '../../icons/v1';
 
 export class BudgetTable extends Component {
   constructor(props) {
@@ -150,6 +152,10 @@ export class BudgetTable extends Component {
     });
   };
 
+  hiddenCategoriesState = () => {
+    return this.state.showHiddenCategories;
+  };
+
   expandAllCategories = () => {
     this.props.setCollapsed([]);
   };
@@ -210,7 +216,21 @@ export class BudgetTable extends Component {
             paddingRight: 5 + getScrollbarWidth(),
           }}
         >
-          <View style={{ width: 200 }} />
+
+
+          <View style={{ width: 200, display: 'flex', justifyContent: 'space-between', flexDirection: 'row', paddingBottom: 10, paddingLeft: 35, paddingRight: 35}}>
+
+
+          <Button type="bare" style={{ alignSelf: 'flex-end' }} onClick={() => window.__actionsForMenu.undo()}>
+            <SvgStepBackward width={16} height={16} style={{ marginRight: 3 }} /> Undo
+          </Button>
+
+          <Button type="bare" style={{ alignSelf: 'flex-end' }} onClick={() => window.__actionsForMenu.redo()}>
+            Redo <SvgStepForward width={16} height={16} style={{ marginLeft: 3 }} />
+          </Button>
+
+
+          </View>
           <MonthsProvider
             startMonth={prewarmStartMonth}
             numMonths={numMonths}
@@ -232,6 +252,7 @@ export class BudgetTable extends Component {
           <BudgetTotals
             MonthComponent={dataComponents.BudgetTotalsComponent}
             toggleHiddenCategories={this.toggleHiddenCategories}
+            hiddenCategoriesState={this.hiddenCategoriesState}
             expandAllCategories={this.expandAllCategories}
             collapseAllCategories={this.collapseAllCategories}
           />

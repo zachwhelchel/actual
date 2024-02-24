@@ -92,6 +92,15 @@ window.$q = q;
 let coachSrc = "/avatars/" + REACT_APP_COACH + ".drawio.xml";
 
 //coachSrc = "https://firebasestorage.googleapis.com/v0/b/mybudgetcoach-3c977.appspot.com/o/%20KristinWade.drawio-24.xml?alt=media&token=c20c8ead-89b9-4c1c-8a32-b59ced6f7f87"
+
+type Conversation = {
+  id: string;
+  title: string;
+  dialogues: Map;
+  firstDialogueId: string;
+  triggerType: string;
+};
+
 type Dialogue = {
   id: string;
   text: string;
@@ -120,7 +129,8 @@ type Condition = {
   test: string;
 };
 
-let someDialogues = new Map();
+//let someDialogues = new Map();
+let someConversations = new Map();
 let initialDialogueId = undefined;
 
 let file = localStorage.getItem("uploaded_draw_io_file");
@@ -155,10 +165,91 @@ await fetch(coachSrc)
   console.log("good on xml?");
   //console.log(data.getElementsByTagName("mxCell")[3].getAttribute("value"));
 
-  console.log(data);
+  //ok, how do I split these up based on tabs?
 
 
-  let items = data.getElementsByTagName("mxCell");
+  let diagrams = data.getElementsByTagName("diagram");
+
+
+  if (diagrams.length === 1) {
+
+    console.log("Um... hello");
+
+    let items = diagrams[0].getElementsByTagName("mxCell");
+    let [dialogues, firstDialogueId, triggerType] = dialoguesForConversation(items);
+
+    console.log("Um... hello");
+
+    const id = diagrams[0].getAttribute("id");
+    const name = diagrams[0].getAttribute("name");
+
+    console.log("Um... hello");
+
+    const conversation: Conversation = {
+      id: id,
+      title: "Introduction",
+      dialogues: dialogues,
+      firstDialogueId: firstDialogueId,
+      triggerType: triggerType,
+    };
+    someConversations.set(conversation.id, conversation);
+
+    console.log("Um... hello" + conversation.id);
+
+  } else {
+
+    for (let i = 0; i < diagrams.length; i++) {
+      const diagram = diagrams[i];
+
+      const id = diagram.getAttribute("id");
+      const name = diagram.getAttribute("name");
+
+      let items = diagram.getElementsByTagName("mxCell");
+      let [dialogues, firstDialogueId, triggerType] = dialoguesForConversation(items);
+
+      const conversation: Conversation = {
+        id: id,
+        title: name,
+        dialogues: dialogues,
+        firstDialogueId: firstDialogueId,
+        triggerType: triggerType,
+      };
+      someConversations.set(conversation.id, conversation);
+
+      console.log("ousters sss " + conversation);
+    }
+
+  }
+
+  //console.log(data);
+
+  //someDialogues = dialoguesForConversation(data);
+  
+
+})
+.catch((err) => {
+  console.log("err on xml?");
+  console.log(err);
+});
+
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
+  <Provider store={store}>
+    <ServerProvider>
+      <App someDialogues={someConversations} initialDialogueId={initialDialogueId}/>
+    </ServerProvider>
+  </Provider>,
+);
+
+
+function dialoguesForConversation(items) : [Map, string, string] {
+
+let someDialogues = new Map();
+
+
+  let triggerType = null;
+
 
   let firstId = undefined;
   let firstIdXYTotal = 100000000;
@@ -188,19 +279,99 @@ await fetch(coachSrc)
 
     let context = "Anywhere";
 
+
+
+
     if (value !== undefined && value !== null && style !== undefined && style !== null) {
 
-      value = value.replaceAll('<br style="border-color: var(--border-color);">', '<br>');
+      //value = value.replaceAll(" style=\"([\\s\\S]+?)\"", "");
 
-      value = value.replaceAll('<font style="font-size: 12px;">', '');
-      value = value.replaceAll('<font style="font-size: 10px;">', '');
-      value = value.replaceAll('</font>', '');
-      value = value.replaceAll('<p>', '');
-      value = value.replaceAll('</p>', '');
+      // value = value.replaceAll('<br style="border-color: var(--border-color);">', '<br>');
+      // value = value.replaceAll('<br style="border-color: var(--border-color); text-align: left;">', '<br>');
+      // value = value.replaceAll('<br style="border-color: var(--border-color); font-style: normal;">', '<br>');
+      // value = value.replaceAll('<div style="border-color: var(--border-color); font-style: normal;">', '<div>');
+      // value = value.replaceAll('<i style="border-color: var(--border-color);">', '<i>');
+      // value = value.replaceAll('<span style="border-color: var(--border-color);">', '<span>');
+      // value = value.replaceAll('<div style="border-color: var(--border-color);">', '<div>');
+      // value = value.replaceAll('<span style="font-style: normal; border-color: var(--border-color);">', '<span>');
+      // value = value.replaceAll('<div style="">', '<div>');
+      // value = value.replaceAll('<br style="border-color: var(--border-color);">', '<br>');
+      // value = value.replaceAll('<div style="border-color: var(--border-color); text-align: left;">', '<div>');
+      // value = value.replaceAll('<span style="border-color: var(--border-color); text-align: center;">', '<span>');
+      // value = value.replaceAll('<span style="border-color: var(--border-color); background-color: initial;">', '<span>');
+      // value = value.replaceAll('<div style="text-align: left;">', '<div>');
+      // value = value.replaceAll('<span style="background-color: initial;">', '<span>');
+      // value = value.replaceAll('<span style="text-align: left;">', '<span>');
+      // value = value.replaceAll('<span style="">', '<span>');
+
+
+      value = value.replaceAll(' style="border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); text-align: left;"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); font-style: normal;"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); font-style: normal;"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style="font-style: normal; border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style=""', '');
+      value = value.replaceAll(' style="border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); text-align: left;"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); text-align: center;"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); background-color: initial;"', '');
+      value = value.replaceAll(' style="text-align: left;"', '');
+      value = value.replaceAll(' style="background-color: initial;"', '');
+      value = value.replaceAll(' style="text-align: left;"', '');
+      value = value.replaceAll(' style="font-size: 12px;"', '');
+      value = value.replaceAll(' style="font-size: 10px;"', '');
+
+
+      // value = value.replaceAll('border-color: var(--border-color);', '');
+      // value = value.replaceAll('font-size: 12px;', '');
+      // value = value.replaceAll('font-size: 10px;', '');
+      // value = value.replaceAll('background-color: initial;', '');
+      // value = value.replaceAll('font-style: normal;', '');
+
+
+
+
+      // value = value.replaceAll('<font style="font-size: 12px;">', '');
+      // value = value.replaceAll('<font style="font-size: 10px;">', '');
+      // value = value.replaceAll('</font>', '');
+      // value = value.replaceAll('<p>', '');
+      // value = value.replaceAll('</p>', '');
+      // value = value.replaceAll('<i>', '');
+      // value = value.replaceAll('</i>', '');
+      // value = value.replaceAll('<font>', '');
+      // value = value.replaceAll('</font>', '');
+      // value = value.replaceAll('<span>', '');
+      // value = value.replaceAll('</span>', '');
+      // value = value.replaceAll('<div>', '');
+      // value = value.replaceAll('</div>', '');
+
+      // if (value.endsWith("<br>")) {
+      //   value = value.substring(0, value.length - 4);
+      // }
+      // if (value.endsWith("<br>")) {
+      //   value = value.substring(0, value.length - 4);
+      // }
+      // if (value.endsWith("<br>")) {
+      //   value = value.substring(0, value.length - 4);
+      // }
+      // if (value.endsWith("<br>")) {
+      //   value = value.substring(0, value.length - 4);
+      // }
+      // if (value.endsWith("<br>")) {
+      //   value = value.substring(0, value.length - 4);
+      // }
+
+      //end any trailing <br> s, this is so dumb...
+
+
+      console.log(value);
 
 
       let sIndex = value.indexOf("&lt;&lt;") + 8; 
-      let tIndex = value.indexOf("&gt;&gt;<br><br>"); 
+      let tIndex = value.indexOf("&gt;&gt;"); 
 
 
 //&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br&gt;
@@ -210,7 +381,9 @@ await fetch(coachSrc)
         console.log(value);
 
         let substringToReplace = value.substring(sIndex, tIndex);
-        value = value.replace("&lt;&lt;" + substringToReplace + "&gt;&gt;<br><br>", "");
+        value = value.replace("&lt;&lt;" + substringToReplace + "&gt;&gt;", "");
+        value = value.replace("<br>", "");
+        value = value.replace("<br>", "");
         context = substringToReplace;
       }
 
@@ -286,6 +459,14 @@ await fetch(coachSrc)
 
         console.log(value);
       }
+      else if (style.startsWith('shape=step;perimeter=stepPerimeter;')) {
+
+        let xxx = child.getAttribute("value");
+        console.log('thetriggerthing' + xxx);
+        triggerType = xxx;
+
+      }
+
       else if (style.startsWith('rounded=1')) {
 
 
@@ -709,18 +890,8 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
   //setAllDialogues(someDialogues);
   initialDialogueId = firstId;
 
-})
-.catch((err) => {
-  console.log("err on xml?");
-  console.log(err);
-});
+  //return someDialogues;
 
-const container = document.getElementById('root');
-const root = createRoot(container);
-root.render(
-  <Provider store={store}>
-    <ServerProvider>
-      <App someDialogues={someDialogues} initialDialogueId={initialDialogueId}/>
-    </ServerProvider>
-  </Provider>,
-);
+    return [someDialogues, initialDialogueId, triggerType];
+
+}

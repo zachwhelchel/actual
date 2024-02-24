@@ -2,12 +2,13 @@ import React, { useState, useRef } from 'react';
 
 import { useSyncServerStatus } from '../../hooks/useSyncServerStatus';
 import { AnimatedLoading } from '../../icons/AnimatedLoading';
-import { SvgAdd } from '../../icons/v1';
+import { SvgAdd, SvgQuestion, SvgStepBackward, SvgStepForward } from '../../icons/v1';
 import {
   SvgArrowsExpand3,
   SvgArrowsShrink3,
   SvgDownloadThickBottom,
   SvgPencil1,
+  SvgInformationCircle,
 } from '../../icons/v2';
 import { theme, styles } from '../../style';
 import { AnimatedRefresh } from '../AnimatedRefresh';
@@ -107,9 +108,16 @@ export function AccountHeader({
     }
   }
 
-
   let { commonElementsRef } = useCoach(); // this is causing the errors.
 
+  function undo() {
+    console.log("undo me");
+    window.__actionsForMenu.undo();
+  }
+
+  function redo() {
+    window.__actionsForMenu.redo();
+  }
 
   return (
     <>
@@ -276,6 +284,15 @@ export function AccountHeader({
               <FilterButton onApply={onApplyFilter} type="accounts" />
             </div>
           </View>
+
+          <Button type="bare" onClick={undo}>
+            <SvgStepBackward width={16} height={16} style={{ marginRight: 3 }} /> Undo
+          </Button>
+
+          <Button type="bare" onClick={redo}>
+            Redo <SvgStepForward width={16} height={16} style={{ marginLeft: 3 }} />
+          </Button>
+
           <View style={{ flex: 1 }} />
             <div
               ref={element => {
