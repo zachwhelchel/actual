@@ -402,6 +402,8 @@ export default function Coach({
 
   async function performDialogue(dialogue, wasBackwards = false) {
 
+    setCurrentInput("");
+
     if (dialogue !== null && dialogue !== undefined) {
 
       if (dialogue.type === "autoPush") {

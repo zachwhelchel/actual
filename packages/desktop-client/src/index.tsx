@@ -279,19 +279,99 @@ let someDialogues = new Map();
 
     let context = "Anywhere";
 
+
+
+
     if (value !== undefined && value !== null && style !== undefined && style !== null) {
 
-      value = value.replaceAll('<br style="border-color: var(--border-color);">', '<br>');
+      //value = value.replaceAll(" style=\"([\\s\\S]+?)\"", "");
 
-      value = value.replaceAll('<font style="font-size: 12px;">', '');
-      value = value.replaceAll('<font style="font-size: 10px;">', '');
-      value = value.replaceAll('</font>', '');
-      value = value.replaceAll('<p>', '');
-      value = value.replaceAll('</p>', '');
+      // value = value.replaceAll('<br style="border-color: var(--border-color);">', '<br>');
+      // value = value.replaceAll('<br style="border-color: var(--border-color); text-align: left;">', '<br>');
+      // value = value.replaceAll('<br style="border-color: var(--border-color); font-style: normal;">', '<br>');
+      // value = value.replaceAll('<div style="border-color: var(--border-color); font-style: normal;">', '<div>');
+      // value = value.replaceAll('<i style="border-color: var(--border-color);">', '<i>');
+      // value = value.replaceAll('<span style="border-color: var(--border-color);">', '<span>');
+      // value = value.replaceAll('<div style="border-color: var(--border-color);">', '<div>');
+      // value = value.replaceAll('<span style="font-style: normal; border-color: var(--border-color);">', '<span>');
+      // value = value.replaceAll('<div style="">', '<div>');
+      // value = value.replaceAll('<br style="border-color: var(--border-color);">', '<br>');
+      // value = value.replaceAll('<div style="border-color: var(--border-color); text-align: left;">', '<div>');
+      // value = value.replaceAll('<span style="border-color: var(--border-color); text-align: center;">', '<span>');
+      // value = value.replaceAll('<span style="border-color: var(--border-color); background-color: initial;">', '<span>');
+      // value = value.replaceAll('<div style="text-align: left;">', '<div>');
+      // value = value.replaceAll('<span style="background-color: initial;">', '<span>');
+      // value = value.replaceAll('<span style="text-align: left;">', '<span>');
+      // value = value.replaceAll('<span style="">', '<span>');
+
+
+      value = value.replaceAll(' style="border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); text-align: left;"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); font-style: normal;"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); font-style: normal;"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style="font-style: normal; border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style=""', '');
+      value = value.replaceAll(' style="border-color: var(--border-color);"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); text-align: left;"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); text-align: center;"', '');
+      value = value.replaceAll(' style="border-color: var(--border-color); background-color: initial;"', '');
+      value = value.replaceAll(' style="text-align: left;"', '');
+      value = value.replaceAll(' style="background-color: initial;"', '');
+      value = value.replaceAll(' style="text-align: left;"', '');
+      value = value.replaceAll(' style="font-size: 12px;"', '');
+      value = value.replaceAll(' style="font-size: 10px;"', '');
+
+
+      // value = value.replaceAll('border-color: var(--border-color);', '');
+      // value = value.replaceAll('font-size: 12px;', '');
+      // value = value.replaceAll('font-size: 10px;', '');
+      // value = value.replaceAll('background-color: initial;', '');
+      // value = value.replaceAll('font-style: normal;', '');
+
+
+
+
+      // value = value.replaceAll('<font style="font-size: 12px;">', '');
+      // value = value.replaceAll('<font style="font-size: 10px;">', '');
+      // value = value.replaceAll('</font>', '');
+      // value = value.replaceAll('<p>', '');
+      // value = value.replaceAll('</p>', '');
+      // value = value.replaceAll('<i>', '');
+      // value = value.replaceAll('</i>', '');
+      // value = value.replaceAll('<font>', '');
+      // value = value.replaceAll('</font>', '');
+      // value = value.replaceAll('<span>', '');
+      // value = value.replaceAll('</span>', '');
+      // value = value.replaceAll('<div>', '');
+      // value = value.replaceAll('</div>', '');
+
+      // if (value.endsWith("<br>")) {
+      //   value = value.substring(0, value.length - 4);
+      // }
+      // if (value.endsWith("<br>")) {
+      //   value = value.substring(0, value.length - 4);
+      // }
+      // if (value.endsWith("<br>")) {
+      //   value = value.substring(0, value.length - 4);
+      // }
+      // if (value.endsWith("<br>")) {
+      //   value = value.substring(0, value.length - 4);
+      // }
+      // if (value.endsWith("<br>")) {
+      //   value = value.substring(0, value.length - 4);
+      // }
+
+      //end any trailing <br> s, this is so dumb...
+
+
+      console.log(value);
 
 
       let sIndex = value.indexOf("&lt;&lt;") + 8; 
-      let tIndex = value.indexOf("&gt;&gt;<br><br>"); 
+      let tIndex = value.indexOf("&gt;&gt;"); 
 
 
 //&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br&gt;
@@ -301,7 +381,9 @@ let someDialogues = new Map();
         console.log(value);
 
         let substringToReplace = value.substring(sIndex, tIndex);
-        value = value.replace("&lt;&lt;" + substringToReplace + "&gt;&gt;<br><br>", "");
+        value = value.replace("&lt;&lt;" + substringToReplace + "&gt;&gt;", "");
+        value = value.replace("<br>", "");
+        value = value.replace("<br>", "");
         context = substringToReplace;
       }
 
