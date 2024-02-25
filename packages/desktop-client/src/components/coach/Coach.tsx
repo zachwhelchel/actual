@@ -2107,7 +2107,7 @@ export default function Coach({
             {backContent}
           </div>
         );
-      }else if (dialogue.dialogueOptions.length === 6) {
+      } else if (dialogue.dialogueOptions.length === 6) {
         content = (
           <div>
             <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
@@ -2154,6 +2154,26 @@ export default function Coach({
             >
               {dialogue.dialogueOptions[5].text}
             </Button>
+            {backContent}
+          </div>
+        );
+      } else if (dialogue.dialogueOptions.length > 6) {
+        let list = [];
+        dialogue.dialogueOptions.forEach((season, index) => {
+          list.push(<Button
+                    type="primary"
+                    style={{ marginTop: 8 }}
+                    onClick={() => performDialogueOption(dialogue.dialogueOptions[index])}
+                  >
+                    {dialogue.dialogueOptions[index].text}
+                  </Button>);
+        });
+
+        content = (
+          <div>
+            <div dangerouslySetInnerHTML={{__html: dialogueText}}></div>
+            {gifContent}
+            {list}
             {backContent}
           </div>
         );
