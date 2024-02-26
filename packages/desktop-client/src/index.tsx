@@ -470,14 +470,29 @@ let someDialogues = new Map();
       else if (style.startsWith('rounded=1')) {
 
 
-//Ok I think this might work... but... we need the <br> for the value saving.
-//Also the fact that labels are sometimes on the arrows themselves... are those set up to split and save variables too?
-// let div = document.createElement("div");
-// div.innerHTML = value;
-// value = div.textContent || div.innerText || "";
-value = value.replaceAll("</div><div>", "<br>")
-value = value.replaceAll("<div>", "")
-value = value.replaceAll("</div>", "")
+        //Ok I think this might work... but... we need the <br> for the value saving.
+        //Also the fact that labels are sometimes on the arrows themselves... are those set up to split and save variables too?
+        // let div = document.createElement("div");
+        // div.innerHTML = value;
+        // value = div.textContent || div.innerText || "";
+        value = value.replaceAll("</div><div>", "<br>")
+        value = value.replaceAll("<div>", "")
+        value = value.replaceAll("</div>", "")
+
+        value = value.replaceAll('<font>', '');
+        value = value.replaceAll('</font>', '');
+        value = value.replaceAll('<p>', '');
+        value = value.replaceAll('</p>', '');
+        value = value.replaceAll('<i>', '');
+        value = value.replaceAll('</i>', '');
+        value = value.replaceAll('<font>', '');
+        value = value.replaceAll('</font>', '');
+        value = value.replaceAll('<span>', '');
+        value = value.replaceAll('</span>', '');
+        value = value.replaceAll('<div>', '');
+        value = value.replaceAll('</div>', '');
+
+
 
         actions.set(id, value);
 

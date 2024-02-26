@@ -274,6 +274,7 @@ export function Accounts({
           marginRight: '16',
           marginTop: '-5',
           textAlign: 'center',
+          flexShrink: '0',
         }}
       >
         {openConversation == null && REACT_APP_COACH_FIRST_NAME != null && (
@@ -305,6 +306,7 @@ export function Accounts({
           marginTop: 11,
           marginLeft: 11,
           marginRight: 11,
+          flexShrink: '0',
         }}
       >
         {conversationDeck.map((conversation) => (
@@ -380,6 +382,7 @@ export function Accounts({
           marginLeft: '16',
           marginRight: '16',
           paddingTop: '20',
+          flexShrink: '0',
         }}
       >
 
@@ -429,6 +432,8 @@ export function Accounts({
           style={{
             marginTop: 15,
             marginBottom: 9,
+            paddingBottom: 10,
+            flexShrink: '0',
           }}
           onClick={onFreeTrial}
           Icon={SvgBadge}
@@ -441,6 +446,8 @@ export function Accounts({
           style={{
             marginTop: 15,
             marginBottom: 9,
+            paddingBottom: 10,
+            flexShrink: '0',
           }}
           onClick={onManageSubscription}
           Icon={SvgBadge}
@@ -453,6 +460,8 @@ export function Accounts({
           style={{
             marginTop: 15,
             marginBottom: 9,
+            paddingBottom: 10,
+            flexShrink: '0',
           }}
           onClick={() => navigate("/coachdashboard")}
           Icon={SvgBadge}
