@@ -1,10 +1,10 @@
 /*
   Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Embedder-Policy: require-corp
-  Content-Security-Policy: default-src 'self' blob:; img-src 'self' blob: data:; script-src 'self' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; connect-src http: https:;
+  Cross-Origin-Embedder-Policy: credentialless
+  Content-Security-Policy: default-src 'self' blob:; img-src 'self' blob: data:; script-src 'self' https://cdn.paddle.com/; 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; connect-src http: https:; frame-ancestors 'self' https://buy.paddle.com/;
 
 /kcab/*
-  Content-Security-Policy: default-src 'self' blob:; img-src 'self' blob: data:; script-src 'self' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; connect-src http: https:;
+  Content-Security-Policy: default-src 'self' blob:; img-src 'self' blob: data:; script-src 'self' https://cdn.paddle.com/; 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; connect-src http: https:; frame-ancestors 'self' https://buy.paddle.com/;
 
 /*.wasm
   Content-Type: application/wasm

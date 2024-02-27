@@ -2621,6 +2621,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@paddle/paddle-js@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@paddle/paddle-js@npm:1.0.2"
+  checksum: 27ed44f848562e666e486ad76b5ff33d9910bdf889c27261c60fd14430c7223b8565396055ad576ef1cd28730119c38bd0eac30e1fe817d7d17c0c91fdd7c649
+  languageName: node
+  linkType: hard
+
 "@pkgjs/parseargs@npm:^0.11.0":
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
@@ -4913,6 +4920,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "actual@workspace:."
   dependencies:
+    "@paddle/paddle-js": "npm:^1.0.2"
     cross-env: "npm:^7.0.3"
     eslint: "npm:^8.37.0"
     eslint-config-prettier: "npm:^9.1.0"

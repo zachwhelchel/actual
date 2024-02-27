@@ -66,5 +66,8 @@
   "browserslist": [
     "electron 24.0",
     "defaults"
-  ]
+  ],
+  "dependencies": {
+    "@paddle/paddle-js": "^1.0.2"
+  }
 }

@@ -21,6 +21,7 @@ import { Tooltip } from '../tooltips';
 
 import { Sidebar } from './Sidebar';
 import { CoachProvider, useCoach } from '../coach/Coach';
+import { initializePaddle, Paddle } from '@paddle/paddle-js';
 
 type EditableBudgetNameProps = {
   prefs: LocalPrefs;
@@ -147,6 +148,29 @@ export function SidebarWithData() {
     await getAccounts();
   }
 
+  // Create a local state to store Paddle instance
+  const [paddle, setPaddle] = useState<Paddle>();
+
+  // Download and initialize Paddle instance from CDN
+  useEffect(() => {
+    initializePaddle({ environment: 'production', token: 'live_b78d9722798ff3961a96990da3c' }).then(
+      (paddleInstance: Paddle | undefined) => {
+        if (paddleInstance) {
+          setPaddle(paddleInstance);
+        }
+      },
+    );
+  }, []);
+
+  // Callback to open a checkout
+  const openCheckout = () => {
+    console.log("Open checkout");
+
+    paddle?.Checkout.open({
+      items: [{ priceId: 'pri_01hf7ms3t2d071zqhb609txa06', quantity: 1 }],
+    });
+  };
+
   return (
     <Sidebar
       budgetName={<EditableBudgetName prefs={prefs} savePrefs={savePrefs} />}
@@ -163,7 +187,7 @@ export function SidebarWithData() {
       onAddAccount={() => replaceModal('add-account')}
       onScheduleZoom={() => replaceModal('schedule-zoom')}
       onFreeTrial={() => replaceModal('free-trial')}
-      onManageSubscription={() => replaceModal('manage-subscription')}
+      onManageSubscription={openCheckout}
       onResetAvatar={() => replaceModal('reset-avatar')}
       onUploadAvatar={() => replaceModal('upload-avatar')}
       showClosedAccounts={prefs['ui.showClosedAccounts']}
