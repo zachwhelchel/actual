@@ -71,6 +71,7 @@ export default defineConfig(async ({ mode }) => {
   const devHeaders = {
     'Cross-Origin-Opener-Policy': 'same-origin',
     'Cross-Origin-Embedder-Policy': 'credentialless',
+    'Access-Control-Allow-Origin': 'https://cdn.paddle.com/',
   };
 
   // Forward Netlify env variables

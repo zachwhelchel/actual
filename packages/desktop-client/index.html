@@ -3,7 +3,6 @@
   <head>
     <script crossorigin src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     <script type="text/javascript">
-      Paddle.Environment.set("sandbox");
       Paddle.Setup({ 
         token: 'live_b78d9722798ff3961a96990da3c' // replace with a client-side token
       });
@@ -108,7 +107,19 @@
     </style>
   </head>
   <body>
-    <a href='#' class='paddle_button' data-theme='light'>Buy Now</a>
+    <a 
+      href='#' 
+      class='paddle_button'
+      data-theme='light'
+      data-items='[
+        {
+          "priceId": "pri_01hf7ms3t2d071zqhb609txa06",
+          "quantity": 1
+        }
+      ]'
+    >
+      Buy now
+    </a>
     <div id="root"></div>
     <script type="module" src="/src/index.tsx"></script>
   </body>
