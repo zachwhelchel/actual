@@ -1654,6 +1654,150 @@ export default function Coach({
     return new Promise(res => setTimeout(res, delay));
   }
 
+  function lintDisplayText(text) {
+
+    let dialogueText = text;
+
+    let sIndex = dialogueText.indexOf("[[") + 2; 
+    let tIndex = dialogueText.indexOf("]]"); 
+
+    if (sIndex > -1 && tIndex > -1) {
+      //[[animal_preference = cat 'cat' : '']]
+
+      let conditionalIndex = dialogueText.indexOf(' : '); 
+      if (conditionalIndex > -1) {
+
+        try {
+          let fullSubstring = dialogueText.substring(sIndex, tIndex);
+          let index2 = fullSubstring.indexOf(" '"); 
+          let condition = fullSubstring.substring(0, index2);
+          let firstOption = fullSubstring.substring(index2 + 2, conditionalIndex);
+          let index3 = firstOption.indexOf("'"); 
+          firstOption = firstOption.substring(0, index3);
+
+          let index4 = fullSubstring.indexOf(" : "); 
+          let secondOption = fullSubstring.substring(index4 + 4, fullSubstring.length-1);
+
+
+          let more1 = condition.substring(0, condition.indexOf(' = '));
+          let more2 = condition.substring(condition.indexOf(' = ') + 3);
+
+          const conditionProper: Condition = {
+            and: [],
+            or: [],
+            variable: more1,
+            value: more2,
+            test: "=",
+          };
+
+          if (evaluate(conditionProper)) {
+            dialogueText = dialogueText.replace("[[" + fullSubstring + "]]", firstOption);
+          } else {
+            dialogueText = dialogueText.replace("[[" + fullSubstring + "]]", secondOption);
+          }
+
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      else {
+        console.log("I found a substring to replace");
+        let substringToReplace = dialogueText.substring(sIndex, tIndex);
+        console.log(substringToReplace);
+
+        let replacement = coachState[substringToReplace];
+        if (replacement !== null && replacement !== undefined) {
+          console.log("And the value for it:");
+          console.log(replacement);
+
+          dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", replacement);
+          console.log("So here is the new text:");
+          console.log(dialogueText);
+
+        } else if (substringToReplace == "user_first_name") {
+          let userFirstName = REACT_APP_USER_FIRST_NAME
+          if (userFirstName !== null && userFirstName !== undefined) {
+            dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", userFirstName);
+          }
+          console.log("And no value found for it.");
+        }
+      }
+    }
+
+
+    //again, LOLZ
+    sIndex = dialogueText.indexOf("[[") + 2; 
+    tIndex = dialogueText.indexOf("]]"); 
+
+    if (sIndex > -1 && tIndex > -1) {
+      //[[animal_preference = cat 'cat' : '']]
+
+      let conditionalIndex = dialogueText.indexOf(' : '); 
+      if (conditionalIndex > -1) {
+
+        try {
+          let fullSubstring = dialogueText.substring(sIndex, tIndex);
+          let index2 = fullSubstring.indexOf(" '"); 
+          let condition = fullSubstring.substring(0, index2);
+          let firstOption = fullSubstring.substring(index2 + 2, conditionalIndex);
+          let index3 = firstOption.indexOf("'"); 
+          firstOption = firstOption.substring(0, index3);
+
+          let index4 = fullSubstring.indexOf(" : "); 
+          let secondOption = fullSubstring.substring(index4 + 4, fullSubstring.length-1);
+
+
+          let more1 = condition.substring(0, condition.indexOf(' = '));
+          let more2 = condition.substring(condition.indexOf(' = ') + 3);
+
+          const conditionProper: Condition = {
+            and: [],
+            or: [],
+            variable: more1,
+            value: more2,
+            test: "=",
+          };
+
+          if (evaluate(conditionProper)) {
+            dialogueText = dialogueText.replace("[[" + fullSubstring + "]]", firstOption);
+          } else {
+            dialogueText = dialogueText.replace("[[" + fullSubstring + "]]", secondOption);
+          }
+
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      else {
+        console.log("I found a substring to replace");
+        let substringToReplace = dialogueText.substring(sIndex, tIndex);
+        console.log(substringToReplace);
+
+        let replacement = coachState[substringToReplace];
+        if (replacement !== null && replacement !== undefined) {
+          console.log("And the value for it:");
+          console.log(replacement);
+
+          dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", replacement);
+          console.log("So here is the new text:");
+          console.log(dialogueText);
+
+        } else if (substringToReplace == "user_first_name") {
+          let userFirstName = REACT_APP_USER_FIRST_NAME
+          if (userFirstName !== null && userFirstName !== undefined) {
+            dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", userFirstName);
+          }
+          console.log("And no value found for it.");
+        }
+      }
+    }
+
+    return dialogueText;
+  }
+
+
+
+
   //const [left, setLeft] = useState(0);
   //maybe useEffect is how this should be done? And that covers window resizing too.
   let style = {
@@ -1750,146 +1894,7 @@ export default function Coach({
 
     } else {
 
-      let dialogueText = dialogue.text;
-
-      let sIndex = dialogueText.indexOf("[[") + 2; 
-      let tIndex = dialogueText.indexOf("]]"); 
-
-      if (sIndex > -1 && tIndex > -1) {
-        //[[animal_preference = cat 'cat' : '']]
-
-        let conditionalIndex = dialogueText.indexOf(' : '); 
-        if (conditionalIndex > -1) {
-
-          try {
-            let fullSubstring = dialogueText.substring(sIndex, tIndex);
-            let index2 = fullSubstring.indexOf(" '"); 
-            let condition = fullSubstring.substring(0, index2);
-            let firstOption = fullSubstring.substring(index2 + 2, conditionalIndex);
-            let index3 = firstOption.indexOf("'"); 
-            firstOption = firstOption.substring(0, index3);
-
-            let index4 = fullSubstring.indexOf(" : "); 
-            let secondOption = fullSubstring.substring(index4 + 4, fullSubstring.length-1);
-
-
-            let more1 = condition.substring(0, condition.indexOf(' = '));
-            let more2 = condition.substring(condition.indexOf(' = ') + 3);
-
-            const conditionProper: Condition = {
-              and: [],
-              or: [],
-              variable: more1,
-              value: more2,
-              test: "=",
-            };
-
-            if (evaluate(conditionProper)) {
-              dialogueText = dialogueText.replace("[[" + fullSubstring + "]]", firstOption);
-            } else {
-              dialogueText = dialogueText.replace("[[" + fullSubstring + "]]", secondOption);
-            }
-
-          } catch (error) {
-            console.error(error);
-          }
-        }
-        else {
-          console.log("I found a substring to replace");
-          let substringToReplace = dialogueText.substring(sIndex, tIndex);
-          console.log(substringToReplace);
-
-          let replacement = coachState[substringToReplace];
-          if (replacement !== null && replacement !== undefined) {
-            console.log("And the value for it:");
-            console.log(replacement);
-
-            dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", replacement);
-            console.log("So here is the new text:");
-            console.log(dialogueText);
-
-          } else if (substringToReplace == "user_first_name") {
-            let userFirstName = REACT_APP_USER_FIRST_NAME
-            if (userFirstName !== null && userFirstName !== undefined) {
-              dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", userFirstName);
-            }
-            console.log("And no value found for it.");
-          }
-        }
-      }
-
-
-      //again, LOLZ
-      sIndex = dialogueText.indexOf("[[") + 2; 
-      tIndex = dialogueText.indexOf("]]"); 
-
-      if (sIndex > -1 && tIndex > -1) {
-        //[[animal_preference = cat 'cat' : '']]
-
-        let conditionalIndex = dialogueText.indexOf(' : '); 
-        if (conditionalIndex > -1) {
-
-          try {
-            let fullSubstring = dialogueText.substring(sIndex, tIndex);
-            let index2 = fullSubstring.indexOf(" '"); 
-            let condition = fullSubstring.substring(0, index2);
-            let firstOption = fullSubstring.substring(index2 + 2, conditionalIndex);
-            let index3 = firstOption.indexOf("'"); 
-            firstOption = firstOption.substring(0, index3);
-
-            let index4 = fullSubstring.indexOf(" : "); 
-            let secondOption = fullSubstring.substring(index4 + 4, fullSubstring.length-1);
-
-
-            let more1 = condition.substring(0, condition.indexOf(' = '));
-            let more2 = condition.substring(condition.indexOf(' = ') + 3);
-
-            const conditionProper: Condition = {
-              and: [],
-              or: [],
-              variable: more1,
-              value: more2,
-              test: "=",
-            };
-
-            if (evaluate(conditionProper)) {
-              dialogueText = dialogueText.replace("[[" + fullSubstring + "]]", firstOption);
-            } else {
-              dialogueText = dialogueText.replace("[[" + fullSubstring + "]]", secondOption);
-            }
-
-          } catch (error) {
-            console.error(error);
-          }
-        }
-        else {
-          console.log("I found a substring to replace");
-          let substringToReplace = dialogueText.substring(sIndex, tIndex);
-          console.log(substringToReplace);
-
-          let replacement = coachState[substringToReplace];
-          if (replacement !== null && replacement !== undefined) {
-            console.log("And the value for it:");
-            console.log(replacement);
-
-            dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", replacement);
-            console.log("So here is the new text:");
-            console.log(dialogueText);
-
-          } else if (substringToReplace == "user_first_name") {
-            let userFirstName = REACT_APP_USER_FIRST_NAME
-            if (userFirstName !== null && userFirstName !== undefined) {
-              dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", userFirstName);
-            }
-            console.log("And no value found for it.");
-          }
-        }
-      }
-
-
-
-
-
+      let dialogueText = lintDisplayText(dialogue.text);
 
       let backContent;
       if (pastDialogue !== undefined) {
@@ -1947,7 +1952,7 @@ export default function Coach({
                 style={{ marginTop: 8 }}
                 onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
               >
-                {dialogue.dialogueOptions[0].text}
+                {lintDisplayText(dialogue.dialogueOptions[0].text)}
               </Button>
               {backContent}
             </div>
@@ -1970,7 +1975,7 @@ export default function Coach({
                 style={{ marginTop: 8 }}
                 onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
               >
-                {dialogue.dialogueOptions[0].text}
+                {lintDisplayText(dialogue.dialogueOptions[0].text)}
               </Button>
               {backContent}
             </div>
@@ -1987,14 +1992,14 @@ export default function Coach({
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
             >
-              {dialogue.dialogueOptions[0].text}
+              {lintDisplayText(dialogue.dialogueOptions[0].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
             >
-              {dialogue.dialogueOptions[1].text}
+              {lintDisplayText(dialogue.dialogueOptions[1].text)}
             </Button>
             {backContent}
           </div>
@@ -2009,21 +2014,21 @@ export default function Coach({
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
             >
-              {dialogue.dialogueOptions[0].text}
+              {lintDisplayText(dialogue.dialogueOptions[0].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
             >
-              {dialogue.dialogueOptions[1].text}
+              {lintDisplayText(dialogue.dialogueOptions[1].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
             >
-              {dialogue.dialogueOptions[2].text}
+              {lintDisplayText(dialogue.dialogueOptions[2].text)}
             </Button>
             {backContent}
           </div>
@@ -2038,28 +2043,28 @@ export default function Coach({
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
             >
-              {dialogue.dialogueOptions[0].text}
+              {lintDisplayText(dialogue.dialogueOptions[0].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
             >
-              {dialogue.dialogueOptions[1].text}
+              {lintDisplayText(dialogue.dialogueOptions[1].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
             >
-              {dialogue.dialogueOptions[2].text}
+              {lintDisplayText(dialogue.dialogueOptions[2].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[3])}
             >
-              {dialogue.dialogueOptions[3].text}
+              {lintDisplayText(dialogue.dialogueOptions[3].text)}
             </Button>
             {backContent}
           </div>
@@ -2074,35 +2079,35 @@ export default function Coach({
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
             >
-              {dialogue.dialogueOptions[0].text}
+              {lintDisplayText(dialogue.dialogueOptions[0].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
             >
-              {dialogue.dialogueOptions[1].text}
+              {lintDisplayText(dialogue.dialogueOptions[1].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
             >
-              {dialogue.dialogueOptions[2].text}
+              {lintDisplayText(dialogue.dialogueOptions[2].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[3])}
             >
-              {dialogue.dialogueOptions[3].text}
+              {lintDisplayText(dialogue.dialogueOptions[3].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[4])}
             >
-              {dialogue.dialogueOptions[4].text}
+              {lintDisplayText(dialogue.dialogueOptions[4].text)}
             </Button>
             {backContent}
           </div>
@@ -2117,42 +2122,42 @@ export default function Coach({
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
             >
-              {dialogue.dialogueOptions[0].text}
+              {lintDisplayText(dialogue.dialogueOptions[0].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
             >
-              {dialogue.dialogueOptions[1].text}
+              {lintDisplayText(dialogue.dialogueOptions[1].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
             >
-              {dialogue.dialogueOptions[2].text}
+              {lintDisplayText(dialogue.dialogueOptions[2].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[3])}
             >
-              {dialogue.dialogueOptions[3].text}
+              {lintDisplayText(dialogue.dialogueOptions[3].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[4])}
             >
-              {dialogue.dialogueOptions[4].text}
+              {lintDisplayText(dialogue.dialogueOptions[4].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
               onClick={() => performDialogueOption(dialogue.dialogueOptions[5])}
             >
-              {dialogue.dialogueOptions[5].text}
+              {lintDisplayText(dialogue.dialogueOptions[5].text)}
             </Button>
             {backContent}
           </div>
@@ -2165,7 +2170,7 @@ export default function Coach({
                     style={{ marginTop: 8 }}
                     onClick={() => performDialogueOption(dialogue.dialogueOptions[index])}
                   >
-                    {dialogue.dialogueOptions[index].text}
+                    {lintDisplayText(dialogue.dialogueOptions[index].text)}
                   </Button>);
         });
 

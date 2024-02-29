@@ -2,6 +2,7 @@ let url = window.location.href;
 
 let REACT_APP_BILLING_STATUS = process.env.REACT_APP_BILLING_STATUS;
 let REACT_APP_TRIAL_END_DATE = process.env.REACT_APP_TRIAL_END_DATE;
+let REACT_APP_START_PAYING_DATE = process.env.REACT_APP_START_PAYING_DATE;
 let REACT_APP_ZOOM_RATE = process.env.REACT_APP_ZOOM_RATE;
 let REACT_APP_ZOOM_LINK = process.env.REACT_APP_ZOOM_LINK;
 let REACT_APP_COACH = process.env.REACT_APP_COACH;
@@ -69,7 +70,7 @@ else if (url.includes("zachwhelchel")) {
   REACT_APP_COACH = "jordanjung"
   REACT_APP_COACH_FIRST_NAME = "Jordan"
   REACT_APP_USER_FIRST_NAME = "Zach"
-  REACT_APP_UI_MODE = "coach"
+  REACT_APP_UI_MODE = "user"
 }
 else if (url.includes("melodybarthelemy")) {
   REACT_APP_BILLING_STATUS = "paid"
@@ -104,6 +105,7 @@ else if (url.includes("aitzarelysnegron")) {
 else if (url.includes("georgewu")) {
   REACT_APP_BILLING_STATUS = "free_trial"
   REACT_APP_TRIAL_END_DATE = "February 14th, 2024"
+  REACT_APP_START_PAYING_DATE = "2/14/24"
   REACT_APP_ZOOM_RATE = "49.99 USD / hour"
   REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
   REACT_APP_COACH = "kristinwade"
@@ -114,6 +116,7 @@ else if (url.includes("georgewu")) {
 else if (url.includes("elizabethmckay")) {
   REACT_APP_BILLING_STATUS = "free_trial"
   REACT_APP_TRIAL_END_DATE = "February 18th, 2024"
+  REACT_APP_START_PAYING_DATE = "2/18/24"
   REACT_APP_ZOOM_RATE = "49.99 USD / hour"
   REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
   REACT_APP_COACH = "kristinwade"
@@ -124,6 +127,7 @@ else if (url.includes("elizabethmckay")) {
 else if (url.includes("enidnegron")) {
   REACT_APP_BILLING_STATUS = "free_trial"
   REACT_APP_TRIAL_END_DATE = "February 18th, 2024"
+  REACT_APP_START_PAYING_DATE = "2/18/24"
   REACT_APP_ZOOM_RATE = "47.00 USD / 45 Minute Session"
   REACT_APP_ZOOM_LINK = "https://StrategiesandTEA.as.me/MBC"
   REACT_APP_COACH = "aitzanegron"
@@ -134,6 +138,7 @@ else if (url.includes("enidnegron")) {
 else if (url.includes("mirlandepetitraymond")) {
   REACT_APP_BILLING_STATUS = "free_trial"
   REACT_APP_TRIAL_END_DATE = "February 21st, 2024"
+  REACT_APP_START_PAYING_DATE = "2/21/24"
   REACT_APP_ZOOM_RATE = "47.00 USD / 45 Minute Session"
   REACT_APP_ZOOM_LINK = "https://StrategiesandTEA.as.me/MBC"
   REACT_APP_COACH = "aitzanegron"
@@ -144,6 +149,7 @@ else if (url.includes("mirlandepetitraymond")) {
 else if (url.includes("reynaperdomo")) {
   REACT_APP_BILLING_STATUS = "free_trial"
   REACT_APP_TRIAL_END_DATE = "February 21st, 2024"
+  REACT_APP_START_PAYING_DATE = "2/21/24"
   REACT_APP_ZOOM_RATE = "47.00 USD / 45 Minute Session"
   REACT_APP_ZOOM_LINK = "https://StrategiesandTEA.as.me/MBC"
   REACT_APP_COACH = "aitzanegron"
@@ -184,6 +190,7 @@ else if (url.includes("spencerstephenson")) {
 else if (url.includes("katiesolomon")) {
   REACT_APP_BILLING_STATUS = "free_trial"
   REACT_APP_TRIAL_END_DATE = "February 28th, 2024"
+  REACT_APP_START_PAYING_DATE = "2/28/24"
   REACT_APP_ZOOM_RATE = "49.99 USD / hour"
   REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
   REACT_APP_COACH = "kristinwade"
@@ -194,6 +201,7 @@ else if (url.includes("katiesolomon")) {
 else if (url.includes("katiegriffin")) {
   REACT_APP_BILLING_STATUS = "free_trial"
   REACT_APP_TRIAL_END_DATE = "March 21st, 2024"
+  REACT_APP_START_PAYING_DATE = "3/21/24"
   REACT_APP_ZOOM_RATE = "49.99 USD / hour"
   REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
   REACT_APP_COACH = "kristinwade"
@@ -296,6 +304,16 @@ else if (url.includes("localhost")) {
   // REACT_APP_COACH_FIRST_NAME = "Zach"
   REACT_APP_USER_FIRST_NAME = "User"
   REACT_APP_UI_MODE = "coach"
+
+  // REACT_APP_BILLING_STATUS = "free_trial"
+  // REACT_APP_TRIAL_END_DATE = "February 14th, 2024"
+  // REACT_APP_START_PAYING_DATE = "2/20/24"
+  // REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+  // REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
+  // REACT_APP_COACH = "kristinwade"
+  // REACT_APP_COACH_FIRST_NAME = "Kristin"
+  // REACT_APP_USER_FIRST_NAME = "George"
+  // REACT_APP_UI_MODE = "user"
 }
 
 let file = localStorage.getItem("uploaded_draw_io_file");
@@ -360,4 +378,4 @@ if (testPublishedAvatar != null) {
 //if we find that file then set everything to that...
 //that's really the bulk of it...
 
-export {REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE, testableCoachList}
+export {REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE, testableCoachList}

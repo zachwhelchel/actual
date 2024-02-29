@@ -11,12 +11,13 @@ import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
 import { theme } from '../../style';
 import { Button } from '../common/Button';
+import { ExternalLink } from '../common/ExternalLink';
 
 import { Account } from './Account';
 import { SecondaryItem } from './SecondaryItem';
 
 import Coach, { CoachProvider, useCoach } from '../coach/Coach';
-import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
+import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 
 const fontWeight = 600;
 
@@ -112,6 +113,28 @@ export function Accounts({
   let imgSrc = "/coach-icon-" + REACT_APP_COACH + "-200x200.png";
   let myCoach = "My Coach: " + REACT_APP_COACH_FIRST_NAME;
   const navigate = useNavigate();
+
+  let mode = "subscribed";
+  let freeTrialDaysLeft = 0;
+  let daysUntilDeletion = 0;
+
+  const oneDay = 24 * 60 * 60 * 1000;
+
+  if (REACT_APP_START_PAYING_DATE !== null && REACT_APP_START_PAYING_DATE !== undefined) {
+    const startPayingDate = Date.parse(REACT_APP_START_PAYING_DATE);
+    console.log("startPayingDate:" + startPayingDate);
+
+    var now = new Date();
+    now.setHours(0,0,0,0);
+    if (startPayingDate >= now) {
+      mode = "free_trial";
+      freeTrialDaysLeft = Math.round(Math.abs((startPayingDate - now) / oneDay));
+
+    } else {
+      mode = "deletion_soon"
+      daysUntilDeletion = Math.round(Math.abs((now - startPayingDate) / oneDay));
+    }
+  }
 
   return (
     <View>
@@ -427,32 +450,79 @@ export function Accounts({
         }}
       />
 
-      {REACT_APP_BILLING_STATUS === "free_trial" && REACT_APP_UI_MODE === "user" && (
-        <SecondaryItem
-          style={{
+      {REACT_APP_UI_MODE === "user" && mode === "subscribed" && (
+        <p style={{
             marginTop: 15,
-            marginBottom: 9,
-            paddingBottom: 10,
-            flexShrink: '0',
-          }}
-          onClick={onFreeTrial}
-          Icon={SvgBadge}
-          title="Free Trial"
-        />
+            marginLeft: 15,
+            marginRight: 15,
+            paddingBottom: 15,
+            flexShrink: '1',
+          }}>
+            You are currently subscribed. Manage your subscription
+            {" "}
+            <ExternalLink
+              linkColor="white"
+              to={`https://mybudgetcoach.app/subscription`}
+            >
+            here
+            </ExternalLink>
+            .
+        </p>
       )}
 
-      {REACT_APP_BILLING_STATUS === "paid" && REACT_APP_UI_MODE === "user" && (
-        <SecondaryItem
-          style={{
+      {REACT_APP_UI_MODE === "user" && mode === "free_trial" && (
+        <p style={{
             marginTop: 15,
-            marginBottom: 9,
-            paddingBottom: 10,
-            flexShrink: '0',
-          }}
-          onClick={onManageSubscription}
-          Icon={SvgBadge}
-          title="Manage Subscription"
-        />
+            marginLeft: 15,
+            marginRight: 15,
+            paddingBottom: 15,
+            flexShrink: '1',
+          }}>
+            Your Free Trial has {freeTrialDaysLeft} days remaining.
+            {" "}
+            <ExternalLink
+              linkColor="white"
+              to={`https://mybudgetcoach.app/subscription`}
+            >
+            Subscribe at any time
+            </ExternalLink>
+            {" "}
+            to keep your budget beyond your trial.
+        </p>
+      )}
+
+      {REACT_APP_UI_MODE === "user" && mode === "deletion_soon" && (
+        <>
+          <p style={{
+              marginTop: 15,
+              marginLeft: 15,
+              marginRight: 15,
+              paddingBottom: 15,
+              flexShrink: '1',
+              color: theme.errorText,
+            }}>
+              Your Free Trial ended {daysUntilDeletion} days ago.
+              {" "}
+              <ExternalLink
+                linkColor="white"
+                to={`https://mybudgetcoach.app/subscription`}
+              >
+              Subscribe now
+              </ExternalLink>
+              {" "}
+              to avoid losing your budget.
+          </p>
+          <p style={{
+              marginTop: 0,
+              marginLeft: 15,
+              marginRight: 15,
+              paddingBottom: 15,
+              flexShrink: '1',
+              color: theme.errorText,
+            }}>
+            Note: Once subscribed this warning will disapear within 2 business days.
+          </p>
+        </>
       )}
 
       {REACT_APP_UI_MODE === "coach" && (
