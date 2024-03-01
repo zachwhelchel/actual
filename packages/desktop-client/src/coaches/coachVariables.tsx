@@ -116,7 +116,7 @@ else if (url.includes("georgewu")) {
 else if (url.includes("elizabethmckay")) {
   REACT_APP_BILLING_STATUS = "free_trial"
   REACT_APP_TRIAL_END_DATE = "February 18th, 2024"
-  REACT_APP_START_PAYING_DATE = "2/18/24"
+  REACT_APP_START_PAYING_DATE = "4/5/24"
   REACT_APP_ZOOM_RATE = "49.99 USD / hour"
   REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
   REACT_APP_COACH = "kristinwade"
