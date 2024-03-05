@@ -1719,7 +1719,25 @@ export default function Coach({
           if (userFirstName !== null && userFirstName !== undefined) {
             dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", userFirstName);
           }
-          console.log("And no value found for it.");
+        } else if (substringToReplace == "time_of_day") {
+          let timeOfDay = "day";
+
+          var today = new Date()
+          var curHr = today.getHours()
+
+          if (curHr < 4) {
+            timeOfDay = 'evening';
+          } else if (curHr < 12) {
+            timeOfDay = 'morning';
+          } else if (curHr < 18) {
+            timeOfDay = 'afternoon';
+          } else {
+            timeOfDay = 'evening';
+          }
+
+          if (timeOfDay !== null && timeOfDay !== undefined) {
+            dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", timeOfDay);
+          }
         }
       }
     }
