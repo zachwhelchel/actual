@@ -11,6 +11,7 @@ let REACT_APP_USER_FIRST_NAME = process.env.REACT_APP_USER_FIRST_NAME;
 let REACT_APP_UI_MODE = process.env.REACT_APP_UI_MODE;
 
 let testableCoachList = [['select', 'Select a Coach...'], 
+['celiabenton', 'Celia Benton'],
 ['kristinwade', 'Kristin Wade'],
 ['nicksmith', 'Nick Smith'],
 ['jordanjung', 'Jordan Denae'],
@@ -212,10 +213,10 @@ else if (url.includes("katiegriffin")) {
 else if (url.includes("celiabenton")) {
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
-  REACT_APP_ZOOM_RATE = "39.99 USD / hour"
-  REACT_APP_ZOOM_LINK = "https://meetings.hubspot.com/randi-degraw/mybudgetcoach"
-  REACT_APP_COACH = "randidegraw"
-  REACT_APP_COACH_FIRST_NAME = "Randi"
+  REACT_APP_ZOOM_RATE = "40.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://sites.google.com/view/ynab-coaching-with-celia/rates-and-appointments?authuser=0"
+  REACT_APP_COACH = "celiabenton"
+  REACT_APP_COACH_FIRST_NAME = "Celia"
   REACT_APP_USER_FIRST_NAME = "Celia"
   REACT_APP_UI_MODE = "coach"
 }
@@ -305,15 +306,14 @@ else if (url.includes("localhost")) {
   REACT_APP_USER_FIRST_NAME = "User"
   REACT_APP_UI_MODE = "coach"
 
-  // REACT_APP_BILLING_STATUS = "free_trial"
-  // REACT_APP_TRIAL_END_DATE = "February 14th, 2024"
-  // REACT_APP_START_PAYING_DATE = "2/20/24"
-  // REACT_APP_ZOOM_RATE = "49.99 USD / hour"
-  // REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
-  // REACT_APP_COACH = "kristinwade"
-  // REACT_APP_COACH_FIRST_NAME = "Kristin"
-  // REACT_APP_USER_FIRST_NAME = "George"
-  // REACT_APP_UI_MODE = "user"
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "40.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://sites.google.com/view/ynab-coaching-with-celia/rates-and-appointments?authuser=0"
+  REACT_APP_COACH = "celiabenton"
+  REACT_APP_COACH_FIRST_NAME = "Celia"
+  REACT_APP_USER_FIRST_NAME = "Celia"
+  REACT_APP_UI_MODE = "coach"
 }
 
 let file = localStorage.getItem("uploaded_draw_io_file");
@@ -334,7 +334,12 @@ if (testPublishedAvatar != null) {
   REACT_APP_ZOOM_LINK = "https://calendly.com/"
   REACT_APP_COACH = testPublishedAvatar
 
-  if (testPublishedAvatar === "kristinwade") {
+  if (testPublishedAvatar === "celiabenton") {
+    REACT_APP_COACH_FIRST_NAME = "Celia"
+    REACT_APP_ZOOM_RATE = "40.00 USD / hour"
+    REACT_APP_ZOOM_LINK = "https://sites.google.com/view/ynab-coaching-with-celia/rates-and-appointments?authuser=0"
+  }
+  else if (testPublishedAvatar === "kristinwade") {
     REACT_APP_COACH_FIRST_NAME = "Kristin"
     REACT_APP_ZOOM_RATE = "49.99 USD / hour"
     REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"

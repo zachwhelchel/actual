@@ -780,6 +780,15 @@ export default function Coach({
     }
 
     if (
+      commonElementsRef.current['selected_transactions_button'] !== undefined &&
+      commonElementsRef.current['selected_transactions_button'] !== null
+    ) {
+      commonElementsRef.current['selected_transactions_button'].style.backgroundColor = null;
+      commonElementsRef.current['selected_transactions_button'].style.outlineColor = null;
+      commonElementsRef.current['selected_transactions_button'].style.outlineStyle = null;
+    }
+
+    if (
       commonElementsRef.current['select_category'] !== undefined &&
       commonElementsRef.current['select_category'] !== null
     ) {
@@ -916,6 +925,18 @@ export default function Coach({
       commonElementsRef.current['zoom_link'].style.outlineStyle = null;
     }
 
+    // so this one is different when we refactor.
+    if (
+      commonElementsRef.current['for_budget_accounts'] !== undefined &&
+      commonElementsRef.current['for_budget_accounts'] !== null
+    ) {
+      commonElementsRef.current['for_budget_accounts'].style.outlineColor = null;
+      commonElementsRef.current['for_budget_accounts'].style.outlineStyle = null;
+    }
+
+
+
+
         // so this one is different when we refactor.
     if (
       commonElementsRef.current['save_transaction'] !== undefined &&
@@ -983,6 +1004,28 @@ export default function Coach({
           commonElementsRef.current['zoom_link'].style.outlineColor = "yellow";
           commonElementsRef.current['zoom_link'].style.outlineStyle = "dashed";
           commonElementsRef.current['zoom_link'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
+      }
+      else if (action === "move_to: for_budget_accounts") {
+        if (
+          commonElementsRef.current['for_budget_accounts'] !== undefined &&
+          commonElementsRef.current['for_budget_accounts'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['for_budget_accounts'].getBoundingClientRect();
+          const centerY = t;
+          setTop(centerY - 33 + yOffset);
+          setLeft(14 + xOffset);
+          setOffset(0);
+
+          commonElementsRef.current['for_budget_accounts'].style.outlineColor = "yellow";
+          commonElementsRef.current['for_budget_accounts'].style.outlineStyle = "dashed";
+          commonElementsRef.current['for_budget_accounts'].style.outlineWidth = 5;
 
         } else {
           setTop(window.innerHeight - 20 + yOffset);
@@ -1096,8 +1139,8 @@ export default function Coach({
           const { top: t, left: l } =
             commonElementsRef.current['add_new_button'].getBoundingClientRect();
           const centerY = t + commonElementsRef.current['add_new_button'].offsetHeight;
-          setTop(centerY + 10);
-          setLeft(l - 240);
+          setTop(centerY - 100);
+          setLeft(l + commonElementsRef.current['filter_button'].offsetWidth - 240 + 20);
           setOffset(0);
 
           commonElementsRef.current['add_new_button'].style.backgroundColor = "yellow";
@@ -1226,6 +1269,30 @@ export default function Coach({
           setOffset(100);
         }
       }
+      else if (action === "move_to: selected_transactions_button") {
+        if (
+          commonElementsRef.current['selected_transactions_button'] !== undefined &&
+          commonElementsRef.current['selected_transactions_button'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['selected_transactions_button'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['selected_transactions_button'].offsetHeight;
+          setTop(window.innerHeight - 20);
+          setLeft(window.innerWidth - 20 - 240);
+          setOffset(100);
+
+          commonElementsRef.current['selected_transactions_button'].style.backgroundColor = "yellow";
+          commonElementsRef.current['selected_transactions_button'].style.outlineColor = "black";
+          commonElementsRef.current['selected_transactions_button'].style.outlineStyle = "dashed";
+          commonElementsRef.current['selected_transactions_button'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
+      }
+
       else if (action === "move_to: select_category") {
         if (
           commonElementsRef.current['select_category'] !== undefined &&
@@ -1397,9 +1464,9 @@ export default function Coach({
             commonElementsRef.current['budget_header'].getBoundingClientRect();
           const centerY = t + commonElementsRef.current['budget_header'].offsetHeight;
           const centerX = l + (commonElementsRef.current['budget_header'].offsetWidth / 2);
-          setTop(centerY + 10 - 35);
-          setLeft(centerX - 200 - 240);
-          setOffset(0);
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
 
           commonElementsRef.current['budget_header'].style.backgroundColor = "yellow";
           commonElementsRef.current['budget_header'].style.outlineColor = "black";

@@ -153,12 +153,18 @@ export function Accounts({
       </div>
 
       {budgetedAccounts.length > 0 && (
-        <Account
-          name="For budget"
-          to={budgetedAccountPath}
-          query={getOnBudgetBalance()}
-          style={{ fontWeight, marginTop: 13 }}
-        />
+        <div
+          ref={element => {
+            commonElementsRef.current['for_budget_accounts'] = element;
+          }}
+        >
+          <Account
+            name="For budget"
+            to={budgetedAccountPath}
+            query={getOnBudgetBalance()}
+            style={{ fontWeight, marginTop: 13 }}
+          />
+        </div>
       )}
 
       {budgetedAccounts.map((account, i) => (
@@ -295,7 +301,7 @@ export function Accounts({
         style={{
           marginLeft: '16',
           marginRight: '16',
-          marginTop: '-5',
+          marginTop: '-9',
           textAlign: 'center',
           flexShrink: '0',
         }}

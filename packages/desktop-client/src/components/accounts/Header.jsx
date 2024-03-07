@@ -311,17 +311,23 @@ export function AccountHeader({
               <AnimatedLoading style={{ width: 16, height: 16 }} />
             </View>
           ) : (
-              <SelectedTransactionsButton
-                getTransaction={id => transactions.find(t => t.id === id)}
-                onShow={onShowTransactions}
-                onDuplicate={onBatchDuplicate}
-                onDelete={onBatchDelete}
-                onEdit={onBatchEdit}
-                onUnlink={onBatchUnlink}
-                onCreateRule={onCreateRule}
-                onScheduleAction={onScheduleAction}
-                pushModal={pushModal}
-              />
+              <div
+                ref={element => {
+                  commonElementsRef.current['selected_transactions_button'] = element;
+                }}
+              >
+                <SelectedTransactionsButton
+                  getTransaction={id => transactions.find(t => t.id === id)}
+                  onShow={onShowTransactions}
+                  onDuplicate={onBatchDuplicate}
+                  onDelete={onBatchDelete}
+                  onEdit={onBatchEdit}
+                  onUnlink={onBatchUnlink}
+                  onCreateRule={onCreateRule}
+                  onScheduleAction={onScheduleAction}
+                  pushModal={pushModal}
+                />
+              </div>
           )}
           <div
             ref={element => {
