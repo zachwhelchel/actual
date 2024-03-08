@@ -594,25 +594,33 @@ export default function Coach({
 
 
 
+        console.log("SPENSER 1");
 
 
         let sIndex2 = c.indexOf("[[") + 2; 
         let tIndex2 = c.indexOf("]]"); 
 
         if (sIndex2 !== null && sIndex2 !== undefined && tIndex2 !== null && tIndex2 !== undefined) {
-          console.log("I found a substring to replace");
           let substringToReplace = c.substring(sIndex2, tIndex2);
-          console.log(substringToReplace);
+          console.log("SPENSER I found a substring to replace:", substringToReplace);
 
           let replacement = coachState[substringToReplace];
           if (replacement !== null && replacement !== undefined) {
-            console.log("And the value for it:");
+            console.log("SPENSER And the value for it:", replacement);
             console.log(replacement);
 
             c = c.replace("[[" + substringToReplace + "]]", replacement);
-            console.log("So here is the new text:");
+            console.log("SPENSER So here is the new text:", c);
             console.log(c);
 
+          } else if (substringToReplace == "user_first_name") {
+            let userFirstName = REACT_APP_USER_FIRST_NAME
+            if (userFirstName !== null && userFirstName !== undefined) {
+              console.log("SPENSER 2");
+
+              c = c.replace("[[" + substringToReplace + "]]", userFirstName);
+            }
+            console.log("And no value found for it.");
           }
         }
 
@@ -1873,6 +1881,111 @@ export default function Coach({
             dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", userFirstName);
           }
           console.log("And no value found for it.");
+        } else if (substringToReplace == "time_of_day") {
+          let timeOfDay = "day";
+
+          var today = new Date()
+          var curHr = today.getHours()
+
+          if (curHr < 4) {
+            timeOfDay = 'evening';
+          } else if (curHr < 12) {
+            timeOfDay = 'morning';
+          } else if (curHr < 18) {
+            timeOfDay = 'afternoon';
+          } else {
+            timeOfDay = 'evening';
+          }
+
+          if (timeOfDay !== null && timeOfDay !== undefined) {
+            dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", timeOfDay);
+          }
+        }
+      }
+    }
+
+//again, LOLZ
+    sIndex = dialogueText.indexOf("[[") + 2; 
+    tIndex = dialogueText.indexOf("]]"); 
+
+    if (sIndex > -1 && tIndex > -1) {
+      //[[animal_preference = cat 'cat' : '']]
+
+      let conditionalIndex = dialogueText.indexOf(' : '); 
+      if (conditionalIndex > -1) {
+
+        try {
+          let fullSubstring = dialogueText.substring(sIndex, tIndex);
+          let index2 = fullSubstring.indexOf(" '"); 
+          let condition = fullSubstring.substring(0, index2);
+          let firstOption = fullSubstring.substring(index2 + 2, conditionalIndex);
+          let index3 = firstOption.indexOf("'"); 
+          firstOption = firstOption.substring(0, index3);
+
+          let index4 = fullSubstring.indexOf(" : "); 
+          let secondOption = fullSubstring.substring(index4 + 4, fullSubstring.length-1);
+
+
+          let more1 = condition.substring(0, condition.indexOf(' = '));
+          let more2 = condition.substring(condition.indexOf(' = ') + 3);
+
+          const conditionProper: Condition = {
+            and: [],
+            or: [],
+            variable: more1,
+            value: more2,
+            test: "=",
+          };
+
+          if (evaluate(conditionProper)) {
+            dialogueText = dialogueText.replace("[[" + fullSubstring + "]]", firstOption);
+          } else {
+            dialogueText = dialogueText.replace("[[" + fullSubstring + "]]", secondOption);
+          }
+
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      else {
+        console.log("I found a substring to replace");
+        let substringToReplace = dialogueText.substring(sIndex, tIndex);
+        console.log(substringToReplace);
+
+        let replacement = coachState[substringToReplace];
+        if (replacement !== null && replacement !== undefined) {
+          console.log("And the value for it:");
+          console.log(replacement);
+
+          dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", replacement);
+          console.log("So here is the new text:");
+          console.log(dialogueText);
+
+        } else if (substringToReplace == "user_first_name") {
+          let userFirstName = REACT_APP_USER_FIRST_NAME
+          if (userFirstName !== null && userFirstName !== undefined) {
+            dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", userFirstName);
+          }
+          console.log("And no value found for it.");
+        } else if (substringToReplace == "time_of_day") {
+          let timeOfDay = "day";
+
+          var today = new Date()
+          var curHr = today.getHours()
+
+          if (curHr < 4) {
+            timeOfDay = 'evening';
+          } else if (curHr < 12) {
+            timeOfDay = 'morning';
+          } else if (curHr < 18) {
+            timeOfDay = 'afternoon';
+          } else {
+            timeOfDay = 'evening';
+          }
+
+          if (timeOfDay !== null && timeOfDay !== undefined) {
+            dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", timeOfDay);
+          }
         }
       }
     }

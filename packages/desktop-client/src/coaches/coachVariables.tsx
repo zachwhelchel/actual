@@ -12,6 +12,7 @@ let REACT_APP_UI_MODE = process.env.REACT_APP_UI_MODE;
 
 let testableCoachList = [['select', 'Select a Coach...'], 
 ['celiabenton', 'Celia Benton'],
+['spencerstephenson', 'Spencer Stephenson'],
 ['kristinwade', 'Kristin Wade'],
 ['nicksmith', 'Nick Smith'],
 ['jordanjung', 'Jordan Denae'],
@@ -181,10 +182,10 @@ else if (url.includes("zachdemo")) {
 else if (url.includes("spencerstephenson")) {
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
-  REACT_APP_ZOOM_RATE = "40.00 USD / hour"
-  REACT_APP_ZOOM_LINK = "https://calendly.com/personalwealthadventures/one-hour-session"
-  REACT_APP_COACH = "nicksmith"
-  REACT_APP_COACH_FIRST_NAME = "Nick"
+  REACT_APP_ZOOM_RATE = "75.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://tidycal.com/simoleonsubstance"
+  REACT_APP_COACH = "spencerstephenson"
+  REACT_APP_COACH_FIRST_NAME = "Spencer"
   REACT_APP_USER_FIRST_NAME = "Spencer"
   REACT_APP_UI_MODE = "coach"
 }
@@ -308,11 +309,11 @@ else if (url.includes("localhost")) {
 
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
-  REACT_APP_ZOOM_RATE = "40.00 USD / hour"
-  REACT_APP_ZOOM_LINK = "https://sites.google.com/view/ynab-coaching-with-celia/rates-and-appointments?authuser=0"
-  REACT_APP_COACH = "celiabenton"
-  REACT_APP_COACH_FIRST_NAME = "Celia"
-  REACT_APP_USER_FIRST_NAME = "Celia"
+  REACT_APP_ZOOM_RATE = "75.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://tidycal.com/simoleonsubstance"
+  REACT_APP_COACH = "spencerstephenson"
+  REACT_APP_COACH_FIRST_NAME = "Spencer"
+  REACT_APP_USER_FIRST_NAME = "Spencer"
   REACT_APP_UI_MODE = "coach"
 }
 
@@ -338,6 +339,11 @@ if (testPublishedAvatar != null) {
     REACT_APP_COACH_FIRST_NAME = "Celia"
     REACT_APP_ZOOM_RATE = "40.00 USD / hour"
     REACT_APP_ZOOM_LINK = "https://sites.google.com/view/ynab-coaching-with-celia/rates-and-appointments?authuser=0"
+  }
+  else if (testPublishedAvatar === "spencerstephenson") {
+    REACT_APP_COACH_FIRST_NAME = "Spencer"
+    REACT_APP_ZOOM_RATE = "75.00 USD / hour"
+    REACT_APP_ZOOM_LINK = "https://tidycal.com/simoleonsubstance"
   }
   else if (testPublishedAvatar === "kristinwade") {
     REACT_APP_COACH_FIRST_NAME = "Kristin"
