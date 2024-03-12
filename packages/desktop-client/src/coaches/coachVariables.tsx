@@ -11,6 +11,8 @@ let REACT_APP_USER_FIRST_NAME = process.env.REACT_APP_USER_FIRST_NAME;
 let REACT_APP_UI_MODE = process.env.REACT_APP_UI_MODE;
 
 let testableCoachList = [['select', 'Select a Coach...'], 
+['danielaaron', 'Daniel Aaron'],
+['trevorvance', 'Trevor Vance'],
 ['celiabenton', 'Celia Benton'],
 ['spencerstephenson', 'Spencer Stephenson'],
 ['kristinwade', 'Kristin Wade'],
@@ -276,6 +278,10 @@ else if (url.includes("katsklar")) {
 else if (url.includes("trevorvance")) {
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "60.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://tidycal.com/intentionalbudgets/mbc-consult"
+  REACT_APP_COACH = "trevorvance"
+  REACT_APP_COACH_FIRST_NAME = "Trevor"
   REACT_APP_USER_FIRST_NAME = "Trevor"
   REACT_APP_UI_MODE = "coach"
 }
@@ -294,7 +300,17 @@ else if (url.includes("dariomartinez")) {
 else if (url.includes("danielaaron")) {
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_ZOOM_RATE = "70.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://stackdfinance.com"
+  REACT_APP_COACH = "danielaaron"
+  REACT_APP_COACH_FIRST_NAME = "Daniel"
   REACT_APP_USER_FIRST_NAME = "Daniel"
+  REACT_APP_UI_MODE = "coach"
+}
+else if (url.includes("jonakerman")) {
+  REACT_APP_BILLING_STATUS = "paid"
+  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+  REACT_APP_USER_FIRST_NAME = "Jon"
   REACT_APP_UI_MODE = "coach"
 }
 else if (url.includes("localhost")) {
@@ -313,7 +329,7 @@ else if (url.includes("localhost")) {
   REACT_APP_ZOOM_LINK = "https://tidycal.com/simoleonsubstance"
   REACT_APP_COACH = "spencerstephenson"
   REACT_APP_COACH_FIRST_NAME = "Spencer"
-  REACT_APP_USER_FIRST_NAME = "Spencer"
+  REACT_APP_USER_FIRST_NAME = "Zach"
   REACT_APP_UI_MODE = "coach"
 }
 
@@ -335,7 +351,17 @@ if (testPublishedAvatar != null) {
   REACT_APP_ZOOM_LINK = "https://calendly.com/"
   REACT_APP_COACH = testPublishedAvatar
 
-  if (testPublishedAvatar === "celiabenton") {
+  if (testPublishedAvatar === "danielaaron") {
+    REACT_APP_COACH_FIRST_NAME = "Daniel"
+    REACT_APP_ZOOM_RATE = "70.00 USD / hour"
+    REACT_APP_ZOOM_LINK = "https://stackdfinance.com"
+  }
+  else if (testPublishedAvatar === "trevorvance") {
+    REACT_APP_COACH_FIRST_NAME = "Trevor"
+    REACT_APP_ZOOM_RATE = "60.00 USD / hour"
+    REACT_APP_ZOOM_LINK = "https://tidycal.com/intentionalbudgets/mbc-consult"
+  }
+  else if (testPublishedAvatar === "celiabenton") {
     REACT_APP_COACH_FIRST_NAME = "Celia"
     REACT_APP_ZOOM_RATE = "40.00 USD / hour"
     REACT_APP_ZOOM_LINK = "https://sites.google.com/view/ynab-coaching-with-celia/rates-and-appointments?authuser=0"
