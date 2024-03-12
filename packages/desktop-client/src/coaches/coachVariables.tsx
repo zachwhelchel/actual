@@ -300,8 +300,8 @@ else if (url.includes("dariomartinez")) {
 else if (url.includes("danielaaron")) {
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
-  REACT_APP_ZOOM_RATE = "70.00 USD / hour"
-  REACT_APP_ZOOM_LINK = "https://stackdfinance.com"
+  REACT_APP_ZOOM_RATE = "75.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://stackdfinancialcoaching.as.me/MyBudgetCoach"
   REACT_APP_COACH = "danielaaron"
   REACT_APP_COACH_FIRST_NAME = "Daniel"
   REACT_APP_USER_FIRST_NAME = "Daniel"
@@ -313,6 +313,29 @@ else if (url.includes("jonakerman")) {
   REACT_APP_USER_FIRST_NAME = "Jon"
   REACT_APP_UI_MODE = "coach"
 }
+else if (url.includes("soozwatson")) {
+  REACT_APP_BILLING_STATUS = "free_trial"
+  REACT_APP_TRIAL_END_DATE = "April 15th, 2024"
+  REACT_APP_START_PAYING_DATE = "4/15/24"
+  REACT_APP_ZOOM_RATE = "40.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://sites.google.com/view/ynab-coaching-with-celia/rates-and-appointments?authuser=0"
+  REACT_APP_COACH = "celiabenton"
+  REACT_APP_COACH_FIRST_NAME = "Celia"
+  REACT_APP_USER_FIRST_NAME = "Sooz"
+  REACT_APP_UI_MODE = "user"
+}
+else if (url.includes("hannahwatson")) {
+  REACT_APP_BILLING_STATUS = "free_trial"
+  REACT_APP_TRIAL_END_DATE = "April 15th, 2024"
+  REACT_APP_START_PAYING_DATE = "4/15/24"
+  REACT_APP_ZOOM_RATE = "40.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://sites.google.com/view/ynab-coaching-with-celia/rates-and-appointments?authuser=0"
+  REACT_APP_COACH = "celiabenton"
+  REACT_APP_COACH_FIRST_NAME = "Celia"
+  REACT_APP_USER_FIRST_NAME = "Hannah"
+  REACT_APP_UI_MODE = "user"
+}
+
 else if (url.includes("localhost")) {
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
@@ -353,8 +376,8 @@ if (testPublishedAvatar != null) {
 
   if (testPublishedAvatar === "danielaaron") {
     REACT_APP_COACH_FIRST_NAME = "Daniel"
-    REACT_APP_ZOOM_RATE = "70.00 USD / hour"
-    REACT_APP_ZOOM_LINK = "https://stackdfinance.com"
+    REACT_APP_ZOOM_RATE = "75.00 USD / hour"
+    REACT_APP_ZOOM_LINK = "https://stackdfinancialcoaching.as.me/MyBudgetCoach"
   }
   else if (testPublishedAvatar === "trevorvance") {
     REACT_APP_COACH_FIRST_NAME = "Trevor"
