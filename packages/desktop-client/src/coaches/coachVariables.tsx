@@ -267,8 +267,8 @@ else if (url.includes("naseemamcelroy")) {
 else if (url.includes("anitadombovari")) {
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
-  REACT_APP_ZOOM_RATE = "200.00 USD / hour"
-  REACT_APP_ZOOM_LINK = "https://anitadombovari.as.me/schedule/7d1b47ce"
+  REACT_APP_ZOOM_RATE = "50.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://anitadombovari.as.me/?appointmentType=60426198"
   REACT_APP_COACH = "anitadombovari"
   REACT_APP_COACH_FIRST_NAME = "Anita"
   REACT_APP_USER_FIRST_NAME = "Anita"
@@ -368,8 +368,8 @@ else if (url.includes("localhost")) {
 
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
-  REACT_APP_ZOOM_RATE = "200.00 USD / hour"
-  REACT_APP_ZOOM_LINK = "https://anitadombovari.as.me/schedule/7d1b47ce"
+  REACT_APP_ZOOM_RATE = "50.00 USD / hour"
+  REACT_APP_ZOOM_LINK = "https://anitadombovari.as.me/?appointmentType=60426198"
   REACT_APP_COACH = "anitadombovari"
   REACT_APP_COACH_FIRST_NAME = "Anita"
   REACT_APP_USER_FIRST_NAME = "Anita"
@@ -396,8 +396,8 @@ if (testPublishedAvatar != null) {
 
   if (testPublishedAvatar === "anitadombovari") {
     REACT_APP_COACH_FIRST_NAME = "Anita"
-    REACT_APP_ZOOM_RATE = "200.00 USD / hour"
-    REACT_APP_ZOOM_LINK = "https://anitadombovari.as.me/schedule/7d1b47ce"
+    REACT_APP_ZOOM_RATE = "50.00 USD / hour"
+    REACT_APP_ZOOM_LINK = "https://anitadombovari.as.me/?appointmentType=60426198"
   }
   else if (testPublishedAvatar === "tashiekamaat") {
     REACT_APP_COACH_FIRST_NAME = "Tashieka"
