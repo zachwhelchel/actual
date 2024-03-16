@@ -1121,6 +1121,16 @@ handlers['secret-check'] = async function (name) {
   }
 };
 
+handlers['env-variables'] = async function () {
+
+  console.log("thissisissisisisis");
+
+  return get(
+    getServer().BASE_SERVER + '/envvariables',
+  );
+};
+
+
 handlers['gocardless-poll-web-token'] = async function ({
   upgradingAccountId,
   requisitionId,

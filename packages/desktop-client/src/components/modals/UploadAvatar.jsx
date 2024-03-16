@@ -38,13 +38,18 @@ export function UploadAvatar({
       filepath,
     });
 
-    console.log("stuffgo on xml?");
-    console.log(stuff);
+    const results = await send('env-variables');
+    console.log("rrrrrr:", results);
 
-    localStorage.removeItem("test_published_avatar");
-    localStorage.setItem("uploaded_draw_io_file", stuff);
-    resetCoach();
-    location.reload();
+
+
+    // console.log("stuffgo on xml?");
+    // console.log(stuff);
+
+    // localStorage.removeItem("test_published_avatar");
+    // localStorage.setItem("uploaded_draw_io_file", stuff);
+    // resetCoach();
+    // location.reload();
   };
 
   const [coach, setCoach] = useState('select');
@@ -84,6 +89,9 @@ export function UploadAvatar({
 
 
   let supportedTriggerTypes = [];
+
+
+
 
   allConversations.forEach((value, key) => {
 
