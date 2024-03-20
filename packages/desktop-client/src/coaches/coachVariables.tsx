@@ -77,7 +77,7 @@ else if (url.includes("zachwhelchel")) {
   REACT_APP_COACH = "jordanjung"
   REACT_APP_COACH_FIRST_NAME = "Jordan"
   REACT_APP_USER_FIRST_NAME = "Zach"
-  REACT_APP_UI_MODE = "user"
+  REACT_APP_UI_MODE = "coach"
 }
 else if (url.includes("melodybarthelemy")) {
   REACT_APP_BILLING_STATUS = "paid"
