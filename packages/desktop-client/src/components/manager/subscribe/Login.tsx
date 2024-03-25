@@ -9,6 +9,8 @@ import { send } from 'loot-core/src/platform/client/fetch';
 import { theme } from '../../../style';
 import { Button, ButtonWithLoading } from '../../common/Button';
 import { BigInput } from '../../common/Input';
+import { ExternalLink } from '../../common/ExternalLink';
+
 import { Text } from '../../common/Text';
 import { View } from '../../common/View';
 
@@ -69,7 +71,11 @@ export function Login() {
           lineHeight: 1.4,
         }}
       >
-        If you lost your password, contact support to get it reset.
+        If you lost your password,{' '}
+        <ExternalLink linkColor="muted" to="mailto:admin@mybudgetcoach.app?subject=Password">
+          contact support
+        </ExternalLink>{' '} 
+        to get it reset.
       </Text>
 
       {error && (
