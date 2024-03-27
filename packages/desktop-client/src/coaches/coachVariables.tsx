@@ -368,6 +368,17 @@ else if (url.includes("jessicakoch")) {
   REACT_APP_USER_FIRST_NAME = "Jessica"
   REACT_APP_UI_MODE = "coach"
 }
+else if (url.includes("michelltrujillo")) {
+  REACT_APP_BILLING_STATUS = "free_trial"
+  REACT_APP_TRIAL_END_DATE = "May 1st, 2024"
+  REACT_APP_START_PAYING_DATE = "5/1/24"
+  REACT_APP_ZOOM_RATE = "47.00 USD / 45 Minute Session"
+  REACT_APP_ZOOM_LINK = "https://StrategiesandTEA.as.me/MBC"
+  REACT_APP_COACH = "aitzanegron"
+  REACT_APP_COACH_FIRST_NAME = "Aitzarelys"
+  REACT_APP_USER_FIRST_NAME = "Michell"
+  REACT_APP_UI_MODE = "user"
+}
 else if (url.includes("localhost")) {
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
