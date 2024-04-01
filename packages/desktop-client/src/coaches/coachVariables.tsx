@@ -379,6 +379,16 @@ else if (url.includes("michelltrujillo")) {
   REACT_APP_USER_FIRST_NAME = "Michell"
   REACT_APP_UI_MODE = "user"
 }
+else if (url.includes("nicolecollins")) {
+  REACT_APP_BILLING_STATUS = "free_trial"
+  REACT_APP_TRIAL_END_DATE = "May 6th, 2024"
+  REACT_APP_ZOOM_RATE = "50.00 USD / 50 Minute Session"
+  REACT_APP_ZOOM_LINK = "https://JamaaWealthFinancialClientScheduling.as.me/?appointmentType=59397495"
+  REACT_APP_COACH = "tashiekamaat"
+  REACT_APP_COACH_FIRST_NAME = "Tashieka"
+  REACT_APP_USER_FIRST_NAME = "Nicole"
+  REACT_APP_UI_MODE = "user"
+}
 else if (url.includes("localhost")) {
   REACT_APP_BILLING_STATUS = "paid"
   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
