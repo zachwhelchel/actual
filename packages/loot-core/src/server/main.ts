@@ -1125,11 +1125,24 @@ handlers['env-variables'] = async function () {
 
   console.log("thissisissisisisis");
 
-  return get(
-    getServer().BASE_SERVER + '/envvariables',
-  );
+  try {
+    return await get(
+      getServer().BASE_SERVER + '/envvariables',
+    );
+  } catch (error) {
+    console.error(error);
+
+    await delay(1000);
+    
+    return await get(
+      getServer().BASE_SERVER + '/envvariables',
+    );
+  }
 };
 
+function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
 
 handlers['gocardless-poll-web-token'] = async function ({
   upgradingAccountId,
