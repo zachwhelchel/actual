@@ -216,7 +216,7 @@ export interface ServerHandlers {
 
   'secret-set': (arg: { name: string; value: string }) => Promise<null>;
   'secret-check': (arg: string) => Promise<string | { error?: string }>;
-  'env-variables': () => Promise<{ answer: string }>;
+  'env-variables': () => Promise<{ status: string; data: unknown }>;
 
   'gocardless-poll-web-token': (arg: {
     upgradingAccountId?: string;

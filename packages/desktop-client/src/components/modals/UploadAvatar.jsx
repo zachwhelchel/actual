@@ -39,7 +39,13 @@ export function UploadAvatar({
     });
 
     const results = await send('env-variables');
-    console.log("rrrrrr:", results);
+    var myobj = JSON.parse(results);
+
+    console.log("rrrrrr:", myobj);
+    console.log("rrrrrr:", myobj.data);
+    console.log("rrrrrr:", myobj.data.REACT_APP_BILLING_STATUS);
+
+
 
 
 
