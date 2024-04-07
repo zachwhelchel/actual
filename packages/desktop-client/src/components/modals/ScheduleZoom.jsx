@@ -37,6 +37,15 @@ export function ScheduleZoom({
                 Close
               </Button>
               <Button
+                style={{ marginRight: 10 }}
+                onClick={() => {
+                  window.location.href = "mailto:admin@mybudgetcoach.app?subject=Support";
+                  modalProps.onClose();
+                }}
+              >
+                Contact MBC Support
+              </Button>
+              <Button
                 type="primary"
                 onClick={() => {
                   window.open(REACT_APP_ZOOM_LINK, "_blank");
