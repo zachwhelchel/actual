@@ -448,6 +448,7 @@ else if (url.includes("localhost")) {
 //   REACT_APP_USER_FIRST_NAME = "Anita"
 //   REACT_APP_UI_MODE = "coach"
 // }
+}
 
 let file = localStorage.getItem("uploaded_draw_io_file");
 if (file != null) {
