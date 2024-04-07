@@ -38,24 +38,13 @@ export function UploadAvatar({
       filepath,
     });
 
-    const results = await send('env-variables');
-    var myobj = JSON.parse(results);
+    console.log("stuffgo on xml?");
+    console.log(stuff);
 
-    console.log("rrrrrr:", myobj);
-    console.log("rrrrrr:", myobj.data);
-    console.log("rrrrrr:", myobj.data.REACT_APP_BILLING_STATUS);
-
-
-
-
-
-    // console.log("stuffgo on xml?");
-    // console.log(stuff);
-
-    // localStorage.removeItem("test_published_avatar");
-    // localStorage.setItem("uploaded_draw_io_file", stuff);
-    // resetCoach();
-    // location.reload();
+    localStorage.removeItem("test_published_avatar");
+    localStorage.setItem("uploaded_draw_io_file", stuff);
+    resetCoach();
+    location.reload();
   };
 
   const [coach, setCoach] = useState('select');
