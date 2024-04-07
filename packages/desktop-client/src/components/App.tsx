@@ -87,6 +87,8 @@ function AppInner({
         }
       });
     }
+
+    await initAvatar();
   }
 
   async function initAvatar() {
@@ -307,7 +309,7 @@ function AppInner({
 
   useEffect(() => {
     async function initAll() {
-      await Promise.all([installPolyfills(), init(), initAvatar()]);
+      await Promise.all([installPolyfills(), init()]);
       setInitializing(false);
     }
 
