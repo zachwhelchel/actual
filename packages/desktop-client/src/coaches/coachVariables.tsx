@@ -1,14 +1,14 @@
 let url = window.location.href;
 
-let REACT_APP_BILLING_STATUS = process.env.REACT_APP_BILLING_STATUS;
-let REACT_APP_TRIAL_END_DATE = process.env.REACT_APP_TRIAL_END_DATE;
-let REACT_APP_START_PAYING_DATE = process.env.REACT_APP_START_PAYING_DATE;
-let REACT_APP_ZOOM_RATE = process.env.REACT_APP_ZOOM_RATE;
-let REACT_APP_ZOOM_LINK = process.env.REACT_APP_ZOOM_LINK;
-let REACT_APP_COACH = process.env.REACT_APP_COACH;
-let REACT_APP_COACH_FIRST_NAME = process.env.REACT_APP_COACH_FIRST_NAME;
-let REACT_APP_USER_FIRST_NAME = process.env.REACT_APP_USER_FIRST_NAME;
-let REACT_APP_UI_MODE = process.env.REACT_APP_UI_MODE;
+let REACT_APP_BILLING_STATUS = localStorage.getItem("REACT_APP_BILLING_STATUS");
+let REACT_APP_TRIAL_END_DATE = localStorage.getItem("REACT_APP_TRIAL_END_DATE");
+let REACT_APP_START_PAYING_DATE = localStorage.getItem("REACT_APP_START_PAYING_DATE");
+let REACT_APP_ZOOM_RATE = localStorage.getItem("REACT_APP_ZOOM_RATE");
+let REACT_APP_ZOOM_LINK = localStorage.getItem("REACT_APP_ZOOM_LINK");
+let REACT_APP_COACH = localStorage.getItem("REACT_APP_COACH");
+let REACT_APP_COACH_FIRST_NAME = localStorage.getItem("REACT_APP_COACH_FIRST_NAME");
+let REACT_APP_USER_FIRST_NAME = localStorage.getItem("REACT_APP_USER_FIRST_NAME");
+let REACT_APP_UI_MODE = localStorage.getItem("REACT_APP_UI_MODE");
 
 let testableCoachList = [['select', 'Select a Coach...'], 
 ['anitadombovari', 'Anita Dombovari'],
@@ -77,7 +77,7 @@ else if (url.includes("zachwhelchel")) {
   REACT_APP_COACH = "jordanjung"
   REACT_APP_COACH_FIRST_NAME = "Jordan"
   REACT_APP_USER_FIRST_NAME = "Zach"
-  REACT_APP_UI_MODE = "user"
+  REACT_APP_UI_MODE = "coach"
 }
 else if (url.includes("melodybarthelemy")) {
   REACT_APP_BILLING_STATUS = "paid"
@@ -439,14 +439,15 @@ else if (url.includes("localhost")) {
   REACT_APP_USER_FIRST_NAME = "User"
   REACT_APP_UI_MODE = "coach"
 
-  REACT_APP_BILLING_STATUS = "paid"
-  REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
-  REACT_APP_ZOOM_RATE = "50.00 USD / hour"
-  REACT_APP_ZOOM_LINK = "https://anitadombovari.as.me/?appointmentType=60426198"
-  REACT_APP_COACH = "anitadombovari"
-  REACT_APP_COACH_FIRST_NAME = "Anita"
-  REACT_APP_USER_FIRST_NAME = "Anita"
-  REACT_APP_UI_MODE = "coach"
+//   REACT_APP_BILLING_STATUS = "paid"
+//   REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+//   REACT_APP_ZOOM_RATE = "50.00 USD / hour"
+//   REACT_APP_ZOOM_LINK = "https://anitadombovari.as.me/?appointmentType=60426198"
+//   REACT_APP_COACH = "anitadombovari"
+//   REACT_APP_COACH_FIRST_NAME = "Anita"
+//   REACT_APP_USER_FIRST_NAME = "Anita"
+//   REACT_APP_UI_MODE = "coach"
+// }
 }
 
 let file = localStorage.getItem("uploaded_draw_io_file");

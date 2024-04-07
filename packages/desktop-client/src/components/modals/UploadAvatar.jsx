@@ -85,6 +85,9 @@ export function UploadAvatar({
 
   let supportedTriggerTypes = [];
 
+
+
+
   allConversations.forEach((value, key) => {
 
     const conversation = value;
