@@ -104,16 +104,59 @@ function AppInner({
     let REACT_APP_USER_FIRST_NAME = myobj.data.REACT_APP_USER_FIRST_NAME;
     let REACT_APP_UI_MODE = myobj.data.REACT_APP_UI_MODE;
 
-    localStorage.setItem('REACT_APP_BILLING_STATUS', REACT_APP_BILLING_STATUS);
-    localStorage.setItem('REACT_APP_TRIAL_END_DATE', REACT_APP_TRIAL_END_DATE);
-    localStorage.setItem('REACT_APP_START_PAYING_DATE', REACT_APP_START_PAYING_DATE);
-    localStorage.setItem('REACT_APP_ZOOM_RATE', REACT_APP_ZOOM_RATE);
-    localStorage.setItem('REACT_APP_ZOOM_LINK', REACT_APP_ZOOM_LINK);
-    localStorage.setItem('REACT_APP_COACH', REACT_APP_COACH);
-    localStorage.setItem('REACT_APP_COACH_FIRST_NAME', REACT_APP_COACH_FIRST_NAME);
-    localStorage.setItem('REACT_APP_USER_FIRST_NAME', REACT_APP_USER_FIRST_NAME);
-    localStorage.setItem('REACT_APP_UI_MODE', REACT_APP_UI_MODE);
+    if (REACT_APP_BILLING_STATUS != null) {
+      localStorage.setItem('REACT_APP_BILLING_STATUS', REACT_APP_BILLING_STATUS);
+    } else {
+      localStorage.removeItem('REACT_APP_BILLING_STATUS');
+    }
 
+    if (REACT_APP_TRIAL_END_DATE != null) {
+      localStorage.setItem('REACT_APP_TRIAL_END_DATE', REACT_APP_TRIAL_END_DATE);
+    } else {
+      localStorage.removeItem('REACT_APP_TRIAL_END_DATE');
+    }
+
+    if (REACT_APP_START_PAYING_DATE != null) {
+      localStorage.setItem('REACT_APP_START_PAYING_DATE', REACT_APP_START_PAYING_DATE);
+    } else {
+      localStorage.removeItem('REACT_APP_START_PAYING_DATE');
+    }
+
+    if (REACT_APP_ZOOM_RATE != null) {
+      localStorage.setItem('REACT_APP_ZOOM_RATE', REACT_APP_ZOOM_RATE);
+    } else {
+      localStorage.removeItem('REACT_APP_ZOOM_RATE');
+    }
+
+    if (REACT_APP_ZOOM_LINK != null) {
+      localStorage.setItem('REACT_APP_ZOOM_LINK', REACT_APP_ZOOM_LINK);
+    } else {
+      localStorage.removeItem('REACT_APP_ZOOM_LINK');
+    }
+
+    if (REACT_APP_COACH != null) {
+      localStorage.setItem('REACT_APP_COACH', REACT_APP_COACH);
+    } else {
+      localStorage.removeItem('REACT_APP_COACH');
+    }
+
+    if (REACT_APP_COACH_FIRST_NAME != null) {
+      localStorage.setItem('REACT_APP_COACH_FIRST_NAME', REACT_APP_COACH_FIRST_NAME);
+    } else {
+      localStorage.removeItem('REACT_APP_COACH_FIRST_NAME');
+    }
+
+    if (REACT_APP_USER_FIRST_NAME != null) {
+      localStorage.setItem('REACT_APP_USER_FIRST_NAME', REACT_APP_USER_FIRST_NAME);
+    } else {
+      localStorage.removeItem('REACT_APP_USER_FIRST_NAME');
+    }
+
+    if (REACT_APP_UI_MODE != null) {
+      localStorage.setItem('REACT_APP_UI_MODE', REACT_APP_UI_MODE);
+    } else {
+      localStorage.removeItem('REACT_APP_UI_MODE');
+    }
 
     //Set up the coach dialogues.
     let coachSrc = "/avatars/" + REACT_APP_COACH + ".drawio.xml";
