@@ -1121,23 +1121,33 @@ handlers['secret-check'] = async function (name) {
   }
 };
 
-handlers['env-variables'] = async function () {
+handlers['env-variables'] = async function (firstlast) {
 
-  console.log("thissisissisisisis");
-
-  try {
+  if (firstlast.includes('localhost')) {
     return await get(
       getServer().BASE_SERVER + '/envvariables',
     );
-  } catch (error) {
-    console.error(error);
-
-    await delay(1000);
-    
+  } else {
+    firstlast = firstlast.substring(8, firstlast.indexOf('.'));
+    console.log("Can we?", firstlast);
     return await get(
-      getServer().BASE_SERVER + '/envvariables',
+      getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/envvariables',
     );
   }
+
+  // try {
+  //   return await get(
+  //     getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/envvariables',
+  //   );
+  // } catch (error) {
+  //   console.error(error);
+
+  //   await delay(10000);
+    
+  //   return await get(
+  //     getServer().BASE_SERVER + '/envvariables',
+  //   );
+  // }
 };
 
 function delay(ms: number) {

@@ -93,7 +93,10 @@ function AppInner({
 
   async function initAvatar() {
 
-    const results = await send('env-variables');
+    let url = String(window.location.href);
+    //url = "https://zackwhelchel.mybudgetcoach.app/";
+
+    const results = await send('env-variables', url);
     var myobj = JSON.parse(results);
 
     let REACT_APP_BILLING_STATUS = myobj.data.REACT_APP_BILLING_STATUS;
