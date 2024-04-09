@@ -28,6 +28,7 @@ import { ManagementApp } from './manager/ManagementApp';
 import { MobileWebMessage } from './MobileWebMessage';
 import { UpdateNotification } from './UpdateNotification';
 //import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME } from '../coaches/coachVariables';
+import { getCoach } from '../coaches/coachVariables';
 
 type AppInnerProps = {
   budgetId: string;
@@ -163,8 +164,9 @@ function AppInner({
       localStorage.removeItem('REACT_APP_UI_MODE');
     }
 
+
     //Set up the coach dialogues.
-    let coachSrc = "/avatars/" + REACT_APP_COACH + ".drawio.xml";
+    let coachSrc = "/avatars/" + getCoach() + ".drawio.xml";
 
     //coachSrc = "https://firebasestorage.googleapis.com/v0/b/mybudgetcoach-3c977.appspot.com/o/%20KristinWade.drawio-24.xml?alt=media&token=c20c8ead-89b9-4c1c-8a32-b59ced6f7f87"
 
