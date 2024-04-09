@@ -168,6 +168,8 @@ function AppInner({
     //Set up the coach dialogues.
     let coachSrc = "/avatars/" + getCoach() + ".drawio.xml";
 
+    console.log("anita 1:", REACT_APP_COACH);
+    console.log("anita 1:", getCoach());
     //coachSrc = "https://firebasestorage.googleapis.com/v0/b/mybudgetcoach-3c977.appspot.com/o/%20KristinWade.drawio-24.xml?alt=media&token=c20c8ead-89b9-4c1c-8a32-b59ced6f7f87"
 
     type Conversation = {
