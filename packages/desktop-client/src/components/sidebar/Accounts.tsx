@@ -46,6 +46,7 @@ type AccountsProps = {
   onManageSubscription: () => void;
   onResetAvatar: () => void;
   onUploadAvatar: () => void;
+  onStartNewConversation: () => void;
   onToggleClosedAccounts: () => void;
   onReorder: OnDropCallback;
 };
@@ -69,6 +70,7 @@ export function Accounts({
   onManageSubscription,
   onResetAvatar,
   onUploadAvatar,
+  onStartNewConversation,
   onToggleClosedAccounts,
   onReorder,
 }: AccountsProps) {
@@ -106,7 +108,7 @@ export function Accounts({
     return null;
   };
 
-  let { commonElementsRef, conversationDeck, openConversation, setOpenConversation } = useCoach(); // this is causing the errors.
+  let { commonElementsRef, conversationDeck, openConversation, setOpenConversation, allConversations } = useCoach(); // this is causing the errors.
 
   let coachFirstNameZoom = "Zoom with " + REACT_APP_COACH_FIRST_NAME;
   let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
@@ -117,6 +119,18 @@ export function Accounts({
   let mode = "subscribed";
   let freeTrialDaysLeft = 0;
   let daysUntilDeletion = 0;
+
+
+  let supportedTriggerTypes = [];
+
+  allConversations.forEach((value, key) => {
+    const conversation = value;
+    conversation.triggerType;
+    if (conversation.canBeUserInitiated == true) {
+      supportedTriggerTypes.push({title: conversation.title, triggerType: conversation.triggerType});
+    }
+  });
+
 
   const oneDay = 24 * 60 * 60 * 1000;
 
@@ -404,6 +418,26 @@ export function Accounts({
 
           </>
         ))}
+
+      {supportedTriggerTypes.length > 0 && (
+          <p 
+            style={{
+              marginTop: 15,
+              marginLeft: 15,
+              marginRight: 15,
+              paddingBottom: 0,
+              flexShrink: '1',
+              textAlign: 'center',
+              color: theme.pageBackground,
+            }}
+            onClick={() => onStartNewConversation()}
+          >
+              <u>Start a New Conversation</u>
+          </p>
+      )}
+
+
+
       </div>
 
       <View

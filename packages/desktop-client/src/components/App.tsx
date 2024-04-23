@@ -178,6 +178,7 @@ function AppInner({
       dialogues: Map;
       firstDialogueId: string;
       triggerType: string;
+      canBeUserInitiated: boolean;
     };
 
     type Dialogue = {
@@ -253,7 +254,7 @@ function AppInner({
         console.log("Um... hello");
 
         let items = diagrams[0].getElementsByTagName("mxCell");
-        let [dialogues, firstDialogueId, triggerType] = dialoguesForConversation(items);
+        let [dialogues, firstDialogueId, triggerType, canBeUserInitiated] = dialoguesForConversation(items);
 
         console.log("Um... hello");
 
@@ -268,6 +269,7 @@ function AppInner({
           dialogues: dialogues,
           firstDialogueId: firstDialogueId,
           triggerType: triggerType,
+          canBeUserInitiated: canBeUserInitiated,
         };
         someConversations.set(conversation.id, conversation);
 
@@ -282,7 +284,7 @@ function AppInner({
           const name = diagram.getAttribute("name");
 
           let items = diagram.getElementsByTagName("mxCell");
-          let [dialogues, firstDialogueId, triggerType] = dialoguesForConversation(items);
+          let [dialogues, firstDialogueId, triggerType, canBeUserInitiated] = dialoguesForConversation(items);
 
           const conversation: Conversation = {
             id: id,
@@ -290,6 +292,7 @@ function AppInner({
             dialogues: dialogues,
             firstDialogueId: firstDialogueId,
             triggerType: triggerType,
+            canBeUserInitiated: canBeUserInitiated,
           };
           someConversations.set(conversation.id, conversation);
 
@@ -434,12 +437,13 @@ export function App({someDialogues, initialDialogueId}) {
 }
 
 
-function dialoguesForConversation(items) : [Map, string, string] {
+function dialoguesForConversation(items) : [Map, string, string, boolean] {
 
 let someDialogues = new Map();
 
 
   let triggerType = null;
+  let canBeUserInitiated = false;
 
 
   let firstId = undefined;
@@ -656,6 +660,9 @@ let someDialogues = new Map();
         console.log('thetriggerthing' + xxx);
         triggerType = xxx;
 
+        if (style.includes("fillColor=#e1d5e7;")) {
+          canBeUserInitiated = true;
+        }
       }
 
       else if (style.startsWith('rounded=1')) {
@@ -1098,7 +1105,7 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
 
   //return someDialogues;
 
-    return [someDialogues, initialDialogueId, triggerType];
+    return [someDialogues, initialDialogueId, triggerType, canBeUserInitiated];
 
 }
 

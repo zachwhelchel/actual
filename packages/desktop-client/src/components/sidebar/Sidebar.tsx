@@ -45,6 +45,7 @@ type SidebarProps = {
   onManageSubscription: () => void;
   onResetAvatar: () => void;
   onUploadAvatar: () => void;
+  onStartNewConversation: () => void;
   onToggleClosedAccounts: () => void;
   onReorder: OnDropCallback;
 };
@@ -68,6 +69,7 @@ export function Sidebar({
   onManageSubscription,
   onResetAvatar,
   onUploadAvatar,
+  onStartNewConversation,
   onToggleClosedAccounts,
   onReorder,
 }: SidebarProps) {
@@ -162,6 +164,7 @@ export function Sidebar({
           onManageSubscription={onManageSubscription}
           onResetAvatar={onResetAvatar}
           onUploadAvatar={onUploadAvatar}
+          onStartNewConversation={onStartNewConversation}
           onToggleClosedAccounts={onToggleClosedAccounts}
           onReorder={onReorder}
         />

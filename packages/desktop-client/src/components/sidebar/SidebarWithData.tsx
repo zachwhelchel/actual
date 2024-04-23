@@ -166,6 +166,7 @@ export function SidebarWithData() {
       onManageSubscription={() => replaceModal('manage-subscription')}
       onResetAvatar={() => replaceModal('reset-avatar')}
       onUploadAvatar={() => replaceModal('upload-avatar')}
+      onStartNewConversation={() => replaceModal('start-new-conversation')}
       showClosedAccounts={prefs['ui.showClosedAccounts']}
       onToggleClosedAccounts={() =>
         savePrefs({

@@ -44,6 +44,7 @@ import { FreeTrial } from './modals/FreeTrial';
 import { ManageSubscription } from './modals/ManageSubscription';
 import { ResetAvatar } from './modals/ResetAvatar';
 import { UploadAvatar } from './modals/UploadAvatar';
+import { StartNewConversation } from './modals/StartNewConversation';
 
 export function Modals() {
   const modalStack = useSelector(state => state.modals.modalStack);
@@ -121,6 +122,13 @@ export function Modals() {
         case 'upload-avatar':
           return (
             <UploadAvatar
+              modalProps={modalProps}
+            />
+          );
+
+        case 'start-new-conversation':
+          return (
+            <StartNewConversation
               modalProps={modalProps}
             />
           );

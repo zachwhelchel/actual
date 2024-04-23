@@ -44,7 +44,7 @@ function modifyVars() {
   if (url.includes("kristinwade")) {
     REACT_APP_BILLING_STATUS = "paid"
     REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
-    REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+    REACT_APP_ZOOM_RATE = "50.00 USD / hour"
     REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
     REACT_APP_COACH = "kristinwade"
     REACT_APP_COACH_FIRST_NAME = "Kristin"
@@ -104,7 +104,7 @@ function modifyVars() {
   else if (url.includes("alfredomatos")) {
     REACT_APP_BILLING_STATUS = "paid"
     REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
-    REACT_APP_ZOOM_RATE = "49.00 USD / hour"
+    REACT_APP_ZOOM_RATE = "65.00 USD / hour"
     REACT_APP_ZOOM_LINK = "https://calendly.com/cashviewpoint/mybudgetcoach"
     REACT_APP_COACH = "alfredomatos"
     REACT_APP_COACH_FIRST_NAME = "Alfredo"
@@ -125,7 +125,7 @@ function modifyVars() {
     REACT_APP_BILLING_STATUS = "free_trial"
     REACT_APP_TRIAL_END_DATE = "February 14th, 2024"
     REACT_APP_START_PAYING_DATE = "2/14/24"
-    REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+    REACT_APP_ZOOM_RATE = "50.00 USD / hour"
     REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
     REACT_APP_COACH = "kristinwade"
     REACT_APP_COACH_FIRST_NAME = "Kristin"
@@ -136,7 +136,7 @@ function modifyVars() {
     REACT_APP_BILLING_STATUS = "free_trial"
     REACT_APP_TRIAL_END_DATE = "February 18th, 2024"
     REACT_APP_START_PAYING_DATE = "4/5/24"
-    REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+    REACT_APP_ZOOM_RATE = "50.00 USD / hour"
     REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
     REACT_APP_COACH = "kristinwade"
     REACT_APP_COACH_FIRST_NAME = "Kristin"
@@ -210,7 +210,7 @@ function modifyVars() {
     REACT_APP_BILLING_STATUS = "free_trial"
     REACT_APP_TRIAL_END_DATE = "February 28th, 2024"
     REACT_APP_START_PAYING_DATE = "2/28/24"
-    REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+    REACT_APP_ZOOM_RATE = "50.00 USD / hour"
     REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
     REACT_APP_COACH = "kristinwade"
     REACT_APP_COACH_FIRST_NAME = "Kristin"
@@ -221,7 +221,7 @@ function modifyVars() {
     REACT_APP_BILLING_STATUS = "free_trial"
     REACT_APP_TRIAL_END_DATE = "March 21st, 2024"
     REACT_APP_START_PAYING_DATE = "3/21/24"
-    REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+    REACT_APP_ZOOM_RATE = "50.00 USD / hour"
     REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
     REACT_APP_COACH = "kristinwade"
     REACT_APP_COACH_FIRST_NAME = "Kristin"
@@ -241,7 +241,7 @@ function modifyVars() {
   else if (url.includes("bobbiolson")) {
     REACT_APP_BILLING_STATUS = "paid"
     REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
-    REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+    REACT_APP_ZOOM_RATE = "50.00 USD / hour"
     REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
     REACT_APP_COACH = "kristinwade"
     REACT_APP_COACH_FIRST_NAME = "Kristin"
@@ -517,7 +517,7 @@ function modifyVars() {
     }
     else if (testPublishedAvatar === "kristinwade") {
       REACT_APP_COACH_FIRST_NAME = "Kristin"
-      REACT_APP_ZOOM_RATE = "49.99 USD / hour"
+      REACT_APP_ZOOM_RATE = "50.00 USD / hour"
       REACT_APP_ZOOM_LINK = "https://www.fiscal-bliss.com/booking-calendar/mybudgetcoach-meeting"
     }
     else if (testPublishedAvatar === "nicksmith") {
@@ -542,7 +542,7 @@ function modifyVars() {
     }
     else if (testPublishedAvatar === "alfredomatos") {
       REACT_APP_COACH_FIRST_NAME = "Alfredo"
-      REACT_APP_ZOOM_RATE = "49.00 USD / hour"
+      REACT_APP_ZOOM_RATE = "65.00 USD / hour"
       REACT_APP_ZOOM_LINK = "https://calendly.com/cashviewpoint/mybudgetcoach"
     }
     else if (testPublishedAvatar === "aitzanegron") {
