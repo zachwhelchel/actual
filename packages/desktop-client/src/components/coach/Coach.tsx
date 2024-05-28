@@ -682,36 +682,44 @@ export default function Coach({
 
         console.log("newVar: " + newVar);
 
-        let sIndex2 = assignment.indexOf(" + ") + 3;
-        var assignment1 = assignment.substring(0, sIndex2 - 3);
-        var assignment2 = assignment.substring(sIndex2, assignment.length);
+        if (assignment.includes(" + ")) {
+          let sIndex2 = assignment.indexOf(" + ") + 3;
+          var assignment1 = assignment.substring(0, sIndex2 - 3);
+          var assignment2 = assignment.substring(sIndex2, assignment.length);
 
-        let replacement1 = coachState[assignment1];
-        if (replacement1 !== null && replacement1 !== undefined) {
-          assignment1 = replacement1;
+          let replacement1 = coachState[assignment1];
+          if (replacement1 !== null && replacement1 !== undefined) {
+            assignment1 = replacement1;
+          }
+
+          let replacement2 = coachState[assignment2];
+          if (replacement2 !== null && replacement2 !== undefined) {
+            assignment2 = replacement2;
+          }
+
+          let newValue = Number(assignment1.replaceAll("$", "")) + Number(assignment2.replaceAll("$", ""));
+          setCoachState({ ...coachState, [newVar]: String(newValue) })
+
+        } else if (assignment.includes(" - ")) {
+          let sIndex2 = assignment.indexOf(" - ") + 3;
+          var assignment1 = assignment.substring(0, sIndex2 - 3);
+          var assignment2 = assignment.substring(sIndex2, assignment.length);
+
+          let replacement1 = coachState[assignment1];
+          if (replacement1 !== null && replacement1 !== undefined) {
+            assignment1 = replacement1;
+          }
+
+          let replacement2 = coachState[assignment2];
+          if (replacement2 !== null && replacement2 !== undefined) {
+            assignment2 = replacement2;
+          }
+
+          let newValue = Number(assignment1.replaceAll("$", "")) - Number(assignment2.replaceAll("$", ""));
+          setCoachState({ ...coachState, [newVar]: String(newValue) })
+
         }
 
-        let replacement2 = coachState[assignment2];
-        if (replacement2 !== null && replacement2 !== undefined) {
-          assignment2 = replacement2;
-        }
-
-        console.log("assignment1: " + assignment1);
-        console.log("assignment2: " + assignment2);
-
-        let newValue = Number(assignment1.replaceAll("$", "")) + Number(assignment2.replaceAll("$", ""));
-
-        console.log("newValue: " + newValue);
-
-        setCoachState({ ...coachState, [newVar]: String(newValue) })
-
-
-        console.log("coachState: " + coachState[newVar]);
-
-        console.log("I found a substring to action on");
-        console.log(substring);
-
-        jumpToId(substring);
 
       }
       else if (a.startsWith("create_category_group:")) {
