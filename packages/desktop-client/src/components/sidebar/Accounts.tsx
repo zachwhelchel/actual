@@ -464,7 +464,7 @@ export function Accounts({
                 width: '100%',
               }}
             >
-              Schedule Zoom
+              Schedule Video Call
             </Button>
           </div>
         )}

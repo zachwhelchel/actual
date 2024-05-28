@@ -5,9 +5,12 @@ import React, { createContext, useContext, useEffect, useState, useRef } from 'r
 import { Button } from '../common/Button';
 import { Card } from '../common/Card';
 import { View } from '../common/View';
+import { Tooltip } from '../tooltips';
+import { Menu } from '../common/Menu';
 import { BigInput } from '../common/Input';
 import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME } from '../../coaches/coachVariables';
 import { SvgClose } from '../../icons/v1';
+import { SvgDotsHorizontalTriple } from '../../icons/v1';
 
 let CoachContext = createContext();
 
@@ -185,7 +188,7 @@ if (allConversations != null) {
     }
   };
 
-  const jumpToId = (id) => {
+  const jumpToId = (id, newConversationDeck) => {
 
     console.log("jump to id");
     let conversationId = null;
@@ -211,7 +214,9 @@ if (allConversations != null) {
         }
       });
 
-      if (add) {
+      if (add && newConversationDeck != null) {
+        setConversationDeck([{id: conversationId, title: conversationTitle}, ...newConversationDeck]);
+      } else if (add) {
         setConversationDeck([{id: conversationId, title: conversationTitle}, ...conversationDeck]);
       }
       setOpenConversation(conversationId);
@@ -350,6 +355,42 @@ export default function Coach({
 
 
   let [currentInput, setCurrentInput] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+
+
+  async function onMenuSelect(type) {
+    setMenuOpen(false);
+    console.log("dialogueId");
+
+
+    let dialogueId = "null";
+    let conversationId = "null";
+
+    let conversation = allConversations.get(openConversation);
+    if (conversation != null) {
+      conversationId = conversation.id;
+      let ds = dialogueStacks[openConversation];
+      if (ds != null) {
+        if (ds.length > 0) {
+          dialogueId = conversation.dialogues.get(ds[ds.length-1]).id;
+        }
+      }
+    }
+
+    switch (type) {
+      case 'feedback':
+        window.open('https://airtable.com/appYAaDkGzB3ecOzl/shradCGbi8iniltiD?hide_CoachName=true&prefill_CoachName=' + REACT_APP_COACH + '&hide_ConversationId=true&prefill_ConversationId=' + conversationId + '&hide_DialogueId=true&prefill_DialogueId=' + dialogueId, '_blank');
+        break;
+      case 'reset':
+        resetCurrentConversation();
+        break;
+      case 'end':
+        endCurrentConversation();
+        break;
+      default:
+    }
+  }
+
 
   function updateInputForDialogueOption(dialogueOption) {
 
@@ -446,17 +487,65 @@ export default function Coach({
             //setDialogueStack([...dialogueStack, currentDialogueId]);
           //}
 
-          let newDialogueStacks = new Map();
-          for (const key in dialogueStacks) {
-            const value = dialogueStacks[key];
-            if (key === openConversation) {
-              newDialogueStacks[key] = [...value, dialogue.id];
 
-            } else {
-              newDialogueStacks[key] = value;
-            }
+          if (dialogue.text.startsWith("launch_conversation:")) {
+            let substring = dialogue.text.substring(21, dialogue.text.length);
+            console.log("I found a substring to action on");
+            console.log(substring);
+            jumpToId(substring);
           }
-          setDialogueStacks(newDialogueStacks);
+          else if (dialogue.text.startsWith("close_and_launch_conversation:")) {
+            let substring = dialogue.text.substring(31, dialogue.text.length);
+            console.log("I found a substringsssss to action on");
+            console.log(substring);
+
+
+            let newDialogueStacks = new Map();
+            for (const key in dialogueStacks) {
+              const value = dialogueStacks[key];
+              if (key === openConversation) {
+                newDialogueStacks[key] = [value[0]];
+              } else {
+                newDialogueStacks[key] = value;
+              }
+            }
+
+            let newConversationDeck = [];
+            conversationDeck.forEach((convo) => {
+              if (convo.id === openConversation) {
+                
+              } else {
+                newConversationDeck.push(convo);
+              }
+            });
+
+            console.log("DOVE");
+
+            console.log(newDialogueStacks);
+            console.log(newConversationDeck);
+
+            setDialogueStacks(newDialogueStacks);
+            setConversationDeck(newConversationDeck);
+            setOpenConversation(null);
+
+            jumpToId(substring, newConversationDeck); //idk why this is needed but it is, oh well.
+          }
+          else {
+
+            let newDialogueStacks = new Map();
+            for (const key in dialogueStacks) {
+              const value = dialogueStacks[key];
+              if (key === openConversation) {
+                newDialogueStacks[key] = [...value, dialogue.id];
+
+              } else {
+                newDialogueStacks[key] = value;
+              }
+            }
+            setDialogueStacks(newDialogueStacks);
+
+          }
+
         }
 
 
@@ -472,6 +561,8 @@ export default function Coach({
     } else {
       //no more dialogue with the current open conversation... welp... we need to set it back to the start and remove it from the active conversations.
 
+
+      //THIS IS ALL DUPLICATED ELSEWHERE AT THE CLOSE AND MOVE TO ANOTHER CONVO ACTION THING
       let newDialogueStacks = new Map();
       for (const key in dialogueStacks) {
         const value = dialogueStacks[key];
@@ -496,6 +587,46 @@ export default function Coach({
       setOpenConversation(null);
     }
 
+  }
+
+  function resetCurrentConversation() {
+    //note it resets to where it started, not nessecarily the start, if jumped to in the middle for example.
+    let newDialogueStacks = new Map();
+    for (const key in dialogueStacks) {
+      const value = dialogueStacks[key];
+      if (key === openConversation) {
+        newDialogueStacks[key] = [value[0]];
+      } else {
+        newDialogueStacks[key] = value;
+      }
+    }
+
+    setDialogueStacks(newDialogueStacks);
+  }
+
+  function endCurrentConversation() {
+    let newDialogueStacks = new Map();
+    for (const key in dialogueStacks) {
+      const value = dialogueStacks[key];
+      if (key === openConversation) {
+        newDialogueStacks[key] = [value[0]];
+      } else {
+        newDialogueStacks[key] = value;
+      }
+    }
+
+    let newConversationDeck = [];
+    conversationDeck.forEach((convo) => {
+      if (convo.id === openConversation) {
+        
+      } else {
+        newConversationDeck.push(convo);
+      }
+    });
+
+    setDialogueStacks(newDialogueStacks);
+    setConversationDeck(newConversationDeck);
+    setOpenConversation(null);
   }
 
   function performDialogueOption(dialogueOption) {
@@ -541,7 +672,49 @@ export default function Coach({
       let a = actions[i];
 
 
-      if (a.startsWith("create_category_group:")) {
+      if (a.startsWith("calculate_new_variable:")) {
+
+        let substring = a.substring(24, a.length);
+
+        let sIndex = substring.indexOf(" = ") + 3; 
+        let newVar = substring.substring(0, sIndex - 3);
+        let assignment = substring.substring(sIndex, substring.length);
+
+        console.log("newVar: " + newVar);
+
+        let sIndex2 = assignment.indexOf(" + ") + 3;
+        var assignment1 = assignment.substring(0, sIndex2 - 3);
+        var assignment2 = assignment.substring(sIndex2, assignment.length);
+
+        let replacement1 = coachState[assignment1];
+        if (replacement1 !== null && replacement1 !== undefined) {
+          assignment1 = replacement1;
+        }
+
+        let replacement2 = coachState[assignment2];
+        if (replacement2 !== null && replacement2 !== undefined) {
+          assignment2 = replacement2;
+        }
+
+        console.log("assignment1: " + assignment1);
+        console.log("assignment2: " + assignment2);
+
+        let newValue = Number(assignment1.replaceAll("$", "")) + Number(assignment2.replaceAll("$", ""));
+
+        console.log("newValue: " + newValue);
+
+        setCoachState({ ...coachState, [newVar]: String(newValue) })
+
+
+        console.log("coachState: " + coachState[newVar]);
+
+        console.log("I found a substring to action on");
+        console.log(substring);
+
+        jumpToId(substring);
+
+      }
+      else if (a.startsWith("create_category_group:")) {
 
         let substring = a.substring(23, a.length);
 
@@ -1676,12 +1849,22 @@ export default function Coach({
   function evaluate(item) {
     let variable = item.variable;
     let value = item.value;
+    let test = item.test;
 
     if (variable !== undefined && variable !== null && value !== undefined && value !== null) {
 
-      console.log ("EVAL: " + variable + " = " + value + " state:" + coachState[variable]);
+      console.log ("EVAL: " + variable + " " + test + " " + value + " state:" + coachState[variable]);
 
-      return coachState[variable] === value;
+      if (test == ">") {
+        return Number(coachState[variable]) > Number(value);
+
+      } else if (test == "<") {
+        return Number(coachState[variable]) < Number(value);
+
+      } else {
+        return coachState[variable] === value;
+      }
+
     } else {
 
       // ors only for now:
@@ -2452,6 +2635,40 @@ export default function Coach({
               }}
             >
               {content}
+
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Button
+                  type="bare"
+                  onClick={() => setMenuOpen(true)}
+                  style={{ marginLeft: 'auto' }}
+                >
+                  <SvgDotsHorizontalTriple
+                    width={13}
+                    height={13}
+                    style={{ marginRight: 0 }}
+                  />
+
+                </Button>
+
+                {menuOpen && (
+                  <Tooltip
+                    position="top-right"
+                    style={{ padding: 0, zIndex: 100000 }}
+                    onClose={() => setMenuOpen(false)}
+                  >
+                    <Menu
+                      onMenuSelect={onMenuSelect}
+                      items={[
+                        { name: 'feedback', text: 'Give Feedback' },
+                        { name: 'reset', text: 'Reset This Conversation' },
+                        { name: 'end', text: 'End This Conversation' },
+                      ]}
+                    />
+                  </Tooltip>
+                )}
+              </View>
+
+
             </Card>
           </div>
         </View>

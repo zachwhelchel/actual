@@ -1047,18 +1047,54 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
                 } else {
                   // the simple case needs covered too.
 
-                  let more1 = stuff.substring(0, stuff.indexOf(' = '));
-                  let more2 = stuff.substring(stuff.indexOf(' = ') + 3);
+                  if (stuff.includes(' = ')) {
 
-                  const condition: Condition = {
-                    and: [],
-                    or: [],
-                    variable: more1,
-                    value: more2,
-                    test: "=",
-                  };
+                    let more1 = stuff.substring(0, stuff.indexOf(' = '));
+                    let more2 = stuff.substring(stuff.indexOf(' = ') + 3);
+
+                    const condition: Condition = {
+                      and: [],
+                      or: [],
+                      variable: more1,
+                      value: more2,
+                      test: "=",
+                    };
 
                   dialogueOption.and.push(condition);
+
+
+                  } else if (stuff.includes(' &gt; ')) {
+
+                    let more1 = stuff.substring(0, stuff.indexOf(' &gt; '));
+                    let more2 = stuff.substring(stuff.indexOf(' &gt; ') + 6);
+
+                    const condition: Condition = {
+                      and: [],
+                      or: [],
+                      variable: more1,
+                      value: more2,
+                      test: ">",
+                    };
+
+                    dialogueOption.and.push(condition);
+
+                  } else if (stuff.includes(' &lt; ')) {
+
+                    let more1 = stuff.substring(0, stuff.indexOf(' &lt; '));
+                    let more2 = stuff.substring(stuff.indexOf(' &lt; ') + 6);
+
+                    const condition: Condition = {
+                      and: [],
+                      or: [],
+                      variable: more1,
+                      value: more2,
+                      test: "<",
+                    };
+
+                    dialogueOption.and.push(condition);
+
+                  }
+
 
                 }
 
