@@ -1121,21 +1121,21 @@ handlers['secret-check'] = async function (name) {
   }
 };
 
-handlers['env-variables'] = async function (firstlast) {
+handlers['env-variables'] = async function (url) {
 
-  if (firstlast.includes('localhost')) {
+  if (url.includes('localhost')) {
     return await get(
       getServer().BASE_SERVER + '/envvariables',
     );
   } else {
-    firstlast = firstlast.substring(8, firstlast.indexOf('.'));
+    let firstlast = url.substring(8, url.indexOf('.'));
     console.log("Can we?", firstlast);
-    if (firstlast.includes('.app')) {
+    if (url.includes('.app')) {
       return await get(
         getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/envvariables',
       );
     }
-    else if (firstlast.includes('.com')) {
+    else if (url.includes('.com')) {
       return await get(
         getServer("https://" + firstlast + ".mybudgetcoach.com").BASE_SERVER + '/envvariables',
       );
