@@ -1130,9 +1130,17 @@ handlers['env-variables'] = async function (firstlast) {
   } else {
     firstlast = firstlast.substring(8, firstlast.indexOf('.'));
     console.log("Can we?", firstlast);
-    return await get(
-      getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/envvariables',
-    );
+    if (firstlast.includes('.app')) {
+      return await get(
+        getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/envvariables',
+      );
+    }
+    else if (firstlast.includes('.com')) {
+      return await get(
+        getServer("https://" + firstlast + ".mybudgetcoach.com").BASE_SERVER + '/envvariables',
+      );
+    }
+
   }
 
   // try {
