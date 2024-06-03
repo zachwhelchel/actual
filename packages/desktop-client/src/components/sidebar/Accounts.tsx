@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { type AccountEntity } from 'loot-core/src/types/models';
 import { useNavigate } from "react-router-dom";
 
-import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt } from '../../icons/v1';
+import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt, SvgChatBubbleDots } from '../../icons/v1';
 import { View } from '../common/View';
 import { Card } from '../common/Card';
 import { type OnDropCallback } from '../sort';
@@ -570,12 +570,25 @@ export function Accounts({
           style={{
             marginTop: 15,
             marginBottom: 9,
-            paddingBottom: 10,
+            paddingBottom: 5,
             flexShrink: '0',
           }}
           onClick={() => navigate("/coachdashboard")}
           Icon={SvgBadge}
           title="Coach Dashboard"
+        />
+      )}
+      {REACT_APP_UI_MODE === "coach" && (
+        <SecondaryItem
+          style={{
+            marginTop: 0,
+            marginBottom: 9,
+            paddingBottom: 10,
+            flexShrink: '0',
+          }}
+          onClick={() => navigate("/coachmessagecenter")}
+          Icon={SvgChatBubbleDots}
+          title="Message Center"
         />
       )}
 

@@ -37,6 +37,7 @@ import { Notifications } from './Notifications';
 import { ManagePayeesPage } from './payees/ManagePayeesPage';
 import { Reports } from './reports';
 import { CoachDashboard } from './coachdashboard';
+import { CoachMessageCenter } from './coachmessagecenter';
 import { NarrowAlternate, WideComponent } from './responsive';
 import { ScrollProvider } from './ScrollProvider';
 import { Settings } from './settings';
@@ -181,6 +182,15 @@ function FinancesAppWithoutContext({budgetId, someDialogues, initialDialogueId}:
                   element={
                     <NarrowNotSupported>
                       <CoachDashboard />
+                    </NarrowNotSupported>
+                  }
+                />
+
+                <Route
+                  path="/coachmessagecenter/"
+                  element={
+                    <NarrowNotSupported>
+                      <CoachMessageCenter />
                     </NarrowNotSupported>
                   }
                 />

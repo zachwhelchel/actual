@@ -1,6 +1,6 @@
 {
   "name": "@zachwhelchel/actual-app-web",
-  "version": "23.9.59",
+  "version": "23.9.60",
   "license": "MIT",
   "files": [
     "build"
@@ -84,5 +84,8 @@
     "test": "vitest",
     "e2e": "npx playwright test --browser=chromium",
     "vrt": "cross-env VRT=true npx playwright test --browser=chromium"
+  },
+  "dependencies": {
+    "@sendbird/uikit-react": "^3.14.8"
   }
 }
