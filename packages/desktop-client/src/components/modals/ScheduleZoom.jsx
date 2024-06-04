@@ -16,7 +16,7 @@ export function ScheduleZoom({
       {() => (
         <View style={{ lineHeight: 1.5 }}>
           <Block>
-            You can schedule a video call with your coach at any time ({REACT_APP_ZOOM_RATE}). You will be billed seperately. Click the button below to schedule a time that works for you.
+            You can schedule a video call with your coach (or their team) at any time ({REACT_APP_ZOOM_RATE}). You will be billed seperately. Click the button below to schedule a time that works for you.
           </Block>
 
           <View

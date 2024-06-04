@@ -12,6 +12,7 @@ let REACT_APP_UI_MODE = localStorage.getItem("REACT_APP_UI_MODE");
 
 let testableCoachList = [['select', 'Select a Coach...'], 
 ['anitadombovari', 'Anita Dombovari'],
+['naseemamcelroy', 'Naseema McElroy'],
 ['tashiekamaat', "Tashieka Ma'at"],
 ['jacquelinekeeley', 'Jacqueline Keeley'],
 ['danielaaron', 'Daniel Aaron'],
@@ -23,8 +24,8 @@ let testableCoachList = [['select', 'Select a Coach...'],
 //['jordanjung', 'Jordan Denae'],
 //['randidegraw', 'Randi DeGraw'],
 //['melodybarthelemy', 'Melody Barthelemy'],
-//['alfredomatos', 'Alfredo Matos'],
-//['aitzanegron', 'Aitzarelys Negrón'],
+['alfredomatos', 'Alfredo Matos'],
+['aitzanegron', 'Aitzarelys Negrón'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
 ];
@@ -484,6 +485,11 @@ function modifyVars() {
       REACT_APP_COACH_FIRST_NAME = "Anita"
       REACT_APP_ZOOM_RATE = "50.00 USD / hour"
       REACT_APP_ZOOM_LINK = "https://anitadombovari.as.me/?appointmentType=60426198"
+    }
+    else if (testPublishedAvatar === "naseemamcelroy") {
+      REACT_APP_COACH_FIRST_NAME = "Naseema"
+      REACT_APP_ZOOM_RATE = "47.00 USD / 45 Minute Session"
+      REACT_APP_ZOOM_LINK = "https://StrategiesandTEA.as.me/MBC"
     }
     else if (testPublishedAvatar === "tashiekamaat") {
       REACT_APP_COACH_FIRST_NAME = "Tashieka"
