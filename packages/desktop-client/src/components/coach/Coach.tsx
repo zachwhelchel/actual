@@ -2238,8 +2238,11 @@ export default function Coach({
 
       if (dialogue.context === "Accounts") {
 
-        dialogueText = "Please navigate to " + dialogue.context + " to continue our conversation (select an account to the left to continue).";
+        dialogueText = "Please navigate to Accounts to continue our conversation (select an account to the left to continue).";
 
+        if (coachState["language"] === "spanish") {
+          dialogueText = "Navegue hasta Accounts para continuar nuestra conversación (seleccione una cuenta a la izquierda para continuar).";
+        }
 
         const { top: t, left: l } =
           commonElementsRef.current['all_accounts'].getBoundingClientRect();
@@ -2259,7 +2262,11 @@ export default function Coach({
 
       } else if (dialogue.context === "Budget") {
 
-        dialogueText = "Please navigate to the " + dialogue.context + " to continue our conversation (select Budget to the left to continue).";
+        dialogueText = "Please navigate to the Budget to continue our conversation (select Budget to the left to continue).";
+
+        if (coachState["language"] === "spanish") {
+          dialogueText = "Navegue hasta Budget para continuar nuestra conversación (seleccione Presupuesto a la izquierda para continuar).";
+        }
 
         const { top: t, left: l } =
           commonElementsRef.current['budget_button'].getBoundingClientRect();
