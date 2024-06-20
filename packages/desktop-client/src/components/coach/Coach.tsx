@@ -8,11 +8,17 @@ import { View } from '../common/View';
 import { Tooltip } from '../tooltips';
 import { Menu } from '../common/Menu';
 import { BigInput } from '../common/Input';
-import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME } from '../../coaches/coachVariables';
+import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_CHAT_USER_ID, REACT_APP_CHAT_ACCESS_TOKEN } from '../../coaches/coachVariables';
 import { SvgClose } from '../../icons/v1';
 import { SvgDotsHorizontalTriple } from '../../icons/v1';
 
+import { StreamChat } from 'stream-chat';
+
 let CoachContext = createContext();
+
+const chatClient = StreamChat.getInstance('4q98r9p2kn2g', {
+    timeout: 6000,
+});
 
 //initialDialogueId can be removed....
 export function CoachProvider({ budgetId, allConversations, initialDialogueId, children }) {
@@ -40,6 +46,13 @@ export function CoachProvider({ budgetId, allConversations, initialDialogueId, c
 
 
     console.log("ousters kanye" + Array(allConversations).length);
+
+
+
+
+
+
+
 
 
 
@@ -357,6 +370,13 @@ export default function Coach({
   let [currentInput, setCurrentInput] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
 
+    chatClient.connectUser(
+        {
+            id: REACT_APP_CHAT_USER_ID,
+        },
+        REACT_APP_CHAT_ACCESS_TOKEN,
+    );
+
 
   async function onMenuSelect(type) {
     setMenuOpen(false);
@@ -473,7 +493,7 @@ export default function Coach({
         } 
 
         if (winner !== null) {
-          performDialogueOption(winner);
+          performDialogueOption(winner, dialogue);
         }
       }
       else {
@@ -629,7 +649,59 @@ export default function Coach({
     setOpenConversation(null);
   }
 
-  function performDialogueOption(dialogueOption) {
+  async function performDialogueOption(dialogueOption, dialogue) {
+
+    // how do we make sure I am the user and you are the coach and I only send to that channel in that case?
+
+    const filter = { type: 'messaging', members: { $in: [REACT_APP_CHAT_USER_ID] } };
+    const sort = [{ last_message_at: -1 }];
+
+    const channels = await chatClient.queryChannels(filter, sort, {
+        watch: false, // this is the default
+        state: false,
+    });
+
+    var firstChannel = null;
+    channels.map((channel) => {
+      if (firstChannel == null) {
+        firstChannel = channel;
+      }
+      console.log(channel.data.name, channel.cid)
+    })
+
+      console.log(firstChannel)
+
+    // const message = await firstChannel.sendMessage({
+    //   text: '@Josh I told them I was pesca-pescatarian. Which is one who eats solely fish who eat other fish.',
+    //   dialogueOptionId: dialogueOption
+    // });
+
+    // const message = await firstChannel.sendEvent({
+    //   type: 'avatar_progress',
+    //   text: '@Josh I told them I was pesca-pescatarian. Which is one who eats solely fish who eat other fish.',
+    //   dialogueOptionId: dialogueOption
+    // });
+// sends an event for the current user to all connect clients on the channel
+// await firstChannel.sendEvent({
+//     type: "friendship_request",
+//     text: "Hey there, long time no see!"
+// });
+
+
+var html = dialogue.text;
+var div = document.createElement("div");
+div.innerHTML = html;
+var text = div.textContent || div.innerText || "";
+
+
+  firstChannel.update({
+    randomNumberForSystemUpdates: '<RANDOM_STRING_GOES_HERE>',
+  }, { 
+    text: REACT_APP_USER_FIRST_NAME + " selected: " + dialogueOption.text + " for: " + text,
+    silent: true,
+  }, { skip_push: true });
+
+
 
     let variableToSet = dialogueOption.variableToSet;
     let valueToSet = dialogueOption.valueToSet;
@@ -2339,7 +2411,7 @@ export default function Coach({
              <Button
                 type="primary"
                 style={{ marginTop: 8 }}
-                onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+                onClick={() => performDialogueOption(dialogue.dialogueOptions[0], dialogue)}
               >
                 {lintDisplayText(dialogue.dialogueOptions[0].text)}
               </Button>
@@ -2362,7 +2434,7 @@ export default function Coach({
               <Button
                 type="primary"
                 style={{ marginTop: 8 }}
-                onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+                onClick={() => performDialogueOption(dialogue.dialogueOptions[0], dialogue)}
               >
                 {lintDisplayText(dialogue.dialogueOptions[0].text)}
               </Button>
@@ -2379,14 +2451,14 @@ export default function Coach({
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[0], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[0].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[1], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[1].text)}
             </Button>
@@ -2401,21 +2473,21 @@ export default function Coach({
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[0], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[0].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[1], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[1].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[2], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[2].text)}
             </Button>
@@ -2430,28 +2502,28 @@ export default function Coach({
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[0], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[0].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[1], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[1].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[2], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[2].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[3])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[3], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[3].text)}
             </Button>
@@ -2466,35 +2538,35 @@ export default function Coach({
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[0], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[0].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[1], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[1].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[2], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[2].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[3])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[3], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[3].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[4])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[4], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[4].text)}
             </Button>
@@ -2509,42 +2581,42 @@ export default function Coach({
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[0])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[0], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[0].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[1])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[1], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[1].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[2])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[2], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[2].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[3])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[3], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[3].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[4])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[4], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[4].text)}
             </Button>
             <Button
               type="primary"
               style={{ marginTop: 8 }}
-              onClick={() => performDialogueOption(dialogue.dialogueOptions[5])}
+              onClick={() => performDialogueOption(dialogue.dialogueOptions[5], dialogue)}
             >
               {lintDisplayText(dialogue.dialogueOptions[5].text)}
             </Button>
@@ -2557,7 +2629,7 @@ export default function Coach({
           list.push(<Button
                     type="primary"
                     style={{ marginTop: 8 }}
-                    onClick={() => performDialogueOption(dialogue.dialogueOptions[index])}
+                    onClick={() => performDialogueOption(dialogue.dialogueOptions[index], dialogue)}
                   >
                     {lintDisplayText(dialogue.dialogueOptions[index].text)}
                   </Button>);

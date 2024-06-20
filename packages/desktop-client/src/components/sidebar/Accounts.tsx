@@ -578,19 +578,17 @@ export function Accounts({
           title="Coach Dashboard"
         />
       )}
-      {REACT_APP_UI_MODE === "coach" && (
-        <SecondaryItem
-          style={{
-            marginTop: 0,
-            marginBottom: 9,
-            paddingBottom: 10,
-            flexShrink: '0',
-          }}
-          onClick={() => navigate("/coachmessagecenter")}
-          Icon={SvgChatBubbleDots}
-          title="Message Center"
-        />
-      )}
+      <SecondaryItem
+        style={{
+          marginTop: 0,
+          marginBottom: 9,
+          paddingBottom: 10,
+          flexShrink: '0',
+        }}
+        onClick={() => navigate("/coachmessagecenter")}
+        Icon={SvgChatBubbleDots}
+        title="Message Center"
+      />
 
     </View>
   );

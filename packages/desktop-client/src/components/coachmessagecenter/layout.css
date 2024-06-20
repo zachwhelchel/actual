@@ -1,0 +1,72 @@
+@import 'stream-chat-react/dist/css/v2/index.css';
+
+/*.str-chat {
+  --str-chat__primary-color: #009688;
+  --str-chat__active-primary-color: #004d40;
+  --str-chat__surface-color: #f5f5f5;
+  --str-chat__secondary-surface-color: #fafafa;
+  --str-chat__primary-surface-color: #e0f2f1;
+  --str-chat__primary-surface-color-low-emphasis: #edf7f7;
+  --str-chat__border-radius-circle: 6px;
+}
+*/
+/*html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
+#root {
+  display: flex;
+}
+
+.str-chat__channel-list {
+  width: 30%;
+}
+.str-chat__channel {
+  width: 100%;
+}
+.str-chat__thread {
+  width: 45%;
+}
+*/
+
+.str-chat__channel-list {
+  width: 30%;
+  height: calc(100% - 36px);
+  margin-top: 36px;
+}
+.str-chat__channel {
+  width: 100%;
+  height: calc(100% - 36px);
+  margin-top: 36px;
+}
+.str-chat__thread {
+  width: 45%;
+}
+
+.str-chat__modal {
+  padding-left: 240px;
+  width: 100%;
+  margin-top: 36px;
+  height: calc(100% - 36px);
+}
+
+
+.sendbird-ui-header__right {
+  display: none;
+}
+
+.sendbird-chat-header__right__info {
+  display: none;
+}
+
+.sendbird-channel-preview .sendbird-channel-preview__action {
+  display: none;
+}
+
+.sendbird-channel-preview__content__upper__header__total-members {
+  display: none;
+}
