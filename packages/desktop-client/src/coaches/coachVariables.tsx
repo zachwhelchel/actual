@@ -21,6 +21,8 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['spencerstephenson', 'Spencer Stephenson'],
 ['kristinwade', 'Kristin Wade'],
 ['nicksmith', 'Nick Smith'],
+['jonathanakerman', 'Jon Akerman'],
+['nataliegraham', 'Natalie Graham'],
 //['jordanjung', 'Jordan Denae'],
 //['randidegraw', 'Randi DeGraw'],
 //['melodybarthelemy', 'Melody Barthelemy'],
@@ -555,6 +557,16 @@ function modifyVars() {
       REACT_APP_COACH_FIRST_NAME = "Aitza"
       REACT_APP_ZOOM_RATE = "47.00 USD / 45 Minute Session"
       REACT_APP_ZOOM_LINK = "https://StrategiesandTEA.as.me/MBC"
+    }
+    else if (testPublishedAvatar === "jonathanakerman") {
+      REACT_APP_COACH_FIRST_NAME = "Jon"
+      REACT_APP_ZOOM_RATE = "55.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://calendly.com/cashflowfit/mybudgetcoach"
+    }
+    else if (testPublishedAvatar === "nataliegraham") {
+      REACT_APP_COACH_FIRST_NAME = "Natalie"
+      REACT_APP_ZOOM_RATE = "111.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://budgeting.fun/mbc"
     }
     else {
       REACT_APP_COACH_FIRST_NAME = testPublishedAvatar
