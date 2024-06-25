@@ -24,6 +24,7 @@ type SecondaryItemProps = {
   onClick?: MouseEventHandler<HTMLDivElement>;
   bold?: boolean;
   indent?: number;
+  badge?: number;
 };
 
 export function SecondaryItem({
@@ -34,6 +35,7 @@ export function SecondaryItem({
   onClick,
   bold,
   indent = 0,
+  badge = 0,
 }: SecondaryItemProps) {
   const content = (
     <View
@@ -47,6 +49,20 @@ export function SecondaryItem({
       <Block style={{ marginLeft: Icon ? 8 : 0, color: 'inherit' }}>
         {title}
       </Block>
+      {badge > 0 && (
+        <div style={{
+          backgroundColor: theme.errorText,
+          width: 'fit-content',
+          paddingTop: '2px',
+          paddingLeft: '8px',
+          paddingRight: '8px',
+          borderRadius: '12px',
+          paddingTop: '-100px',
+          marginLeft: '10px'
+        }}>
+          { badge }
+        </div>
+      )}
     </View>
   );
 
@@ -71,6 +87,9 @@ export function SecondaryItem({
       >
         {content}
       </ItemContent>
+
+
+
     </View>
   );
 }

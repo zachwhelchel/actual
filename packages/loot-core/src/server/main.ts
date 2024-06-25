@@ -1142,21 +1142,34 @@ handlers['env-variables'] = async function (url) {
     }
 
   }
-
-  // try {
-  //   return await get(
-  //     getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/envvariables',
-  //   );
-  // } catch (error) {
-  //   console.error(error);
-
-  //   await delay(10000);
-    
-  //   return await get(
-  //     getServer().BASE_SERVER + '/envvariables',
-  //   );
-  // }
 };
+
+handlers['chat-secrets'] = async function (firstlast) {
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  console.log('whyme ut:' + userToken)
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  if (firstlast.includes('localhost')) {
+    return await post(
+      getServer().BASE_SERVER + '/chatsecrets', {}, {
+      'X-ACTUAL-TOKEN': userToken,
+    });
+  } else {
+    firstlast = firstlast.substring(8, firstlast.indexOf('.'));
+    console.log("Can we?", firstlast);
+
+    return await post(
+      getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/chatsecrets', {}, {
+      'X-ACTUAL-TOKEN': userToken,
+    });
+  }
+};
+
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );

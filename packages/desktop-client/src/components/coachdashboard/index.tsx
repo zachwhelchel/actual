@@ -167,7 +167,6 @@ export function CoachDashboard() {
           Need help? Reach out anytime on Discord.
         </View>
 
-
       </View>
     </View>
   );

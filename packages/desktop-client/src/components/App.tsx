@@ -92,6 +92,7 @@ function AppInner({
     await initAvatar();
   }
 
+
   async function initAvatar() {
 
     let url = String(window.location.href);
@@ -105,6 +106,7 @@ function AppInner({
     let REACT_APP_START_PAYING_DATE = myobj.data.REACT_APP_START_PAYING_DATE;
     let REACT_APP_ZOOM_RATE = myobj.data.REACT_APP_ZOOM_RATE;
     let REACT_APP_ZOOM_LINK = myobj.data.REACT_APP_ZOOM_LINK;
+    let REACT_APP_CHAT_USER_ID = myobj.data.REACT_APP_CHAT_USER_ID;
     let REACT_APP_COACH = myobj.data.REACT_APP_COACH;
     let REACT_APP_COACH_FIRST_NAME = myobj.data.REACT_APP_COACH_FIRST_NAME;
     let REACT_APP_USER_FIRST_NAME = myobj.data.REACT_APP_USER_FIRST_NAME;
@@ -138,6 +140,12 @@ function AppInner({
       localStorage.setItem('REACT_APP_ZOOM_LINK', REACT_APP_ZOOM_LINK);
     } else {
       localStorage.removeItem('REACT_APP_ZOOM_LINK');
+    }
+
+    if (REACT_APP_CHAT_USER_ID != null) {
+      localStorage.setItem('REACT_APP_CHAT_USER_ID', REACT_APP_CHAT_USER_ID);
+    } else {
+      localStorage.removeItem('REACT_APP_CHAT_USER_ID');
     }
 
     if (REACT_APP_COACH != null) {
@@ -315,6 +323,8 @@ function AppInner({
     someDialogues = someConversations;
     setStateSomeDialogues(someDialogues);
     setStateInitialDialogueId(initialDialogueId);
+
+    //await initChat(REACT_APP_CHAT_USER_ID, REACT_APP_CHAT_ACCESS_TOKEN, REACT_APP_UI_MODE);
   }
 
   useEffect(() => {

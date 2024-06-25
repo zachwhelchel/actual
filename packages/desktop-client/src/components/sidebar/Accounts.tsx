@@ -1,10 +1,10 @@
 // @ts-strict-ignore
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 
 import { type AccountEntity } from 'loot-core/src/types/models';
 import { useNavigate } from "react-router-dom";
 
-import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt } from '../../icons/v1';
+import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt, SvgChatBubbleDots } from '../../icons/v1';
 import { View } from '../common/View';
 import { Card } from '../common/Card';
 import { type OnDropCallback } from '../sort';
@@ -108,7 +108,7 @@ export function Accounts({
     return null;
   };
 
-  let { commonElementsRef, conversationDeck, openConversation, setOpenConversation, allConversations } = useCoach(); // this is causing the errors.
+  let { commonElementsRef, conversationDeck, openConversation, setOpenConversation, allConversations, totalUnreadCount } = useCoach(); // this is causing the errors.
 
   let coachFirstNameZoom = "Zoom with " + REACT_APP_COACH_FIRST_NAME;
   let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
@@ -149,6 +149,8 @@ export function Accounts({
       daysUntilDeletion = Math.round(Math.abs((now - startPayingDate) / oneDay));
     }
   }
+
+  const messageCenterText = "Message Center";
 
   return (
     <View>
@@ -570,7 +572,7 @@ export function Accounts({
           style={{
             marginTop: 15,
             marginBottom: 9,
-            paddingBottom: 10,
+            paddingBottom: 5,
             flexShrink: '0',
           }}
           onClick={() => navigate("/coachdashboard")}
@@ -578,6 +580,18 @@ export function Accounts({
           title="Coach Dashboard"
         />
       )}
+      <SecondaryItem
+        style={{
+          marginTop: 0,
+          marginBottom: 9,
+          paddingBottom: 10,
+          flexShrink: '0',
+        }}
+        onClick={() => navigate("/coachmessagecenter")}
+        Icon={SvgChatBubbleDots}
+        title={messageCenterText}
+        badge={totalUnreadCount}
+      />
 
     </View>
   );
