@@ -1144,7 +1144,7 @@ handlers['env-variables'] = async function (url) {
   }
 };
 
-handlers['chat-secrets'] = async function (firstlast) {
+handlers['chat-secrets'] = async function (url) {
 
   const userToken = await asyncStorage.getItem('user-token');
 
@@ -1154,19 +1154,26 @@ handlers['chat-secrets'] = async function (firstlast) {
     return { error: 'unauthorized' };
   }
 
-  if (firstlast.includes('localhost')) {
+  if (url.includes('localhost')) {
     return await post(
       getServer().BASE_SERVER + '/chatsecrets', {}, {
       'X-ACTUAL-TOKEN': userToken,
     });
   } else {
-    firstlast = firstlast.substring(8, firstlast.indexOf('.'));
+    let firstlast = url.substring(8, url.indexOf('.'));
     console.log("Can we?", firstlast);
-
-    return await post(
-      getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/chatsecrets', {}, {
-      'X-ACTUAL-TOKEN': userToken,
-    });
+    if (url.includes('.app')) {
+      return await get(
+        getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/chatsecrets', {}, {
+          'X-ACTUAL-TOKEN': userToken,
+        });
+    }
+    else if (url.includes('.com')) {
+      return await get(
+        getServer("https://" + firstlast + ".mybudgetcoach.com").BASE_SERVER + '/chatsecrets', {}, {
+          'X-ACTUAL-TOKEN': userToken,
+        });
+    }
   }
 };
 
