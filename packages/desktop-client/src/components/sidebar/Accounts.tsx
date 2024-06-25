@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 
 import { type AccountEntity } from 'loot-core/src/types/models';
 import { useNavigate } from "react-router-dom";
@@ -108,7 +108,7 @@ export function Accounts({
     return null;
   };
 
-  let { commonElementsRef, conversationDeck, openConversation, setOpenConversation, allConversations } = useCoach(); // this is causing the errors.
+  let { commonElementsRef, conversationDeck, openConversation, setOpenConversation, allConversations, totalUnreadCount } = useCoach(); // this is causing the errors.
 
   let coachFirstNameZoom = "Zoom with " + REACT_APP_COACH_FIRST_NAME;
   let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
@@ -149,6 +149,8 @@ export function Accounts({
       daysUntilDeletion = Math.round(Math.abs((now - startPayingDate) / oneDay));
     }
   }
+
+  const messageCenterText = "Message Center";
 
   return (
     <View>
@@ -587,7 +589,8 @@ export function Accounts({
         }}
         onClick={() => navigate("/coachmessagecenter")}
         Icon={SvgChatBubbleDots}
-        title="Message Center"
+        title={messageCenterText}
+        badge={totalUnreadCount}
       />
 
     </View>

@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import React, { type ReactElement, useEffect, useMemo } from 'react';
+import React, { type ReactElement, useEffect, useMemo, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend as Backend } from 'react-dnd-html5-backend';
 import {
@@ -16,6 +16,7 @@ import hotkeys from 'hotkeys-js';
 import { AccountsProvider } from 'loot-core/src/client/data-hooks/accounts';
 import { PayeesProvider } from 'loot-core/src/client/data-hooks/payees';
 import { SpreadsheetProvider } from 'loot-core/src/client/SpreadsheetProvider';
+
 import { checkForUpdateNotification } from 'loot-core/src/client/update-notification';
 import * as undo from 'loot-core/src/platform/client/undo';
 
@@ -45,6 +46,7 @@ import { FloatableSidebar, SidebarProvider } from './sidebar';
 import { Titlebar, TitlebarProvider } from './Titlebar';
 import { TransactionEdit } from './transactions/MobileTransaction';
 import Coach, { CoachProvider, useCoach } from './coach/Coach';
+import { REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 
 function NarrowNotSupported({
   redirectTo = '/budget',
@@ -133,7 +135,6 @@ function FinancesAppWithoutContext({budgetId, someDialogues, initialDialogueId}:
           }}
         >
           <FloatableSidebar />
-
           <View
             style={{
               color: theme.pageText,
@@ -284,7 +285,12 @@ type FinancesAppProps = {
   initialDialogueId?: string;
 };
 
+
+
+
 export function FinancesApp({budgetId, someDialogues, initialDialogueId }: FinancesAppProps) {
+
+
   const app = useMemo(() => <FinancesAppWithoutContext budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId} />, []);
 
   console.log("childcare:");
@@ -293,7 +299,7 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId }: Finan
   console.log("childcare:" + initialDialogueId);
 
   return (
-    <CoachProvider budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId}>
+    <CoachProvider budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId} >
     <SpreadsheetProvider>
       <TitlebarProvider>
         <SidebarProvider>

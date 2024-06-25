@@ -8,17 +8,21 @@ import { View } from '../common/View';
 import { Tooltip } from '../tooltips';
 import { Menu } from '../common/Menu';
 import { BigInput } from '../common/Input';
-import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_CHAT_USER_ID, REACT_APP_CHAT_ACCESS_TOKEN } from '../../coaches/coachVariables';
+import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 import { SvgClose } from '../../icons/v1';
 import { SvgDotsHorizontalTriple } from '../../icons/v1';
-
 import { StreamChat } from 'stream-chat';
+import {
+  init as initConnection,
+  send,
+} from 'loot-core/src/platform/client/fetch';
+
 
 let CoachContext = createContext();
 
-const chatClient = StreamChat.getInstance('4q98r9p2kn2g', {
-    timeout: 6000,
-});
+// const chatClient = StreamChat.getInstance('4q98r9p2kn2g', {
+//     timeout: 6000,
+// });
 
 //initialDialogueId can be removed....
 export function CoachProvider({ budgetId, allConversations, initialDialogueId, children }) {
@@ -275,6 +279,95 @@ if (allConversations != null) {
   }, [coachState]);
 
 
+
+
+
+  const chatClient = StreamChat.getInstance('4q98r9p2kn2g', {
+      timeout: 6000,
+  });
+  const [channelWithMyCoach, setChannelWithMyCoach] = useState(null);
+  const [totalUnreadCount, setTotalUnreadCount] = useState(null);
+  const [chatAccessToken, setChatAccessToken] = useState(null);
+
+  const initChat = async () => {
+
+    // const socketName = await global.Actual.getServerSocket();
+    // await initConnection(socketName);
+
+    // this is where we need to actually fetch the REACT_APP_CHAT_ACCESS_TOKEN for the first time, it shouldn't come with the env vars
+    // and the call itself needs to be locked down to a logged in user.
+    // and then lets log in on the server and make sure it isn't called all the time.
+
+    let url = String(window.location.href);
+
+    const results = await send('chat-secrets', url);
+
+  console.log('whyme stuff1:' + JSON.stringify(results))
+
+
+    var myobj = JSON.parse(JSON.stringify(results));
+
+  console.log('whyme stuff:' + results['REACT_APP_CHAT_ACCESS_TOKEN'])
+
+
+    let REACT_APP_CHAT_ACCESS_TOKEN = results['REACT_APP_CHAT_ACCESS_TOKEN'];
+
+    setChatAccessToken(REACT_APP_CHAT_ACCESS_TOKEN);
+
+    chatClient.on(event => {
+      if (event.total_unread_count != null) {
+        setTotalUnreadCount(event.total_unread_count)
+        console.log(`unread messages count is now: ${event.total_unread_count}`);
+      }
+     
+      if (event.unread_channels != null) {
+        console.log(`unread channels count is now: ${event.unread_channels}`);
+      }
+    });
+
+    const user = await chatClient.connectUser(
+        {
+            id: REACT_APP_CHAT_USER_ID,
+        },
+        REACT_APP_CHAT_ACCESS_TOKEN,
+    );
+
+    setTotalUnreadCount(user.me.total_unread_count)
+    console.log(`you have ${user.me.total_unread_count} unread messages on ${user.me.unread_channels} channels.`);
+
+    const filter = { type: 'messaging', members: { $in: [REACT_APP_CHAT_USER_ID] } };
+    const sort = [{ last_message_at: -1 }];
+
+    const channels = await chatClient.queryChannels(filter, sort, {
+        watch: false, // this is the default
+        state: false,
+    });
+
+    var firstChannel = null;
+    channels.map((channel) => {
+      if (channel.data.subtype === 'coach-client') {
+        if (channel.data.client_id === REACT_APP_CHAT_USER_ID) {
+          if (firstChannel == null) {
+            firstChannel = channel;
+          }
+        }
+      }
+    })
+
+    console.log(firstChannel)
+
+    setChannelWithMyCoach(firstChannel);
+  }
+
+
+  useEffect(() => {
+    initChat();
+  }, []);
+
+
+
+
+
   return (
     <CoachContext.Provider
       value={{
@@ -306,6 +399,10 @@ if (allConversations != null) {
         setConversationDeck,
         triggerFired,
         jumpToId,
+        chatClient,
+        channelWithMyCoach,
+        totalUnreadCount,
+        chatAccessToken,
       }}
     >
       {children}
@@ -355,6 +452,9 @@ export default function Coach({
     setConversationDeck,
     triggerFired,
     jumpToId,
+    chatClient,
+    channelWithMyCoach,
+    totalUnreadCount,
   } = useCoach();
 
 
@@ -370,12 +470,8 @@ export default function Coach({
   let [currentInput, setCurrentInput] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
 
-    chatClient.connectUser(
-        {
-            id: REACT_APP_CHAT_USER_ID,
-        },
-        REACT_APP_CHAT_ACCESS_TOKEN,
-    );
+
+
 
 
   async function onMenuSelect(type) {
@@ -649,62 +745,53 @@ export default function Coach({
     setOpenConversation(null);
   }
 
-  async function performDialogueOption(dialogueOption, dialogue) {
+  function performDialogueOption(dialogueOption, dialogue) {
+
+
+
 
     // how do we make sure I am the user and you are the coach and I only send to that channel in that case?
 
-    const filter = { type: 'messaging', members: { $in: [REACT_APP_CHAT_USER_ID] } };
-    const sort = [{ last_message_at: -1 }];
 
-    const channels = await chatClient.queryChannels(filter, sort, {
-        watch: false, // this is the default
-        state: false,
-    });
+    var html = dialogue.text;
+    var div = document.createElement("div");
+    div.innerHTML = html;
+    var text = div.textContent || div.innerText || "";
 
-    var firstChannel = null;
-    channels.map((channel) => {
-      if (firstChannel == null) {
-        firstChannel = channel;
-      }
-      console.log(channel.data.name, channel.cid)
-    })
-
-      console.log(firstChannel)
-
-    // const message = await firstChannel.sendMessage({
-    //   text: '@Josh I told them I was pesca-pescatarian. Which is one who eats solely fish who eat other fish.',
-    //   dialogueOptionId: dialogueOption
-    // });
-
-    // const message = await firstChannel.sendEvent({
-    //   type: 'avatar_progress',
-    //   text: '@Josh I told them I was pesca-pescatarian. Which is one who eats solely fish who eat other fish.',
-    //   dialogueOptionId: dialogueOption
-    // });
-// sends an event for the current user to all connect clients on the channel
-// await firstChannel.sendEvent({
-//     type: "friendship_request",
-//     text: "Hey there, long time no see!"
-// });
-
-
-var html = dialogue.text;
-var div = document.createElement("div");
-div.innerHTML = html;
-var text = div.textContent || div.innerText || "";
-
-
-  firstChannel.update({
-    randomNumberForSystemUpdates: '<RANDOM_STRING_GOES_HERE>',
-  }, { 
-    text: REACT_APP_USER_FIRST_NAME + " selected: " + dialogueOption.text + " for: " + text,
-    silent: true,
-  }, { skip_push: true });
-
-
+    var clientText = dialogueOption.text;
 
     let variableToSet = dialogueOption.variableToSet;
     let valueToSet = dialogueOption.valueToSet;
+
+    if (variableToSet !== undefined && variableToSet !== null && valueToSet !== undefined && valueToSet !== null) {
+      if (valueToSet.startsWith('[')) {
+        if (currentInput.length > 0) {
+          clientText = " (" + variableToSet + " = " + currentInput + ")\n" + clientText
+        } else {
+          return
+        }
+      } else {
+        clientText = " (" + variableToSet + " = " + valueToSet + ")\n" + clientText
+      }
+    }
+
+    if (channelWithMyCoach != null) {
+      channelWithMyCoach.update({
+        randomNumberForSystemUpdates: '<RANDOM_STRING_GOES_HERE>',
+        subtype: channelWithMyCoach.data.subtype,
+        coach_id: channelWithMyCoach.data.coach_id,
+        client_id: channelWithMyCoach.data.client_id,
+        client_can_message: channelWithMyCoach.data.client_can_message
+      }, { 
+        text: REACT_APP_USER_FIRST_NAME + " selected: " + dialogueOption.text + " for: " + text,
+        subtype: 'avatar_interaction',
+        client_text: clientText,
+        coach_text: text,
+        silent: true,
+      }, { skip_push: true });
+    }
+
+
 
     if (variableToSet !== undefined && variableToSet !== null && valueToSet !== undefined && valueToSet !== null) {
       // should this prefix to kristin, prob yes.

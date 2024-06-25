@@ -70,3 +70,46 @@ body {
 .sendbird-channel-preview__content__upper__header__total-members {
   display: none;
 }
+
+.grid-container {
+  display: grid;
+  padding-top: 5px;
+  padding-bottom: 15px;
+  grid-template-columns: 5fr 1fr 5fr;
+  column-gap: 0px;
+  grid-row-gap: 8px;
+}
+
+.grid-content-left {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 15px;
+  background-color: #e9eaed;
+  border-color: #4c525c;
+  border-style: dashed;
+  opacity: .4;
+  font-size: 12px;
+}
+
+.grid-content-right {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 0px;
+  background-color: #e0f0ff;
+  border-color: #004ccc;
+  border-style: dashed;
+  opacity: .4;
+  font-size: 12px;
+}
+
+

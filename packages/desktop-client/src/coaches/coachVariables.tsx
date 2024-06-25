@@ -6,7 +6,6 @@ let REACT_APP_START_PAYING_DATE = localStorage.getItem("REACT_APP_START_PAYING_D
 let REACT_APP_ZOOM_RATE = localStorage.getItem("REACT_APP_ZOOM_RATE");
 let REACT_APP_ZOOM_LINK = localStorage.getItem("REACT_APP_ZOOM_LINK");
 let REACT_APP_CHAT_USER_ID = localStorage.getItem("REACT_APP_CHAT_USER_ID");
-let REACT_APP_CHAT_ACCESS_TOKEN = localStorage.getItem("REACT_APP_CHAT_ACCESS_TOKEN");
 let REACT_APP_COACH = localStorage.getItem("REACT_APP_COACH");
 let REACT_APP_COACH_FIRST_NAME = localStorage.getItem("REACT_APP_COACH_FIRST_NAME");
 let REACT_APP_USER_FIRST_NAME = localStorage.getItem("REACT_APP_USER_FIRST_NAME");
@@ -38,7 +37,6 @@ function modifyVars() {
   REACT_APP_START_PAYING_DATE = localStorage.getItem("REACT_APP_START_PAYING_DATE");
   REACT_APP_ZOOM_RATE = localStorage.getItem("REACT_APP_ZOOM_RATE");
   REACT_APP_CHAT_USER_ID = localStorage.getItem("REACT_APP_CHAT_USER_ID");
-  REACT_APP_CHAT_ACCESS_TOKEN = localStorage.getItem("REACT_APP_CHAT_ACCESS_TOKEN");
   REACT_APP_ZOOM_LINK = localStorage.getItem("REACT_APP_ZOOM_LINK");
   REACT_APP_COACH = localStorage.getItem("REACT_APP_COACH");
   REACT_APP_COACH_FIRST_NAME = localStorage.getItem("REACT_APP_COACH_FIRST_NAME");
@@ -453,7 +451,7 @@ function modifyVars() {
     // REACT_APP_COACH = "zachdemo"
     // REACT_APP_COACH_FIRST_NAME = "Zach"
     REACT_APP_USER_FIRST_NAME = "User"
-    REACT_APP_UI_MODE = "coach"
+    //REACT_APP_UI_MODE = "coach"
 
     // these are gotten from the server now.
     //REACT_APP_CHAT_USER_ID = "localhost"
@@ -576,4 +574,4 @@ function getCoach() {
 //if we find that file then set everything to that...
 //that's really the bulk of it...
 
-export {REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE, REACT_APP_CHAT_USER_ID, REACT_APP_CHAT_ACCESS_TOKEN, testableCoachList, getCoach}
+export {REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE, REACT_APP_CHAT_USER_ID, testableCoachList, getCoach}
