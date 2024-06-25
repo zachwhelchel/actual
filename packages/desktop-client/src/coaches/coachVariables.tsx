@@ -86,16 +86,6 @@ function modifyVars() {
     REACT_APP_USER_FIRST_NAME = "Randi"
     REACT_APP_UI_MODE = "coach"
   }
-  else if (url.includes("zachwhelchel")) {
-    REACT_APP_BILLING_STATUS = "paid"
-    REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
-    REACT_APP_ZOOM_RATE = "39.99 USD / hour"
-    REACT_APP_ZOOM_LINK = "https://calendly.com/jordan_denae/1-hour-meeting"
-    REACT_APP_COACH = "jordanjung"
-    REACT_APP_COACH_FIRST_NAME = "Jordan"
-    REACT_APP_USER_FIRST_NAME = "Zach"
-    REACT_APP_UI_MODE = "coach"
-  }
   else if (url.includes("melodybarthelemy")) {
     REACT_APP_BILLING_STATUS = "paid"
     REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
