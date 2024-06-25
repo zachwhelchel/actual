@@ -56,7 +56,7 @@ import './layout.css'; // Tell webpack that Button.js uses these styles
 export function CoachMessageCenter() {
 
 // your Stream app information
-const apiKey = '4q98r9p2kn2g';
+const apiKey = '4skd9jkc6pyk';
 const userId = REACT_APP_CHAT_USER_ID;
 const userName = 'round';
 // const userToken = REACT_APP_CHAT_ACCESS_TOKEN;

@@ -282,7 +282,7 @@ if (allConversations != null) {
 
 
 
-  const chatClient = StreamChat.getInstance('4q98r9p2kn2g', {
+  const chatClient = StreamChat.getInstance('4skd9jkc6pyk', {
       timeout: 6000,
   });
   const [channelWithMyCoach, setChannelWithMyCoach] = useState(null);
