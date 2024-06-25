@@ -1163,13 +1163,13 @@ handlers['chat-secrets'] = async function (url) {
     let firstlast = url.substring(8, url.indexOf('.'));
     console.log("Can we?", firstlast);
     if (url.includes('.app')) {
-      return await get(
+      return await post(
         getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/chatsecrets', {}, {
           'X-ACTUAL-TOKEN': userToken,
         });
     }
     else if (url.includes('.com')) {
-      return await get(
+      return await post(
         getServer("https://" + firstlast + ".mybudgetcoach.com").BASE_SERVER + '/chatsecrets', {}, {
           'X-ACTUAL-TOKEN': userToken,
         });
