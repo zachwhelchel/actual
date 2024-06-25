@@ -84,8 +84,5 @@
     "test": "vitest",
     "e2e": "npx playwright test --browser=chromium",
     "vrt": "cross-env VRT=true npx playwright test --browser=chromium"
-  },
-  "dependencies": {
-    "@sendbird/uikit-react": "^3.14.8"
   }
 }
