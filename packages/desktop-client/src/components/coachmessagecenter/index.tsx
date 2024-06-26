@@ -38,6 +38,7 @@ import {
   useMessageContext,
   MessageSimple,
   useChannelStateContext,
+  MessageInputFlat,
 } from 'stream-chat-react';
 import 'stream-chat-react/dist/css/v2/index.css';
 
@@ -287,10 +288,10 @@ const options: ChannelOptions = {
   };
 
 
-  function onAllowTwoWay(channel) {
+  async function onAllowTwoWay(channel) {
 
     if (channel != null) {
-      channel.update({
+      await channel.update({
         randomNumberForSystemUpdates: '<RANDOM_STRING_GOES_HERE>',
         subtype: channel.data.subtype,
         coach_id: channel.data.coach_id,
@@ -300,14 +301,15 @@ const options: ChannelOptions = {
         text: "Two-way messaging has been enabled.",
         silent: true,
       }, { skip_push: true });
+      window.location.reload();
     }
 
   }
 
-  function onRemoveTwoWay(channel) {
+  async function onRemoveTwoWay(channel) {
     
     if (channel != null) {
-      channel.update({
+      await channel.update({
         randomNumberForSystemUpdates: '<RANDOM_STRING_GOES_HERE>',
         subtype: channel.data.subtype,
         coach_id: channel.data.coach_id,
@@ -317,6 +319,7 @@ const options: ChannelOptions = {
         text: "Two-way messaging has been disabled.",
         silent: true,
       }, { skip_push: true });
+      window.location.reload();
     }
 
   }
@@ -337,21 +340,18 @@ const options: ChannelOptions = {
           <div>
             <ChannelHeader/>
             <div style={
-              { backgroundColor: theme.pillBackgroundSelected, color: theme.pageText, padding: '20px', textAlign: 'center' }
+              { backgroundColor: theme.pillBackgroundSelected, color: theme.pageText, padding: '10px', textAlign: 'center' }
             }>
-              Your client is able to message you and view past interactions with your avatar.
-
+              Your client is able to message you and view past interactions with your avatar. If this client is abusing the messaging feature you may 
 
               <Button
-                type="normal"
+                type="link"
                 onClick={() => onRemoveTwoWay(channel)}
                 style={{
-                  marginTop: '10',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
+                  marginLeft: '4px'
                 }}
               >
-                Disable Two-Way Messaging
+                {"disable two-way messaging."}
               </Button>
 
             </div>
@@ -362,20 +362,18 @@ const options: ChannelOptions = {
           <div>
             <ChannelHeader/>
             <div style={
-              { backgroundColor: theme.warningBackground, color: theme.warningText, padding: '20px', textAlign: 'center' }
+              { backgroundColor: theme.warningBackground, color: theme.warningText, padding: '10px', textAlign: 'center' }
             }>
-              You don't allow your client to message you currently. They can only get in touch with you by scheduling a video call. They can still use this screen to view past interactions with your avatar and receive any messages from you.
+              You don't allow your client to message you currently. They can only get in touch with you by scheduling a video call. They can still use this screen to view past interactions with your avatar and receive any messages from you. To increase engagement and success rates consider
 
               <Button
-                type="normal"
+                type="link"
                 onClick={() => onAllowTwoWay(channel)}
                 style={{
-                  marginTop: '10',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
+                  marginLeft: '4px'
                 }}
               >
-                Allow Two-Way Messaging
+                allowing two-way messaging.
               </Button>
 
             </div>
@@ -391,7 +389,7 @@ const options: ChannelOptions = {
           <div>
             <ChannelHeader/>
             <div style={
-              { backgroundColor: theme.pillBackgroundSelected, color: theme.pageText, padding: '20px', textAlign: 'center' }
+              { backgroundColor: theme.pillBackgroundSelected, color: theme.pageText, padding: '10px', textAlign: 'center' }
             }>
               Directly message your coach and view past interactions with your coach's avatar.
             </div>
@@ -402,7 +400,7 @@ const options: ChannelOptions = {
           <div>
             <ChannelHeader/>
             <div style={
-              { backgroundColor: theme.warningBackground, color: theme.warningText, padding: '20px', textAlign: 'center' }
+              { backgroundColor: theme.warningBackground, color: theme.warningText, padding: '10px', textAlign: 'center' }
             }>
               Direct messaging isn't supported by your coach currently. To get in touch with your coach schedule a video call. You can still use this screen to view past interactions with your coach's avatar and receive any incoming messages from your coach.
             </div>
@@ -427,13 +425,13 @@ const options: ChannelOptions = {
 
     if (REACT_APP_CHAT_USER_ID === coachId) {
       return (
-        <MessageInput/>
+        <MessageInput grow={true} />
       );
     }
     else {
       if (channel.data.client_can_message === true) {
         return (
-          <MessageInput/>
+          <MessageInput grow={true} />
         );
       } else {
         return (
@@ -449,13 +447,15 @@ const options: ChannelOptions = {
 
   if (!client) return <div></div>;
 
+  const updatedActions = ['reply', 'flag', 'delete', 'edit' ,'react', 'quote'];
+
   return (
     <Chat client={client} theme='str-chat__theme-custom'>
       <ChannelList filters={filters} sort={sort} options={options} />
       <Channel Message={CustomMessage} MessageSystem={CustomSystemMessage} EmojiPicker={EmojiPicker} emojiSearchIndex={SearchIndex} >
         <Window>
           <CustomChannelHeader />
-          <MessageList />
+          <MessageList messageActions={updatedActions} />
           <MessageInput Input={CustomMessageInput} />
         </Window>
         <Thread Input={CustomMessageInput} />
