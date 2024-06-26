@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ComponentProps } from 'react';
 
 import { View } from '../common/View';
 import { styles } from '../../style';
@@ -6,8 +6,8 @@ import { Card } from '../common/Card';
 import { Button } from '../common/Button';
 import { Select } from '../common/Select';
 
-import { App as SendbirdApp } from '@sendbird/uikit-react';
-import '@sendbird/uikit-react/dist/index.css';
+// import { App as SendbirdApp } from '@sendbird/uikit-react';
+// import '@sendbird/uikit-react/dist/index.css';
 import { REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 
 import Coach, { useCoach } from '../coach/Coach';
@@ -39,6 +39,7 @@ import {
   MessageSimple,
   useChannelStateContext,
   MessageInputFlat,
+  BaseImage,
 } from 'stream-chat-react';
 import 'stream-chat-react/dist/css/v2/index.css';
 
