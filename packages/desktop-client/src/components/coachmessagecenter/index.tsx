@@ -8,7 +8,7 @@ import { Select } from '../common/Select';
 
 // import { App as SendbirdApp } from '@sendbird/uikit-react';
 // import '@sendbird/uikit-react/dist/index.css';
-import { REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
+import { REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE, REACT_APP_RESPONSE_EXPECTATIONS, REACT_APP_COACH } from '../../coaches/coachVariables';
 
 import Coach, { useCoach } from '../coach/Coach';
 import { theme, type CSSProperties } from '../../style';
@@ -418,6 +418,13 @@ const options: ChannelOptions = {
   };
 
 
+  let expectation = REACT_APP_RESPONSE_EXPECTATIONS;
+
+  // if (REACT_APP_COACH === "alfredomatos") {
+  //   expectation = "Feel free to message me anytime. I'll get back to you as soon as I can."
+  // }
+
+
   const CustomMessageInput = () => {
     const { channel } = useChannelStateContext();
 
@@ -432,7 +439,25 @@ const options: ChannelOptions = {
     else {
       if (channel.data.client_can_message === true) {
         return (
-          <MessageInput grow={true} />
+          <div>
+            <MessageInput grow={true} />
+            {expectation != null && (
+              <div style={
+                { backgroundColor: theme.menuBackground, color: theme.warningText, padding: '15px', textAlign: 'center' }
+              }>
+                <div style={
+                  { backgroundColor: theme.menuBackground, color: theme.warningText, paddingBottom: '5px', textAlign: 'center' }
+                }>
+                  Response Expectations From Your Coach:
+                </div>
+                <div style={
+                  { backgroundColor: theme.menuBackground, color: theme.warningText, padding: '0px', textAlign: 'center' }
+                }>
+                  {expectation}
+                </div>
+              </div>
+            )}
+          </div>
         );
       } else {
         return (

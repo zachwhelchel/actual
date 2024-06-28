@@ -11,6 +11,8 @@ let REACT_APP_COACH_FIRST_NAME = localStorage.getItem("REACT_APP_COACH_FIRST_NAM
 let REACT_APP_USER_FIRST_NAME = localStorage.getItem("REACT_APP_USER_FIRST_NAME");
 let REACT_APP_UI_MODE = localStorage.getItem("REACT_APP_UI_MODE");
 
+let REACT_APP_RESPONSE_EXPECTATIONS = null;
+
 let testableCoachList = [['select', 'Select a Coach...'], 
 ['anitadombovari', 'Anita Dombovari'],
 ['naseemamcelroy', 'Naseema McElroy'],
@@ -570,6 +572,27 @@ function modifyVars() {
 
   }
 
+
+  if (REACT_APP_COACH === "nataliegraham") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you as soon as I can."
+  } else if (REACT_APP_COACH === "jonathanakerman") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you within 1 business day."
+  } else if (REACT_APP_COACH === "trevorvance") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "I typically am able to respond within a business day."
+  } else if (REACT_APP_COACH === "celiabenton") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I usually respond within two days."
+  } else if (REACT_APP_COACH === "aitzanegron") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "I respond to messages during office hours on Tuesdays / Thursdays between 10:00am - 6:00pm EST."
+  } else if (REACT_APP_COACH === "melodybarthelemy") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll reply during the evenings."
+  } else if (REACT_APP_COACH === "alfredomatos") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you as soon as I can. (Puedes enviarme mensajes por aquí en cualquier momento. Responderé lo antes posible.)"
+  } else if (REACT_APP_COACH === "nicksmith") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you within 1 business day."
+  } else {
+    REACT_APP_RESPONSE_EXPECTATIONS = null;
+  }
+
 }
 
 modifyVars();
@@ -582,4 +605,4 @@ function getCoach() {
 //if we find that file then set everything to that...
 //that's really the bulk of it...
 
-export {REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE, REACT_APP_CHAT_USER_ID, testableCoachList, getCoach}
+export {REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE, REACT_APP_CHAT_USER_ID, REACT_APP_RESPONSE_EXPECTATIONS, testableCoachList, getCoach}
