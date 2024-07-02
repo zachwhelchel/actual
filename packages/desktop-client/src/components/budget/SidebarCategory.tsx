@@ -56,6 +56,7 @@ export function SidebarCategory({
     >
       <div
         data-testid="category-name"
+        title={category.name}
         style={{
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
