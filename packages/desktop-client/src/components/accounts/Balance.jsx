@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isPreviewId } from 'loot-core/shared/transactions';
 import { useCachedSchedules } from 'loot-core/src/client/data-hooks/schedules';
 import { q } from 'loot-core/src/shared/query';
 import { getScheduledAmount } from 'loot-core/src/shared/schedules';
@@ -14,7 +15,6 @@ import { PrivacyFilter } from '../PrivacyFilter';
 import { CellValue } from '../spreadsheet/CellValue';
 import { useFormat } from '../spreadsheet/useFormat';
 import { useSheetValue } from '../spreadsheet/useSheetValue';
-import { isPreviewId } from '../transactions/TransactionsTable';
 
 function DetailedBalance({ name, balance, isExactBalance = true }) {
   const format = useFormat();
@@ -104,6 +104,16 @@ function SelectedBalance({ selectedItems, account }) {
   );
 }
 
+function FilteredBalance({ filteredAmount }) {
+  return (
+    <DetailedBalance
+      name="Filtered balance:"
+      balance={filteredAmount || 0}
+      isExactBalance={true}
+    />
+  );
+}
+
 function MoreBalances({ balanceQuery }) {
   const cleared = useSheetValue({
     name: balanceQuery.name + '-cleared',
@@ -129,6 +139,8 @@ export function Balances({
   onToggleExtraBalances,
   account,
   commonElementsRef,
+  isFiltered,
+  filteredAmount,
 }) {
   const selectedItems = useSelectedItems();
 
@@ -142,6 +154,7 @@ export function Balances({
         marginLeft: -5,
       }}
     >
+
       <div
         ref={element => {
           commonElementsRef.current['account_balance'] = element;
@@ -157,8 +170,11 @@ export function Balances({
               opacity: selectedItems.size > 0 || showExtraBalances ? 1 : 0,
             },
             '&:hover svg': { opacity: 1 },
+            paddingTop: 1,
+            paddingBottom: 1,
           }}
         >
+
           <CellValue
             binding={{ ...balanceQuery, value: 0 }}
             type="financial"
@@ -193,6 +209,7 @@ export function Balances({
       {selectedItems.size > 0 && (
         <SelectedBalance selectedItems={selectedItems} account={account} />
       )}
+      {isFiltered && <FilteredBalance filteredAmount={filteredAmount} />}
     </View>
   );
 }

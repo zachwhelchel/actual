@@ -31,18 +31,18 @@ import { type CSSProperties, styles, theme } from '../style';
 import { Button } from './common/Button';
 import { Input } from './common/Input';
 import { Menu } from './common/Menu';
+import { Popover } from './common/Popover';
 import { Text } from './common/Text';
 import { View } from './common/View';
 import { FixedSizeList } from './FixedSizeList';
-import { KeyHandlers } from './KeyHandlers';
 import {
   ConditionalPrivacyFilter,
   mergeConditionalPrivacyFilterProps,
 } from './PrivacyFilter';
 import { type Binding } from './spreadsheet';
-import { useFormat } from './spreadsheet/useFormat';
+import { type FormatType, useFormat } from './spreadsheet/useFormat';
 import { useSheetValue } from './spreadsheet/useSheetValue';
-import { Tooltip, IntersectionBoundary } from './tooltips';
+import { IntersectionBoundary } from './tooltips';
 import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
 export const ROW_HEIGHT = 32;
@@ -115,7 +115,9 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 export function UnexposedCellContent({
   value,
   formatter,
-}: Pick<CellProps, 'value' | 'formatter'>) {
+  style,
+  ...props
+}: Pick<CellProps, 'value' | 'formatter' | 'style'>) {
   return (
     <Text
       style={{
@@ -123,6 +125,8 @@ export function UnexposedCellContent({
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
+        ...style,
+        ...props,
       }}
     >
       {formatter ? formatter(value) : value}
@@ -138,7 +142,9 @@ type CellProps = Omit<ComponentProps<typeof View>, 'children' | 'value'> & {
   plain?: boolean;
   exposed?: boolean;
   children?: ReactNode | (() => ReactNode);
-  unexposedContent?: ReactNode;
+  unexposedContent?: (
+    props: ComponentProps<typeof UnexposedCellContent>,
+  ) => ReactNode;
   value?: string;
   valueStyle?: CSSProperties;
   onExpose?: (name: string) => void;
@@ -233,7 +239,9 @@ export function Cell({
                   }
             }
           >
-            {unexposedContent || (
+            {unexposedContent ? (
+              unexposedContent({ value, formatter })
+            ) : (
               <UnexposedCellContent value={value} formatter={formatter} />
             )}
           </View>
@@ -408,7 +416,6 @@ function InputValue({
   const [value, setValue] = useState(defaultValue);
 
   function onBlur_(e) {
-    onUpdate?.(value);
     if (onBlur) {
       fireBlur(onBlur, e);
     }
@@ -430,12 +437,27 @@ function InputValue({
     }
   }
 
+  const ops = ['+', '-', '*', '/', '^'];
+
+  function valueIsASingleOperator(text) {
+    return text?.length === 1 && ops.includes(text.charAt(0));
+  }
+
+  function setValue_(text) {
+    if (valueIsASingleOperator(text)) {
+      setValue(defaultValue + text);
+    } else {
+      setValue(text);
+    }
+  }
+
   return (
     <Input
       {...props}
       value={value}
-      onUpdate={text => setValue(text)}
+      onChangeValue={text => setValue_(text)}
       onBlur={onBlur_}
+      onUpdate={onUpdate}
       onKeyDown={onKeyDown}
       style={{
         ...inputCellStyle,
@@ -447,43 +469,29 @@ function InputValue({
 }
 
 type InputCellProps = ComponentProps<typeof Cell> & {
-  inputProps: ComponentProps<typeof InputValue>;
-  onUpdate: ComponentProps<typeof InputValue>['onUpdate'];
+  inputProps?: ComponentProps<typeof InputValue>;
+  onUpdate?: ComponentProps<typeof InputValue>['onUpdate'];
   onBlur?: ComponentProps<typeof InputValue>['onBlur'];
   textAlign?: CSSProperties['textAlign'];
-  error?: ReactNode;
 };
 export function InputCell({
   inputProps,
   onUpdate,
   onBlur,
   textAlign,
-  error,
   refForHighlighting = null,
   ...props
 }: InputCellProps) {
   return (
     <Cell textAlign={textAlign} refForHighlighting={refForHighlighting} {...props}>
       {() => (
-        <>
-          <InputValue
-            value={props.value}
-            onUpdate={onUpdate}
-            onBlur={onBlur}
-            style={{ textAlign, ...(inputProps && inputProps.style) }}
-            {...inputProps}
-          />
-          {error && (
-            <Tooltip
-              key="error"
-              targetHeight={ROW_HEIGHT}
-              width={180}
-              position="bottom-left"
-            >
-              {error}
-            </Tooltip>
-          )}
-        </>
+        <InputValue
+          value={props.value}
+          onUpdate={onUpdate}
+          onBlur={onBlur}
+          style={{ textAlign, ...(inputProps && inputProps.style) }}
+          {...inputProps}
+        />
       )}
     </Cell>
   );
@@ -691,6 +699,8 @@ export const CellButton = forwardRef<HTMLDivElement, CellButtonProps>(
   },
 );
 
+CellButton.displayName = 'CellButton';
+
 type SelectCellProps = Omit<ComponentProps<typeof Cell>, 'children'> & {
   partial?: boolean;
   onEdit?: () => void;
@@ -753,7 +763,7 @@ export function SelectCell({
 
 type SheetCellValueProps = {
   binding: Binding;
-  type: string;
+  type: FormatType;
   getValueStyle?: (value: string | number) => CSSProperties;
   formatExpr?: (value) => string;
   unformatExpr?: (value: string) => unknown;
@@ -876,9 +886,10 @@ export function TableHeader({
   );
 }
 
-export function SelectedItemsButton({ name, keyHandlers, items, onSelect }) {
+export function SelectedItemsButton({ name, items, onSelect }) {
   const selectedItems = useSelectedItems();
   const [menuOpen, setMenuOpen] = useState(null);
+  const triggerRef = useRef(null);
 
   if (selectedItems.size === 0) {
     return null;
@@ -886,12 +897,12 @@ export function SelectedItemsButton({ name, keyHandlers, items, onSelect }) {
 
   return (
     <View style={{ marginLeft: 10, flexShrink: 0 }}>
-      <KeyHandlers keys={keyHandlers || {}} />
-
       <Button
+        ref={triggerRef}
         type="bare"
         style={{ color: theme.pageTextPositive }}
         onClick={() => setMenuOpen(true)}
+        data-testid={name + '-select-button'}
       >
         <SvgExpandArrow
           width={8}
@@ -901,22 +912,25 @@ export function SelectedItemsButton({ name, keyHandlers, items, onSelect }) {
         {selectedItems.size} {name}
       </Button>
 
-      {menuOpen && (
-        <Tooltip
-          position="bottom-right"
-          width={200}
-          style={{ padding: 0, backgroundColor: theme.menuBackground }}
-          onClose={() => setMenuOpen(false)}
-        >
-          <Menu
-            onMenuSelect={name => {
-              onSelect(name, [...selectedItems]);
-              setMenuOpen(false);
-            }}
-            items={items}
-          />
-        </Tooltip>
-      )}
+      <Popover
+        triggerRef={triggerRef}
+        style={{
+          width: 200,
+          padding: 0,
+          backgroundColor: theme.menuBackground,
+        }}
+        isOpen={menuOpen}
+        onOpenChange={() => setMenuOpen(false)}
+        data-testid={name + '-select-tooltip'}
+      >
+        <Menu
+          onMenuSelect={name => {
+            onSelect(name, [...selectedItems]);
+            setMenuOpen(false);
+          }}
+          items={items}
+        />
+      </Popover>
     </View>
   );
 }
@@ -1083,14 +1097,18 @@ export const Table = forwardRef(
       }
 
       if (scrollContainer.current && saveScrollWidth) {
-        saveScrollWidth(
-          scrollContainer.current.offsetParent
-            ? scrollContainer.current.offsetParent.clientWidth
-            : 0,
-          scrollContainer.current ? scrollContainer.current.clientWidth : 0,
-        );
+        setTimeout(saveScrollDelayed, 200);
       }
     });
+
+    function saveScrollDelayed() {
+      saveScrollWidth(
+        scrollContainer.current?.offsetParent
+          ? scrollContainer.current?.offsetParent.clientWidth
+          : 0,
+        scrollContainer.current ? scrollContainer.current.clientWidth : 0,
+      );
+    }
 
     function renderRow({ index, style, key }) {
       const item = items[index];
@@ -1255,6 +1273,9 @@ export const Table = forwardRef(
 ) as <T extends TableItem>(
   props: TableProps<T> & { ref?: Ref<TableHandleRef<T>> },
 ) => ReactElement;
+
+// @ts-expect-error fix me
+Table.displayName = 'Table';
 
 export type TableNavigator<T extends TableItem> = {
   onEdit: (id: T['id'], field?: string) => void;

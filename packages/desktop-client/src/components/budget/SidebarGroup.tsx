@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import React, { type CSSProperties, useState } from 'react';
+import React, { type CSSProperties, useRef, useState } from 'react';
 import { type ConnectDragSource } from 'react-dnd';
 
 import { SvgExpandArrow } from '../../icons/v0';
@@ -7,11 +7,11 @@ import { SvgCheveronDown } from '../../icons/v1';
 import { theme } from '../../style';
 import { Button } from '../common/Button';
 import { Menu } from '../common/Menu';
+import { Popover } from '../common/Popover';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { NotesButton } from '../NotesButton';
 import { InputCell } from '../table';
-import { Tooltip } from '../tooltips';
 
 type SidebarGroupProps = {
   group: {
@@ -53,6 +53,7 @@ export function SidebarGroup({
 }: SidebarGroupProps) {
   const temporary = group.id === 'new';
   const [menuOpen, setMenuOpen] = useState(false);
+  const triggerRef = useRef(null);
 
   const displayed = (
     <View
@@ -92,7 +93,7 @@ export function SidebarGroup({
       </div>
       {!dragPreview && (
         <>
-          <View style={{ marginLeft: 5, flexShrink: 0 }}>
+          <View style={{ marginLeft: 5, flexShrink: 0 }} ref={triggerRef}>
             <Button
               type="bare"
               className="hover-visible"
@@ -104,38 +105,38 @@ export function SidebarGroup({
             >
               <SvgCheveronDown width={14} height={14} />
             </Button>
-            {menuOpen && (
-              <Tooltip
-                position="bottom-left"
-                width={200}
-                style={{ padding: 0 }}
-                onClose={() => setMenuOpen(false)}
-              >
-                <Menu
-                  onMenuSelect={type => {
-                    if (type === 'rename') {
-                      onEdit(group.id);
-                    } else if (type === 'add-category') {
-                      onShowNewCategory(group.id);
-                    } else if (type === 'delete') {
-                      onDelete(group.id);
-                    } else if (type === 'toggle-visibility') {
-                      onSave({ ...group, hidden: !group.hidden });
-                    }
-                    setMenuOpen(false);
-                  }}
-                  items={[
-                    { name: 'add-category', text: 'Add category' },
-                    {
-                      name: 'toggle-visibility',
-                      text: group.hidden ? 'Show' : 'Hide',
-                    },
-                    { name: 'rename', text: 'Rename' },
-                    onDelete && { name: 'delete', text: 'Delete' },
-                  ]}
-                />
-              </Tooltip>
-            )}
+
+            <Popover
+              triggerRef={triggerRef}
+              placement="bottom start"
+              isOpen={menuOpen}
+              onOpenChange={() => setMenuOpen(false)}
+              style={{ width: 200 }}
+            >
+              <Menu
+                onMenuSelect={type => {
+                  if (type === 'rename') {
+                    onEdit(group.id);
+                  } else if (type === 'add-category') {
+                    onShowNewCategory(group.id);
+                  } else if (type === 'delete') {
+                    onDelete(group.id);
+                  } else if (type === 'toggle-visibility') {
+                    onSave({ ...group, hidden: !group.hidden });
+                  }
+                  setMenuOpen(false);
+                }}
+                items={[
+                  { name: 'add-category', text: 'Add category' },
+                  !group.is_income && {
+                    name: 'toggle-visibility',
+                    text: group.hidden ? 'Show' : 'Hide',
+                  },
+                  { name: 'rename', text: 'Rename' },
+                  onDelete && { name: 'delete', text: 'Delete' },
+                ]}
+              />
+            </Popover>
           </View>
           <View style={{ flex: 1 }} />
           <div
@@ -143,11 +144,13 @@ export function SidebarGroup({
               categoriesRef.current[group.id] = element;
             }}
           >
-            <NotesButton
-              id={group.id}
-              style={dragPreview && { color: 'currentColor' }}
-              defaultColor={theme.pageTextLight}
-            />
+            <View style={{ flexShrink: 0 }}>
+              <NotesButton
+                id={group.id}
+                style={dragPreview && { color: 'currentColor' }}
+                defaultColor={theme.pageTextLight}
+              />
+            </View>
           </div>
         </>
       )}

@@ -1,11 +1,11 @@
-import React, { type ComponentProps, memo, useState } from 'react';
+import React, { type ComponentProps, memo, useRef, useState } from 'react';
 
 import { SvgDotsHorizontalTriple } from '../../icons/v1';
 import { theme, styles } from '../../style';
 import { Button } from '../common/Button';
 import { Menu } from '../common/Menu';
+import { Popover } from '../common/Popover';
 import { View } from '../common/View';
-import { Tooltip } from '../tooltips';
 
 import { RenderMonths } from './RenderMonths';
 import { getScrollbarWidth } from './util';
@@ -27,6 +27,7 @@ export const BudgetTotals = memo(function BudgetTotals({
 }: BudgetTotalsProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const triggerRef = useRef(null);
 
   return (
     <View
@@ -65,6 +66,7 @@ export const BudgetTotals = memo(function BudgetTotals({
           <View style={{ flexGrow: '1' }}>Category</View>
         </div>            
         <Button
+          ref={triggerRef}
           type="bare"
           aria-label="Menu"
           onClick={() => {
@@ -77,44 +79,41 @@ export const BudgetTotals = memo(function BudgetTotals({
             height={15}
             style={{ color: theme.pageTextLight }}
           />
-          {menuOpen && (
-            <Tooltip
-              position="bottom-right"
-              width={200}
-              style={{ padding: 0 }}
-              onClose={() => {
-                setMenuOpen(false);
-              }}
-            >
-              <Menu
-                onMenuSelect={type => {
-                  if (type === 'toggle-visibility') {
-                    toggleHiddenCategories();
-                  } else if (type === 'expandAllCategories') {
-                    expandAllCategories();
-                  } else if (type === 'collapseAllCategories') {
-                    collapseAllCategories();
-                  }
-                  setMenuOpen(false);
-                }}
-                items={[
-                  {
-                    name: 'toggle-visibility',
-                    text: hiddenCategoriesState() ? 'Hide hidden categories' : 'Show hidden categories',
-                  },
-                  {
-                    name: 'expandAllCategories',
-                    text: 'Expand all',
-                  },
-                  {
-                    name: 'collapseAllCategories',
-                    text: 'Collapse all',
-                  },
-                ]}
-              />
-            </Tooltip>
-          )}
         </Button>
+
+        <Popover
+          triggerRef={triggerRef}
+          isOpen={menuOpen}
+          onOpenChange={() => setMenuOpen(false)}
+          style={{ width: 200 }}
+        >
+          <Menu
+            onMenuSelect={type => {
+              if (type === 'toggle-visibility') {
+                toggleHiddenCategories();
+              } else if (type === 'expandAllCategories') {
+                expandAllCategories();
+              } else if (type === 'collapseAllCategories') {
+                collapseAllCategories();
+              }
+              setMenuOpen(false);
+            }}
+            items={[
+              {
+                name: 'toggle-visibility',
+                text: 'Toggle hidden categories',
+              },
+              {
+                name: 'expandAllCategories',
+                text: 'Expand all',
+              },
+              {
+                name: 'collapseAllCategories',
+                text: 'Collapse all',
+              },
+            ]}
+          />
+        </Popover>
       </View>
       <RenderMonths component={MonthComponent} />
     </View>

@@ -6,16 +6,19 @@ import React, {
   useContext,
   type ReactNode,
 } from 'react';
-import { useSelector } from 'react-redux';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 import * as Platform from 'loot-core/src/client/platform';
 import * as queries from 'loot-core/src/client/queries';
 import { listen } from 'loot-core/src/platform/client/fetch';
+import { isDevelopmentEnvironment } from 'loot-core/src/shared/environment';
 import { type LocalPrefs } from 'loot-core/src/types/prefs';
 
 import { useActions } from '../hooks/useActions';
 import { useFeatureFlag } from '../hooks/useFeatureFlag';
+import { useGlobalPref } from '../hooks/useGlobalPref';
+import { useLocalPref } from '../hooks/useLocalPref';
 import { useNavigate } from '../hooks/useNavigate';
 import { SvgArrowLeft } from '../icons/v1';
 import {
@@ -31,15 +34,14 @@ import { AccountSyncCheck } from './accounts/AccountSyncCheck';
 import { AnimatedRefresh } from './AnimatedRefresh';
 import { MonthCountSelector } from './budget/MonthCountSelector';
 import { Button, ButtonWithLoading } from './common/Button';
-import { ExternalLink } from './common/ExternalLink';
 import { Link } from './common/Link';
 import { Paragraph } from './common/Paragraph';
+import { Popover } from './common/Popover';
 import { Text } from './common/Text';
 import { View } from './common/View';
-import { KeyHandlers } from './KeyHandlers';
 import { LoggedInUser } from './LoggedInUser';
 import { useServerURL } from './ServerContext';
-import { useSidebar } from './sidebar';
+import { useSidebar } from './sidebar/SidebarProvider';
 import { useSheetValue } from './spreadsheet/useSheetValue';
 import { ThemeSelector } from './ThemeSelector';
 import { Tooltip } from './tooltips';
@@ -119,10 +121,8 @@ type PrivacyButtonProps = {
 };
 
 function PrivacyButton({ style }: PrivacyButtonProps) {
-  const isPrivacyEnabled = useSelector(
-    state => state.prefs.local?.isPrivacyEnabled,
-  );
-  const { savePrefs } = useActions();
+  const [isPrivacyEnabled, setPrivacyEnabledPref] =
+    useLocalPref('isPrivacyEnabled');
 
   const privacyIconStyle = { width: 15, height: 15 };
 
@@ -130,7 +130,7 @@ function PrivacyButton({ style }: PrivacyButtonProps) {
     <Button
       type="bare"
       aria-label={`${isPrivacyEnabled ? 'Disable' : 'Enable'} privacy mode`}
-      onClick={() => savePrefs({ isPrivacyEnabled: !isPrivacyEnabled })}
+      onClick={() => setPrivacyEnabledPref(!isPrivacyEnabled)}
       style={style}
     >
       {isPrivacyEnabled ? (
@@ -147,7 +147,7 @@ type SyncButtonProps = {
   isMobile?: boolean;
 };
 function SyncButton({ style, isMobile = false }: SyncButtonProps) {
-  const cloudFileId = useSelector(state => state.prefs.local?.cloudFileId);
+  const [cloudFileId] = useLocalPref('cloudFileId');
   const { sync } = useActions();
 
   const [syncing, setSyncing] = useState(false);
@@ -233,67 +233,68 @@ function SyncButton({ style, isMobile = false }: SyncButtonProps) {
     marginRight: 5,
   };
 
-  return (
-    <>
-      <KeyHandlers
-        keys={{
-          'ctrl+s, cmd+s': () => {
-            sync();
-          },
-        }}
-      />
+  useHotkeys(
+    'ctrl+s, cmd+s, meta+s',
+    sync,
+    {
+      enableOnFormTags: true,
+      preventDefault: true,
+      scopes: ['app'],
+    },
+    [sync],
+  );
 
-      <Button
-        type="bare"
-        aria-label="Sync"
-        style={
-          isMobile
-            ? {
-                ...style,
-                WebkitAppRegion: 'none',
-                ...mobileIconStyle,
-              }
-            : {
-                ...style,
-                WebkitAppRegion: 'none',
-                color: desktopColor,
-              }
-        }
-        hoveredStyle={hoveredStyle}
-        activeStyle={activeStyle}
-        onClick={sync}
-      >
-        {isMobile ? (
-          syncState === 'error' ? (
-            <SvgAlertTriangle width={14} height={14} />
-          ) : (
-            <AnimatedRefresh width={18} height={18} animating={syncing} />
-          )
-        ) : syncState === 'error' ? (
-          <SvgAlertTriangle width={13} />
+  return (
+    <Button
+      type="bare"
+      aria-label="Sync"
+      style={
+        isMobile
+          ? {
+              ...style,
+              WebkitAppRegion: 'none',
+              ...mobileIconStyle,
+            }
+          : {
+              ...style,
+              WebkitAppRegion: 'none',
+              color: desktopColor,
+            }
+      }
+      hoveredStyle={hoveredStyle}
+      activeStyle={activeStyle}
+      onClick={sync}
+    >
+      {isMobile ? (
+        syncState === 'error' ? (
+          <SvgAlertTriangle width={14} height={14} />
         ) : (
-          <AnimatedRefresh animating={syncing} />
-        )}
-        <Text style={isMobile ? { ...mobileTextStyle } : { marginLeft: 3 }}>
-          {syncState === 'disabled'
-            ? 'Disabled'
-            : syncState === 'offline'
-              ? 'Offline'
-              : 'Sync'}
-        </Text>
-      </Button>
-    </>
+          <AnimatedRefresh width={18} height={18} animating={syncing} />
+        )
+      ) : syncState === 'error' ? (
+        <SvgAlertTriangle width={13} />
+      ) : (
+        <AnimatedRefresh animating={syncing} />
+      )}
+      <Text style={isMobile ? { ...mobileTextStyle } : { marginLeft: 3 }}>
+        {syncState === 'disabled'
+          ? 'Disabled'
+          : syncState === 'offline'
+            ? 'Offline'
+            : 'Sync'}
+      </Text>
+    </Button>
   );
 }
 
 function BudgetTitlebar() {
-  const maxMonths = useSelector(state => state.prefs.global?.maxMonths);
-  const budgetType = useSelector(state => state.prefs.local?.budgetType);
-  const { saveGlobalPrefs } = useActions();
+  const [maxMonths, setMaxMonthsPref] = useGlobalPref('maxMonths');
+  const [budgetType] = useLocalPref('budgetType');
   const { sendEvent } = useContext(TitlebarContext);
 
   const [loading, setLoading] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [showPopover, setShowPopover] = useState(false);
+  const triggerRef = useRef(null);
   let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   const reportBudgetEnabled = useFeatureFlag('reportBudget');
@@ -317,7 +318,6 @@ function BudgetTitlebar() {
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-
       <div
         ref={element => {
           commonElementsRef.current['calendar_icons'] = element;
@@ -325,13 +325,13 @@ function BudgetTitlebar() {
       >
         <MonthCountSelector
           maxMonths={maxMonths || 1}
-          onChange={value => saveGlobalPrefs({ maxMonths: value })}
+          onChange={value => setMaxMonthsPref(value)}
         />
       </div>
-
       {reportBudgetEnabled && (
         <View style={{ marginLeft: -5 }}>
           <ButtonWithLoading
+            ref={triggerRef}
             type="bare"
             loading={loading}
             style={{
@@ -339,51 +339,48 @@ function BudgetTitlebar() {
               padding: '4px 7px',
             }}
             title="Learn more about budgeting"
-            onClick={() => setShowTooltip(true)}
+            onClick={() => setShowPopover(true)}
           >
             {budgetType === 'report' ? 'Report budget' : 'Rollover budget'}
           </ButtonWithLoading>
-          {showTooltip && (
-            <Tooltip
-              position="bottom-left"
-              onClose={() => setShowTooltip(false)}
-              style={{
-                padding: 10,
-                maxWidth: 400,
-              }}
-            >
-              <Paragraph>
-                You are currently using a{' '}
-                <Text style={{ fontWeight: 600 }}>
-                  {budgetType === 'report'
-                    ? 'Report budget'
-                    : 'Rollover budget'}
-                  .
-                </Text>{' '}
-                Switching will not lose any data and you can always switch back.
-              </Paragraph>
-              <Paragraph>
-                <ButtonWithLoading
-                  type="primary"
-                  loading={loading}
-                  onClick={onSwitchType}
-                >
-                  Switch to a{' '}
-                  {budgetType === 'report'
-                    ? 'Rollover budget'
-                    : 'Report budget'}
-                </ButtonWithLoading>
-              </Paragraph>
-              <Paragraph isLast={true}>
-                <ExternalLink
-                  to="https://actualbudget.org/docs/experimental/report-budget"
-                  linkColor="muted"
-                >
-                  How do these types of budgeting work?
-                </ExternalLink>
-              </Paragraph>
-            </Tooltip>
-          )}
+
+          <Popover
+            triggerRef={triggerRef}
+            placement="bottom start"
+            isOpen={showPopover}
+            onOpenChange={() => setShowPopover(false)}
+            style={{
+              padding: 10,
+              maxWidth: 400,
+            }}
+          >
+            <Paragraph>
+              You are currently using a{' '}
+              <Text style={{ fontWeight: 600 }}>
+                {budgetType === 'report' ? 'Report budget' : 'Rollover budget'}.
+              </Text>{' '}
+              Switching will not lose any data and you can always switch back.
+            </Paragraph>
+            <Paragraph>
+              <ButtonWithLoading
+                type="primary"
+                loading={loading}
+                onClick={onSwitchType}
+              >
+                Switch to a{' '}
+                {budgetType === 'report' ? 'Rollover budget' : 'Report budget'}
+              </ButtonWithLoading>
+            </Paragraph>
+            <Paragraph isLast={true}>
+              <Link
+                variant="external"
+                to="https://actualbudget.org/docs/experimental/report-budget"
+                linkColor="muted"
+              >
+                How do these types of budgeting work?
+              </Link>
+            </Paragraph>
+          </Popover>
         </View>
       )}
     </View>
@@ -400,9 +397,7 @@ export function Titlebar({ style }: TitlebarProps) {
   const sidebar = useSidebar();
   const { isNarrowWidth } = useResponsive();
   const serverURL = useServerURL();
-  const floatingSidebar = useSelector(
-    state => state.prefs.global?.floatingSidebar,
-  );
+  const [floatingSidebar] = useGlobalPref('floatingSidebar');
 
   return isNarrowWidth ? null : (
     <View
@@ -473,7 +468,9 @@ export function Titlebar({ style }: TitlebarProps) {
       </Routes>
       <View style={{ flex: 1 }} />
       <UncategorizedButton />
-      <ThemeSelector style={{ marginLeft: 10 }} />
+      {isDevelopmentEnvironment() && !Platform.isPlaywright && (
+        <ThemeSelector style={{ marginLeft: 10 }} />
+      )}
       <PrivacyButton style={{ marginLeft: 10 }} />
 {/*      {serverURL ? <SyncButton style={{ marginLeft: 10 }} /> : null}
 */}      <LoggedInUser style={{ marginLeft: 10 }} />

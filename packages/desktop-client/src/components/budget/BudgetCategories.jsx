@@ -1,5 +1,6 @@
 import React, { memo, useState, useMemo } from 'react';
 
+import { useLocalPref } from '../../hooks/useLocalPref';
 import { theme, styles } from '../../style';
 import { View } from '../common/View';
 import { DropHighlightPosContext } from '../sort';
@@ -18,12 +19,7 @@ import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 export const BudgetCategories = memo(
   ({
     categoryGroups,
-    newCategoryForGroup,
-    showHiddenCategories,
-    isAddingGroup,
     editingCell,
-    collapsed,
-    setCollapsed,
     dataComponents,
     onBudgetAction,
     onShowActivity,
@@ -36,11 +32,16 @@ export const BudgetCategories = memo(
     onDeleteGroup,
     onReorderCategory,
     onReorderGroup,
-    onShowNewCategory,
-    onHideNewCategory,
-    onShowNewGroup,
-    onHideNewGroup,
   }) => {
+    const [collapsedGroupIds = [], setCollapsedGroupIdsPref] =
+      useLocalPref('budget.collapsed');
+    const [showHiddenCategories] = useLocalPref('budget.showHiddenCategories');
+    function onCollapse(value) {
+      setCollapsedGroupIdsPref(value);
+    }
+
+    const [isAddingGroup, setIsAddingGroup] = useState(false);
+    const [newCategoryForGroup, setNewCategoryForGroup] = useState(null);
     const items = useMemo(() => {
       const [expenseGroups, incomeGroup] = separateGroups(categoryGroups);
 
@@ -63,12 +64,14 @@ export const BudgetCategories = memo(
 
           return [
             ...items,
-            ...(collapsed.includes(group.id) ? [] : groupCategories).map(
-              cat => ({
-                type: 'expense-category',
-                value: cat,
-              }),
-            ),
+            ...(collapsedGroupIds.includes(group.id)
+              ? []
+              : groupCategories
+            ).map(cat => ({
+              type: 'expense-category',
+              value: cat,
+              group,
+            })),
           ];
         }),
       );
@@ -83,7 +86,7 @@ export const BudgetCategories = memo(
             { type: 'income-separator' },
             { type: 'income-group', value: incomeGroup },
             newCategoryForGroup === incomeGroup.id && { type: 'new-category' },
-            ...(collapsed.includes(incomeGroup.id)
+            ...(collapsedGroupIds.includes(incomeGroup.id)
               ? []
               : incomeGroup.categories.filter(
                   cat => showHiddenCategories || !cat.hidden,
@@ -99,7 +102,7 @@ export const BudgetCategories = memo(
       return items;
     }, [
       categoryGroups,
-      collapsed,
+      collapsedGroupIds,
       newCategoryForGroup,
       isAddingGroup,
       showHiddenCategories,
@@ -125,7 +128,7 @@ export const BudgetCategories = memo(
             ...dragState,
             preview: false,
           });
-          setSavedCollapsed(collapsed);
+          setSavedCollapsed(collapsedGroupIds);
         }
       } else if (state === 'hover') {
         setDragState({
@@ -135,15 +138,46 @@ export const BudgetCategories = memo(
         });
       } else if (state === 'end') {
         setDragState(null);
-        setCollapsed(savedCollapsed || []);
+        onCollapse(savedCollapsed || []);
       }
     }
 
     function onToggleCollapse(id) {
-      if (collapsed.includes(id)) {
-        setCollapsed(collapsed.filter(id_ => id_ !== id));
+      if (collapsedGroupIds.includes(id)) {
+        onCollapse(collapsedGroupIds.filter(id_ => id_ !== id));
       } else {
-        setCollapsed([...collapsed, id]);
+        onCollapse([...collapsedGroupIds, id]);
+      }
+    }
+
+    function onShowNewGroup() {
+      setIsAddingGroup(true);
+    }
+
+    function onHideNewGroup() {
+      setIsAddingGroup(false);
+    }
+
+    function _onSaveGroup(group) {
+      onSaveGroup?.(group);
+      if (group.id === 'new') {
+        onHideNewGroup();
+      }
+    }
+
+    function onShowNewCategory(groupId) {
+      onCollapse(collapsedGroupIds.filter(c => c !== groupId));
+      setNewCategoryForGroup(groupId);
+    }
+
+    function onHideNewCategory() {
+      setNewCategoryForGroup(null);
+    }
+
+    function _onSaveCategory(category) {
+      onSaveCategory?.(category);
+      if (category.id === 'new') {
+        onHideNewCategory();
       }
     }
     let { commonElementsRef } = useCoach(); // this is causing the errors.
@@ -177,7 +211,7 @@ export const BudgetCategories = memo(
                     group={{ id: 'new', name: '' }}
                     editing={true}
                     categoriesRef={categoriesRef}
-                    onSave={onSaveGroup}
+                    onSave={_onSaveGroup}
                     onHideNewGroup={onHideNewGroup}
                     onEdit={onEditName}
                   />
@@ -197,7 +231,7 @@ export const BudgetCategories = memo(
                       id: 'new',
                     }}
                     editing={true}
-                    onSave={onSaveCategory}
+                    onSave={_onSaveCategory}
                     onHideNewCategory={onHideNewCategory}
                     onEditName={onEditName}
                   />
@@ -210,12 +244,12 @@ export const BudgetCategories = memo(
                 <ExpenseGroup
                   group={item.value}
                   editingCell={editingCell}
-                  collapsed={collapsed.includes(item.value.id)}
+                  collapsed={collapsedGroupIds.includes(item.value.id)}
                   MonthComponent={dataComponents.ExpenseGroupComponent}
                   dragState={dragState}
                   onEditName={onEditName}
                   categoriesRef={categoriesRef}
-                  onSave={onSaveGroup}
+                  onSave={_onSaveGroup}
                   onDelete={onDeleteGroup}
                   onDragChange={onDragChange}
                   onReorderGroup={onReorderGroup}
@@ -229,13 +263,14 @@ export const BudgetCategories = memo(
               content = (
                 <ExpenseCategory
                   cat={item.value}
+                  categoryGroup={item.group}
                   editingCell={editingCell}
                   MonthComponent={dataComponents.ExpenseCategoryComponent}
                   dragState={dragState}
                   onEditName={onEditName}
                   categoriesRef={categoriesRef}
                   onEditMonth={onEditMonth}
-                  onSave={onSaveCategory}
+                  onSave={_onSaveCategory}
                   onDelete={onDeleteCategory}
                   onDragChange={onDragChange}
                   onReorder={onReorderCategory}
@@ -265,10 +300,10 @@ export const BudgetCategories = memo(
                   group={item.value}
                   editingCell={editingCell}
                   MonthComponent={dataComponents.IncomeGroupComponent}
-                  collapsed={collapsed.includes(item.value.id)}
+                  collapsed={collapsedGroupIds.includes(item.value.id)}
                   onEditName={onEditName}
                   categoriesRef={categoriesRef}
-                  onSave={onSaveGroup}
+                  onSave={_onSaveGroup}
                   onToggleCollapse={onToggleCollapse}
                   onShowNewCategory={onShowNewCategory}
                 />
@@ -284,7 +319,7 @@ export const BudgetCategories = memo(
                   onEditName={onEditName}
                   onEditMonth={onEditMonth}
                   categoriesRef={categoriesRef}
-                  onSave={onSaveCategory}
+                  onSave={_onSaveCategory}
                   onDelete={onDeleteCategory}
                   onDragChange={onDragChange}
                   onReorder={onReorderCategory}
@@ -328,3 +363,5 @@ export const BudgetCategories = memo(
     );
   },
 );
+
+BudgetCategories.displayName = 'BudgetCategories';

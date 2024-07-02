@@ -107,20 +107,38 @@ export const MonthPicker = ({
             const isMonthBudgeted =
               month >= monthBounds.start && month <= monthBounds.end;
 
-            return (
-              <View
-                key={month}
-                style={{
-                  padding: '3px 3px',
-                  width: size === 'big' ? '35px' : '20px',
-                  textAlign: 'center',
-                  userSelect: 'none',
-                  cursor: 'default',
-                  borderRadius: 2,
-                  border: 'none',
-                  ...(!isMonthBudgeted && {
-                    textDecoration: 'line-through',
-                    color: theme.pageTextSubdued,
+          return (
+            <View
+              key={month}
+              style={{
+                padding: '3px 3px',
+                width: size === 'big' ? '35px' : '20px',
+                textAlign: 'center',
+                userSelect: 'none',
+                cursor: 'default',
+                borderRadius: 2,
+                border: 'none',
+                ...(!isMonthBudgeted && {
+                  textDecoration: 'line-through',
+                  color: theme.pageTextSubdued,
+                }),
+                ...styles.smallText,
+                ...(selected && {
+                  backgroundColor: theme.tableBorderHover,
+                  color: theme.buttonPrimaryText,
+                }),
+                ...((hovered || selected) && {
+                  borderRadius: 0,
+                  cursor: 'pointer',
+                }),
+                ...(hoverId !== null &&
+                  !hovered &&
+                  selected && {
+                    filter: 'brightness(65%)',
+                  }),
+                ...(hovered &&
+                  !selected && {
+                    backgroundColor: theme.buttonBareBackgroundHover,
                   }),
                   ...styles.smallText,
                   ...(selected && {
