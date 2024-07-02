@@ -15,6 +15,7 @@ import { CategoryMenu } from './modals/CategoryMenu';
 import { CloseAccount } from './modals/CloseAccount';
 import { ConfirmCategoryDelete } from './modals/ConfirmCategoryDelete';
 import { ConfirmTransactionEdit } from './modals/ConfirmTransactionEdit';
+import { CreateCategory } from './modals/CreateCategory';
 import { CreateAccount } from './modals/CreateAccount';
 import { CreateEncryptionKey } from './modals/CreateEncryptionKey';
 import { CreateLocalAccount } from './modals/CreateLocalAccount';
@@ -186,6 +187,15 @@ export function Modals() {
               modalProps={modalProps}
               onConfirm={options.onConfirm}
               confirmReason={options.confirmReason}
+            />
+          );
+
+        case 'create-category':
+          return (
+            <CreateCategory
+              modalProps={modalProps}
+              onConfirm={options.onConfirm}
+              categoryGroups={options.categoryGroups}
             />
           );
 

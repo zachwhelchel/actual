@@ -58,10 +58,11 @@ export function EditField({ modalProps, name, onSubmit, onClose }) {
       if (name === 'amount') {
         value = amountToInteger(value);
       }
-
+      onCloseInner();
       onSubmit(name, value);
+    } else {
+      onCloseInner();
     }
-    onCloseInner();
   }
 
   const itemStyle = {

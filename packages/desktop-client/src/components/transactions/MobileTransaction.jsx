@@ -430,6 +430,8 @@ const TransactionEditInner = memo(function TransactionEditInner({
   adding,
   accounts,
   categories,
+  categoryGroups,
+  createCategory,
   payees,
   dateFormat,
   transactions: unserializedTransactions,
@@ -546,9 +548,36 @@ const TransactionEditInner = memo(function TransactionEditInner({
 
   const onClick = (transactionId, name) => {
     onRequestActiveEdit?.(getFieldName(transaction.id, 'payee'), () => {
+
       pushModal('edit-field', {
         name,
         onSubmit: (name, value) => {
+
+          if (name == "category" && value == "Create Category") {
+            pushModal('create-category', {
+              onConfirm: (groupId, categoryName) => {
+                let existingGroup = categoryGroups.find(g => g.id === groupId);
+
+                if (existingGroup !== null && existingGroup !== undefined) {
+
+                  let existingCat = existingGroup.categories.find(g => g.name === categoryName);
+                  if (existingCat !== null && existingCat !== undefined) {
+
+                  } else {
+                    createCategory(
+                      categoryName,
+                      existingGroup.id,
+                      false,
+                      false,
+                      true,
+                    );
+                  }
+                }
+              },
+              categoryGroups: categoryGroups,
+            });
+          }
+
           const transaction = unserializedTransactions.find(
             t => t.id === transactionId,
           );
@@ -929,7 +958,7 @@ function makeTemporaryTransactions(currentAccountId, lastDate) {
 }
 
 function TransactionEditUnconnected(props) {
-  const { categories, accounts, payees, lastTransaction, dateFormat } = props;
+  const { categories, categoryGroups, createCategory, accounts, payees, lastTransaction, dateFormat } = props;
   const { id: accountId, transactionId } = useParams();
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState([]);
@@ -1089,6 +1118,8 @@ function TransactionEditUnconnected(props) {
         transactions={transactions}
         adding={adding.current}
         categories={categories}
+        categoryGroups={categoryGroups}
+        createCategory={createCategory}
         accounts={accounts}
         payees={payees}
         pushModal={props.pushModal}
@@ -1109,6 +1140,7 @@ export const TransactionEdit = props => {
   const payees = useSelector(state => state.queries.payees);
   const lastTransaction = useSelector(state => state.queries.lastTransaction);
   const accounts = useSelector(state => state.queries.accounts);
+  const { grouped: categoryGroups } = useCategories();
   const dateFormat = useSelector(
     state => state.prefs.local.dateFormat || 'MM/dd/yyyy',
   );
@@ -1120,6 +1152,8 @@ export const TransactionEdit = props => {
         {...props}
         {...actions}
         categories={categories}
+        categoryGroups={categoryGroups}
+        createCategory={actions.createCategory}
         payees={payees}
         lastTransaction={lastTransaction}
         accounts={accounts}

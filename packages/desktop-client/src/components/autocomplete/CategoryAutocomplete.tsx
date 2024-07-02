@@ -5,6 +5,7 @@ import React, {
   type ReactNode,
   type SVGProps,
   type ComponentType,
+  useState,
 } from 'react';
 
 import { css } from 'glamor';
@@ -19,6 +20,8 @@ import { useResponsive } from '../../ResponsiveProvider';
 import { type CSSProperties, theme } from '../../style';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
+
+import { SvgAdd } from '../../icons/v1';
 
 import { Autocomplete, defaultFilterSuggestion } from './Autocomplete';
 
@@ -45,10 +48,15 @@ function CategoryList({
   embedded,
   footer,
   renderSplitTransactionButton = defaultRenderSplitTransactionButton,
+  renderCreateCategoryButton = defaultRenderCreateCategoryButton,
   renderCategoryItemGroupHeader = defaultRenderCategoryItemGroupHeader,
   renderCategoryItem = defaultRenderCategoryItem,
 }: CategoryListProps) {
   let lastGroup: string | undefined | null = null;
+
+  let createNew = 'Create Category';
+
+  const offset = createNew ? 1 : 0;
 
   return (
     <View>
@@ -91,6 +99,19 @@ function CategoryList({
             </Fragment>
           );
         })}
+
+        {createNew &&
+        renderCategoryItemGroupHeader({
+                    title: "New Category",
+                  })}
+        {createNew &&
+        renderCreateCategoryButton({
+          ...(getItemProps ? getItemProps({ item: createNew }) : null),
+          categoryName: "inputValue",
+          highlighted: highlightedIndex === items.length,
+          embedded,
+        })}
+
       </View>
       {footer}
     </View>
@@ -115,10 +136,12 @@ export function CategoryAutocomplete({
   embedded,
   closeOnBlur,
   renderSplitTransactionButton,
+  renderCreateCategoryButton = defaultRenderCreateCategoryButton,
   renderCategoryItemGroupHeader,
   renderCategoryItem,
   ...props
 }: CategoryAutocompleteProps) {
+
   const categorySuggestions: Array<
     CategoryEntity & { group?: CategoryGroupEntity }
   > = useMemo(
@@ -168,6 +191,7 @@ export function CategoryAutocomplete({
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
           renderSplitTransactionButton={renderSplitTransactionButton}
+          renderCreateCategoryButton={renderCreateCategoryButton}
           renderCategoryItemGroupHeader={renderCategoryItemGroupHeader}
           renderCategoryItem={renderCategoryItem}
         />
@@ -175,6 +199,67 @@ export function CategoryAutocomplete({
       {...props}
     />
   );
+}
+
+type CreateCategoryButtonProps = {
+  Icon?: ComponentType<SVGProps<SVGElement>>;
+  categoryName: string;
+  highlighted?: boolean;
+  embedded?: boolean;
+  style?: CSSProperties;
+};
+
+export function CreateCategoryButton({
+  Icon,
+  categoryName,
+  highlighted,
+  embedded,
+  style,
+  ...props
+}: CreateCategoryButtonProps) {
+  const { isNarrowWidth } = useResponsive();
+  return (
+    <View
+      data-testid="create-category-button"
+      style={{
+        display: 'block',
+        flexShrink: 0,
+        color:
+          embedded && isNarrowWidth ? theme.menuItemText : theme.noticeTextMenu,
+        borderRadius: embedded ? 4 : 0,
+        fontSize: isNarrowWidth ? 17 : 11,
+        fontWeight: isNarrowWidth ? 425 : 500,
+        padding: '6px 9px',
+        backgroundColor: highlighted
+          ? embedded && isNarrowWidth
+            ? theme.menuItemBackgroundHover
+            : theme.menuAutoCompleteBackgroundHover
+          : 'transparent',
+        ':active': {
+          backgroundColor: 'rgba(100, 100, 100, .25)',
+        },
+        ...style,
+      }}
+      {...props}
+    >
+      {Icon ? (
+        <Icon style={{ marginRight: 5, display: 'inline-block' }} />
+      ) : (
+        <SvgAdd
+          width={8}
+          height={8}
+          style={{ marginRight: 5, display: 'inline-block' }}
+        />
+      )}
+      Create Category
+    </View>
+  );
+}
+
+function defaultRenderCreateCategoryButton(
+  props: CreateCategoryButtonProps,
+): ReactNode {
+  return <CreateCategoryButton {...props} />;
 }
 
 type CategoryItemGroupHeaderProps = {

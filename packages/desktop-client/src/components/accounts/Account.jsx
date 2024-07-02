@@ -700,6 +700,36 @@ class AccountInternal extends PureComponent {
     return null;
   };
 
+  onCreateCategory = name => {
+    if (this.props.modalShowing == true) {
+      return null;
+    }
+
+    return this.props.pushModal('create-category', {
+      onConfirm: (groupId, categoryName) => {
+
+        let existingGroup = this.props.categoryGroups.find(g => g.id === groupId);
+
+        if (existingGroup !== null && existingGroup !== undefined) {
+
+          let existingCat = existingGroup.categories.find(g => g.name === categoryName);
+          if (existingCat !== null && existingCat !== undefined) {
+
+          } else {
+            this.props.createCategory(
+              categoryName,
+              existingGroup.id,
+              false,
+              false,
+              true,
+            );
+          }
+        }
+      },
+      categoryGroups: this.props.categoryGroups,
+    });
+  };
+
   lockTransactions = async () => {
     this.setState({ workingHard: true });
 
@@ -1463,6 +1493,7 @@ class AccountInternal extends PureComponent {
                     this.setState({ isAdding: false })
                   }
                   onCreatePayee={this.onCreatePayee}
+                  onCreateCategory={this.onCreateCategory}
                 />
               </View>
             </View>

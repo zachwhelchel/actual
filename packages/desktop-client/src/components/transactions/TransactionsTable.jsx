@@ -788,9 +788,12 @@ const Transaction = memo(function Transaction(props) {
     onSplit,
     onManagePayees,
     onCreatePayee,
+    onCreateCategory,
     onToggleSplit,
     onNavigateToTransferAccount,
     onNavigateToSchedule,
+    newNavigator,
+    tableNavigator,
   } = props;
 
   const dispatchSelected = useSelectedDispatch();
@@ -1311,6 +1314,15 @@ const Transaction = memo(function Transaction(props) {
           onUpdate={async value => {
             if (value === 'split') {
               onSplit(transaction.id);
+            } else if (value === 'Create Category') {
+              onCreateCategory(transaction.id);
+              if (tableNavigator != null) {
+                tableNavigator.onEdit(null);
+              }
+              if (newNavigator != null) {
+                newNavigator.onEdit(null);
+              }
+              onUpdate('category', "");
             } else {
               onUpdate('category', value);
             }
@@ -1545,8 +1557,11 @@ function NewTransaction({
   onDistributeRemainder,
   onManagePayees,
   onCreatePayee,
+  onCreateCategory,
   onNavigateToTransferAccount,
   onNavigateToSchedule,
+  tableNavigator,
+  newNavigator,
   balance,
 }) {
   const error = transactions[0].error;
@@ -1597,9 +1612,12 @@ function NewTransaction({
           onAdd={onAdd}
           onManagePayees={onManagePayees}
           onCreatePayee={onCreatePayee}
+          onCreateCategory={onCreateCategory}
           style={{ marginTop: -1 }}
           onNavigateToTransferAccount={onNavigateToTransferAccount}
           onNavigateToSchedule={onNavigateToSchedule}
+          tableNavigator={tableNavigator}
+          newNavigator={newNavigator}
           balance={balance}
         />
       ))}
@@ -1784,9 +1802,12 @@ function TransactionTableInner({
           onSplit={props.onSplit}
           onManagePayees={props.onManagePayees}
           onCreatePayee={props.onCreatePayee}
+          onCreateCategory={props.onCreateCategory}
           onToggleSplit={props.onToggleSplit}
           onNavigateToTransferAccount={onNavigateToTransferAccount}
           onNavigateToSchedule={onNavigateToSchedule}
+          newNavigator={newNavigator}
+          tableNavigator={tableNavigator}
           pushModal={props.pushModal}
         />
       </>
@@ -1843,9 +1864,12 @@ function TransactionTableInner({
               onDelete={props.onDelete}
               onManagePayees={props.onManagePayees}
               onCreatePayee={props.onCreatePayee}
+              onCreateCategory={props.onCreateCategory}
               onNavigateToTransferAccount={onNavigateToTransferAccount}
               onNavigateToSchedule={onNavigateToSchedule}
               onDistributeRemainder={props.onDistributeRemainder}
+              tableNavigator={tableNavigator}
+              newNavigator={newNavigator}
               balance={
                 props.transactions?.length > 0
                   ? props.balances?.[props.transactions[0]?.id]?.balance

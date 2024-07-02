@@ -85,6 +85,7 @@ export function TransactionList({
   onRefetch,
   onCloseAddTransaction,
   onCreatePayee,
+  onCreateCategory,
 }) {
   const transactionsLatest = useRef();
   const navigate = useNavigate();
@@ -156,6 +157,10 @@ export function TransactionList({
     navigate('/payees', { selectedPayee: id });
   });
 
+  const onCreateCategoryy = useCallback(id => {
+    onCreateCategory(null);
+  });
+
   const onNavigateToTransferAccount = useCallback(accountId => {
     navigate(`/accounts/${accountId}`);
   });
@@ -197,6 +202,7 @@ export function TransactionList({
       onAddSplit={onAddSplit}
       onManagePayees={onManagePayees}
       onCreatePayee={onCreatePayee}
+      onCreateCategory={onCreateCategoryy}
       style={{ backgroundColor: theme.tableBackground }}
       onNavigateToTransferAccount={onNavigateToTransferAccount}
       onNavigateToSchedule={onNavigateToSchedule}
