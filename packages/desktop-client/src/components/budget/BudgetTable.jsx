@@ -125,6 +125,14 @@ export class BudgetTable extends Component {
       e.preventDefault();
       this.moveVertically(e.shiftKey ? -1 : 1);
     }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      this.moveVertically(-1);
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      this.moveVertically(1);
+    }
   };
 
   onShowActivity = (catName, catId, monthIndex) => {

@@ -417,7 +417,7 @@ function InputValue({
   function onKeyDown(e) {
     // Only enter and tab to escape (which allows the user to move
     // around)
-    if (e.key !== 'Enter' && e.key !== 'Tab') {
+    if (e.key !== 'Enter' && e.key !== 'Tab' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') {
       e.stopPropagation();
     }
 
@@ -493,6 +493,8 @@ function shouldSaveFromKey(e) {
   switch (e.key) {
     case 'Tab':
     case 'Enter':
+    case 'ArrowUp':
+    case 'ArrowDown':
       e.preventDefault();
       return true;
     default:
