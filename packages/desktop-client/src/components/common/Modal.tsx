@@ -17,6 +17,7 @@ import { AutoTextSize } from 'auto-text-size';
 import { AnimatedLoading } from '../../icons/AnimatedLoading';
 import { SvgLogo } from '../../icons/logo';
 import { SvgDelete } from '../../icons/v0';
+import { SvgMenu } from '../../icons/v1';
 import { type CSSProperties, styles, theme } from '../../style';
 import { tokens } from '../../tokens';
 
@@ -182,7 +183,7 @@ export const Modal = ({
                 }}
               >
                 {!title ? (
-                  <SvgLogo
+                  <SvgMenu
                     width={30}
                     height={30}
                     style={{ justifyContent: 'center', alignSelf: 'center' }}

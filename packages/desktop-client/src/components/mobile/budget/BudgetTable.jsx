@@ -17,6 +17,7 @@ import {
   SvgArrowThinLeft,
   SvgArrowThinRight,
   SvgCheveronRight,
+  SvgMenu
 } from '../../../icons/v1';
 import { SvgViewShow } from '../../../icons/v2';
 import { useResponsive } from '../../../ResponsiveProvider';
@@ -1610,7 +1611,7 @@ export function BudgetTable({
               activeStyle={noBackgroundColorStyle}
               onClick={() => onOpenBudgetPageMenu?.()}
             >
-              <SvgLogo width="20" height="20" />
+              <SvgMenu width="20" height="20" />
               <SvgCheveronRight
                 style={{ flexShrink: 0, color: theme.mobileHeaderTextSubdued }}
                 width="14"
