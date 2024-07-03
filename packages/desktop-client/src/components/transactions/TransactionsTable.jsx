@@ -377,7 +377,8 @@ function StatusCell({
     return (
       <Cell
         name="cleared"
-        width={23}
+        width={38}
+        alignItems="center"
         focused={focused}
         style={{ padding: 1 }}
         plain
@@ -419,6 +420,8 @@ function StatusCell({
         </CellButton>
       </Cell>
     );
+
+
   }
 
   return (
@@ -527,9 +530,8 @@ function PayeeCell({
   const isCreatingPayee = useRef(false);
 
   let { commonElementsRef } = useCoach(); // this is causing the errors.
-
   let refForHighlighting = null;
-  if (payeeId == null && isNew == true) {
+  if (isNew == true && payee == null) { 
     refForHighlighting = 'select_payee';
   }
 
@@ -738,6 +740,7 @@ function PayeeIcons({
 }
 
 const Transaction = memo(function Transaction({
+  isNew,
   transaction: originalTransaction,
   subtransactions,
   editing,
@@ -764,6 +767,7 @@ const Transaction = memo(function Transaction({
   onSplit,
   onManagePayees,
   onCreatePayee,
+  onCreateCategory,
   onToggleSplit,
   onNavigateToTransferAccount,
   onNavigateToSchedule,
@@ -1108,6 +1112,7 @@ const Transaction = memo(function Transaction({
       {(() => (
         <PayeeCell
           /* Payee field for all transactions */
+          isNew={isNew}
           id={id}
           payee={payee}
           focused={focusedField === 'payee'}
@@ -1125,7 +1130,6 @@ const Transaction = memo(function Transaction({
           onManagePayees={onManagePayees}
           onNavigateToTransferAccount={onNavigateToTransferAccount}
           onNavigateToSchedule={onNavigateToSchedule}
-          isNew={isNew}
         />
       ))()}
 
@@ -1545,9 +1549,9 @@ function NewTransaction({
   onCreateCategory,
   onNavigateToTransferAccount,
   onNavigateToSchedule,
-  onNotesTagClick,
   tableNavigator,
   newNavigator,
+  onNotesTagClick,
   balance,
 }) {
   const error = transactions[0].error;
@@ -1604,9 +1608,9 @@ function NewTransaction({
           style={{ marginTop: -1 }}
           onNavigateToTransferAccount={onNavigateToTransferAccount}
           onNavigateToSchedule={onNavigateToSchedule}
-          onNotesTagClick={onNotesTagClick}
           tableNavigator={tableNavigator}
           newNavigator={newNavigator}
+          onNotesTagClick={onNotesTagClick}
           balance={balance}
         />
       ))}
@@ -1800,10 +1804,10 @@ function TransactionTableInner({
           onToggleSplit={props.onToggleSplit}
           onNavigateToTransferAccount={onNavigateToTransferAccount}
           onNavigateToSchedule={onNavigateToSchedule}
-          onNotesTagClick={onNotesTagClick}
           newNavigator={newNavigator}
           tableNavigator={tableNavigator}
           pushModal={props.pushModal}
+          onNotesTagClick={onNotesTagClick}
         />
       </>
     );

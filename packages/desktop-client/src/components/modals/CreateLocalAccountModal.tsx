@@ -133,60 +133,6 @@ export function CreateLocalAccountModal({
               </FormError>
             )}
 
-            <View
-              style={{
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-              }}
-            >
-              <View style={{ flexDirection: 'column' }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Checkbox
-                    id="offbudget"
-                    name="offbudget"
-                    checked={offbudget}
-                    onChange={() => setOffbudget(!offbudget)}
-                  />
-                  <label
-                    htmlFor="offbudget"
-                    style={{
-                      userSelect: 'none',
-                      verticalAlign: 'center',
-                    }}
-                  >
-                    Off-budget
-                  </label>
-                </View>
-                <div
-                  style={{
-                    textAlign: 'right',
-                    fontSize: '0.7em',
-                    color: theme.pageTextLight,
-                    marginTop: 3,
-                  }}
-                >
-                  <Text>
-                    This cannot be changed later. <br /> {'\n'}
-                    See{' '}
-                    <Link
-                      variant="external"
-                      linkColor="muted"
-                      to="https://actualbudget.org/docs/accounts/#off-budget-accounts"
-                    >
-                      Accounts Overview
-                    </Link>{' '}
-                    for more information.
-                  </Text>
-                </div>
-              </View>
-            </View>
-
             <InlineField label="Balance" width="100%">
               <Input
                 name="balance"

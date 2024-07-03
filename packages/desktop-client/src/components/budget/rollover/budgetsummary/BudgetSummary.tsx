@@ -137,11 +137,29 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
             </View>
             <View style={{ userSelect: 'none', marginLeft: 2 }}>
 
-              <div
-                ref={element => {
-                  commonElementsRef.current['budget_more_button'] = element;
-                }}
-              >
+              {currentMonth === month ? (
+                <div
+                  ref={element => {
+                    commonElementsRef.current['budget_more_button'] = element;
+                  }}
+                >
+                  <Button
+                    ref={triggerRef}
+                    type="bare"
+                    aria-label="Menu"
+                    onClick={onMenuOpen}
+                  >
+                    <SvgDotsHorizontalTriple
+                      width={15}
+                      height={15}
+                      style={{ color: theme.pageTextLight }}
+                    />
+                  </Button>
+                </div>
+
+
+              ) : (
+
                 <Button
                   ref={triggerRef}
                   type="bare"
@@ -154,7 +172,8 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
                     style={{ color: theme.pageTextLight }}
                   />
                 </Button>
-              </div>
+              )}
+
 
               <Popover
                 triggerRef={triggerRef}
@@ -227,17 +246,27 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
               }}
             />
             <View style={{ margin: '23px 0' }}>
-              <div
-                ref={element => {
-                  commonElementsRef.current['budget_header'] = element;
-                }}
-              >
+
+              {currentMonth === month ? (
+                <div
+                  ref={element => {
+                    commonElementsRef.current['budget_header'] = element;
+                  }}
+                >
+                  <ToBudget
+                    prevMonthName={prevMonthName}
+                    month={month}
+                    onBudgetAction={onBudgetAction}
+                  />
+                </div>
+              ) : (
                 <ToBudget
                   prevMonthName={prevMonthName}
                   month={month}
                   onBudgetAction={onBudgetAction}
                 />
-              </div>
+              )}
+
             </View>
           </>
         )}

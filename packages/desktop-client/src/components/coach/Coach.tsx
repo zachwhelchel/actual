@@ -49,17 +49,6 @@ export function CoachProvider({ budgetId, allConversations, initialDialogueId, c
   let cd = [];
 
 
-    console.log("ousters kanye" + Array(allConversations).length);
-
-
-
-
-
-
-
-
-
-
   // if we have some history on the conversation deck we need to use that too...
 
 
@@ -85,7 +74,7 @@ export function CoachProvider({ budgetId, allConversations, initialDialogueId, c
       simpleConversationDeck = [];
     }
 
-    console.log("daysinsun" + simpleConversationDeck);
+    // console.log("daysinsun" + simpleConversationDeck);
 
 
     let firstConvo = null;
@@ -120,7 +109,6 @@ if (allConversations != null) {
   // but a reset can do that.
 
   allConversations.forEach((value, key) => {
-    console.log("ousters kanye" + key + value);
 
     const conversation = value;
 
@@ -130,8 +118,6 @@ if (allConversations != null) {
 
     try {
         ds = JSON.parse(localStorage.getItem(dialogueStack_key));
-        console.log("well what did we get?" + ds);
-                  console.log("well what did we get?" + ds[0]);
     } catch (error) {
       console.error(error);
     }
@@ -139,9 +125,6 @@ if (allConversations != null) {
     if (ds == null) {
       ds = [conversation.firstDialogueId];
     }
-
-    console.log("ousters blessme" + conversation.id);
-    console.log("ousters blessme" + ds[0]);
 
     dss[conversation.id] = ds;
 
@@ -162,7 +145,7 @@ if (allConversations != null) {
   let [coachState, setCoachState] = useState(newObject ?? {});
 
   const resetCoach = () => {
-    console.log('reseeeeeeet');
+    // console.log('reseeeeeeet');
 
     localStorage.removeItem(conversationDeck_key);
 
@@ -207,7 +190,7 @@ if (allConversations != null) {
 
   const jumpToId = (id, newConversationDeck) => {
 
-    console.log("jump to id");
+    // console.log("jump to id");
     let conversationId = null;
     let conversationTitle = null;
 
@@ -256,7 +239,7 @@ if (allConversations != null) {
     for (const key in dialogueStacks) {
       const value = dialogueStacks[key];
       let dialogueStack_key = "dialogueStack_" + budgetId + "_" + key;
-      console.log("and I saving thissss? " + dialogueStack_key);
+      // console.log("and I saving thissss? " + dialogueStack_key);
       localStorage.setItem(dialogueStack_key, JSON.stringify(value));
     };
   }, [dialogueStacks]);
@@ -273,9 +256,9 @@ if (allConversations != null) {
 
   useEffect(() => {
     localStorage.setItem(coachState_key, JSON.stringify(coachState));
-    console.log("I should have stored the state here:");
-    console.log(coachState_key);
-    console.log(coachState);
+    // console.log("I should have stored the state here:");
+    // console.log(coachState_key);
+    // console.log(coachState);
   }, [coachState]);
 
 
@@ -302,12 +285,12 @@ if (allConversations != null) {
 
     const results = await send('chat-secrets', url);
 
-  console.log('whyme stuff1:' + JSON.stringify(results))
+  // console.log('whyme stuff1:' + JSON.stringify(results))
 
 
     var myobj = JSON.parse(JSON.stringify(results));
 
-  console.log('whyme stuff:' + results['REACT_APP_CHAT_ACCESS_TOKEN'])
+  // console.log('whyme stuff:' + results['REACT_APP_CHAT_ACCESS_TOKEN'])
 
 
     let REACT_APP_CHAT_ACCESS_TOKEN = results['REACT_APP_CHAT_ACCESS_TOKEN'];
@@ -317,11 +300,11 @@ if (allConversations != null) {
     chatClient.on(event => {
       if (event.total_unread_count != null) {
         setTotalUnreadCount(event.total_unread_count)
-        console.log(`unread messages count is now: ${event.total_unread_count}`);
+        // console.log(`unread messages count is now: ${event.total_unread_count}`);
       }
      
       if (event.unread_channels != null) {
-        console.log(`unread channels count is now: ${event.unread_channels}`);
+        // console.log(`unread channels count is now: ${event.unread_channels}`);
       }
     });
 
@@ -333,7 +316,7 @@ if (allConversations != null) {
     );
 
     setTotalUnreadCount(user.me.total_unread_count)
-    console.log(`you have ${user.me.total_unread_count} unread messages on ${user.me.unread_channels} channels.`);
+    // console.log(`you have ${user.me.total_unread_count} unread messages on ${user.me.unread_channels} channels.`);
 
     const filter = { type: 'messaging', members: { $in: [REACT_APP_CHAT_USER_ID] } };
     const sort = [{ last_message_at: -1 }];
@@ -354,7 +337,7 @@ if (allConversations != null) {
       }
     })
 
-    console.log(firstChannel)
+    // console.log(firstChannel)
 
     setChannelWithMyCoach(firstChannel);
   }
@@ -457,9 +440,6 @@ export default function Coach({
     totalUnreadCount,
   } = useCoach();
 
-
-              console.log("ousters nnnnmmm" + dialogueStacks["tutorial"]);
-
   //instead of setDialougeId we need to be setting the dialogueId for a conversation.
   //we need to have multiple conversations going, interupt, vs on hold, vs etc etc.
 
@@ -476,7 +456,7 @@ export default function Coach({
 
   async function onMenuSelect(type) {
     setMenuOpen(false);
-    console.log("dialogueId");
+    // console.log("dialogueId");
 
 
     let dialogueId = "null";
@@ -606,14 +586,14 @@ export default function Coach({
 
           if (dialogue.text.startsWith("launch_conversation:")) {
             let substring = dialogue.text.substring(21, dialogue.text.length);
-            console.log("I found a substring to action on");
-            console.log(substring);
+            // console.log("I found a substring to action on");
+            // console.log(substring);
             jumpToId(substring);
           }
           else if (dialogue.text.startsWith("close_and_launch_conversation:")) {
             let substring = dialogue.text.substring(31, dialogue.text.length);
-            console.log("I found a substringsssss to action on");
-            console.log(substring);
+            // console.log("I found a substringsssss to action on");
+            // console.log(substring);
 
 
             let newDialogueStacks = new Map();
@@ -635,10 +615,10 @@ export default function Coach({
               }
             });
 
-            console.log("DOVE");
+            // console.log("DOVE");
 
-            console.log(newDialogueStacks);
-            console.log(newConversationDeck);
+            // console.log(newDialogueStacks);
+            // console.log(newConversationDeck);
 
             setDialogueStacks(newDialogueStacks);
             setConversationDeck(newConversationDeck);
@@ -808,8 +788,8 @@ export default function Coach({
       }
     }
 
-    console.log ("COACHSTATE: ");
-    console.log (coachState);
+    // console.log ("COACHSTATE: ");
+    // console.log (coachState);
 
     let nextId = dialogueOption.toId;
     //let nextDialogue = allDialogues.get(nextId);
@@ -839,7 +819,7 @@ export default function Coach({
         let newVar = substring.substring(0, sIndex - 3);
         let assignment = substring.substring(sIndex, substring.length);
 
-        console.log("newVar: " + newVar);
+        // console.log("newVar: " + newVar);
 
         if (assignment.includes(" + ")) {
           let sIndex2 = assignment.indexOf(" + ") + 3;
@@ -885,18 +865,18 @@ export default function Coach({
 
         let substring = a.substring(23, a.length);
 
-        console.log("I found a substring to action on");
-        console.log(substring);
+        // console.log("I found a substring to action on");
+        // console.log(substring);
 
         let existingGroup = categoryGroups.find(g => g.name === substring);
 
         if (existingGroup === null || existingGroup === undefined) {
           let group = { id: 'new', name: substring };
-          console.log("About to save a group: " + substring);
+          // console.log("About to save a group: " + substring);
           let id = await onSaveGroup(group);
           catGroupsJustMade[substring] = id;
 
-          console.log("Did save a group: " + substring);
+          // console.log("Did save a group: " + substring);
         }
 
       }
@@ -904,13 +884,13 @@ export default function Coach({
 
         let substring = a.substring(23, a.length);
 
-        console.log("I found a substring to action on");
-        console.log(substring);
+        // console.log("I found a substring to action on");
+        // console.log(substring);
 
         let existingGroup = categoryGroups.find(g => g.name === substring);
 
         if (existingGroup !== null && existingGroup !== undefined) {
-          console.log(existingGroup);
+          // console.log(existingGroup);
 
           let id = await onDeleteGroup(existingGroup.id);
         }
@@ -927,14 +907,14 @@ export default function Coach({
         let cg = substring.substring(0, sIndex - 2);
         let c = substring.substring(sIndex, substring.length);
 
-        console.log("I found a category to add for a categoy group:");
-        console.log(cg);
-        console.log(c);
+        // console.log("I found a category to add for a categoy group:");
+        // console.log(cg);
+        // console.log(c);
 
 
 
 
-        console.log("SPENSER 1");
+        // console.log("SPENSER 1");
 
 
         let sIndex2 = c.indexOf("[[") + 2; 
@@ -942,25 +922,25 @@ export default function Coach({
 
         if (sIndex2 !== null && sIndex2 !== undefined && tIndex2 !== null && tIndex2 !== undefined) {
           let substringToReplace = c.substring(sIndex2, tIndex2);
-          console.log("SPENSER I found a substring to replace:", substringToReplace);
+          // console.log("SPENSER I found a substring to replace:", substringToReplace);
 
           let replacement = coachState[substringToReplace];
           if (replacement !== null && replacement !== undefined) {
-            console.log("SPENSER And the value for it:", replacement);
-            console.log(replacement);
+            // console.log("SPENSER And the value for it:", replacement);
+            // console.log(replacement);
 
             c = c.replace("[[" + substringToReplace + "]]", replacement);
-            console.log("SPENSER So here is the new text:", c);
-            console.log(c);
+            // console.log("SPENSER So here is the new text:", c);
+            // console.log(c);
 
           } else if (substringToReplace == "user_first_name") {
             let userFirstName = REACT_APP_USER_FIRST_NAME
             if (userFirstName !== null && userFirstName !== undefined) {
-              console.log("SPENSER 2");
+              // console.log("SPENSER 2");
 
               c = c.replace("[[" + substringToReplace + "]]", userFirstName);
             }
-            console.log("And no value found for it.");
+            // console.log("And no value found for it.");
           }
         }
 
@@ -972,18 +952,18 @@ export default function Coach({
 
         let idOfCatGroupJustMade = catGroupsJustMade[cg];
 
-          console.log("idOfCatGroupJustMade");
-          console.log(idOfCatGroupJustMade);
+          // console.log("idOfCatGroupJustMade");
+          // console.log(idOfCatGroupJustMade);
 
         if (existingGroup !== null && existingGroup !== undefined) {
-          console.log("existingGroup found");
+          // console.log("existingGroup found");
 
           let existingCat = existingGroup.categories.find(g => g.name === c);
           if (existingCat !== null && existingCat !== undefined) {
-            console.log("existingCat found");
+            // console.log("existingCat found");
 
           } else {
-            console.log("existingCat not found");
+            // console.log("existingCat not found");
 
             let category = {
               name: c,
@@ -997,7 +977,7 @@ export default function Coach({
           }
         } else if (idOfCatGroupJustMade !== null && idOfCatGroupJustMade !== undefined) {
 
-          console.log("looppppphole");
+          // console.log("looppppphole");
 
           let category = {
             name: c,
@@ -1336,7 +1316,7 @@ export default function Coach({
     if (action !== undefined && action !== null) {
       action = action.replaceAll("highlight: ", "move_to: ");
 
-      console.log("I should do this:" + action);
+      // console.log("I should do this:" + action);
       if (action === "move_to: zoom_link") {
         if (
           commonElementsRef.current['zoom_link'] !== undefined &&
@@ -2020,7 +2000,7 @@ export default function Coach({
 
     if (variable !== undefined && variable !== null && value !== undefined && value !== null) {
 
-      console.log ("EVAL: " + variable + " " + test + " " + value + " state:" + coachState[variable]);
+      // console.log ("EVAL: " + variable + " " + test + " " + value + " state:" + coachState[variable]);
 
       if (test == ">") {
         return Number(coachState[variable]) > Number(value);
@@ -2126,18 +2106,18 @@ export default function Coach({
         }
       }
       else {
-        console.log("I found a substring to replace");
+        // console.log("I found a substring to replace");
         let substringToReplace = dialogueText.substring(sIndex, tIndex);
-        console.log(substringToReplace);
+        // console.log(substringToReplace);
 
         let replacement = coachState[substringToReplace];
         if (replacement !== null && replacement !== undefined) {
-          console.log("And the value for it:");
-          console.log(replacement);
+          // console.log("And the value for it:");
+          // console.log(replacement);
 
           dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", replacement);
-          console.log("So here is the new text:");
-          console.log(dialogueText);
+          // console.log("So here is the new text:");
+          // console.log(dialogueText);
 
         } else if (substringToReplace == "user_first_name") {
           let userFirstName = REACT_APP_USER_FIRST_NAME
@@ -2212,25 +2192,25 @@ export default function Coach({
         }
       }
       else {
-        console.log("I found a substring to replace");
+        // console.log("I found a substring to replace");
         let substringToReplace = dialogueText.substring(sIndex, tIndex);
-        console.log(substringToReplace);
+        // console.log(substringToReplace);
 
         let replacement = coachState[substringToReplace];
         if (replacement !== null && replacement !== undefined) {
-          console.log("And the value for it:");
-          console.log(replacement);
+          // console.log("And the value for it:");
+          // console.log(replacement);
 
           dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", replacement);
-          console.log("So here is the new text:");
-          console.log(dialogueText);
+          // console.log("So here is the new text:");
+          // console.log(dialogueText);
 
         } else if (substringToReplace == "user_first_name") {
           let userFirstName = REACT_APP_USER_FIRST_NAME
           if (userFirstName !== null && userFirstName !== undefined) {
             dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", userFirstName);
           }
-          console.log("And no value found for it.");
+          // console.log("And no value found for it.");
         } else if (substringToReplace == "time_of_day") {
           let timeOfDay = "day";
 
@@ -2298,25 +2278,25 @@ export default function Coach({
         }
       }
       else {
-        console.log("I found a substring to replace");
+        // console.log("I found a substring to replace");
         let substringToReplace = dialogueText.substring(sIndex, tIndex);
-        console.log(substringToReplace);
+        // console.log(substringToReplace);
 
         let replacement = coachState[substringToReplace];
         if (replacement !== null && replacement !== undefined) {
-          console.log("And the value for it:");
-          console.log(replacement);
+          // console.log("And the value for it:");
+          // console.log(replacement);
 
           dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", replacement);
-          console.log("So here is the new text:");
-          console.log(dialogueText);
+          // console.log("So here is the new text:");
+          // console.log(dialogueText);
 
         } else if (substringToReplace == "user_first_name") {
           let userFirstName = REACT_APP_USER_FIRST_NAME
           if (userFirstName !== null && userFirstName !== undefined) {
             dialogueText = dialogueText.replace("[[" + substringToReplace + "]]", userFirstName);
           }
-          console.log("And no value found for it.");
+          // console.log("And no value found for it.");
         } else if (substringToReplace == "time_of_day") {
           let timeOfDay = "day";
 
@@ -2379,7 +2359,7 @@ export default function Coach({
 
    //allDialogues.get(dialogueStack[dialogueStack.length-1]);
 
-  console.log(dialogue);
+  // console.log(dialogue);
   if (dialogue != null) {
 
 
@@ -2521,7 +2501,7 @@ export default function Coach({
                 autoFocus={true}
                 placeholder=""
                 value={currentInput || ''}
-                onUpdate={setCurrentInput}
+                onChangeValue={setCurrentInput}
                 style={{ flex: 1, marginRight: 10 }}
               />
 

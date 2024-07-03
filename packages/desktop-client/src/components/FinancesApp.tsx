@@ -45,7 +45,6 @@ import { Settings } from './settings';
 import { FloatableSidebar } from './sidebar';
 import { SidebarProvider } from './sidebar/SidebarProvider';
 import { Titlebar, TitlebarProvider } from './Titlebar';
-import { TransactionEdit } from './transactions/MobileTransaction';
 import Coach, { CoachProvider, useCoach } from './coach/Coach';
 import { REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 

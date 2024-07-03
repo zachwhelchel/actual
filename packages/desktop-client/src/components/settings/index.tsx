@@ -40,44 +40,9 @@ function About() {
 
   return (
     <Setting>
-      <View
-        style={{
-          flexDirection: 'column',
-          gap: 10,
-        }}
-        className={`${media(`(min-width: ${tokens.breakpoint_small})`, {
-          display: 'grid',
-          gridTemplateRows: '1fr 1fr',
-          gridTemplateColumns: '50% 50%',
-          columnGap: '2em',
-          gridAutoFlow: 'column',
-        })}`}
-        data-vrt-mask
-      >
+      <View>
         <Text>Client version: v{window.Actual?.ACTUAL_VERSION}</Text>
         <Text>Server version: {version}</Text>
-        {isOutdated ? (
-          <Link
-            variant="external"
-            to="https://actualbudget.org/docs/releases"
-            linkColor="purple"
-          >
-            New version available: {latestVersion}
-          </Link>
-        ) : (
-          <Text style={{ color: theme.noticeText, fontWeight: 600 }}>
-            You’re up to date!
-          </Text>
-        )}
-        <Text>
-          <Link
-            variant="external"
-            to="https://actualbudget.org/docs/releases"
-            linkColor="purple"
-          >
-            Release Notes
-          </Link>
-        </Text>
       </View>
     </Setting>
   );

@@ -29,71 +29,15 @@ import { Item } from './Item';
 import { useSidebar } from './SidebarProvider';
 import { ToggleButton } from './ToggleButton';
 import { Tools } from './Tools';
-
-import { useSidebar } from '.';
 import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 export const SIDEBAR_WIDTH = 240;
 
-type SidebarProps = {
-  style: CSSProperties;
-  budgetName: ReactNode;
-  accounts: AccountEntity[];
-  failedAccounts: Map<
-    string,
-    {
-      type: string;
-      code: string;
-    }
-  >;
-  updatedAccounts: string[];
-  getBalanceQuery: (account: AccountEntity) => Binding;
-  getAllAccountBalance: () => Binding;
-  getOnBudgetBalance: () => Binding;
-  getOffBudgetBalance: () => Binding;
-  showClosedAccounts: boolean;
-  isFloating: boolean;
-  onFloat: () => void;
-  onAddAccount: () => void;
-  onScheduleZoom: () => void;
-  onFreeTrial: () => void;
-  onManageSubscription: () => void;
-  onResetAvatar: () => void;
-  onUploadAvatar: () => void;
-  onStartNewConversation: () => void;
-  onToggleClosedAccounts: () => void;
-  onReorder: OnDropCallback;
-};
-
-export function Sidebar({
-  style,
-  budgetName,
-  accounts,
-  failedAccounts,
-  updatedAccounts,
-  getBalanceQuery,
-  getAllAccountBalance,
-  getOnBudgetBalance,
-  getOffBudgetBalance,
-  showClosedAccounts,
-  isFloating,
-  onFloat,
-  onAddAccount,
-  onScheduleZoom,
-  onFreeTrial,
-  onManageSubscription,
-  onResetAvatar,
-  onUploadAvatar,
-  onStartNewConversation,
-  onToggleClosedAccounts,
-  onReorder,
-}: SidebarProps) {
+export function Sidebar() {
   const hasWindowButtons = !Platform.isBrowser && Platform.OS === 'mac';
-
   let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   const dispatch = useDispatch();
-
   const sidebar = useSidebar();
   const accounts = useAccounts();
   const [showClosedAccounts, setShowClosedAccountsPref] = useLocalPref(
@@ -123,6 +67,30 @@ export function Sidebar({
   const onAddAccount = () => {
     dispatch(replaceModal('add-account'));
   };
+
+  const onScheduleZoom = () => {
+    dispatch(replaceModal('schedule-zoom'));
+  };
+
+  const onFreeTrial = () => {
+    dispatch(replaceModal('free-trial'));
+  };
+  
+  const onManageSubscription = () => {
+    dispatch(replaceModal('manage-subscription'));
+  };
+
+  const onResetAvatar = () => {
+    dispatch(replaceModal('reset-avatar'));
+  };
+
+  const onUploadAvatar = () => {
+    dispatch(replaceModal('upload-avatar'));
+  };
+
+  const onStartNewConversation = () => {
+    dispatch(replaceModal('start-new-conversation'));
+  };  
 
   const onToggleClosedAccounts = () => {
     setShowClosedAccountsPref(!showClosedAccounts);
@@ -161,8 +129,13 @@ export function Sidebar({
           }),
         }}
       >
-        <EditableBudgetName />
-
+        <div
+          ref={element => {
+            commonElementsRef.current['budget_name'] = element;
+          }}
+        >
+          <EditableBudgetName />
+        </div>
         <View style={{ flex: 1, flexDirection: 'row' }} />
 
         {!sidebar.alwaysFloats && (

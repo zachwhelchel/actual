@@ -59,7 +59,7 @@ export function ResetAvatar({
                   autoFocus={true}
                   placeholder=""
                   value={currentInput || ''}
-                  onUpdate={setCurrentInput}
+                  onChangeValue={setCurrentInput}
                   style={{ flex: 1, marginRight: 10 }}
                 />
 

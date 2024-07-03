@@ -18,6 +18,7 @@ export function UploadAvatar({
 }) {
   let { resetCoach, setDialogueId, allConversations, triggerFired, jumpToId } = useCoach();
 
+  console.log("again?")
   let [currentInput, setCurrentInput] = useState("");
 
   let onImport = async () => {
@@ -169,10 +170,8 @@ export function UploadAvatar({
                   autoFocus={true}
                   placeholder=""
                   value={currentInput || ''}
-                  onUpdate={setCurrentInput}
+                  onChangeValue={setCurrentInput}
                 />
-
-
               </View>
               </Block>
               <Block>

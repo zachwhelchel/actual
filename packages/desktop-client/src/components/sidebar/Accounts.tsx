@@ -16,12 +16,12 @@ import { useLocalPref } from '../../hooks/useLocalPref';
 import { useOffBudgetAccounts } from '../../hooks/useOffBudgetAccounts';
 import { useUpdatedAccounts } from '../../hooks/useUpdatedAccounts';
 import { View } from '../common/View';
+import { Link } from '../common/Link';
 import { Card } from '../common/Card';
 import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
 import { theme } from '../../style';
 import { Button } from '../common/Button';
-import { ExternalLink } from '../common/ExternalLink';
 import { Account } from './Account';
 import { SecondaryItem } from './SecondaryItem';
 
@@ -485,12 +485,13 @@ export function Accounts({
           }}>
             You are currently subscribed. Manage your subscription
             {" "}
-            <ExternalLink
+            <Link
+              type="external"
               linkColor="white"
               to={`https://mybudgetcoach.app/subscription`}
             >
             here
-            </ExternalLink>
+            </Link>
             .
         </p>
       )}
@@ -505,12 +506,13 @@ export function Accounts({
           }}>
             Your Free Trial has {freeTrialDaysLeft} days remaining.
             {" "}
-            <ExternalLink
+            <Link
+              type="external"
               linkColor="white"
               to={`https://mybudgetcoach.app/subscription`}
             >
             Subscribe at any time
-            </ExternalLink>
+            </Link>
             {" "}
             to keep your budget beyond your trial.
         </p>
@@ -528,12 +530,13 @@ export function Accounts({
             }}>
               Your Free Trial ended {daysUntilDeletion} days ago.
               {" "}
-              <ExternalLink
+              <Link
+                type="external"
                 linkColor="white"
                 to={`https://mybudgetcoach.app/subscription`}
               >
               Subscribe now
-              </ExternalLink>
+              </Link>
               {" "}
               to avoid losing your budget.
           </p>

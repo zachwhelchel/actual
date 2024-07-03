@@ -281,31 +281,33 @@ export function AccountHeader({
                 onClick={canSync ? onSync : onImport}
                 disabled={canSync && isServerOffline}
               >
-              {canSync ? (
-                <>
-                  <AnimatedRefresh
-                    width={13}
-                    height={13}
-                    animating={
-                      account
-                        ? accountsSyncing.includes(account.id)
-                        : accountsSyncing.length > 0
-                    }
-                    style={{ marginRight: 4 }}
-                  />{' '}
-                  {isServerOffline ? 'Bank Sync Offline' : 'Bank Sync'}
-                </>
-              ) : (
-                <>
-                  <SvgDownloadThickBottom
-                    width={13}
-                    height={13}
-                    style={{ marginRight: 4 }}
-                  />{' '}
-                  Import
-                </>
-              )}
-            </Button>
+                {canSync ? (
+                  <>
+                    <AnimatedRefresh
+                      width={13}
+                      height={13}
+                      animating={
+                        account
+                          ? accountsSyncing.includes(account.id)
+                          : accountsSyncing.length > 0
+                      }
+                      style={{ marginRight: 4 }}
+                    />{' '}
+                    {isServerOffline ? 'Bank Sync Offline' : 'Bank Sync'}
+                  </>
+                ) : (
+                  <>
+                    <SvgDownloadThickBottom
+                      width={13}
+                      height={13}
+                      style={{ marginRight: 4 }}
+                    />{' '}
+                    Import
+                  </>
+                )}
+              </Button>
+
+            </div>
           )}
           {!showEmptyMessage && (
             <div

@@ -103,9 +103,13 @@ export function Login() {
         }}
       >
         If you lost your password,{' '}
-        <ExternalLink linkColor="muted" to="mailto:admin@mybudgetcoach.app?subject=Password">
+        <Link
+          type="external"
+          style={{ fontSize: 15 }}
+          to={'mailto:admin@mybudgetcoach.app?subject=Password'}
+        >
           contact support
-        </ExternalLink>{' '} 
+        </Link>{' '} 
         to get it reset.
       </Text>
 

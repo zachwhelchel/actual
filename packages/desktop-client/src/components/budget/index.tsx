@@ -218,14 +218,14 @@ function BudgetInner(props: BudgetInnerProps) {
         ),
       );
 
-      return id;
+      //return id;
     } else {
       dispatch(updateCategory(category));
     }
   };
 
   const onSaveNewCategories = async (categories, atEnd = false) => {
-    let ids = [];
+    //let ids = [];
 
     console.log('Sugar were going dowm');
     for (var index in categories) {
@@ -233,34 +233,21 @@ function BudgetInner(props: BudgetInnerProps) {
       console.log('Sugar for loop');
       console.log(category);
 
-      let id = await props.createCategory(
-        category.name,
-        category.cat_group,
-        category.is_income,
-        category.hidden,
-        atEnd,
+      dispatch(
+        createCategory(
+          category.name,
+          category.cat_group,
+          category.is_income,
+          category.hidden,
+          atEnd,
+        ),
       );
-      category.id = id;
-      ids.push(id);
+
+      //ids.push(id);
     }
 
-    console.log('Sugar her got ids');
-    console.log(ids);
 
-    for (var index in categories) {
-      let category = categories[index];
-      let id = ids[index];
-      setCategoryGroups(state =>
-        addCategory(state, {
-          ...category,
-          is_income: category.is_income ? 1 : 0,
-          id,
-        },
-        atEnd),
-      );
-    }
-
-    return ids;
+    //return ids;
   };
 
   const onDeleteCategory = async id => {
@@ -518,9 +505,7 @@ export function Budget() {
       }}
     >
       <BudgetInner
-        categoryGroups={categoryGroups}
         categoriesRef={categoriesCoachRef}
-        {...actions}
         reportComponents={reportComponents}
         rolloverComponents={rolloverComponents}
         titlebar={titlebar}

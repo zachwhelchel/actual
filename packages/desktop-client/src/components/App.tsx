@@ -189,8 +189,8 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
     //Set up the coach dialogues.
     let coachSrc = "/avatars/" + getCoach() + ".drawio.xml";
 
-    console.log("anita 1:", REACT_APP_COACH);
-    console.log("anita 1:", getCoach());
+    // console.log("anita 1:", REACT_APP_COACH);
+    // console.log("anita 1:", getCoach());
     //coachSrc = "https://firebasestorage.googleapis.com/v0/b/mybudgetcoach-3c977.appspot.com/o/%20KristinWade.drawio-24.xml?alt=media&token=c20c8ead-89b9-4c1c-8a32-b59ced6f7f87"
 
     type Conversation = {
@@ -236,8 +236,8 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
 
     let file = localStorage.getItem("uploaded_draw_io_file");
 
-    console.log("I have a file here at setup");
-    console.log(file);
+    // console.log("I have a file here at setup");
+    // console.log(file);
 
     // if (file != null) {
     //   coachSrc = file;
@@ -251,13 +251,13 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
       let file = localStorage.getItem("uploaded_draw_io_file");
 
       if (file != null) {
-          console.log("still a file?????");
+          // console.log("still a file?????");
 
         stringToUse = file;
       }
 
-      console.log("go on xml?");
-      console.log(stringToUse);
+      // console.log("go on xml?");
+      // console.log(stringToUse);
       return new window.DOMParser().parseFromString(stringToUse, "text/xml")
     })
     .then(data => {
@@ -272,17 +272,17 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
 
       if (diagrams.length === 1) {
 
-        console.log("Um... hello");
+        // console.log("Um... hello");
 
         let items = diagrams[0].getElementsByTagName("mxCell");
         let [dialogues, firstDialogueId, triggerType, canBeUserInitiated] = dialoguesForConversation(items);
 
-        console.log("Um... hello");
+        // console.log("Um... hello");
 
         const id = diagrams[0].getAttribute("id");
         const name = diagrams[0].getAttribute("name");
 
-        console.log("Um... hello");
+        // console.log("Um... hello");
 
         const conversation: Conversation = {
           id: id,
@@ -294,7 +294,7 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
         };
         someConversations.set(conversation.id, conversation);
 
-        console.log("Um... hello" + conversation.id);
+        // console.log("Um... hello" + conversation.id);
 
       } else {
 
@@ -316,8 +316,6 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
             canBeUserInitiated: canBeUserInitiated,
           };
           someConversations.set(conversation.id, conversation);
-
-          console.log("ousters sss " + conversation);
         }
 
       }
@@ -574,7 +572,7 @@ let someDialogues = new Map();
       //end any trailing <br> s, this is so dumb...
 
 
-      console.log(value);
+      // console.log(value);
 
 
       let sIndex = value.indexOf("&lt;&lt;") + 8; 
@@ -584,8 +582,8 @@ let someDialogues = new Map();
 //&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br&gt;
       if (value.includes("&lt;&lt;")) {
 
-        console.log("dumb");
-        console.log(value);
+        // console.log("dumb");
+        // console.log(value);
 
         let substringToReplace = value.substring(sIndex, tIndex);
         value = value.replace("&lt;&lt;" + substringToReplace + "&gt;&gt;", "");
@@ -610,7 +608,7 @@ let someDialogues = new Map();
           if (xxx !== null && xxx !== undefined && yyy !== null && yyy !== undefined) {
             let xyTotal = Number(xxx) + Number(yyy);
 
-            console.log("id xy total:" + id + " " + xyTotal);
+            // console.log("id xy total:" + id + " " + xyTotal);
 
             if (xyTotal < firstIdXYTotal) {
               firstIdXYTotal = xyTotal;
@@ -629,7 +627,7 @@ let someDialogues = new Map();
         };
         someDialogues.set(dia.id, dia);
 
-        console.log(value);
+        // console.log(value);
       }
       else if (style.startsWith('shape=cylinder3;')) {
 
@@ -645,7 +643,7 @@ let someDialogues = new Map();
           if (xxx !== null && xxx !== undefined && yyy !== null && yyy !== undefined) {
             let xyTotal = Number(xxx) + Number(yyy);
 
-            console.log("id xy total:" + id + " " + xyTotal);
+            // console.log("id xy total:" + id + " " + xyTotal);
 
             if (xyTotal < firstIdXYTotal) {
               firstIdXYTotal = xyTotal;
@@ -664,12 +662,12 @@ let someDialogues = new Map();
         };
         someDialogues.set(dia.id, dia);
 
-        console.log(value);
+        // console.log(value);
       }
       else if (style.startsWith('shape=step;perimeter=stepPerimeter;')) {
 
         let xxx = child.getAttribute("value");
-        console.log('thetriggerthing' + xxx);
+        // console.log('thetriggerthing' + xxx);
         triggerType = xxx;
 
         if (style.includes("fillColor=#e1d5e7;")) {
@@ -853,7 +851,7 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
                     stuff1 = stuff.substring(0, stuff.indexOf('<br>'));
                     stuff2 = stuff.substring(stuff.indexOf('<br>') + 4);
                   } else if (stuff.includes(longStr)) {
-                    console.log("ever made it here?")
+                    // console.log("ever made it here?")
                     stuff1 = stuff.substring(0, stuff.indexOf(longStr));
                     stuff2 = stuff.substring(stuff.indexOf(longStr) + longStr.length);
                   } 
@@ -878,7 +876,7 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
                     y: y,
                   };
                   dialogue.dialogueOptions.push(dia);
-                  console.log("Adding " + source + " to " + target + " and setting: " + stuff3 + " to " + stuff4);
+                  // console.log("Adding " + source + " to " + target + " and setting: " + stuff3 + " to " + stuff4);
 
                 } else {
 
@@ -892,7 +890,7 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
                     y: y,
                   };
                   dialogue.dialogueOptions.push(dia);
-                  console.log("Adding " + source + " to " + target);
+                  // console.log("Adding " + source + " to " + target);
                 }
 
               } else {
@@ -903,7 +901,7 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
                   y: y,
                 };
                 dialogue.dialogueOptions.push(dia);
-                console.log("Adding " + source + " to " + target);
+                // console.log("Adding " + source + " to " + target);
 
               }
 
@@ -1113,8 +1111,8 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
 
 
                 dialogue.dialogueOptions.push(dialogueOption);
-                console.log("Adding " + source + " to " + target + " and CONDITIONS FOR AUTOPUSH");
-                console.log(dialogue);
+                // console.log("Adding " + source + " to " + target + " and CONDITIONS FOR AUTOPUSH");
+                // console.log(dialogue);
               }
 
 
@@ -1129,12 +1127,9 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
 
   let keys = someDialogues.keys();
 
-    console.log("I'm sorting soon"); 
-  console.log(keys); 
 
   for (let [key, value] of  someDialogues.entries()) {
     let dialogue = value;
-    console.log("I'm sorting " + key); 
     dialogue.dialogueOptions.sort( function(a, b) {
       return a.y - b.y // no idea why the minus is used here but it worked.
     });
@@ -1146,8 +1141,6 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
 
 
 
-  console.log("someDialogues");
-  console.log("firstId:" + firstId);
   //setAllDialogues(someDialogues);
   let initialDialogueId = firstId;
 

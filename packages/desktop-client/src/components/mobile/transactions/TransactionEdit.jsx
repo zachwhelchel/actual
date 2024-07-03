@@ -437,7 +437,6 @@ const TransactionEditInner = memo(function TransactionEditInner({
   adding,
   accounts,
   categories,
-  categoryGroups,
   createCategory,
   payees,
   dateFormat,
@@ -1195,7 +1194,6 @@ function TransactionEditUnconnected({
         transactions={transactions}
         adding={adding.current}
         categories={categories}
-        categoryGroups={categoryGroups}
         createCategory={createCategory}
         accounts={accounts}
         payees={payees}
