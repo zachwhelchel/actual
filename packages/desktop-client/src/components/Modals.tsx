@@ -23,6 +23,7 @@ import { CloseAccountModal } from './modals/CloseAccountModal';
 import { ConfirmCategoryDelete } from './modals/ConfirmCategoryDelete';
 import { ConfirmTransactionDelete } from './modals/ConfirmTransactionDelete';
 import { ConfirmTransactionEdit } from './modals/ConfirmTransactionEdit';
+import { CreateCategory } from './modals/CreateCategory';
 import { ConfirmUnlinkAccount } from './modals/ConfirmUnlinkAccount';
 import { CoverModal } from './modals/CoverModal';
 import { CreateAccountModal } from './modals/CreateAccountModal';
@@ -59,6 +60,12 @@ import { DiscoverSchedules } from './schedules/DiscoverSchedules';
 import { PostsOfflineNotification } from './schedules/PostsOfflineNotification';
 import { ScheduleDetails } from './schedules/ScheduleDetails';
 import { ScheduleLink } from './schedules/ScheduleLink';
+import { ScheduleZoom } from './modals/ScheduleZoom';
+import { FreeTrial } from './modals/FreeTrial';
+import { ManageSubscription } from './modals/ManageSubscription';
+import { ResetAvatar } from './modals/ResetAvatar';
+import { UploadAvatar } from './modals/UploadAvatar';
+import { StartNewConversation } from './modals/StartNewConversation';
 import { NamespaceContext } from './spreadsheet/NamespaceContext';
 
 export type CommonModalProps = {
@@ -112,6 +119,48 @@ export function Modals() {
               modalProps={modalProps}
               syncServerStatus={syncServerStatus}
               upgradingAccountId={options?.upgradingAccountId}
+            />
+          );
+
+        case 'schedule-zoom':
+          return (
+            <ScheduleZoom
+              modalProps={modalProps}
+            />
+          );
+
+        case 'free-trial':
+          return (
+            <FreeTrial
+              modalProps={modalProps}
+            />
+          );
+
+        case 'manage-subscription':
+          return (
+            <ManageSubscription
+              modalProps={modalProps}
+            />
+          );
+
+        case 'reset-avatar':
+          return (
+            <ResetAvatar
+              modalProps={modalProps}
+            />
+          );
+
+        case 'upload-avatar':
+          return (
+            <UploadAvatar
+              modalProps={modalProps}
+            />
+          );
+
+        case 'start-new-conversation':
+          return (
+            <StartNewConversation
+              modalProps={modalProps}
             />
           );
 
@@ -175,6 +224,15 @@ export function Modals() {
               modalProps={modalProps}
               onConfirm={options.onConfirm}
               confirmReason={options.confirmReason}
+            />
+          );
+
+        case 'create-category':
+          return (
+            <CreateCategory
+              modalProps={modalProps}
+              onConfirm={options.onConfirm}
+              categoryGroups={options.categoryGroups}
             />
           );
 

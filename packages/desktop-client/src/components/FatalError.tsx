@@ -33,7 +33,7 @@ function RenderSimple({ error }: RenderSimpleProps) {
     msg = (
       <Text>
         Your browser doesn’t support IndexedDB in this environment, a feature
-        that Actual requires to run. This might happen if you are in private
+        that MyBudgetCoach requires to run. This might happen if you are in private
         browsing mode. Please try a different browser or turn off private
         browsing.
       </Text>
@@ -45,7 +45,7 @@ function RenderSimple({ error }: RenderSimpleProps) {
     // SharedArrayBuffer isn't available
     msg = (
       <Text>
-        Actual requires access to <code>SharedArrayBuffer</code> in order to
+        MyBudgetCoach requires access to <code>SharedArrayBuffer</code> in order to
         function properly. If you’re seeing this error, either your browser does
         not support <code>SharedArrayBuffer</code>, or your server is not
         sending the appropriate headers, or you are not using HTTPS. See{' '}
@@ -133,7 +133,7 @@ function SharedArrayBufferOverride() {
   return expanded ? (
     <>
       <Paragraph style={{ marginTop: 10 }}>
-        Actual uses <code>SharedArrayBuffer</code> to allow usage from multiple
+        MyBudgetCoach uses <code>SharedArrayBuffer</code> to allow usage from multiple
         tabs at once and to ensure correct behavior when switching files. While
         it can run without access to <code>SharedArrayBuffer</code>, you may
         encounter data loss or notice multiple budget files being merged with
@@ -146,7 +146,7 @@ function SharedArrayBufferOverride() {
           checked={understand}
           onChange={() => setUnderstand(!understand)}
         />{' '}
-        I understand the risks, run Actual in the unsupported fallback mode
+        I understand the risks, run MyBudgetCoach in the unsupported fallback mode
       </label>
       <Button
         disabled={!understand}
@@ -155,7 +155,7 @@ function SharedArrayBufferOverride() {
           window.location.reload();
         }}
       >
-        Open Actual
+        Open MyBudgetCoach
       </Button>
     </>
   ) : (

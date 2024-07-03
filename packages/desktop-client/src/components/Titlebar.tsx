@@ -44,6 +44,8 @@ import { useServerURL } from './ServerContext';
 import { useSidebar } from './sidebar/SidebarProvider';
 import { useSheetValue } from './spreadsheet/useSheetValue';
 import { ThemeSelector } from './ThemeSelector';
+import { Tooltip } from './tooltips';
+import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
 export const SWITCH_BUDGET_MESSAGE_TYPE = 'budget/switch-type';
 
@@ -293,6 +295,7 @@ function BudgetTitlebar() {
   const [loading, setLoading] = useState(false);
   const [showPopover, setShowPopover] = useState(false);
   const triggerRef = useRef(null);
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   const reportBudgetEnabled = useFeatureFlag('reportBudget');
 
@@ -315,10 +318,16 @@ function BudgetTitlebar() {
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <MonthCountSelector
-        maxMonths={maxMonths || 1}
-        onChange={value => setMaxMonthsPref(value)}
-      />
+      <div
+        ref={element => {
+          commonElementsRef.current['calendar_icons'] = element;
+        }}
+      >
+        <MonthCountSelector
+          maxMonths={maxMonths || 1}
+          onChange={value => setMaxMonthsPref(value)}
+        />
+      </div>
       {reportBudgetEnabled && (
         <View style={{ marginLeft: -5 }}>
           <ButtonWithLoading
@@ -463,8 +472,8 @@ export function Titlebar({ style }: TitlebarProps) {
         <ThemeSelector style={{ marginLeft: 10 }} />
       )}
       <PrivacyButton style={{ marginLeft: 10 }} />
-      {serverURL ? <SyncButton style={{ marginLeft: 10 }} /> : null}
-      <LoggedInUser style={{ marginLeft: 10 }} />
+{/*      {serverURL ? <SyncButton style={{ marginLeft: 10 }} /> : null}
+*/}      <LoggedInUser style={{ marginLeft: 10 }} />
     </View>
   );
 }

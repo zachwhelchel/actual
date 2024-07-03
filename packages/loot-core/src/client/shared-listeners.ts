@@ -95,7 +95,7 @@ export function listenForSyncEvent(actions, store) {
           // Tell the user something is wrong with the key state on
           // the server and the key needs to be recreated
           notif = {
-            title: 'Actual has updated the syncing format',
+            title: 'MyBudgetCoach has updated the syncing format',
             message:
               'This happens rarely (if ever again). The internal syncing format ' +
               'has changed and you need to reset sync. This will upload data from ' +

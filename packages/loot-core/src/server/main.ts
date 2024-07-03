@@ -132,7 +132,17 @@ handlers['transaction-delete'] = mutator(async function (transaction) {
 });
 
 handlers['transactions-parse-file'] = async function ({ filepath, options }) {
+    console.log("fifisdadasdasdflfilf");
+  console.log(filepath);
+
   return parseFile(filepath, options);
+};
+
+handlers['uploaded-avatar-parse-file'] = async function ({ filepath }) {
+  console.log("fififlfilf");
+  console.log(filepath);
+  let contents = await fs.readFile(filepath);
+  return contents;
 };
 
 handlers['transactions-export'] = async function ({
@@ -281,6 +291,7 @@ handlers['category-create'] = mutator(async function ({
   groupId,
   isIncome,
   hidden,
+  atEnd,
 }) {
   return withUndo(async () => {
     if (!groupId) {
@@ -292,7 +303,7 @@ handlers['category-create'] = mutator(async function ({
       cat_group: groupId,
       is_income: isIncome ? 1 : 0,
       hidden: hidden ? 1 : 0,
-    });
+    }, { atEnd: atEnd });
   });
 });
 
@@ -888,6 +899,67 @@ handlers['secret-check'] = async function (name) {
     return { error: 'failed' };
   }
 };
+
+handlers['env-variables'] = async function (url) {
+
+  if (url.includes('localhost')) {
+    return await get(
+      getServer().BASE_SERVER + '/envvariables',
+    );
+  } else {
+    let firstlast = url.substring(8, url.indexOf('.'));
+    console.log("Can we?", firstlast);
+    if (url.includes('.app')) {
+      return await get(
+        getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/envvariables',
+      );
+    }
+    else if (url.includes('.com')) {
+      return await get(
+        getServer("https://" + firstlast + ".mybudgetcoach.com").BASE_SERVER + '/envvariables',
+      );
+    }
+
+  }
+};
+
+handlers['chat-secrets'] = async function (url) {
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  console.log('whyme ut:' + userToken)
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  if (url.includes('localhost')) {
+    return await post(
+      getServer().BASE_SERVER + '/chatsecrets', {}, {
+      'X-ACTUAL-TOKEN': userToken,
+    });
+  } else {
+    let firstlast = url.substring(8, url.indexOf('.'));
+    console.log("Can we?", firstlast);
+    if (url.includes('.app')) {
+      return await post(
+        getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/chatsecrets', {}, {
+          'X-ACTUAL-TOKEN': userToken,
+        });
+    }
+    else if (url.includes('.com')) {
+      return await post(
+        getServer("https://" + firstlast + ".mybudgetcoach.com").BASE_SERVER + '/chatsecrets', {}, {
+          'X-ACTUAL-TOKEN': userToken,
+        });
+    }
+  }
+};
+
+
+function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
 
 handlers['gocardless-poll-web-token'] = async function ({
   upgradingAccountId,

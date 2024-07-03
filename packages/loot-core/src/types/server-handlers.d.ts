@@ -43,6 +43,10 @@ export interface ServerHandlers {
     options;
   }) => Promise<ParseFileResult>;
 
+  'uploaded-avatar-parse-file': (arg: {
+    filepath: string;
+  }) => Promise<unknown>;
+
   'transactions-export': (arg: {
     transactions;
     accounts?;
@@ -181,6 +185,8 @@ export interface ServerHandlers {
 
   'secret-set': (arg: { name: string; value: string }) => Promise<null>;
   'secret-check': (arg: string) => Promise<string | { error?: string }>;
+  'env-variables': (arg: string) => Promise<{ status: string; data: unknown }>;
+  'chat-secrets': (arg: string) => Promise<{ status: string; data: unknown }>;
 
   'gocardless-poll-web-token': (arg: {
     upgradingAccountId?: string;

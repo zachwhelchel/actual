@@ -94,7 +94,7 @@ export function Login() {
 
   return (
     <View style={{ maxWidth: 450, marginTop: -30, color: theme.pageText }}>
-      <Title text="Sign in to this Actual instance" />
+      <Title text="MyBudgetCoach" />
       <Text
         style={{
           fontSize: 16,
@@ -102,8 +102,15 @@ export function Login() {
           lineHeight: 1.4,
         }}
       >
-        If you lost your password, you likely still have access to your server
-        to manually reset it.
+        If you lost your password,{' '}
+        <Link
+          type="external"
+          style={{ fontSize: 15 }}
+          to={'mailto:admin@mybudgetcoach.app?subject=Password'}
+        >
+          contact support
+        </Link>{' '} 
+        to get it reset.
       </Text>
 
       {error && (
@@ -168,21 +175,6 @@ export function Login() {
           )}
         </View>
       )}
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginTop: 15,
-        }}
-      >
-        <Button
-          type="bare"
-          style={{ fontSize: 15, color: theme.pageTextLink, marginLeft: 10 }}
-          onClick={onDemo}
-        >
-          Try Demo &rarr;
-        </Button>
-      </View>
     </View>
   );
 }

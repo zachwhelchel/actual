@@ -7,6 +7,7 @@ import * as monthUtils from 'loot-core/src/shared/months';
 import { SvgDotsHorizontalTriple } from '../../../../icons/v1';
 import { SvgArrowButtonDown1, SvgArrowButtonUp1 } from '../../../../icons/v2';
 import { theme, styles } from '../../../../style';
+import { useCoach } from '../../../coach/Coach';
 import { Button } from '../../../common/Button';
 import { Popover } from '../../../common/Popover';
 import { View } from '../../../common/View';
@@ -29,6 +30,8 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
     onBudgetAction,
     onToggleSummaryCollapse,
   } = useRollover();
+
+  let { setTop, setLeft, setOffset, commonElementsRef } = useCoach(); // this is causing the errors.
 
   const [menuOpen, setMenuOpen] = useState(false);
   const triggerRef = useRef(null);
@@ -133,18 +136,44 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
               />
             </View>
             <View style={{ userSelect: 'none', marginLeft: 2 }}>
-              <Button
-                ref={triggerRef}
-                type="bare"
-                aria-label="Menu"
-                onClick={onMenuOpen}
-              >
-                <SvgDotsHorizontalTriple
-                  width={15}
-                  height={15}
-                  style={{ color: theme.pageTextLight }}
-                />
-              </Button>
+
+              {currentMonth === month ? (
+                <div
+                  ref={element => {
+                    commonElementsRef.current['budget_more_button'] = element;
+                  }}
+                >
+                  <Button
+                    ref={triggerRef}
+                    type="bare"
+                    aria-label="Menu"
+                    onClick={onMenuOpen}
+                  >
+                    <SvgDotsHorizontalTriple
+                      width={15}
+                      height={15}
+                      style={{ color: theme.pageTextLight }}
+                    />
+                  </Button>
+                </div>
+
+
+              ) : (
+
+                <Button
+                  ref={triggerRef}
+                  type="bare"
+                  aria-label="Menu"
+                  onClick={onMenuOpen}
+                >
+                  <SvgDotsHorizontalTriple
+                    width={15}
+                    height={15}
+                    style={{ color: theme.pageTextLight }}
+                  />
+                </Button>
+              )}
+
 
               <Popover
                 triggerRef={triggerRef}
@@ -217,11 +246,27 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
               }}
             />
             <View style={{ margin: '23px 0' }}>
-              <ToBudget
-                prevMonthName={prevMonthName}
-                month={month}
-                onBudgetAction={onBudgetAction}
-              />
+
+              {currentMonth === month ? (
+                <div
+                  ref={element => {
+                    commonElementsRef.current['budget_header'] = element;
+                  }}
+                >
+                  <ToBudget
+                    prevMonthName={prevMonthName}
+                    month={month}
+                    onBudgetAction={onBudgetAction}
+                  />
+                </div>
+              ) : (
+                <ToBudget
+                  prevMonthName={prevMonthName}
+                  month={month}
+                  onBudgetAction={onBudgetAction}
+                />
+              )}
+
             </View>
           </>
         )}

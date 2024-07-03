@@ -29,11 +29,13 @@ import { Item } from './Item';
 import { useSidebar } from './SidebarProvider';
 import { ToggleButton } from './ToggleButton';
 import { Tools } from './Tools';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 export const SIDEBAR_WIDTH = 240;
 
 export function Sidebar() {
   const hasWindowButtons = !Platform.isBrowser && Platform.OS === 'mac';
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   const dispatch = useDispatch();
   const sidebar = useSidebar();
@@ -65,6 +67,30 @@ export function Sidebar() {
   const onAddAccount = () => {
     dispatch(replaceModal('add-account'));
   };
+
+  const onScheduleZoom = () => {
+    dispatch(replaceModal('schedule-zoom'));
+  };
+
+  const onFreeTrial = () => {
+    dispatch(replaceModal('free-trial'));
+  };
+  
+  const onManageSubscription = () => {
+    dispatch(replaceModal('manage-subscription'));
+  };
+
+  const onResetAvatar = () => {
+    dispatch(replaceModal('reset-avatar'));
+  };
+
+  const onUploadAvatar = () => {
+    dispatch(replaceModal('upload-avatar'));
+  };
+
+  const onStartNewConversation = () => {
+    dispatch(replaceModal('start-new-conversation'));
+  };  
 
   const onToggleClosedAccounts = () => {
     setShowClosedAccountsPref(!showClosedAccounts);
@@ -103,8 +129,13 @@ export function Sidebar() {
           }),
         }}
       >
-        <EditableBudgetName />
-
+        <div
+          ref={element => {
+            commonElementsRef.current['budget_name'] = element;
+          }}
+        >
+          <EditableBudgetName />
+        </div>
         <View style={{ flex: 1, flexDirection: 'row' }} />
 
         {!sidebar.alwaysFloats && (
@@ -113,7 +144,15 @@ export function Sidebar() {
       </View>
 
       <View style={{ overflow: 'auto' }}>
-        <Item title="Budget" Icon={SvgWallet} to="/budget" />
+        <div
+          ref={element => {
+            commonElementsRef.current['budget_button'] = element;
+          }}
+        >
+          <Item title="Budget" Icon={SvgWallet} to="/budget" />
+        </div>      
+
+
         <Item title="Reports" Icon={SvgReports} to="/reports" />
 
         <Item title="Schedules" Icon={SvgCalendar} to="/schedules" />
@@ -131,6 +170,12 @@ export function Sidebar() {
 
         <Accounts
           onAddAccount={onAddAccount}
+          onScheduleZoom={onScheduleZoom}
+          onFreeTrial={onFreeTrial}
+          onManageSubscription={onManageSubscription}
+          onResetAvatar={onResetAvatar}
+          onUploadAvatar={onUploadAvatar}
+          onStartNewConversation={onStartNewConversation}
           onToggleClosedAccounts={onToggleClosedAccounts}
           onReorder={onReorder}
         />

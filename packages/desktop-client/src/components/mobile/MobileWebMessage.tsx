@@ -60,10 +60,10 @@ export function MobileWebMessage() {
       }}
     >
       <Text style={{ lineHeight: '1.5em' }}>
-        <strong>Actual features are limited on small screens.</strong>
+        <strong>MyBudgetCoach features are limited on small screens.</strong>
         <br />
         <span>
-          While we work to improve this experience, you may find the full Actual
+          While we work to improve this experience, you may find the full MyBudgetCoach
           feature set on devices with larger screens.
         </span>
       </Text>

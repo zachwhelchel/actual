@@ -41,6 +41,7 @@ export function ExpenseGroup({
   dragState,
   MonthComponent,
   onEditName,
+  categoriesRef,
   onSave,
   onDelete,
   onDragChange,
@@ -123,6 +124,7 @@ export function ExpenseGroup({
           collapsed={collapsed}
           onToggleCollapse={onToggleCollapse}
           onEdit={onEditName}
+          categoriesRef={categoriesRef}
           onSave={onSave}
           onDelete={onDelete}
           onShowNewCategory={onShowNewCategory}

@@ -16,6 +16,7 @@ type MonthPickerProps = {
   style: CSSProperties;
   onSelect: (month: string) => void;
 };
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 export const MonthPicker = ({
   startMonth,
@@ -59,46 +60,52 @@ export const MonthPicker = ({
   });
 
   const yearHeadersShown = [];
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        ...style,
+    <div
+      ref={element => {
+        commonElementsRef.current['months_band'] = element;
       }}
     >
       <View
-        innerRef={containerRef}
         style={{
           flexDirection: 'row',
-          flex: 1,
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
+          ...style,
         }}
       >
-        {range.map((month, idx) => {
-          const monthName = monthUtils.format(month, 'MMM');
-          const selected =
-            idx >= firstSelectedIndex && idx <= lastSelectedIndex;
+        <View
+          innerRef={containerRef}
+          style={{
+            flexDirection: 'row',
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {range.map((month, idx) => {
+            const monthName = monthUtils.format(month, 'MMM');
+            const selected =
+              idx >= firstSelectedIndex && idx <= lastSelectedIndex;
 
-          const lastHoverId = hoverId + numDisplayed - 1;
-          const hovered =
-            hoverId === null ? false : idx >= hoverId && idx <= lastHoverId;
+            const lastHoverId = hoverId + numDisplayed - 1;
+            const hovered =
+              hoverId === null ? false : idx >= hoverId && idx <= lastHoverId;
 
-          const current = currentMonth === month;
-          const year = monthUtils.getYear(month);
+            const current = currentMonth === month;
+            const year = monthUtils.getYear(month);
 
-          let showYearHeader = false;
+            let showYearHeader = false;
 
-          if (!yearHeadersShown.includes(year)) {
-            yearHeadersShown.push(year);
-            showYearHeader = true;
-          }
+            if (!yearHeadersShown.includes(year)) {
+              yearHeadersShown.push(year);
+              showYearHeader = true;
+            }
 
-          const isMonthBudgeted =
-            month >= monthBounds.start && month <= monthBounds.end;
+            const isMonthBudgeted =
+              month >= monthBounds.start && month <= monthBounds.end;
 
           return (
             <View
@@ -133,47 +140,61 @@ export const MonthPicker = ({
                   !selected && {
                     backgroundColor: theme.buttonBareBackgroundHover,
                   }),
-                ...(hovered &&
-                  selected && {
+                  ...styles.smallText,
+                  ...(selected && {
                     backgroundColor: theme.tableBorderHover,
+                    color: theme.buttonPrimaryText,
                   }),
-                ...((idx === firstSelectedIndex ||
-                  (idx === hoverId && !selected)) && {
-                  borderTopLeftRadius: 2,
-                  borderBottomLeftRadius: 2,
-                }),
-                ...((idx === lastSelectedIndex ||
-                  (idx === lastHoverId && !selected)) && {
-                  borderTopRightRadius: 2,
-                  borderBottomRightRadius: 2,
-                }),
-                ...(current && { fontWeight: 'bold' }),
-              }}
-              onClick={() => onSelect(month)}
-              onMouseEnter={() => setHoverId(idx)}
-              onMouseLeave={() => setHoverId(null)}
-            >
-              {size === 'small' ? monthName[0] : monthName}
-              {showYearHeader && (
-                <View
-                  style={{
-                    position: 'absolute',
-                    top: -14,
-                    left: 0,
-                    fontSize: 10,
-                    fontWeight: 'bold',
-                    color: isMonthBudgeted
-                      ? theme.pageText
-                      : theme.pageTextSubdued,
-                  }}
-                >
-                  {year}
-                </View>
-              )}
-            </View>
-          );
-        })}
+                  ...((hovered || selected) && {
+                    borderRadius: 0,
+                    cursor: 'pointer',
+                  }),
+                  ...(hovered &&
+                    !selected && {
+                      backgroundColor: 'rgba(100, 100, 100, .15)',
+                    }),
+                  ...(hovered &&
+                    selected && {
+                      backgroundColor: theme.tableBorderHover,
+                    }),
+                  ...((idx === firstSelectedIndex ||
+                    (idx === hoverId && !selected)) && {
+                    borderTopLeftRadius: 2,
+                    borderBottomLeftRadius: 2,
+                  }),
+                  ...((idx === lastSelectedIndex ||
+                    (idx === lastHoverId && !selected)) && {
+                    borderTopRightRadius: 2,
+                    borderBottomRightRadius: 2,
+                  }),
+                  ...(current && { fontWeight: 'bold' }),
+                }}
+                onClick={() => onSelect(month)}
+                onMouseEnter={() => setHoverId(idx)}
+                onMouseLeave={() => setHoverId(null)}
+              >
+                {size === 'small' ? monthName[0] : monthName}
+                {showYearHeader && (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: -14,
+                      left: 0,
+                      fontSize: 10,
+                      fontWeight: 'bold',
+                      color: isMonthBudgeted
+                        ? theme.pageText
+                        : theme.pageTextSubdued,
+                    }}
+                  >
+                    {year}
+                  </View>
+                )}
+              </View>
+            );
+          })}
+        </View>
       </View>
-    </View>
+    </div>
   );
 };

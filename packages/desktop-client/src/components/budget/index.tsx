@@ -34,6 +34,7 @@ import {
   type TitlebarContextValue,
   type TitlebarMessage,
 } from '../Titlebar';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 import { DynamicBudgetTable } from './DynamicBudgetTable';
 import * as report from './report/ReportComponents';
@@ -190,7 +191,7 @@ function BudgetInner(props: BudgetInnerProps) {
     );
   };
 
-  const onSaveCategory = async category => {
+  const onSaveCategory = async (category, atEnd = false) => {
     const cats = await send('get-categories');
     const exists =
       cats.grouped
@@ -213,11 +214,40 @@ function BudgetInner(props: BudgetInnerProps) {
           category.cat_group,
           category.is_income,
           category.hidden,
+          atEnd,
         ),
       );
+
+      //return id;
     } else {
       dispatch(updateCategory(category));
     }
+  };
+
+  const onSaveNewCategories = async (categories, atEnd = false) => {
+    //let ids = [];
+
+    console.log('Sugar were going dowm');
+    for (var index in categories) {
+      let category = categories[index];
+      console.log('Sugar for loop');
+      console.log(category);
+
+      dispatch(
+        createCategory(
+          category.name,
+          category.cat_group,
+          category.is_income,
+          category.hidden,
+          atEnd,
+        ),
+      );
+
+      //ids.push(id);
+    }
+
+
+    //return ids;
   };
 
   const onDeleteCategory = async id => {
@@ -234,6 +264,8 @@ function BudgetInner(props: BudgetInnerProps) {
           },
         }),
       );
+
+      return id;
     } else {
       dispatch(deleteCategory(id));
     }
@@ -246,6 +278,9 @@ function BudgetInner(props: BudgetInnerProps) {
       dispatch(updateGroup(group));
     }
   };
+
+  let { onSaveGroupCoach } = useCoach(); // this is causing the errors.
+  onSaveGroupCoach = onSaveGroup;
 
   const onDeleteGroup = async id => {
     const group = categoryGroups.find(g => g.id === id);
@@ -341,7 +376,7 @@ function BudgetInner(props: BudgetInnerProps) {
     }
   };
 
-  const { reportComponents, rolloverComponents } = props;
+  const { categoriesRef, reportComponents, rolloverComponents } = props;
 
   if (!initialized || !categoryGroups) {
     return null;
@@ -381,6 +416,14 @@ function BudgetInner(props: BudgetInnerProps) {
         onBudgetAction={onBudgetAction}
         onToggleSummaryCollapse={onToggleCollapse}
       >
+        <Coach 
+          context="Budget"
+          onSaveGroup={onSaveGroup}
+          onDeleteGroup={onDeleteGroup}
+          onSaveCategory={onSaveCategory}
+          onSaveNewCategories={onSaveNewCategories}
+          categoryGroups={categoryGroups}
+        />
         <DynamicBudgetTable
           type={budgetType}
           prewarmStartMonth={startMonth}
@@ -391,6 +434,7 @@ function BudgetInner(props: BudgetInnerProps) {
           onMonthSelect={onMonthSelect}
           onDeleteCategory={onDeleteCategory}
           onDeleteGroup={onDeleteGroup}
+          categoriesRef={categoriesRef}
           onSaveCategory={onSaveCategory}
           onSaveGroup={onSaveGroup}
           onBudgetAction={onBudgetAction}
@@ -444,6 +488,9 @@ export function Budget() {
     [rollover],
   );
 
+  //let categoriesRef = useRef([]);
+  let { categoriesCoachRef } = useCoach(); // this is causing the errors.
+
   // In a previous iteration, the wrapper needs `overflow: hidden` for
   // some reason. Without it at certain dimensions the width/height
   // that autosizer gives us is slightly wrong, causing scrollbars to
@@ -458,6 +505,7 @@ export function Budget() {
       }}
     >
       <BudgetInner
+        categoriesRef={categoriesCoachRef}
         reportComponents={reportComponents}
         rolloverComponents={rolloverComponents}
         titlebar={titlebar}

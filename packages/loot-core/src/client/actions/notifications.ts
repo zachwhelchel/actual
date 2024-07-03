@@ -24,7 +24,7 @@ export function addGenericErrorNotification() {
     type: 'error',
     message:
       'Something internally went wrong. You may want to restart the app if anything looks wrong. ' +
-      'Please report this as a new issue on Github.',
+      'Please reach out to support if you need help: admin@mybudgetcoach.com.',
   });
 }
 

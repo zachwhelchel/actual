@@ -437,6 +437,7 @@ const TransactionEditInner = memo(function TransactionEditInner({
   adding,
   accounts,
   categories,
+  createCategory,
   payees,
   dateFormat,
   transactions: unserializedTransactions,
@@ -574,6 +575,32 @@ const TransactionEditInner = memo(function TransactionEditInner({
               categoryGroups,
               month: monthUtils.monthFromDate(unserializedTransaction.date),
               onSelect: categoryId => {
+
+                if (name == "category" && categoryId == "Create Category") {
+                  pushModal('create-category', {
+                    onConfirm: (groupId, categoryName) => {
+                      let existingGroup = categoryGroups.find(g => g.id === groupId);
+
+                      if (existingGroup !== null && existingGroup !== undefined) {
+
+                        let existingCat = existingGroup.categories.find(g => g.name === categoryName);
+                        if (existingCat !== null && existingCat !== undefined) {
+
+                        } else {
+                          createCategory(
+                            categoryName,
+                            existingGroup.id,
+                            false,
+                            false,
+                            true,
+                          );
+                        }
+                      }
+                    },
+                    categoryGroups: categoryGroups,
+                  });
+                }
+
                 onUpdate(transactionToEdit, name, categoryId);
               },
               onClose: () => {
@@ -1167,6 +1194,7 @@ function TransactionEditUnconnected({
         transactions={transactions}
         adding={adding.current}
         categories={categories}
+        createCategory={createCategory}
         accounts={accounts}
         payees={payees}
         navigate={navigate}
@@ -1185,6 +1213,8 @@ export const TransactionEdit = props => {
   const { list: categories } = useCategories();
   const payees = usePayees();
   const lastTransaction = useSelector(state => state.queries.lastTransaction);
+  const actions = useActions();
+  const { grouped: categoryGroups } = useCategories();
   const accounts = useAccounts();
   const dateFormat = useDateFormat() || 'MM/dd/yyyy';
 
@@ -1193,6 +1223,8 @@ export const TransactionEdit = props => {
       <TransactionEditUnconnected
         {...props}
         categories={categories}
+        categoryGroups={categoryGroups}
+        createCategory={actions.createCategory}
         payees={payees}
         lastTransaction={lastTransaction}
         accounts={accounts}

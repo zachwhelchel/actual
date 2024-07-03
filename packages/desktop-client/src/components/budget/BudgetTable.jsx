@@ -4,12 +4,14 @@ import { useCategories } from '../../hooks/useCategories';
 import { useLocalPref } from '../../hooks/useLocalPref';
 import { theme, styles } from '../../style';
 import { View } from '../common/View';
+import { Button } from '../common/Button';
 
 import { BudgetCategories } from './BudgetCategories';
 import { BudgetSummaries } from './BudgetSummaries';
 import { BudgetTotals } from './BudgetTotals';
 import { MonthsProvider } from './MonthsContext';
 import { findSortDown, findSortUp, getScrollbarWidth } from './util';
+import { SvgStepBackward, SvgStepForward } from '../../icons/v1';
 
 export function BudgetTable(props) {
   const {
@@ -19,6 +21,7 @@ export function BudgetTable(props) {
     numMonths,
     monthBounds,
     dataComponents,
+    categoriesRef,
     onSaveCategory,
     onDeleteCategory,
     onSaveGroup,
@@ -129,6 +132,14 @@ export function BudgetTable(props) {
       e.preventDefault();
       moveVertically(e.shiftKey ? -1 : 1);
     }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      moveVertically(-1);
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      moveVertically(1);
+    }
   };
 
   const onCollapse = collapsedIds => {
@@ -177,7 +188,28 @@ export function BudgetTable(props) {
           paddingRight: 5 + getScrollbarWidth(),
         }}
       >
-        <View style={{ width: 200 }} />
+        <View
+          style={{
+            flexDirection: 'row',
+            overflow: 'hidden',
+            flexShrink: 0,
+            // This is necessary to align with the table because the
+            // table has this padding to allow the shadow to show
+            paddingLeft: 5,
+            paddingRight: 5 + getScrollbarWidth(),
+          }}
+        >
+          <View style={{ width: 200, display: 'flex', justifyContent: 'space-between', flexDirection: 'row', paddingBottom: 10, paddingLeft: 35, paddingRight: 35}}>
+            <Button type="bare" style={{ alignSelf: 'flex-end' }} onClick={() => window.__actionsForMenu.undo()}>
+              <SvgStepBackward width={16} height={16} style={{ marginRight: 3 }} /> Undo
+            </Button>
+
+            <Button type="bare" style={{ alignSelf: 'flex-end' }} onClick={() => window.__actionsForMenu.redo()}>
+              Redo <SvgStepForward width={16} height={16} style={{ marginLeft: 3 }} />
+            </Button>
+          </View>
+        </View>
+
         <MonthsProvider
           startMonth={prewarmStartMonth}
           numMonths={numMonths}
@@ -221,6 +253,7 @@ export function BudgetTable(props) {
               dataComponents={dataComponents}
               onEditMonth={onEditMonth}
               onEditName={onEditName}
+              categoriesRef={categoriesRef}
               onSaveCategory={onSaveCategory}
               onSaveGroup={onSaveGroup}
               onDeleteCategory={onDeleteCategory}

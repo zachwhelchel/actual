@@ -46,6 +46,7 @@ import { View } from '../common/View';
 import { TransactionList } from '../transactions/TransactionList';
 
 import { AccountHeader } from './Header';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 function EmptyMessage({ onAdd }) {
   return (
@@ -68,7 +69,7 @@ function EmptyMessage({ onAdd }) {
         }}
       >
         <Text style={{ textAlign: 'center', lineHeight: '1.4em' }}>
-          For Actual to be useful, you need to <strong>add an account</strong>.
+          For MyBudgetCoach to be useful, you need to <strong>add an account</strong>.
           You can link an account to automatically download transactions, or
           manage it locally yourself.
         </Text>
@@ -708,6 +709,36 @@ class AccountInternal extends PureComponent {
       return this.props.createPayee(name);
     }
     return null;
+  };
+
+  onCreateCategory = name => {
+    if (this.props.modalShowing == true) {
+      return null;
+    }
+
+    return this.props.pushModal('create-category', {
+      onConfirm: (groupId, categoryName) => {
+
+        let existingGroup = this.props.categoryGroups.find(g => g.id === groupId);
+
+        if (existingGroup !== null && existingGroup !== undefined) {
+
+          let existingCat = existingGroup.categories.find(g => g.name === categoryName);
+          if (existingCat !== null && existingCat !== undefined) {
+
+          } else {
+            this.props.createCategory(
+              categoryName,
+              existingGroup.id,
+              false,
+              false,
+              true,
+            );
+          }
+        }
+      },
+      categoryGroups: this.props.categoryGroups,
+    });
   };
 
   lockTransactions = async () => {
@@ -1663,6 +1694,9 @@ class AccountInternal extends PureComponent {
             registerDispatch={dispatch => (this.dispatchSelected = dispatch)}
             selectAllFilter={item => !item._unmatched && !item.is_parent}
           >
+            <Coach context="Accounts"
+            />
+
             <View style={styles.page}>
               <AccountHeader
                 tableRef={this.table}
@@ -1786,6 +1820,7 @@ class AccountInternal extends PureComponent {
                     this.setState({ isAdding: false })
                   }
                   onCreatePayee={this.onCreatePayee}
+                  onCreateCategory={this.onCreateCategory}
                   onApplyFilter={this.onApplyFilter}
                 />
               </View>

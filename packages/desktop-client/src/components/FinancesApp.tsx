@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import React, { type ReactElement, useEffect, useMemo } from 'react';
+import React, { type ReactElement, useEffect, useMemo, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend as Backend } from 'react-dnd-html5-backend';
 import { useSelector } from 'react-redux';
@@ -37,12 +37,16 @@ import { Modals } from './Modals';
 import { Notifications } from './Notifications';
 import { ManagePayeesPage } from './payees/ManagePayeesPage';
 import { Reports } from './reports';
+import { CoachDashboard } from './coachdashboard';
+import { CoachMessageCenter } from './coachmessagecenter';
 import { NarrowAlternate, WideComponent } from './responsive';
 import { ScrollProvider } from './ScrollProvider';
 import { Settings } from './settings';
 import { FloatableSidebar } from './sidebar';
 import { SidebarProvider } from './sidebar/SidebarProvider';
 import { Titlebar, TitlebarProvider } from './Titlebar';
+import Coach, { CoachProvider, useCoach } from './coach/Coach';
+import { REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 
 function NarrowNotSupported({
   redirectTo = '/budget',
@@ -95,7 +99,7 @@ function RouterBehaviors() {
   return null;
 }
 
-function FinancesAppWithoutContext() {
+function FinancesAppWithoutContext({budgetId, someDialogues, initialDialogueId}: FinancesAppProps) {
   const actions = useActions();
   useEffect(() => {
     // Wait a little bit to make sure the sync button will get the
@@ -103,13 +107,13 @@ function FinancesAppWithoutContext() {
     setTimeout(async () => {
       await actions.sync();
 
-      await checkForUpdateNotification(
-        actions.addNotification,
-        getIsOutdated,
-        getLatestVersion,
-        actions.loadPrefs,
-        actions.savePrefs,
-      );
+      // await checkForUpdateNotification(
+      //   actions.addNotification,
+      //   getIsOutdated,
+      //   getLatestVersion,
+      //   actions.loadPrefs,
+      //   actions.savePrefs,
+      // );
     }, 100);
   }, []);
 
@@ -129,7 +133,6 @@ function FinancesAppWithoutContext() {
           }}
         >
           <FloatableSidebar />
-
           <View
             style={{
               color: theme.pageText,
@@ -164,6 +167,24 @@ function FinancesAppWithoutContext() {
                 <Route path="/" element={<Navigate to="/budget" replace />} />
 
                 <Route path="/reports/*" element={<Reports />} />
+
+                <Route
+                  path="/coachdashboard/"
+                  element={
+                    <NarrowNotSupported>
+                      <CoachDashboard />
+                    </NarrowNotSupported>
+                  }
+                />
+
+                <Route
+                  path="/coachmessagecenter/"
+                  element={
+                    <NarrowNotSupported>
+                      <CoachMessageCenter />
+                    </NarrowNotSupported>
+                  }
+                />
 
                 <Route
                   path="/budget"
@@ -241,10 +262,27 @@ function FinancesAppWithoutContext() {
   );
 }
 
-export function FinancesApp() {
-  const app = useMemo(() => <FinancesAppWithoutContext />, []);
+type FinancesAppProps = {
+  budgetId?: string;
+  someDialogues?: Map;
+  initialDialogueId?: string;
+};
+
+
+
+
+export function FinancesApp({budgetId, someDialogues, initialDialogueId }: FinancesAppProps) {
+
+
+  const app = useMemo(() => <FinancesAppWithoutContext budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId} />, []);
+
+  console.log("childcare:");
+  console.log("childcare:" + budgetId);
+  console.log("childcare:" + someDialogues);
+  console.log("childcare:" + initialDialogueId);
 
   return (
+    <CoachProvider budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId} >
     <SpreadsheetProvider>
       <TitlebarProvider>
         <SidebarProvider>
@@ -256,5 +294,6 @@ export function FinancesApp() {
         </SidebarProvider>
       </TitlebarProvider>
     </SpreadsheetProvider>
+    </CoachProvider>
   );
 }

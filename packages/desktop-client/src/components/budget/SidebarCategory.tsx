@@ -41,6 +41,7 @@ export function SidebarCategory({
   style,
   isLast,
   onEditName,
+  categoriesRef,
   onSave,
   onDelete,
   onHideNewCategory,
@@ -61,6 +62,7 @@ export function SidebarCategory({
     >
       <div
         data-testid="category-name"
+        title={category.name}
         style={{
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
@@ -117,13 +119,19 @@ export function SidebarCategory({
         </Popover>
       </View>
       <View style={{ flex: 1 }} />
-      <View style={{ flexShrink: 0 }}>
-        <NotesButton
-          id={category.id}
-          style={dragging && { color: 'currentColor' }}
-          defaultColor={theme.pageTextLight}
-        />
-      </View>
+      <div
+        ref={element => {
+          categoriesRef.current[category.id] = element;
+        }}
+      >
+        <View style={{ flexShrink: 0 }}>
+          <NotesButton
+            id={category.id}
+            style={dragging && { color: 'currentColor' }}
+            defaultColor={theme.pageTextLight}
+          />
+        </View>
+      </div>
     </View>
   );
 

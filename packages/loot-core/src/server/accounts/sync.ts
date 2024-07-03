@@ -677,7 +677,7 @@ export async function syncAccount(
     let download;
 
     // Otherwise, download transaction for the past 90 days
-    const startingDay = monthUtils.subDays(monthUtils.currentDay(), 90);
+    const startingDay = monthUtils.subDays(monthUtils.currentDay(), 3);
 
     if (acctRow.account_sync_source === 'simpleFin') {
       download = await downloadSimpleFinTransactions(acctId, startingDay);

@@ -44,6 +44,7 @@ export function SidebarGroup({
   innerRef,
   style,
   onEdit,
+  categoriesRef,
   onSave,
   onDelete,
   onShowNewCategory,
@@ -138,13 +139,19 @@ export function SidebarGroup({
             </Popover>
           </View>
           <View style={{ flex: 1 }} />
-          <View style={{ flexShrink: 0 }}>
-            <NotesButton
-              id={group.id}
-              style={dragPreview && { color: 'currentColor' }}
-              defaultColor={theme.pageTextLight}
-            />
-          </View>
+          <div
+            ref={element => {
+              categoriesRef.current[group.id] = element;
+            }}
+          >
+            <View style={{ flexShrink: 0 }}>
+              <NotesButton
+                id={group.id}
+                style={dragPreview && { color: 'currentColor' }}
+                defaultColor={theme.pageTextLight}
+              />
+            </View>
+          </div>
         </>
       )}
     </View>

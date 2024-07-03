@@ -81,6 +81,8 @@ import {
 } from '../table';
 import { Tooltip } from '../tooltips';
 
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
+
 function getDisplayValue(obj, name) {
   return obj ? obj[name] : '';
 }
@@ -344,6 +346,7 @@ function StatusCell({
   isChild,
   onEdit,
   onUpdate,
+  isNew = false,
 }) {
   const isClearedField =
     status === 'cleared' || status === 'reconciled' || status == null;
@@ -366,6 +369,59 @@ function StatusCell({
     if (isClearedField) {
       onUpdate('cleared', !(status === 'cleared'));
     }
+  }
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
+  if (isNew == true) {
+    return (
+      <Cell
+        name="cleared"
+        width={38}
+        alignItems="center"
+        focused={focused}
+        style={{ padding: 1 }}
+        plain
+      >
+        <CellButton
+          style={{
+            padding: 3,
+            backgroundColor: 'transparent',
+            border: '1px solid transparent',
+            borderRadius: 50,
+            ':focus': {
+              border: '1px solid ' + theme.formInputBorderSelected,
+              boxShadow: '0 1px 2px ' + theme.formInputBorderSelected,
+            },
+            cursor: isClearedField ? 'pointer' : 'default',
+            ...(isChild && { visibility: 'hidden' }),
+          }}
+          onEdit={() => onEdit(id, 'cleared')}
+          onSelect={onSelect}
+        >
+          <div
+            style={{
+              width: 13,
+              height: 13,
+            }}
+            ref={element => {
+              commonElementsRef.current['cleared_status_icon'] = element;
+            }}
+          >
+            {createElement(statusProps.Icon, {
+              style: {
+                width: 13,
+                height: 13,
+                color: statusColor,
+                marginTop: status === 'due' ? -1 : 0,
+              },
+            })}
+          </div>
+        </CellButton>
+      </Cell>
+    );
+
+
   }
 
   return (
@@ -469,8 +525,15 @@ function PayeeCell({
   onManagePayees,
   onNavigateToTransferAccount,
   onNavigateToSchedule,
+  isNew = false,
 }) {
   const isCreatingPayee = useRef(false);
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  let refForHighlighting = null;
+  if (isNew == true && payee == null) { 
+    refForHighlighting = 'select_payee';
+  }
 
   const dispatch = useDispatch();
 
@@ -537,6 +600,7 @@ function PayeeCell({
   ) : (
     <CustomCell
       width="flex"
+      refForHighlighting={refForHighlighting}
       name="payee"
       textAlign="flex"
       value={payee?.id}
@@ -596,6 +660,9 @@ function PayeeCell({
         );
       }}
     </CustomCell>
+
+
+    // </div>
   );
 }
 
@@ -673,6 +740,7 @@ function PayeeIcons({
 }
 
 const Transaction = memo(function Transaction({
+  isNew,
   transaction: originalTransaction,
   subtransactions,
   editing,
@@ -699,10 +767,13 @@ const Transaction = memo(function Transaction({
   onSplit,
   onManagePayees,
   onCreatePayee,
+  onCreateCategory,
   onToggleSplit,
   onNavigateToTransferAccount,
   onNavigateToSchedule,
   onNotesTagClick,
+  newNavigator,
+  tableNavigator,
 }) {
   const dispatch = useDispatch();
   const dispatchSelected = useSelectedDispatch();
@@ -1044,6 +1115,7 @@ const Transaction = memo(function Transaction({
       {(() => (
         <PayeeCell
           /* Payee field for all transactions */
+          isNew={isNew}
           id={id}
           payee={payee}
           focused={focusedField === 'payee'}
@@ -1206,6 +1278,7 @@ const Transaction = memo(function Transaction({
         <CustomCell
           /* Category field for normal and child transactions */
           name="category"
+          refForHighlighting={isNew == true ? 'select_category' : null}
           width="flex"
           textAlign="flex"
           value={categoryId}
@@ -1234,6 +1307,15 @@ const Transaction = memo(function Transaction({
           onUpdate={async value => {
             if (value === 'split') {
               onSplit(transaction.id);
+            } else if (value === 'Create Category') {
+              onCreateCategory(transaction.id);
+              if (tableNavigator != null) {
+                tableNavigator.onEdit(null);
+              }
+              if (newNavigator != null) {
+                newNavigator.onEdit(null);
+              }
+              onUpdate('category', "");
             } else {
               onUpdate('category', value);
             }
@@ -1275,6 +1357,7 @@ const Transaction = memo(function Transaction({
         type="input"
         width={100}
         name="debit"
+        refForHighlighting={isNew == true ? 'payment_input' : null}
         exposed={focusedField === 'debit'}
         focused={focusedField === 'debit'}
         value={debit === '' && credit === '' ? '0.00' : debit}
@@ -1301,6 +1384,7 @@ const Transaction = memo(function Transaction({
         type="input"
         width={100}
         name="credit"
+        refForHighlighting={isNew == true ? 'deposit_input' : null}
         exposed={focusedField === 'credit'}
         focused={focusedField === 'credit'}
         value={credit}
@@ -1360,6 +1444,7 @@ const Transaction = memo(function Transaction({
           isChild={isChild}
           onEdit={onEdit}
           onUpdate={onUpdate}
+          isNew={isNew}
         />
       )}
 
@@ -1464,8 +1549,11 @@ function NewTransaction({
   onDistributeRemainder,
   onManagePayees,
   onCreatePayee,
+  onCreateCategory,
   onNavigateToTransferAccount,
   onNavigateToSchedule,
+  tableNavigator,
+  newNavigator,
   onNotesTagClick,
   balance,
 }) {
@@ -1475,6 +1563,8 @@ function NewTransaction({
   const childTransactions = transactions.filter(
     t => t.parent_id === transactions[0].id,
   );
+  
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
   const emptyChildTransactions = childTransactions.filter(t => t.amount === 0);
 
   return (
@@ -1517,9 +1607,12 @@ function NewTransaction({
           onAdd={onAdd}
           onManagePayees={onManagePayees}
           onCreatePayee={onCreatePayee}
+          onCreateCategory={onCreateCategory}
           style={{ marginTop: -1 }}
           onNavigateToTransferAccount={onNavigateToTransferAccount}
           onNavigateToSchedule={onNavigateToSchedule}
+          tableNavigator={tableNavigator}
+          newNavigator={newNavigator}
           onNotesTagClick={onNotesTagClick}
           balance={balance}
         />
@@ -1557,7 +1650,13 @@ function NewTransaction({
             onClick={onAdd}
             data-testid="add-button"
           >
-            Add
+            <div
+              ref={element => {
+                commonElementsRef.current['save_transaction'] = element;
+              }}
+            >
+              Add
+            </div>            
           </Button>
         )}
       </View>
@@ -1704,9 +1803,13 @@ function TransactionTableInner({
           onSplit={props.onSplit}
           onManagePayees={props.onManagePayees}
           onCreatePayee={props.onCreatePayee}
+          onCreateCategory={props.onCreateCategory}
           onToggleSplit={props.onToggleSplit}
           onNavigateToTransferAccount={onNavigateToTransferAccount}
           onNavigateToSchedule={onNavigateToSchedule}
+          newNavigator={newNavigator}
+          tableNavigator={tableNavigator}
+          pushModal={props.pushModal}
           onNotesTagClick={onNotesTagClick}
         />
       </>
@@ -1763,10 +1866,13 @@ function TransactionTableInner({
               onDelete={props.onDelete}
               onManagePayees={props.onManagePayees}
               onCreatePayee={props.onCreatePayee}
+              onCreateCategory={props.onCreateCategory}
               onNavigateToTransferAccount={onNavigateToTransferAccount}
               onNavigateToSchedule={onNavigateToSchedule}
               onNotesTagClick={onNotesTagClick}
               onDistributeRemainder={props.onDistributeRemainder}
+              tableNavigator={tableNavigator}
+              newNavigator={newNavigator}
               balance={
                 props.transactions?.length > 0
                   ? props.balances?.[props.transactions[0]?.id]?.balance

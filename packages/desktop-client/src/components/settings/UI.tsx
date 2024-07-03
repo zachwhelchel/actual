@@ -76,18 +76,19 @@ export const AdvancedToggle = ({ children }: AdvancedToggleProps) => {
       {children}
     </View>
   ) : (
-    <Link
-      variant="text"
-      onClick={() => setExpanded(true)}
-      data-testid="advanced-settings"
-      style={{
-        flexShrink: 0,
-        alignSelf: 'flex-start',
-        color: theme.pageTextPositive,
-        marginBottom: 25,
-      }}
-    >
-      Show advanced settings
-    </Link>
+    <View/>
+    // <Link
+    //   variant="text"
+    //   onClick={() => setExpanded(true)}
+    //   data-testid="advanced-settings"
+    //   style={{
+    //     flexShrink: 0,
+    //     alignSelf: 'flex-start',
+    //     color: theme.pageTextPositive,
+    //     marginBottom: 25,
+    //   }}
+    // >
+    //   Show advanced settings
+    // </Link>
   );
 };

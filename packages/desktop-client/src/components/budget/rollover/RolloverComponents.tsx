@@ -16,6 +16,8 @@ import { useFormat } from '../../spreadsheet/useFormat';
 import { Row, Field, SheetCell } from '../../table';
 import { BalanceWithCarryover } from '../BalanceWithCarryover';
 import { makeAmountGrey } from '../util';
+import { CategoryGroupsContext } from '../CategoryGroupsContext';
+import Coach, { CoachProvider, useCoach } from '../../coach/Coach';
 
 import { BalanceMovementMenu } from './BalanceMovementMenu';
 import { BudgetMenu } from './BudgetMenu';
@@ -28,6 +30,10 @@ const headerLabelStyle: CSSProperties = {
 
 export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
   const format = useFormat();
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
+
   return (
     <View
       style={{
@@ -39,7 +45,13 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
       }}
     >
       <View style={headerLabelStyle}>
-        <Text style={{ color: theme.tableHeaderText }}>Budgeted</Text>
+        <div
+          ref={element => {
+            commonElementsRef.current['budgeted_column'] = element;
+          }}
+        >
+          <Text style={{ color: theme.tableHeaderText }}>Budgeted</Text>
+        </div>
         <CellValue
           binding={rolloverBudget.totalBudgeted}
           type="financial"
@@ -50,7 +62,13 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
         />
       </View>
       <View style={headerLabelStyle}>
-        <Text style={{ color: theme.tableHeaderText }}>Spent</Text>
+        <div
+          ref={element => {
+            commonElementsRef.current['spent_column'] = element;
+          }}
+        >
+          <Text style={{ color: theme.tableHeaderText }}>Spent</Text>
+        </div>
         <CellValue
           binding={rolloverBudget.totalSpent}
           type="financial"
@@ -58,7 +76,13 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
         />
       </View>
       <View style={headerLabelStyle}>
-        <Text style={{ color: theme.tableHeaderText }}>Balance</Text>
+        <div
+          ref={element => {
+            commonElementsRef.current['balance_column'] = element;
+          }}
+        >
+          <Text style={{ color: theme.tableHeaderText }}>Balance</Text>
+        </div>
         <CellValue
           binding={rolloverBudget.totalBalance}
           type="financial"
@@ -70,6 +94,9 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
 });
 
 export function IncomeHeaderMonth() {
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
   return (
     <Row
       style={{
@@ -78,7 +105,14 @@ export function IncomeHeaderMonth() {
         paddingRight: 10,
       }}
     >
-      <View style={{ flex: 1, textAlign: 'right' }}>Received</View>
+      <div
+        style={{ flex: 1, textAlign: 'right' }}
+        ref={element => {
+          commonElementsRef.current['received_column'] = element;
+        }}
+      >
+        <View style={{ flex: 1, textAlign: 'right' }}>Received</View>
+      </div>
     </Row>
   );
 }

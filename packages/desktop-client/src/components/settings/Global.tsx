@@ -45,7 +45,7 @@ export function GlobalSettings() {
       }
     >
       <Text>
-        <strong>Actual’s files</strong> are stored in a folder on your computer.
+        <strong>MyBudgetCoach’s files</strong> are stored in a folder on your computer.
         Currently, that’s:
       </Text>
       <Text

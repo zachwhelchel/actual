@@ -120,7 +120,7 @@ export function SelectLinkedAccounts({
               headers={[
                 { name: 'Bank Account To Sync', width: 200 },
                 { name: 'Balance', width: 80 },
-                { name: 'Account in Actual', width: 'flex' },
+                { name: 'Account in MyBudgetCoach', width: 'flex' },
                 { name: 'Actions', width: 'flex' },
               ]}
             />

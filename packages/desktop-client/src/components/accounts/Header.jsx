@@ -5,12 +5,13 @@ import { useLocalPref } from '../../hooks/useLocalPref';
 import { useSplitsExpanded } from '../../hooks/useSplitsExpanded';
 import { useSyncServerStatus } from '../../hooks/useSyncServerStatus';
 import { AnimatedLoading } from '../../icons/AnimatedLoading';
-import { SvgAdd } from '../../icons/v1';
+import { SvgAdd, SvgQuestion, SvgStepBackward, SvgStepForward } from '../../icons/v1';
 import {
   SvgArrowsExpand3,
   SvgArrowsShrink3,
   SvgDownloadThickBottom,
   SvgPencil1,
+  SvgInformationCircle,
 } from '../../icons/v2';
 import { theme, styles } from '../../style';
 import { AnimatedRefresh } from '../AnimatedRefresh';
@@ -29,6 +30,7 @@ import { NotesButton } from '../NotesButton';
 import { SelectedTransactionsButton } from '../transactions/SelectedTransactionsButton';
 
 import { Balances } from './Balance';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { ReconcilingMessage, ReconcileMenu } from './Reconcile';
 
 export function AccountHeader({
@@ -114,6 +116,17 @@ export function AccountHeader({
 
       setExpandSplitsPref(!(splitsExpanded.state.mode === 'expand'));
     }
+  }
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
+  function undo() {
+    console.log("undo me");
+    window.__actionsForMenu.undo();
+  }
+
+  function redo() {
+    window.__actionsForMenu.redo();
   }
 
   useHotkeys(
@@ -246,6 +259,7 @@ export function AccountHeader({
           showExtraBalances={showExtraBalances}
           onToggleExtraBalances={onToggleExtraBalances}
           account={account}
+          commonElementsRef={commonElementsRef}
           isFiltered={isFiltered}
           filteredAmount={filteredAmount}
         />
@@ -257,141 +271,200 @@ export function AccountHeader({
           style={{ marginTop: 12 }}
         >
           {((account && !account.closed) || canSync) && (
-            <Button
-              type="bare"
-              onClick={canSync ? onSync : onImport}
-              disabled={canSync && isServerOffline}
+            <div
+              ref={element => {
+                commonElementsRef.current['import_button'] = element;
+              }}
             >
-              {canSync ? (
-                <>
-                  <AnimatedRefresh
-                    width={13}
-                    height={13}
-                    animating={
-                      account
-                        ? accountsSyncing.includes(account.id)
-                        : accountsSyncing.length > 0
-                    }
-                    style={{ marginRight: 4 }}
-                  />{' '}
-                  {isServerOffline ? 'Bank Sync Offline' : 'Bank Sync'}
-                </>
-              ) : (
-                <>
-                  <SvgDownloadThickBottom
-                    width={13}
-                    height={13}
-                    style={{ marginRight: 4 }}
-                  />{' '}
-                  Import
-                </>
-              )}
-            </Button>
+              <Button
+                type="bare"
+                onClick={canSync ? onSync : onImport}
+                disabled={canSync && isServerOffline}
+              >
+                {canSync ? (
+                  <>
+                    <AnimatedRefresh
+                      width={13}
+                      height={13}
+                      animating={
+                        account
+                          ? accountsSyncing.includes(account.id)
+                          : accountsSyncing.length > 0
+                      }
+                      style={{ marginRight: 4 }}
+                    />{' '}
+                    {isServerOffline ? 'Bank Sync Offline' : 'Bank Sync'}
+                  </>
+                ) : (
+                  <>
+                    <SvgDownloadThickBottom
+                      width={13}
+                      height={13}
+                      style={{ marginRight: 4 }}
+                    />{' '}
+                    Import
+                  </>
+                )}
+              </Button>
+
+            </div>
           )}
           {!showEmptyMessage && (
-            <Button type="bare" onClick={onAddTransaction}>
-              <SvgAdd width={10} height={10} style={{ marginRight: 3 }} /> Add
-              New
-            </Button>
+            <div
+              ref={element => {
+                commonElementsRef.current['add_new_button'] = element;
+              }}
+            >
+              <Button type="bare" onClick={onAddTransaction}>
+                <SvgAdd width={10} height={10} style={{ marginRight: 3 }} /> Add
+                New
+              </Button>
+            </div>
           )}
           <View style={{ flexShrink: 0 }}>
-            <FilterButton onApply={onApplyFilter} type="accounts" />
+            <div
+              ref={element => {
+                commonElementsRef.current['filter_button'] = element;
+              }}
+            >
+              <FilterButton onApply={onApplyFilter} type="accounts" />
+            </div>
           </View>
+
+          <Button type="bare" onClick={undo}>
+            <SvgStepBackward width={16} height={16} style={{ marginRight: 3 }} /> Undo
+          </Button>
+
+          <Button type="bare" onClick={redo}>
+            Redo <SvgStepForward width={16} height={16} style={{ marginLeft: 3 }} />
+          </Button>
+
           <View style={{ flex: 1 }} />
-          <Search
-            placeholder="Search"
-            value={search}
-            onChange={onSearch}
-            inputRef={searchInput}
-          />
+            <div
+              ref={element => {
+                commonElementsRef.current['search_bar'] = element;
+              }}
+            >
+              <Search
+                placeholder="Search"
+                value={search}
+                onChange={onSearch}
+                inputRef={searchInput}
+              />
+            </div>            
           {workingHard ? (
             <View>
               <AnimatedLoading style={{ width: 16, height: 16 }} />
             </View>
           ) : (
-            <SelectedTransactionsButton
-              getTransaction={id => transactions.find(t => t.id === id)}
-              onShow={onShowTransactions}
-              onDuplicate={onBatchDuplicate}
-              onDelete={onBatchDelete}
-              onEdit={onBatchEdit}
-              onUnlink={onBatchUnlink}
-              onCreateRule={onCreateRule}
-              onSetTransfer={onSetTransfer}
-              onScheduleAction={onScheduleAction}
-              pushModal={pushModal}
-              showMakeTransfer={showMakeTransfer}
-              onMakeAsSplitTransaction={onMakeAsSplitTransaction}
-              onMakeAsNonSplitTransactions={onMakeAsNonSplitTransactions}
-            />
+            <div
+              ref={element => {
+                commonElementsRef.current['selected_transactions_button'] = element;
+              }}
+            >
+              <SelectedTransactionsButton
+                getTransaction={id => transactions.find(t => t.id === id)}
+                onShow={onShowTransactions}
+                onDuplicate={onBatchDuplicate}
+                onDelete={onBatchDelete}
+                onEdit={onBatchEdit}
+                onUnlink={onBatchUnlink}
+                onCreateRule={onCreateRule}
+                onSetTransfer={onSetTransfer}
+                onScheduleAction={onScheduleAction}
+                pushModal={pushModal}
+                showMakeTransfer={showMakeTransfer}
+                onMakeAsSplitTransaction={onMakeAsSplitTransaction}
+                onMakeAsNonSplitTransactions={onMakeAsNonSplitTransactions}
+              />
+            </div>
           )}
-          <Button
-            type="bare"
-            disabled={search !== '' || filterConditions.length > 0}
-            style={{ padding: 6, marginLeft: 10 }}
-            onClick={onToggleSplits}
-            title={
-              splitsExpanded.state.mode === 'collapse'
-                ? 'Collapse split transactions'
-                : 'Expand split transactions'
-            }
+
+          <div
+            ref={element => {
+              commonElementsRef.current['split_toggle_button'] = element;
+            }}
           >
-            {splitsExpanded.state.mode === 'collapse' ? (
-              <SvgArrowsShrink3 style={{ width: 14, height: 14 }} />
-            ) : (
-              <SvgArrowsExpand3 style={{ width: 14, height: 14 }} />
-            )}
-          </Button>
+            <Button
+              type="bare"
+              disabled={search !== '' || filterConditions.length > 0}
+              style={{ padding: 6, marginLeft: 10 }}
+              onClick={onToggleSplits}
+              title={
+                splitsExpanded.state.mode === 'collapse'
+                  ? 'Collapse split transactions'
+                  : 'Expand split transactions'
+              }
+              >
+              {splitsExpanded.state.mode === 'collapse' ? (
+                <SvgArrowsShrink3 style={{ width: 14, height: 14 }} />
+              ) : (
+                <SvgArrowsExpand3 style={{ width: 14, height: 14 }} />
+              )}
+            </Button>
+          </div>
           {account ? (
             <View>
-              <MenuButton ref={triggerRef} onClick={() => setMenuOpen(true)} />
-
-              <Popover
-                triggerRef={triggerRef}
-                style={{ width: 275 }}
-                isOpen={menuOpen}
-                onOpenChange={() => setMenuOpen(false)}
+              <div
+                ref={element => {
+                  commonElementsRef.current['more_button'] = element;
+                }}
               >
-                <AccountMenu
-                  account={account}
-                  canSync={canSync}
-                  canShowBalances={canCalculateBalance()}
-                  isSorted={isSorted}
-                  showBalances={showBalances}
-                  showCleared={showCleared}
-                  showReconciled={showReconciled}
-                  onMenuSelect={item => {
-                    setMenuOpen(false);
-                    onMenuSelect(item);
-                  }}
-                  onReconcile={onReconcile}
-                  onClose={() => setMenuOpen(false)}
-                />
-              </Popover>
+                <MenuButton ref={triggerRef} onClick={() => setMenuOpen(true)} />
+
+                <Popover
+                  triggerRef={triggerRef}
+                  style={{ width: 275 }}
+                  isOpen={menuOpen}
+                  onOpenChange={() => setMenuOpen(false)}
+                >
+                  <AccountMenu
+                    account={account}
+                    canSync={canSync}
+                    canShowBalances={canCalculateBalance()}
+                    isSorted={isSorted}
+                    showBalances={showBalances}
+                    showCleared={showCleared}
+                    showReconciled={showReconciled}
+                    onMenuSelect={item => {
+                      setMenuOpen(false);
+                      onMenuSelect(item);
+                    }}
+                    onReconcile={onReconcile}
+                    onClose={() => setMenuOpen(false)}
+                  />
+                </Popover>
+              </div>
             </View>
           ) : (
             <View>
-              <MenuButton ref={triggerRef} onClick={() => setMenuOpen(true)} />
-
-              <Popover
-                triggerRef={triggerRef}
-                isOpen={menuOpen}
-                onOpenChange={() => setMenuOpen(false)}
+              <div
+                ref={element => {
+                  commonElementsRef.current['more_button'] = element;
+                }}
               >
-                <Menu
-                  onMenuSelect={item => {
-                    setMenuOpen(false);
-                    onMenuSelect(item);
-                  }}
-                  items={[
-                    isSorted && {
-                      name: 'remove-sorting',
-                      text: 'Remove all sorting',
-                    },
-                    { name: 'export', text: 'Export' },
-                  ]}
-                />
-              </Popover>
+                <MenuButton ref={triggerRef} onClick={() => setMenuOpen(true)} />
+
+                <Popover
+                  triggerRef={triggerRef}
+                  isOpen={menuOpen}
+                  onOpenChange={() => setMenuOpen(false)}
+                >
+                  <Menu
+                    onMenuSelect={item => {
+                      setMenuOpen(false);
+                      onMenuSelect(item);
+                    }}
+                    items={[
+                      isSorted && {
+                        name: 'remove-sorting',
+                        text: 'Remove all sorting',
+                      },
+                      { name: 'export', text: 'Export' },
+                    ]}
+                  />
+                </Popover>
+              </div>
             </View>
           )}
         </Stack>
