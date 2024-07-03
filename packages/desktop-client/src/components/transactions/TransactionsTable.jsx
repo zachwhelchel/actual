@@ -889,7 +889,10 @@ const Transaction = memo(function Transaction({
       // it's always showing the formatted result
       setTransaction(serializeTransaction(deserialized, showZeroInDeposit));
 
-      onSave(deserialized, subtransactions);
+      const deserializedName = ['credit', 'debit'].includes(name)
+        ? 'amount'
+        : name;
+      onSave(deserialized, subtransactions, deserializedName);
     }
   }
 
@@ -2159,7 +2162,7 @@ export const TransactionTable = forwardRef((props, ref) => {
   }, [props.onAdd, newNavigator.onEdit]);
 
   const onSave = useCallback(
-    async (transaction, subtransactions = null) => {
+    async (transaction, subtransactions = null, updatedFieldName = null) => {
       savePending.current = true;
 
       let groupedTransaction = subtransactions
@@ -2168,7 +2171,10 @@ export const TransactionTable = forwardRef((props, ref) => {
 
       if (isTemporaryId(transaction.id)) {
         if (props.onApplyRules) {
-          groupedTransaction = await props.onApplyRules(groupedTransaction);
+          groupedTransaction = await props.onApplyRules(
+            groupedTransaction,
+            updatedFieldName,
+          );
         }
 
         const newTrans = latestState.current.newTransactions;
