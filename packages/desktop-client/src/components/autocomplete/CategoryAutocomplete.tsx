@@ -306,17 +306,16 @@ export function CreateCategoryButton({
       style={{
         display: 'block',
         flexShrink: 0,
-        color:
-          embedded && isNarrowWidth ? theme.menuItemText : theme.noticeTextMenu,
+        color: highlighted
+          ? theme.menuAutoCompleteItemTextHover
+          : theme.menuAutoCompleteItemText,
         borderRadius: embedded ? 4 : 0,
         fontSize: isNarrowWidth ? 17 : 11,
         fontWeight: isNarrowWidth ? 425 : 500,
         padding: '6px 9px',
-        backgroundColor: highlighted
-          ? embedded && isNarrowWidth
-            ? theme.menuItemBackgroundHover
-            : theme.menuAutoCompleteBackgroundHover
-          : 'transparent',
+          backgroundColor: highlighted
+            ? theme.menuAutoCompleteBackgroundHover
+            : 'transparent',
         ':active': {
           backgroundColor: 'rgba(100, 100, 100, .25)',
         },

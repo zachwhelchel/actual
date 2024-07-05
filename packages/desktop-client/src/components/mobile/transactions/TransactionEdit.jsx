@@ -16,7 +16,7 @@ import {
   isValid as isValidDate,
 } from 'date-fns';
 
-import { pushModal, setLastTransaction } from 'loot-core/client/actions';
+import { pushModal, setLastTransaction, createCategory, closeModal } from 'loot-core/client/actions';
 import { runQuery } from 'loot-core/src/client/query-helpers';
 import { send } from 'loot-core/src/platform/client/fetch';
 import * as monthUtils from 'loot-core/src/shared/months';
@@ -46,6 +46,7 @@ import { useDateFormat } from '../../../hooks/useDateFormat';
 import { useNavigate } from '../../../hooks/useNavigate';
 import { usePayees } from '../../../hooks/usePayees';
 import { useSetThemeColor } from '../../../hooks/useSetThemeColor';
+
 import {
   SingleActiveEditFormProvider,
   useSingleActiveEditForm,
@@ -575,33 +576,36 @@ const TransactionEditInner = memo(function TransactionEditInner({
               categoryGroups,
               month: monthUtils.monthFromDate(unserializedTransaction.date),
               onSelect: categoryId => {
+                if (name === "category" && categoryId === "Create Category") {
+                  dispatch(
+                    pushModal('create-category', {
+                      onConfirm: (groupId, categoryName) => {
 
-                if (name == "category" && categoryId == "Create Category") {
-                  pushModal('create-category', {
-                    onConfirm: (groupId, categoryName) => {
-                      let existingGroup = categoryGroups.find(g => g.id === groupId);
+                        let existingGroup = categoryGroups.find(g => g.id === groupId);
+                        if (existingGroup !== null && existingGroup !== undefined) {
 
-                      if (existingGroup !== null && existingGroup !== undefined) {
+                          let existingCat = existingGroup.categories.find(g => g.name === categoryName);
+                          if (existingCat !== null && existingCat !== undefined) {
 
-                        let existingCat = existingGroup.categories.find(g => g.name === categoryName);
-                        if (existingCat !== null && existingCat !== undefined) {
-
-                        } else {
-                          createCategory(
-                            categoryName,
-                            existingGroup.id,
-                            false,
-                            false,
-                            true,
-                          );
+                          } else {
+                            dispatch(
+                              createCategory(
+                                categoryName,
+                                existingGroup.id,
+                                false,
+                                false,
+                                true,
+                              )
+                            )
+                          }
                         }
-                      }
-                    },
-                    categoryGroups: categoryGroups,
-                  });
+                      },
+                      categoryGroups: categoryGroups,
+                    })
+                  );
+                } else {
+                  onUpdate(transactionToEdit, name, categoryId);
                 }
-
-                onUpdate(transactionToEdit, name, categoryId);
               },
               onClose: () => {
                 onClearActiveEdit();
@@ -1213,7 +1217,6 @@ export const TransactionEdit = props => {
   const { list: categories } = useCategories();
   const payees = usePayees();
   const lastTransaction = useSelector(state => state.queries.lastTransaction);
-  const actions = useActions();
   const { grouped: categoryGroups } = useCategories();
   const accounts = useAccounts();
   const dateFormat = useDateFormat() || 'MM/dd/yyyy';
@@ -1224,7 +1227,7 @@ export const TransactionEdit = props => {
         {...props}
         categories={categories}
         categoryGroups={categoryGroups}
-        createCategory={actions.createCategory}
+        createCategory={createCategory}
         payees={payees}
         lastTransaction={lastTransaction}
         accounts={accounts}
