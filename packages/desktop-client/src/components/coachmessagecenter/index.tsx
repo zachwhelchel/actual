@@ -4,6 +4,7 @@ import { View } from '../common/View';
 import { styles } from '../../style';
 import { Card } from '../common/Card';
 import { Button } from '../common/Button';
+import { Link } from '../common/Link';
 import { Select } from '../common/Select';
 
 // import { App as SendbirdApp } from '@sendbird/uikit-react';
@@ -149,8 +150,8 @@ const options: ChannelOptions = {
   const CustomSystemMessage = (props: EventComponentProps) => {
     const { Avatar = DefaultAvatar, message } = props;
 
-    const { created_at = '', subtype = '', text, user, coach_text = '', client_text = '' } = message;
-    const date = created_at.toString();
+    const { created_at = '', subtype = '', text, user, coach_text = '', client_text = '', screen_size = '' } = message;
+    const date = created_at.toLocaleTimeString([], {timeStyle: 'short'});
 
 
     const { channel } = useChannelStateContext();
@@ -161,7 +162,35 @@ const options: ChannelOptions = {
     console.log(channel.state.members[coachId]?.user?.image);
 
 
-    if (subtype == "avatar_interaction") {
+    if (subtype == "loaded_in_notice") {
+
+      if (REACT_APP_CHAT_USER_ID === coachId) {
+        return (
+          <div style={
+            { textAlign: 'center', marginTop: '10px', marginBottom: '10px' }
+          }>
+            <div style={
+              { textAlign: 'center', color: theme.pageTextSubdued }
+            }>
+              {date}
+            </div>
+
+            <div style={
+              { textAlign: 'center' }
+            }>
+              {"User visited their budget on a " + screen_size + " screen"}
+            </div>
+
+          </div>
+        );
+      } else {
+        return (
+          <div>
+          </div>
+        );
+      }
+
+    } else if (subtype == "avatar_interaction") {
 
       if (REACT_APP_CHAT_USER_ID === coachId) {
 
@@ -192,8 +221,12 @@ const options: ChannelOptions = {
               <div className="grid-item" style={
                 { }
               }>
+                <div style={
+                  { textAlign: 'left', marginBottom: '4px', marginLeft: '48px', color: theme.pageTextSubdued }
+                }>
+                  {date}
+                </div>
                 <Avatar image={message.user?.image} name={message.user?.name || message.user?.id} />
-
                 <div className="grid-content-left" style={
                   { borderWidth: '2px', float: 'left', marginLeft: '39px', marginTop: '-35px' }
                 }>
@@ -345,15 +378,14 @@ const options: ChannelOptions = {
             }>
               Your client is able to message you and view past interactions with your avatar. If this client is abusing the messaging feature you may 
 
-              <Button
-                type="link"
+              <Link
+                variant="text"
                 onClick={() => onRemoveTwoWay(channel)}
-                style={{
-                  marginLeft: '4px'
-                }}
+                style={{ marginLeft: 4 }}
               >
                 {"disable two-way messaging."}
-              </Button>
+              </Link>
+
 
             </div>
           </div>
@@ -367,15 +399,13 @@ const options: ChannelOptions = {
             }>
               You don't allow your client to message you currently. They can only get in touch with you by scheduling a video call. They can still use this screen to view past interactions with your avatar and receive any messages from you. To increase engagement and success rates consider
 
-              <Button
-                type="link"
+              <Link
+                variant="text"
                 onClick={() => onAllowTwoWay(channel)}
-                style={{
-                  marginLeft: '4px'
-                }}
+                style={{ marginLeft: 4 }}
               >
-                allowing two-way messaging.
-              </Button>
+                {"allowing two-way messaging."}
+              </Link>
 
             </div>
           </div>

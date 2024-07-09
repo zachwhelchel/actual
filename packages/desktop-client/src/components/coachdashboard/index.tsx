@@ -5,6 +5,7 @@ import { styles } from '../../style';
 import { Card } from '../common/Card';
 import { Button } from '../common/Button';
 import { Select } from '../common/Select';
+import { theme, type CSSProperties } from '../../style';
 
 export function CoachDashboard() {
 
@@ -34,6 +35,12 @@ export function CoachDashboard() {
           ...{ paddingLeft: 40, paddingRight: 40, minWidth: 700 },
         }}
       >
+        <div style={
+          { backgroundColor: theme.warningBackground, color: theme.warningText, padding: '10px', textAlign: 'center' }
+        }>
+          This dashboard is still under construction. These numbers are examples only!
+        </div>
+
         <View
           style={{
             flexDirection: 'row',

@@ -33,10 +33,12 @@ import { AnimatedLoading } from '../../../icons/AnimatedLoading';
 import { theme } from '../../../style';
 import { prewarmMonth, switchBudgetType } from '../../budget/util';
 import { View } from '../../common/View';
+import { Button } from '../../common/Button';
 import { NamespaceContext } from '../../spreadsheet/NamespaceContext';
 import { SyncRefresh } from '../../SyncRefresh';
 
 import { BudgetTable } from './BudgetTable';
+import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE } from '../../../coaches/coachVariables';
 
 type BudgetInnerProps = {
   categories: CategoryEntity[];
@@ -56,6 +58,7 @@ function BudgetInner(props: BudgetInnerProps) {
     end: startMonth,
   });
   const [initialized, setInitialized] = useState(false);
+  const [mobileWarningShown, setMobileWarningShown] = useState(localStorage.getItem('mobile_warning_shown'));
   // const [editMode, setEditMode] = useState(false);
 
   const [_numberFormat] = useLocalPref('numberFormat');
@@ -413,6 +416,11 @@ function BudgetInner(props: BudgetInnerProps) {
     );
   };
 
+  const onMobileWarningShownAwknoledged = () => {
+    localStorage.setItem("mobile_warning_shown", 'yes');
+    setMobileWarningShown('yes')
+  };
+
   if (!categoryGroups || !initialized) {
     return (
       <View
@@ -425,6 +433,39 @@ function BudgetInner(props: BudgetInnerProps) {
         }}
       >
         <AnimatedLoading width={25} height={25} />
+      </View>
+    );
+  }
+
+  if (mobileWarningShown != 'yes') {
+    let imgSrc = "/coach-icon-" + REACT_APP_COACH + "-200x200.png";
+
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: theme.mobilePageBackground,
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: 25,
+        }}
+      >
+        <img
+          style={{
+            display: 'block',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            width: '130px',
+            height: '130px',
+            borderRadius: '130px',
+          }}
+          src={imgSrc}
+          alt="coach"
+        />
+        <div style={{margin: '30px', fontSize: '18px'}}>
+          Welcome to the mobile version of MyBudgetCoach. You can use the mobile version for on-the-go access. To make the most of your budget and learn from your coach, {REACT_APP_COACH_FIRST_NAME}, please be sure to use your computer to complete set-up. <u>We reccomend completing the Introduction conversation on a computer, prior to using the mobile version.</u>
+        </div>
+        <Button style={{fontSize: '16px'}} onClick={() => onMobileWarningShownAwknoledged()}>I will use a computer to complete setup.</Button>
       </View>
     );
   }

@@ -25,7 +25,7 @@ let CoachContext = createContext();
 // });
 
 //initialDialogueId can be removed....
-export function CoachProvider({ budgetId, allConversations, initialDialogueId, children }) {
+export function CoachProvider({ budgetId, allConversations, initialDialogueId, isNarrowWidth, children }) {
   let [top, setTop] = useState(window.innerHeight - 20);
   let [left, setLeft] = useState(window.innerWidth - 20 - 240);
   let [offset, setOffset] = useState(100);
@@ -340,6 +340,32 @@ if (allConversations != null) {
     // console.log(firstChannel)
 
     setChannelWithMyCoach(firstChannel);
+
+    let text = REACT_APP_USER_FIRST_NAME + " visited their budget.";
+    let screenSize = "unknown";
+    if (isNarrowWidth == true) {
+      text = REACT_APP_USER_FIRST_NAME + " visited their budget on a small screen.";
+      screenSize = "small";
+    } else {
+      text = REACT_APP_USER_FIRST_NAME + " visited their budget on a large screen.";
+      screenSize = "large";
+    }
+
+    if (firstChannel != null) {
+      firstChannel.update({
+        randomNumberForSystemUpdates: '<RANDOM_STRING_GOES_HERE>',
+        subtype: firstChannel.data.subtype,
+        coach_id: firstChannel.data.coach_id,
+        client_id: firstChannel.data.client_id,
+        client_can_message: firstChannel.data.client_can_message
+      }, { 
+        text: text,
+        subtype: 'loaded_in_notice',
+        screen_size: screenSize,
+        silent: true,
+      }, { skip_push: true });
+    }
+
   }
 
 
@@ -837,7 +863,7 @@ export default function Coach({
           }
 
           let newValue = Number(assignment1.replaceAll("$", "")) + Number(assignment2.replaceAll("$", ""));
-          setCoachState({ ...coachState, [newVar]: String(newValue) })
+          setCoachState({ ...coachState, [newVar]: newValue.toFixed(2) })
 
         } else if (assignment.includes(" - ")) {
           let sIndex2 = assignment.indexOf(" - ") + 3;
@@ -855,7 +881,7 @@ export default function Coach({
           }
 
           let newValue = Number(assignment1.replaceAll("$", "")) - Number(assignment2.replaceAll("$", ""));
-          setCoachState({ ...coachState, [newVar]: String(newValue) })
+          setCoachState({ ...coachState, [newVar]: newValue.toFixed(2) })
 
         }
 
@@ -1153,6 +1179,16 @@ export default function Coach({
     }
 
     if (
+      commonElementsRef.current['cleared_status_header'] !== undefined &&
+      commonElementsRef.current['cleared_status_header'] !== null
+    ) {
+      commonElementsRef.current['cleared_status_header'].style.backgroundColor = null;
+      commonElementsRef.current['cleared_status_header'].style.outlineColor = null;
+      commonElementsRef.current['cleared_status_header'].style.outlineStyle = null;
+    }
+
+
+    if (
       commonElementsRef.current['budget_table'] !== undefined &&
       commonElementsRef.current['budget_table'] !== null
     ) {
@@ -1262,6 +1298,14 @@ export default function Coach({
       commonElementsRef.current['for_budget_accounts'].style.outlineStyle = null;
     }
 
+    if (
+      commonElementsRef.current['message_center'] !== undefined &&
+      commonElementsRef.current['message_center'] !== null
+    ) {
+      commonElementsRef.current['message_center'].style.outlineColor = null;
+      commonElementsRef.current['message_center'].style.outlineStyle = null;
+    }
+
 
 
 
@@ -1325,9 +1369,13 @@ export default function Coach({
           const { top: t, left: l } =
             commonElementsRef.current['zoom_link'].getBoundingClientRect();
           const centerY = t;
-          setTop(centerY - 33 + yOffset);
-          setLeft(14 + xOffset);
-          setOffset(0);
+          // setTop(centerY - 33 + yOffset);
+          // setLeft(14 + xOffset);
+          // setOffset(0);
+
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
 
           commonElementsRef.current['zoom_link'].style.outlineColor = "yellow";
           commonElementsRef.current['zoom_link'].style.outlineStyle = "dashed";
@@ -1361,6 +1409,33 @@ export default function Coach({
           setOffset(100);
         }
       }
+      else if (action === "move_to: message_center") {
+        if (
+          commonElementsRef.current['message_center'] !== undefined &&
+          commonElementsRef.current['message_center'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['message_center'].getBoundingClientRect();
+          const centerY = t;
+          // setTop(centerY - 33 + yOffset);
+          // setLeft(14 + xOffset);
+          // setOffset(0);
+
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+
+          commonElementsRef.current['message_center'].style.outlineColor = "yellow";
+          commonElementsRef.current['message_center'].style.outlineStyle = "dashed";
+          commonElementsRef.current['message_center'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
+      }
+
       else if (action === "move_to: center_screen") {
         setTop(window.innerHeight - 20);
         setLeft(window.innerWidth - 20 - 240);
@@ -1728,6 +1803,29 @@ export default function Coach({
           commonElementsRef.current['cleared_status_icon'].style.outlineColor = "black";
           commonElementsRef.current['cleared_status_icon'].style.outlineStyle = "dashed";
           commonElementsRef.current['cleared_status_icon'].style.outlineWidth = 5;
+
+        } else {
+          setTop(window.innerHeight - 20 + yOffset);
+          setLeft(window.innerWidth - 20 - 240 + xOffset);
+          setOffset(100);
+        }
+      }
+      else if (action === "move_to: cleared_status_header") {
+        if (
+          commonElementsRef.current['cleared_status_header'] !== undefined &&
+          commonElementsRef.current['cleared_status_header'] !== null
+        ) {
+          const { top: t, left: l } =
+            commonElementsRef.current['cleared_status_header'].getBoundingClientRect();
+          const centerY = t + commonElementsRef.current['cleared_status_header'].offsetHeight;
+          setTop(window.innerHeight - 20);
+          setLeft(window.innerWidth - 20 - 240);
+          setOffset(100);
+
+          commonElementsRef.current['cleared_status_header'].style.backgroundColor = "yellow";
+          commonElementsRef.current['cleared_status_header'].style.outlineColor = "black";
+          commonElementsRef.current['cleared_status_header'].style.outlineStyle = "dashed";
+          commonElementsRef.current['cleared_status_header'].style.outlineWidth = 5;
 
         } else {
           setTop(window.innerHeight - 20 + yOffset);

@@ -577,8 +577,8 @@ export function Accounts({
         Icon={SvgChatBubbleDots}
         title={messageCenterText}
         badge={totalUnreadCount}
+        refForHighlighting="message_center"
       />
-
     </View>
   );
 }

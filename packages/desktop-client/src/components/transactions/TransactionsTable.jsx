@@ -175,6 +175,7 @@ const TransactionHeader = memo(
     field,
   }) => {
     const dispatchSelected = useSelectedDispatch();
+    let { commonElementsRef } = useCoach(); // this is causing the errors.
 
     return (
       <Row
@@ -299,6 +300,7 @@ const TransactionHeader = memo(
                 selectAscDesc(field, ascDesc, 'cleared', 'asc'),
               );
             }}
+            refForHighlighting='cleared_status_header'
           />
         )}
       </Row>
@@ -471,7 +473,11 @@ function HeaderCell({
   marginRight,
   icon,
   onClick,
+  refForHighlighting,
 }) {
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
   return (
     <CustomCell
       width={width}
@@ -483,27 +489,33 @@ function HeaderCell({
         borderBottomWidth: 0,
       }}
       unexposedContent={({ value: cellValue }) => (
-        <Button
-          type="bare"
-          onClick={onClick}
-          style={{
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            color: theme.tableHeaderText,
-            fontWeight: 300,
-            marginLeft,
-            marginRight,
+        <div
+          ref={element => {
+            commonElementsRef.current[refForHighlighting] = element;
           }}
         >
-          <UnexposedCellContent value={cellValue} />
-          {icon === 'asc' && (
-            <SvgArrowDown width={10} height={10} style={{ marginLeft: 5 }} />
-          )}
-          {icon === 'desc' && (
-            <SvgArrowUp width={10} height={10} style={{ marginLeft: 5 }} />
-          )}
-        </Button>
+          <Button
+            type="bare"
+            onClick={onClick}
+            style={{
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              color: theme.tableHeaderText,
+              fontWeight: 300,
+              marginLeft,
+              marginRight,
+            }}
+          >
+            <UnexposedCellContent value={cellValue} />
+            {icon === 'asc' && (
+              <SvgArrowDown width={10} height={10} style={{ marginLeft: 5 }} />
+            )}
+            {icon === 'desc' && (
+              <SvgArrowUp width={10} height={10} style={{ marginLeft: 5 }} />
+            )}
+          </Button>
+        </div>
       )}
     />
   );

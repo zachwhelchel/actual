@@ -1,6 +1,6 @@
 {
-    "name": "Actual",
-    "short_name": "Actual",
+    "name": "MyBudgetCoach",
+    "short_name": "MyBudgetCoach",
     "description": "A local-first personal finance tool",
     "icons": [
         {

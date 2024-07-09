@@ -273,6 +273,7 @@ type FinancesAppProps = {
 
 export function FinancesApp({budgetId, someDialogues, initialDialogueId }: FinancesAppProps) {
 
+  const { isNarrowWidth } = useResponsive();
 
   const app = useMemo(() => <FinancesAppWithoutContext budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId} />, []);
 
@@ -282,7 +283,7 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId }: Finan
   console.log("childcare:" + initialDialogueId);
 
   return (
-    <CoachProvider budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId} >
+    <CoachProvider budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId} isNarrowWidth={isNarrowWidth} >
     <SpreadsheetProvider>
       <TitlebarProvider>
         <SidebarProvider>

@@ -26,9 +26,9 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['nicksmith', 'Nick Smith'],
 ['jonathanakerman', 'Jon Akerman'],
 ['nataliegraham', 'Natalie Graham'],
-//['jordanjung', 'Jordan Denae'],
-//['randidegraw', 'Randi DeGraw'],
-//['melodybarthelemy', 'Melody Barthelemy'],
+['jordanjung', 'Jordan Denae'],
+['randidegraw', 'Randi DeGraw'],
+['melodybarthelemy', 'Melody Barthelemy'],
 ['alfredomatos', 'Alfredo Matos'],
 ['aitzanegron', 'Aitzarelys Negrón'],
 ['zachdemo', 'Zach Demo'],
@@ -589,9 +589,16 @@ function modifyVars() {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you as soon as I can. (Puedes enviarme mensajes por aquí en cualquier momento. Responderé lo antes posible.)"
   } else if (REACT_APP_COACH === "nicksmith") {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you within 1 business day."
+  } else if (REACT_APP_COACH === "jordanjung") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you as soon as I can."
+  } else if (REACT_APP_COACH === "jacquelinekeeley") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you as soon as I can."
+  } else if (REACT_APP_COACH === "spencerstephenson") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you within 2-3 days."
   } else {
     REACT_APP_RESPONSE_EXPECTATIONS = null;
   }
+
 
 }
 

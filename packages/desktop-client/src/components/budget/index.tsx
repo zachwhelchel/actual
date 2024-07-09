@@ -226,7 +226,6 @@ function BudgetInner(props: BudgetInnerProps) {
 
   const onSaveNewCategories = async (categories, atEnd = false) => {
     //let ids = [];
-
     console.log('Sugar were going dowm');
     for (var index in categories) {
       let category = categories[index];
@@ -245,7 +244,6 @@ function BudgetInner(props: BudgetInnerProps) {
 
       //ids.push(id);
     }
-
 
     //return ids;
   };
@@ -273,9 +271,9 @@ function BudgetInner(props: BudgetInnerProps) {
 
   const onSaveGroup = group => {
     if (group.id === 'new') {
-      dispatch(createGroup(group.name));
+      return dispatch(createGroup(group.name));
     } else {
-      dispatch(updateGroup(group));
+      return dispatch(updateGroup(group));
     }
   };
 

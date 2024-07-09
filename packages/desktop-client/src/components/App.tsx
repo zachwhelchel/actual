@@ -111,6 +111,8 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
     let url = String(window.location.href);
     //url = "https://zackwhelchel.mybudgetcoach.app/";
 
+    //return // add this when breaking.
+
     const results = await send('env-variables', url);
     var myobj = JSON.parse(results);
 

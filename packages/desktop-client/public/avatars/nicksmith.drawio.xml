@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" modified="2024-06-04T03:34:22.202Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" etag="ILp7WEsaZHUseJ_H0VmZ" version="24.4.13" type="google" pages="11">
+<mxfile host="app.diagrams.net" modified="2024-07-08T16:27:34.431Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" etag="Dbat4FftyQVkaS0UzcrI" version="24.6.4" type="google" pages="11">
   <diagram name="Introduction" id="oP8GNghZ1G6uxloS-E3e">
-    <mxGraphModel dx="3424" dy="-299" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3794" dy="-327" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -387,7 +387,7 @@
             <mxPoint x="221.6550000000002" y="4849.390470000004" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="o765YSstnrM0eGmaAv3l-195" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Import:&lt;/b&gt;&amp;nbsp;This option allows you to upload a csv file created from exporting transactions from your online&amp;nbsp;bank account. Select the &#39;Transaction Import Options&#39; conversation under &#39;Manage Coach&#39; to learn more." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+        <mxCell id="o765YSstnrM0eGmaAv3l-195" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Import:&lt;/b&gt;&amp;nbsp;This option allows you to upload a csv file created from exporting transactions from your online&amp;nbsp;bank account. Select the &#39;Import Transaction&amp;nbsp;Options&#39; conversation under &#39;Manage Coach&#39; to learn more." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="307.5" y="4993.120000000003" width="167.5" height="143.42" as="geometry" />
         </mxCell>
         <mxCell id="o765YSstnrM0eGmaAv3l-230" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="o765YSstnrM0eGmaAv3l-197" target="o765YSstnrM0eGmaAv3l-199" edge="1">
@@ -469,7 +469,7 @@
         <mxCell id="o765YSstnrM0eGmaAv3l-239" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Reconcile&lt;/b&gt;:&amp;nbsp;This is a very important feature. Reconciliation is the process to verify the account balance and transactions in MyBudgetCoach match your bank account." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="3120.7400000000002" y="4784.17" width="198.5" height="155.78" as="geometry" />
         </mxCell>
-        <mxCell id="o765YSstnrM0eGmaAv3l-240" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Link account&lt;/b&gt;:&amp;nbsp;This option allows the user to link MyBudgetCoach to their bank to automate adding transactions. Select the &#39;Transaction Import Options&#39; conversation under &#39;Manage Coach&#39; to learn more." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+        <mxCell id="o765YSstnrM0eGmaAv3l-240" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Link account&lt;/b&gt;:&amp;nbsp;This option allows the user to link MyBudgetCoach to their bank to automate adding transactions." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="3391.12" y="4540" width="150" height="164.07" as="geometry" />
         </mxCell>
         <mxCell id="o765YSstnrM0eGmaAv3l-260" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.004;entryY=0.392;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="o765YSstnrM0eGmaAv3l-237" target="o765YSstnrM0eGmaAv3l-239" edge="1">
@@ -489,7 +489,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="o765YSstnrM0eGmaAv3l-297" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Alright! That completes the overview of the account screen. Are you starting to feel like a MyBudgetCoach expert!?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-          <mxGeometry x="4043.8599999999997" y="4704.07" width="140" height="160" as="geometry" />
+          <mxGeometry x="4386.07" y="4680" width="140" height="160" as="geometry" />
         </mxCell>
         <mxCell id="Quy-Nfqagg3XY1Y7MGQe-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="o765YSstnrM0eGmaAv3l-300" target="vTFZlRXvEvOfD4v6QNcN-41" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -612,22 +612,7 @@
           <mxGeometry x="7070" y="5585.4400000000005" width="210" height="130" as="geometry" />
         </mxCell>
         <mxCell id="Nh3sIH_yY3GOMRWhN25i-51" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Close account&lt;/b&gt;:&amp;nbsp;This is how you close the account you selected to view.&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-          <mxGeometry x="3770.4800000000005" y="4626.670000000002" width="120" height="127.82" as="geometry" />
-        </mxCell>
-        <mxCell id="vuu5hWr79U4t5iYe8rkI-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="o765YSstnrM0eGmaAv3l-240" target="Nh3sIH_yY3GOMRWhN25i-51" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="3529.1099999999997" y="4678.305000000002" as="sourcePoint" />
-            <mxPoint x="3600.4800000000005" y="4896.9800000000005" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="3601" y="4622" />
-              <mxPoint x="3601" y="4691" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="FLDXWCCCW5OJnN-EZU37-61" value="Ok; understood" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="vuu5hWr79U4t5iYe8rkI-3" connectable="0" vertex="1">
-          <mxGeometry x="-0.1723" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
+          <mxGeometry x="4060.0000000000005" y="4592.490000000002" width="120" height="127.82" as="geometry" />
         </mxCell>
         <mxCell id="vuu5hWr79U4t5iYe8rkI-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.01;entryY=0.677;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="vTFZlRXvEvOfD4v6QNcN-22" target="vTFZlRXvEvOfD4v6QNcN-34" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -1036,7 +1021,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="6gzLUpITHpKTlZPTgwAf-51" value="move_to: import_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-          <mxGeometry x="341.86" y="5200.000000000001" width="120" height="60" as="geometry" />
+          <mxGeometry x="337.75" y="5165.890000000001" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6gzLUpITHpKTlZPTgwAf-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="6gzLUpITHpKTlZPTgwAf-53" target="o765YSstnrM0eGmaAv3l-197" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -1328,7 +1313,7 @@
           <mxGeometry x="5225" y="7725" width="213.38" height="180" as="geometry" />
         </mxCell>
         <mxCell id="upRpRQDEe1xkYZp5om-L-97" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Finally, make the budget unique by adding some emojis to your Category and Category Group Names! 🎁🎟📱🚗🚑🏡🏨🍔🍟&lt;br&gt;&lt;br&gt;Make it fun and personalized to you so when you log-in to MyBudgetCoach, you have a connection to your customized budget!" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-          <mxGeometry x="5570" y="8050" width="213.38" height="180" as="geometry" />
+          <mxGeometry x="5530" y="8054.5" width="213.38" height="180" as="geometry" />
         </mxCell>
         <mxCell id="upRpRQDEe1xkYZp5om-L-165" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.007;entryY=0.622;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="upRpRQDEe1xkYZp5om-L-98" target="upRpRQDEe1xkYZp5om-L-99" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -1348,15 +1333,15 @@
             <mxPoint x="9.740000000000748" y="9968.75" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="upRpRQDEe1xkYZp5om-L-170" value="Thanks for your direct contact information!" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="upRpRQDEe1xkYZp5om-L-169" connectable="0" vertex="1">
+        <mxCell id="upRpRQDEe1xkYZp5om-L-170" value="Thanks!" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="upRpRQDEe1xkYZp5om-L-169" connectable="0" vertex="1">
           <mxGeometry x="-0.0789" y="-2" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="upRpRQDEe1xkYZp5om-L-99" value="If while using the system, you have a question that you come across, feel free to send me an email at &lt;b&gt;nick@personalwealthadventures.com&lt;/b&gt;. Please identify yourself as a MyBudgetCoach user in the subject line and include your first and last name in the message. I will review the message and if I can, I will provide an answer back via email, free of charge.&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+        <mxCell id="upRpRQDEe1xkYZp5om-L-99" value="If while using the system, you have a question that you come across, feel free to send me a message in the &#39;Message Center&#39; in the bottom left menu. I will review and reply back within one business day.&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="-303.96" y="9890" width="240" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="upRpRQDEe1xkYZp5om-L-100" value="If after reviewing your inquiry I determine it would be best to have a conversation, I will recommend you schedule a one-hour session with me through the MyBudgetCoach platform." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+        <mxCell id="upRpRQDEe1xkYZp5om-L-100" value="If after reviewing your inquiry I determine it would be best to have a 1:1 call, I will recommend you schedule a one-hour session with me through the MyBudgetCoach platform." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="159.74000000000075" y="10150" width="240" height="170" as="geometry" />
         </mxCell>
         <mxCell id="upRpRQDEe1xkYZp5om-L-173" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="upRpRQDEe1xkYZp5om-L-103" target="upRpRQDEe1xkYZp5om-L-104" edge="1">
@@ -1671,8 +1656,8 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="TmEJRp-qRndceqDYDyBR-4" value="&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;I am not a chat bot, so there is no place to send me a message.&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-          <mxGeometry x="-1096.75" y="2090" width="174.5" height="174.5" as="geometry" />
+        <mxCell id="TmEJRp-qRndceqDYDyBR-4" value="&lt;div&gt;If you have a quick question, feel free to send me a message within the &#39;Message Center&#39; found at the bottom of the left menu. I will reply within one business day. In addition to any messages we have back and forth, as you complete conversations, your progress and selections will be shown within the &#39;Message Center&#39; in a chat format.&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="-1096.75" y="2060" width="204.5" height="204.5" as="geometry" />
         </mxCell>
         <mxCell id="TmEJRp-qRndceqDYDyBR-5" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;If you want to review a step again, select the &#39;Back&#39; button below. If you want to hide the avatar conversation, select the &#39;x&#39; at the top left of my picture. You can continue the conversation by selecting the &#39;Introduction&#39; conversation in the left side menu bar above the &#39;Schedule Video Call&#39; button.&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="-984.25" y="2470" width="200" height="200" as="geometry" />
@@ -2021,6 +2006,63 @@
         </mxCell>
         <mxCell id="1O7a1BBYAO1ffhJ9i4gj-4" value="You have the ability to select a conversation to complete under the option &#39;Start a New Conversation.&#39; Feel free to review these later, but for now, let&#39;s complete this conversation prior to starting a new one." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="-572.25" y="2460" width="175" height="175" as="geometry" />
+        </mxCell>
+        <mxCell id="1BIlvSefDfYye3zwLK2h-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="o765YSstnrM0eGmaAv3l-240" target="1BIlvSefDfYye3zwLK2h-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3541" y="4622" as="sourcePoint" />
+            <mxPoint x="4060" y="4656" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1BIlvSefDfYye3zwLK2h-4" value="Ok; understood" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="1BIlvSefDfYye3zwLK2h-2" connectable="0" vertex="1">
+          <mxGeometry x="-0.2536" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1BIlvSefDfYye3zwLK2h-1" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;There is a separate conversation called &#39;Import Transaction Options&#39; that provides additional instructions for how to link an account using SimpleFIN." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="3500" y="4845.9299999999985" width="150" height="164.07" as="geometry" />
+        </mxCell>
+        <mxCell id="1BIlvSefDfYye3zwLK2h-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="1BIlvSefDfYye3zwLK2h-6" target="Nh3sIH_yY3GOMRWhN25i-51" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1BIlvSefDfYye3zwLK2h-8" value="Not just yet; let&#39;s continue on" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="1BIlvSefDfYye3zwLK2h-7" connectable="0" vertex="1">
+          <mxGeometry x="-0.055" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1BIlvSefDfYye3zwLK2h-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="1BIlvSefDfYye3zwLK2h-6" target="kVzMFh6T5BD9RrOraTKU-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3875" y="5030" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="3785" y="4800" />
+              <mxPoint x="3940" y="4800" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1BIlvSefDfYye3zwLK2h-11" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="1BIlvSefDfYye3zwLK2h-10" connectable="0" vertex="1">
+          <mxGeometry x="-0.0945" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1BIlvSefDfYye3zwLK2h-6" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Would you like to learn how to link your account now?&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="3700" y="4705.37" width="170" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="1BIlvSefDfYye3zwLK2h-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.053;entryY=0.527;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="1BIlvSefDfYye3zwLK2h-1" target="1BIlvSefDfYye3zwLK2h-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kVzMFh6T5BD9RrOraTKU-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="kVzMFh6T5BD9RrOraTKU-3" target="kVzMFh6T5BD9RrOraTKU-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kVzMFh6T5BD9RrOraTKU-2" value="Start the Import Transaction Options conversation" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kVzMFh6T5BD9RrOraTKU-1" connectable="0" vertex="1">
+          <mxGeometry x="-0.4972" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kVzMFh6T5BD9RrOraTKU-3" value="Select the &#39;Start the Import Transaction Options conversation&#39; button below. This will automatically bring you to the &#39;Import Transaction Options&#39; conversation, but maintain your progress in this conversation. &lt;br&gt;&lt;br&gt;You can tell which conversation you are currently working through by reviewing the open conversations on the left hand menu and finding the words under the title of the conversation.&lt;br&gt;&lt;br&gt;If you see the words &#39;In progress...&#39; this is the conversation you are currently working through. If you see the words &#39;Continue conversation...&#39; this is a conversation you have started, but not yet completed.&lt;br&gt;&lt;br&gt;When you have completed linking accounts, come back to this conversation, and select Back to be brought to the earlier question. Select &#39;Not just yet&#39; to continue with the Introduction conversation." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="3790" y="4860.74" width="300" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="kVzMFh6T5BD9RrOraTKU-4" value="launch_conversation: thPWxNpadJ1J2LFNfuLz-5" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="4200" y="5028.4400000000005" width="96.62" height="96.62" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

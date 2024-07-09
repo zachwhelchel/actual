@@ -11,6 +11,7 @@ import { View } from '../common/View';
 
 import { accountNameStyle } from './Account';
 import { ItemContent } from './ItemContent';
+import { useCoach } from '../coach/Coach';
 
 const fontWeight = 600;
 
@@ -36,6 +37,7 @@ export function SecondaryItem({
   bold,
   indent = 0,
   badge = 0,
+  refForHighlighting,
 }: SecondaryItemProps) {
   const content = (
     <View
@@ -66,6 +68,8 @@ export function SecondaryItem({
     </View>
   );
 
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
   return (
     <View style={{ flexShrink: 0, ...style }}>
       <ItemContent
@@ -85,7 +89,13 @@ export function SecondaryItem({
           fontWeight: bold ? fontWeight : null,
         }}
       >
-        {content}
+        <div
+          ref={element => {
+            commonElementsRef.current[refForHighlighting] = element;
+          }}
+        >
+          {content}
+        </div>
       </ItemContent>
 
 
