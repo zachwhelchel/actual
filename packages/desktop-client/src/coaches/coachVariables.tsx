@@ -31,6 +31,7 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['melodybarthelemy', 'Melody Barthelemy'],
 ['alfredomatos', 'Alfredo Matos'],
 ['aitzanegron', 'Aitzarelys Negrón'],
+['kaylafrancis', 'Kayla Francis'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
 ];
@@ -566,6 +567,11 @@ function modifyVars() {
       REACT_APP_ZOOM_RATE = "111.00 USD / hour"
       REACT_APP_ZOOM_LINK = "https://budgeting.fun/mbc"
     }
+    else if (testPublishedAvatar === "kaylafrancis") {
+      REACT_APP_COACH_FIRST_NAME = "Kayla"
+      REACT_APP_ZOOM_RATE = "55.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://tidycal.com/calmmoneywithkayla/mybudgetcoachsupport"
+    }
     else {
       REACT_APP_COACH_FIRST_NAME = testPublishedAvatar
     }
@@ -595,6 +601,8 @@ function modifyVars() {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you as soon as I can."
   } else if (REACT_APP_COACH === "spencerstephenson") {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you within 2-3 days."
+  } else if (REACT_APP_COACH === "anitadombovari") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll usually get back to you within 1 business day."
   } else {
     REACT_APP_RESPONSE_EXPECTATIONS = null;
   }

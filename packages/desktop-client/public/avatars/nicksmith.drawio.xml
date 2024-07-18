@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" modified="2024-07-08T16:27:34.431Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" etag="Dbat4FftyQVkaS0UzcrI" version="24.6.4" type="google" pages="11">
+<mxfile host="app.diagrams.net" modified="2024-07-11T13:29:59.893Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" etag="hCVcVnOceGtEjAkPtiOm" version="24.6.4" type="google" pages="12">
   <diagram name="Introduction" id="oP8GNghZ1G6uxloS-E3e">
-    <mxGraphModel dx="3794" dy="-327" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3482" dy="-318" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -466,8 +466,8 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="o765YSstnrM0eGmaAv3l-239" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Reconcile&lt;/b&gt;:&amp;nbsp;This is a very important feature. Reconciliation is the process to verify the account balance and transactions in MyBudgetCoach match your bank account." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-          <mxGeometry x="3120.7400000000002" y="4784.17" width="198.5" height="155.78" as="geometry" />
+        <mxCell id="o765YSstnrM0eGmaAv3l-239" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Reconcile&lt;/b&gt;:&amp;nbsp;This is a very important feature. Reconciliation is the process to verify the account balance and transactions in MyBudgetCoach match your bank account.&lt;br&gt;&lt;br&gt;In the future, please select the &#39;Reconciliation Step by Step&#39; conversation if you have any questions on how to reconcile your accounts." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="3120.74" y="4784.17" width="198.5" height="195.83" as="geometry" />
         </mxCell>
         <mxCell id="o765YSstnrM0eGmaAv3l-240" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Link account&lt;/b&gt;:&amp;nbsp;This option allows the user to link MyBudgetCoach to their bank to automate adding transactions." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="3391.12" y="4540" width="150" height="164.07" as="geometry" />
@@ -634,13 +634,13 @@
         <mxCell id="_kuc0ZFKVLGi5P1ckjDy-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="_kuc0ZFKVLGi5P1ckjDy-8" target="krGo6Y4IdwlJ-d1J0omQ-4" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="_kuc0ZFKVLGi5P1ckjDy-8" value="move_to: budget_name" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="_kuc0ZFKVLGi5P1ckjDy-8" value="highlight: budget_name" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="-767.5" y="3290" width="157.5" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Pdve_ut8s3lwwcDRwwHp-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="Pdve_ut8s3lwwcDRwwHp-1" target="krGo6Y4IdwlJ-d1J0omQ-13" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Pdve_ut8s3lwwcDRwwHp-1" value="move_to: add_account" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="Pdve_ut8s3lwwcDRwwHp-1" value="highlight: add_account" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="-277.25" y="4120" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="0-EneBROj2ixGp5UVlga-1" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;In the top left, you will see multiple calendar icons. This option allows you to view multiple months at once (dependent on your browser page zooom level). Once you have used MyBudgetCoach for a few months, this can be a fast way to see a comparison in the amount of an expense compared to the budgeted amount." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
@@ -984,7 +984,7 @@
         <mxCell id="6gzLUpITHpKTlZPTgwAf-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6gzLUpITHpKTlZPTgwAf-26" target="vTFZlRXvEvOfD4v6QNcN-42" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6gzLUpITHpKTlZPTgwAf-26" value="move_to: account_balance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="6gzLUpITHpKTlZPTgwAf-26" value="highlight: account_balance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="5825" y="5851.950000000001" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="FLDXWCCCW5OJnN-EZU37-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.388;entryY=0.994;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="FLDXWCCCW5OJnN-EZU37-48" target="o765YSstnrM0eGmaAv3l-220" edge="1">
@@ -992,7 +992,7 @@
             <mxPoint x="1851.1100000000001" y="4889.700000000001" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="FLDXWCCCW5OJnN-EZU37-48" value="move_to: search_bar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="FLDXWCCCW5OJnN-EZU37-48" value="highlight: search_bar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="1787.3600000000001" y="4939.949999999999" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="FLDXWCCCW5OJnN-EZU37-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.543;entryY=0.989;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="FLDXWCCCW5OJnN-EZU37-50" target="o765YSstnrM0eGmaAv3l-234" edge="1">
@@ -1000,7 +1000,7 @@
             <mxPoint x="2487.3700000000003" y="4882.310000000001" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="FLDXWCCCW5OJnN-EZU37-50" value="move_to: more_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="FLDXWCCCW5OJnN-EZU37-50" value="highlight: more_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="2430.4800000000005" y="4999.949999999999" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="FLDXWCCCW5OJnN-EZU37-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.598;entryY=1.014;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="FLDXWCCCW5OJnN-EZU37-67" target="BPG-7-MJmXJzoU4mIoNJ-10" edge="1">
@@ -1008,19 +1008,19 @@
             <mxPoint x="21.25" y="5801.700000000001" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="FLDXWCCCW5OJnN-EZU37-67" value="move_to: add_new_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="FLDXWCCCW5OJnN-EZU37-67" value="highlight: add_new_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="-42.5" y="5851.949999999999" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6gzLUpITHpKTlZPTgwAf-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6gzLUpITHpKTlZPTgwAf-49" target="o765YSstnrM0eGmaAv3l-181" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6gzLUpITHpKTlZPTgwAf-49" value="move_to: account_balance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="6gzLUpITHpKTlZPTgwAf-49" value="highlight: account_balance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="-80" y="5028.4400000000005" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6gzLUpITHpKTlZPTgwAf-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6gzLUpITHpKTlZPTgwAf-51" target="o765YSstnrM0eGmaAv3l-195" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6gzLUpITHpKTlZPTgwAf-51" value="move_to: import_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="6gzLUpITHpKTlZPTgwAf-51" value="highlight: import_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="337.75" y="5165.890000000001" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6gzLUpITHpKTlZPTgwAf-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="6gzLUpITHpKTlZPTgwAf-53" target="o765YSstnrM0eGmaAv3l-197" edge="1">
@@ -1029,28 +1029,28 @@
         <mxCell id="6gzLUpITHpKTlZPTgwAf-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6gzLUpITHpKTlZPTgwAf-55" target="o765YSstnrM0eGmaAv3l-199" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6gzLUpITHpKTlZPTgwAf-55" value="move_to: filter_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="6gzLUpITHpKTlZPTgwAf-55" value="highlight: filter_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="974.8200000000002" y="4945.89" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="6gzLUpITHpKTlZPTgwAf-53" value="move_to: add_new_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="6gzLUpITHpKTlZPTgwAf-53" value="highlight: add_new_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="669.8200000000002" y="5105.89" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6gzLUpITHpKTlZPTgwAf-58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6gzLUpITHpKTlZPTgwAf-57" target="Nh3sIH_yY3GOMRWhN25i-50" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6gzLUpITHpKTlZPTgwAf-57" value="move_to: split_toggle_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="6gzLUpITHpKTlZPTgwAf-57" value="highlight: split_toggle_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="2130.7400000000002" y="4911.01" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6gzLUpITHpKTlZPTgwAf-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6gzLUpITHpKTlZPTgwAf-61" target="0-EneBROj2ixGp5UVlga-3" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6gzLUpITHpKTlZPTgwAf-61" value="move_to: months_band" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="6gzLUpITHpKTlZPTgwAf-61" value="highlight: months_band" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="784.5" y="7050" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6gzLUpITHpKTlZPTgwAf-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6gzLUpITHpKTlZPTgwAf-63" target="0-EneBROj2ixGp5UVlga-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6gzLUpITHpKTlZPTgwAf-63" value="move_to: calendar_icons" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="6gzLUpITHpKTlZPTgwAf-63" value="highlight: calendar_icons" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="318.7000000000001" y="7070" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="FLDXWCCCW5OJnN-EZU37-103" value="INTRODUCTION / WELCOME TO SOFTWARE" style="rounded=1;whiteSpace=wrap;html=1;fontSize=32;fillColor=#9beece;strokeColor=#9673a6;" parent="1" vertex="1">
@@ -1092,7 +1092,7 @@
             <mxPoint x="1536.5100000000002" y="6951" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="upRpRQDEe1xkYZp5om-L-7" value="move_to: budget_header" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="upRpRQDEe1xkYZp5om-L-7" value="highlight: budget_header" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="1840" y="7030" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="upRpRQDEe1xkYZp5om-L-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="upRpRQDEe1xkYZp5om-L-9" edge="1">
@@ -1100,7 +1100,7 @@
             <mxPoint x="-865" y="7385" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="upRpRQDEe1xkYZp5om-L-9" value="move_to: budget_table" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+        <mxCell id="upRpRQDEe1xkYZp5om-L-9" value="highlight: budget_table" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="-850" y="7467" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="upRpRQDEe1xkYZp5om-L-50" value="BUDGET TABLE SET-UP" style="rounded=1;whiteSpace=wrap;html=1;fontSize=32;fillColor=#9beece;strokeColor=#9673a6;" parent="1" vertex="1">
@@ -1698,13 +1698,13 @@
             <mxPoint x="537.74" y="5836.7" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="bmEBakCKdlfMYZQClKgY-11" value="move_to: select_payee" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="bmEBakCKdlfMYZQClKgY-11" value="highlight: select_payee" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="457.24" y="5878.7" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="e_Fc8fqTuzrKWBLj5eED-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="bmEBakCKdlfMYZQClKgY-13" target="vTFZlRXvEvOfD4v6QNcN-9" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="bmEBakCKdlfMYZQClKgY-13" value="move_to: select_category" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="bmEBakCKdlfMYZQClKgY-13" value="highlight: select_category" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="1354.94" y="5866.7" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ohRaMimYBo7I8y6n9c4w-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.423;entryY=1.005;entryDx=0;entryDy=0;fontStyle=0;entryPerimeter=0;" parent="1" source="ohRaMimYBo7I8y6n9c4w-2" target="vTFZlRXvEvOfD4v6QNcN-21" edge="1">
@@ -1712,7 +1712,7 @@
             <mxPoint x="3040.12" y="5647.21" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ohRaMimYBo7I8y6n9c4w-2" value="move_to: payment_input" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="ohRaMimYBo7I8y6n9c4w-2" value="highlight: payment_input" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="2959.62" y="5689.21" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ohRaMimYBo7I8y6n9c4w-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.554;entryY=0.991;entryDx=0;entryDy=0;fontStyle=0;entryPerimeter=0;" parent="1" source="ohRaMimYBo7I8y6n9c4w-4" target="vTFZlRXvEvOfD4v6QNcN-22" edge="1">
@@ -1720,7 +1720,7 @@
             <mxPoint x="3051.5" y="5948" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ohRaMimYBo7I8y6n9c4w-4" value="move_to: payment_input" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="ohRaMimYBo7I8y6n9c4w-4" value="highlight: payment_input" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="2971" y="5990" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ohRaMimYBo7I8y6n9c4w-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.443;entryY=1.02;entryDx=0;entryDy=0;fontStyle=0;entryPerimeter=0;" parent="1" source="ohRaMimYBo7I8y6n9c4w-6" target="vTFZlRXvEvOfD4v6QNcN-30" edge="1">
@@ -1728,7 +1728,7 @@
             <mxPoint x="4303" y="5798" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ohRaMimYBo7I8y6n9c4w-6" value="move_to: save_transaction" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="ohRaMimYBo7I8y6n9c4w-6" value="highlight: save_transaction" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="4222.5" y="5836.7" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ohRaMimYBo7I8y6n9c4w-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontStyle=0" parent="1" source="ohRaMimYBo7I8y6n9c4w-8" target="vTFZlRXvEvOfD4v6QNcN-35" edge="1">
@@ -1736,7 +1736,7 @@
             <mxPoint x="3982.75" y="5824.7" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ohRaMimYBo7I8y6n9c4w-8" value="move_to: cleared_status_icon" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="ohRaMimYBo7I8y6n9c4w-8" value="highlight: cleared_status_icon" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="3902.25" y="5866.7" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ohRaMimYBo7I8y6n9c4w-9" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;MyBudgetCoach predicts you want to add another transaction each time you add one. You are going to add another test transaction next, but in the future, if you don&#39;t need to add another transaction then select &#39;Cancel&#39; to remove the blank row.&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
@@ -1747,7 +1747,7 @@
             <mxPoint x="6310.5" y="5806.7" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ohRaMimYBo7I8y6n9c4w-12" value="move_to: cleared_status_icon" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="ohRaMimYBo7I8y6n9c4w-12" value="highlight: cleared_status_icon" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="6230" y="5848.7" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ohRaMimYBo7I8y6n9c4w-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontStyle=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" parent="1" source="ohRaMimYBo7I8y6n9c4w-14" target="Quy-Nfqagg3XY1Y7MGQe-13" edge="1">
@@ -1755,7 +1755,7 @@
             <mxPoint x="7798" y="5851.95" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ohRaMimYBo7I8y6n9c4w-14" value="move_to: selected_transactions_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="ohRaMimYBo7I8y6n9c4w-14" value="highlight: selected_transactions_button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="7830" y="5908.7" width="202.5" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ohRaMimYBo7I8y6n9c4w-65" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Quy-Nfqagg3XY1Y7MGQe-13" target="ohRaMimYBo7I8y6n9c4w-63" edge="1">
@@ -1836,7 +1836,7 @@
             <mxPoint x="-526.75" y="7405" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="y8rPjMeGvggNRyEkOGlg-2" value="move_to: category_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="y8rPjMeGvggNRyEkOGlg-2" value="highlight: category_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="-610" y="7451.25" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="y8rPjMeGvggNRyEkOGlg-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontStyle=0" parent="1" source="y8rPjMeGvggNRyEkOGlg-4" target="0-EneBROj2ixGp5UVlga-38" edge="1">
@@ -1844,7 +1844,7 @@
             <mxPoint x="-172.87" y="7570" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="y8rPjMeGvggNRyEkOGlg-4" value="move_to: budgeted_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="y8rPjMeGvggNRyEkOGlg-4" value="highlight: budgeted_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="-253.37" y="7612" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="T8YHGwnET1nDkll6oadf-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontStyle=0" parent="1" source="T8YHGwnET1nDkll6oadf-2" target="0-EneBROj2ixGp5UVlga-44" edge="1">
@@ -1852,7 +1852,7 @@
             <mxPoint x="300.5" y="7547.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="T8YHGwnET1nDkll6oadf-2" value="move_to: spent_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="T8YHGwnET1nDkll6oadf-2" value="highlight: spent_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="50" y="7542.5" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="T8YHGwnET1nDkll6oadf-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.214;entryY=0.993;entryDx=0;entryDy=0;fontStyle=0;entryPerimeter=0;" parent="1" source="T8YHGwnET1nDkll6oadf-4" target="0-EneBROj2ixGp5UVlga-46" edge="1">
@@ -1860,7 +1860,7 @@
             <mxPoint x="704.11" y="7425" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="T8YHGwnET1nDkll6oadf-4" value="move_to: balance_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="T8YHGwnET1nDkll6oadf-4" value="highlight: balance_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="582.7" y="7487.5" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="5jjkMZq2mfzBpqh--dnP-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="T8YHGwnET1nDkll6oadf-5" target="5jjkMZq2mfzBpqh--dnP-3" edge="1">
@@ -1893,7 +1893,7 @@
             <mxPoint x="6550.5" y="8218.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="e_Fc8fqTuzrKWBLj5eED-7" value="move_to: received_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="e_Fc8fqTuzrKWBLj5eED-7" value="highlight: received_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="6470" y="8260.5" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="5jjkMZq2mfzBpqh--dnP-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.015;entryY=0.462;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="5jjkMZq2mfzBpqh--dnP-3" target="e_Fc8fqTuzrKWBLj5eED-4" edge="1">
@@ -2063,6 +2063,12 @@
         </mxCell>
         <mxCell id="kVzMFh6T5BD9RrOraTKU-4" value="launch_conversation: thPWxNpadJ1J2LFNfuLz-5" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="4200" y="5028.4400000000005" width="96.62" height="96.62" as="geometry" />
+        </mxCell>
+        <mxCell id="qvnD4WPZqyppNx7I8EcN-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="qvnD4WPZqyppNx7I8EcN-1" target="TmEJRp-qRndceqDYDyBR-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qvnD4WPZqyppNx7I8EcN-1" value="highlight: message_center" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="-1060" y="1910" width="145" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
@@ -3038,7 +3044,7 @@
             <mxPoint x="640" y="11430" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="lTI1uqipfLHGKBKB0U8O-2" value="move_to: budget_header" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        <mxCell id="lTI1uqipfLHGKBKB0U8O-2" value="highlight: budget_header" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="610" y="11502" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="maNKO5o7-LyaiZ5743tX-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="maNKO5o7-LyaiZ5743tX-2" target="FkoRJDAp-dfsPVDJiTTV-146">
@@ -3531,12 +3537,12 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="Gvh3q4yUFe2W-cMg5fZ5-28" target="Gvh3q4yUFe2W-cMg5fZ5-37">
+        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.327;entryY=0.992;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="Gvh3q4yUFe2W-cMg5fZ5-28" target="g_fCNBe7QMv44DTtpd93-1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="3190" y="2670" as="targetPoint" />
             <Array as="points">
               <mxPoint x="2660" y="3060" />
-              <mxPoint x="2660" y="2510" />
+              <mxPoint x="2660" y="2879" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -3683,7 +3689,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-54" value="move_to: budget_header" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-54" value="highlight: budget_header" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="312.39000000000004" y="2480" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Gvh3q4yUFe2W-cMg5fZ5-56" target="Gvh3q4yUFe2W-cMg5fZ5-36">
@@ -3696,7 +3702,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-56" value="move_to: budgeted_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-56" value="highlight: budgeted_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="410.00000000000017" y="2990" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-58" value="&lt;b&gt;PHASE 2&lt;br&gt;&lt;/b&gt;&lt;br&gt;Could walk the user through how to &#39;add debt&#39; to their credit card categories to get back the &#39;To Budget&#39; number to equal the checking account balance, and then budget dollars for immediate expenses. Any remaining dollars in the &#39;To Budget&#39; can then be used to apply to the credit card categories. This would reduce the negative amount previously entered to get back dollars to use. The resulting amount in the Balance column for the credit cards can then be subtracted from the current balance and that is the payment amount." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
@@ -3711,7 +3717,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-63" value="move_to: budgeted_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-63" value="highlight: budgeted_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="1165.5500000000002" y="2830" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-64" value="END" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
@@ -4180,6 +4186,36 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="g_fCNBe7QMv44DTtpd93-1" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Good for you! In this instance, you have funded all your upcoming expenses and you have dollars left over. What you choose to do with those dollars is up to you." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="2596.5" y="2690" width="166.5" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="g_fCNBe7QMv44DTtpd93-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="g_fCNBe7QMv44DTtpd93-3" target="g_fCNBe7QMv44DTtpd93-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g_fCNBe7QMv44DTtpd93-3" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Here are some ideas:&lt;br&gt;&lt;br&gt;1) Budget additional expenses this month that remain not funded.&lt;br&gt;2) Top up your categories to forward fund for a future month.&lt;br&gt;3) Budget the dollars to a credit card category to increase your payment available.&lt;br&gt;4) Budget dollars for one of your Non-Monthly or Savings categories you haven&#39;t added to for a while." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="2830" y="2490" width="258.5" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="g_fCNBe7QMv44DTtpd93-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.003;entryY=0.432;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="g_fCNBe7QMv44DTtpd93-1" target="g_fCNBe7QMv44DTtpd93-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g_fCNBe7QMv44DTtpd93-5" value="Any suggestions?" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="g_fCNBe7QMv44DTtpd93-4">
+          <mxGeometry x="-0.359" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g_fCNBe7QMv44DTtpd93-6" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Come back to continue the conversation once your dollars have been given a job and your &#39;To Budget&#39; number equals 0." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="3160" y="2575" width="166.5" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="g_fCNBe7QMv44DTtpd93-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="g_fCNBe7QMv44DTtpd93-6" target="ypZEGH-bm9LZ-QMgfSTx-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3801.5" y="2838.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g_fCNBe7QMv44DTtpd93-8" value="Ok; The &#39;To Budget&#39; now equals 0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="g_fCNBe7QMv44DTtpd93-7">
+          <mxGeometry x="-0.103" relative="1" as="geometry">
+            <mxPoint x="-34" y="-19" as="offset" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
@@ -4377,7 +4413,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="KpCQDQLHF9-u_mjDXWbD-6" value="move_to: balance_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+        <mxCell id="KpCQDQLHF9-u_mjDXWbD-6" value="highlight: balance_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="440" y="2445" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ikkCH_3X_KeVY7kvKhKx-7" value="Overspent Categories" style="rounded=1;whiteSpace=wrap;html=1;fontSize=32;fillColor=#9beece;strokeColor=#9673a6;" vertex="1" parent="1">
@@ -5005,7 +5041,538 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="NprMHFkneAb6Uj0a6bL1" name="Verify Your Numbers">
+  <diagram id="v9ejUGZGqAeZGCmI5Mjy" name="Reconciliation Step by Step">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-2" target="mUIonXm5Yku5vpN-HAE_-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-2" value="You need some help reconciling? No problem. I got you." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-630" y="-210" width="160" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-4" target="mUIonXm5Yku5vpN-HAE_-124">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-4" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;The first thing you need to do is figure out what your target balance is. By that I mean, what is the balance in real life that we are matching your MBC account to." style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-135" y="60" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-7" target="mUIonXm5Yku5vpN-HAE_-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-6" value="I&#39;m in" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-5">
+          <mxGeometry x="-0.1524" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-7" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Log in to your account in real life." style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="870" y="-30" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-10" target="mUIonXm5Yku5vpN-HAE_-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-9" value="I&#39;m confident I see it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-8">
+          <mxGeometry x="-0.05" y="-2" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-10" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Ok, you are looking for the most recent &quot;cleared balance.&quot; That&#39;s the balance that does not include the pending charges. It might also be called the &quot;current balance&quot; or the &quot;posted balance.&quot;&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="75" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-13" target="mUIonXm5Yku5vpN-HAE_-27">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1740" y="238" />
+              <mxPoint x="1980" y="238" />
+              <mxPoint x="1980" y="560" />
+              <mxPoint x="460" y="560" />
+              <mxPoint x="460" y="600" />
+            </Array>
+            <mxPoint x="410" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-12" value="Next&lt;br&gt;balance = [user_input]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-11">
+          <mxGeometry x="-0.6883" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-13" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Great work. Now we will tell MBC what your current balance is.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;If you are reconciling a credit card account, please enter the balance as a negative number.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="50" width="220" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-16" target="mUIonXm5Yku5vpN-HAE_-13">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1088" y="360" />
+              <mxPoint x="1690" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-15" value="Ok, I got it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-14">
+          <mxGeometry x="-0.1397" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-16" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;For me, the easiest place to find the balance we need is in the list of recent transactions. Typically there&#39;s a section of pending transactions and below that there&#39;s all the cleared transactions. Often beside each cleared transaction it&#39;ll show the balance after those transactions. Or sometimes it shows it above each day&#39;s list of transactions.&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="940" y="375" width="295" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-19" target="mUIonXm5Yku5vpN-HAE_-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-18" value="Got it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-17">
+          <mxGeometry x="0.1601" y="-6" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-19" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Since it&#39;s a credit card account almost always the pending transactions aren&#39;t included in the main balance that is displayed. So you can use that most prominently displayed balance." style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1540" y="375" width="295" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-20" value="Find the cleared balance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="-100" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-22" target="mUIonXm5Yku5vpN-HAE_-27">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="647.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-22" value="highlight: more_button" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="630" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-27" target="mUIonXm5Yku5vpN-HAE_-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-24" value="I did that and now there&#39;s a box that says &quot;your cleared balance..." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-23">
+          <mxGeometry x="-0.257" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-27" target="mUIonXm5Yku5vpN-HAE_-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-26" value="I did that and now it says &quot;all reconciled&quot;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-25">
+          <mxGeometry x="-0.0139" y="3" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-27" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Click the more button and then &quot;Reconcile&quot; in the account you&#39;re working on.&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Enter [[balance]] in the box and press reconcile.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="410" y="600" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-29" target="mUIonXm5Yku5vpN-HAE_-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-29" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Ok, so currently your MBC account and your real life account don&#39;t match, so let&#39;s figure out why.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1055" y="690" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-34">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-31" value="See you next time" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-30">
+          <mxGeometry x="0.0061" y="1" relative="1" as="geometry">
+            <mxPoint y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-34" target="mUIonXm5Yku5vpN-HAE_-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="940" />
+              <mxPoint x="80" y="940" />
+              <mxPoint x="80" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-33" value="I need to reconcile another account" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-32">
+          <mxGeometry x="-0.5081" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-34" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;The number you entered matched your MBC account. Awesome. Click &quot;Done Reconciling&quot; and celebrate.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="600" y="785" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-38" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-39" target="mUIonXm5Yku5vpN-HAE_-63">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-39" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Click here to show the cleared/uncleared totals for your account balance. We want to be able to see those numbers.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="690" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-40" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-44" target="mUIonXm5Yku5vpN-HAE_-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-41" value="&quot;All reconciled!&quot;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-40">
+          <mxGeometry x="-0.0972" relative="1" as="geometry">
+            <mxPoint y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-42" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-44" target="mUIonXm5Yku5vpN-HAE_-54">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="3070" y="1580" />
+              <mxPoint x="410" y="1580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-43" value="Your cleared balance..." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-42">
+          <mxGeometry x="-0.1139" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-44" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Now that everything is marked as cleared that should be, l&lt;span style=&quot;background-color: initial;&quot;&gt;ook at the reconciliation dialog. What does it say?&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2970" y="970" width="220" height="195" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-49">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2690" y="1430.0000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-46" value="I&#39;m all done now" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-45">
+          <mxGeometry x="-0.0315" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-49" target="mUIonXm5Yku5vpN-HAE_-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="20" y="1263" />
+              <mxPoint x="20" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-48" value="I need to reconcile another account" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-47">
+          <mxGeometry x="-0.8514" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-49" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Congratulations.&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2580" y="1205" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-50" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-54" target="mUIonXm5Yku5vpN-HAE_-57">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-51" value="I&#39;ll book a call" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-50">
+          <mxGeometry x="-0.1528" y="-1" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-52" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-54" target="mUIonXm5Yku5vpN-HAE_-59">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-53" value="I&#39;d like to give it a try." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-52">
+          <mxGeometry x="-0.2667" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-54" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;At this point you&#39;ll need to look for missing, duplicated, mis-typed or otherwise incorrect transactions. I can walk you through some things to look for or you can book a call with me and we can tackle this together.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;direction=west;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1650" width="260" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-57">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="430.0000000000002" y="2060" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-56" value="See you soon" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-55">
+          <mxGeometry x="0.0276" relative="1" as="geometry">
+            <mxPoint y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-57" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Great, I&#39;ll see you soon. In the meantime keep up with entering and categorizing transactions.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="320" y="1845" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-58" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-59" target="mUIonXm5Yku5vpN-HAE_-80">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-59" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Ok, start from the date you last reconciled. You can tell because the cleared/uncleared icon will be a green lock for reconciled transactions.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="790" y="1650" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-60" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-61" target="mUIonXm5Yku5vpN-HAE_-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-61" value="highlight: account_balance" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="590" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-62" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-63" target="mUIonXm5Yku5vpN-HAE_-65">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-63" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Cleared balance represents cleared transactions and uncleared are pending transactions. When we reconcile we are only concerned with cleared transactions, since pending ones can change.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1700" y="690" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-64" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-65" target="mUIonXm5Yku5vpN-HAE_-69">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-65" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;If you look in the far right column,&amp;nbsp; you&#39;ll see little buttons beside each transaction. These indicate if the transaction has cleared the bank (green) or not (grey).&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1985" y="677.5" width="250" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-67" target="mUIonXm5Yku5vpN-HAE_-65">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-67" value="highlight: cleared_status_icon" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2025" y="580" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-68" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-69" target="mUIonXm5Yku5vpN-HAE_-73">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-69" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;If you enter transactions manually then you also have to click these buttons when you notice a charge has cleared. If you use import you won&#39;t have to click them most of the time but might need to mange a few recent ones when you reconcile.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2315" y="677.5" width="250" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-70" value="Click the button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
+          <mxGeometry x="530" y="490" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-71" value="Troubleshoot: uncleared" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
+          <mxGeometry x="1530" y="830" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-136" target="mUIonXm5Yku5vpN-HAE_-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-73" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Go ahead and turn these icons green for anything that is no longer pending in real life, leave them grey if they are still pending. As you do that you should see the cleared balance at the top of the screen change, and you&#39;ll also see the dialog about reconciling change as well.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2645" y="677.5" width="250" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-78" target="mUIonXm5Yku5vpN-HAE_-57">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-78" value="highlight: zoom_link" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1872.5" width="170" height="67.5" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-79" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-80" target="mUIonXm5Yku5vpN-HAE_-82">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-80" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Find that date in your bank as well as your budget account. Look at your bank and go in the order of the transactions there. Check for each one in your budget and check them off (far left of each transaction) as you find them.&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="1650" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-81" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-82" target="mUIonXm5Yku5vpN-HAE_-84">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-82" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Add any transactions that were missed and delete any that are extras. Fix typos if you find them. Also make sure outflows are in the payment column and inflows in the deposit column.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1390" y="1650" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-83" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-84" target="mUIonXm5Yku5vpN-HAE_-89">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-84" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;As you go along you can sometimes check the balance at the end of each day against the balance in real life at the end of that day. This will only work if your dates match for each transaction though.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1690" y="1650" width="250" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-85" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-89" target="mUIonXm5Yku5vpN-HAE_-91">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-86" value="I&#39;m making progress" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-85">
+          <mxGeometry x="-0.1" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-87" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-89" target="mUIonXm5Yku5vpN-HAE_-94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-88" value="It&#39;s confusing" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-87">
+          <mxGeometry x="-0.1944" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-89" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;How&#39;s this working so far?&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2000" y="1650" width="250" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-90" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-91" target="mUIonXm5Yku5vpN-HAE_-99">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-91" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Great, keep it up until you get to the current date.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2350" y="1650" width="250" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-94">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2145" y="2080" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-93" value="Yes, I&#39;m doing that now" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-92">
+          <mxGeometry x="0.0061" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-94" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;I get that. It can be a tricky skill to learn. Would you like to book a call?&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="2020" y="1860" width="250" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-95" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-99" target="mUIonXm5Yku5vpN-HAE_-104">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2805" y="1860" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-96" value="It sure does" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-95">
+          <mxGeometry x="-0.4025" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-97" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-99" target="mUIonXm5Yku5vpN-HAE_-110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-98" value="Still no" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-97">
+          <mxGeometry x="-0.0863" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-99" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Look at the reconciliation dialog.&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Does the reconciliation dialog say &quot;All reconciled!&quot; now?&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="1600" width="250" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-100" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-104">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2800" y="2450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-101" value="I&#39;m all done now" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-100">
+          <mxGeometry x="-0.0315" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-102" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-104" target="mUIonXm5Yku5vpN-HAE_-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-50" y="2283" />
+              <mxPoint x="-50" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-103" value="I need to reconcile another account" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-102">
+          <mxGeometry x="-0.8232" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-104" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Congratulations.&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2690" y="2225" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-108" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-110" target="mUIonXm5Yku5vpN-HAE_-118">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-109" value="Yes please" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-108">
+          <mxGeometry x="-0.2222" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-110" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;There is an option to let the program adjust the balance instead of finding the error. Shall we go ahead and do that?&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3050" y="1920" width="250" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-111" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.001;entryY=0.626;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-94" target="mUIonXm5Yku5vpN-HAE_-110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-112" value="Is there another option?" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-111">
+          <mxGeometry x="-0.47" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-113" value="Troubleshoot: line by line" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
+          <mxGeometry x="550" y="1770" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-114" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-115" target="mUIonXm5Yku5vpN-HAE_-94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-115" value="highlight: zoom_link" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1750" y="1891.25" width="170" height="67.5" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-116" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-140">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3175" y="2580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-117" value="Thanks for your help." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-116">
+          <mxGeometry x="0.0198" y="-1" relative="1" as="geometry">
+            <mxPoint x="1" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-118" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;In your reconciliation dialog box there should be a button that says &quot;create reconcilation transaction.&quot; Go ahead and click that. Then click &quot;Done Reconciling.&quot;&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3050" y="2130" width="250" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-119" value="reconcile_step_by_step" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="-680" y="-340" width="340" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-120" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.005;entryY=0.896;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-124" target="mUIonXm5Yku5vpN-HAE_-132">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="510" y="180" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="270" y="240" />
+              <mxPoint x="510" y="240" />
+              <mxPoint x="510" y="153" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-121" value="Credit card account&lt;br&gt;which_account = credit" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-120">
+          <mxGeometry x="-0.0546" relative="1" as="geometry">
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-122" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-124" target="mUIonXm5Yku5vpN-HAE_-132">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="520" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-123" value="Bank account&lt;br&gt;which_account = bank" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-122">
+          <mxGeometry x="-0.0154" y="2" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-124" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Will you be reconciling a credit card account or a bank account?" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="160" y="60" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-125" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-129" target="mUIonXm5Yku5vpN-HAE_-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-126" value="which_account = bank" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-125">
+          <mxGeometry x="-0.1839" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-127" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-129" target="mUIonXm5Yku5vpN-HAE_-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-128" value="which_account = credit" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-127">
+          <mxGeometry x="-0.3052" y="4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-129" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="260" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-130" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-10" target="mUIonXm5Yku5vpN-HAE_-129">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-131" value="I&#39;m unsure if I&#39;m looking at the right place" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-130">
+          <mxGeometry x="-0.0681" y="-2" relative="1" as="geometry">
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-132" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Thanks! I ask because different types of accounts show balances differently." style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="50" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-133" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.357;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-132" target="mUIonXm5Yku5vpN-HAE_-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-134" value="Ok" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="mUIonXm5Yku5vpN-HAE_-133">
+          <mxGeometry x="0.2645" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-135" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-73" target="mUIonXm5Yku5vpN-HAE_-136">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2895" y="763" as="sourcePoint" />
+            <mxPoint x="3080" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-136" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;It could also be possible that there is a transaction in your bank account, that you don&#39;t see in MyBudgetCoach, pending or cleared. In this case, manually add that transaction(s) to ensure all the transactions that are cleared are included in MyBudgetCoach.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3000" y="677.5" width="250" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-137" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-138" target="mUIonXm5Yku5vpN-HAE_-59">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-138" value="highlight: cleared_status_icon" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="815" y="1810" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-139" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="mUIonXm5Yku5vpN-HAE_-118" target="mUIonXm5Yku5vpN-HAE_-140">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3175" y="2580" as="targetPoint" />
+            <mxPoint x="3175" y="2260" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mUIonXm5Yku5vpN-HAE_-140" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;You&#39;re now all set to move forward. Be sure to reconcile often moving forward&lt;span style=&quot;background-color: initial;&quot;&gt;, 2-3 times per week,&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;and hopefully you&#39;ll be able to find errors and not have to make adjustments.&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3050" y="2320" width="250" height="130" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="NprMHFkneAb6Uj0a6bL1" name="OLD_Verify Your Numbers">
     <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
