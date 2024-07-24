@@ -123,6 +123,10 @@ export function Accounts({
     }
   }
 
+  if (REACT_APP_BILLING_STATUS === 'paid') {
+    mode = "subscribed";
+  }
+
   const messageCenterText = "Message Center";
 
   return (
