@@ -33,6 +33,7 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['aitzanegron', 'Aitzarelys Negrón'],
 ['kaylafrancis', 'Kayla Francis'],
 ['jennyphan', 'Jenny Phan'],
+['dariomartinezbatlle', 'Darío Martínez Batlle'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
 ];
@@ -578,6 +579,11 @@ function modifyVars() {
       REACT_APP_ZOOM_RATE = "50.00 USD / 30 Minute Session"
       REACT_APP_ZOOM_LINK = "https://stan.store/worththehappiness/p/mybudgetcoach-call"
     }
+    else if (testPublishedAvatar === "dariomartinezbatlle") {
+      REACT_APP_COACH_FIRST_NAME = "Darío"
+      REACT_APP_ZOOM_RATE = "55.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://saldelaolla.com/asesoria-mbc/"
+    }
 
     else {
       REACT_APP_COACH_FIRST_NAME = testPublishedAvatar
@@ -612,6 +618,8 @@ function modifyVars() {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll usually get back to you within 1 business day."
   } else if (REACT_APP_COACH === "jennyphan") {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll usually get back to you within 2 business days."
+  } else if (REACT_APP_COACH === "dariomartinezbatlle") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you within 12 hours of receipt. (No dudes en enviarme un mensaje en cualquier momento. Me comunicaré con usted dentro de las 12 horas posteriores a la recepción.)"
   } else {
     REACT_APP_RESPONSE_EXPECTATIONS = null;
   }
