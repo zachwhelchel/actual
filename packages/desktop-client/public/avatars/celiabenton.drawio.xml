@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" modified="2024-06-28T16:40:21.409Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" etag="hZhrVvwc6F0ozYo2rcEa" version="24.6.4" type="google" pages="6">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" version="24.7.6" pages="6">
   <diagram name="Introduction" id="8A6B2itoGrBxZCfid9ey">
-    <mxGraphModel dx="3250" dy="3001" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2818" dy="2985" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="X05_oEHc6OvStZvd9sHa-0" />
         <mxCell id="X05_oEHc6OvStZvd9sHa-1" parent="X05_oEHc6OvStZvd9sHa-0" />
@@ -9,7 +9,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-4" value="&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;Welcome to MyBudgetCoach. I&#39;m so proud of you for taking this first step to get started budgeting, or to try a new budgeting method. My name is Celia and I&#39;m going to guide you through this process.&amp;nbsp;&lt;br&gt;&lt;/span&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-940" y="-1950" width="180" height="180" as="geometry" />
+          <mxGeometry x="-1300" y="-1962.5" width="180" height="180" as="geometry" />
         </mxCell>
         <mxCell id="Mt5t8YbRi3xNaUupuHmW-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-6" target="Mt5t8YbRi3xNaUupuHmW-6" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -27,7 +27,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-10" value="I&#39;m a real person who LOVES to budget and talk about budgets. But my virtual persona is not nearly as good a listener as real life me. My avatar is going to be a great companion to walk you through the budget set up and some budget habits, but if you need a real live listening ear please feel free to book a time for us to meet.&amp;nbsp;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-690" y="-1955" width="230" height="230" as="geometry" />
+          <mxGeometry x="-1050" y="-1967.5" width="230" height="230" as="geometry" />
         </mxCell>
         <mxCell id="sfScXDn0TcSr4skk0aFr-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-11" target="Mt5t8YbRi3xNaUupuHmW-6" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -65,18 +65,23 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-17" value="highlight: zoom_link" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-392.5" y="-2000" width="145" height="60" as="geometry" />
+          <mxGeometry x="-752.5" y="-2012.5" width="145" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-19" target="Mt5t8YbRi3xNaUupuHmW-1" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="uFhz5gwCpI0wEdVVTb0j-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-0" target="Mt5t8YbRi3xNaUupuHmW-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-340" y="-1880" as="sourcePoint" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-5" value="Tell me more about who I&#39;d be meeting" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uFhz5gwCpI0wEdVVTb0j-4" vertex="1" connectable="0">
+        <mxCell id="uFhz5gwCpI0wEdVVTb0j-5" value="Tell me more about who I&#39;d be messaging" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uFhz5gwCpI0wEdVVTb0j-4" vertex="1" connectable="0">
           <mxGeometry x="-0.0042" y="-1" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-19" target="UyHVrlg2qw-z4wxs_jO1-0" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-19" value="&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;/span&gt;&lt;br&gt;Here&#39;s where you can book a time to chat with me in real life. This would be an additional cost per hour.&amp;nbsp;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-380" y="-1895" width="120" height="120" as="geometry" />
+          <mxGeometry x="-740" y="-1907.5" width="120" height="120" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-24" target="X05_oEHc6OvStZvd9sHa-26" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -295,6 +300,11 @@
         <mxCell id="X05_oEHc6OvStZvd9sHa-77" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-78" target="X05_oEHc6OvStZvd9sHa-256" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-12" value="By the way..." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="X05_oEHc6OvStZvd9sHa-77" connectable="0" vertex="1">
+          <mxGeometry x="-0.1289" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-78" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;br&gt;While it&#39;s set to multiple months you can use the months bar here to choose which months are displayed. You might choose this month and last right at the beginning of a month or this month and next toward the end of a month." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="2030" y="-1690" width="190" height="160" as="geometry" />
         </mxCell>
@@ -423,7 +433,7 @@
         <mxCell id="X05_oEHc6OvStZvd9sHa-117" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-118" target="X05_oEHc6OvStZvd9sHa-114" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-118" value="delete_category_group: Usual Expenses&lt;br&gt;delete_category_group: Investments and Savings&lt;br&gt;create_category_group: Monthly Bills - Needs&lt;br&gt;create_category: Monthly Bills - Needs: Rent/Mortgage&lt;br&gt;create_category: Monthly Bills - Needs: Utilities&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Phone&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Internet&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;TV/Streaming&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Car Payment&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Car Insurance&lt;br&gt;create_category: Monthly Bills - Needs: Debt&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Subscriptions&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Gym or other memberships&lt;br&gt;create_category: Monthly Bills - Needs: Childcare&lt;br&gt;create_category: Monthly Bills - Needs: School Lunch&lt;br&gt;create_category_group: Monthly Bills - Wants" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+        <mxCell id="X05_oEHc6OvStZvd9sHa-118" value="delete_category_group: Usual Expenses&lt;br&gt;delete_category_group: Investments and Savings&lt;br&gt;create_category_group: Monthly Bills - Needs&lt;br&gt;create_category: Monthly Bills - Needs: Rent/Mortgage&lt;br&gt;create_category: Monthly Bills - Needs: Utilities&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Phone&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Internet&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;TV/Streaming&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Car Payment&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Car Insurance&lt;br&gt;create_category: Monthly Bills - Needs: Debt&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Subscriptions&lt;br&gt;create_category: Monthly Bills - Needs:&amp;nbsp;Gym or other memberships&lt;br&gt;create_category: Monthly Bills - Needs: Childcare&lt;br&gt;create_category: Monthly Bills - Needs: School Lunch&lt;br&gt;create_category_group: Monthly Bills - Wants" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="3890" y="1520" width="420" height="350" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-119" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-120" target="X05_oEHc6OvStZvd9sHa-258" edge="1">
@@ -463,7 +473,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-124" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;So in summary, here&#39;s the plan&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;Part 1&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;Interactive Practice&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;1. Categories&lt;/div&gt;&lt;div style=&quot;&quot;&gt;2. Accounts&lt;/div&gt;&lt;div style=&quot;&quot;&gt;3. Budgeting&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;Part 2&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;b&gt;Your Real Budget&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;1. Categories&lt;/div&gt;&lt;div style=&quot;&quot;&gt;2. Accounts&lt;/div&gt;&lt;div style=&quot;&quot;&gt;3. Budgeting&lt;/div&gt;&lt;div style=&quot;font-style: italic;&quot;&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="1020" y="-1700" width="240" height="260" as="geometry" />
+          <mxGeometry x="1037.96" y="-1485" width="240" height="260" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-129" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-130" target="X05_oEHc6OvStZvd9sHa-133" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -477,7 +487,7 @@
         <mxCell id="X05_oEHc6OvStZvd9sHa-132" value="move_to: budget_name" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="1612.5" y="-960" width="145" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-133" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Nice! Now I&#39;ll just walk you through the accounts screen so you know where things are. You can also come back and reset the avatar if you forget." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+        <mxCell id="X05_oEHc6OvStZvd9sHa-133" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Nice! Now I&#39;ll just walk you through the accounts screen so you know where things are. If you need a refresher later, you can click the three dots in the lower right of this box to reset any conversation to go through it again." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="1869.5" y="-1200" width="160.5" height="161.25" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-134" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-135" target="X05_oEHc6OvStZvd9sHa-133" edge="1">
@@ -500,7 +510,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-137" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Now click &quot;Create Local Account&quot;. Name your account &quot;Treasure&quot;, select the cash account type and then enter a balance of $576.35.&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;When you click &quot;create&quot; it will take you to that account screen.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+        <mxCell id="X05_oEHc6OvStZvd9sHa-137" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Now click &quot;Create Local Account&quot;. Name your account &quot;Treasure Hoard&quot;, select the cash account type and then enter a balance of $576.35.&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;When you click &quot;create&quot; it will take you to that account screen.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="2610" y="-1170" width="200" height="130" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-138" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-139" target="X05_oEHc6OvStZvd9sHa-137" edge="1">
@@ -515,101 +525,49 @@
         <mxCell id="X05_oEHc6OvStZvd9sHa-141" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;In MyBudgetCoach we base our budget on the money we currently have, not an estimate of what we&#39;ll earn in a month. That makes the accounts section a key part of the budget because it tracks how much money we have available." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="2147" y="-1190" width="190" height="186.25" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-142" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.978;exitDx=0;exitDy=0;exitPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-146" target="6PfKHOYl5Rl3Pasw2H_J-43" edge="1">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.739;exitY=0.733;exitDx=0;exitDy=0;exitPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-146" target="UyHVrlg2qw-z4wxs_jO1-24" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="4141.867586206897" y="3490" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="3125" y="3540" />
-              <mxPoint x="4137" y="3540" />
-              <mxPoint x="4137" y="3980" />
+              <mxPoint x="3170" y="3560" />
+              <mxPoint x="3596" y="3560" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-143" value="I have no credit cards&lt;br&gt;credit_cards = no" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="X05_oEHc6OvStZvd9sHa-142" connectable="0" vertex="1">
-          <mxGeometry x="-0.4603" y="1" relative="1" as="geometry">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-30" value="No credit cards&lt;div&gt;credit_cards = no&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-25" connectable="0" vertex="1">
+          <mxGeometry x="0.2576" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-144" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-146" target="X05_oEHc6OvStZvd9sHa-163" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-145" value="I have credit card debt that I plan to pay off over time&lt;br&gt;credit_cards = debt" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="X05_oEHc6OvStZvd9sHa-144" vertex="1" connectable="0">
-          <mxGeometry x="0.2844" y="-2" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-82" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-146" target="uFhz5gwCpI0wEdVVTb0j-81" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-83" value="Something else" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uFhz5gwCpI0wEdVVTb0j-82" connectable="0" vertex="1">
-          <mxGeometry x="0.127" y="1" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-146" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Let&#39;s keep going. Do you have credit cards that you use regularly? (Yes/No)" style="html=1;whiteSpace=wrap;aspect=fixed;shape=isoRectangle;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="3030" y="3450" width="189.58" height="113.75" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-147" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-148" target="X05_oEHc6OvStZvd9sHa-166" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-148" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Now click &quot;Create Local Account.&quot; Name your account, choose credit card as the account type, and then enter the current balance of that account." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="3742.04" y="3282.5" width="190" height="117.5" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-149" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-150" target="X05_oEHc6OvStZvd9sHa-148" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-150" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Got that number? Select + Add Account!" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="3790" y="3441.25" width="160" height="62.5" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-151" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-152" target="X05_oEHc6OvStZvd9sHa-150" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-152" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;In order to keep track of your spending within your budget we will add each credit card as it&#39;s own account. Please go find out the current balances." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="3533.52" y="3370" width="190" height="140" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-153" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.023;entryY=0.574;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.987;exitY=0.489;exitDx=0;exitDy=0;exitPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-146" target="X05_oEHc6OvStZvd9sHa-152" edge="1">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.488;exitY=0.037;exitDx=0;exitDy=0;exitPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-146" target="UyHVrlg2qw-z4wxs_jO1-26" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="3276.95" y="3485.6666666666665" as="sourcePoint" />
-            <mxPoint x="3377.04" y="3340.69" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="3262.04" y="3486" />
-              <mxPoint x="3338.04" y="3486" />
-              <mxPoint x="3338.04" y="3342" />
+              <mxPoint x="3125" y="3420" />
+              <mxPoint x="3125" y="3380" />
+              <mxPoint x="3496" y="3380" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-154" value="Yes, I use them for regular spending and pay them off&lt;br&gt;credit_cards = yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="X05_oEHc6OvStZvd9sHa-153" connectable="0" vertex="1">
-          <mxGeometry x="0.2064" relative="1" as="geometry">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-32" value="I have credit cards I pay in full&lt;div&gt;credit_cards = yes&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-27" connectable="0" vertex="1">
+          <mxGeometry x="-0.0791" y="2" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-146" target="UyHVrlg2qw-z4wxs_jO1-28" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-31" value="I have credit cards with debt&lt;div&gt;credit_cards = debt&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-29" connectable="0" vertex="1">
+          <mxGeometry x="-0.1825" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X05_oEHc6OvStZvd9sHa-146" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Let&#39;s keep going. Do you have credit cards? (if more than one answer applies choose one and we&#39;ll circle back)" style="html=1;whiteSpace=wrap;aspect=fixed;shape=isoRectangle;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="2947.42" y="3420.12" width="249.58" height="149.75" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-157" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-158" target="X05_oEHc6OvStZvd9sHa-139" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-158" value="move_to: add_account" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="2429.16" y="-980" width="145" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-161" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-163" target="6PfKHOYl5Rl3Pasw2H_J-43" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-162" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="X05_oEHc6OvStZvd9sHa-161" connectable="0" vertex="1">
-          <mxGeometry x="-0.8162" y="1" relative="1" as="geometry">
-            <mxPoint x="-1" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-163" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;No problem. For now we will treat those credit card payments the same way we enter other expenses, using the debt category in your budget. So we won&#39;t add them as an account.&amp;nbsp;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Do you also have credit cards that you spend from?&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="3416.04" y="3610" width="193.96" height="180" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-164" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-166" target="6PfKHOYl5Rl3Pasw2H_J-43" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-165" value="All Done" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="X05_oEHc6OvStZvd9sHa-164" vertex="1" connectable="0">
-          <mxGeometry x="-0.0704" y="3" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-166" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Repeat those steps for any other cards you regularly spend with." style="whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="4006.04" y="3320" width="130" height="110" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-167" value="Add Transaction" style="shape=ext;double=1;rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="1257" y="-560" width="156" height="50" as="geometry" />
@@ -655,7 +613,7 @@
         <mxCell id="X05_oEHc6OvStZvd9sHa-182" value="highlight: account_balance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="3014.5" y="-340" width="145" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-184" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Let&#39;s delete this transaction. If you hover over the transaction you&#39;ll see a checkbox appear to the left of the date. Select the box to select the transaction." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+        <mxCell id="X05_oEHc6OvStZvd9sHa-184" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Let&#39;s delete this transaction. If you hover over the transaction you&#39;ll see a checkbox appear to the left of the date. Select the box to select the transaction." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="3263.98" y="-515" width="190" height="120" as="geometry" />
         </mxCell>
         <mxCell id="nRj88mex5m87xhBWKEBp-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-186" target="nRj88mex5m87xhBWKEBp-19" edge="1">
@@ -727,14 +685,14 @@
         <mxCell id="X05_oEHc6OvStZvd9sHa-205" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-206" target="X05_oEHc6OvStZvd9sHa-208" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-206" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;You are doing so great. The key to experiencing budgeting joy and success is consistency so keep coming back and working with your budget. I&#39;ll pop up every now and then to offer guidance.&lt;br&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="1660" y="5950.73" width="222.5" height="169.27" as="geometry" />
+        <mxCell id="X05_oEHc6OvStZvd9sHa-206" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;You are doing so great. The key to experiencing budgeting joy and success is consistency so keep coming back and working with your budget. I&#39;ll pop up every now and then to offer guidance. You can also check out the various conversations I&#39;ve written about different topics you might need support with.&lt;br&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="1661" y="5950.73" width="229" height="209.27" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-207" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-208" target="X05_oEHc6OvStZvd9sHa-210" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-208" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;If you need some extra encouragement or have specific questions don&#39;t hesitate to book a video call with me (budget for it first).&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="1938.34" y="5960.73" width="214.16" height="110.52" as="geometry" />
+        <mxCell id="X05_oEHc6OvStZvd9sHa-208" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;If you need some extra encouragement or have specific questions don&#39;t hesitate to book a video call with me (budget for it first) or shoot me a message in the message center.&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="1940" y="5930" width="212.5" height="141.25" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-209" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.602;entryY=-0.014;entryDx=0;entryDy=0;entryPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-210" target="X05_oEHc6OvStZvd9sHa-195" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -880,11 +838,11 @@
         <mxCell id="X05_oEHc6OvStZvd9sHa-254" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;You have three options for keeping accounts up to date in MyBudgetCoach. One is simply entering transactions manually. Another is downloading a file from your bank and importing that. The third option is using a third party syncing software (SimpleFIN). For the moment we&#39;re going to stick with manual entry while we learn (and because fantasy land doesn&#39;t have banks to import from)." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="2113.75" y="-940" width="272.5" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-255" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-256" target="X05_oEHc6OvStZvd9sHa-82" edge="1">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-256" target="UyHVrlg2qw-z4wxs_jO1-8" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-256" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;br&gt;If my face is in the way while you&#39;re learning try out different month displays to help." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="2171.58" y="-1920" width="190" height="160" as="geometry" />
+        <mxCell id="X05_oEHc6OvStZvd9sHa-256" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;br&gt;If my face is in the way while you&#39;re learning try out different month displays to help. It&#39;s also possible to close the avatar window while you&#39;re working and then pick up where we left off by selecting the conversation from the left sidebar." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="2015" y="-1897.5" width="190" height="160" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-257" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-258" target="X05_oEHc6OvStZvd9sHa-122" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -938,7 +896,7 @@
         <mxCell id="X05_oEHc6OvStZvd9sHa-272" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-273" target="X05_oEHc6OvStZvd9sHa-269" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-273" value="create_category_group: Live Needs&lt;br&gt;create_category: Live Needs: Groceries&lt;br&gt;create_category: Live Needs: Gas&lt;br&gt;create_category: Live Needs: Household Goods&lt;br&gt;create_category: Live Needs: Dining Out&lt;br&gt;create_category: Live Needs: Food at work or school&lt;br&gt;create_category: Live Needs: Allowance&lt;br&gt;create_category: Live Needs: Diapers&lt;br&gt;create_category: Live Needs: Formula and baby items&lt;br&gt;create_category: Live Needs: Parking/Tolls&lt;br&gt;create_category: Live Needs: Date Night&lt;br&gt;create_category: Live Needs: Hobbies&lt;br&gt;create_category: Live Needs: Activities with friends&lt;br&gt;create_category_group: Live Wants" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+        <mxCell id="X05_oEHc6OvStZvd9sHa-273" value="create_category_group: Live Needs&lt;br&gt;create_category: Live Needs: Groceries&lt;br&gt;create_category: Live Needs: Gas&lt;br&gt;create_category: Live Needs: Household Goods&lt;br&gt;create_category: Live Needs: Dining Out&lt;br&gt;create_category: Live Needs: Food at work or school&lt;br&gt;create_category: Live Needs: Allowance&lt;br&gt;create_category: Live Needs: Diapers&lt;br&gt;create_category: Live Needs: Formula and baby items&lt;br&gt;create_category: Live Needs: Parking/Tolls&lt;br&gt;create_category: Live Needs: Date Night&lt;br&gt;create_category: Live Needs: Hobbies&lt;br&gt;create_category: Live Needs: Activities with friends&lt;br&gt;create_category_group: Live Wants" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="5320" y="1595" width="390" height="265" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-274" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-275" target="X05_oEHc6OvStZvd9sHa-279" edge="1">
@@ -993,13 +951,13 @@
         <mxCell id="X05_oEHc6OvStZvd9sHa-287" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-288" target="X05_oEHc6OvStZvd9sHa-294" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-288" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Accio categories" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+        <mxCell id="X05_oEHc6OvStZvd9sHa-288" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Accio categories" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="6720" y="1900" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-289" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-290" target="X05_oEHc6OvStZvd9sHa-294" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-290" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;You&#39;re a pro by now. Here are some ideas:&lt;br&gt;&lt;br&gt;Appliances&lt;br&gt;Furniture&lt;br&gt;Outdoor/Seasonal&lt;br&gt;Repairs&lt;br&gt;Pest control&lt;br&gt;Phone/device replacement&lt;br&gt;Back to school&lt;br&gt;Sports/Activities&lt;br&gt;Clothes&lt;br&gt;Pool or museum memberships&lt;br&gt;Birthdays&lt;br&gt;Holidays&lt;br&gt;Car maintenance&lt;br&gt;Annual taxes/vehicle registration&lt;br&gt;Next car savings&lt;br&gt;License or passport renewal&lt;br&gt;Medical/dental&lt;br&gt;Gift giving&lt;br&gt;Travel&lt;br&gt;Winter Holidays" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+        <mxCell id="X05_oEHc6OvStZvd9sHa-290" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;You&#39;re a pro by now. Here are some ideas:&lt;br&gt;&lt;br&gt;Appliances&lt;br&gt;Furniture&lt;br&gt;Outdoor/Seasonal&lt;br&gt;Repairs&lt;br&gt;Pest control&lt;br&gt;Phone/device replacement&lt;br&gt;Back to school&lt;br&gt;Sports/Activities&lt;br&gt;Clothes&lt;br&gt;Pool or museum memberships&lt;br&gt;Birthdays&lt;br&gt;Holidays&lt;br&gt;Car maintenance&lt;br&gt;Annual taxes/vehicle registration&lt;br&gt;Next car savings&lt;br&gt;License or passport renewal&lt;br&gt;Medical/dental&lt;br&gt;Gift giving&lt;br&gt;Travel&lt;br&gt;Winter Holidays" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="6290" y="2080" width="290" height="380" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-291" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-292" target="X05_oEHc6OvStZvd9sHa-288" edge="1">
@@ -1149,7 +1107,7 @@
           <mxGeometry x="5557" y="-50" width="350" height="140" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-349" value="If I have time, add more examples and support here upon request. OR add a zoom call prompt (or both)" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="6850" y="-45" width="260" height="95" as="geometry" />
+          <mxGeometry x="6630" y="-120" width="260" height="95" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-350" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-351" target="X05_oEHc6OvStZvd9sHa-353" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -1331,7 +1289,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-396" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Now, I want you to go away for a couple days and come back once there are a few transactions in your bank account. We want at least 3 things to practice with but not more than 10. That way it’s manageable for both of us. See you soon." style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+        <mxCell id="X05_oEHc6OvStZvd9sHa-396" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Now, I want you to go away for a couple days (set a reminder if you need one) and come back once there are a few transactions in your bank account. We want at least 3 things to practice with but not more than 10. That way it’s manageable for both of us. See you soon." style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="3723.52" y="4500" width="437.96" height="150" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-397" value="Budget theory and check to budget amount" style="shape=ext;double=1;rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
@@ -1343,31 +1301,22 @@
         <mxCell id="X05_oEHc6OvStZvd9sHa-399" value="Working with real transactions, overspending" style="shape=ext;double=1;rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="290" y="5300" width="156" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-400" value="Add explanation about new conversations when that feature is ready." style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="2654.16" y="6100" width="265.84" height="140" as="geometry" />
-        </mxCell>
         <mxCell id="HKzvCO_lyAij1i0kMrJ_-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-401" target="X05_oEHc6OvStZvd9sHa-102" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-401" value="highlight: category_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="4495" y="-1720" width="145" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-403" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.499;entryY=0.977;entryDx=0;entryDy=0;entryPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="X05_oEHc6OvStZvd9sHa-163" target="X05_oEHc6OvStZvd9sHa-146" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-404" value="yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="X05_oEHc6OvStZvd9sHa-403" connectable="0" vertex="1">
-          <mxGeometry x="0.0411" y="1" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="X05_oEHc6OvStZvd9sHa-405" value="Break?" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="5600" y="-350" width="120" height="80" as="geometry" />
-        </mxCell>
         <mxCell id="X05_oEHc6OvStZvd9sHa-406" value="Break" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="7380" y="2030" width="120" height="80" as="geometry" />
         </mxCell>
         <mxCell id="WcPwW6M_rUja9-z-4b_C-0" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="WcPwW6M_rUja9-z-4b_C-1" target="WcPwW6M_rUja9-z-4b_C-3" edge="1">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-19" value="Sure do" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="WcPwW6M_rUja9-z-4b_C-0" connectable="0" vertex="1">
+          <mxGeometry x="0.0358" relative="1" as="geometry">
+            <mxPoint y="-1" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="WcPwW6M_rUja9-z-4b_C-1" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Welcome back. Do you have some real life spending we can use to practice your skills?" style="whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="600" y="5240" width="437.96" height="150" as="geometry" />
@@ -1458,7 +1407,7 @@
         <mxCell id="uFhz5gwCpI0wEdVVTb0j-27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="WcPwW6M_rUja9-z-4b_C-24" target="uFhz5gwCpI0wEdVVTb0j-26" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="WcPwW6M_rUja9-z-4b_C-24" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;No problem, here are some things to check" style="whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+        <mxCell id="WcPwW6M_rUja9-z-4b_C-24" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;No problem, here are some things to check&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Or you can use the reconciliation step by step conversation&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="2409.52" y="5640" width="170.96" height="140" as="geometry" />
         </mxCell>
         <mxCell id="WcPwW6M_rUja9-z-4b_C-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="WcPwW6M_rUja9-z-4b_C-26" target="WcPwW6M_rUja9-z-4b_C-28" edge="1">
@@ -1564,7 +1513,7 @@
         <mxCell id="Mt5t8YbRi3xNaUupuHmW-1" value="&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;I live in New Hampshire with my husband, three kids and a dog.&amp;nbsp;&lt;br&gt;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;Do you have a partner you&#39;ll be budgeting with?&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="-176.54" y="-1950" width="180" height="180" as="geometry" />
         </mxCell>
-        <mxCell id="Mt5t8YbRi3xNaUupuHmW-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="Mt5t8YbRi3xNaUupuHmW-6" target="X05_oEHc6OvStZvd9sHa-124" edge="1">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="Mt5t8YbRi3xNaUupuHmW-6" target="UyHVrlg2qw-z4wxs_jO1-4" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="Mt5t8YbRi3xNaUupuHmW-6" value="&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;/span&gt;&lt;br&gt;First we are just going to play around in a practice budget and I&#39;ll teach you some of the basic features and how to navigate the program. That won&#39;t take long and should be fun and low stakes.&amp;nbsp;&lt;br&gt;&lt;br&gt;Once you&#39;ve got the hang of that we&#39;ll make a brand new fresh budget for you to add your real information to and I&#39;ll walk you through the same steps there.&lt;br&gt;&lt;/span&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
@@ -1873,10 +1822,10 @@
         <mxCell id="6PfKHOYl5Rl3Pasw2H_J-8" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Welcome back. It&#39;s time to create your real budget.&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Read these steps carefully because I temporarily disappear while you&#39;re between budgets.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Click on &quot;Fantasy Land&quot;. Select &quot;close budget&quot;. Then on that screen select &quot;create new budget&quot;.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Just so you know, in the new budget our conversation starts at the beginning but if you click through a few boxes it&#39;ll give you an option that says &quot;I&#39;m ready for my real budget&quot;. Click that and you&#39;ll jump ahead to where you belong.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="815" y="1400" width="300" height="230" as="geometry" />
         </mxCell>
-        <mxCell id="6PfKHOYl5Rl3Pasw2H_J-13" value="Gif Here" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+        <mxCell id="6PfKHOYl5Rl3Pasw2H_J-13" value="Fairy godmother&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="3315" y="1595" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="6PfKHOYl5Rl3Pasw2H_J-14" value="Gif here" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+        <mxCell id="6PfKHOYl5Rl3Pasw2H_J-14" value="penguin wizard" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="4745" y="1577.5" width="120" height="80" as="geometry" />
         </mxCell>
         <mxCell id="6PfKHOYl5Rl3Pasw2H_J-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="6PfKHOYl5Rl3Pasw2H_J-15" target="X05_oEHc6OvStZvd9sHa-222" edge="1">
@@ -1951,11 +1900,12 @@
         <mxCell id="6PfKHOYl5Rl3Pasw2H_J-37" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Now we want to add the pending charges. Click &quot;Add new&quot; and type in each charge. If you need a reminder about how to do this you can go back to your Fantasy Land budget and reset the avatar there to get step by step instructions, then come back here and pick up right where you left off.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="3117.37" y="3940" width="252.37" height="180" as="geometry" />
         </mxCell>
-        <mxCell id="6PfKHOYl5Rl3Pasw2H_J-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="6PfKHOYl5Rl3Pasw2H_J-40" target="X05_oEHc6OvStZvd9sHa-146" edge="1">
+        <mxCell id="6PfKHOYl5Rl3Pasw2H_J-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.58;entryY=0.921;entryDx=0;entryDy=0;entryPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="6PfKHOYl5Rl3Pasw2H_J-40" target="X05_oEHc6OvStZvd9sHa-146" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="3529" y="3810" />
               <mxPoint x="3125" y="3810" />
+              <mxPoint x="3125" y="3552" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -1968,7 +1918,7 @@
               <mxPoint x="4607" y="4130" />
               <mxPoint x="775" y="4130" />
               <mxPoint x="775" y="4060" />
-              <mxPoint x="-2340" y="4060" />
+              <mxPoint x="-1460" y="4060" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -1980,38 +1930,6 @@
         </mxCell>
         <mxCell id="qwSSUxlTscKqnGuukSl--1" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Here&#39;s your budget and now it has money in the &quot;to budget&quot; section. Let&#39;s take a look at that real quick before we start budgeting." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="-1550" y="4432.5" width="240" height="110" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0;exitDx=0;exitDy=15;exitPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--22" target="qwSSUxlTscKqnGuukSl--18" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="-470" y="4547.5" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--9" value="credit_cards = no" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="qwSSUxlTscKqnGuukSl--8" connectable="0" vertex="1">
-          <mxGeometry x="-0.1023" y="3" relative="1" as="geometry">
-            <mxPoint y="1" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--22" target="qwSSUxlTscKqnGuukSl--18" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="-525" y="4457.5" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--11" value="credit_cards = debt" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="qwSSUxlTscKqnGuukSl--10" connectable="0" vertex="1">
-          <mxGeometry x="0.2211" y="2" relative="1" as="geometry">
-            <mxPoint x="1" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--22" target="qwSSUxlTscKqnGuukSl--19" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--13" value="credit_cards = yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="qwSSUxlTscKqnGuukSl--12" connectable="0" vertex="1">
-          <mxGeometry x="0.1655" y="-3" relative="1" as="geometry">
-            <mxPoint x="1" as="offset" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="qwSSUxlTscKqnGuukSl--14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--16" target="qwSSUxlTscKqnGuukSl--21" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -2026,127 +1944,28 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-48" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--16" target="UyHVrlg2qw-z4wxs_jO1-47" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-49" value="No, I&#39;m confused" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-48" connectable="0" vertex="1">
+          <mxGeometry x="-0.087" y="1" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="qwSSUxlTscKqnGuukSl--16" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;&amp;nbsp;If you look at the to budget number does it make sense to you?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="-1020" y="4442.5" width="300" height="135" as="geometry" />
         </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--18" target="qwSSUxlTscKqnGuukSl--27" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--30" value="That fixed it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="qwSSUxlTscKqnGuukSl--17" connectable="0" vertex="1">
-          <mxGeometry x="0.2486" y="-1" relative="1" as="geometry">
-            <mxPoint x="-1" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--18" target="qwSSUxlTscKqnGuukSl--33" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--35" value="It&#39;s still lower than I expected" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="qwSSUxlTscKqnGuukSl--34" connectable="0" vertex="1">
-          <mxGeometry x="-0.2405" y="-6" relative="1" as="geometry">
-            <mxPoint x="1" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--18" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Remember in our example budget how the &quot;to budget&quot; number was less than the account balance since we hadn&#39;t budgeted for the spending we&#39;d done recently? Do you have any categories that have negatives in the balance column at the moment? Try covering that spending and see if the &quot;to budget&quot; number now matches the amount in your account." style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-280" y="4397.5" width="330" height="180" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--19" target="qwSSUxlTscKqnGuukSl--27" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--44" value="That makes sense now" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="qwSSUxlTscKqnGuukSl--43" connectable="0" vertex="1">
-          <mxGeometry x="-0.2801" y="-1" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--46" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--19" target="qwSSUxlTscKqnGuukSl--45" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--49" value="But the amount left to spend isn&#39;t enough" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="qwSSUxlTscKqnGuukSl--46" connectable="0" vertex="1">
-          <mxGeometry x="-0.3375" y="-2" relative="1" as="geometry">
-            <mxPoint y="-1" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--19" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;If you added credit cards that you pay in full each month the &quot;to budget&quot; amount will be the checking account minus the already spent credit card money so it’s only showing you what is left to spend.&amp;nbsp;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-410" y="4850" width="310" height="122.5" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--21" target="qwSSUxlTscKqnGuukSl--27" edge="1">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--21" target="X05_oEHc6OvStZvd9sHa-351" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="qwSSUxlTscKqnGuukSl--21" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Awesome, let&#39;s keep going." style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="-207.96000000000004" y="4277.5" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--22" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-580" y="4627.5" width="110" height="140" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--16" target="qwSSUxlTscKqnGuukSl--22" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--24" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="qwSSUxlTscKqnGuukSl--23" connectable="0" vertex="1">
-          <mxGeometry x="-0.0135" y="-1" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="qwSSUxlTscKqnGuukSl--25" value="move_to: budget_header" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="-1110" y="4607.5" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="qwSSUxlTscKqnGuukSl--26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.361;entryY=0.877;entryDx=0;entryDy=0;entryPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--25" target="qwSSUxlTscKqnGuukSl--16" edge="1">
           <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--27" target="X05_oEHc6OvStZvd9sHa-351" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--27" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Ok, now that we understand what the money is that we have to budget, let’s get started." style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="570" y="4380" width="340" height="110" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--33" target="qwSSUxlTscKqnGuukSl--36" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--38" value="Yes, I have credit card debt" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="qwSSUxlTscKqnGuukSl--37" connectable="0" vertex="1">
-          <mxGeometry x="-0.0688" y="-1" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--33" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Did you maybe add some credit card accounts with negative balances? Those will reduce the amount you have available to budget." style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-70" y="4650" width="390" height="92.5" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--36" target="qwSSUxlTscKqnGuukSl--27" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--40" value="I closed the account and now my To Budget makes sense" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="qwSSUxlTscKqnGuukSl--39" connectable="0" vertex="1">
-          <mxGeometry x="-0.334" relative="1" as="geometry">
-            <mxPoint y="-1" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--36" target="qwSSUxlTscKqnGuukSl--19" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="-155" y="4770" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--42" value="Actually, these are credit cards I spend from so I don&#39;t want to close the accounts" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="qwSSUxlTscKqnGuukSl--41" connectable="0" vertex="1">
-          <mxGeometry x="-0.0466" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--36" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;You are not alone. For now while we&#39;re learning let&#39;s just treat the credit card debt as a bill not an account.&amp;nbsp;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Go into the credit card account and choose the three dots in the upper right. Select &quot;close account&quot; then click &quot;force close&quot; in the dialog box.&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Once we have some budgeting practice we can add those accounts back.&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="400" y="4542.5" width="230" height="237.5" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--48" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--45" target="qwSSUxlTscKqnGuukSl--47" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--45" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;You might be on what we call the credit card float. You pay your credit card bills on time and in full, but your bank account balance is low after that so you need to use the credit card for ongoing spending and cover it from your next paycheck.&amp;nbsp;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-410" y="5052.5" width="310" height="122.5" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--51" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--47" target="qwSSUxlTscKqnGuukSl--50" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--47" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;I&#39;ll be honest, this is a tricky thing to manage in MyBudgetCoach but it&#39;s doable. It might be easier to book a video call to walk through it.&amp;nbsp;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-450" y="5227.5" width="310" height="122.5" as="geometry" />
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="qwSSUxlTscKqnGuukSl--50" target="uFhz5gwCpI0wEdVVTb0j-17" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="qwSSUxlTscKqnGuukSl--50" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;In the meantime I&#39;ll show you how to set it up so you can keep learning." style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-81.54" y="5227.5" width="141.54" height="142.5" as="geometry" />
         </mxCell>
         <mxCell id="Qu4ApxXqVMplYVQP9eXU-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="Qu4ApxXqVMplYVQP9eXU-1" target="X05_oEHc6OvStZvd9sHa-288" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -2204,30 +2023,6 @@
         </mxCell>
         <mxCell id="uFhz5gwCpI0wEdVVTb0j-14" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;br&gt;Using the same down arrow let&#39;s rename &quot;Bills (Flexible)&quot; to &quot;Bills (Annual)&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="5038.5" y="-1420" width="210" height="130" as="geometry" />
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-17" target="uFhz5gwCpI0wEdVVTb0j-19" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-17" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;First, create a category group called &quot;Credit Cards&quot; and a category in that group called &quot;credit card float&quot;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="-60" y="5030" width="141.54" height="142.5" as="geometry" />
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-19" target="uFhz5gwCpI0wEdVVTb0j-21" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-19" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;Click on the credit card account and find the starting balance transaction. Change the category of that transaction to &quot;credit card float&quot;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="161.54000000000002" y="5030" width="141.54" height="142.5" as="geometry" />
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-21" target="uFhz5gwCpI0wEdVVTb0j-23" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-21" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;Now you should see a red negative number in the credit card float category. Click that number and you&#39;ll get a dropdown with a few options.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Choose &quot;roll over overspending&quot;.&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="370" y="5000" width="154.62" height="172.5" as="geometry" />
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-23" target="qwSSUxlTscKqnGuukSl--27" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-23" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Now that debt will stay in the credit card float category and the &quot;To Budget&quot; amount should show you what you have in checking to spend.&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Let&#39;s be sure to chat before you have a credit card payment due so we can make sure you&#39;re on track.&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="580.0000000000001" y="5000" width="154.62" height="172.5" as="geometry" />
         </mxCell>
         <mxCell id="uFhz5gwCpI0wEdVVTb0j-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-26" target="uFhz5gwCpI0wEdVVTb0j-30" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -2388,8 +2183,16 @@
         <mxCell id="Z110FWBB-UQpvwefolvn-0" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Great! What is your partner&#39;s name?&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="80" y="-2040" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-74" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;Take as long as you need&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="6833.5" y="280" width="293" height="80" as="geometry" />
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-74" target="UyHVrlg2qw-z4wxs_jO1-16" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-18" value="I could really use some more help before I do my budget." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-17" connectable="0" vertex="1">
+          <mxGeometry x="-0.2047" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uFhz5gwCpI0wEdVVTb0j-74" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;Take as long as you need&lt;/div&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;But also, if you&#39;re like me you might want to set a phone or calendar reminder up to come back to this so you don&#39;t forget.&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="6833.5" y="280" width="306.5" height="120" as="geometry" />
         </mxCell>
         <mxCell id="uFhz5gwCpI0wEdVVTb0j-78" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-77" target="uFhz5gwCpI0wEdVVTb0j-74" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -2397,95 +2200,189 @@
         <mxCell id="uFhz5gwCpI0wEdVVTb0j-77" value="ND7aLN6FxclrITBZYj" style="triangle;whiteSpace=wrap;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
           <mxGeometry x="6890" y="150" width="180" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-87" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-81" target="uFhz5gwCpI0wEdVVTb0j-86" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="3170" y="3125" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-0" value="&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;/span&gt;&lt;br&gt;Alternatively, if you have a quick question or just want to let me know how budgeting is going, you can message me in our message center." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="-580" y="-1928.75" width="177.5" height="177.5" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-92" value="I need other ideas" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uFhz5gwCpI0wEdVVTb0j-87" connectable="0" vertex="1">
-          <mxGeometry x="0.0721" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-81" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;There are lots of ways that different people use credit cards, some of them are more challenging to reflect in budgeting software.&amp;nbsp;&lt;br&gt;&lt;br&gt;If you have something unique going on and want a customized solution for how to make it work in MyBudgetCoach I&#39;d be happy to help you with that over a video call.&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="2820.59" y="3045" width="287.37" height="160" as="geometry" />
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-84" target="uFhz5gwCpI0wEdVVTb0j-81" edge="1">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-2" target="UyHVrlg2qw-z4wxs_jO1-0" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-84" value="move_to: zoom_link" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="2885" y="2930" width="145" height="60" as="geometry" />
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-2" value="highlight: message_center" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="-555" y="-2040" width="145" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-94" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-86" target="uFhz5gwCpI0wEdVVTb0j-93" edge="1">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-4" target="X05_oEHc6OvStZvd9sHa-124" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-95" value="Credit Card Float" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uFhz5gwCpI0wEdVVTb0j-94" connectable="0" vertex="1">
-          <mxGeometry x="0.0728" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-4" value="&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;/span&gt;&lt;br&gt;Are you working on your budget on a mobile device like an iPad? You might have more success getting set up on a computer if one is available. If you plan to stick with the iPad just be aware that some of the directions about clicking or hovering might not describe exactly how it works with a touchscreen.&lt;/span&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="1047" y="-1770" width="210" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-96" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-86" target="X05_oEHc6OvStZvd9sHa-146" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="3125" y="2985" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-97" value="Neither of those, I&#39;ll skip credit cards for now" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uFhz5gwCpI0wEdVVTb0j-96" connectable="0" vertex="1">
-          <mxGeometry x="0.1898" y="1" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-101" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-86" target="uFhz5gwCpI0wEdVVTb0j-100" edge="1">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-8" target="X05_oEHc6OvStZvd9sHa-82" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-104" value="Mixed use card(s)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uFhz5gwCpI0wEdVVTb0j-101" connectable="0" vertex="1">
-          <mxGeometry x="-0.3263" y="2" relative="1" as="geometry">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-11" value="Back to the tour" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-10" connectable="0" vertex="1">
+          <mxGeometry x="-0.2384" y="-1" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-86" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;I don&#39;t want to leave you hanging. So, what is going on with your credit cards specifically?&lt;div&gt;&lt;br&gt;&lt;div&gt;If you pay your cards off every month when you get paid but then don&#39;t have enough money left so you have to use the credit card again that&#39;s called the credit card float.&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;If you have debt you&#39;re working on paying down but also use the credit card to get points or out of necessity, that&#39;s called a mixed use card.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="3160" y="2880" width="360" height="210" as="geometry" />
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-8" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;br&gt;In fact, as you work with MyBudgetCoach you&#39;ll find that you can have several ongoing conversations with me and you can toggle between them and always pick each up where you left off." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="2285" y="-1897.5" width="190" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.259;entryY=0.246;entryDx=0;entryDy=0;entryPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-81" target="X05_oEHc6OvStZvd9sHa-146" edge="1">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-13" value="Add a move to conversations here when it&#39;s ready" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="2534.16" y="-1897.5" width="185.84" height="127.5" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-14" value="unicorn" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="5235" y="-1907.5" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-16" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;No worries. This is why MyBudgetCoach exists, to provide support while you learn. Shoot me a message in the message center with how you&#39;re feeling about things and I&#39;ll get back to you with some ideas about next steps.&amp;nbsp;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="7150" y="560" width="333" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.862;entryY=0.986;entryDx=0;entryDy=0;entryPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-16" target="uFhz5gwCpI0wEdVVTb0j-74" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-91" value="I&#39;ve scheduled a zoom and I&#39;ll skip the credit card accounts for now." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uFhz5gwCpI0wEdVVTb0j-90" connectable="0" vertex="1">
-          <mxGeometry x="0.5464" relative="1" as="geometry">
-            <mxPoint as="offset" />
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-20" value="I messaged you and I&#39;m waiting on your response." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-19" connectable="0" vertex="1">
+          <mxGeometry x="-0.0515" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-93" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Check out the separate conversation about credit card float when you&#39;re ready to set up your credit card. For now just pretend you don&#39;t have one." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="3204.96" y="3160" width="297.04" height="190" as="geometry" />
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-22" value="Self care tips" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="7050" y="95" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-98" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.67;entryY=0.162;entryDx=0;entryDy=0;entryPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-93" target="X05_oEHc6OvStZvd9sHa-146" edge="1">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-23" value="HP with wand" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="7090" y="1800" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-24" target="6PfKHOYl5Rl3Pasw2H_J-43" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-99" value="Thanks, I&#39;ll check out that conversation" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uFhz5gwCpI0wEdVVTb0j-98" connectable="0" vertex="1">
-          <mxGeometry x="-0.21" y="-3" relative="1" as="geometry">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-34" value="Cool, let&#39;s keep going" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-33" connectable="0" vertex="1">
+          <mxGeometry x="-0.423" y="-2" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-102" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="uFhz5gwCpI0wEdVVTb0j-100" target="X05_oEHc6OvStZvd9sHa-146" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="3800" y="3140" />
-              <mxPoint x="3125" y="3140" />
-            </Array>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-24" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Ok, that keeps it nice and simple. If you ever do add a credit card there&#39;s a conversation I wrote to walk you through it." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="3470" y="3610" width="252.87" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-26" target="UyHVrlg2qw-z4wxs_jO1-40" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-26" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Congratulations. That&#39;s a great financial strategy." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="3369.17" y="3190" width="252.87" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-28" target="UyHVrlg2qw-z4wxs_jO1-35" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-37" value="I&#39;ll just call them expenses" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-36" connectable="0" vertex="1">
+          <mxGeometry x="-0.04" y="-4" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-103" value="Ok, I&#39;ll set them up as debt" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uFhz5gwCpI0wEdVVTb0j-102" connectable="0" vertex="1">
-          <mxGeometry x="-0.3985" y="2" relative="1" as="geometry">
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-41" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-28" target="UyHVrlg2qw-z4wxs_jO1-40" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-42" value="I want to add them as accounts" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-41" connectable="0" vertex="1">
+          <mxGeometry x="0.2531" y="-3" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="uFhz5gwCpI0wEdVVTb0j-100" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;&lt;div&gt;For now let&#39;s call that all credit card debt. If you want to make notes about other spending you did you can use the memo when you enter the payment to the credit card.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="3620" y="2890" width="360" height="210" as="geometry" />
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-28" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;You are not alone there. You have two choices in MyBudgetCoach. You can add those credit card accounts and track them as you pay them down. Or you can set up the credit card payments in your budget as just another expense. it&#39;s up to you." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="3560" y="3390" width="280" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="wTT30poakBCOjai9leFH-0" value="Mobile vs computer, have to double click budget word to swotch" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
-          <mxGeometry x="1234.16" y="-1955" width="350" height="230" as="geometry" />
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-35" target="6PfKHOYl5Rl3Pasw2H_J-43" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-39" value="Let&#39;s keep going" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-38" connectable="0" vertex="1">
+          <mxGeometry x="-0.553" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-35" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;That works. Just add the categories to your budget if you haven&#39;t already.&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="4015" y="3390" width="280" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-40" target="6PfKHOYl5Rl3Pasw2H_J-43" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-44" value="I&#39;m ready to keep going" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="UyHVrlg2qw-z4wxs_jO1-43" connectable="0" vertex="1">
+          <mxGeometry x="-0.4742" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-40" value="&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/i&gt;&lt;br&gt;Since adding credit cards is a several step process I wrote it as its own conversation. Select that conversation to add your credit card account and then come back here when it&#39;s set up." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="3790" y="3190" width="280" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-47" target="aMCooWRsvZ_Iyrbr6EZ3-0" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-4" value="Too big" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="aMCooWRsvZ_Iyrbr6EZ3-1" connectable="0" vertex="1">
+          <mxGeometry x="-0.125" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="UyHVrlg2qw-z4wxs_jO1-47" target="aMCooWRsvZ_Iyrbr6EZ3-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-5" value="Too small" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="aMCooWRsvZ_Iyrbr6EZ3-3" connectable="0" vertex="1">
+          <mxGeometry x="-0.1938" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UyHVrlg2qw-z4wxs_jO1-47" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Is the &quot;to budget&quot; number too big or too small?&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="-550" y="4480" width="240" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="aMCooWRsvZ_Iyrbr6EZ3-0" target="X05_oEHc6OvStZvd9sHa-351" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-13" value="Ok, that makes sense now" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="aMCooWRsvZ_Iyrbr6EZ3-12" connectable="0" vertex="1">
+          <mxGeometry x="-0.5728" y="2" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="aMCooWRsvZ_Iyrbr6EZ3-0" target="aMCooWRsvZ_Iyrbr6EZ3-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-15" value="That&#39;s not it." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="aMCooWRsvZ_Iyrbr6EZ3-14" connectable="0" vertex="1">
+          <mxGeometry x="-0.0375" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-0" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Did you add savings accounts? Or any other accounts with positive balances? All the funds are included to budget. We will budget them all out into categories. No worries.&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="-230" y="4480" width="240" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="aMCooWRsvZ_Iyrbr6EZ3-2" target="aMCooWRsvZ_Iyrbr6EZ3-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-8" value="Nope" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="aMCooWRsvZ_Iyrbr6EZ3-7" connectable="0" vertex="1">
+          <mxGeometry x="-0.0312" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="aMCooWRsvZ_Iyrbr6EZ3-2" target="aMCooWRsvZ_Iyrbr6EZ3-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-11" value="Yes, that was it. I fixed it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="aMCooWRsvZ_Iyrbr6EZ3-10" connectable="0" vertex="1">
+          <mxGeometry x="-0.0688" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-2" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Have you added credit card accounts but not added the categories with corresponding negative balances? Those steps are in the add a credit card account conversation.&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="-550" y="4740" width="240" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-6" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;This is a mystery. Send me a message in the message center or book a zoom call and we&#39;ll sort it out. In the meantime if the number is close enough you could still do some budgeting.&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="-230" y="4740" width="240" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" source="aMCooWRsvZ_Iyrbr6EZ3-9" target="X05_oEHc6OvStZvd9sHa-351" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-9" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Great work.&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="-550" y="5000" width="210" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.536;entryY=0.964;entryDx=0;entryDy=0;entryPerimeter=0;" parent="X05_oEHc6OvStZvd9sHa-1" source="aMCooWRsvZ_Iyrbr6EZ3-6" target="X05_oEHc6OvStZvd9sHa-351" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-18" value="Ok, I&#39;ll give it a try while I wait" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="aMCooWRsvZ_Iyrbr6EZ3-17" connectable="0" vertex="1">
+          <mxGeometry x="-0.4223" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aMCooWRsvZ_Iyrbr6EZ3-20" value="just keep swimming" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="X05_oEHc6OvStZvd9sHa-1" vertex="1">
+          <mxGeometry x="2730" y="5930" width="120" height="80" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
@@ -5098,7 +4995,7 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="zWseb7FDoqg05Ucihbuu" name="Reconciliation step by step">
+  <diagram id="zWseb7FDoqg05Ucihbuu" name="Reconciliation Step by Step">
     <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -5107,13 +5004,13 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-1" value="You need some help reconciling? No problem. I got you." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="-425" y="-80" width="160" height="90" as="geometry" />
+          <mxGeometry x="-630" y="-210" width="160" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-2" target="nNwfgW7abJFRUK2NXUij-4">
+        <mxCell id="TWqjNAwSQi8gThVYJcBc-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-2" target="TWqjNAwSQi8gThVYJcBc-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-2" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;The first thing you need to do is figure out what your target balance is. By that I mean, what is the balance in real life that we are matching your MBC account to." style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="450" y="165" width="220" height="115" as="geometry" />
+          <mxGeometry x="-135" y="60" width="220" height="115" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-4" target="nNwfgW7abJFRUK2NXUij-6">
           <mxGeometry relative="1" as="geometry" />
@@ -5123,8 +5020,8 @@
             <mxPoint y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-4" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Log in to your bank or credit card account in real life.&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="750" y="165" width="220" height="115" as="geometry" />
+        <mxCell id="nNwfgW7abJFRUK2NXUij-4" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Log in to your account in real life." style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="870" y="-30" width="220" height="115" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-6" target="nNwfgW7abJFRUK2NXUij-9">
           <mxGeometry relative="1" as="geometry" />
@@ -5134,24 +5031,19 @@
             <mxPoint y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-6" target="nNwfgW7abJFRUK2NXUij-12">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="nNwfgW7abJFRUK2NXUij-6" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Ok, you are looking for the most recent &quot;cleared balance.&quot; That&#39;s the balance that does not include the pending charges. It might also be called the &quot;current balance&quot; or the &quot;posted balance.&quot;&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="75" width="220" height="115" as="geometry" />
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-14" value="I&#39;m unsure if I&#39;m looking at the right place" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-13">
-          <mxGeometry x="-0.15" y="-1" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-6" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Ok, you are looking for the most recent &quot;cleared balance&quot;. That&#39;s the balance that does not include the pending charges. It might also be called the &quot;current balance&quot; or the &quot;posted balance&quot;.&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="1165" y="180" width="220" height="115" as="geometry" />
-        </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-9" target="nNwfgW7abJFRUK2NXUij-20">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-9" target="nNwfgW7abJFRUK2NXUij-24">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
+              <mxPoint x="1740" y="238" />
               <mxPoint x="1980" y="238" />
               <mxPoint x="1980" y="560" />
-              <mxPoint x="410" y="560" />
+              <mxPoint x="460" y="560" />
+              <mxPoint x="460" y="600" />
             </Array>
+            <mxPoint x="410" y="590" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="hCb04LgL7SBTfeDBfIN3-2" value="Next&lt;br&gt;balance = [user_input]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-21">
@@ -5159,40 +5051,46 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-9" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Great work. Now we will tell MBC what you found.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="1590" y="180" width="220" height="115" as="geometry" />
+        <mxCell id="nNwfgW7abJFRUK2NXUij-9" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Great work. Now we will tell MBC what your current balance is.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;If you are reconciling a credit card account, please enter the balance as a negative number.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="50" width="220" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-12" target="nNwfgW7abJFRUK2NXUij-15">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="ReoXEblZBiWh0PqDk4KW-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-12" target="nNwfgW7abJFRUK2NXUij-9">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1088" y="360" />
+              <mxPoint x="1690" y="360" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-12" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;For me, the easiest place to find the balance we need is in the list of recent transactions. Typically there&#39;s a section of pending transactions and below that there&#39;s all the cleared transactions. Often beside each cleared transaction it&#39;ll show the balance after those transactions. Or sometimes it shows it above each day&#39;s list of transactions.&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="1165" y="375" width="295" height="165" as="geometry" />
-        </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-15" target="nNwfgW7abJFRUK2NXUij-9">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-18" value="I&#39;ve got it now." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-17">
-          <mxGeometry x="-0.0378" y="-3" relative="1" as="geometry">
+        <mxCell id="ReoXEblZBiWh0PqDk4KW-11" value="Ok, I got it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="ReoXEblZBiWh0PqDk4KW-10">
+          <mxGeometry x="-0.1397" y="-2" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-15" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;If it&#39;s a credit card account it&#39;s less likely to show those balances after each day but for most credit cards the main balance they display is the cleared balance so just use that most prominent balance for those." style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-12" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;For me, the easiest place to find the balance we need is in the list of recent transactions. Typically there&#39;s a section of pending transactions and below that there&#39;s all the cleared transactions. Often beside each cleared transaction it&#39;ll show the balance after those transactions. Or sometimes it shows it above each day&#39;s list of transactions.&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="940" y="375" width="295" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="ReoXEblZBiWh0PqDk4KW-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-15" target="nNwfgW7abJFRUK2NXUij-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ReoXEblZBiWh0PqDk4KW-9" value="Got it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="ReoXEblZBiWh0PqDk4KW-8">
+          <mxGeometry x="0.1601" y="-6" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nNwfgW7abJFRUK2NXUij-15" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Since it&#39;s a credit card account almost always the pending transactions aren&#39;t included in the main balance that is displayed. So you can use that most prominently displayed balance." style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="1540" y="375" width="295" height="165" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-19" value="Find the cleared balance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
-          <mxGeometry x="600" y="60" width="230" height="60" as="geometry" />
+          <mxGeometry x="1150" y="-100" width="230" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-20" target="nNwfgW7abJFRUK2NXUij-24">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-20" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Click the more button and then &quot;reconcile&quot; in the account you&#39;re working on.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="300" y="590" width="220" height="115" as="geometry" />
-        </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-22" target="nNwfgW7abJFRUK2NXUij-20">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="nNwfgW7abJFRUK2NXUij-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-22" target="nNwfgW7abJFRUK2NXUij-24">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="647.5" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-22" value="highlight: more_button" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="110" y="617.5" width="120" height="60" as="geometry" />
+          <mxGeometry x="200" y="630" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-24" target="nNwfgW7abJFRUK2NXUij-26">
           <mxGeometry relative="1" as="geometry" />
@@ -5210,8 +5108,8 @@
             <mxPoint y="1" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-24" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Enter [[balance]] in the box and press reconcile.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="600" y="590" width="220" height="115" as="geometry" />
+        <mxCell id="nNwfgW7abJFRUK2NXUij-24" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Click the more button and then &quot;Reconcile&quot; in the account you&#39;re working on.&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Enter [[balance]] in the box and press reconcile.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="410" y="600" width="220" height="115" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-40" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-26" target="nNwfgW7abJFRUK2NXUij-39">
           <mxGeometry relative="1" as="geometry" />
@@ -5243,7 +5141,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-28" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;The number you entered matched your MBC account. Awesome. Click &quot;done reconciling&quot; and celebrate.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-28" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;The number you entered matched your MBC account. Awesome. Click &quot;Done Reconciling&quot; and celebrate.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="600" y="785" width="220" height="115" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-32" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-31" target="nNwfgW7abJFRUK2NXUij-28">
@@ -5264,7 +5162,7 @@
         <mxCell id="nNwfgW7abJFRUK2NXUij-44" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-41" target="nNwfgW7abJFRUK2NXUij-43">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-45" value="&quot;All reconciled&quot;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-44">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-45" value="&quot;All reconciled!&quot;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-44">
           <mxGeometry x="-0.0972" relative="1" as="geometry">
             <mxPoint y="-1" as="offset" />
           </mxGeometry>
@@ -5282,8 +5180,8 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-41" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Now that everything is marked as cleared that should be, look at the reconciliation dialog. What does it say?&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="2970" y="1050" width="220" height="115" as="geometry" />
+        <mxCell id="nNwfgW7abJFRUK2NXUij-41" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Now that everything is marked as cleared that should be, l&lt;span style=&quot;background-color: initial;&quot;&gt;ook at the reconciliation dialog. What does it say?&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2970" y="970" width="220" height="195" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-43">
           <mxGeometry relative="1" as="geometry">
@@ -5303,7 +5201,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-73" value="I&#39;m going to go do this with my next account" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-72">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-73" value="I need to reconcile another account" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-72">
           <mxGeometry x="-0.8514" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -5364,13 +5262,13 @@
         <mxCell id="nNwfgW7abJFRUK2NXUij-64" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-59" target="nNwfgW7abJFRUK2NXUij-63">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-59" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;If you look over here you&#39;ll see little buttons beside each transaction. These indicate if the transaction has cleared the bank (green) or not (grey).&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-59" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;If you look in the far right column,&amp;nbsp; you&#39;ll see little buttons beside each transaction. These indicate if the transaction has cleared the bank (green) or not (grey).&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="1985" y="677.5" width="250" height="170" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-61" target="nNwfgW7abJFRUK2NXUij-59">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-61" value="highlight: cleared_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-61" value="highlight: cleared_status_icon" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="2025" y="580" width="170" height="60" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-68" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-63" target="nNwfgW7abJFRUK2NXUij-67">
@@ -5385,7 +5283,7 @@
         <mxCell id="nNwfgW7abJFRUK2NXUij-66" value="Troubleshoot: uncleared" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
           <mxGeometry x="1530" y="830" width="230" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-67" target="nNwfgW7abJFRUK2NXUij-41">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="x46V695iD4inPaovz3mK-6" target="nNwfgW7abJFRUK2NXUij-41">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-67" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Go ahead and turn these icons green for anything that is no longer pending in real life, leave them grey if they are still pending. As you do that you should see the cleared balance at the top of the screen change, and you&#39;ll also see the dialog about reconciling change as well.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
@@ -5427,7 +5325,7 @@
         <mxCell id="nNwfgW7abJFRUK2NXUij-92" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-89" target="nNwfgW7abJFRUK2NXUij-91">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-93" value="I&#39;m making prgress" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-92">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-93" value="I&#39;m making progress" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-92">
           <mxGeometry x="-0.1" y="-1" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -5441,7 +5339,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-89" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;How&#39;s this working so far?&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="2020" y="1650" width="250" height="130" as="geometry" />
+          <mxGeometry x="2000" y="1650" width="250" height="130" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-100" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-91" target="nNwfgW7abJFRUK2NXUij-99">
           <mxGeometry relative="1" as="geometry" />
@@ -5480,8 +5378,8 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-99" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Does the reconciliation dialog say &quot;all reconciled&quot; now?&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="2680" y="1650" width="250" height="130" as="geometry" />
+        <mxCell id="nNwfgW7abJFRUK2NXUij-99" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Look at the reconciliation dialog.&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Does the reconciliation dialog say &quot;All reconciled!&quot; now?&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2680" y="1600" width="250" height="180" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-103" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-106">
           <mxGeometry relative="1" as="geometry">
@@ -5501,7 +5399,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-111" value="I&#39;m going to go do this with my next account" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-110">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-111" value="I need to reconcile another account" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-110">
           <mxGeometry x="-0.8232" y="-1" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -5537,36 +5435,120 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-118" value="Troubleshoot: uncleared" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
-          <mxGeometry x="2880" y="1840" width="230" height="60" as="geometry" />
-        </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-119" value="Troubleshoot: line by line" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
           <mxGeometry x="550" y="1770" width="230" height="60" as="geometry" />
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-122" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-121" target="nNwfgW7abJFRUK2NXUij-94">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-121" value="highlight:zoom_link" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-121" value="highlight: zoom_link" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1750" y="1891.25" width="170" height="67.5" as="geometry" />
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-126" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-123">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-126" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="x46V695iD4inPaovz3mK-15">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="3175" y="2400" as="targetPoint" />
+            <mxPoint x="3175" y="2580" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="nNwfgW7abJFRUK2NXUij-127" value="Thanks for your help." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="nNwfgW7abJFRUK2NXUij-126">
           <mxGeometry x="0.0198" y="-1" relative="1" as="geometry">
-            <mxPoint y="-1" as="offset" />
+            <mxPoint x="1" y="4" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="nNwfgW7abJFRUK2NXUij-123" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;In your reconciliation dialog box there should be a button that says &quot;create reconcilation transaction&quot;. Go ahead and click that. Then click &quot;done reconciling&quot;.&amp;nbsp; You&#39;re now all set to move forward. Be sure to reconcile often moving forward and hopefully you&#39;ll be able to find errors and not have to make adjustments.&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+        <mxCell id="nNwfgW7abJFRUK2NXUij-123" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;In your reconciliation dialog box there should be a button that says &quot;create reconcilation transaction.&quot; Go ahead and click that. Then click &quot;Done Reconciling.&quot;&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="3050" y="2130" width="250" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="hCb04LgL7SBTfeDBfIN3-1" value="Reconcile My Account" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
-          <mxGeometry x="-210" y="-350" width="340" height="120" as="geometry" />
+        <mxCell id="hCb04LgL7SBTfeDBfIN3-1" value="reconcile_step_by_step" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="-680" y="-340" width="340" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="hCb04LgL7SBTfeDBfIN3-3" value="Until Zach programs this, you may want to describe where the user should look" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
-          <mxGeometry x="2110" y="490" width="170" height="90" as="geometry" />
+        <mxCell id="TWqjNAwSQi8gThVYJcBc-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.005;entryY=0.896;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="TWqjNAwSQi8gThVYJcBc-1" target="x46V695iD4inPaovz3mK-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="510" y="180" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="270" y="240" />
+              <mxPoint x="510" y="240" />
+              <mxPoint x="510" y="153" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TWqjNAwSQi8gThVYJcBc-4" value="Credit card account&lt;br&gt;which_account = credit" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="TWqjNAwSQi8gThVYJcBc-3">
+          <mxGeometry x="-0.0546" relative="1" as="geometry">
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TWqjNAwSQi8gThVYJcBc-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="TWqjNAwSQi8gThVYJcBc-1" target="x46V695iD4inPaovz3mK-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="520" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TWqjNAwSQi8gThVYJcBc-6" value="Bank account&lt;br&gt;which_account = bank" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="TWqjNAwSQi8gThVYJcBc-5">
+          <mxGeometry x="-0.0154" y="2" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TWqjNAwSQi8gThVYJcBc-1" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Will you be reconciling a credit card account or a bank account?" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="160" y="60" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="ReoXEblZBiWh0PqDk4KW-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ReoXEblZBiWh0PqDk4KW-1" target="nNwfgW7abJFRUK2NXUij-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ReoXEblZBiWh0PqDk4KW-6" value="which_account = bank" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="ReoXEblZBiWh0PqDk4KW-4">
+          <mxGeometry x="-0.1839" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ReoXEblZBiWh0PqDk4KW-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ReoXEblZBiWh0PqDk4KW-1" target="nNwfgW7abJFRUK2NXUij-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ReoXEblZBiWh0PqDk4KW-7" value="which_account = credit" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="ReoXEblZBiWh0PqDk4KW-5">
+          <mxGeometry x="-0.3052" y="4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ReoXEblZBiWh0PqDk4KW-1" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="260" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ReoXEblZBiWh0PqDk4KW-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-6" target="ReoXEblZBiWh0PqDk4KW-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ReoXEblZBiWh0PqDk4KW-3" value="I&#39;m unsure if I&#39;m looking at the right place" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="ReoXEblZBiWh0PqDk4KW-2">
+          <mxGeometry x="-0.0681" y="-2" relative="1" as="geometry">
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x46V695iD4inPaovz3mK-1" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Thanks! I ask because different types of accounts show balances differently." style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="50" width="220" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="x46V695iD4inPaovz3mK-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.357;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="x46V695iD4inPaovz3mK-1" target="nNwfgW7abJFRUK2NXUij-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x46V695iD4inPaovz3mK-3" value="Ok" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="x46V695iD4inPaovz3mK-2">
+          <mxGeometry x="0.2645" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x46V695iD4inPaovz3mK-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-67" target="x46V695iD4inPaovz3mK-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2895" y="763" as="sourcePoint" />
+            <mxPoint x="3080" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x46V695iD4inPaovz3mK-6" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;It could also be possible that there is a transaction in your bank account, that you don&#39;t see in MyBudgetCoach, pending or cleared. In this case, manually add that transaction(s) to ensure all the transactions that are cleared are included in MyBudgetCoach.&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3000" y="677.5" width="250" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="x46V695iD4inPaovz3mK-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="x46V695iD4inPaovz3mK-13" target="nNwfgW7abJFRUK2NXUij-52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x46V695iD4inPaovz3mK-13" value="highlight: cleared_status_icon" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="815" y="1810" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="x46V695iD4inPaovz3mK-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="nNwfgW7abJFRUK2NXUij-123" target="x46V695iD4inPaovz3mK-15">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3175" y="2580" as="targetPoint" />
+            <mxPoint x="3175" y="2260" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x46V695iD4inPaovz3mK-15" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;You&#39;re now all set to move forward. Be sure to reconcile often moving forward&lt;span style=&quot;background-color: initial;&quot;&gt;, 2-3 times per week,&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;and hopefully you&#39;ll be able to find errors and not have to make adjustments.&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3050" y="2320" width="250" height="130" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

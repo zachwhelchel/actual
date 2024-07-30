@@ -2418,6 +2418,8 @@ export default function Coach({
       }
     }
 
+    dialogueText = dialogueText.replace("https://airtable.com/appYAaDkGzB3ecOzl/shrUnpE9sHBWWDMyB", "https://airtable.com/appYAaDkGzB3ecOzl/shrUnpE9sHBWWDMyB?prefill_Name=" + REACT_APP_USER_FIRST_NAME);
+
     return dialogueText;
   }
 
