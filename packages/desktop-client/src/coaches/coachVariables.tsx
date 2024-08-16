@@ -34,6 +34,7 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['kaylafrancis', 'Kayla Francis'],
 ['jennyphan', 'Jenny Phan'],
 ['dariomartinezbatlle', 'Darío Martínez Batlle'],
+['niaadams', 'Nia Adams'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
 ];
@@ -584,6 +585,11 @@ function modifyVars() {
       REACT_APP_ZOOM_RATE = "55.00 USD / hour"
       REACT_APP_ZOOM_LINK = "https://saldelaolla.com/asesoria-mbc/"
     }
+    else if (testPublishedAvatar === "niaadams") {
+      REACT_APP_COACH_FIRST_NAME = "Nia"
+      REACT_APP_ZOOM_RATE = "75.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://bit.ly/coachedbynia"
+    }
 
     else {
       REACT_APP_COACH_FIRST_NAME = testPublishedAvatar
@@ -620,6 +626,8 @@ function modifyVars() {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll usually get back to you within 2 business days."
   } else if (REACT_APP_COACH === "dariomartinezbatlle") {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you within 12 hours of receipt. (No dudes en enviarme un mensaje en cualquier momento. Me comunicaré con usted dentro de las 12 horas posteriores a la recepción.)"
+  } else if (REACT_APP_COACH === "niaadams") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I reply within two business days Mon - Friday. If possible please include screen shots with your questions."
   } else {
     REACT_APP_RESPONSE_EXPECTATIONS = null;
   }
