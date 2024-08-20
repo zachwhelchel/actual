@@ -35,6 +35,7 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['jennyphan', 'Jenny Phan'],
 ['dariomartinezbatlle', 'Darío Martínez Batlle'],
 ['niaadams', 'Nia Adams'],
+['zachwhelchel', 'Zach Whelchel'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
 ];
@@ -590,6 +591,11 @@ function modifyVars() {
       REACT_APP_ZOOM_RATE = "75.00 USD / hour"
       REACT_APP_ZOOM_LINK = "https://bit.ly/coachedbynia"
     }
+    else if (testPublishedAvatar === "zachwhelchel") {
+      REACT_APP_COACH_FIRST_NAME = "Zach"
+      REACT_APP_ZOOM_RATE = "29.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://calendly.com/zach-whelchel/60min"
+    }
 
     else {
       REACT_APP_COACH_FIRST_NAME = testPublishedAvatar
@@ -628,6 +634,8 @@ function modifyVars() {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you within 12 hours of receipt. (No dudes en enviarme un mensaje en cualquier momento. Me comunicaré con usted dentro de las 12 horas posteriores a la recepción.)"
   } else if (REACT_APP_COACH === "niaadams") {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I reply within two business days Mon - Friday. If possible please include screen shots with your questions."
+  } else if (REACT_APP_COACH === "zachwhelchel") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll reply as soon as I can."
   } else {
     REACT_APP_RESPONSE_EXPECTATIONS = null;
   }
