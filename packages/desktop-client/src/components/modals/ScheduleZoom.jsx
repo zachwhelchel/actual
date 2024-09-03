@@ -39,7 +39,7 @@ export function ScheduleZoom({
               <Button
                 style={{ marginRight: 10 }}
                 onClick={() => {
-                  window.location.href = "mailto:admin@mybudgetcoach.app?subject=Support";
+                  window.location.href = "mailto:admin@mybudgetcoach.com?subject=Support";
                   modalProps.onClose();
                 }}
               >

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" modified="2024-07-11T13:29:59.893Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" etag="hCVcVnOceGtEjAkPtiOm" version="24.6.4" type="google" pages="12">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" version="24.7.7" pages="12">
   <diagram name="Introduction" id="oP8GNghZ1G6uxloS-E3e">
-    <mxGraphModel dx="3482" dy="-318" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3508" dy="-299" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -3478,22 +3478,8 @@
         <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-13" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Take a few minutes to think about which categories have upcoming expenses and budget dollars to the appropriate categories. &lt;br&gt;&lt;br&gt;Ask yourself: What do these dollars need to do for me prior to new dollars arriving?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="1630" y="2360" width="166.5" height="197.5" as="geometry" />
         </mxCell>
-        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.405;exitY=1.01;exitDx=0;exitDy=0;entryX=0.006;entryY=0.171;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;" edge="1" parent="1" source="Gvh3q4yUFe2W-cMg5fZ5-15" target="Gvh3q4yUFe2W-cMg5fZ5-37">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="2460" y="2423" />
-              <mxPoint x="2460" y="2450" />
-              <mxPoint x="3561" y="2450" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="VHoO2eYCOfcOMHAVrgUF-4" value="I have Budgeted all my money and my &#39;To Budget&#39; number is now equal to 0!" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="Gvh3q4yUFe2W-cMg5fZ5-14">
-          <mxGeometry x="0.0207" y="1" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-15" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;If you still have a positive &#39;To Budget&#39; number, find some more categories to add dollars, which may be your credit card categories, until your &#39;To Budget&#39; = $0.&lt;br&gt;&lt;br&gt;When you have budgeted all your money, come back to wrap-up the conversation." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="2410" y="2230" width="186.5" height="171" as="geometry" />
+        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-15" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;If you still have a positive &#39;To Budget&#39; number, find some more categories to add dollars until your &#39;To Budget&#39; = $0.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Select &#39;Next&#39; for some ideas on how to budget your dollars.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="2410" y="2234.38" width="186.5" height="171" as="geometry" />
         </mxCell>
         <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="Gvh3q4yUFe2W-cMg5fZ5-20" target="Gvh3q4yUFe2W-cMg5fZ5-9">
           <mxGeometry relative="1" as="geometry">
@@ -3515,7 +3501,7 @@
             <mxPoint x="10" y="-11" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-20" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Have you budgeted dollars into a category? &lt;br&gt;&lt;br&gt;You can check this by reviewing if your &#39;Budgeted&#39; amount is greater than 0?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-20" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Have you budgeted dollars into a category for the current month? &lt;br&gt;&lt;br&gt;You can check this by reviewing if your &#39;Budgeted&#39; amount for the current month is greater than 0?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="1283.86" y="2720" width="195.26" height="160" as="geometry" />
         </mxCell>
         <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="Gvh3q4yUFe2W-cMg5fZ5-22" target="Gvh3q4yUFe2W-cMg5fZ5-23">
@@ -3537,12 +3523,13 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.327;entryY=0.992;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="Gvh3q4yUFe2W-cMg5fZ5-28" target="g_fCNBe7QMv44DTtpd93-1">
+        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="Gvh3q4yUFe2W-cMg5fZ5-28" target="Gvh3q4yUFe2W-cMg5fZ5-15">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="3190" y="2670" as="targetPoint" />
             <Array as="points">
               <mxPoint x="2660" y="3060" />
               <mxPoint x="2660" y="2879" />
+              <mxPoint x="2503" y="2879" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -3707,18 +3694,6 @@
         </mxCell>
         <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-58" value="&lt;b&gt;PHASE 2&lt;br&gt;&lt;/b&gt;&lt;br&gt;Could walk the user through how to &#39;add debt&#39; to their credit card categories to get back the &#39;To Budget&#39; number to equal the checking account balance, and then budget dollars for immediate expenses. Any remaining dollars in the &#39;To Budget&#39; can then be used to apply to the credit card categories. This would reduce the negative amount previously entered to get back dollars to use. The resulting amount in the Balance column for the credit cards can then be subtracted from the current balance and that is the payment amount." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
           <mxGeometry x="1807.5" y="3410" width="232.5" height="232.5" as="geometry" />
-        </mxCell>
-        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.405;entryY=0.92;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="Gvh3q4yUFe2W-cMg5fZ5-63" target="Gvh3q4yUFe2W-cMg5fZ5-20">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1366.49596" y="2849.28" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="1226" y="2920" />
-              <mxPoint x="1363" y="2920" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-63" value="highlight: budgeted_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-          <mxGeometry x="1165.5500000000002" y="2830" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Gvh3q4yUFe2W-cMg5fZ5-64" value="END" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="2691.5" y="3210" width="250" height="170" as="geometry" />
@@ -3999,6 +3974,10 @@
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="4100" y="2510" as="targetPoint" />
             <mxPoint x="3727" y="2510" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="4230" y="2464" />
+              <mxPoint x="4230" y="2510" />
+            </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="ypZEGH-bm9LZ-QMgfSTx-16" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="VHoO2eYCOfcOMHAVrgUF-7">
@@ -4072,15 +4051,16 @@
         </mxCell>
         <mxCell id="yf3mWLCI0SOMqhMSO5BZ-2" value="I am now looking at the Budget summary for the next month" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="ypZEGH-bm9LZ-QMgfSTx-15">
           <mxGeometry x="0.5913" y="-2" relative="1" as="geometry">
-            <mxPoint x="-52" as="offset" />
+            <mxPoint x="-60" y="86" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="ypZEGH-bm9LZ-QMgfSTx-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.861;exitY=0.356;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="ypZEGH-bm9LZ-QMgfSTx-14" target="ypZEGH-bm9LZ-QMgfSTx-20">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="4070.076923076924" y="2420" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="4126" y="2517" />
-              <mxPoint x="4110" y="2517" />
+              <mxPoint x="4126" y="2492" />
+              <mxPoint x="4126" y="2480" />
+              <mxPoint x="4110" y="2480" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -4101,11 +4081,11 @@
         </mxCell>
         <mxCell id="ypZEGH-bm9LZ-QMgfSTx-26" value="No; It is a negative red number" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="ypZEGH-bm9LZ-QMgfSTx-25">
           <mxGeometry x="-0.321" y="1" relative="1" as="geometry">
-            <mxPoint x="277" y="-476" as="offset" />
+            <mxPoint x="212" y="-466" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="ypZEGH-bm9LZ-QMgfSTx-14" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Is your &#39;To Budget&#39; number for next month equal to 0?&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="3945" y="2470" width="185" height="125" as="geometry" />
+          <mxGeometry x="3850" y="2447.5" width="185" height="125" as="geometry" />
         </mxCell>
         <mxCell id="ypZEGH-bm9LZ-QMgfSTx-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.802;exitY=0.277;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="ypZEGH-bm9LZ-QMgfSTx-20" target="Gvh3q4yUFe2W-cMg5fZ5-20">
           <mxGeometry relative="1" as="geometry">
@@ -4122,7 +4102,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="ypZEGH-bm9LZ-QMgfSTx-20" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Would you like to walk through how to prioritize the use of those dollars?&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
-          <mxGeometry x="4020" y="2295.38" width="110" height="110" as="geometry" />
+          <mxGeometry x="4040" y="2322.5" width="110" height="110" as="geometry" />
         </mxCell>
         <mxCell id="ypZEGH-bm9LZ-QMgfSTx-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.541;entryY=-0.016;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ypZEGH-bm9LZ-QMgfSTx-20" target="VHoO2eYCOfcOMHAVrgUF-6">
           <mxGeometry relative="1" as="geometry">
@@ -4186,22 +4166,8 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="g_fCNBe7QMv44DTtpd93-1" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Good for you! In this instance, you have funded all your upcoming expenses and you have dollars left over. What you choose to do with those dollars is up to you." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="2596.5" y="2690" width="166.5" height="190" as="geometry" />
-        </mxCell>
         <mxCell id="g_fCNBe7QMv44DTtpd93-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="g_fCNBe7QMv44DTtpd93-3" target="g_fCNBe7QMv44DTtpd93-6">
           <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="g_fCNBe7QMv44DTtpd93-3" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Here are some ideas:&lt;br&gt;&lt;br&gt;1) Budget additional expenses this month that remain not funded.&lt;br&gt;2) Top up your categories to forward fund for a future month.&lt;br&gt;3) Budget the dollars to a credit card category to increase your payment available.&lt;br&gt;4) Budget dollars for one of your Non-Monthly or Savings categories you haven&#39;t added to for a while." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="2830" y="2490" width="258.5" height="300" as="geometry" />
-        </mxCell>
-        <mxCell id="g_fCNBe7QMv44DTtpd93-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.003;entryY=0.432;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="g_fCNBe7QMv44DTtpd93-1" target="g_fCNBe7QMv44DTtpd93-3">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="g_fCNBe7QMv44DTtpd93-5" value="Any suggestions?" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="g_fCNBe7QMv44DTtpd93-4">
-          <mxGeometry x="-0.359" y="-2" relative="1" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="g_fCNBe7QMv44DTtpd93-6" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Come back to continue the conversation once your dollars have been given a job and your &#39;To Budget&#39; number equals 0." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="3160" y="2575" width="166.5" height="190" as="geometry" />
@@ -4215,6 +4181,16 @@
           <mxGeometry x="-0.103" relative="1" as="geometry">
             <mxPoint x="-34" y="-19" as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="JLD7fRMnLcRG0mxqtgqc-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.006;entryY=0.171;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="Gvh3q4yUFe2W-cMg5fZ5-15" target="g_fCNBe7QMv44DTtpd93-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="2597" y="2320" as="sourcePoint" />
+            <mxPoint x="3483" y="2462" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g_fCNBe7QMv44DTtpd93-3" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Here are some ideas:&lt;br&gt;&lt;br&gt;1) Budget additional expenses this month that remain not funded.&lt;br&gt;2) Top up your categories to forward fund for a future month.&lt;br&gt;3) Budget the dollars to a credit card category to increase your payment available.&lt;br&gt;4) Budget dollars for one of your Non-Monthly or Savings categories you haven&#39;t added to for a while." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="2770" y="2305" width="258.5" height="300" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

@@ -153,6 +153,33 @@ export function UploadAvatar({
           </Block>
         }
 
+          {REACT_APP_COACH_FIRST_NAME != null &&
+
+            <Block>
+              <h3 style={{ marginBottom: '-5px'}}>Switch Coaches</h3>
+              <p>
+              Interested in switching to another coach? Reach out and we can help you transition.
+              </p>
+              <Button
+                type="primary"
+                style={{ marginBottom: '20px' }}
+                onClick={() => {
+                  window.location.href = "mailto:admin@mybudgetcoach.com";
+                  modalProps.onClose();
+                }}
+              >
+                <>
+                  <SvgAlertTriangle
+                    width={13}
+                    height={13}
+                    style={{ marginRight: 4 }}
+                  />{' '}
+                  Request to Switch Coach
+                </>
+              </Button>
+            </Block>
+          }
+
 
           {REACT_APP_UI_MODE === 'coach' && REACT_APP_COACH_FIRST_NAME != null &&
             <>

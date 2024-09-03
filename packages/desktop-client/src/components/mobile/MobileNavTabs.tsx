@@ -13,6 +13,7 @@ import {
   SvgStoreFront,
   SvgTuning,
   SvgWallet,
+  SvgChatBubbleDots,
 } from '../../icons/v1';
 import { SvgReports } from '../../icons/v1/Reports';
 import { SvgCalendar } from '../../icons/v2';
@@ -84,6 +85,12 @@ export function MobileNavTabs() {
       path: '/settings',
       style: navTabStyle,
       Icon: SvgCog,
+    },
+    {
+      name: 'Messages (Soon)',
+      path: '/coachmessagecenter',
+      style: navTabStyle,
+      Icon: SvgChatBubbleDots,
     },
   ].map(tab => <NavTab key={tab.path} {...tab} />);
 

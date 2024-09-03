@@ -13,7 +13,7 @@ import { useGlobalPref } from '../../hooks/useGlobalPref';
 import { useLocalPref } from '../../hooks/useLocalPref';
 import { useNavigate } from '../../hooks/useNavigate';
 import { SvgExpandArrow } from '../../icons/v0';
-import { SvgReports, SvgWallet } from '../../icons/v1';
+import { SvgReports, SvgWallet, SvgChatBubbleDots } from '../../icons/v1';
 import { SvgCalendar } from '../../icons/v2';
 import { styles, theme } from '../../style';
 import { Button } from '../common/Button';
@@ -96,6 +96,8 @@ export function Sidebar() {
     setShowClosedAccountsPref(!showClosedAccounts);
   };
 
+  let { totalUnreadCount } = useCoach(); // this is causing the errors.
+
   return (
     <View
       style={{
@@ -156,6 +158,8 @@ export function Sidebar() {
         <Item title="Reports" Icon={SvgReports} to="/reports" />
 
         <Item title="Schedules" Icon={SvgCalendar} to="/schedules" />
+
+        <Item title="Messages" badge={totalUnreadCount} Icon={SvgChatBubbleDots} to="/coachmessagecenter" />
 
         <Tools />
 

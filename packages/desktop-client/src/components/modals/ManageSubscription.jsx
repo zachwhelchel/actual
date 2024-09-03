@@ -38,7 +38,7 @@ export function ManageSubscription({
               <Button
                 type="primary"
                 onClick={() => {
-                  window.location.href = "mailto:admin@mybudgetcoach.app";
+                  window.location.href = "mailto:admin@mybudgetcoach.com";
                   modalProps.onClose();
                 }}
               >

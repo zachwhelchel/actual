@@ -24,6 +24,7 @@ type ItemProps = {
   onClick?: MouseEventHandler<HTMLDivElement>;
   forceHover?: boolean;
   forceActive?: boolean;
+  badge?: number;
 };
 
 export function Item({
@@ -34,6 +35,7 @@ export function Item({
   to,
   onClick,
   indent = 0,
+  badge = 0,
   forceHover = false,
   forceActive = false,
 }: ItemProps) {
@@ -51,6 +53,21 @@ export function Item({
     >
       <Icon width={15} height={15} />
       <Block style={{ marginLeft: 8 }}>{title}</Block>
+      {badge > 0 && (
+        <div style={{
+          backgroundColor: theme.errorText,
+          width: 'fit-content',
+          paddingTop: '2px',
+          paddingLeft: '8px',
+          paddingRight: '8px',
+          borderRadius: '12px',
+          paddingTop: '-100px',
+          marginLeft: '10px',
+          color: "#FFFFFF"
+        }}>
+          { badge }
+        </div>
+      )}
       <View style={{ flex: 1 }} />
     </View>
   );

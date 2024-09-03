@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" version="24.7.6" pages="6">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" version="24.7.7" pages="9">
   <diagram name="Introduction" id="8A6B2itoGrBxZCfid9ey">
-    <mxGraphModel dx="2818" dy="2985" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2658" dy="3001" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="X05_oEHc6OvStZvd9sHa-0" />
         <mxCell id="X05_oEHc6OvStZvd9sHa-1" parent="X05_oEHc6OvStZvd9sHa-0" />
@@ -3799,17 +3799,17 @@
             <mxPoint x="10" y="-11" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="YDdn-9y84jYm9aI-6xnT-21" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Have you budgeted dollars into a category? &lt;br&gt;&lt;br&gt;You can check this by reviewing if your &#39;Budgeted&#39; amount is greater than 0?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+        <mxCell id="YDdn-9y84jYm9aI-6xnT-21" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Have you budgeted dollars into a category for the current month? &lt;br&gt;&lt;br&gt;You can check this by reviewing if your &#39;Budgeted&#39; amount for the current month is greater than 0?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
           <mxGeometry x="1283.86" y="2720" width="195.26" height="160" as="geometry" />
         </mxCell>
         <mxCell id="YDdn-9y84jYm9aI-6xnT-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="YDdn-9y84jYm9aI-6xnT-23" target="YDdn-9y84jYm9aI-6xnT-24">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="YDdn-9y84jYm9aI-6xnT-23" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;This means you have Budgeted dollars in categories already. Great work!" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="1873.5" y="2721" width="166.5" height="190" as="geometry" />
+          <mxGeometry x="1826.5" y="2720" width="166.5" height="190" as="geometry" />
         </mxCell>
         <mxCell id="YDdn-9y84jYm9aI-6xnT-24" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Before we continue, Let&#39;s explore what categories you have funded thus far." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="2125" y="2920" width="166.5" height="190" as="geometry" />
+          <mxGeometry x="2090" y="2810" width="166.5" height="190" as="geometry" />
         </mxCell>
         <mxCell id="YDdn-9y84jYm9aI-6xnT-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="YDdn-9y84jYm9aI-6xnT-29" target="YDdn-9y84jYm9aI-6xnT-32">
           <mxGeometry relative="1" as="geometry">
@@ -3821,18 +3821,12 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="YDdn-9y84jYm9aI-6xnT-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="YDdn-9y84jYm9aI-6xnT-29" target="YDdn-9y84jYm9aI-6xnT-40">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="3190" y="2670" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="2660" y="3060" />
-              <mxPoint x="2660" y="2510" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="VVpNgNycgbNqHplvGB1U-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="YDdn-9y84jYm9aI-6xnT-29" target="YDdn-9y84jYm9aI-6xnT-16">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="YDdn-9y84jYm9aI-6xnT-28" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="YDdn-9y84jYm9aI-6xnT-27">
-          <mxGeometry x="-0.5745" y="-1" relative="1" as="geometry">
-            <mxPoint x="-1" y="-6" as="offset" />
+        <mxCell id="VVpNgNycgbNqHplvGB1U-2" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="VVpNgNycgbNqHplvGB1U-1">
+          <mxGeometry x="-0.2119" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="YDdn-9y84jYm9aI-6xnT-29" value="&lt;div&gt;&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Have you already budgeted dollars for all of your future expenses that will be paid out of your checking account prior to your next paycheck?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
@@ -3977,18 +3971,6 @@
         </mxCell>
         <mxCell id="YDdn-9y84jYm9aI-6xnT-56" value="move_to: budgeted_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="410.00000000000017" y="2990" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="YDdn-9y84jYm9aI-6xnT-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.405;entryY=0.92;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="YDdn-9y84jYm9aI-6xnT-58" target="YDdn-9y84jYm9aI-6xnT-21">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1366.49596" y="2849.28" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="1226" y="2920" />
-              <mxPoint x="1363" y="2920" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="YDdn-9y84jYm9aI-6xnT-58" value="move_to: budgeted_column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-          <mxGeometry x="1165.5500000000002" y="2830" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="YDdn-9y84jYm9aI-6xnT-59" value="END" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="2691.5" y="3210" width="250" height="170" as="geometry" />
@@ -4254,6 +4236,9 @@
           <mxGeometry x="-0.5954" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="VVpNgNycgbNqHplvGB1U-3" value="Moved this arrow" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="2530" y="2720" width="120" height="80" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
@@ -5549,6 +5534,495 @@
         </mxCell>
         <mxCell id="x46V695iD4inPaovz3mK-15" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;You&#39;re now all set to move forward. Be sure to reconcile often moving forward&lt;span style=&quot;background-color: initial;&quot;&gt;, 2-3 times per week,&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;and hopefully you&#39;ll be able to find errors and not have to make adjustments.&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="3050" y="2320" width="250" height="130" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="AjlCuyge3zopPLMdUrO7" name="Haven&#39;t reconciled in 1 month">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="D1I_kbHtyhivsYmZpV32-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-2" target="D1I_kbHtyhivsYmZpV32-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-2" value="3o8doUeyrZAinxcGBi" style="triangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="240" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-3" value="Where&#39;s my money chipmunk gif" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-10" y="340" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-10" target="D1I_kbHtyhivsYmZpV32-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-5" value="I haven&#39;t logged in lately" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="D1I_kbHtyhivsYmZpV32-4">
+          <mxGeometry x="-0.0444" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-10" target="D1I_kbHtyhivsYmZpV32-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-7" value="I don&#39;t know what reconciling is or why I should be doing it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="D1I_kbHtyhivsYmZpV32-6">
+          <mxGeometry x="0.0182" y="3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-10" target="D1I_kbHtyhivsYmZpV32-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="350" />
+              <mxPoint x="750" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-9" value="My balances didn&#39;t match so I was avoiding it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="D1I_kbHtyhivsYmZpV32-8">
+          <mxGeometry x="-0.05" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-10" value="Hi there, I notice you haven&#39;t reconciled in a while. How come?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="360" y="230" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-13" target="D1I_kbHtyhivsYmZpV32-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="880" y="220" />
+              <mxPoint x="655" y="220" />
+              <mxPoint x="655" y="210" />
+              <mxPoint x="540" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-12" value="Ok, I checked in, now let&#39;s talk about reconciling" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="D1I_kbHtyhivsYmZpV32-11">
+          <mxGeometry x="-0.1457" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-13" value="Gotcha. Let&#39;s talk about why. You might have noticed a conversation pop up about that. Check in with me there first." style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="770" y="255" width="220" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-15" target="D1I_kbHtyhivsYmZpV32-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-15" value="No worries, let me explain." style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="270" y="440" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-18" target="D1I_kbHtyhivsYmZpV32-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-17" value="Now what?" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="D1I_kbHtyhivsYmZpV32-16">
+          <mxGeometry x="-0.1814" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-18" value="&lt;div&gt;Dude. I totally get that.&amp;nbsp;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="690" y="400" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-20" target="D1I_kbHtyhivsYmZpV32-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-20" value="Reconciling is when you compare your accounts in MyBudgetCoach with your real life accounts and confirm that they match.&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="195" y="550" width="195" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-23">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1080" y="1010" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-22" value="Awesome, I&#39;ll get right on that" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="D1I_kbHtyhivsYmZpV32-21">
+          <mxGeometry x="0.2515" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-23" value="Check out the &quot;Reconciliation Step by Step&quot; conversation for instructions." style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="980" y="840" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-25" target="D1I_kbHtyhivsYmZpV32-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-25" value="It&#39;s important to reconcile often for a couple reasons.&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="980" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-27" target="D1I_kbHtyhivsYmZpV32-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-27" value="You&#39;ll check that all the real life transactions are entered accurately in MyBudgetCoach and then you&#39;ll check that your account balance in MyBudgetCoach is the same as your account balance in real life." style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="550" width="210" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-28" value="Once they match you click reconcile to confirm the match and feel confident in your budget accuracy." style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="700" y="550" width="130" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.033;entryY=0.617;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-28" target="D1I_kbHtyhivsYmZpV32-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-31" target="D1I_kbHtyhivsYmZpV32-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-31" value="Most importantly, your budget can only help you make decisions if it&#39;s accurate. An accurate budget needs to have accurate accounts and transactions." style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="590" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="D1I_kbHtyhivsYmZpV32-33" target="D1I_kbHtyhivsYmZpV32-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-33" value="I encourage you to reconcile often so that you&#39;re dealing with fewer transactions at once and it&#39;s not overwhelming and it&#39;s easier to find any errors." style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1015" y="710" width="225" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="D1I_kbHtyhivsYmZpV32-34" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;no_reconciliation_for_one_month&lt;/span&gt;" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="60" width="290" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D9zoy_0Ob-r93X8KHiz7" name="Haven&#39;t reconciled in 1 week">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-2" target="tMc-rzaLod5ShR6b_0kK-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-2" value="xTiTnqUxyWbsAXq7Ju" style="triangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="240" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-3" value="Donald duck counting money" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-10" y="340" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-10" target="tMc-rzaLod5ShR6b_0kK-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-5" value="I haven&#39;t logged in lately" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="tMc-rzaLod5ShR6b_0kK-4">
+          <mxGeometry x="-0.0444" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-10" target="tMc-rzaLod5ShR6b_0kK-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-7" value="I don&#39;t know what reconciling is or why I should be doing it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="tMc-rzaLod5ShR6b_0kK-6">
+          <mxGeometry x="0.0182" y="3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-10" target="tMc-rzaLod5ShR6b_0kK-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="350" />
+              <mxPoint x="750" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-9" value="My balances didn&#39;t match so I was avoiding it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="tMc-rzaLod5ShR6b_0kK-8">
+          <mxGeometry x="-0.05" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-10" value="Hi there, it&#39;s been a week since you last reconciled your accounts. How come?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="360" y="230" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-13" target="tMc-rzaLod5ShR6b_0kK-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="880" y="220" />
+              <mxPoint x="655" y="220" />
+              <mxPoint x="655" y="210" />
+              <mxPoint x="540" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-12" value="Thanks for the tip, so what&#39;s the deal with reconciling?" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="tMc-rzaLod5ShR6b_0kK-11">
+          <mxGeometry x="-0.1457" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-13" value="Gotcha. It&#39;s not uncommon to not be in your budget often, especially when life gets busy. I recommend you try to make it a short daily habit so it&#39;s not too overwhelming to get caught back up. Shoot me a message in the message center if you want to chat more about making budgeting a lifestyle." style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="770" y="230" width="350" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-15" target="tMc-rzaLod5ShR6b_0kK-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-15" value="No worries, let me explain." style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="270" y="440" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-18" target="tMc-rzaLod5ShR6b_0kK-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-17" value="Now what?" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="tMc-rzaLod5ShR6b_0kK-16">
+          <mxGeometry x="-0.1814" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-18" value="&lt;div&gt;Dude. I totally get that.&amp;nbsp;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="690" y="400" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-20" target="tMc-rzaLod5ShR6b_0kK-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-20" value="Reconciling is when you compare your accounts in MyBudgetCoach with your real life accounts and confirm that they match.&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="195" y="550" width="195" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-23">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1080" y="1010" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-22" value="Awesome, I&#39;ll get right on that" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="tMc-rzaLod5ShR6b_0kK-21">
+          <mxGeometry x="0.2515" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-23" value="Check out the &quot;Reconciliation Step by Step&quot; conversation for instructions." style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="980" y="840" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-25" target="tMc-rzaLod5ShR6b_0kK-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-25" value="It&#39;s important to reconcile often for a couple reasons.&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="980" y="490" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-27" target="tMc-rzaLod5ShR6b_0kK-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-27" value="You&#39;ll check that all the real life transactions are entered accurately in MyBudgetCoach and then you&#39;ll check that your account balance in MyBudgetCoach is the same as your account balance in real life." style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="450" y="550" width="210" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-28" value="Once they match you click reconcile to confirm the match and feel confident in your budget accuracy." style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="700" y="550" width="130" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.033;entryY=0.617;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-28" target="tMc-rzaLod5ShR6b_0kK-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-31" target="tMc-rzaLod5ShR6b_0kK-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-31" value="Most importantly, your budget can only help you make decisions if it&#39;s accurate. An accurate budget needs to have accurate accounts and transactions." style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="590" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-33" target="tMc-rzaLod5ShR6b_0kK-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-33" value="I encourage you to reconcile often so that you&#39;re dealing with fewer transactions at once and it&#39;s not overwhelming and it&#39;s easier to find any errors." style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1015" y="710" width="225" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-34" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;no_reconciliation_for_one_week&lt;/span&gt;" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="60" width="290" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tMc-rzaLod5ShR6b_0kK-36" target="tMc-rzaLod5ShR6b_0kK-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tMc-rzaLod5ShR6b_0kK-36" value="highlight: message_center" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="960" y="120" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="IdTZT5cIN-YfOJK2-YSL" name="More than 10 uncategorized transactions">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="W4EH6cjEtR158jssKWHA-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-2" target="W4EH6cjEtR158jssKWHA-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-2" value="QyLeEG8FwmCrdTJGIV" style="triangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="240" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-3" value="Mail worker sorting mail" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-10" y="340" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-10" target="W4EH6cjEtR158jssKWHA-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-5" value="I haven&#39;t logged in lately" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-4">
+          <mxGeometry x="-0.0444" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-10" target="W4EH6cjEtR158jssKWHA-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-7" value="I don&#39;t know what the category should be" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-6">
+          <mxGeometry x="-0.0639" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-10" target="W4EH6cjEtR158jssKWHA-26">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="460" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="450" y="380" />
+              <mxPoint x="591" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-9" value="I don&#39;t want to track all my spending" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-8">
+          <mxGeometry x="0.138" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-10" value="Good to see you again. I noticed that you have several transactions without categories. Any particular reason why?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="360" y="240" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-13" target="W4EH6cjEtR158jssKWHA-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-12" value="Now what?" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-11">
+          <mxGeometry x="-0.7758" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-13" value="Gotcha. It&#39;s not uncommon to not be in your budget often, especially when life gets busy. I recommend you try to make it a short daily habit so it&#39;s not too overwhelming to get caught back up. Shoot me a message in the message center if you want to chat more about making budgeting a lifestyle." style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="770" y="230" width="350" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-14" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;more_than_ten_uncategorized_transactions&lt;/span&gt;" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="60" width="290" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-16" target="W4EH6cjEtR158jssKWHA-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-16" value="highlight: message_center" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="960" y="120" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-23" target="W4EH6cjEtR158jssKWHA-35">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="650" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="210" y="505" />
+              <mxPoint x="210" y="620" />
+              <mxPoint x="230" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-18" value="It&#39;s someplace that could be anything, like Amazon, Apple etc" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-17">
+          <mxGeometry x="0.0085" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-23" target="W4EH6cjEtR158jssKWHA-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-20" value="I need to ask my spouse/kid etc" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-19">
+          <mxGeometry x="0.0125" y="2" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-23" target="W4EH6cjEtR158jssKWHA-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-22" value="I just can&#39;t remember what it was" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-21">
+          <mxGeometry x="-0.0413" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-23" value="That happens to me all the time. Which of these reasons is what&#39;s going on for you right now?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="260" y="450" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-26" target="W4EH6cjEtR158jssKWHA-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-25" value="That sounds good" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-24">
+          <mxGeometry x="-0.5917" y="-1" relative="1" as="geometry">
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-26" value="Interesting. So with a zero based budget we do still need to track everything, but we can set it up so it tracks in broad categories for the stuff you care less about the detail on." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="620" y="410" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-31">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="765" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-28" value="No problem, I got this" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-27">
+          <mxGeometry x="0.0465" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-31" target="W4EH6cjEtR158jssKWHA-47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-30" value="I need some help" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-29">
+          <mxGeometry x="-0.0969" y="-2" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-31" value="Ok, time to categorize those transactions. Do you remember how?" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="650" y="720" width="350" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-34" target="W4EH6cjEtR158jssKWHA-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-33" value="Done" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-32">
+          <mxGeometry x="-0.04" y="1" relative="1" as="geometry">
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-34" value="Ok, in the budget screen go ahead and edit your budget so you have some broad categories like &quot;bills&quot; or &quot;shopping&quot; that you can dump transactions in as they come up." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="650" y="550" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-35" value="Shoot me a message and I&#39;ll send you some PDFs about how to find that information with those companies." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="160" y="680" width="140" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-38" target="W4EH6cjEtR158jssKWHA-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-37" value="Got it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-36">
+          <mxGeometry x="-0.259" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-38" value="That&#39;s the tricky part about multiple spenders. Make yourself a note to ask them." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="320" y="640" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-39" value="Sometimes you have to give yourself grace and make your best guess so you can move forward. Maybe make a note in the memo that you aren&#39;t sure. Or make a misc category for now." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="460" y="770" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-40" value="Ok, so now you have a plan. Feel free to execute the plan and then come back to this when you know the categories." style="whiteSpace=wrap;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="220" y="930" width="350" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.102;entryY=0.039;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-35" target="W4EH6cjEtR158jssKWHA-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-42" value="Will do" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-41">
+          <mxGeometry x="0.2319" y="-4" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.87;entryY=0.053;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-39" target="W4EH6cjEtR158jssKWHA-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-44" value="On it" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-43">
+          <mxGeometry x="0.0402" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.388;entryY=1.011;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-40" target="W4EH6cjEtR158jssKWHA-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-46" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-47" target="W4EH6cjEtR158jssKWHA-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-47" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;I got you. All you gotta do is click the word &quot;categorize&quot; in the transaction and select the category you want from the drop down. If it&#39;s hard to find you can start typing in the box and it&#39;ll filter the list.&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="880" y="900" width="350" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-48" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-49" target="W4EH6cjEtR158jssKWHA-52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-49" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;If you can&#39;t find a category that fits you can also add a category right from the drop down. Scroll to the bottom of your existing categories and click &quot;+ create category&quot;. Then you can type a category name and select which group you want it in. Make sure to hit confirm." style="whiteSpace=wrap;html=1;rounded=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="880" y="1070" width="360" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="W4EH6cjEtR158jssKWHA-52">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1060" y="1450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-51" value="I&#39;m all set. Thanks" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="W4EH6cjEtR158jssKWHA-50">
+          <mxGeometry x="0.0062" y="3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W4EH6cjEtR158jssKWHA-52" value="&lt;div&gt;&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Once you get everything categorized make sure to reconcile. Visit the &quot;reconciliation step by step&quot; conversation if you&#39;re not sure how." style="whiteSpace=wrap;html=1;rounded=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="880" y="1260" width="360" height="110" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

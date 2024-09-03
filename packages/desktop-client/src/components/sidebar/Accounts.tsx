@@ -81,7 +81,7 @@ export function Accounts({
     return null;
   };
 
-  let { commonElementsRef, conversationDeck, openConversation, setOpenConversation, allConversations, totalUnreadCount } = useCoach(); // this is causing the errors.
+  let { commonElementsRef, conversationDeck, openConversation, setOpenConversation, allConversations } = useCoach(); // this is causing the errors.
 
   let coachFirstNameZoom = "Zoom with " + REACT_APP_COACH_FIRST_NAME;
   let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
@@ -570,19 +570,6 @@ export function Accounts({
           title="Coach Dashboard"
         />
       )}
-      <SecondaryItem
-        style={{
-          marginTop: 0,
-          marginBottom: 9,
-          paddingBottom: 10,
-          flexShrink: '0',
-        }}
-        onClick={() => navigate("/coachmessagecenter")}
-        Icon={SvgChatBubbleDots}
-        title={messageCenterText}
-        badge={totalUnreadCount}
-        refForHighlighting="message_center"
-      />
     </View>
   );
 }
