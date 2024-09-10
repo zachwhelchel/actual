@@ -125,6 +125,7 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
     let REACT_APP_COACH = myobj.data.REACT_APP_COACH;
     let REACT_APP_COACH_FIRST_NAME = myobj.data.REACT_APP_COACH_FIRST_NAME;
     let REACT_APP_USER_FIRST_NAME = myobj.data.REACT_APP_USER_FIRST_NAME;
+    let REACT_APP_USER_EMAIL = myobj.data.REACT_APP_USER_EMAIL;
     let REACT_APP_UI_MODE = myobj.data.REACT_APP_UI_MODE;
 
     if (REACT_APP_BILLING_STATUS != null) {
@@ -179,6 +180,12 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
       localStorage.setItem('REACT_APP_USER_FIRST_NAME', REACT_APP_USER_FIRST_NAME);
     } else {
       localStorage.removeItem('REACT_APP_USER_FIRST_NAME');
+    }
+
+    if (REACT_APP_USER_EMAIL != null) {
+      localStorage.setItem('REACT_APP_USER_EMAIL', REACT_APP_USER_EMAIL);
+    } else {
+      localStorage.removeItem('REACT_APP_USER_EMAIL');
     }
 
     if (REACT_APP_UI_MODE != null) {

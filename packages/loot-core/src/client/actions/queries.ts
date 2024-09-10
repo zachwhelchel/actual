@@ -13,6 +13,11 @@ export function applyBudgetAction(month, type, args) {
   return async (dispatch: Dispatch) => {
     switch (type) {
       case 'budget-amount':
+        analytics.track('update_budgeted_amount', {
+          category: args.category,
+          month: month,
+        });
+
         await send('budget/budget-amount', {
           month,
           category: args.category,
@@ -145,6 +150,11 @@ export function createCategory(
   hidden: boolean,
   atEnd: boolean = false,
 ) {
+
+  analytics.track('create_category', {
+    name: name,
+  });
+
   return async (dispatch: Dispatch) => {
     const id = await send('category-create', {
       name,
@@ -280,6 +290,12 @@ export function updateAccount(account: AccountEntity) {
 }
 
 export function createAccount(name, balance, offBudget) {
+
+  analytics.track('create_account', {
+    name: name,
+    off_budget: offBudget,
+  });
+
   return async (dispatch: Dispatch) => {
     const id = await send('account-create', { name, balance, offBudget });
     await dispatch(getAccounts());

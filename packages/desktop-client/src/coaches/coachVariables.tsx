@@ -1,6 +1,7 @@
 let url = window.location.href;
 
 let REACT_APP_BILLING_STATUS = localStorage.getItem("REACT_APP_BILLING_STATUS");
+let REACT_APP_USER_EMAIL = localStorage.getItem("REACT_APP_USER_EMAIL");
 let REACT_APP_TRIAL_END_DATE = localStorage.getItem("REACT_APP_TRIAL_END_DATE");
 let REACT_APP_START_PAYING_DATE = localStorage.getItem("REACT_APP_START_PAYING_DATE");
 let REACT_APP_ZOOM_RATE = localStorage.getItem("REACT_APP_ZOOM_RATE");
@@ -51,6 +52,7 @@ function modifyVars() {
   REACT_APP_COACH = localStorage.getItem("REACT_APP_COACH");
   REACT_APP_COACH_FIRST_NAME = localStorage.getItem("REACT_APP_COACH_FIRST_NAME");
   REACT_APP_USER_FIRST_NAME = localStorage.getItem("REACT_APP_USER_FIRST_NAME");
+  REACT_APP_USER_EMAIL = localStorage.getItem("REACT_APP_USER_EMAIL");
   REACT_APP_UI_MODE = localStorage.getItem("REACT_APP_UI_MODE");
 
   if (url.includes("kristinwade")) {
@@ -444,6 +446,7 @@ function modifyVars() {
     REACT_APP_UI_MODE = "coach"
   }
   else if (url.includes("localhost")) {
+    REACT_APP_USER_EMAIL = "zach.whelchel@gmail.com"
     REACT_APP_BILLING_STATUS = "paid"
     REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
     // REACT_APP_ZOOM_RATE = "39.99 USD / hour"
@@ -653,4 +656,4 @@ function getCoach() {
 //if we find that file then set everything to that...
 //that's really the bulk of it...
 
-export {REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE, REACT_APP_CHAT_USER_ID, REACT_APP_RESPONSE_EXPECTATIONS, testableCoachList, getCoach}
+export {REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_USER_EMAIL, REACT_APP_UI_MODE, REACT_APP_CHAT_USER_ID, REACT_APP_RESPONSE_EXPECTATIONS, testableCoachList, getCoach}

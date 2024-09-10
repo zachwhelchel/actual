@@ -2174,8 +2174,13 @@ export const TransactionTable = forwardRef((props, ref) => {
   }, [props.onAdd, newNavigator.onEdit]);
 
   const onSave = useCallback(
+
     async (transaction, subtransactions = null, updatedFieldName = null) => {
       savePending.current = true;
+
+      analytics.track('update_transaction', {
+        updated_field_name: updatedFieldName,
+      });
 
       let groupedTransaction = subtransactions
         ? groupTransaction([transaction, ...subtransactions])

@@ -8,7 +8,7 @@ import { View } from '../common/View';
 import { Tooltip } from '../tooltips';
 import { Menu } from '../common/Menu';
 import { BigInput } from '../common/Input';
-import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
+import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_USER_EMAIL, REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 import { SvgClose } from '../../icons/v1';
 import { SvgDotsHorizontalTriple } from '../../icons/v1';
 import { StreamChat } from 'stream-chat';
@@ -365,6 +365,18 @@ if (allConversations != null) {
         silent: true,
       }, { skip_push: true });
     }
+
+    // user visited budget to customer.io...
+
+    if (REACT_APP_USER_EMAIL != null) {
+      analytics.identify(REACT_APP_USER_EMAIL, {
+        last_seen_in_app: new Date(),
+      });
+    }
+
+    analytics.track('visited_budget', {
+      screen_size: screenSize, 
+    });
 
   }
 
@@ -795,8 +807,13 @@ export default function Coach({
         coach_text: text,
         silent: true,
       }, { skip_push: true });
+
     }
 
+    analytics.track('avatar_interaction', {
+      client_text: clientText,
+      coach_text: text,
+    });
 
 
     if (variableToSet !== undefined && variableToSet !== null && valueToSet !== undefined && valueToSet !== null) {
