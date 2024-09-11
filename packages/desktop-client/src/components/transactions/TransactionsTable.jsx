@@ -82,6 +82,9 @@ import {
 import { Tooltip } from '../tooltips';
 
 import Coach, { CoachProvider, useCoach } from '../coach/Coach';
+import { AnalyticsBrowser } from '@customerio/cdp-analytics-browser'
+
+const analytics = AnalyticsBrowser.load({ writeKey: '44e3df5b84cde8138074' })
 
 function getDisplayValue(obj, name) {
   return obj ? obj[name] : '';

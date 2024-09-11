@@ -8,6 +8,9 @@ import * as constants from '../constants';
 import { pushModal } from './modals';
 import { addNotification, addGenericErrorNotification } from './notifications';
 import type { Dispatch, GetState } from './types';
+import { AnalyticsBrowser } from '@customerio/cdp-analytics-browser'
+
+const analytics = AnalyticsBrowser.load({ writeKey: '44e3df5b84cde8138074' })
 
 export function applyBudgetAction(month, type, args) {
   return async (dispatch: Dispatch) => {

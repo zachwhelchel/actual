@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState, useRef } from 'r
 
 //import { useActions } from '../hooks/useActions';
 
+import { AnalyticsBrowser } from '@customerio/cdp-analytics-browser'
+
 import { Button } from '../common/Button';
 import { Card } from '../common/Card';
 import { View } from '../common/View';
@@ -17,6 +19,7 @@ import {
   send,
 } from 'loot-core/src/platform/client/fetch';
 
+const analytics = AnalyticsBrowser.load({ writeKey: '44e3df5b84cde8138074' })
 
 let CoachContext = createContext();
 
