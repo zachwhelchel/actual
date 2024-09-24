@@ -36,6 +36,8 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['jennyphan', 'Jenny Phan'],
 ['dariomartinezbatlle', 'Darío Martínez Batlle'],
 ['niaadams', 'Nia Adams'],
+['suerubincan', 'Sue Rubincan'],
+['amandaperez', 'Amanda Perez'],
 ['zachwhelchel', 'Zach Whelchel'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
@@ -594,6 +596,17 @@ function modifyVars() {
       REACT_APP_ZOOM_RATE = "75.00 USD / hour"
       REACT_APP_ZOOM_LINK = "https://bit.ly/coachedbynia"
     }
+    else if (testPublishedAvatar === "suerubincan") {
+      REACT_APP_COACH_FIRST_NAME = "Sue"
+      REACT_APP_ZOOM_RATE = "35.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://calendly.com/srubincan"
+    }
+    else if (testPublishedAvatar === "amandaperez") {
+      REACT_APP_COACH_FIRST_NAME = "Amanda"
+      REACT_APP_ZOOM_RATE = "40.00 USD / 30 Minute Session"
+      REACT_APP_ZOOM_LINK = "https://calendly.com/amanda-assists/mybudgetcoach"
+    }
+
     else if (testPublishedAvatar === "zachwhelchel") {
       REACT_APP_COACH_FIRST_NAME = "Zach"
       REACT_APP_ZOOM_RATE = "29.00 USD / hour"
@@ -637,6 +650,10 @@ function modifyVars() {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll get back to you within 12 hours of receipt. (No dudes en enviarme un mensaje en cualquier momento. Me comunicaré con usted dentro de las 12 horas posteriores a la recepción.)"
   } else if (REACT_APP_COACH === "niaadams") {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I reply within two business days Mon - Friday. If possible please include screen shots with your questions."
+  } else if (REACT_APP_COACH === "suerubincan") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "Please include a screenshot with your questions if possible and I will reply within two business days."
+  } else if (REACT_APP_COACH === "amandaperez") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "I usually reply by the next business day. Please include screenshots with your questions when necessary. If you need more involved assistance, I may suggest a video call."
   } else if (REACT_APP_COACH === "zachwhelchel") {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll reply as soon as I can."
   } else {
