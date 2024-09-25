@@ -269,12 +269,12 @@ export function UploadAvatar({
 
               {supportedTriggerTypes.includes('paycheck_received') && (
                 <Button type="normal" onClick={() => {triggerFired('paycheck_received')}} style={{ marginTop: '0px' }}>
-                  Paycheck Recieved
+                  Paycheck Received
                 </Button>
               )}
               {supportedTriggerTypes.includes('paycheck_received') == false && (
                 <Button type="normal" style={{ marginTop: '0px' }}>
-                  <strike>Paycheck Recieved</strike>
+                  <strike>Paycheck Received</strike>
                 </Button>
               )}
 
