@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" version="24.7.7" pages="12">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36" version="24.7.17" pages="12">
   <diagram name="Introduction" id="oP8GNghZ1G6uxloS-E3e">
-    <mxGraphModel dx="3508" dy="-299" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3645" dy="-299" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -835,7 +835,7 @@
             <mxPoint x="-5" y="-12" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="0-EneBROj2ixGp5UVlga-53" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;You now see only rows with a grey shading. These are the &#39;Category Groups.&#39; Within each Category Group are the Categories." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+        <mxCell id="0-EneBROj2ixGp5UVlga-53" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;You now see only rows with bold text. These are the &#39;Category Groups.&#39; Within each Category Group are the Categories." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="2070" y="7429.5" width="129.74" height="135" as="geometry" />
         </mxCell>
         <mxCell id="0-EneBROj2ixGp5UVlga-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="0-EneBROj2ixGp5UVlga-55" target="0-EneBROj2ixGp5UVlga-57" edge="1">
@@ -1656,7 +1656,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="TmEJRp-qRndceqDYDyBR-4" value="&lt;div&gt;If you have a quick question, feel free to send me a message within the &#39;Message Center&#39; found at the bottom of the left menu. I will reply within one business day. In addition to any messages we have back and forth, as you complete conversations, your progress and selections will be shown within the &#39;Message Center&#39; in a chat format.&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+        <mxCell id="TmEJRp-qRndceqDYDyBR-4" value="&lt;div&gt;If you have a quick question, feel free to send me a message within &#39;Messages&#39; found under &#39;Schedules&#39; in the left menu. I will reply within one business day. In addition to any messages we have back and forth, as you complete conversations, your progress and selections will be shown within the &#39;Message Center&#39; in a chat format.&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="-1096.75" y="2060" width="204.5" height="204.5" as="geometry" />
         </mxCell>
         <mxCell id="TmEJRp-qRndceqDYDyBR-5" value="&amp;lt;&amp;lt;Accounts&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;If you want to review a step again, select the &#39;Back&#39; button below. If you want to hide the avatar conversation, select the &#39;x&#39; at the top left of my picture. You can continue the conversation by selecting the &#39;Introduction&#39; conversation in the left side menu bar above the &#39;Schedule Video Call&#39; button.&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
@@ -4400,7 +4400,7 @@
             <mxPoint x="3710" y="2450" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ikkCH_3X_KeVY7kvKhKx-12" value="Now that you know what amount you can pay, [[credit_card_payment]], log in to your credit card account outside of MyBudgetCoach and make the payment." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+        <mxCell id="ikkCH_3X_KeVY7kvKhKx-12" value="Now that you know what amount you can pay, $[[credit_card_payment]], log in to your credit card account outside of MyBudgetCoach and make the payment." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="3480" y="2362.54" width="144.92" height="144.92" as="geometry" />
         </mxCell>
         <mxCell id="ikkCH_3X_KeVY7kvKhKx-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="ikkCH_3X_KeVY7kvKhKx-19" target="ikkCH_3X_KeVY7kvKhKx-21">
@@ -4774,7 +4774,7 @@
             <mxPoint x="210" y="3645" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="P25O_c0PMwNEif-Dvpjf-25" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;To move these dollars to another category, you can either reduce the amount entered in the Budgeted column of that same category, or you can select the amount in the Balance and choose &#39;Transfer to another category.&#39; Once you selected, you can then choose the category with the negative red balance and enter the amount you want to transfer." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="P25O_c0PMwNEif-Dvpjf-25" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;To move these dollars to another category, you can either reduce the amount entered in the Budgeted column of that same category, or you can select the amount in the Balance and choose &#39;Transfer to another category.&#39; Once selected, you can then choose the category with the negative red balance and enter the amount you want to transfer." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="298.5" y="3560" width="261.5" height="170" as="geometry" />
         </mxCell>
         <mxCell id="P25O_c0PMwNEif-Dvpjf-29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="P25O_c0PMwNEif-Dvpjf-21" target="P25O_c0PMwNEif-Dvpjf-28">
@@ -4879,7 +4879,7 @@
             <mxPoint x="3500" y="2592.3333333333335" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="APb-0gYQ0wsG8zhBU9OE-10" value="credit_card_payment = 0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="APb-0gYQ0wsG8zhBU9OE-9">
+        <mxCell id="APb-0gYQ0wsG8zhBU9OE-10" value="credit_card_payment=0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="APb-0gYQ0wsG8zhBU9OE-9">
           <mxGeometry x="-0.1937" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -4902,7 +4902,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="APb-0gYQ0wsG8zhBU9OE-11" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;At this time, it doesn&#39;t appear that you have available dollars to make a credit card payment. If you think this is in error, please book a video call with me and I would be happy to help review and provide guidance on next steps." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="3510" y="2615" width="261.5" height="170" as="geometry" />
+          <mxGeometry x="3500" y="2615" width="261.5" height="170" as="geometry" />
         </mxCell>
         <mxCell id="APb-0gYQ0wsG8zhBU9OE-13" value="END" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
           <mxGeometry x="4149" y="2890" width="250" height="170" as="geometry" />

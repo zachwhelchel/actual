@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" version="24.7.7" pages="9">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36" version="24.7.17" pages="9">
   <diagram name="Introduction" id="8A6B2itoGrBxZCfid9ey">
-    <mxGraphModel dx="2658" dy="3001" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2795" dy="3001" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="X05_oEHc6OvStZvd9sHa-0" />
         <mxCell id="X05_oEHc6OvStZvd9sHa-1" parent="X05_oEHc6OvStZvd9sHa-0" />
@@ -4442,7 +4442,7 @@
             <mxPoint x="3710" y="2450" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="NMmbbL_EbVjkaftl96_a-41" value="Now that you know what amount you can pay, $ [[credit_card_payment]], log in to your credit card account outside of MyBudgetCoach and make the payment." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+        <mxCell id="NMmbbL_EbVjkaftl96_a-41" value="Now that you know what amount you can pay, $[[credit_card_payment]], log in to your credit card account outside of MyBudgetCoach and make the payment." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="3480" y="2362.54" width="144.92" height="144.92" as="geometry" />
         </mxCell>
         <mxCell id="NMmbbL_EbVjkaftl96_a-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="NMmbbL_EbVjkaftl96_a-44" target="NMmbbL_EbVjkaftl96_a-46">
@@ -4745,7 +4745,7 @@
             <mxPoint x="210" y="3645" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="NMmbbL_EbVjkaftl96_a-112" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;To move these dollars to another category, you can either reduce the amount entered in the Budgeted column of that same category, or you can select the amount in the Balance and choose &#39;Transfer to another category.&#39; Once you selected, you can then choose the category with the negative red balance and enter the amount you want to transfer." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="NMmbbL_EbVjkaftl96_a-112" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;To move these dollars to another category, you can either reduce the amount entered in the Budgeted column of that same category, or you can select the amount in the Balance and choose &#39;Transfer to another category.&#39; Once selected, you can then choose the category with the negative red balance and enter the amount you want to transfer." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="298.5" y="3560" width="261.5" height="170" as="geometry" />
         </mxCell>
         <mxCell id="NMmbbL_EbVjkaftl96_a-113" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="NMmbbL_EbVjkaftl96_a-110" target="NMmbbL_EbVjkaftl96_a-115">
@@ -4847,7 +4847,7 @@
             <mxPoint x="3500" y="2592.3333333333335" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="NMmbbL_EbVjkaftl96_a-135" value="credit_card_payment = 0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="NMmbbL_EbVjkaftl96_a-134">
+        <mxCell id="NMmbbL_EbVjkaftl96_a-135" value="credit_card_payment=0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="NMmbbL_EbVjkaftl96_a-134">
           <mxGeometry x="-0.1937" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
@@ -4934,7 +4934,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="NMmbbL_EbVjkaftl96_a-156" value="highlight: zoom_link" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-          <mxGeometry x="3839.75" y="2750" width="145" height="60" as="geometry" />
+          <mxGeometry x="3860" y="2747.5" width="145" height="60" as="geometry" />
         </mxCell>
         <mxCell id="NMmbbL_EbVjkaftl96_a-157" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="NMmbbL_EbVjkaftl96_a-158" target="NMmbbL_EbVjkaftl96_a-115">
           <mxGeometry relative="1" as="geometry">
