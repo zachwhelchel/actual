@@ -41,6 +41,8 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['haleybrownwoods', 'Haley Brown-Woods'],
 ['christinemaclaren', 'Christine MacLaren'],
 ['zachwhelchel', 'Zach Whelchel'],
+['amydural', 'Amy Dural'],
+['eileentong', 'Eileen Tong'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
 ];
@@ -624,6 +626,16 @@ function modifyVars() {
       REACT_APP_ZOOM_RATE = "29.00 USD / hour"
       REACT_APP_ZOOM_LINK = "https://calendly.com/zach-whelchel/60min"
     }
+    else if (testPublishedAvatar === "amydural") {
+      REACT_APP_COACH_FIRST_NAME = "Amy"
+      REACT_APP_ZOOM_RATE = "50.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://tidycal.com/amydural/30-minute-meeting"
+    }
+    else if (testPublishedAvatar === "eileentong") {
+      REACT_APP_COACH_FIRST_NAME = "Eileen"
+      REACT_APP_ZOOM_RATE = "55.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://calendly.com/et1234567/mybudgetcoach-session-1"
+    }
 
     else {
       REACT_APP_COACH_FIRST_NAME = testPublishedAvatar
@@ -672,6 +684,8 @@ function modifyVars() {
     REACT_APP_RESPONSE_EXPECTATIONS = "I will reply within two days."
   } else if (REACT_APP_COACH === "zachwhelchel") {
     REACT_APP_RESPONSE_EXPECTATIONS = "Feel free to message me anytime. I'll reply as soon as I can."
+  } else if (REACT_APP_COACH === "amydural") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "I will reply as soon as I can but within two business days."
   } else {
     REACT_APP_RESPONSE_EXPECTATIONS = null;
   }
