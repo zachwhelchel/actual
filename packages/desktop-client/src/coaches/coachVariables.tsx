@@ -44,6 +44,7 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['amydural', 'Amy Dural'],
 ['eileentong', 'Eileen Tong'],
 ['skylerfleming', 'Skyler Fleming'],
+['robphelan', 'Rob Phelan'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
 ];
@@ -641,6 +642,11 @@ function modifyVars() {
       REACT_APP_COACH_FIRST_NAME = "Skyler"
       REACT_APP_ZOOM_RATE = "30.00 USD / hour"
       REACT_APP_ZOOM_LINK = "https://cal.com/moneytalkwithskylerfleming/60-minute-financial-coaching"
+    }
+    else if (testPublishedAvatar === "robphelan") {
+      REACT_APP_COACH_FIRST_NAME = "Rob"
+      REACT_APP_ZOOM_RATE = "(Not Available)"
+      REACT_APP_ZOOM_LINK = "https://thesimplestartup.com/about/"
     }
 
     else {
