@@ -4,7 +4,7 @@ import { type State } from 'loot-core/src/client/state-types';
 
 import { useServerURL } from '../components/ServerContext';
 
-export type SyncServerStatus = 'offline' | 'no-server' | 'online';
+type SyncServerStatus = 'offline' | 'no-server' | 'online';
 
 export function useSyncServerStatus(): SyncServerStatus {
   const serverUrl = useServerURL();
@@ -14,5 +14,5 @@ export function useSyncServerStatus(): SyncServerStatus {
     return 'no-server';
   }
 
-  return !userData || userData.offline ? 'offline' : 'online';
+  return !userData || userData?.offline ? 'offline' : 'online';
 }

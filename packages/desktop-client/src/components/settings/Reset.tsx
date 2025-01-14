@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
+import { resetSync } from 'loot-core/client/actions';
 import { send } from 'loot-core/src/platform/client/fetch';
 
-import { useActions } from '../../hooks/useActions';
-import { useLocalPref } from '../../hooks/useLocalPref';
-import { ButtonWithLoading } from '../common/Button';
+import { useMetadataPref } from '../../hooks/useMetadataPref';
+import { ButtonWithLoading } from '../common/Button2';
 import { Text } from '../common/Text';
 
 import { Setting } from './UI';
 
 export function ResetCache() {
+  const { t } = useTranslation();
   const [resetting, setResetting] = useState(false);
 
   async function onResetCache() {
@@ -21,32 +24,32 @@ export function ResetCache() {
   return (
     <Setting
       primaryAction={
-        <ButtonWithLoading loading={resetting} onClick={onResetCache}>
-          Reset budget cache
+        <ButtonWithLoading isLoading={resetting} onPress={onResetCache}>
+          {t('Reset budget cache')}
         </ButtonWithLoading>
       }
     >
       <Text>
-        <strong>Reset budget cache</strong> will clear all cached values for the
-        budget and recalculate the entire budget. All values in the budget are
-        cached for performance reasons, and if there is a bug in the cache you
-        won’t see correct values. There is no danger in resetting the cache.
-        Hopefully you never have to do this.
+        <strong>{t('Reset budget cache')}</strong>
+        {t(
+          ' will clear all cached values for the budget and recalculate the entire budget. All values in the budget are cached for performance reasons, and if there is a bug in the cache you won’t see correct values. There is no danger in resetting the cache. Hopefully you never have to do this.',
+        )}
       </Text>
     </Setting>
   );
 }
 
 export function ResetSync() {
-  const [groupId] = useLocalPref('groupId');
+  const { t } = useTranslation();
+  const [groupId] = useMetadataPref('groupId');
   const isEnabled = !!groupId;
-  const { resetSync } = useActions();
+  const dispatch = useDispatch();
 
   const [resetting, setResetting] = useState(false);
 
   async function onResetSync() {
     setResetting(true);
-    await resetSync();
+    await dispatch(resetSync());
     setResetting(false);
   }
 
@@ -54,25 +57,25 @@ export function ResetSync() {
     <Setting
       primaryAction={
         <ButtonWithLoading
-          loading={resetting}
-          disabled={!isEnabled}
-          onClick={onResetSync}
+          isLoading={resetting}
+          isDisabled={!isEnabled}
+          onPress={onResetSync}
         >
-          Reset sync
+          {t('Reset sync')}
         </ButtonWithLoading>
       }
     >
       {isEnabled ? (
         <Text>
-          <strong>Reset sync</strong> will remove all local data used to track
-          changes for syncing, and create a fresh sync ID on the server. This
-          file on other devices will have to be re-downloaded to use the new
-          sync ID. Use this if there is a problem with syncing and you want to
-          start fresh.
+          <strong>{t('Reset sync')}</strong>
+          {t(
+            ' will remove all local data used to track changes for syncing, and create a fresh sync ID on the server. This file on other devices will have to be re-downloaded to use the new sync ID. Use this if there is a problem with syncing and you want to start fresh.',
+          )}
         </Text>
       ) : (
         <Text>
-          <strong>Reset sync</strong> is only available when syncing is enabled.
+          <strong>{t('Reset sync')}</strong>
+          {t(' is only available when syncing is')}
         </Text>
       )}
     </Setting>

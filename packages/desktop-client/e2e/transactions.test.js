@@ -120,7 +120,7 @@ test.describe('Transactions', () => {
     ]);
 
     const firstTransaction = accountPage.getNthTransaction(0);
-    await expect(firstTransaction.payee).toHaveText('Split');
+    await expect(firstTransaction.payee).toHaveText('Krogger');
     await expect(firstTransaction.notes).toHaveText('Notes');
     await expect(firstTransaction.category).toHaveText('Split');
     await expect(firstTransaction.debit).toHaveText('333.33');
@@ -139,6 +139,28 @@ test.describe('Transactions', () => {
     await expect(thirdTransaction.category).toHaveText('Categorize');
     await expect(thirdTransaction.debit).toHaveText('111.11');
     await expect(thirdTransaction.credit).toHaveText('');
+    await expect(page).toMatchThemeScreenshots();
+  });
+
+  test('creates a transfer test transaction', async () => {
+    await accountPage.enterSingleTransaction({
+      payee: 'Bank of America',
+      notes: 'Notes field',
+      debit: '12.34',
+    });
+
+    let transaction = accountPage.getEnteredTransaction();
+    await expect(transaction.category.locator('input')).toHaveValue('Transfer');
+    await expect(page).toMatchThemeScreenshots();
+
+    await accountPage.addEnteredTransaction();
+
+    transaction = accountPage.getNthTransaction(0);
+    await expect(transaction.payee).toHaveText('Bank of America');
+    await expect(transaction.notes).toHaveText('Notes field');
+    await expect(transaction.category).toHaveText('Transfer');
+    await expect(transaction.debit).toHaveText('12.34');
+    await expect(transaction.credit).toHaveText('');
     await expect(page).toMatchThemeScreenshots();
   });
 });

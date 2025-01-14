@@ -1,4 +1,5 @@
 import { initBackend as initSQLBackend } from 'absurd-sql/dist/indexeddb-main-thread';
+import { registerSW } from 'virtual:pwa-register';
 
 import * as Platform from 'loot-core/src/client/platform';
 
@@ -39,6 +40,19 @@ function createBackendWorker() {
 
 createBackendWorker();
 
+let isUpdateReadyForDownload = false;
+let markUpdateReadyForDownload;
+const isUpdateReadyForDownloadPromise = new Promise(resolve => {
+  markUpdateReadyForDownload = () => {
+    isUpdateReadyForDownload = true;
+    resolve(true);
+  };
+});
+const updateSW = registerSW({
+  immediate: true,
+  onNeedRefresh: markUpdateReadyForDownload,
+});
+
 global.Actual = {
   IS_DEV,
   ACTUAL_VERSION,
@@ -50,6 +64,26 @@ global.Actual = {
   relaunch: () => {
     window.location.reload();
   },
+
+  reload: () => {
+    if (window.navigator.serviceWorker == null) return;
+
+    // Unregister the service worker handling routing and then reload. This should force the reload
+    // to query the actual server rather than delegating to the worker
+    return window.navigator.serviceWorker
+      .getRegistration('/')
+      .then(registration => {
+        if (registration == null) return;
+        return registration.unregister();
+      })
+      .then(() => {
+        window.location.reload();
+      });
+  },
+
+  startOAuthServer: () => {},
+
+  restartElectronServer: () => {},
 
   openFileDialog: async ({ filters = [] }) => {
     return new Promise(resolve => {
@@ -122,7 +156,14 @@ global.Actual = {
     window.open(url, '_blank');
   },
   onEventFromMain: () => {},
-  applyAppUpdate: () => {},
+  isUpdateReadyForDownload: () => isUpdateReadyForDownload,
+  waitForUpdateReadyForDownload: () => isUpdateReadyForDownloadPromise,
+  applyAppUpdate: async () => {
+    updateSW();
+
+    // Wait for the app to reload
+    await new Promise(() => {});
+  },
   updateAppMenu: () => {},
 
   ipcConnect: () => {},
@@ -133,7 +174,17 @@ global.Actual = {
   setTheme: theme => {
     window.__actionsForMenu.saveGlobalPrefs({ theme });
   },
+
+  moveBudgetDirectory: () => {},
 };
+
+function inputFocused(e) {
+  return (
+    e.target.tagName === 'INPUT' ||
+    e.target.tagName === 'TEXTAREA' ||
+    e.target.isContentEditable
+  );
+}
 
 document.addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey) {
@@ -144,11 +195,7 @@ document.addEventListener('keydown', e => {
     }
     // Cmd/Ctrl+z
     else if (e.key.toLowerCase() === 'z') {
-      if (
-        e.target.tagName === 'INPUT' ||
-        e.target.tagName === 'TEXTAREA' ||
-        e.target.isContentEditable
-      ) {
+      if (inputFocused(e)) {
         return;
       }
       e.preventDefault();

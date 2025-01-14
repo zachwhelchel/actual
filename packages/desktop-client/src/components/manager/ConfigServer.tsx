@@ -1,17 +1,20 @@
 // @ts-strict-ignore
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
+import { createBudget, loggedIn, signOut } from 'loot-core/client/actions';
 import {
   isNonProductionEnvironment,
   isElectron,
 } from 'loot-core/src/shared/environment';
 
-import { useActions } from '../../hooks/useActions';
+import { useGlobalPref } from '../../hooks/useGlobalPref';
 import { useNavigate } from '../../hooks/useNavigate';
-import { useSetThemeColor } from '../../hooks/useSetThemeColor';
 import { theme } from '../../style';
-import { Button, ButtonWithLoading } from '../common/Button';
+import { Button, ButtonWithLoading } from '../common/Button2';
 import { BigInput } from '../common/Input';
+import { Link } from '../common/Link';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { useServerURL, useSetServerURL } from '../ServerContext';
@@ -19,8 +22,8 @@ import { useServerURL, useSetServerURL } from '../ServerContext';
 import { Title } from './subscribe/common';
 
 export function ConfigServer() {
-  useSetThemeColor(theme.mobileConfigServerViewTheme);
-  const { createBudget, signOut, loggedIn } = useActions();
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [url, setUrl] = useState('');
   const currentUrl = useServerURL();
@@ -31,12 +34,26 @@ export function ConfigServer() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const restartElectronServer = useCallback(() => {
+    globalThis.window.Actual.restartElectronServer();
+    setError(null);
+  }, []);
+
+  const [_serverSelfSignedCert, setServerSelfSignedCert] = useGlobalPref(
+    'serverSelfSignedCert',
+    restartElectronServer,
+  );
+
   function getErrorMessage(error: string) {
     switch (error) {
       case 'network-failure':
-        return 'Server is not running at this URL. Make sure you have HTTPS set up properly.';
+        return t(
+          'Server is not running at this URL. Make sure you have HTTPS set up properly.',
+        );
       default:
-        return 'Server does not look like a MyBudgetCoach server. Is it set up correctly?';
+        return t(
+          'Server does not look like an MyBudgetCoach server. Is it set up correctly?',
+        );
     }
   }
 
@@ -47,28 +64,21 @@ export function ConfigServer() {
 
     setError(null);
     setLoading(true);
-    const { error } = await setServerUrl(url);
 
-    if (
-      ['network-failure', 'get-server-failure'].includes(error) &&
-      !url.startsWith('http://') &&
-      !url.startsWith('https://')
-    ) {
-      const { error } = await setServerUrl('https://' + url);
-      if (error) {
-        setUrl('https://' + url);
-        setError(error);
-      } else {
-        await signOut();
-        navigate('/');
-      }
-      setLoading(false);
-    } else if (error) {
+    let httpUrl = url;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      httpUrl = 'https://' + url;
+    }
+
+    const { error } = await setServerUrl(httpUrl);
+    setUrl(httpUrl);
+
+    if (error) {
       setLoading(false);
       setError(error);
     } else {
       setLoading(false);
-      await signOut();
+      await dispatch(signOut());
       navigate('/');
     }
   }
@@ -77,21 +87,37 @@ export function ConfigServer() {
     setUrl(window.location.origin);
   }
 
+  async function onSelectSelfSignedCertificate() {
+    const selfSignedCertificateLocation = await window.Actual?.openFileDialog({
+      properties: ['openFile'],
+      filters: [
+        {
+          name: 'Self Signed Certificate',
+          extensions: ['crt', 'pem'],
+        },
+      ],
+    });
+
+    if (selfSignedCertificateLocation) {
+      setServerSelfSignedCert(selfSignedCertificateLocation[0]);
+    }
+  }
+
   async function onSkip() {
     await setServerUrl(null);
-    await loggedIn();
+    await dispatch(loggedIn());
     navigate('/');
   }
 
   async function onCreateTestFile() {
     await setServerUrl(null);
-    await createBudget({ testMode: true });
-    window.__navigate('/');
+    await dispatch(createBudget({ testMode: true }));
+    navigate('/');
   }
 
   return (
     <View style={{ maxWidth: 500, marginTop: -30 }}>
-      <Title text="Where’s the server?" />
+      <Title text={t('Where’s the server?')} />
 
       <Text
         style={{
@@ -101,63 +127,86 @@ export function ConfigServer() {
         }}
       >
         {currentUrl ? (
-          <>
+          <Trans>
             Existing sessions will be logged out and you will log in to this
             server. We will validate that MyBudgetCoach is running at this URL.
-          </>
+          </Trans>
         ) : (
-          <>
+          <Trans>
             There is no server configured. After running the server, specify the
             URL here to use the app. You can always change this later. We will
             validate that MyBudgetCoach is running at this URL.
-          </>
+          </Trans>
         )}
       </Text>
 
       {error && (
-        <Text
-          style={{
-            marginTop: 20,
-            color: theme.errorText,
-            borderRadius: 4,
-            fontSize: 15,
-          }}
-        >
-          {getErrorMessage(error)}
-        </Text>
+        <>
+          <Text
+            style={{
+              marginTop: 20,
+              color: theme.errorText,
+              borderRadius: 4,
+              fontSize: 15,
+            }}
+          >
+            {getErrorMessage(error)}
+          </Text>
+          {isElectron() && (
+            <View
+              style={{ display: 'flex', flexDirection: 'row', marginTop: 20 }}
+            >
+              <Text
+                style={{
+                  color: theme.errorText,
+                  borderRadius: 4,
+                  fontSize: 15,
+                }}
+              >
+                <Trans>
+                  If the server is using a self-signed certificate{' '}
+                  <Link
+                    variant="text"
+                    style={{ fontSize: 15 }}
+                    onClick={onSelectSelfSignedCertificate}
+                  >
+                    select it here
+                  </Link>
+                  .
+                </Trans>
+              </Text>
+            </View>
+          )}
+        </>
       )}
 
-      <form
-        style={{ display: 'flex', flexDirection: 'row', marginTop: 30 }}
-        onSubmit={e => {
-          e.preventDefault();
-          onSubmit();
-        }}
-      >
+      <View style={{ display: 'flex', flexDirection: 'row', marginTop: 30 }}>
         <BigInput
           autoFocus={true}
-          placeholder="https://example.com"
+          placeholder={t('https://example.com')}
           value={url || ''}
           onChangeValue={setUrl}
           style={{ flex: 1, marginRight: 10 }}
+          onEnter={onSubmit}
         />
         <ButtonWithLoading
-          type="primary"
-          loading={loading}
+          variant="primary"
+          isLoading={loading}
           style={{ fontSize: 15 }}
+          onPress={onSubmit}
         >
-          OK
+          {t('OK')}
         </ButtonWithLoading>
         {currentUrl && (
           <Button
-            type="bare"
+            variant="bare"
             style={{ fontSize: 15, marginLeft: 10 }}
-            onClick={() => navigate(-1)}
+            onPress={() => navigate(-1)}
           >
-            Cancel
+            {t('Cancel')}
           </Button>
         )}
-      </form>
+      </View>
 
       <View
         style={{
@@ -169,42 +218,45 @@ export function ConfigServer() {
       >
         {currentUrl ? (
           <Button
-            type="bare"
+            variant="bare"
             style={{ color: theme.pageTextLight }}
-            onClick={onSkip}
+            onPress={onSkip}
           >
-            Stop using a server
+            {t('Stop using a server')}
           </Button>
         ) : (
           <>
             {!isElectron() && (
               <Button
-                type="bare"
+                variant="bare"
                 style={{
                   color: theme.pageTextLight,
                   margin: 5,
                   marginRight: 15,
                 }}
-                onClick={onSameDomain}
+                onPress={onSameDomain}
               >
-                Use current domain
+                {t('Use current domain')}
               </Button>
             )}
             <Button
-              type="bare"
+              variant="bare"
               style={{ color: theme.pageTextLight, margin: 5 }}
-              onClick={onSkip}
+              onPress={onSkip}
             >
-              Don’t use a server
+              {t('Don’t use a server')}
             </Button>
 
             {isNonProductionEnvironment() && (
               <Button
-                type="primary"
+                variant="primary"
                 style={{ marginLeft: 15 }}
-                onClick={onCreateTestFile}
+                onPress={async () => {
+                  await onCreateTestFile();
+                  navigate('/');
+                }}
               >
-                Create test file
+                {t('Create test file')}
               </Button>
             )}
           </>

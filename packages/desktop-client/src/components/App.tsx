@@ -1,12 +1,16 @@
 // @ts-strict-ignore
 import React, { useEffect, useState } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import {
   ErrorBoundary,
   useErrorBoundary,
   type FallbackProps,
 } from 'react-error-boundary';
 import { HotkeysProvider } from 'react-hotkeys-hook';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 
 import {
   closeBudget,
@@ -15,41 +19,59 @@ import {
   setAppState,
   sync,
 } from 'loot-core/client/actions';
+import { SpreadsheetProvider } from 'loot-core/client/SpreadsheetProvider';
+import { type State } from 'loot-core/client/state-types';
 import * as Platform from 'loot-core/src/client/platform';
-import { type State } from 'loot-core/src/client/state-types';
 import {
   init as initConnection,
   send,
 } from 'loot-core/src/platform/client/fetch';
 
-import { useLocalPref } from '../hooks/useLocalPref';
+import { useActions } from '../hooks/useActions';
+import { useMetadataPref } from '../hooks/useMetadataPref';
 import { installPolyfills } from '../polyfills';
-import { ResponsiveProvider } from '../ResponsiveProvider';
-import { styles, hasHiddenScrollbars, ThemeStyle } from '../style';
+import { styles, hasHiddenScrollbars, ThemeStyle, useTheme } from '../style';
+import { ExposeNavigate } from '../util/router-tools';
 
 import { AppBackground } from './AppBackground';
+import { BudgetMonthCountProvider } from './budget/BudgetMonthCountContext';
 import { View } from './common/View';
 import { DevelopmentTopBar } from './DevelopmentTopBar';
 import { FatalError } from './FatalError';
 import { FinancesApp } from './FinancesApp';
 import { ManagementApp } from './manager/ManagementApp';
-import { MobileWebMessage } from './mobile/MobileWebMessage';
+import { Modals } from './Modals';
+import { ResponsiveProvider } from './responsive/ResponsiveProvider';
+import { SidebarProvider } from './sidebar/SidebarProvider';
 import { UpdateNotification } from './UpdateNotification';
 //import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME } from '../coaches/coachVariables';
 import { getCoach } from '../coaches/coachVariables';
 
 type AppInnerProps = {
-  budgetId: string;
-  cloudFileId: string;
   someDialogues: Map;
   initialDialogueId: string;
 };
 
-function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: AppInnerProps) {
-  const [initializing, setInitializing] = useState(true);
+function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
+  const [budgetId] = useMetadataPref('id');
+  const [cloudFileId] = useMetadataPref('cloudFileId');
+  const { t } = useTranslation();
   const { showBoundary: showErrorBoundary } = useErrorBoundary();
-  const loadingText = useSelector((state: State) => state.app.loadingText);
   const dispatch = useDispatch();
+  const userData = useSelector((state: State) => state.user.data);
+  const { signOut, addNotification } = useActions();
+
+  const maybeUpdate = async <T,>(cb?: () => T): Promise<T> => {
+    if (global.Actual.isUpdateReadyForDownload()) {
+      dispatch(
+        setAppState({
+          loadingText: t('Downloading and applying update...'),
+        }),
+      );
+      await global.Actual.applyAppUpdate();
+    }
+    return cb?.();
+  };
 
   const [stateSomeDialogues, setStateSomeDialogues] = useState(new Map());
   const [stateInitialDialogueId, setStateInitialDialogueId] = useState(null);
@@ -58,11 +80,11 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
   //let newInitialDialogueId = null;
 
   async function init() {
-    const socketName = await global.Actual.getServerSocket();
+    const socketName = await maybeUpdate(() => global.Actual.getServerSocket());
 
     dispatch(
       setAppState({
-        loadingText: 'Initializing the connection to the local database...',
+        loadingText: t('Initializing the connection to the local database...'),
       }),
     );
     await initConnection(socketName);
@@ -70,7 +92,7 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
     // Load any global prefs
     dispatch(
       setAppState({
-        loadingText: 'Loading global preferences...',
+        loadingText: t('Loading global preferences...'),
       }),
     );
     await dispatch(loadGlobalPrefs());
@@ -78,28 +100,30 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
     // Open the last opened budget, if any
     dispatch(
       setAppState({
-        loadingText: 'Opening last budget...',
+        loadingText: t('Opening last budget...'),
       }),
     );
     const budgetId = await send('get-last-opened-backup');
     if (budgetId) {
-      await dispatch(loadBudget(budgetId, 'Loading the last budget file...'));
+      await dispatch(loadBudget(budgetId));
 
       // Check to see if this file has been remotely deleted (but
       // don't block on this in case they are offline or something)
       dispatch(
         setAppState({
-          loadingText: 'Retrieving remote files...',
+          loadingText: t('Retrieving remote files...'),
         }),
       );
-      send('get-remote-files').then(files => {
-        if (files) {
-          const remoteFile = files.find(f => f.fileId === cloudFileId);
-          if (remoteFile && remoteFile.deleted) {
-            dispatch(closeBudget());
-          }
+
+      const files = await send('get-remote-files');
+      if (files) {
+        const remoteFile = files.find(f => f.fileId === cloudFileId);
+        if (remoteFile && remoteFile.deleted) {
+          dispatch(closeBudget());
         }
-      });
+      }
+
+      await maybeUpdate();
     }
 
     await initAvatar();
@@ -350,12 +374,7 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
   useEffect(() => {
     async function initAll() {
       await Promise.all([installPolyfills(), init()]);
-      setInitializing(false);
-      dispatch(
-        setAppState({
-          loadingText: null,
-        }),
-      );
+      dispatch(setAppState({ loadingText: null }));
     }
 
     initAll().catch(showErrorBoundary);
@@ -365,22 +384,23 @@ function AppInner({ budgetId, cloudFileId, someDialogues, initialDialogueId }: A
     global.Actual.updateAppMenu(budgetId);
   }, [budgetId]);
 
-  return (
-    <>
-      {(initializing || !budgetId) && (
-        <AppBackground initializing={initializing} loadingText={loadingText} />
-      )}
-      {!initializing &&
-        (budgetId ? (
-          <FinancesApp budgetId={budgetId} someDialogues={stateSomeDialogues} initialDialogueId={stateInitialDialogueId} />
-        ) : (
-          <ManagementApp isLoading={loadingText != null} />
-        ))}
+  useEffect(() => {
+    if (userData?.tokenExpired) {
+      addNotification({
+        type: 'error',
+        id: 'login-expired',
+        title: t('Login expired'),
+        sticky: true,
+        message: t('Login expired, please login again.'),
+        button: {
+          title: t('Go to login'),
+          action: signOut,
+        },
+      });
+    }
+  }, [userData, userData?.tokenExpired]);
 
-      <UpdateNotification />
-      <MobileWebMessage />
-    </>
-  );
+  return budgetId ? <FinancesApp budgetId={budgetId} someDialogues={stateSomeDialogues} initialDialogueId={stateInitialDialogueId} /> : <ManagementApp />;
 }
 
 function ErrorFallback({ error }: FallbackProps) {
@@ -393,8 +413,6 @@ function ErrorFallback({ error }: FallbackProps) {
 }
 
 export function App({someDialogues, initialDialogueId}) {
-  const [budgetId] = useLocalPref('id');
-  const [cloudFileId] = useLocalPref('cloudFileId');
   const [hiddenScrollbars, setHiddenScrollbars] = useState(
     hasHiddenScrollbars(),
   );
@@ -427,31 +445,52 @@ export function App({someDialogues, initialDialogueId}) {
     };
   }, [dispatch]);
 
+  const [theme] = useTheme();
+
   return (
-    <HotkeysProvider initiallyActiveScopes={['*']}>
-      <ResponsiveProvider>
-        <View
-          style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-        >
-          <View
-            key={hiddenScrollbars ? 'hidden-scrollbars' : 'scrollbars'}
-            style={{
-              flexGrow: 1,
-              overflow: 'hidden',
-              ...styles.lightScrollbar,
-            }}
-          >
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-              {process.env.REACT_APP_REVIEW_ID && !Platform.isPlaywright && (
-                <DevelopmentTopBar />
-              )}
-              <AppInner budgetId={budgetId} cloudFileId={cloudFileId} someDialogues={someDialogues} initialDialogueId={initialDialogueId} />
-            </ErrorBoundary>
-            <ThemeStyle />
-          </View>
-        </View>
-      </ResponsiveProvider>
-    </HotkeysProvider>
+    <BrowserRouter>
+      <ExposeNavigate />
+      <HotkeysProvider initiallyActiveScopes={['*']}>
+        <ResponsiveProvider>
+          <SpreadsheetProvider>
+            <SidebarProvider>
+              <BudgetMonthCountProvider>
+                <DndProvider backend={HTML5Backend}>
+                  <View
+                    data-theme={theme}
+                    style={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <View
+                      key={
+                        hiddenScrollbars ? 'hidden-scrollbars' : 'scrollbars'
+                      }
+                      style={{
+                        flexGrow: 1,
+                        overflow: 'hidden',
+                        ...styles.lightScrollbar,
+                      }}
+                    >
+                      <ErrorBoundary FallbackComponent={ErrorFallback}>
+                        {process.env.REACT_APP_REVIEW_ID &&
+                          !Platform.isPlaywright && <DevelopmentTopBar />}
+                        <AppInner someDialogues={someDialogues} initialDialogueId={initialDialogueId} />
+                      </ErrorBoundary>
+                      <ThemeStyle />
+                      <Modals />
+                      <UpdateNotification />
+                    </View>
+                  </View>
+                </DndProvider>
+              </BudgetMonthCountProvider>
+            </SidebarProvider>
+          </SpreadsheetProvider>
+        </ResponsiveProvider>
+      </HotkeysProvider>
+    </BrowserRouter>
   );
 }
 

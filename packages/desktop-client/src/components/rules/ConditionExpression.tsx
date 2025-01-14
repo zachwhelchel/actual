@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { type CSSProperties } from 'react';
 
 import { mapField, friendlyOp } from 'loot-core/src/shared/rules';
 
-import { type CSSProperties, theme } from '../../style';
+import { theme } from '../../style';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 
@@ -49,7 +49,11 @@ export function ConditionExpression({
       {prefix && <Text>{prefix} </Text>}
       <Text style={valueStyle}>{mapField(field, options)}</Text>{' '}
       <Text>{friendlyOp(op)}</Text>{' '}
-      <Value style={valueStyle} value={value} field={field} inline={inline} />
+      {!['onbudget', 'offbudget'].includes(
+        (op as string)?.toLocaleLowerCase(),
+      ) && (
+        <Value style={valueStyle} value={value} field={field} inline={inline} />
+      )}
     </View>
   );
 }

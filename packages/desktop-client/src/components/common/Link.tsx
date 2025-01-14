@@ -2,18 +2,19 @@ import React, {
   type MouseEventHandler,
   type ComponentProps,
   type ReactNode,
+  type CSSProperties,
 } from 'react';
 import { NavLink, useMatch } from 'react-router-dom';
 
-import { css } from 'glamor';
+import { css } from '@emotion/css';
 
 import { type CustomReportEntity } from 'loot-core/types/models/reports';
 
 import { useNavigate } from '../../hooks/useNavigate';
-import { type CSSProperties, styles } from '../../style';
+import { styles } from '../../style';
 import { theme } from '../../style/theme';
 
-import { Button } from './Button';
+import { Button } from './Button2';
 import { Text } from './Text';
 
 type TextLinkProps = {
@@ -22,7 +23,8 @@ type TextLinkProps = {
   children?: ReactNode;
 };
 
-type ButtonLinkProps = ComponentProps<typeof Button> & {
+type ButtonLinkProps = Omit<ComponentProps<typeof Button>, 'variant'> & {
+  buttonVariant?: ComponentProps<typeof Button>['variant'];
   to?: string;
   activeStyle?: CSSProperties;
 };
@@ -33,6 +35,7 @@ type InternalLinkProps = {
   activeStyle?: CSSProperties;
   children?: ReactNode;
   report?: CustomReportEntity;
+  isDisabled?: boolean;
 };
 
 const externalLinkColors = {
@@ -74,8 +77,8 @@ const TextLink = ({ style, onClick, children, ...props }: TextLinkProps) => {
         display: 'inline',
         border: 0,
         cursor: 'pointer',
+        textDecoration: 'underline',
         ':hover': {
-          textDecoration: 'underline',
           boxShadow: 'none',
         },
         ...style,
@@ -94,17 +97,20 @@ const ButtonLink = ({ to, style, activeStyle, ...props }: ButtonLinkProps) => {
   const match = useMatch({ path });
   return (
     <Button
-      style={{
-        ...style,
-        ...(match ? activeStyle : {}),
-      }}
-      activeStyle={activeStyle}
+      className={() =>
+        String(
+          css({
+            ...style,
+            '&[data-pressed]': activeStyle,
+            ...(match ? activeStyle : {}),
+          }),
+        )
+      }
       {...props}
-      onClick={e => {
-        props.onClick?.(e);
-        if (!e.defaultPrevented) {
-          navigate(path);
-        }
+      variant={props.buttonVariant}
+      onPress={e => {
+        props.onPress?.(e);
+        navigate(path);
       }}
     />
   );
@@ -116,6 +122,7 @@ const InternalLink = ({
   activeStyle,
   children,
   report,
+  isDisabled,
 }: InternalLinkProps) => {
   const path = to ?? '';
   const match = useMatch({ path });
@@ -124,11 +131,12 @@ const InternalLink = ({
     <NavLink
       to={path}
       state={report ? { report } : {}}
-      className={`${css([
-        styles.smallText,
-        style,
-        match ? activeStyle : null,
-      ])}`}
+      className={css([styles.smallText, style, match ? activeStyle : null])}
+      onClick={e => {
+        if (isDisabled) {
+          e.preventDefault();
+        }
+      }}
     >
       {children}
     </NavLink>
@@ -136,28 +144,34 @@ const InternalLink = ({
 };
 
 type LinkProps =
-  | ({
-      variant: 'button';
-    } & ButtonLinkProps)
-  | ({ variant?: 'internal' } & InternalLinkProps)
-  | ({ variant?: 'external' } & ExternalLinkProps)
-  | ({ variant?: 'text' } & TextLinkProps);
+  | ({ variant: 'button' } & ButtonLinkProps)
+  | ({ variant: 'internal' } & InternalLinkProps)
+  | ({ variant: 'external' } & ExternalLinkProps)
+  | ({ variant: 'text' } & TextLinkProps);
 
-export function Link({ variant = 'internal', ...props }: LinkProps) {
-  switch (variant) {
-    case 'internal':
-      return <InternalLink {...props} />;
+export function Link(props: LinkProps) {
+  switch (props.variant) {
+    case 'internal': {
+      const { variant: _, ...internalProps } = props;
+      return <InternalLink {...internalProps} />;
+    }
 
-    case 'external':
-      return <ExternalLink {...props} />;
+    case 'external': {
+      const { variant: _, ...externalProps } = props;
+      return <ExternalLink {...externalProps} />;
+    }
 
-    case 'button':
-      return <ButtonLink {...props} />;
+    case 'button': {
+      const { variant: _, ...buttonProps } = props;
+      return <ButtonLink {...buttonProps} />;
+    }
 
-    case 'text':
-      return <TextLink {...props} />;
+    case 'text': {
+      const { variant: _, ...textProps } = props;
+      return <TextLink {...textProps} />;
+    }
 
     default:
-      throw new Error(`Unrecognised link type: ${variant}`);
+      throw new Error(`Unrecognised Link variant.`);
   }
 }

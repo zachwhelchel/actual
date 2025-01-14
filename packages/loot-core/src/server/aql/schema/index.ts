@@ -61,6 +61,7 @@ export const schema = {
     name: f('string', { required: true }),
     transfer_acct: f('id', { ref: 'accounts' }),
     tombstone: f('boolean'),
+    favorite: f('boolean'),
   },
   accounts: {
     id: f('id'),
@@ -69,6 +70,8 @@ export const schema = {
     closed: f('boolean'),
     sort_order: f('float'),
     tombstone: f('boolean'),
+    account_id: f('string'),
+    official_name: f('string'),
     account_sync_source: f('string'),
   },
   categories: {
@@ -119,6 +122,10 @@ export const schema = {
     id: f('id'),
     note: f('string'),
   },
+  preferences: {
+    id: f('id'),
+    value: f('string'),
+  },
   transaction_filters: {
     id: f('id'),
     name: f('string'),
@@ -141,7 +148,6 @@ export const schema = {
     show_hidden: f('integer', { default: 0 }),
     show_uncategorized: f('integer', { default: 0 }),
     include_current: f('integer', { default: 0 }),
-    selected_categories: f('json'),
     graph_type: f('string', { default: 'BarGraph' }),
     conditions: f('json'),
     conditions_op: f('string'),
@@ -157,6 +163,7 @@ export const schema = {
     amount: f('integer'),
     carryover: f('integer'),
     goal: f('integer'),
+    long_goal: f('integer'),
   },
   zero_budgets: {
     id: f('id'),
@@ -165,6 +172,17 @@ export const schema = {
     amount: f('integer'),
     carryover: f('integer'),
     goal: f('integer'),
+    long_goal: f('integer'),
+  },
+  dashboard: {
+    id: f('id'),
+    type: f('string', { required: true }),
+    width: f('integer', { required: true }),
+    height: f('integer', { required: true }),
+    x: f('integer', { required: true }),
+    y: f('integer', { required: true }),
+    meta: f('json'),
+    tombstone: f('boolean'),
   },
 };
 

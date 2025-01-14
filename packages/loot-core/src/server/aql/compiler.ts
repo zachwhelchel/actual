@@ -1,3 +1,5 @@
+import { getNormalisedString } from '../../shared/normalisation';
+
 // @ts-strict-ignore
 let _uid = 0;
 function resetUid() {
@@ -692,7 +694,7 @@ const compileOp = saveStack('op', (state, fieldRef, opData) => {
     }
     case '$ne': {
       if (castInput(state, rhs, lhs.type).type === 'null') {
-        return `${val(state, lhs)} IS NULL`;
+        return `${val(state, lhs)} IS NOT NULL`;
       }
 
       const [left, right] = valArray(state, [lhs, rhs], [null, lhs.type]);
@@ -704,12 +706,12 @@ const compileOp = saveStack('op', (state, fieldRef, opData) => {
         state.namedParameters = [].concat.apply([], orders);
 
         return `CASE
-          WHEN ${left} IS NULL THEN ${right} IS NULL
-          ELSE ${left} != ${right}
+          WHEN ${left} IS NULL THEN ${right} IS NOT NULL
+          ELSE ${left} IS NOT ${right}
         END`;
       }
 
-      return `${left} != ${right}`;
+      return `(${left} != ${right} OR ${left} IS NULL)`;
     }
     case '$oneof': {
       const [left, right] = valArray(state, [lhs, rhs], [null, 'array']);
@@ -720,7 +722,7 @@ const compileOp = saveStack('op', (state, fieldRef, opData) => {
     }
     case '$like': {
       const [left, right] = valArray(state, [lhs, rhs], ['string', 'string']);
-      return `${left} LIKE ${right}`;
+      return `UNICODE_LIKE(${getNormalisedString(right)}, NORMALISE(${left}))`;
     }
     case '$regexp': {
       const [left, right] = valArray(state, [lhs, rhs], ['string', 'string']);
@@ -728,7 +730,7 @@ const compileOp = saveStack('op', (state, fieldRef, opData) => {
     }
     case '$notlike': {
       const [left, right] = valArray(state, [lhs, rhs], ['string', 'string']);
-      return `(${left} NOT LIKE ${right}\n OR ${left} IS NULL)`;
+      return `(NOT UNICODE_LIKE(${getNormalisedString(right)}, NORMALISE(${left}))\n OR ${left} IS NULL)`;
     }
     default:
       throw new CompileError(`Unknown operator: ${op}`);

@@ -3,10 +3,9 @@
 // environment (not electron)
 import './browser-preload';
 
-// A hack for now: this makes sure it's appended before glamor
-import '@reach/listbox/styles.css';
-
 import './fonts.scss';
+
+import './i18n';
 
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -31,6 +30,7 @@ import {
 } from 'loot-core/src/platform/client/fetch';
 import { q } from 'loot-core/src/shared/query';
 
+import { AuthProvider } from './auth/AuthProvider';
 import { App } from './components/App';
 import { ServerProvider } from './components/ServerContext';
 import { handleGlobalEvents } from './global-events';
@@ -63,7 +63,12 @@ function rootReducer(state, action) {
   return appReducer(state, action);
 }
 
-const store = createStore(rootReducer, undefined, applyMiddleware(thunk));
+const compose = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || (f => f);
+const store = createStore(
+  rootReducer,
+  undefined,
+  compose(applyMiddleware(thunk)),
+);
 const boundActions = bindActionCreators(
   actions,
   store.dispatch,
@@ -75,7 +80,7 @@ handleGlobalEvents(boundActions, store);
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Window {
-    __actionsForMenu: BoundActions;
+    __actionsForMenu: BoundActions & { inputFocused: typeof inputFocused };
 
     $send: typeof send;
     $query: typeof runQuery;
@@ -83,8 +88,16 @@ declare global {
   }
 }
 
+function inputFocused() {
+  return (
+    window.document.activeElement.tagName === 'INPUT' ||
+    window.document.activeElement.tagName === 'TEXTAREA' ||
+    (window.document.activeElement as HTMLElement).isContentEditable
+  );
+}
+
 // Expose this to the main process to menu items can access it
-window.__actionsForMenu = boundActions;
+window.__actionsForMenu = { ...boundActions, inputFocused };
 
 // Expose send for fun!
 window.$send = send;
@@ -125,7 +138,9 @@ const root = createRoot(container);
 root.render(
   <Provider store={store}>
     <ServerProvider>
-      <App someDialogues={someConversations} initialDialogueId={initialDialogueId}/>
+      <AuthProvider>
+        <App someDialogues={someConversations} initialDialogueId={initialDialogueId}/>
+      </AuthProvider>
     </ServerProvider>
   </Provider>,
 );

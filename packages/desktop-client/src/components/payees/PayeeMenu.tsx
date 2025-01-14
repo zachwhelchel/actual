@@ -1,6 +1,9 @@
+import { useTranslation } from 'react-i18next';
+
 import { type PayeeEntity } from 'loot-core/src/types/models';
 
 import { SvgDelete, SvgMerge } from '../../icons/v0';
+import { SvgBookmark } from '../../icons/v1';
 import { theme } from '../../style';
 import { Menu } from '../common/Menu';
 import { View } from '../common/View';
@@ -10,6 +13,7 @@ type PayeeMenuProps = {
   selectedPayees: Set<PayeeEntity['id']>;
   onDelete: () => void;
   onMerge: () => Promise<void>;
+  onFavorite: () => void;
   onClose: () => void;
 };
 
@@ -18,8 +22,11 @@ export function PayeeMenu({
   selectedPayees,
   onDelete,
   onMerge,
+  onFavorite,
   onClose,
 }: PayeeMenuProps) {
+  const { t } = useTranslation();
+
   // Transfer accounts are never editable
   const isDisabled = [...selectedPayees].some(
     id => payeesById[id] == null || payeesById[id].transfer_acct,
@@ -36,6 +43,9 @@ export function PayeeMenu({
           case 'merge':
             onMerge();
             break;
+          case 'favorite':
+            onFavorite();
+            break;
           default:
         }
       }}
@@ -51,21 +61,28 @@ export function PayeeMenu({
           {[...selectedPayees]
             .slice(0, 4)
             .map(id => payeesById[id].name)
-            .join(', ') + (selectedPayees.size > 4 ? ', and more' : '')}
+            .join(', ') + (selectedPayees.size > 4 ? t(', and more') : '')}
         </View>
       }
       items={[
         {
           icon: SvgDelete,
           name: 'delete',
-          text: 'Delete',
+          text: t('Delete'),
+          disabled: isDisabled,
+        },
+        {
+          icon: SvgBookmark,
+          iconSize: 9,
+          name: 'favorite',
+          text: t('Favorite'),
           disabled: isDisabled,
         },
         {
           icon: SvgMerge,
           iconSize: 9,
           name: 'merge',
-          text: 'Merge',
+          text: t('Merge'),
           disabled: isDisabled || selectedPayees.size < 2,
         },
         Menu.line,

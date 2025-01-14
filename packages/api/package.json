@@ -1,6 +1,6 @@
 {
   "name": "@actual-app/api",
-  "version": "6.8.2",
+  "version": "25.1.0",
   "license": "MIT",
   "description": "An API for Actual",
   "engines": {
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@actual-app/crdt": "workspace:^",
-    "better-sqlite3": "^9.6.0",
+    "better-sqlite3": "^11.7.0",
     "compare-versions": "^6.1.0",
     "node-fetch": "^3.3.2",
     "uuid": "^9.0.1"
@@ -35,6 +35,6 @@
     "@types/uuid": "^9.0.2",
     "jest": "^27.5.1",
     "tsc-alias": "^1.8.8",
-    "typescript": "^5.0.2"
+    "typescript": "^5.5.4"
   }
 }

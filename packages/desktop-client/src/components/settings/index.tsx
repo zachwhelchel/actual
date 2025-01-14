@@ -1,19 +1,19 @@
 import React, { type ReactNode, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
-import { media } from 'glamor';
+import { css } from '@emotion/css';
 
-import * as Platform from 'loot-core/src/client/platform';
+import { closeBudget, loadPrefs } from 'loot-core/client/actions';
+import { isElectron } from 'loot-core/shared/environment';
 import { listen } from 'loot-core/src/platform/client/fetch';
 
-import { useActions } from '../../hooks/useActions';
 import { useGlobalPref } from '../../hooks/useGlobalPref';
-import { useLatestVersion, useIsOutdated } from '../../hooks/useLatestVersion';
-import { useLocalPref } from '../../hooks/useLocalPref';
-import { useSetThemeColor } from '../../hooks/useSetThemeColor';
-import { useResponsive } from '../../ResponsiveProvider';
+import { useIsOutdated, useLatestVersion } from '../../hooks/useLatestVersion';
+import { useMetadataPref } from '../../hooks/useMetadataPref';
 import { theme } from '../../style';
 import { tokens } from '../../tokens';
-import { Button } from '../common/Button';
+import { Button } from '../common/Button2';
 import { Input } from '../common/Input';
 import { Link } from '../common/Link';
 import { Text } from '../common/Text';
@@ -21,28 +21,73 @@ import { View } from '../common/View';
 import { FormField, FormLabel } from '../forms';
 import { MOBILE_NAV_HEIGHT } from '../mobile/MobileNavTabs';
 import { Page } from '../Page';
+import { useResponsive } from '../responsive/ResponsiveProvider';
 import { useServerVersion } from '../ServerContext';
 
+import { AuthSettings } from './AuthSettings';
+import { Backups } from './Backups';
+import { BudgetTypeSettings } from './BudgetTypeSettings';
 import { EncryptionSettings } from './Encryption';
 import { ExperimentalFeatures } from './Experimental';
 import { ExportBudget } from './Export';
 import { FixSplits } from './FixSplits';
 import { FormatSettings } from './Format';
-import { GlobalSettings } from './Global';
 import { ResetCache, ResetSync } from './Reset';
 import { ThemeSettings } from './Themes';
 import { AdvancedToggle, Setting } from './UI';
 
 function About() {
+  const { t } = useTranslation();
   const version = useServerVersion();
   const latestVersion = useLatestVersion();
   const isOutdated = useIsOutdated();
 
   return (
     <Setting>
-      <View>
+      <Text>
+        <strong>{t('Actual')}</strong>
+        {t(' is a super fast privacy-focused app for managing your finances.')}
+      </Text>
+      <View
+        style={{
+          flexDirection: 'column',
+          gap: 10,
+        }}
+        className={css({
+          [`@media (min-width: ${tokens.breakpoint_small})`]: {
+            display: 'grid',
+            gridTemplateRows: '1fr 1fr',
+            gridTemplateColumns: '50% 50%',
+            columnGap: '2em',
+            gridAutoFlow: 'column',
+          },
+        })}
+        data-vrt-mask
+      >
         <Text>Client version: v{window.Actual?.ACTUAL_VERSION}</Text>
         <Text>Server version: {version}</Text>
+        {isOutdated ? (
+          <Link
+            variant="external"
+            to="https://actualbudget.org/docs/releases"
+            linkColor="purple"
+          >
+            {t('New version available:')} {latestVersion}
+          </Link>
+        ) : (
+          <Text style={{ color: theme.noticeText, fontWeight: 600 }}>
+            {t('You’re up to date!')}
+          </Text>
+        )}
+        <Text>
+          <Link
+            variant="external"
+            to="https://actualbudget.org/docs/releases"
+            linkColor="purple"
+          >
+            {t('Release Notes')}
+          </Link>
+        </Text>
       </View>
     </Setting>
   );
@@ -53,22 +98,23 @@ function IDName({ children }: { children: ReactNode }) {
 }
 
 function AdvancedAbout() {
-  const [budgetId] = useLocalPref('id');
-  const [groupId] = useLocalPref('groupId');
+  const { t } = useTranslation();
+  const [budgetId] = useMetadataPref('id');
+  const [groupId] = useMetadataPref('groupId');
 
   return (
     <Setting>
       <Text>
-        <strong>IDs</strong> are the names MyBudgetCoach uses to identify your budget
-        internally. There are several different IDs associated with your budget.
-        The Budget ID is used to identify your budget file. The Sync ID is used
-        to access the budget on the server.
+        <strong>{t('IDs')}</strong>
+        {t(
+          ' are the names Actual uses to identify your budget internally. There are several different IDs associated with your budget. The Budget ID is used to identify your budget file. The Sync ID is used to access the budget on the server.',
+        )}
       </Text>
       <Text>
-        <IDName>Budget ID:</IDName> {budgetId}
+        <IDName>{t('Budget ID:')}</IDName> {budgetId}
       </Text>
       <Text style={{ color: theme.pageText }}>
-        <IDName>Sync ID:</IDName> {groupId || '(none)'}
+        <IDName>{t('Sync ID:')}</IDName> {groupId || '(none)'}
       </Text>
       {/* low priority todo: eliminate some or all of these, or decide when/if to show them */}
       {/* <Text>
@@ -82,26 +128,29 @@ function AdvancedAbout() {
 }
 
 export function Settings() {
+  const { t } = useTranslation();
   const [floatingSidebar] = useGlobalPref('floatingSidebar');
-  const [budgetName] = useLocalPref('budgetName');
+  const [budgetName] = useMetadataPref('budgetName');
+  const dispatch = useDispatch();
 
-  const { loadPrefs, closeBudget } = useActions();
+  const onCloseBudget = () => {
+    dispatch(closeBudget());
+  };
 
   useEffect(() => {
     const unlisten = listen('prefs-updated', () => {
-      loadPrefs();
+      dispatch(loadPrefs());
     });
 
-    loadPrefs();
+    dispatch(loadPrefs());
     return () => unlisten();
-  }, [loadPrefs]);
+  }, [dispatch]);
 
   const { isNarrowWidth } = useResponsive();
 
-  useSetThemeColor(theme.mobileViewTheme);
   return (
     <Page
-      header="Settings"
+      header={t('Settings')}
       style={{
         marginInline: floatingSidebar && !isNarrowWidth ? 'auto' : 0,
         paddingBottom: MOBILE_NAV_HEIGHT,
@@ -121,26 +170,24 @@ export function Settings() {
           >
             {/* The only spot to close a budget on mobile */}
             <FormField>
-              <FormLabel title="Budget Name" />
+              <FormLabel title={t('Budget Name')} />
               <Input
                 value={budgetName}
                 disabled
                 style={{ color: theme.buttonNormalDisabledText }}
               />
             </FormField>
-            <Button onClick={closeBudget}>Close Budget</Button>
+            <Button onPress={onCloseBudget}>{t('Close Budget')}</Button>
           </View>
         )}
-
         <About />
-
-        {!Platform.isBrowser && <GlobalSettings />}
-
         <ThemeSettings />
         <FormatSettings />
+        <AuthSettings />
 {/*        <EncryptionSettings />
-*/}        <ExportBudget />
-
+*/}        <BudgetTypeSettings />
+        {isElectron() && <Backups />}
+        <ExportBudget />
         <AdvancedToggle>
           <AdvancedAbout />
           <ResetCache />

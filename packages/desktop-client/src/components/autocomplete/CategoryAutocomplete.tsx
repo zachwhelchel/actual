@@ -8,27 +8,31 @@ import React, {
   useState,
   type ComponentPropsWithoutRef,
   type ReactElement,
+  type CSSProperties,
   useCallback,
 } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 
-import { css } from 'glamor';
+import { css, cx } from '@emotion/css';
 
-import { reportBudget, rolloverBudget } from 'loot-core/client/queries';
+import { trackingBudget, envelopeBudget } from 'loot-core/client/queries';
 import { integerToCurrency } from 'loot-core/shared/util';
+import { getNormalisedString } from 'loot-core/src/shared/normalisation';
 import {
   type CategoryEntity,
   type CategoryGroupEntity,
 } from 'loot-core/src/types/models';
 
 import { useCategories } from '../../hooks/useCategories';
-import { useLocalPref } from '../../hooks/useLocalPref';
+import { useSyncedPref } from '../../hooks/useSyncedPref';
 import { SvgSplit } from '../../icons/v0';
-import { useResponsive } from '../../ResponsiveProvider';
-import { type CSSProperties, theme, styles } from '../../style';
+import { theme, styles } from '../../style';
+import { useEnvelopeSheetValue } from '../budget/envelope/EnvelopeBudgetComponents';
 import { makeAmountFullStyle } from '../budget/util';
 import { Text } from '../common/Text';
 import { TextOneLine } from '../common/TextOneLine';
 import { View } from '../common/View';
+import { useResponsive } from '../responsive/ResponsiveProvider';
 import { useSheetValue } from '../spreadsheet/useSheetValue';
 
 import { SvgAdd } from '../../icons/v1';
@@ -73,6 +77,7 @@ function CategoryList({
   showHiddenItems,
   showBalances,
 }: CategoryListProps) {
+  const { t } = useTranslation();
   let lastGroup: string | undefined | null = null;
 
   let createNew = 'Create Category';
@@ -91,7 +96,8 @@ function CategoryList({
     <View>
       <View
         style={{
-          overflow: 'auto',
+          overflowY: 'auto',
+          willChange: 'transform',
           padding: '5px 0',
           ...(!embedded && { maxHeight: 175 }),
         }}
@@ -107,7 +113,7 @@ function CategoryList({
           }
 
           const showGroup = item.cat_group !== lastGroup;
-          const groupName = `${item.group?.name}${item.group?.hidden ? ' (hidden)' : ''}`;
+          const groupName = `${item.group?.name}${item.group?.hidden ? ' ' + t('(hidden)') : ''}`;
           lastGroup = item.cat_group;
           return (
             <Fragment key={item.id}>
@@ -158,8 +164,8 @@ function CategoryList({
 }
 
 function customSort(obj: CategoryAutocompleteItem, value: string): number {
-  const name = obj.name.toLowerCase();
-  const groupName = obj.group ? obj.group.name.toLowerCase() : '';
+  const name = getNormalisedString(obj.name);
+  const groupName = obj.group ? getNormalisedString(obj.group.name) : '';
   if (obj.id === 'split') {
     return -2;
   }
@@ -228,21 +234,27 @@ export function CategoryAutocomplete({
     ): CategoryAutocompleteItem[] => {
       return suggestions
         .filter(suggestion => {
-          return (
-            suggestion.id === 'split' ||
-            suggestion.group?.name
-              .toLowerCase()
-              .includes(value.toLowerCase()) ||
-            (suggestion.group?.name + ' ' + suggestion.name)
-              .toLowerCase()
-              .includes(value.toLowerCase()) ||
-            defaultFilterSuggestion(suggestion, value)
-          );
+          if (suggestion.id === 'split') {
+            return true;
+          }
+
+          if (suggestion.group) {
+            return (
+              getNormalisedString(suggestion.group.name).includes(
+                getNormalisedString(value),
+              ) ||
+              getNormalisedString(
+                suggestion.group.name + ' ' + suggestion.name,
+              ).includes(getNormalisedString(value))
+            );
+          }
+
+          return defaultFilterSuggestion(suggestion, value);
         })
         .sort(
           (a, b) =>
-            customSort(a, value.toLowerCase()) -
-            customSort(b, value.toLowerCase()),
+            customSort(a, getNormalisedString(value)) -
+            customSort(b, getNormalisedString(value)),
         );
     },
     [],
@@ -439,7 +451,7 @@ function SplitTransactionButton({
           <SvgSplit width={10} height={10} style={{ marginRight: 5 }} />
         )}
       </Text>
-      Split Transaction
+      <Trans>Split Transaction</Trans>
     </View>
   );
 }
@@ -468,6 +480,7 @@ function CategoryItem({
   showBalances,
   ...props
 }: CategoryItemProps) {
+  const { t } = useTranslation();
   const { isNarrowWidth } = useResponsive();
   const narrowStyle = isNarrowWidth
     ? {
@@ -476,24 +489,28 @@ function CategoryItem({
         borderTop: `1px solid ${theme.pillBorder}`,
       }
     : {};
-  const [budgetType] = useLocalPref('budgetType');
+  const [budgetType = 'rollover'] = useSyncedPref('budgetType');
 
-  const balance = useSheetValue(
+  const balanceBinding =
     budgetType === 'rollover'
-      ? rolloverBudget.catBalance(item.id)
-      : reportBudget.catBalance(item.id),
-  );
+      ? envelopeBudget.catBalance(item.id)
+      : trackingBudget.catBalance(item.id);
+  const balance = useSheetValue<
+    'envelope-budget' | 'tracking-budget',
+    typeof balanceBinding
+  >(balanceBinding);
 
   const isToBeBudgetedItem = item.id === 'to-be-budgeted';
-  const toBudget = useSheetValue(rolloverBudget.toBudget);
+  const toBudget = useEnvelopeSheetValue(envelopeBudget.toBudget);
 
   return (
     <div
       style={style}
       // See comment above.
       role="button"
-      className={`${className} ${css([
-        {
+      className={cx(
+        className,
+        css({
           backgroundColor: highlighted
             ? theme.menuAutoCompleteBackgroundHover
             : 'transparent',
@@ -504,8 +521,8 @@ function CategoryItem({
           paddingLeft: 20,
           borderRadius: embedded ? 4 : 0,
           ...narrowStyle,
-        },
-      ])}`}
+        }),
+      )}
       data-testid={`${item.name}-category-item`}
       data-highlighted={highlighted || undefined}
       {...props}
@@ -513,17 +530,20 @@ function CategoryItem({
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <TextOneLine>
           {item.name}
-          {item.hidden ? ' (hidden)' : null}
+          {item.hidden ? ' ' + t('(hidden)') : null}
         </TextOneLine>
         <TextOneLine
           style={{
             display: !showBalances ? 'none' : undefined,
             marginLeft: 5,
             flexShrink: 0,
-            ...makeAmountFullStyle(isToBeBudgetedItem ? toBudget : balance, {
-              positiveColor: theme.noticeTextMenu,
-              negativeColor: theme.errorTextMenu,
-            }),
+            ...makeAmountFullStyle(
+              (isToBeBudgetedItem ? toBudget : balance) || 0,
+              {
+                positiveColor: theme.noticeTextMenu,
+                negativeColor: theme.errorTextMenu,
+              },
+            ),
           }}
         >
           {isToBeBudgetedItem

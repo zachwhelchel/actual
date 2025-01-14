@@ -7,12 +7,16 @@ import React, {
   type SetStateAction,
   type Dispatch,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
+import { useSchedules } from 'loot-core/client/data-hooks/schedules';
+import { q } from 'loot-core/shared/query';
 import { pushModal } from 'loot-core/src/client/actions/modals';
 import { initiallyLoadPayees } from 'loot-core/src/client/actions/queries';
 import { send } from 'loot-core/src/platform/client/fetch';
 import * as undo from 'loot-core/src/platform/client/undo';
+import { getNormalisedString } from 'loot-core/src/shared/normalisation';
 import { mapField, friendlyOp } from 'loot-core/src/shared/rules';
 import { describeSchedule } from 'loot-core/src/shared/schedules';
 import { type NewRuleEntity } from 'loot-core/src/types/models';
@@ -23,18 +27,21 @@ import { usePayees } from '../hooks/usePayees';
 import { useSelected, SelectedProvider } from '../hooks/useSelected';
 import { theme } from '../style';
 
-import { Button } from './common/Button';
+import { Button } from './common/Button2';
 import { Link } from './common/Link';
 import { Search } from './common/Search';
+import { SimpleTable } from './common/SimpleTable';
 import { Stack } from './common/Stack';
 import { Text } from './common/Text';
 import { View } from './common/View';
 import { RulesHeader } from './rules/RulesHeader';
 import { RulesList } from './rules/RulesList';
-import { SchedulesQuery } from './rules/SchedulesQuery';
-import { SimpleTable } from './rules/SimpleTable';
 
-function mapValue(field, value, { payees, categories, accounts }) {
+function mapValue(
+  field,
+  value,
+  { payees = [], categories = [], accounts = [] },
+) {
   if (!value) return '';
 
   let object = null;
@@ -78,6 +85,11 @@ function ruleToString(rule, data) {
           data.payees.find(p => p.id === schedule._payee),
         ),
       ];
+    } else if (action.op === 'prepend-notes' || action.op === 'append-notes') {
+      return [
+        friendlyOp(action.op),
+        '“' + mapValue(action.field, action.value, data) + '”',
+      ];
     } else {
       return [];
     }
@@ -87,37 +99,36 @@ function ruleToString(rule, data) {
   );
 }
 
-type ManageRulesContentProps = {
+type ManageRulesProps = {
   isModal: boolean;
   payeeId: string | null;
   setLoading?: Dispatch<SetStateAction<boolean>>;
 };
 
-function ManageRulesContent({
+export function ManageRules({
   isModal,
   payeeId,
-  setLoading,
-}: ManageRulesContentProps) {
+  setLoading = () => {},
+}: ManageRulesProps) {
   const [allRules, setAllRules] = useState([]);
   const [page, setPage] = useState(0);
   const [filter, setFilter] = useState('');
   const dispatch = useDispatch();
 
-  const { data: schedules } = SchedulesQuery.useQuery();
+  const { schedules = [] } = useSchedules({
+    query: useMemo(() => q('schedules').select('*'), []),
+  });
   const { list: categories } = useCategories();
   const payees = usePayees();
   const accounts = useAccounts();
-  const state = {
-    payees,
-    accounts,
-    schedules,
-  };
   const filterData = useMemo(
     () => ({
-      ...state,
+      payees,
+      accounts,
+      schedules,
       categories,
     }),
-    [state, categories],
+    [payees, accounts, schedules, categories],
   );
 
   const filteredRules = useMemo(
@@ -125,9 +136,9 @@ function ManageRulesContent({
       (filter === ''
         ? allRules
         : allRules.filter(rule =>
-            ruleToString(rule, filterData)
-              .toLowerCase()
-              .includes(filter.toLowerCase()),
+            getNormalisedString(ruleToString(rule, filterData)).includes(
+              getNormalisedString(filter),
+            ),
           )
       ).slice(0, 100 + page * 50),
     [allRules, filter, filterData, page],
@@ -189,11 +200,20 @@ function ManageRulesContent({
     ]);
 
     if (someDeletionsFailed) {
-      alert('Some rules were not deleted because they are linked to schedules');
+      alert(
+        t('Some rules were not deleted because they are linked to schedules'),
+      );
     }
 
     await loadRules();
     selectedInst.dispatch({ type: 'select-none' });
+    setLoading(false);
+  }
+
+  async function onDeleteRule(id: string) {
+    setLoading(true);
+    await send('rule-delete', id);
+    await loadRules();
     setLoading(false);
   }
 
@@ -245,6 +265,7 @@ function ManageRulesContent({
   const onHover = useCallback(id => {
     setHoveredRule(id);
   }, []);
+  const { t } = useTranslation();
 
   return (
     <SelectedProvider instance={selectedInst}>
@@ -266,19 +287,19 @@ function ManageRulesContent({
             }}
           >
             <Text>
-              Rules are always run in the order that you see them.{' '}
+              {t('Rules are always run in the order that you see them.')}{' '}
               <Link
                 variant="external"
                 to="https://actualbudget.org/docs/budgeting/rules/"
                 linkColor="muted"
               >
-                Learn more
+                {t('Learn more')}
               </Link>
             </Text>
           </View>
           <View style={{ flex: 1 }} />
           <Search
-            placeholder="Filter rules..."
+            placeholder={t('Filter rules...')}
             value={filter}
             onChange={onSearchChange}
           />
@@ -291,7 +312,7 @@ function ManageRulesContent({
             style={{ marginBottom: -1 }}
           >
             {filteredRules.length === 0 ? (
-              <EmptyMessage text="No rules" style={{ marginTop: 15 }} />
+              <EmptyMessage text={t('No rules')} style={{ marginTop: 15 }} />
             ) : (
               <RulesList
                 rules={filteredRules}
@@ -299,6 +320,7 @@ function ManageRulesContent({
                 hoveredRule={hoveredRule}
                 onHover={onHover}
                 onEditRule={onEditRule}
+                onDeleteRule={rule => onDeleteRule(rule.id)}
               />
             )}
           </SimpleTable>
@@ -313,12 +335,12 @@ function ManageRulesContent({
         >
           <Stack direction="row" align="center" justify="flex-end" spacing={2}>
             {selectedInst.items.size > 0 && (
-              <Button onClick={onDeleteSelected}>
+              <Button onPress={onDeleteSelected}>
                 Delete {selectedInst.items.size} rules
               </Button>
             )}
-            <Button type="primary" onClick={onCreateRule}>
-              Create new rule
+            <Button variant="primary" onPress={onCreateRule}>
+              {t('Create new rule')}
             </Button>
           </Stack>
         </View>
@@ -341,27 +363,5 @@ function EmptyMessage({ text, style }) {
     >
       {text}
     </View>
-  );
-}
-
-type ManageRulesProps = {
-  isModal: boolean;
-  payeeId: string | null;
-  setLoading?: Dispatch<SetStateAction<boolean>>;
-};
-
-export function ManageRules({
-  isModal,
-  payeeId,
-  setLoading = () => {},
-}: ManageRulesProps) {
-  return (
-    <SchedulesQuery.Provider>
-      <ManageRulesContent
-        isModal={isModal}
-        payeeId={payeeId}
-        setLoading={setLoading}
-      />
-    </SchedulesQuery.Provider>
   );
 }

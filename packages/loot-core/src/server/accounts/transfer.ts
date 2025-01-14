@@ -26,11 +26,16 @@ async function clearCategory(transaction, transferAcct) {
     [transferAcct],
   );
 
-  // We should clear the category to make sure it's not being
-  // accounted for in the budget, unless it should be in the case of
-  // transferring from an on-budget to off-budget account
+  // If the transfer is between two on budget or two off budget accounts,
+  // we should clear the category, because the category is not relevant
   if (fromOffBudget === toOffBudget) {
     await db.updateTransaction({ id: transaction.id, category: null });
+    if (transaction.transfer_id) {
+      await db.updateTransaction({
+        id: transaction.transfer_id,
+        category: null,
+      });
+    }
     return true;
   }
   return false;
@@ -80,6 +85,7 @@ export async function addTransfer(transaction, transferredAccount) {
     date: transaction.date,
     transfer_id: transaction.id,
     notes: transaction.notes || null,
+    schedule: transaction.schedule,
     cleared: false,
   });
 
@@ -130,6 +136,7 @@ export async function updateTransfer(transaction, transferredAccount) {
     date: transaction.date,
     notes: transaction.notes,
     amount: -transaction.amount,
+    schedule: transaction.schedule,
   });
 
   const categoryCleared = await clearCategory(transaction, transferredAccount);

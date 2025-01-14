@@ -31,6 +31,10 @@ export async function downloadBudget(syncId, { password }: { password? } = {}) {
   return send('api/download-budget', { syncId, password });
 }
 
+export async function getBudgets() {
+  return send('api/get-budgets');
+}
+
 export async function sync() {
   return send('api/sync');
 }
@@ -82,7 +86,10 @@ export function addTransactions(
 }
 
 export function importTransactions(accountId, transactions) {
-  return send('api/transactions-import', { accountId, transactions });
+  return send('api/transactions-import', {
+    accountId,
+    transactions,
+  });
 }
 
 export function getTransactions(accountId, startDate, endDate) {
@@ -125,6 +132,10 @@ export function deleteAccount(id) {
   return send('api/account-delete', { id });
 }
 
+export function getAccountBalance(id, cutoff?) {
+  return send('api/account-balance', { id, cutoff });
+}
+
 export function getCategoryGroups() {
   return send('api/category-groups-get');
 }
@@ -157,6 +168,10 @@ export function deleteCategory(id, transferCategoryId?) {
   return send('api/category-delete', { id, transferCategoryId });
 }
 
+export function getCommonPayees() {
+  return send('api/common-payees-get');
+}
+
 export function getPayees() {
   return send('api/payees-get');
 }
@@ -171,6 +186,10 @@ export function updatePayee(id, fields) {
 
 export function deletePayee(id) {
   return send('api/payee-delete', { id });
+}
+
+export function mergePayees(targetId, mergeIds) {
+  return send('api/payees-merge', { targetId, mergeIds });
 }
 
 export function getRules() {
@@ -189,6 +208,14 @@ export function updateRule(rule) {
   return send('api/rule-update', { rule });
 }
 
-export function deleteRule(id) {
-  return send('api/rule-delete', { id });
+export function deleteRule(id: string) {
+  return send('api/rule-delete', id);
+}
+
+export function holdBudgetForNextMonth(month, amount) {
+  return send('api/budget-hold-for-next-month', { month, amount });
+}
+
+export function resetBudgetHold(month) {
+  return send('api/budget-reset-hold', { month });
 }

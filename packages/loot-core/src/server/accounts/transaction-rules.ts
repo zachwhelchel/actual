@@ -6,20 +6,18 @@ import {
   parseDate,
   dayFromDate,
 } from '../../shared/months';
-import {
-  FIELD_TYPES,
-  sortNumbers,
-  getApproxNumberThreshold,
-} from '../../shared/rules';
+import { sortNumbers, getApproxNumberThreshold } from '../../shared/rules';
 import { ungroupTransaction } from '../../shared/transactions';
 import { partitionByField, fastSetMerge } from '../../shared/util';
 import {
   type TransactionEntity,
   type RuleActionEntity,
   type RuleEntity,
+  AccountEntity,
 } from '../../types/models';
 import { schemaConfig } from '../aql';
 import * as db from '../db';
+import { getPayee, getPayeeByName, insertPayee, getAccount } from '../db';
 import { getMappings } from '../db/mappings';
 import { RuleError } from '../errors';
 import { requiredFields, toDateRepr } from '../models';
@@ -157,10 +155,7 @@ export const ruleModel = {
 export function makeRule(data) {
   let rule;
   try {
-    rule = new Rule({
-      ...ruleModel.toJS(data),
-      fieldTypes: FIELD_TYPES,
-    });
+    rule = new Rule(ruleModel.toJS(data));
   } catch (e) {
     console.warn('Invalid rule', e);
     if (e instanceof RuleError) {
@@ -223,16 +218,17 @@ export async function updateRule(rule) {
   return db.update('rules', ruleModel.fromJS(rule));
 }
 
-export async function deleteRule<T extends { id: string }>(rule: T) {
+export async function deleteRule(id: string) {
   const schedule = await db.first('SELECT id FROM schedules WHERE rule = ?', [
-    rule.id,
+    id,
   ]);
 
   if (schedule) {
     return false;
   }
 
-  return db.delete_('rules', rule.id);
+  await db.delete_('rules', id);
+  return true;
 }
 
 // Sync projections
@@ -279,8 +275,20 @@ function onApplySync(oldValues, newValues) {
 }
 
 // Runner
-export function runRules(trans) {
-  let finalTrans = { ...trans };
+export async function runRules(
+  trans,
+  accounts: Map<string, AccountEntity> | null = null,
+) {
+  let accountsMap = null;
+  if (accounts === null) {
+    accountsMap = new Map(
+      (await db.getAccounts()).map(account => [account.id, account]),
+    );
+  } else {
+    accountsMap = accounts;
+  }
+
+  let finalTrans = await prepareTransactionForRules({ ...trans }, accountsMap);
 
   const rules = rankRules(
     fastSetMerge(
@@ -293,7 +301,39 @@ export function runRules(trans) {
     finalTrans = rules[i].apply(finalTrans);
   }
 
-  return finalTrans;
+  return await finalizeTransactionForRules(finalTrans);
+}
+
+function conditionSpecialCases(cond: Condition | null): Condition | null {
+  if (!cond) {
+    return cond;
+  }
+
+  //special cases that require multiple conditions
+  if (cond.op === 'is' && cond.field === 'category' && cond.value === null) {
+    return new Condition(
+      'and',
+      cond.field,
+      [
+        cond,
+        new Condition('is', 'transfer', false, null),
+        new Condition('is', 'parent', false, null),
+      ],
+      {},
+    );
+  } else if (
+    cond.op === 'isNot' &&
+    cond.field === 'category' &&
+    cond.value === null
+  ) {
+    return new Condition(
+      'and',
+      cond.field,
+      [cond, new Condition('is', 'parent', false, null)],
+      {},
+    );
+  }
+  return cond;
 }
 
 // This does the inverse: finds all the transactions matching a rule
@@ -307,24 +347,20 @@ export function conditionsToAQL(conditions, { recurDateBounds = 100 } = {}) {
       }
 
       try {
-        return new Condition(
-          cond.op,
-          cond.field,
-          cond.value,
-          cond.options,
-          FIELD_TYPES,
-        );
+        return new Condition(cond.op, cond.field, cond.value, cond.options);
       } catch (e) {
         errors.push(e.type || 'internal');
         console.log('conditionsToAQL: invalid condition: ' + e.message);
         return null;
       }
     })
+    .map(conditionSpecialCases)
     .filter(Boolean);
 
   // rule -> actualql
-  const filters = conditions.map(cond => {
-    const { type, field, op, value, options } = cond;
+  const mapConditionToActualQL = cond => {
+    const { type, options } = cond;
+    let { field, op, value } = cond;
 
     const getValue = value => {
       if (type === 'number') {
@@ -332,6 +368,23 @@ export function conditionsToAQL(conditions, { recurDateBounds = 100 } = {}) {
       }
       return value;
     };
+
+    if (field === 'transfer' && op === 'is') {
+      field = 'transfer_id';
+      if (value) {
+        op = 'isNot';
+        value = null;
+      } else {
+        value = null;
+      }
+    } else if (field === 'parent' && op === 'is') {
+      field = 'is_parent';
+      if (value) {
+        op = 'true';
+      } else {
+        op = 'false';
+      }
+    }
 
     const apply = (field, op, value) => {
       if (type === 'number') {
@@ -471,6 +524,31 @@ export function conditionsToAQL(conditions, { recurDateBounds = 100 } = {}) {
           return { id: null };
         }
         return { $or: values.map(v => apply(field, '$eq', v)) };
+
+      case 'hasTags':
+        const words = value.split(/\s+/);
+        const tagValues = [];
+        words.forEach(word => {
+          const startsWithHash = word.startsWith('#');
+          const containsMultipleHash = word.slice(1).includes('#');
+          const correctlyFormatted = word.match(/#[\w\d\p{Emoji}-]+/gu);
+          const validHashtag =
+            startsWithHash && !containsMultipleHash && correctlyFormatted;
+
+          if (validHashtag) {
+            tagValues.push(word);
+          }
+        });
+
+        return {
+          $and: tagValues.map(v => {
+            const regex = new RegExp(
+              `(^|\\s)${v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(\\s|$)`,
+            );
+            return apply(field, '$regexp', regex.source);
+          }),
+        };
+
       case 'notOneOf':
         const notValues = value;
         if (notValues.length === 0) {
@@ -490,11 +568,22 @@ export function conditionsToAQL(conditions, { recurDateBounds = 100 } = {}) {
         return apply(field, '$eq', true);
       case 'false':
         return apply(field, '$eq', false);
+      case 'and':
+        return {
+          $and: getValue(value).map(subExpr => mapConditionToActualQL(subExpr)),
+        };
+
+      case 'onBudget':
+        return { 'account.offbudget': false };
+      case 'offBudget':
+        return { 'account.offbudget': true };
+
       default:
         throw new Error('Unhandled operator: ' + op);
     }
-  });
+  };
 
+  const filters = conditions.map(mapConditionToActualQL);
   return { filters, errors };
 }
 
@@ -510,15 +599,14 @@ export async function applyActions(
 
       try {
         if (action.op === 'set-split-amount') {
-          return new Action(
-            action.op,
-            null,
-            action.value,
-            action.options,
-            FIELD_TYPES,
-          );
+          return new Action(action.op, null, action.value, action.options);
         } else if (action.op === 'link-schedule') {
-          return new Action(action.op, null, action.value, null, FIELD_TYPES);
+          return new Action(action.op, null, action.value, null);
+        } else if (
+          action.op === 'prepend-notes' ||
+          action.op === 'append-notes'
+        ) {
+          return new Action(action.op, null, action.value, null);
         }
 
         return new Action(
@@ -526,7 +614,6 @@ export async function applyActions(
           action.field,
           action.value,
           action.options,
-          FIELD_TYPES,
         );
       } catch (e) {
         console.log('Action error', e);
@@ -540,15 +627,30 @@ export async function applyActions(
     return null;
   }
 
-  const updated = transactions.flatMap(trans => {
+  const accounts: AccountEntity[] = await db.getAccounts();
+  const transactionsForRules = await Promise.all(
+    transactions.map(transactions =>
+      prepareTransactionForRules(
+        transactions,
+        new Map(accounts.map(account => [account.id, account])),
+      ),
+    ),
+  );
+
+  const updated = transactionsForRules.flatMap(trans => {
     return ungroupTransaction(execActions(parsedActions, trans));
   });
 
-  return batchUpdateTransactions({ updated });
+  const finalized: TransactionEntity[] = [];
+  for (const trans of updated) {
+    finalized.push(await finalizeTransactionForRules(trans));
+  }
+
+  return batchUpdateTransactions({ updated: finalized });
 }
 
 export function getRulesForPayee(payeeId) {
-  const rules = new Set();
+  const rules = new Set<Rule>();
   iterateIds(getRules(), 'payee', (rule, id) => {
     if (id === payeeId) {
       rules.add(rule);
@@ -646,7 +748,6 @@ export async function updatePayeeRenameRule(fromNames: string[], to: string) {
       conditionsOp: 'and',
       conditions: [{ op: 'oneOf', field: 'imported_payee', value: fromNames }],
       actions: [{ op: 'set', field: 'payee', value: to }],
-      fieldTypes: FIELD_TYPES,
     });
     return insertRule(rule.serialize());
   }
@@ -755,10 +856,60 @@ export async function updateCategoryRules(transactions) {
           conditionsOp: 'and',
           conditions: [{ op: 'is', field: 'payee', value: payeeId }],
           actions: [{ op: 'set', field: 'category', value: category }],
-          fieldTypes: FIELD_TYPES,
         });
         await insertRule(newRule.serialize());
       }
     }
   });
+}
+
+export type TransactionForRules = TransactionEntity & {
+  payee_name?: string;
+  _account?: AccountEntity;
+};
+
+export async function prepareTransactionForRules(
+  trans: TransactionEntity,
+  accounts: Map<string, AccountEntity> | null = null,
+): Promise<TransactionForRules> {
+  const r: TransactionForRules = { ...trans };
+  if (trans.payee) {
+    const payee = await getPayee(trans.payee);
+    if (payee) {
+      r.payee_name = payee.name;
+    }
+  }
+
+  if (trans.account) {
+    if (accounts !== null && accounts.has(trans.account)) {
+      r._account = accounts.get(trans.account);
+    } else {
+      r._account = await getAccount(trans.account);
+    }
+  }
+
+  return r;
+}
+
+export async function finalizeTransactionForRules(
+  trans: TransactionEntity | TransactionForRules,
+): Promise<TransactionEntity> {
+  if ('payee_name' in trans) {
+    if (trans.payee === 'new') {
+      if (trans.payee_name) {
+        let payeeId = (await getPayeeByName(trans.payee_name))?.id;
+        payeeId ??= await insertPayee({
+          name: trans.payee_name,
+        });
+
+        trans.payee = payeeId;
+      } else {
+        trans.payee = null;
+      }
+    }
+
+    delete trans.payee_name;
+  }
+
+  return trans;
 }

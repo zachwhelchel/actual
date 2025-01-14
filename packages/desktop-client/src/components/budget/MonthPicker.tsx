@@ -1,18 +1,21 @@
 // @ts-strict-ignore
-import { type CSSProperties, useState } from 'react';
+import React, { type CSSProperties, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import * as monthUtils from 'loot-core/src/shared/months';
 
 import { useResizeObserver } from '../../hooks/useResizeObserver';
+import { SvgCalendar } from '../../icons/v2';
 import { styles, theme } from '../../style';
+import { Link } from '../common/Link';
 import { View } from '../common/View';
 
-import { type BoundsProps } from './MonthsContext';
+import { type MonthBounds } from './MonthsContext';
 
 type MonthPickerProps = {
   startMonth: string;
   numDisplayed: number;
-  monthBounds: BoundsProps;
+  monthBounds: MonthBounds;
   style: CSSProperties;
   onSelect: (month: string) => void;
 };
@@ -25,6 +28,7 @@ export const MonthPicker = ({
   style,
   onSelect,
 }: MonthPickerProps) => {
+  const { t } = useTranslation();
   const [hoverId, setHoverId] = useState(null);
   const [targetMonthCount, setTargetMonthCount] = useState(12);
 
@@ -76,19 +80,28 @@ export const MonthPicker = ({
           ...style,
         }}
       >
-        <View
-          innerRef={containerRef}
+        <Link
+          variant="button"
+          buttonVariant="bare"
+          onPress={() => onSelect(currentMonth)}
           style={{
-            flexDirection: 'row',
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
+            padding: '3px 3px',
+            marginRight: '12px',
           }}
         >
-          {range.map((month, idx) => {
-            const monthName = monthUtils.format(month, 'MMM');
-            const selected =
-              idx >= firstSelectedIndex && idx <= lastSelectedIndex;
+          <View title={t('Today')}>
+            <SvgCalendar
+              style={{
+                width: 16,
+                height: 16,
+              }}
+            />
+          </View>
+        </Link>
+        {range.map((month, idx) => {
+          const monthName = monthUtils.format(month, 'MMM');
+          const selected =
+            idx >= firstSelectedIndex && idx <= lastSelectedIndex;
 
             const lastHoverId = hoverId + numDisplayed - 1;
             const hovered =
@@ -140,60 +153,65 @@ export const MonthPicker = ({
                   !selected && {
                     backgroundColor: theme.buttonBareBackgroundHover,
                   }),
-                  ...styles.smallText,
-                  ...(selected && {
+                ...(!hovered &&
+                  !selected &&
+                  current && {
+                    backgroundColor: theme.buttonBareBackgroundHover,
+                    filter: 'brightness(120%)',
+                  }),
+                ...(hovered &&
+                  selected &&
+                  current && {
+                    filter: 'brightness(120%)',
+                  }),
+                ...(hovered &&
+                  selected && {
                     backgroundColor: theme.tableBorderHover,
                     color: theme.buttonPrimaryText,
                   }),
-                  ...((hovered || selected) && {
-                    borderRadius: 0,
-                    cursor: 'pointer',
-                  }),
-                  ...(hovered &&
-                    !selected && {
-                      backgroundColor: 'rgba(100, 100, 100, .15)',
-                    }),
-                  ...(hovered &&
-                    selected && {
-                      backgroundColor: theme.tableBorderHover,
-                    }),
-                  ...((idx === firstSelectedIndex ||
-                    (idx === hoverId && !selected)) && {
-                    borderTopLeftRadius: 2,
-                    borderBottomLeftRadius: 2,
-                  }),
-                  ...((idx === lastSelectedIndex ||
-                    (idx === lastHoverId && !selected)) && {
-                    borderTopRightRadius: 2,
-                    borderBottomRightRadius: 2,
-                  }),
-                  ...(current && { fontWeight: 'bold' }),
-                }}
-                onClick={() => onSelect(month)}
-                onMouseEnter={() => setHoverId(idx)}
-                onMouseLeave={() => setHoverId(null)}
-              >
-                {size === 'small' ? monthName[0] : monthName}
-                {showYearHeader && (
-                  <View
-                    style={{
-                      position: 'absolute',
-                      top: -14,
-                      left: 0,
-                      fontSize: 10,
-                      fontWeight: 'bold',
-                      color: isMonthBudgeted
-                        ? theme.pageText
-                        : theme.pageTextSubdued,
-                    }}
-                  >
-                    {year}
-                  </View>
-                )}
-              </View>
-            );
-          })}
-        </View>
+                ...((idx === firstSelectedIndex ||
+                  (idx === hoverId && !selected)) && {
+                  borderTopLeftRadius: 2,
+                  borderBottomLeftRadius: 2,
+                }),
+                ...((idx === lastSelectedIndex ||
+                  (idx === lastHoverId && !selected)) && {
+                  borderTopRightRadius: 2,
+                  borderBottomRightRadius: 2,
+                }),
+                ...(current && { fontWeight: 'bold' }),
+              }}
+              onClick={() => onSelect(month)}
+              onMouseEnter={() => setHoverId(idx)}
+              onMouseLeave={() => setHoverId(null)}
+            >
+              {size === 'small' ? monthName[0] : monthName}
+              {showYearHeader && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: -14,
+                    left: 0,
+                    fontSize: 10,
+                    fontWeight: 'bold',
+                    color: isMonthBudgeted
+                      ? theme.pageText
+                      : theme.pageTextSubdued,
+                  }}
+                >
+                  {year}
+                </View>
+              )}
+            </View>
+          );
+        })}
+        {/*Keep range centered*/}
+        <span
+          style={{
+            width: '22px',
+            marginLeft: '12px',
+          }}
+        />
       </View>
     </div>
   );

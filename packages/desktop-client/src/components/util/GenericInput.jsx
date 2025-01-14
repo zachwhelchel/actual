@@ -32,9 +32,10 @@ export function GenericInput({
   inputRef,
   style,
   onChange,
+  op = undefined,
 }) {
   const { grouped: categoryGroups } = useCategories();
-  const savedReports = useReports();
+  const { data: savedReports } = useReports();
   const saved = useSelector(state => state.queries.saved);
   const dateFormat = useDateFormat() || 'MM/dd/yyyy';
 
@@ -100,18 +101,26 @@ export function GenericInput({
           break;
 
         case 'account':
-          content = (
-            <AccountAutocomplete
-              type={autocompleteType}
-              value={value}
-              openOnFocus={true}
-              onSelect={onChange}
-              inputProps={{
-                inputRef,
-                ...(showPlaceholder ? { placeholder: 'nothing' } : null),
-              }}
-            />
-          );
+          switch (op) {
+            case 'onBudget':
+            case 'offBudget':
+              content = null;
+              break;
+            default:
+              content = (
+                <AccountAutocomplete
+                  type={autocompleteType}
+                  value={value}
+                  openOnFocus={true}
+                  onSelect={onChange}
+                  inputProps={{
+                    inputRef,
+                    ...(showPlaceholder ? { placeholder: 'nothing' } : null),
+                  }}
+                />
+              );
+              break;
+          }
           break;
 
         case 'category':

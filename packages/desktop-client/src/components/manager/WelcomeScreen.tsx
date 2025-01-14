@@ -1,15 +1,19 @@
 import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
-import { useActions } from '../../hooks/useActions';
+import { createBudget, pushModal } from 'loot-core/client/actions';
+
 import { styles, theme } from '../../style';
-import { Button } from '../common/Button';
+import { Button } from '../common/Button2';
 import { Link } from '../common/Link';
 import { Paragraph } from '../common/Paragraph';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 
 export function WelcomeScreen() {
-  const { createBudget, pushModal } = useActions();
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   return (
     <View
@@ -21,15 +25,20 @@ export function WelcomeScreen() {
         marginBlock: 20,
       }}
     >
-      <Text style={styles.veryLargeText}>Let’s get started!</Text>
+      <Text style={styles.veryLargeText}>{t('Let’s get started!')}</Text>
       <View style={{ overflowY: 'auto' }}>
         <Paragraph>
-          Finally make a budget you'll stick to with the guidance and encouragement you've been missing.
+          <Trans>
+            Finally make a budget you'll stick to with the guidance and encouragement you've been missing.{' '}
+          </Trans>
         </Paragraph>
         <Paragraph style={{ color: theme.pageTextLight }}>
-          Get started by importing an existing budget file from MyBudgetCoach or
-          another budgeting app, or start fresh with an empty budget. You can
-          always create or import another budget later.
+          <Trans>
+            Get started by importing an existing budget file from MyBudgetCoach or
+            another budgeting app, create a demo budget file, or start fresh
+            with an empty budget. You can always create or import another budget
+            later.
+          </Trans>
         </Paragraph>
       </View>
       <View
@@ -40,7 +49,9 @@ export function WelcomeScreen() {
           flexShrink: 0,
         }}
       >
-        <Button onClick={() => pushModal('import')}>Import my budget</Button>
+        <Button onPress={() => dispatch(pushModal('import'))}>
+          {t('Import my budget')}
+        </Button>
         <View
           style={{
             flexDirection: 'row',
@@ -48,8 +59,15 @@ export function WelcomeScreen() {
             gap: 10,
           }}
         >
-          <Button type="primary" onClick={() => createBudget()}>
-            Get started
+          <Button onPress={() => dispatch(createBudget({ testMode: true }))}>
+            {t('View demo')}
+          </Button>
+          <Button
+            variant="primary"
+            autoFocus
+            onPress={() => dispatch(createBudget())}
+          >
+            {t('Start fresh')}
           </Button>
         </View>
       </View>

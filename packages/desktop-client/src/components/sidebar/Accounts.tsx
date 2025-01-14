@@ -1,19 +1,20 @@
-// @ts-strict-ignore
-import { type AccountEntity } from 'loot-core/src/types/models';
-import { useNavigate } from "react-router-dom";
-
-import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt, SvgChatBubbleDots } from '../../icons/v1';
 import React, { useState, useMemo, useContext } from 'react';
-import { useSelector } from 'react-redux';
+import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt, SvgChatBubbleDots } from '../../icons/v1';
 
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { moveAccount } from 'loot-core/src/client/actions';
 import * as queries from 'loot-core/src/client/queries';
 import { type State } from 'loot-core/src/client/state-types';
+import { type AccountEntity } from 'loot-core/types/models';
 
-import { useBudgetedAccounts } from '../../hooks/useBudgetedAccounts';
+import { useAccounts } from '../../hooks/useAccounts';
 import { useClosedAccounts } from '../../hooks/useClosedAccounts';
 import { useFailedAccounts } from '../../hooks/useFailedAccounts';
 import { useLocalPref } from '../../hooks/useLocalPref';
 import { useOffBudgetAccounts } from '../../hooks/useOffBudgetAccounts';
+import { useOnBudgetAccounts } from '../../hooks/useOnBudgetAccounts';
 import { useUpdatedAccounts } from '../../hooks/useUpdatedAccounts';
 import { View } from '../common/View';
 import { Link } from '../common/Link';
@@ -22,6 +23,7 @@ import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
 import { theme } from '../../style';
 import { Button } from '../common/Button';
+
 import { Account } from './Account';
 import { SecondaryItem } from './SecondaryItem';
 
@@ -38,8 +40,6 @@ type AccountsProps = {
   onResetAvatar: () => void;
   onUploadAvatar: () => void;
   onStartNewConversation: () => void;
-  onToggleClosedAccounts: () => void;
-  onReorder: OnDropCallback;
 };
 
 export function Accounts({
@@ -50,35 +50,56 @@ export function Accounts({
   onResetAvatar,
   onUploadAvatar,
   onStartNewConversation,
-  onToggleClosedAccounts,
-  onReorder,
 }: AccountsProps) {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [isDragging, setIsDragging] = useState(false);
+  const accounts = useAccounts();
   const failedAccounts = useFailedAccounts();
   const updatedAccounts = useUpdatedAccounts();
   const offbudgetAccounts = useOffBudgetAccounts();
-  const budgetedAccounts = useBudgetedAccounts();
+  const onBudgetAccounts = useOnBudgetAccounts();
   const closedAccounts = useClosedAccounts();
   const syncingAccountIds = useSelector(
     (state: State) => state.account.accountsSyncing,
   );
 
-  const getAccountPath = account => `/accounts/${account.id}`;
+  const getAccountPath = (account: AccountEntity) => `/accounts/${account.id}`;
 
-  const [showClosedAccounts] = useLocalPref('ui.showClosedAccounts');
+  const [showClosedAccounts, setShowClosedAccountsPref] = useLocalPref(
+    'ui.showClosedAccounts',
+  );
 
-  function onDragChange(drag) {
+  function onDragChange(drag: { state: string }) {
     setIsDragging(drag.state === 'start');
   }
 
-  const makeDropPadding = i => {
+  const makeDropPadding = (i: number) => {
     if (i === 0) {
       return {
         paddingTop: isDragging ? 15 : 0,
         marginTop: isDragging ? -15 : 0,
       };
     }
-    return null;
+    return undefined;
+  };
+
+  async function onReorder(
+    id: string,
+    dropPos: 'top' | 'bottom',
+    targetId: unknown,
+  ) {
+    let targetIdToMove = targetId;
+    if (dropPos === 'bottom') {
+      const idx = accounts.findIndex(a => a.id === targetId) + 1;
+      targetIdToMove = idx < accounts.length ? accounts[idx].id : null;
+    }
+
+    dispatch(moveAccount(id, targetIdToMove));
+  }
+
+  const onToggleClosedAccounts = () => {
+    setShowClosedAccountsPref(!showClosedAccounts);
   };
 
   let { commonElementsRef, conversationDeck, openConversation, setOpenConversation, allConversations } = useCoach(); // this is causing the errors.
@@ -130,108 +151,132 @@ export function Accounts({
   const messageCenterText = "Message Center";
 
   return (
-    <View>
-
-      <div
-        ref={element => {
-          commonElementsRef.current['all_accounts'] = element;
+    <View
+      style={{
+        flexGrow: 1,
+        '@media screen and (max-height: 480px)': {
+          minHeight: 'auto',
+        },
+      }}
+    >
+      <View
+        style={{
+          height: 1,
+          backgroundColor: theme.sidebarItemBackgroundHover,
+          marginTop: 15,
+          flexShrink: 0,
         }}
-      >
-        <Account
-          name="All accounts"
-          to="/accounts"
-          query={queries.allAccountBalance()}
-          style={{ fontWeight, marginTop: 15 }}
-        />
-      </div>
+      />
 
-      {budgetedAccounts.length > 0 && (
+      <View style={{ overflow: 'auto' }}>
         <div
           ref={element => {
-            commonElementsRef.current['for_budget_accounts'] = element;
+            commonElementsRef.current['all_accounts'] = element;
           }}
         >
           <Account
-            name="For budget"
-            to="/accounts/budgeted"
-            query={queries.budgetedAccountBalance()}
+            name={t('All accounts')}
+            to="/accounts"
+            query={queries.allAccountBalance()}
+            style={{ fontWeight, marginTop: 15 }}
+          />
+        </div>
+
+        {onBudgetAccounts.length > 0 && (
+          <div
+            ref={element => {
+              commonElementsRef.current['for_budget_accounts'] = element;
+            }}
+          >
+            <Account
+              name={t('On budget')}
+              to="/accounts/onbudget"
+              query={queries.onBudgetAccountBalance()}
+              style={{
+                fontWeight,
+                marginTop: 13,
+                marginBottom: 5,
+              }}
+            />
+          </div>
+        )}
+
+        {onBudgetAccounts.map((account, i) => (
+          <Account
+            key={account.id}
+            name={account.name}
+            account={account}
+            connected={!!account.bank}
+            pending={syncingAccountIds.includes(account.id)}
+            failed={failedAccounts?.has(account.id)}
+            updated={updatedAccounts?.includes(account.id)}
+            to={getAccountPath(account)}
+            query={queries.accountBalance(account)}
+            onDragChange={onDragChange}
+            onDrop={onReorder}
+            outerStyle={makeDropPadding(i)}
+          />
+        ))}
+
+
+
+        {offbudgetAccounts.length > 0 && (
+          <Account
+            name={t('Off budget')}
+            to="/accounts/offbudget"
+            query={queries.offBudgetAccountBalance()}
             style={{
               fontWeight,
               marginTop: 13,
               marginBottom: 5,
             }}
           />
-        </div>
-      )}
+        )}
 
-      {budgetedAccounts.map((account, i) => (
-        <Account
-          key={account.id}
-          name={account.name}
-          account={account}
-          connected={!!account.bank}
-          pending={syncingAccountIds.includes(account.id)}
-          failed={failedAccounts && failedAccounts.has(account.id)}
-          updated={updatedAccounts && updatedAccounts.includes(account.id)}
-          to={getAccountPath(account)}
-          query={queries.accountBalance(account)}
-          onDragChange={onDragChange}
-          onDrop={onReorder}
-          outerStyle={makeDropPadding(i)}
-        />
-      ))}
-
-      {offbudgetAccounts.length > 0 && (
-        <Account
-          name="Off budget"
-          to="/accounts/offbudget"
-          query={queries.offbudgetAccountBalance()}
-          style={{
-            fontWeight,
-            marginTop: 13,
-            marginBottom: 5,
-          }}
-        />
-      )}
-
-      {offbudgetAccounts.map((account, i) => (
-        <Account
-          key={account.id}
-          name={account.name}
-          account={account}
-          connected={!!account.bank}
-          pending={syncingAccountIds.includes(account.id)}
-          failed={failedAccounts && failedAccounts.has(account.id)}
-          updated={updatedAccounts && updatedAccounts.includes(account.id)}
-          to={getAccountPath(account)}
-          query={queries.accountBalance(account)}
-          onDragChange={onDragChange}
-          onDrop={onReorder}
-          outerStyle={makeDropPadding(i)}
-        />
-      ))}
-
-      {closedAccounts.length > 0 && (
-        <SecondaryItem
-          style={{ marginTop: 15 }}
-          title={'Closed accounts' + (showClosedAccounts ? '' : '...')}
-          onClick={onToggleClosedAccounts}
-          bold
-        />
-      )}
-
-      {showClosedAccounts &&
-        closedAccounts.map(account => (
+        {offbudgetAccounts.map((account, i) => (
           <Account
             key={account.id}
             name={account.name}
             account={account}
+            connected={!!account.bank}
+            pending={syncingAccountIds.includes(account.id)}
+            failed={failedAccounts?.has(account.id)}
+            updated={updatedAccounts?.includes(account.id)}
             to={getAccountPath(account)}
             query={queries.accountBalance(account)}
             onDragChange={onDragChange}
             onDrop={onReorder}
+            outerStyle={makeDropPadding(i)}
           />
         ))}
+
+        {closedAccounts.length > 0 && (
+          <SecondaryItem
+            style={{ marginTop: 15 }}
+            title={
+              showClosedAccounts
+                ? t('Closed accounts')
+                : t('Closed accounts...')
+            }
+            onClick={onToggleClosedAccounts}
+            bold
+          />
+        )}
+
+        {showClosedAccounts &&
+          closedAccounts.map(account => (
+            <Account
+              key={account.id}
+              name={account.name}
+              account={account}
+              to={getAccountPath(account)}
+              query={queries.accountBalance(account)}
+              onDragChange={onDragChange}
+              onDrop={onReorder}
+            />
+          ))}
+      </View>
+
 
       <div
         ref={element => {

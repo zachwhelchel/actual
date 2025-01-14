@@ -47,6 +47,8 @@ function reconcileFiles(
           groupId,
           deleted: false,
           state: 'unknown',
+          hasKey: true,
+          owner: '',
         };
       }
 
@@ -65,6 +67,8 @@ function reconcileFiles(
             encryptKeyId: remote.encryptKeyId,
             hasKey: remote.hasKey,
             state: 'synced',
+            owner: remote.owner,
+            usersWithAccess: remote.usersWithAccess,
           };
         } else {
           return {
@@ -76,6 +80,8 @@ function reconcileFiles(
             encryptKeyId: remote.encryptKeyId,
             hasKey: remote.hasKey,
             state: 'detached',
+            owner: remote.owner,
+            usersWithAccess: remote.usersWithAccess,
           };
         }
       } else {
@@ -85,10 +91,12 @@ function reconcileFiles(
           groupId,
           deleted: false,
           state: 'broken',
+          hasKey: true,
+          owner: '',
         };
       }
     } else {
-      return { ...localFile, deleted: false, state: 'local' };
+      return { ...localFile, deleted: false, state: 'local', hasKey: true };
     }
   });
 
@@ -106,6 +114,8 @@ function reconcileFiles(
               encryptKeyId: f.encryptKeyId,
               hasKey: f.hasKey,
               state: 'remote',
+              owner: f.owner,
+              usersWithAccess: f.usersWithAccess,
             };
           }),
       )

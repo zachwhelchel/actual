@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { t } from 'i18next';
 import throttle from 'throttleit';
 
 import { send } from '../../platform/client/fetch';
@@ -40,10 +41,16 @@ export function applyBudgetAction(month, type, args) {
         dispatch(addNotification(await send('budget/check-templates')));
         break;
       case 'apply-goal-template':
-        await send('budget/apply-goal-template', { month });
+        dispatch(
+          addNotification(await send('budget/apply-goal-template', { month })),
+        );
         break;
       case 'overwrite-goal-template':
-        await send('budget/overwrite-goal-template', { month });
+        dispatch(
+          addNotification(
+            await send('budget/overwrite-goal-template', { month }),
+          ),
+        );
         break;
       case 'cleanup-goal-template':
         dispatch(
@@ -102,6 +109,16 @@ export function applyBudgetAction(month, type, args) {
           month,
           category: args.category,
         });
+        break;
+      case 'apply-multiple-templates':
+        dispatch(
+          addNotification(
+            await send('budget/apply-multiple-templates', {
+              month,
+              categoryIds: args.categories,
+            }),
+          ),
+        );
         break;
       case 'set-single-3-avg':
         await send('budget/set-n-month-avg', {
@@ -181,8 +198,9 @@ export function deleteCategory(id: string, transferId?: string) {
           dispatch(
             addNotification({
               type: 'error',
-              message:
+              message: t(
                 'A category must be transferred to another of the same type (expense or income)',
+              ),
             }),
           );
           break;
@@ -255,6 +273,17 @@ export function getPayees() {
     const payees = await send('payees-get');
     dispatch({
       type: constants.LOAD_PAYEES,
+      payees,
+    });
+    return payees;
+  };
+}
+
+export function getCommonPayees() {
+  return async (dispatch: Dispatch) => {
+    const payees = await send('common-payees-get');
+    dispatch({
+      type: constants.LOAD_COMMON_PAYEES,
       payees,
     });
     return payees;

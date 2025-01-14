@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { format } from 'date-fns';
 
 import { send } from 'loot-core/src/platform/client/fetch';
 
-import { useLocalPref } from '../../hooks/useLocalPref';
+import { useMetadataPref } from '../../hooks/useMetadataPref';
 import { theme } from '../../style';
 import { Block } from '../common/Block';
-import { ButtonWithLoading } from '../common/Button';
+import { ButtonWithLoading } from '../common/Button2';
 import { Text } from '../common/Text';
 
 import { Setting } from './UI';
 
 export function ExportBudget() {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [budgetName] = useLocalPref('budgetName');
-  const [encryptKeyId] = useLocalPref('encryptKeyId');
+  const [budgetName] = useMetadataPref('budgetName');
+  const [encryptKeyId] = useMetadataPref('encryptKeyId');
 
   async function onExport() {
     setIsLoading(true);
@@ -34,7 +36,7 @@ export function ExportBudget() {
     window.Actual?.saveFile(
       response.data,
       `${format(new Date(), 'yyyy-MM-dd')}-${budgetName}.zip`,
-      'Export budget',
+      t('Export budget'),
     );
     setIsLoading(false);
   }
@@ -43,13 +45,14 @@ export function ExportBudget() {
     <Setting
       primaryAction={
         <>
-          <ButtonWithLoading onClick={onExport} loading={isLoading}>
-            Export data
+          <ButtonWithLoading onPress={onExport} isLoading={isLoading}>
+            {t('Export data')}
           </ButtonWithLoading>
           {error && (
             <Block style={{ color: theme.errorText, marginTop: 15 }}>
-              An unknown error occurred while exporting. Please report this as a
-              new issue on Github.
+              {t(
+                'An unknown error occurred while exporting. Please report this as a new issue on Github.',
+              )}
             </Block>
           )}
         </>
@@ -63,8 +66,9 @@ export function ExportBudget() {
       </Text>
       {encryptKeyId ? (
         <Text>
-          Even though encryption is enabled, the exported zip file will not have
-          any encryption.
+          {t(
+            'Even though encryption is enabled, the exported zip file will not have any encryption.',
+          )}
         </Text>
       ) : null}
     </Setting>

@@ -1,82 +1,84 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { rolloverBudget } from 'loot-core/client/queries';
+import { envelopeBudget } from 'loot-core/client/queries';
 
 import { styles } from '../../style';
-import { Button } from '../common/Button';
+import { useEnvelopeSheetValue } from '../budget/envelope/EnvelopeBudgetComponents';
+import { Button } from '../common/Button2';
 import { InitialFocus } from '../common/InitialFocus';
-import { Modal } from '../common/Modal';
+import { Modal, ModalCloseButton, ModalHeader } from '../common/Modal';
 import { View } from '../common/View';
 import { FieldLabel } from '../mobile/MobileForms';
-import { type CommonModalProps } from '../Modals';
-import { useSheetValue } from '../spreadsheet/useSheetValue';
 import { AmountInput } from '../util/AmountInput';
 
 type HoldBufferModalProps = {
-  modalProps: CommonModalProps;
   month: string;
   onSubmit: (amount: number) => void;
 };
 
-export function HoldBufferModal({
-  modalProps,
-  onSubmit,
-}: HoldBufferModalProps) {
-  const available = useSheetValue(rolloverBudget.toBudget);
+export function HoldBufferModal({ onSubmit }: HoldBufferModalProps) {
+  const { t } = useTranslation(); // Initialize i18next
+  const available = useEnvelopeSheetValue(envelopeBudget.toBudget) ?? 0;
   const [amount, setAmount] = useState<number>(0);
 
   const _onSubmit = (newAmount: number) => {
     if (newAmount) {
       onSubmit?.(newAmount);
     }
-
-    modalProps.onClose();
   };
 
   return (
-    <Modal
-      title="Hold Buffer"
-      showHeader
-      focusAfterClose={false}
-      {...modalProps}
-    >
-      <View>
-        <FieldLabel title="Hold this amount:" />
-        <InitialFocus>
-          <AmountInput
-            value={available}
-            autoDecimals={true}
-            style={{
-              marginLeft: styles.mobileEditingPadding,
-              marginRight: styles.mobileEditingPadding,
-            }}
-            inputStyle={{
-              height: styles.mobileMinHeight,
-            }}
-            onUpdate={setAmount}
-            onEnter={() => _onSubmit(amount)}
+    <Modal name="hold-buffer">
+      {({ state: { close } }) => (
+        <>
+          <ModalHeader
+            title={t('Hold Buffer')}
+            rightContent={<ModalCloseButton onPress={close} />}
           />
-        </InitialFocus>
-      </View>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingTop: 10,
-        }}
-      >
-        <Button
-          type="primary"
-          style={{
-            height: styles.mobileMinHeight,
-            marginLeft: styles.mobileEditingPadding,
-            marginRight: styles.mobileEditingPadding,
-          }}
-          onClick={() => _onSubmit(amount)}
-        >
-          Hold
-        </Button>
-      </View>
+          <View>
+            <FieldLabel title={t('Hold this amount:')} />{' '}
+            <InitialFocus>
+              <AmountInput
+                value={available}
+                autoDecimals={true}
+                zeroSign="+"
+                style={{
+                  marginLeft: styles.mobileEditingPadding,
+                  marginRight: styles.mobileEditingPadding,
+                }}
+                inputStyle={{
+                  height: styles.mobileMinHeight,
+                }}
+                onUpdate={setAmount}
+                onEnter={() => {
+                  _onSubmit(amount);
+                  close();
+                }}
+              />
+            </InitialFocus>
+          </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingTop: 10,
+            }}
+          >
+            <Button
+              variant="primary"
+              style={{
+                height: styles.mobileMinHeight,
+                marginLeft: styles.mobileEditingPadding,
+                marginRight: styles.mobileEditingPadding,
+              }}
+              onPress={() => _onSubmit(amount)}
+            >
+              {t('Hold')}
+            </Button>
+          </View>
+        </>
+      )}
     </Modal>
   );
 }

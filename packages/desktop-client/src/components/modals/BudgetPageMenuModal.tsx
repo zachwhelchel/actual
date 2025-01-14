@@ -1,24 +1,20 @@
-import React, { type ComponentPropsWithoutRef } from 'react';
+import React, {
+  type ComponentPropsWithoutRef,
+  type CSSProperties,
+} from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { useFeatureFlag } from '../../hooks/useFeatureFlag';
 import { useLocalPref } from '../../hooks/useLocalPref';
-import { type CSSProperties, theme, styles } from '../../style';
+import { theme, styles } from '../../style';
 import { Menu } from '../common/Menu';
-import { Modal } from '../common/Modal';
-import { type CommonModalProps } from '../Modals';
+import { Modal, ModalCloseButton, ModalHeader } from '../common/Modal';
 
-type BudgetPageMenuModalProps = ComponentPropsWithoutRef<
-  typeof BudgetPageMenu
-> & {
-  modalProps: CommonModalProps;
-};
+type BudgetPageMenuModalProps = ComponentPropsWithoutRef<typeof BudgetPageMenu>;
 
 export function BudgetPageMenuModal({
-  modalProps,
   onAddCategoryGroup,
   onToggleHiddenCategories,
   onSwitchBudgetFile,
-  onSwitchBudgetType,
 }: BudgetPageMenuModalProps) {
   const defaultMenuItemStyle: CSSProperties = {
     ...styles.mobileMenuItem,
@@ -28,14 +24,21 @@ export function BudgetPageMenuModal({
   };
 
   return (
-    <Modal showHeader focusAfterClose={false} {...modalProps}>
-      <BudgetPageMenu
-        getItemStyle={() => defaultMenuItemStyle}
-        onAddCategoryGroup={onAddCategoryGroup}
-        onToggleHiddenCategories={onToggleHiddenCategories}
-        onSwitchBudgetFile={onSwitchBudgetFile}
-        onSwitchBudgetType={onSwitchBudgetType}
-      />
+    <Modal name="budget-page-menu">
+      {({ state: { close } }) => (
+        <>
+          <ModalHeader
+            showLogo
+            rightContent={<ModalCloseButton onPress={close} />}
+          />
+          <BudgetPageMenu
+            getItemStyle={() => defaultMenuItemStyle}
+            onAddCategoryGroup={onAddCategoryGroup}
+            onToggleHiddenCategories={onToggleHiddenCategories}
+            onSwitchBudgetFile={onSwitchBudgetFile}
+          />
+        </>
+      )}
     </Modal>
   );
 }
@@ -47,17 +50,14 @@ type BudgetPageMenuProps = Omit<
   onAddCategoryGroup: () => void;
   onToggleHiddenCategories: () => void;
   onSwitchBudgetFile: () => void;
-  onSwitchBudgetType: () => void;
 };
 
 function BudgetPageMenu({
   onAddCategoryGroup,
   onToggleHiddenCategories,
   onSwitchBudgetFile,
-  onSwitchBudgetType,
   ...props
 }: BudgetPageMenuProps) {
-  const isReportBudgetEnabled = useFeatureFlag('reportBudget');
   const [showHiddenCategories] = useLocalPref('budget.showHiddenCategories');
 
   const onMenuSelect = (name: string) => {
@@ -74,13 +74,11 @@ function BudgetPageMenu({
       case 'switch-budget-file':
         onSwitchBudgetFile?.();
         break;
-      case 'switch-budget-type':
-        onSwitchBudgetType?.();
-        break;
       default:
         throw new Error(`Unrecognized menu item: ${name}`);
     }
   };
+  const { t } = useTranslation();
 
   return (
     <Menu
@@ -89,24 +87,16 @@ function BudgetPageMenu({
       items={[
         {
           name: 'add-category-group',
-          text: 'Add category group',
+          text: t('Add category group'),
         },
         {
           name: 'toggle-hidden-categories',
-          text: `${!showHiddenCategories ? 'Show' : 'Hide'} hidden categories`,
+          text: `${!showHiddenCategories ? t('Show') : t('Hide')} ${t('hidden categories')}`,
         },
         {
           name: 'switch-budget-file',
-          text: 'Switch budget file',
+          text: t('Switch budget file'),
         },
-        ...(isReportBudgetEnabled
-          ? [
-              {
-                name: 'switch-budget-type',
-                text: 'Switch budget type',
-              },
-            ]
-          : []),
       ]}
     />
   );

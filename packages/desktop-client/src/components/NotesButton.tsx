@@ -1,12 +1,19 @@
-import React, { useEffect, useRef, useState, type ComponentProps } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  type ComponentProps,
+  type CSSProperties,
+} from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { send } from 'loot-core/src/platform/client/fetch';
 
 import { useNotes } from '../hooks/useNotes';
 import { SvgCustomNotesPaper } from '../icons/v2';
-import { type CSSProperties, theme } from '../style';
+import { theme } from '../style';
 
-import { Button } from './common/Button';
+import { Button } from './common/Button2';
 import { Popover } from './common/Popover';
 import { Tooltip } from './common/Tooltip';
 import { View } from './common/View';
@@ -28,6 +35,7 @@ export function NotesButton({
   tooltipPosition = 'bottom start',
   style,
 }: NotesButtonProps) {
+  const { t } = useTranslation();
   const triggerRef = useRef(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const note = useNotes(id) || '';
@@ -52,8 +60,8 @@ export function NotesButton({
       <View style={{ flexShrink: 0 }}>
         <Button
           ref={triggerRef}
-          type="bare"
-          aria-label="View notes"
+          variant="bare"
+          aria-label={t('View notes')}
           className={!hasNotes && !isOpen ? 'hover-visible' : ''}
           style={{
             color: defaultColor,
@@ -61,8 +69,7 @@ export function NotesButton({
             ...(hasNotes && { display: 'flex !important' }),
             ...(isOpen && { color: theme.buttonNormalText }),
           }}
-          onClick={event => {
-            event.stopPropagation();
+          onPress={() => {
             setIsOpen(true);
           }}
         >

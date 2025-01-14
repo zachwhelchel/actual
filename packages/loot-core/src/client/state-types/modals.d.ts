@@ -4,9 +4,12 @@ import type {
   CategoryEntity,
   CategoryGroupEntity,
   GoCardlessToken,
+  ScheduleEntity,
   TransactionEntity,
 } from '../../types/models';
 import type { NewRuleEntity, RuleEntity } from '../../types/models/rule';
+import { type NewUserEntity, type UserEntity } from '../../types/models/user';
+import { type UserAccessEntity } from '../../types/models/userAccess';
 import type { EmptyObject, StripNever } from '../../types/util';
 import type * as constants from '../constants';
 export type ModalType = keyof FinanceModals;
@@ -38,7 +41,7 @@ type FinanceModals = {
   };
   'select-linked-accounts': {
     accounts: unknown[];
-    requisitionId: string;
+    requisitionId?: string;
     upgradingAccountId?: string;
     syncSource?: AccountSyncSource;
   };
@@ -53,7 +56,7 @@ type FinanceModals = {
   'manage-rules': { payeeId?: string };
   'edit-rule': {
     rule: RuleEntity | NewRuleEntity;
-    onSave: (rule: RuleEntity) => void;
+    onSave?: (rule: RuleEntity) => void;
   };
   'merge-unused-payees': {
     payeeIds: string[];
@@ -77,6 +80,37 @@ type FinanceModals = {
 
   'delete-budget': { file: File };
 
+  'duplicate-budget': {
+    /** The budget file to be duplicated */
+    file: File;
+    /**
+     * Indicates whether the duplication is initiated from the budget
+     * management page. This may affect the behavior or UI of the
+     * duplication process.
+     */
+    managePage?: boolean;
+    /**
+     * loadBudget indicates whether to open the 'original' budget, the
+     * new duplicated 'copy' budget, or no budget ('none'). If 'none'
+     * duplicate-budget stays on the same page.
+     */
+    loadBudget?: 'none' | 'original' | 'copy';
+    /**
+     * onComplete is called when the DuplicateFileModal is closed.
+     * @param event the event object will pass back the status of the
+     * duplicate process.
+     * 'success' if the budget was duplicated.
+     * 'failed' if the budget could not be duplicated.  This will also
+     * pass an error on the event object.
+     * 'canceled' if the DuplicateFileModal was canceled.
+     * @returns
+     */
+    onComplete?: (event: {
+      status: 'success' | 'failed' | 'canceled';
+      error?: Error;
+    }) => void;
+  };
+
   import: null;
 
   'import-ynab4': null;
@@ -84,6 +118,15 @@ type FinanceModals = {
   'import-ynab5': null;
 
   'import-actual': null;
+
+  'out-of-sync-migrations': null;
+
+  'files-settings': null;
+
+  'confirm-change-document-dir': {
+    currentBudgetDirectory: string;
+    newDirectory: string;
+  };
 
   'create-encryption-key': { recreate?: boolean };
   'fix-encryption-key': {
@@ -93,14 +136,17 @@ type FinanceModals = {
   };
 
   'edit-field': {
-    name: string;
-    month: string;
-    onSubmit: (name: string, value: string) => void;
-    onClose: () => void;
+    name: keyof Pick<TransactionEntity, 'date' | 'amount' | 'notes'>;
+    onSubmit: (
+      name: keyof Pick<TransactionEntity, 'date' | 'amount' | 'notes'>,
+      value: string | number,
+      mode?: 'prepend' | 'append' | 'replace' | null,
+    ) => void;
+    onClose?: () => void;
   };
 
   'category-autocomplete': {
-    categoryGroups: CategoryGroupEntity[];
+    categoryGroups?: CategoryGroupEntity[];
     onSelect: (categoryId: string, categoryName: string) => void;
     month?: string;
     showHiddenCategories?: boolean;
@@ -124,12 +170,18 @@ type FinanceModals = {
 
   'schedule-edit': { id: string; transaction?: TransactionEntity } | null;
 
-  'schedule-link': { transactionIds: string[] } | null;
+  'schedule-link': {
+    transactionIds: string[];
+    getTransaction: (
+      transactionId: TransactionEntity['id'],
+    ) => TransactionEntity;
+    accountName?: string;
+    onScheduleLinked?: (schedule: ScheduleEntity) => void;
+  };
 
   'schedules-discover': null;
 
   'schedule-posts-offline-notification': null;
-  'switch-budget-type': { onSwitch: () => void };
   'account-menu': {
     accountId: string;
     onSave: (account: AccountEntity) => void;
@@ -143,10 +195,11 @@ type FinanceModals = {
     onSave: (category: CategoryEntity) => void;
     onEditNotes: (id: string) => void;
     onDelete: (categoryId: string) => void;
+    onToggleVisibility: (categoryId: string) => void;
     onBudgetAction: (month: string, action: string, args?: unknown) => void;
     onClose?: () => void;
   };
-  'rollover-budget-menu': {
+  'envelope-budget-menu': {
     categoryId: string;
     month: string;
     onUpdateBudget: (amount: number) => void;
@@ -154,7 +207,7 @@ type FinanceModals = {
     onSetMonthsAverage: (numberOfMonths: number) => void;
     onApplyBudgetTemplate: () => void;
   };
-  'report-budget-menu': {
+  'tracking-budget-menu': {
     categoryId: string;
     month: string;
     onUpdateBudget: (amount: number) => void;
@@ -168,6 +221,7 @@ type FinanceModals = {
     onAddCategory: (groupId: string, isIncome: boolean) => void;
     onEditNotes: (id: string) => void;
     onDelete: (groupId: string) => void;
+    onToggleVisibility: (groupId: string) => void;
     onClose?: () => void;
   };
   notes: {
@@ -175,8 +229,8 @@ type FinanceModals = {
     name: string;
     onSave: (id: string, notes: string) => void;
   };
-  'report-budget-summary': { month: string };
-  'rollover-budget-summary': {
+  'tracking-budget-summary': { month: string };
+  'envelope-budget-summary': {
     month: string;
     onBudgetAction: (
       month: string,
@@ -192,27 +246,28 @@ type FinanceModals = {
     onValidate?: (value: string) => string;
     onSubmit: (value: string) => Promise<void>;
   };
-  'rollover-balance-menu': {
+  'envelope-balance-menu': {
     categoryId: string;
     month: string;
     onCarryover: (carryover: boolean) => void;
     onTransfer: () => void;
     onCover: () => void;
   };
-  'rollover-summary-to-budget-menu': {
+  'envelope-summary-to-budget-menu': {
     month: string;
     onTransfer: () => void;
     onCover: () => void;
     onHoldBuffer: () => void;
     onResetHoldBuffer: () => void;
   };
-  'report-balance-menu': {
+  'tracking-balance-menu': {
     categoryId: string;
     month: string;
     onCarryover: (carryover: boolean) => void;
   };
   transfer: {
     title: string;
+    categoryId?: CategoryEntity['id'];
     month: string;
     amount: number;
     onSubmit: (amount: number, toCategoryId: string) => void;
@@ -220,6 +275,7 @@ type FinanceModals = {
   };
   cover: {
     title: string;
+    categoryId?: CategoryEntity['id'];
     month: string;
     showToBeBudgeted?: boolean;
     onSubmit: (fromCategoryId: string) => void;
@@ -237,14 +293,13 @@ type FinanceModals = {
     onAddCategoryGroup: () => void;
     onToggleHiddenCategories: () => void;
     onSwitchBudgetFile: () => void;
-    onSwitchBudgetType: () => void;
   };
-  'rollover-budget-month-menu': {
+  'envelope-budget-month-menu': {
     month: string;
     onBudgetAction: (month: string, action: string, arg?: unknown) => void;
     onEditNotes: (month: string) => void;
   };
-  'report-budget-month-menu': {
+  'tracking-budget-month-menu': {
     month: string;
     onBudgetAction: (month: string, action: string, arg?: unknown) => void;
     onEditNotes: (month: string) => void;
@@ -252,11 +307,36 @@ type FinanceModals = {
   'budget-list';
   'confirm-transaction-edit': {
     onConfirm: () => void;
+    onCancel?: () => void;
     confirmReason: string;
   };
   'confirm-transaction-delete': {
+    message?: string;
     onConfirm: () => void;
   };
+  'edit-user': {
+    user: UserEntity | NewUserEntity;
+    onSave: (rule: UserEntity) => void;
+  };
+  'edit-access': {
+    access: UserAccessEntity | NewUserAccessEntity;
+    onSave: (rule: UserEntity) => void;
+  };
+  'transfer-ownership': {
+    onSave: () => void;
+  };
+  'enable-openid': {
+    onSave: () => void;
+  };
+  'enable-password-auth': {
+    onSave: () => void;
+  };
+  'confirm-unlink-account': {
+    accountName: string;
+    onUnlink: () => void;
+  };
+  'keyboard-shortcuts': EmptyObject;
+  'goal-templates': EmptyObject;
 };
 
 export type PushModalAction = {
@@ -292,4 +372,10 @@ export type ModalsActions =
 export type ModalsState = {
   modalStack: Modal[];
   isHidden: boolean;
+};
+
+type Modal = {
+  name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options?: any;
 };

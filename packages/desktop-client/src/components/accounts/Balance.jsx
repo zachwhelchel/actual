@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { useHover } from 'usehooks-ts';
 
 import { isPreviewId } from 'loot-core/shared/transactions';
 import { useCachedSchedules } from 'loot-core/src/client/data-hooks/schedules';
@@ -8,11 +11,11 @@ import { getScheduledAmount } from 'loot-core/src/shared/schedules';
 import { useSelectedItems } from '../../hooks/useSelected';
 import { SvgArrowButtonRight1 } from '../../icons/v2';
 import { theme } from '../../style';
-import { Button } from '../common/Button';
+import { Button } from '../common/Button2';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { PrivacyFilter } from '../PrivacyFilter';
-import { CellValue } from '../spreadsheet/CellValue';
+import { CellValue, CellValueText } from '../spreadsheet/CellValue';
 import { useFormat } from '../spreadsheet/useFormat';
 import { useSheetValue } from '../spreadsheet/useSheetValue';
 
@@ -40,6 +43,8 @@ function DetailedBalance({ name, balance, isExactBalance = true }) {
 }
 
 function SelectedBalance({ selectedItems, account }) {
+  const { t } = useTranslation();
+
   const name = `selected-balance-${[...selectedItems].join('-')}`;
 
   const rows = useSheetValue({
@@ -63,8 +68,13 @@ function SelectedBalance({ selectedItems, account }) {
   });
 
   let scheduleBalance = null;
-  const scheduleData = useCachedSchedules();
-  const schedules = scheduleData ? scheduleData.schedules : [];
+
+  const { isLoading, schedules = [] } = useCachedSchedules();
+
+  if (isLoading) {
+    return null;
+  }
+
   const previewIds = [...selectedItems]
     .filter(id => isPreviewId(id))
     .map(id => id.slice(8));
@@ -97,7 +107,7 @@ function SelectedBalance({ selectedItems, account }) {
 
   return (
     <DetailedBalance
-      name="Selected balance:"
+      name={t('Selected balance:')}
       balance={balance}
       isExactBalance={isExactBalance}
     />
@@ -105,9 +115,11 @@ function SelectedBalance({ selectedItems, account }) {
 }
 
 function FilteredBalance({ filteredAmount }) {
+  const { t } = useTranslation();
+
   return (
     <DetailedBalance
-      name="Filtered balance:"
+      name={t('Filtered balance:')}
       balance={filteredAmount || 0}
       isExactBalance={true}
     />
@@ -115,6 +127,8 @@ function FilteredBalance({ filteredAmount }) {
 }
 
 function MoreBalances({ balanceQuery }) {
+  const { t } = useTranslation();
+
   const cleared = useSheetValue({
     name: balanceQuery.name + '-cleared',
     query: balanceQuery.query.filter({ cleared: true }),
@@ -126,8 +140,8 @@ function MoreBalances({ balanceQuery }) {
 
   return (
     <View style={{ flexDirection: 'row' }}>
-      <DetailedBalance name="Cleared total:" balance={cleared} />
-      <DetailedBalance name="Uncleared total:" balance={uncleared} />
+      <DetailedBalance name={t('Cleared total:')} balance={cleared} />
+      <DetailedBalance name={t('Uncleared total:')} balance={uncleared} />
     </View>
   );
 }
@@ -143,6 +157,8 @@ export function Balances({
   filteredAmount,
 }) {
   const selectedItems = useSelectedItems();
+  const buttonRef = useRef(null);
+  const isButtonHovered = useHover(buttonRef);
 
 
   return (
@@ -154,26 +170,55 @@ export function Balances({
         marginLeft: -5,
       }}
     >
-
       <div
         ref={element => {
           commonElementsRef.current['account_balance'] = element;
         }}
       >
-
         <Button
+          ref={buttonRef}
           data-testid="account-balance"
-          type="bare"
-          onClick={onToggleExtraBalances}
+          variant="bare"
+          onPress={onToggleExtraBalances}
           style={{
-            '& svg': {
-              opacity: selectedItems.size > 0 || showExtraBalances ? 1 : 0,
-            },
-            '&:hover svg': { opacity: 1 },
             paddingTop: 1,
             paddingBottom: 1,
           }}
         >
+          <CellValue binding={{ ...balanceQuery, value: 0 }} type="financial">
+            {props => (
+              <CellValueText
+                {...props}
+                style={{
+                  fontSize: 22,
+                  fontWeight: 400,
+                  color:
+                    props.value < 0
+                      ? theme.errorText
+                      : props.value > 0
+                        ? theme.noticeTextLight
+                        : theme.pageTextSubdued,
+                }}
+              />
+            )}
+          </CellValue>
+
+          <Button
+            data-testid="account-balance"
+            type="bare"
+            onClick={onToggleExtraBalances}
+            style={{
+              width: 10,
+              height: 10,
+              marginLeft: 10,
+              color: theme.pillText,
+              transform: showExtraBalances ? 'rotateZ(180deg)' : 'rotateZ(0)',
+              opacity:
+                isButtonHovered || selectedItems.size > 0 || showExtraBalances
+                  ? 1
+                  : 0,
+            }}
+          >
 
           <CellValue
             binding={{ ...balanceQuery, value: 0 }}

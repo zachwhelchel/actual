@@ -1,5 +1,6 @@
 // @ts-strict-ignore
-import React, { useState } from 'react';
+import React, { useState, type CSSProperties } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { format as formatDate, parseISO } from 'date-fns';
 
@@ -11,7 +12,7 @@ import { useAccounts } from '../../hooks/useAccounts';
 import { useCategories } from '../../hooks/useCategories';
 import { useDateFormat } from '../../hooks/useDateFormat';
 import { usePayees } from '../../hooks/usePayees';
-import { type CSSProperties, theme } from '../../style';
+import { theme } from '../../style';
 import { Link } from '../common/Link';
 import { Text } from '../common/Text';
 
@@ -35,6 +36,7 @@ export function Value<T>({
   describe = x => x.name,
   style,
 }: ValueProps<T>) {
+  const { t } = useTranslation();
   const dateFormat = useDateFormat() || 'MM/dd/yyyy';
   const payees = usePayees();
   const { list: categories } = useCategories();
@@ -86,6 +88,7 @@ export function Value<T>({
           return value ? formatDate(parseISO(value), 'yyyy') : null;
         case 'notes':
         case 'imported_payee':
+        case 'payee_name':
           return value;
         case 'payee':
         case 'category':
@@ -171,7 +174,7 @@ export function Value<T>({
     const { num1, num2 } = value;
     return (
       <Text>
-        <Text style={valueStyle}>{formatValue(num1)}</Text> and{' '}
+        <Text style={valueStyle}>{formatValue(num1)}</Text> {t('and')}{' '}
         <Text style={valueStyle}>{formatValue(num2)}</Text>
       </Text>
     );

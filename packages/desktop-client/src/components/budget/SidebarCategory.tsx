@@ -1,14 +1,16 @@
 // @ts-strict-ignore
-import React, { type CSSProperties, type Ref, useRef, useState } from 'react';
+import React, { type CSSProperties, type Ref, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   type CategoryGroupEntity,
   type CategoryEntity,
 } from 'loot-core/src/types/models';
 
+import { useContextMenu } from '../../hooks/useContextMenu';
 import { SvgCheveronDown } from '../../icons/v1';
 import { theme } from '../../style';
-import { Button } from '../common/Button';
+import { Button } from '../common/Button2';
 import { Menu } from '../common/Menu';
 import { Popover } from '../common/Popover';
 import { View } from '../common/View';
@@ -46,8 +48,11 @@ export function SidebarCategory({
   onDelete,
   onHideNewCategory,
 }: SidebarCategoryProps) {
+  const { t } = useTranslation();
+
   const temporary = category.id === 'new';
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { setMenuOpen, menuOpen, handleContextMenu, resetPosition, position } =
+    useContextMenu();
   const triggerRef = useRef(null);
 
   const displayed = (
@@ -58,7 +63,11 @@ export function SidebarCategory({
         userSelect: 'none',
         WebkitUserSelect: 'none',
         opacity: category.hidden || categoryGroup?.hidden ? 0.33 : undefined,
+        backgroundColor: 'transparent',
+        height: 20,
       }}
+      ref={triggerRef}
+      onContextMenu={handleContextMenu}
     >
       <div
         data-testid="category-name"
@@ -72,15 +81,15 @@ export function SidebarCategory({
       >
         {category.name}
       </div>
-      <View style={{ flexShrink: 0, marginLeft: 5 }} ref={triggerRef}>
+      <View style={{ flexShrink: 0, marginLeft: 5 }}>
         <Button
-          type="bare"
+          variant="bare"
           className="hover-visible"
-          onClick={e => {
-            e.stopPropagation();
+          style={{ color: 'currentColor', padding: 3 }}
+          onPress={() => {
+            resetPosition();
             setMenuOpen(true);
           }}
-          style={{ color: 'currentColor', padding: 3 }}
         >
           <SvgCheveronDown
             width={14}
@@ -94,7 +103,9 @@ export function SidebarCategory({
           placement="bottom start"
           isOpen={menuOpen}
           onOpenChange={() => setMenuOpen(false)}
-          style={{ width: 200 }}
+          style={{ width: 200, margin: 1 }}
+          isNonModal
+          {...position}
         >
           <Menu
             onMenuSelect={type => {
@@ -108,11 +119,11 @@ export function SidebarCategory({
               setMenuOpen(false);
             }}
             items={[
+              { name: 'rename', text: 'Rename' },
               !categoryGroup?.hidden && {
                 name: 'toggle-visibility',
                 text: category.hidden ? 'Show' : 'Hide',
               },
-              { name: 'rename', text: 'Rename' },
               { name: 'delete', text: 'Delete' },
             ]}
           />
@@ -189,7 +200,7 @@ export function SidebarCategory({
         onBlur={() => onEditName(null)}
         style={{ paddingLeft: 13, ...(isLast && { borderBottomWidth: 0 }) }}
         inputProps={{
-          placeholder: temporary ? 'New Category Name' : '',
+          placeholder: temporary ? t('New Category Name') : '',
         }}
       />
     </View>
