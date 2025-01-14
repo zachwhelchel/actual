@@ -196,7 +196,7 @@ function EmptyMessage() {
     <View style={{ flex: 1, padding: 30 }}>
       <Text style={styles.text}>
         {t(
-          'For Actual to be useful, you need to add an account. You can link an account to automatically download transactions, or manage it locally yourself.',
+          'For MyBudgetCoach to be useful, you need to add an account. You can link an account to automatically download transactions, or manage it locally yourself.',
         )}
       </Text>
     </View>

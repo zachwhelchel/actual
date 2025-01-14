@@ -48,6 +48,8 @@ import { type TableRef } from './Account';
 import { Balances } from './Balance';
 import { ReconcilingMessage, ReconcileMenu } from './Reconcile';
 
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
+
 type AccountHeaderProps = {
   tableRef: TableRef;
   editingName: boolean;
@@ -212,6 +214,8 @@ export function AccountHeader({
     }
   }
 
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
   useHotkeys(
     'ctrl+f, cmd+f, meta+f',
     () => {
@@ -291,6 +295,7 @@ export function AccountHeader({
           showExtraBalances={showExtraBalances}
           onToggleExtraBalances={onToggleExtraBalances}
           account={account}
+          commonElementsRef={commonElementsRef}
           isFiltered={isFiltered}
           filteredAmount={filteredAmount}
         />
@@ -321,53 +326,83 @@ export function AccountHeader({
           )}
 
           {account && !account.closed && (
-            <Button variant="bare" onPress={onImport}>
-              <SvgDownloadThickBottom
-                width={13}
-                height={13}
-                style={{ marginRight: 4 }}
-              />{' '}
-              <Trans>Import</Trans>
-            </Button>
+            <div
+              ref={element => {
+                commonElementsRef.current['import_button'] = element;
+              }}
+            >
+              <Button variant="bare" onPress={onImport}>
+                <SvgDownloadThickBottom
+                  width={13}
+                  height={13}
+                  style={{ marginRight: 4 }}
+                />{' '}
+                <Trans>Import</Trans>
+              </Button>
+            </div>
           )}
 
           {!showEmptyMessage && (
-            <Button variant="bare" onPress={onAddTransaction}>
-              <SvgAdd width={10} height={10} style={{ marginRight: 3 }} />
-              <Trans>Add New</Trans>
-            </Button>
+            <div
+              ref={element => {
+                commonElementsRef.current['add_new_button'] = element;
+              }}
+            >
+              <Button variant="bare" onPress={onAddTransaction}>
+                <SvgAdd width={10} height={10} style={{ marginRight: 3 }} />
+                <Trans>Add New</Trans>
+              </Button>
+            </div>
           )}
           <View style={{ flexShrink: 0 }}>
             {/* @ts-expect-error fix me */}
-            <FilterButton onApply={onApplyFilter} />
+            <div
+              ref={element => {
+                commonElementsRef.current['filter_button'] = element;
+              }}
+            >
+              <FilterButton onApply={onApplyFilter} />
+            </div>
           </View>
           <View style={{ flex: 1 }} />
-          <Search
-            placeholder={t('Search')}
-            value={search}
-            onChange={onSearch}
-            inputRef={searchInput}
-          />
+          <div
+            ref={element => {
+              commonElementsRef.current['search_bar'] = element;
+            }}
+          >
+            <Search
+              placeholder={t('Search')}
+              value={search}
+              onChange={onSearch}
+              inputRef={searchInput}
+            />
+          </div>
           {workingHard ? (
             <View>
               <AnimatedLoading style={{ width: 16, height: 16 }} />
             </View>
           ) : (
-            <SelectedTransactionsButton
-              getTransaction={id => transactions.find(t => t.id === id)}
-              onShow={onShowTransactions}
-              onDuplicate={onBatchDuplicate}
-              onDelete={onBatchDelete}
-              onEdit={onBatchEdit}
-              onLinkSchedule={onBatchLinkSchedule}
-              onUnlinkSchedule={onBatchUnlinkSchedule}
-              onCreateRule={onCreateRule}
-              onSetTransfer={onSetTransfer}
-              onScheduleAction={onScheduleAction}
-              showMakeTransfer={showMakeTransfer}
-              onMakeAsSplitTransaction={onMakeAsSplitTransaction}
-              onMakeAsNonSplitTransactions={onMakeAsNonSplitTransactions}
-            />
+            <div
+              ref={element => {
+                commonElementsRef.current['selected_transactions_button'] = element;
+              }}
+            >
+              <SelectedTransactionsButton
+                getTransaction={id => transactions.find(t => t.id === id)}
+                onShow={onShowTransactions}
+                onDuplicate={onBatchDuplicate}
+                onDelete={onBatchDelete}
+                onEdit={onBatchEdit}
+                onLinkSchedule={onBatchLinkSchedule}
+                onUnlinkSchedule={onBatchUnlinkSchedule}
+                onCreateRule={onCreateRule}
+                onSetTransfer={onSetTransfer}
+                onScheduleAction={onScheduleAction}
+                showMakeTransfer={showMakeTransfer}
+                onMakeAsSplitTransaction={onMakeAsSplitTransaction}
+                onMakeAsNonSplitTransactions={onMakeAsNonSplitTransactions}
+              />
+            </div>
           )}
           <View style={{ flex: '0 0 auto' }}>
             {account && (
@@ -401,91 +436,109 @@ export function AccountHeader({
               </>
             )}
           </View>
-          <Button
-            variant="bare"
-            aria-label={
-              splitsExpanded.state.mode === 'collapse'
-                ? t('Collapse split transactions')
-                : t('Expand split transactions')
-            }
-            isDisabled={search !== '' || filterConditions.length > 0}
-            style={{ padding: 6 }}
-            onPress={onToggleSplits}
+          <div
+            ref={element => {
+              commonElementsRef.current['split_toggle_button'] = element;
+            }}
           >
-            <View
-              title={
+            <Button
+              variant="bare"
+              aria-label={
                 splitsExpanded.state.mode === 'collapse'
                   ? t('Collapse split transactions')
                   : t('Expand split transactions')
               }
+              isDisabled={search !== '' || filterConditions.length > 0}
+              style={{ padding: 6 }}
+              onPress={onToggleSplits}
             >
-              {splitsExpanded.state.mode === 'collapse' ? (
-                <SvgArrowsShrink3 style={{ width: 14, height: 14 }} />
-              ) : (
-                <SvgArrowsExpand3 style={{ width: 14, height: 14 }} />
-              )}
-            </View>
-          </Button>
+              <View
+                title={
+                  splitsExpanded.state.mode === 'collapse'
+                    ? t('Collapse split transactions')
+                    : t('Expand split transactions')
+                }
+              >
+                {splitsExpanded.state.mode === 'collapse' ? (
+                  <SvgArrowsShrink3 style={{ width: 14, height: 14 }} />
+                ) : (
+                  <SvgArrowsExpand3 style={{ width: 14, height: 14 }} />
+                )}
+              </View>
+            </Button>
+          </div>
           {account ? (
             <View style={{ flex: '0 0 auto' }}>
-              <MenuButton
-                aria-label="Account menu"
-                ref={triggerRef}
-                onPress={() => setMenuOpen(true)}
-              />
-
-              <Popover
-                triggerRef={triggerRef}
-                style={{ width: 275 }}
-                isOpen={menuOpen}
-                onOpenChange={() => setMenuOpen(false)}
+              <div
+                ref={element => {
+                  commonElementsRef.current['more_button'] = element;
+                }}
               >
-                <AccountMenu
-                  account={account}
-                  canSync={canSync}
-                  canShowBalances={canCalculateBalance()}
-                  isSorted={isSorted}
-                  showBalances={showBalances}
-                  showCleared={showCleared}
-                  showReconciled={showReconciled}
-                  onMenuSelect={item => {
-                    setMenuOpen(false);
-                    onMenuSelect(item);
-                  }}
+                <MenuButton
+                  aria-label="Account menu"
+                  ref={triggerRef}
+                  onPress={() => setMenuOpen(true)}
                 />
-              </Popover>
+
+                <Popover
+                  triggerRef={triggerRef}
+                  style={{ width: 275 }}
+                  isOpen={menuOpen}
+                  onOpenChange={() => setMenuOpen(false)}
+                >
+                  <AccountMenu
+                    account={account}
+                    canSync={canSync}
+                    canShowBalances={canCalculateBalance()}
+                    isSorted={isSorted}
+                    showBalances={showBalances}
+                    showCleared={showCleared}
+                    showReconciled={showReconciled}
+                    onMenuSelect={item => {
+                      setMenuOpen(false);
+                      onMenuSelect(item);
+                    }}
+                  />
+                </Popover>
+              </div>
             </View>
           ) : (
             <View style={{ flex: '0 0 auto' }}>
-              <MenuButton
-                aria-label="Account menu"
-                ref={triggerRef}
-                onPress={() => setMenuOpen(true)}
-              />
-
-              <Popover
-                triggerRef={triggerRef}
-                isOpen={menuOpen}
-                onOpenChange={() => setMenuOpen(false)}
+              <div
+                ref={element => {
+                  commonElementsRef.current['more_button'] = element;
+                }}
               >
-                <Menu
-                  onMenuSelect={item => {
-                    setMenuOpen(false);
-                    onMenuSelect(item);
-                  }}
-                  items={[
-                    ...(isSorted
-                      ? [
-                          {
-                            name: 'remove-sorting',
-                            text: t('Remove all sorting'),
-                          } as const,
-                        ]
-                      : []),
-                    { name: 'export', text: t('Export') },
-                  ]}
+                <MenuButton
+                  aria-label="Account menu"
+                  ref={triggerRef}
+                  onPress={() => setMenuOpen(true)}
                 />
-              </Popover>
+
+                <Popover
+                  triggerRef={triggerRef}
+                  isOpen={menuOpen}
+                  onOpenChange={() => setMenuOpen(false)}
+                >
+                  <Menu
+                    onMenuSelect={item => {
+                      setMenuOpen(false);
+                      onMenuSelect(item);
+                    }}
+                    items={[
+                      ...(isSorted
+                        ? [
+                            {
+                              name: 'remove-sorting',
+                              text: t('Remove all sorting'),
+                            } as const,
+                          ]
+                        : []),
+                      { name: 'export', text: t('Export') },
+                    ]}
+                  />
+                </Popover>
+              </div>
             </View>
           )}
         </Stack>

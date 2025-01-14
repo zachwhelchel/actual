@@ -645,19 +645,6 @@ export function BudgetList({ showHeader = true, quickSwitchMode = false }) {
           >
             <Trans>Create new file</Trans>
           </Button>
-
-          {isNonProductionEnvironment() && (
-            <Button
-              variant="primary"
-              onPress={() => onCreate({ testMode: true })}
-              style={{
-                ...narrowButtonStyle,
-                marginLeft: 10,
-              }}
-            >
-              <Trans>Create test file</Trans>
-            </Button>
-          )}
         </View>
       )}
     </View>
