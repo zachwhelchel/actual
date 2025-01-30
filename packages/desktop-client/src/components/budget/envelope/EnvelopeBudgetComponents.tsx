@@ -28,11 +28,10 @@ import { useSheetValue } from '../../spreadsheet/useSheetValue';
 import { Row, Field, SheetCell, type SheetCellProps } from '../../table';
 import { BalanceWithCarryover } from '../BalanceWithCarryover';
 import { makeAmountGrey } from '../util';
-import { CategoryGroupsContext } from '../CategoryGroupsContext';
-import Coach, { CoachProvider, useCoach } from '../../coach/Coach';
 
 import { BalanceMovementMenu } from './BalanceMovementMenu';
 import { BudgetMenu } from './BudgetMenu';
+import Coach, { CoachProvider, useCoach } from '../../coach/Coach';
 
 export function useEnvelopeSheetName<
   FieldName extends SheetFields<'envelope-budget'>,
@@ -95,9 +94,9 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
             <Trans>Budgeted</Trans>
           </Text>
         </div>
-
         <EnvelopeCellValue
           binding={envelopeBudget.totalBudgeted}
+          type="financial"
         >
           {props => (
             <CellValueText {...props} value={-props.value} style={cellStyle} />
@@ -126,6 +125,8 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
         </div>
         <EnvelopeCellValue
           binding={envelopeBudget.totalBalance}
+          type="financial"
+        >
           {props => <CellValueText {...props} style={cellStyle} />}
         </EnvelopeCellValue>
       </View>
@@ -134,9 +135,6 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
 });
 
 export function IncomeHeaderMonth() {
-
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
-
   return (
     <Row
       style={{
@@ -145,16 +143,9 @@ export function IncomeHeaderMonth() {
         paddingRight: 10,
       }}
     >
-      <div
-        style={{ flex: 1, textAlign: 'right' }}
-        ref={element => {
-          commonElementsRef.current['received_column'] = element;
-        }}
-      >
-        <View style={{ flex: 1, textAlign: 'right' }}>
-          <Trans>Received</Trans>
-        </View>
-      </div>
+      <View style={{ flex: 1, textAlign: 'right' }}>
+        <Trans>Received</Trans>
+      </View>
     </Row>
   );
 }

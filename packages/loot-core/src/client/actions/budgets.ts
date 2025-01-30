@@ -50,7 +50,7 @@ export function loadAllFiles() {
 
 export function loadBudget(id: string, options = {}) {
   return async (dispatch: Dispatch) => {
-    dispatch(setAppState({ loadingText: t('Loading...') }));
+    dispatch(setAppState({ loadingText: null }));
 
     // Loading a budget may fail
     const { error } = await send('load-budget', { id, ...options });

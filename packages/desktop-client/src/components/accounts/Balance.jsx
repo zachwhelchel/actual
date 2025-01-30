@@ -202,6 +202,7 @@ export function Balances({
               />
             )}
           </CellValue>
+        </Button>
 
           <Button
             data-testid="account-balance"

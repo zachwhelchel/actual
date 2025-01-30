@@ -70,8 +70,8 @@ function BudgetInner(props: BudgetInnerProps) {
   const spreadsheet = useSpreadsheet();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [summaryCollapsed, setSummaryCollapsedPref] = useLocalPref(
-    'budget.summaryCollapsed',
+  const [summaryExpanded, setSummaryExpandedPref] = useLocalPref(
+    'budget.summaryExpanded',
   );
   const [startMonthPref, setStartMonthPref] = useLocalPref('budget.startMonth');
   const startMonth = startMonthPref || currentMonth;
@@ -355,7 +355,7 @@ function BudgetInner(props: BudgetInnerProps) {
   };
 
   const onToggleCollapse = () => {
-    setSummaryCollapsedPref(!summaryCollapsed);
+    setSummaryExpandedPref(!summaryExpanded);
   };
 
   const { categoriesRef, trackingComponents, envelopeComponents } = props;
@@ -368,7 +368,7 @@ function BudgetInner(props: BudgetInnerProps) {
   if (budgetType === 'report') {
     table = (
       <TrackingBudgetProvider
-        summaryCollapsed={summaryCollapsed}
+        summaryCollapsed={!summaryExpanded}
         onBudgetAction={onBudgetAction}
         onToggleSummaryCollapse={onToggleCollapse}
       >
@@ -395,7 +395,7 @@ function BudgetInner(props: BudgetInnerProps) {
   } else {
     table = (
       <EnvelopeBudgetProvider
-        summaryCollapsed={summaryCollapsed}
+        summaryCollapsed={!summaryExpanded}
         onBudgetAction={onBudgetAction}
         onToggleSummaryCollapse={onToggleCollapse}
       >

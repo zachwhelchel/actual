@@ -79,9 +79,10 @@ import { ScheduleZoom } from './modals/ScheduleZoom';
 import { FreeTrial } from './modals/FreeTrial';
 import { ManageSubscription } from './modals/ManageSubscription';
 import { ResetAvatar } from './modals/ResetAvatar';
-import { UploadAvatar } from './modals/UploadAvatar';
+import { UploadAvatarModal } from './modals/UploadAvatarModal';
 import { StartNewConversation } from './modals/StartNewConversation';
 import { NamespaceContext } from './spreadsheet/NamespaceContext';
+import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
 export function Modals() {
   const location = useLocation();
@@ -99,6 +100,10 @@ export function Modals() {
 
   const modals = modalStack
     .map(({ name, options }) => {
+
+      console.log("options")
+      console.log(options)
+
       switch (name) {
         case 'goal-templates':
           return budgetId ? <GoalTemplateModal key={name} /> : null;
@@ -121,42 +126,37 @@ export function Modals() {
         case 'schedule-zoom':
           return (
             <ScheduleZoom
-              modalProps={modalProps}
             />
           );
 
         case 'free-trial':
           return (
             <FreeTrial
-              modalProps={modalProps}
             />
           );
 
         case 'manage-subscription':
           return (
             <ManageSubscription
-              modalProps={modalProps}
             />
           );
 
         case 'reset-avatar':
           return (
             <ResetAvatar
-              modalProps={modalProps}
             />
           );
 
         case 'upload-avatar':
           return (
-            <UploadAvatar
-              modalProps={modalProps}
+            <UploadAvatarModal
+              key={name}
             />
           );
 
         case 'start-new-conversation':
           return (
             <StartNewConversation
-              modalProps={modalProps}
             />
           );
 

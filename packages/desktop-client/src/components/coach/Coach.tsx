@@ -7,7 +7,7 @@ import { AnalyticsBrowser } from '@customerio/cdp-analytics-browser'
 import { Button } from '../common/Button';
 import { Card } from '../common/Card';
 import { View } from '../common/View';
-import { Tooltip } from '../tooltips';
+import { Tooltip } from '../common/Tooltip';
 import { Menu } from '../common/Menu';
 import { BigInput } from '../common/Input';
 import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_USER_EMAIL, REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
@@ -29,6 +29,11 @@ let CoachContext = createContext();
 
 //initialDialogueId can be removed....
 export function CoachProvider({ budgetId, allConversations, initialDialogueId, isNarrowWidth, children }) {
+
+
+console.log("WHYYYYYY")
+console.log(allConversations)
+
   let [top, setTop] = useState(window.innerHeight - 20);
   let [left, setLeft] = useState(window.innerWidth - 20 - 240);
   let [offset, setOffset] = useState(100);
@@ -58,15 +63,28 @@ export function CoachProvider({ budgetId, allConversations, initialDialogueId, i
     let simpleConversationDeck = [];
 
     try {
+      console.log("xxxx")
+      console.log(conversationDeck_key)
+
       simpleConversationDeck = JSON.parse(localStorage.getItem(conversationDeck_key));
     } catch (error) {
+      console.log("yyyy")
+
       console.error(error);
     }
 
     if (simpleConversationDeck == null && allConversations != null) {
+
+      console.log("zzzzz")
+
       let first = null;
       allConversations.forEach((value, key) => {
+
+        console.log("zzzaaaa")
+
         if (first == null) {
+                  console.log("zzzbbbb")
+
           first = key;
           simpleConversationDeck = [first];
         }
@@ -74,32 +92,56 @@ export function CoachProvider({ budgetId, allConversations, initialDialogueId, i
     }
 
     if (simpleConversationDeck == null) {
+                        console.log("zzzcccc")
+
       simpleConversationDeck = [];
     }
 
-    // console.log("daysinsun" + simpleConversationDeck);
+   console.log("daysinsun");
+   console.log(simpleConversationDeck);
 
 
     let firstConvo = null;
 
 if (allConversations != null) {
+
+console.log("aaaa")
+
+
     simpleConversationDeck.forEach((convoId) => {
+      console.log("bbb")
+
       let title = null;
+      console.log("bbb")
 
       allConversations.forEach((value, key) => {
+              console.log("ccc")
+
         if (key == convoId) {
+
+                console.log("ddd")
+
           title = value.title;
         }
       });
       if (title != null) {
 
         if (firstConvo == null) {
+
+                console.log("eee")
+
           firstConvo = convoId;
         }
+
+      console.log("fff")
 
         cd.push({id: convoId, title: title});
       }
     });
+
+
+console.log(cd)
+
 
 }
 
@@ -253,6 +295,8 @@ if (allConversations != null) {
     conversationDeck.forEach((convo) => {
       simpleConversationDeck.push(convo.id);
     });
+    console.log("no one mourns");
+    console.log(JSON.stringify(simpleConversationDeck));
     localStorage.setItem(conversationDeck_key, JSON.stringify(simpleConversationDeck));
   }, [conversationDeck]);
 

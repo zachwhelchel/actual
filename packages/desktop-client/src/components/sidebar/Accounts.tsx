@@ -108,7 +108,6 @@ export function Accounts({
   let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
   let imgSrc = "/coach-icon-" + REACT_APP_COACH + "-200x200.png";
   let myCoach = "My Coach: " + REACT_APP_COACH_FIRST_NAME;
-  const navigate = useNavigate();
 
   let mode = "subscribed";
   let freeTrialDaysLeft = 0;
@@ -151,132 +150,108 @@ export function Accounts({
   const messageCenterText = "Message Center";
 
   return (
-    <View
-      style={{
-        flexGrow: 1,
-        '@media screen and (max-height: 480px)': {
-          minHeight: 'auto',
-        },
-      }}
-    >
-      <View
-        style={{
-          height: 1,
-          backgroundColor: theme.sidebarItemBackgroundHover,
-          marginTop: 15,
-          flexShrink: 0,
-        }}
-      />
+    <View>
 
-      <View style={{ overflow: 'auto' }}>
+      <div
+        ref={element => {
+          commonElementsRef.current['all_accounts'] = element;
+        }}
+      >
+        <Account
+          name="All accounts"
+          to="/accounts"
+          query={queries.allAccountBalance()}
+          style={{ fontWeight, marginTop: 15 }}
+        />
+      </div>
+
+      {onBudgetAccounts.length > 0 && (
         <div
           ref={element => {
-            commonElementsRef.current['all_accounts'] = element;
+            commonElementsRef.current['for_budget_accounts'] = element;
           }}
         >
           <Account
-            name={t('All accounts')}
-            to="/accounts"
-            query={queries.allAccountBalance()}
-            style={{ fontWeight, marginTop: 15 }}
-          />
-        </div>
-
-        {onBudgetAccounts.length > 0 && (
-          <div
-            ref={element => {
-              commonElementsRef.current['for_budget_accounts'] = element;
-            }}
-          >
-            <Account
-              name={t('On budget')}
-              to="/accounts/onbudget"
-              query={queries.onBudgetAccountBalance()}
-              style={{
-                fontWeight,
-                marginTop: 13,
-                marginBottom: 5,
-              }}
-            />
-          </div>
-        )}
-
-        {onBudgetAccounts.map((account, i) => (
-          <Account
-            key={account.id}
-            name={account.name}
-            account={account}
-            connected={!!account.bank}
-            pending={syncingAccountIds.includes(account.id)}
-            failed={failedAccounts?.has(account.id)}
-            updated={updatedAccounts?.includes(account.id)}
-            to={getAccountPath(account)}
-            query={queries.accountBalance(account)}
-            onDragChange={onDragChange}
-            onDrop={onReorder}
-            outerStyle={makeDropPadding(i)}
-          />
-        ))}
-
-
-
-        {offbudgetAccounts.length > 0 && (
-          <Account
-            name={t('Off budget')}
-            to="/accounts/offbudget"
-            query={queries.offBudgetAccountBalance()}
+            name="For budget"
+            to="/accounts/budgeted"
+            query={queries.budgetedAccountBalance()}
             style={{
               fontWeight,
               marginTop: 13,
               marginBottom: 5,
             }}
           />
-        )}
+        </div>
+      )}
 
-        {offbudgetAccounts.map((account, i) => (
+      {onBudgetAccounts.map((account, i) => (
+        <Account
+          key={account.id}
+          name={account.name}
+          account={account}
+          connected={!!account.bank}
+          pending={syncingAccountIds.includes(account.id)}
+          failed={failedAccounts && failedAccounts.has(account.id)}
+          updated={updatedAccounts && updatedAccounts.includes(account.id)}
+          to={getAccountPath(account)}
+          query={queries.accountBalance(account)}
+          onDragChange={onDragChange}
+          onDrop={onReorder}
+          outerStyle={makeDropPadding(i)}
+        />
+      ))}
+
+      {offbudgetAccounts.length > 0 && (
+        <Account
+          name="Off budget"
+          to="/accounts/offbudget"
+          query={queries.offbudgetAccountBalance()}
+          style={{
+            fontWeight,
+            marginTop: 13,
+            marginBottom: 5,
+          }}
+        />
+      )}
+
+      {offbudgetAccounts.map((account, i) => (
+        <Account
+          key={account.id}
+          name={account.name}
+          account={account}
+          connected={!!account.bank}
+          pending={syncingAccountIds.includes(account.id)}
+          failed={failedAccounts && failedAccounts.has(account.id)}
+          updated={updatedAccounts && updatedAccounts.includes(account.id)}
+          to={getAccountPath(account)}
+          query={queries.accountBalance(account)}
+          onDragChange={onDragChange}
+          onDrop={onReorder}
+          outerStyle={makeDropPadding(i)}
+        />
+      ))}
+
+      {closedAccounts.length > 0 && (
+        <SecondaryItem
+          style={{ marginTop: 15 }}
+          title={'Closed accounts' + (showClosedAccounts ? '' : '...')}
+          onClick={onToggleClosedAccounts}
+          bold
+        />
+      )}
+
+      {showClosedAccounts &&
+        closedAccounts.map(account => (
           <Account
             key={account.id}
             name={account.name}
             account={account}
-            connected={!!account.bank}
-            pending={syncingAccountIds.includes(account.id)}
-            failed={failedAccounts?.has(account.id)}
-            updated={updatedAccounts?.includes(account.id)}
             to={getAccountPath(account)}
             query={queries.accountBalance(account)}
             onDragChange={onDragChange}
             onDrop={onReorder}
-            outerStyle={makeDropPadding(i)}
           />
         ))}
-
-        {closedAccounts.length > 0 && (
-          <SecondaryItem
-            style={{ marginTop: 15 }}
-            title={
-              showClosedAccounts
-                ? t('Closed accounts')
-                : t('Closed accounts...')
-            }
-            onClick={onToggleClosedAccounts}
-            bold
-          />
-        )}
-
-        {showClosedAccounts &&
-          closedAccounts.map(account => (
-            <Account
-              key={account.id}
-              name={account.name}
-              account={account}
-              to={getAccountPath(account)}
-              query={queries.accountBalance(account)}
-              onDragChange={onDragChange}
-              onDrop={onReorder}
-            />
-          ))}
-      </View>
-
 
       <div
         ref={element => {
@@ -309,7 +284,7 @@ export function Accounts({
           flex: 1,
           display: 'flex',
           width: '100%',
-          marginTop: 16,
+          marginTop: 22,
         }}
       >
 
@@ -380,7 +355,7 @@ export function Accounts({
 
       <div
         style={{
-          marginTop: 11,
+          marginTop: 5,
           marginLeft: 11,
           marginRight: 11,
           flexShrink: '0',
@@ -495,7 +470,10 @@ export function Accounts({
               style={{
                 flex: 1,
                 display: 'flex',
-                width: '100%',
+                width: '90%',
+                marginLeft: '5%',
+                marginRight: '5%',
+                marginTop: 20
               }}
             >
               Schedule Video Call
@@ -507,7 +485,10 @@ export function Accounts({
             type="primary"
             onClick={() => onUploadAvatar()}
             style={{
-              marginTop: '10',
+              width: '90%',
+              marginLeft: '5%',
+              marginRight: '5%',
+              marginTop: 10
             }}
           >
             Manage Coach
@@ -602,19 +583,6 @@ export function Accounts({
         </>
       )}
 
-      {REACT_APP_UI_MODE === "coach" && (
-        <SecondaryItem
-          style={{
-            marginTop: 15,
-            marginBottom: 9,
-            paddingBottom: 5,
-            flexShrink: '0',
-          }}
-          onClick={() => navigate("/coachdashboard")}
-          Icon={SvgBadge}
-          title="Coach Dashboard"
-        />
-      )}
     </View>
   );
 }

@@ -3,6 +3,8 @@ import React from 'react';
 import { theme } from '../style';
 
 import { LoadComponent } from './util/LoadComponent';
+import * as colorPalette from '../style/palette';
+
 
 export function Background() {
   return (
@@ -13,10 +15,10 @@ export function Background() {
         bottom: 0,
         left: 0,
         right: 0,
-        backgroundColor: theme.pageBackground,
+        backgroundColor: colorPalette.navy100,
       }}
     >
-      <svg
+{/*      <svg
         viewBox="0 0 642 535"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -52,6 +54,6 @@ export function Background() {
           name="BackgroundImage"
         />
       </svg>
-    </div>
+*/}    </div>
   );
 }

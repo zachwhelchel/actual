@@ -344,14 +344,14 @@ export function Titlebar({ style }: TitlebarProps) {
       <View style={{ flex: 1 }} />
       <SpaceBetween gap={10}>
         <UncategorizedButton />
-        {isDevelopmentEnvironment() && !Platform.isPlaywright && (
+{/*        {isDevelopmentEnvironment() && !Platform.isPlaywright && (
           <ThemeSelector />
         )}
-        <PrivacyButton />
-        {serverURL ? <SyncButton /> : null}
-        <LoggedInUser />
-        {!isElectron() && <HelpMenu />}
-      </SpaceBetween>
+*/}        <PrivacyButton />
+{/*        {serverURL ? <SyncButton /> : null}
+*/}        <LoggedInUser />
+{/*        {!isElectron() && <HelpMenu />}
+*/}      </SpaceBetween>
     </View>
   );
 }

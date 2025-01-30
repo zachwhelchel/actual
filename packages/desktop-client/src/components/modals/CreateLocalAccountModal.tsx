@@ -26,8 +26,6 @@ import {
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { Checkbox } from '../forms';
-import { Select } from '../common/Select';
-import { type CommonModalProps } from '../Modals';
 import { validateAccountName } from '../util/accountValidation';
 
 export function CreateLocalAccountModal() {
@@ -36,34 +34,13 @@ export function CreateLocalAccountModal() {
   const dispatch = useDispatch();
   const accounts = useAccounts.useAccounts();
   const [name, setName] = useState('');
+  const [offbudget, setOffbudget] = useState(false);
   const [balance, setBalance] = useState('0');
 
-  const [typeError, setTypeError] = useState(false);
   const [nameError, setNameError] = useState(null);
   const [balanceError, setBalanceError] = useState(false);
 
   const validateBalance = balance => !isNaN(parseFloat(balance));
-
-  const [type, setType] = useState('select');
-  let typeList = [['select', 'Select a Type...'], 
-  ['checking', 'For Budget: Checking'],
-  ['savings', 'For Budget: Savings'],
-  ['cash', 'For Budget: Cash'],
-  ['creditCard', 'For Budget: Credit Card'],
-  ['lineOfCredit', 'For Budget: Line of Credit'],
-  ['mortgage', 'Off Budget: Mortgage'],
-  ['autoLoan', 'Off Budget: Auto Loan'],
-  ['studentLoan', 'Off Budget: Student Loan'],
-  ['personalLoan', 'Off Budget: Personal Loan'],
-  ['medicalDebt', 'Off Budget: Medical Debt'],
-  ['otherDebt', 'Off Budget: Other Debt'],
-  ['otherAsset', 'Off Budget: Other Asset'],
-  ['otherLiability', 'Off Budget: Other Liability'],
-  ];
-
-  function handleTypeChange(newValue) {
-    setType(newValue);
-  }
 
   const validateAndSetName = (name: string) => {
     const nameError = validateAccountName(name, '', accounts);
@@ -91,7 +68,6 @@ export function CreateLocalAccountModal() {
       navigate('/accounts/' + id);
     }
   };
-
   return (
     <Modal name="add-local-account">
       {({ state: { close } }) => (

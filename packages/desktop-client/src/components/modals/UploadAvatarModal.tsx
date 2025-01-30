@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { colors } from '../../style';
 import { Block } from '../common/Block';
 import { Button } from '../common/Button';
-import { Modal } from '../common/Modal';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { useCoach } from '../coach/Coach';
@@ -12,10 +11,13 @@ import { REACT_APP_UI_MODE, testableCoachList, REACT_APP_COACH_FIRST_NAME } from
 import { SvgDownloadThickBottom, SvgRemove, SvgAlertTriangle } from '../../icons/v2';
 import { send } from 'loot-core/src/platform/client/fetch';
 import { Select } from '../common/Select';
+import { Modal, ModalCloseButton, ModalHeader } from '../common/Modal';
 
-export function UploadAvatar({
-  modalProps,
-}) {
+export function UploadAvatarModal() {
+
+    console.log("again?")
+  console.log(useCoach())
+
   let { resetCoach, setDialogueId, allConversations, triggerFired, jumpToId } = useCoach();
 
   console.log("again?")
@@ -99,7 +101,7 @@ export function UploadAvatar({
 
 
   return (
-    <Modal title="Manage Coach" {...modalProps} style={{ flex: 0, height: '700px', overflowY: 'auto' }}>
+    <Modal name = "upload-avatar" title="Manage Coach">
       {() => (
         <View style={{ lineHeight: 1.5 }}>
           {usingAlready == true && (
@@ -165,7 +167,7 @@ export function UploadAvatar({
                 style={{ marginBottom: '20px' }}
                 onClick={() => {
                   window.location.href = "mailto:admin@mybudgetcoach.com";
-                  modalProps.onClose();
+                  //modalProps.onClose();
                 }}
               >
                 <>

@@ -51,7 +51,7 @@ function Version() {
         },
       }}
     >
-      {`App: v${window.Actual?.ACTUAL_VERSION} | Server: ${version}`}
+      {`App: v${window.Actual?.ACTUAL_VERSION} | Serversss: ${version}`}
     </Text>
   );
 }
@@ -83,6 +83,8 @@ export function ManagementApp() {
     fetchData();
   }, [dispatch]);
 
+  let imgSrc = "/maskable-192x192.png";
+
   return (
     <View style={{ height: '100%', color: theme.pageText }}>
       <AppBackground />
@@ -111,6 +113,30 @@ export function ManagementApp() {
           }}
         />
       </View>
+
+      <View
+        style={{
+          height: '100%'
+        }}
+      >
+        <img
+          style={{
+            width: '150px',
+            height: '150px',
+            borderRadius: '75px',
+            position: 'absolute',
+            margin: 'auto',
+            top: '0px',
+            left: '0px',
+            bottom: '0px',
+            right: '0px',
+
+          }}
+          src={imgSrc}
+          alt="coach"
+        />
+      </View>
+
 
       {managerHasInitialized && !isLoading && (
         <View
@@ -209,7 +235,7 @@ export function ManagementApp() {
         <Route path="/config-server" element={null} />
         <Route path="/*" element={<ServerURL />} />
       </Routes>
-      <Version />
-    </View>
+{/*      <Version />
+*/}    </View>
   );
 }

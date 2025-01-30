@@ -29,7 +29,7 @@ export function AppBackground({ isLoading }: AppBackgroundProps) {
     <>
       <Background />
 
-      {showLoading &&
+{/*      {showLoading &&
         transitions((style, item) => (
           <animated.div key={item} style={style}>
             <View
@@ -51,6 +51,6 @@ export function AppBackground({ isLoading }: AppBackgroundProps) {
             </View>
           </animated.div>
         ))}
-    </>
+*/}    </>
   );
 }

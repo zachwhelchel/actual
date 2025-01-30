@@ -10,9 +10,6 @@ import * as Platform from 'loot-core/src/client/platform';
 
 import { useGlobalPref } from '../../hooks/useGlobalPref';
 import { useLocalPref } from '../../hooks/useLocalPref';
-import { SvgExpandArrow } from '../../icons/v0';
-import { SvgReports, SvgWallet, SvgChatBubbleDots } from '../../icons/v1';
-import { SvgCalendar } from '../../icons/v2';
 import { useResizeObserver } from '../../hooks/useResizeObserver';
 import { SvgAdd } from '../../icons/v1';
 import { styles, theme } from '../../style';
@@ -25,13 +22,9 @@ import { PrimaryButtons } from './PrimaryButtons';
 import { SecondaryButtons } from './SecondaryButtons';
 import { useSidebar } from './SidebarProvider';
 import { ToggleButton } from './ToggleButton';
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
-
-export const SIDEBAR_WIDTH = 240;
 
 export function Sidebar() {
   const hasWindowButtons = !Platform.isBrowser && Platform.OS === 'mac';
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -85,6 +78,8 @@ export function Sidebar() {
   };
 
   const onUploadAvatar = () => {
+        //dispatch(replaceModal('add-account'));
+
     dispatch(replaceModal('upload-avatar'));
   };
 
@@ -92,15 +87,9 @@ export function Sidebar() {
     dispatch(replaceModal('start-new-conversation'));
   };  
 
-  const onToggleClosedAccounts = () => {
-    setShowClosedAccountsPref(!showClosedAccounts);
-  };
-
   const containerRef = useResizeObserver<HTMLDivElement>(rect => {
     setSidebarWidth(rect.width);
   });
-
-  let { totalUnreadCount } = useCoach(); // this is causing the errors.
 
   return (
     <Resizable
@@ -141,41 +130,11 @@ export function Sidebar() {
           ...styles.darkScrollbar,
         })}
       >
-        <div
-          ref={element => {
-            commonElementsRef.current['budget_name'] = element;
-          }}
-        >
-          <BudgetName>
-            {!sidebar.alwaysFloats && (
-              <ToggleButton isFloating={isFloating} onFloat={onFloat} />
-            )}
-          </BudgetName>
-        </div>
-        <View style={{ flex: 1, flexDirection: 'row' }} />
-
-        {!sidebar.alwaysFloats && (
-          <ToggleButton isFloating={isFloating} onFloat={onFloat} />
-        )}
-      </View>
-
-      <View style={{ overflow: 'auto' }}>
-        <div
-          ref={element => {
-            commonElementsRef.current['budget_button'] = element;
-          }}
-        >
-          <Item title="Budget" Icon={SvgWallet} to="/budget" />
-        </div>      
-
-
-        <Item title="Reports" Icon={SvgReports} to="/reports" />
-
-        <Item title="Schedules" Icon={SvgCalendar} to="/schedules" />
-
-        <Item title="Messages" badge={totalUnreadCount} Icon={SvgChatBubbleDots} to="/coachmessagecenter" />
-
-        <Tools />
+        <BudgetName>
+          {!sidebar.alwaysFloats && (
+            <ToggleButton isFloating={isFloating} onFloat={onFloat} />
+          )}
+        </BudgetName>
 
         <View
           style={{
@@ -195,15 +154,8 @@ export function Sidebar() {
             onResetAvatar={onResetAvatar}
             onUploadAvatar={onUploadAvatar}
             onStartNewConversation={onStartNewConversation}
-            onToggleClosedAccounts={onToggleClosedAccounts}
-            onReorder={onReorder}
           />
 
-          <SecondaryButtons
-            buttons={[
-              { title: t('Add account'), Icon: SvgAdd, onClick: onAddAccount },
-            ]}
-          />
         </View>
       </View>
     </Resizable>

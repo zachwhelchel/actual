@@ -47,6 +47,7 @@ import { FloatableSidebar } from './sidebar';
 import Coach, { CoachProvider, useCoach } from './coach/Coach';
 import { REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 import { Titlebar } from './Titlebar';
+import { Modals } from './Modals';
 
 function NarrowNotSupported({
   redirectTo = '/budget',
@@ -173,6 +174,7 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
   return (
     <CoachProvider budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId} isNarrowWidth={isNarrowWidth} >
       <View style={{ height: '100%' }}>
+        <Modals />
         <RouterBehaviors />
         <GlobalKeys />
 

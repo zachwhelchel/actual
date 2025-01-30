@@ -33,6 +33,7 @@ type FinanceModals = {
   };
 
   'add-account': EmptyObject;
+  'upload-avatar': EmptyObject;
   'add-local-account': EmptyObject;
   'close-account': {
     account: AccountEntity;

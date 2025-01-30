@@ -10,12 +10,14 @@ import {
   SvgStoreFront,
   SvgTuning,
   SvgWallet,
+  SvgChatBubbleDots,
 } from '../../icons/v1';
 import { SvgCalendar } from '../../icons/v2';
 import { View } from '../common/View';
 
 import { Item } from './Item';
 import { SecondaryItem } from './SecondaryItem';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 export function PrimaryButtons() {
   const { t } = useTranslation();
@@ -33,11 +35,16 @@ export function PrimaryButtons() {
     }
   }, [isActive, location.pathname]);
 
+  let { totalUnreadCount } = useCoach(); // this is causing the errors.
+
+
   return (
     <View style={{ flexShrink: 0 }}>
       <Item title={t('Budget')} Icon={SvgWallet} to="/budget" />
       <Item title={t('Reports')} Icon={SvgReports} to="/reports" />
       <Item title={t('Schedules')} Icon={SvgCalendar} to="/schedules" />
+      <Item title="Messages" badge={totalUnreadCount} Icon={SvgChatBubbleDots} to="/coachmessagecenter" />
+
       <Item
         title={t('More')}
         Icon={isOpen ? SvgCheveronDown : SvgCheveronRight}

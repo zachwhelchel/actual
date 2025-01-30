@@ -110,7 +110,7 @@ export function LoggedInUser({
       return t('Server offline');
     }
 
-    return t('Server online');
+    return t('My Account');
   }
 
   if (hideIfNoServer && !serverUrl) return null;
@@ -149,10 +149,10 @@ export function LoggedInUser({
     if (serverUrl) {
       baseMenu.push({ name: 'sign-out', text: t('Sign out') });
     }
-    baseMenu.push({
-      name: 'config-server',
-      text: serverUrl ? t('Change server URL') : t('Start using a server'),
-    });
+    // baseMenu.push({
+    //   name: 'config-server',
+    //   text: serverUrl ? t('Change server URL') : t('Start using a server'),
+    // });
 
     const adminMenu: (MenuItem | typeof Menu.line)[] = [];
     if (multiuserEnabled && isAdmin) {

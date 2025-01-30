@@ -84,7 +84,7 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
 
     dispatch(
       setAppState({
-        loadingText: t('Initializing the connection to the local database...'),
+        loadingText: null,
       }),
     );
     await initConnection(socketName);
@@ -92,7 +92,7 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
     // Load any global prefs
     dispatch(
       setAppState({
-        loadingText: t('Loading global preferences...'),
+        loadingText: null,
       }),
     );
     await dispatch(loadGlobalPrefs());
@@ -100,7 +100,7 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
     // Open the last opened budget, if any
     dispatch(
       setAppState({
-        loadingText: t('Opening last budget...'),
+        loadingText: null,
       }),
     );
     const budgetId = await send('get-last-opened-backup');
@@ -111,7 +111,7 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
       // don't block on this in case they are offline or something)
       dispatch(
         setAppState({
-          loadingText: t('Retrieving remote files...'),
+          loadingText: null,
         }),
       );
 
@@ -364,6 +364,10 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
       console.log(err);
     });
 
+          console.log("TOMLIN: ");
+          console.log(someConversations);
+
+
     someDialogues = someConversations;
     setStateSomeDialogues(someDialogues);
     setStateInitialDialogueId(initialDialogueId);
@@ -400,7 +404,42 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
     }
   }, [userData, userData?.tokenExpired]);
 
-  return budgetId ? <FinancesApp budgetId={budgetId} someDialogues={stateSomeDialogues} initialDialogueId={stateInitialDialogueId} /> : <ManagementApp />;
+
+  let imgSrc = "/maskable-192x192.png";
+
+  let bg = (
+
+    <View style={{ height: '100%' }}>
+      <AppBackground />
+      <View
+        style={{
+          height: '100%'
+        }}
+      >
+        <img
+          style={{
+            width: '150px',
+            height: '150px',
+            borderRadius: '75px',
+            position: 'absolute',
+            margin: 'auto',
+            top: '0px',
+            left: '0px',
+            bottom: '0px',
+            right: '0px',
+
+          }}
+          src={imgSrc}
+          alt="coach"
+        />
+      </View>
+    </View>
+  )
+
+
+
+
+  return budgetId ? stateSomeDialogues.size !== 0 ? <FinancesApp budgetId={budgetId} someDialogues={stateSomeDialogues} initialDialogueId={stateInitialDialogueId} /> : bg : <ManagementApp />;
 }
 
 function ErrorFallback({ error }: FallbackProps) {
@@ -480,7 +519,6 @@ export function App({someDialogues, initialDialogueId}) {
                         <AppInner someDialogues={someDialogues} initialDialogueId={initialDialogueId} />
                       </ErrorBoundary>
                       <ThemeStyle />
-                      <Modals />
                       <UpdateNotification />
                     </View>
                   </View>
