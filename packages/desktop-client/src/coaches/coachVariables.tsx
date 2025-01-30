@@ -45,6 +45,7 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['eileentong', 'Eileen Tong'],
 ['skylerfleming', 'Skyler Fleming'],
 ['robphelan', 'Rob Phelan'],
+['shaunmorgan', 'Shaun Morgan'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
 ];
@@ -648,6 +649,11 @@ function modifyVars() {
       REACT_APP_ZOOM_RATE = "(Not Available)"
       REACT_APP_ZOOM_LINK = "https://thesimplestartup.com/about/"
     }
+    else if (testPublishedAvatar === "shaunmorgan") {
+      REACT_APP_COACH_FIRST_NAME = "Shaun"
+      REACT_APP_ZOOM_RATE = "75.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://calendly.com/teachermoneyshow/30min"
+    }
 
     else {
       REACT_APP_COACH_FIRST_NAME = testPublishedAvatar
@@ -700,6 +706,8 @@ function modifyVars() {
     REACT_APP_RESPONSE_EXPECTATIONS = "I will reply as soon as I can but within two business days."
   } else if (REACT_APP_COACH === "skylerfleming") {
     REACT_APP_RESPONSE_EXPECTATIONS = "I will reply within the next business day."
+  } else if (REACT_APP_COACH === "shaunmorgan") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "I will respond to all message within two business days, but hopefully much sooner!"
   } else {
     REACT_APP_RESPONSE_EXPECTATIONS = null;
   }
