@@ -44,51 +44,8 @@ function About() {
 
   return (
     <Setting>
-      <Text>
-        <strong>{t('Actual')}</strong>
-        {t(' is a super fast privacy-focused app for managing your finances.')}
-      </Text>
-      <View
-        style={{
-          flexDirection: 'column',
-          gap: 10,
-        }}
-        className={css({
-          [`@media (min-width: ${tokens.breakpoint_small})`]: {
-            display: 'grid',
-            gridTemplateRows: '1fr 1fr',
-            gridTemplateColumns: '50% 50%',
-            columnGap: '2em',
-            gridAutoFlow: 'column',
-          },
-        })}
-        data-vrt-mask
-      >
         <Text>Client version: v{window.Actual?.ACTUAL_VERSION}</Text>
         <Text>Server version: {version}</Text>
-        {isOutdated ? (
-          <Link
-            variant="external"
-            to="https://actualbudget.org/docs/releases"
-            linkColor="purple"
-          >
-            {t('New version available:')} {latestVersion}
-          </Link>
-        ) : (
-          <Text style={{ color: theme.noticeText, fontWeight: 600 }}>
-            {t('You’re up to date!')}
-          </Text>
-        )}
-        <Text>
-          <Link
-            variant="external"
-            to="https://actualbudget.org/docs/releases"
-            linkColor="purple"
-          >
-            {t('Release Notes')}
-          </Link>
-        </Text>
-      </View>
     </Setting>
   );
 }
@@ -185,16 +142,20 @@ export function Settings() {
         <FormatSettings />
         <AuthSettings />
 {/*        <EncryptionSettings />
-*/}        <BudgetTypeSettings />
+        <BudgetTypeSettings />*/}
         {isElectron() && <Backups />}
         <ExportBudget />
+        {/*
         <AdvancedToggle>
           <AdvancedAbout />
           <ResetCache />
           <ResetSync />
           <FixSplits />
           <ExperimentalFeatures />
-        </AdvancedToggle>
+        </AdvancedToggle>*/}
+
+                  <ExperimentalFeatures />
+
       </View>
     </Page>
   );

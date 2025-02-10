@@ -11,7 +11,13 @@ import { REACT_APP_UI_MODE, testableCoachList, REACT_APP_COACH_FIRST_NAME } from
 import { SvgDownloadThickBottom, SvgRemove, SvgAlertTriangle } from '../../icons/v2';
 import { send } from 'loot-core/src/platform/client/fetch';
 import { Select } from '../common/Select';
-import { Modal, ModalCloseButton, ModalHeader } from '../common/Modal';
+import {
+  Modal,
+  ModalButtons,
+  ModalCloseButton,
+  ModalHeader,
+  ModalTitle,
+} from '../common/Modal';
 
 export function UploadAvatarModal() {
 
@@ -101,8 +107,15 @@ export function UploadAvatarModal() {
 
 
   return (
-    <Modal name = "upload-avatar" title="Manage Coach">
-      {() => (
+    <Modal name="upload-avatar">
+      {({ state: { close } }) => (
+        <>
+          <ModalHeader
+            title={
+              <ModalTitle title={'Schedule Video Call'} shrinkOnOverflow />
+            }
+            rightContent={<ModalCloseButton onPress={close} />}
+          />
         <View style={{ lineHeight: 1.5 }}>
           {usingAlready == true && (
             <Block>
@@ -395,6 +408,7 @@ export function UploadAvatarModal() {
           }
 
         </View>
+        </>
       )}
     </Modal>
   );

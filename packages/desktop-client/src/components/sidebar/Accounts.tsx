@@ -174,7 +174,7 @@ export function Accounts({
           <Account
             name="For budget"
             to="/accounts/budgeted"
-            query={queries.budgetedAccountBalance()}
+            query={queries.onBudgetAccountBalance()}
             style={{
               fontWeight,
               marginTop: 13,
@@ -453,6 +453,7 @@ export function Accounts({
         style={{
           marginLeft: '16',
           marginRight: '16',
+          marginTop: 20,
           paddingTop: '20',
           flexShrink: '0',
         }}
@@ -473,7 +474,7 @@ export function Accounts({
                 width: '90%',
                 marginLeft: '5%',
                 marginRight: '5%',
-                marginTop: 20
+                marginTop: 0
               }}
             >
               Schedule Video Call

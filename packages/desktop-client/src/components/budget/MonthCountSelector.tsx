@@ -6,6 +6,7 @@ import { theme } from '../../style';
 import { View } from '../common/View';
 
 import { useBudgetMonthCount } from './BudgetMonthCountContext';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 type CalendarProps = {
   color: string;
@@ -51,23 +52,32 @@ export function MonthCountSelector({
     );
   }
 
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
+
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        marginRight: 20,
-        marginTop: -1,
-        WebkitAppRegion: 'no-drag',
-        '& svg': {
-          transition: 'transform .15s',
-        },
-        '& svg:hover': {
-          transform: 'scale(1.2)',
-        },
+    <div
+      ref={element => {
+        commonElementsRef.current['calendar_icons'] = element;
       }}
-      title={t('Choose the number of months shown at a time')}
     >
-      {calendars}
-    </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginRight: 20,
+          marginTop: -1,
+          WebkitAppRegion: 'no-drag',
+          '& svg': {
+            transition: 'transform .15s',
+          },
+          '& svg:hover': {
+            transform: 'scale(1.2)',
+          },
+        }}
+        title={t('Choose the number of months shown at a time')}
+      >
+        {calendars}
+      </View>
+    </div>
   );
 }

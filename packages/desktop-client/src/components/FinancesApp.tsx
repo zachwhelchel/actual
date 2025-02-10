@@ -141,29 +141,29 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
       const latestVersion = await getLatestVersion();
       const isOutdated = await getIsOutdated(latestVersion);
 
-      if (isOutdated && lastUsedVersion !== latestVersion) {
-        dispatch(
-          addNotification({
-            type: 'message',
-            title: t('A new version of Actual is available!'),
-            message: t(
-              'Version {{latestVersion}} of Actual was recently released.',
-              { latestVersion },
-            ),
-            sticky: true,
-            id: 'update-notification',
-            button: {
-              title: t('Open changelog'),
-              action: () => {
-                window.open('https://actualbudget.org/docs/releases');
-              },
-            },
-            onClose: () => {
-              setLastUsedVersion(latestVersion);
-            },
-          }),
-        );
-      }
+      // if (isOutdated && lastUsedVersion !== latestVersion) {
+      //   dispatch(
+      //     addNotification({
+      //       type: 'message',
+      //       title: t('A new version of Actual is available!'),
+      //       message: t(
+      //         'Version {{latestVersion}} of Actual was recently released.',
+      //         { latestVersion },
+      //       ),
+      //       sticky: true,
+      //       id: 'update-notification',
+      //       button: {
+      //         title: t('Open changelog'),
+      //         action: () => {
+      //           window.open('https://actualbudget.org/docs/releases');
+      //         },
+      //       },
+      //       onClose: () => {
+      //         setLastUsedVersion(latestVersion);
+      //       },
+      //     }),
+      //   );
+      // }
     }
 
     run();
@@ -245,7 +245,7 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
                     path="/coachdashboard/"
                     element={
                       <NarrowNotSupported>
-                        <CoachDashboard />
+                          <CoachDashboard />
                       </NarrowNotSupported>
                     }
                   />
@@ -254,7 +254,9 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
                     path="/coachmessagecenter/"
                     element={
                       <NarrowNotSupported>
-                        <CoachMessageCenter />
+                        <div style={{width: '100%', height: '100%', display: 'flex'}}>
+                          <CoachMessageCenter />
+                        </div>
                       </NarrowNotSupported>
                     }
                   />

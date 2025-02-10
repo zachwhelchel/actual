@@ -27,6 +27,7 @@ import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { Checkbox } from '../forms';
 import { validateAccountName } from '../util/accountValidation';
+import { Select } from '../common/Select';
 
 export function CreateLocalAccountModal() {
   const { t } = useTranslation();
@@ -34,8 +35,8 @@ export function CreateLocalAccountModal() {
   const dispatch = useDispatch();
   const accounts = useAccounts.useAccounts();
   const [name, setName] = useState('');
-  const [offbudget, setOffbudget] = useState(false);
   const [balance, setBalance] = useState('0');
+  const [typeError, setTypeError] = useState(false);
 
   const [nameError, setNameError] = useState(null);
   const [balanceError, setBalanceError] = useState(false);
@@ -60,14 +61,55 @@ export function CreateLocalAccountModal() {
     const balanceError = !validateBalance(balance);
     setBalanceError(balanceError);
 
-    if (!nameError && !balanceError) {
+    const typeError = type === 'select';
+    setTypeError(typeError);
+
+
+    let offBudget = false;
+
+    if (type === 'mortgage' || type === 'autoLoan' || type === 'studentLoan' || type === 'personalLoan' || type === 'medicalDebt' || type === 'otherDebt' || type === 'otherAsset' || type === 'otherLiability') {
+      offBudget = true;
+    }
+
+    let lintedBalance = toRelaxedNumber(balance);
+
+    if (type === 'creditCard' || type === 'lineOfCredit' || type === 'mortgage' || type === 'autoLoan' || type === 'studentLoan' || type === 'personalLoan' || type === 'medicalDebt' || type === 'otherDebt' || type === 'otherLiability') {
+      lintedBalance = Math.abs(lintedBalance) * -1;
+    }
+
+
+    if (!nameError && !balanceError && !typeError) {
       dispatch(closeModal());
       const id = await dispatch(
-        createAccount(name, toRelaxedNumber(balance), offbudget),
+        createAccount(name, lintedBalance, offBudget),
       );
       navigate('/accounts/' + id);
     }
   };
+
+
+  const [type, setType] = useState('select');
+  let typeList = [['select', 'Select a Type...'], 
+  ['checking', 'For Budget: Checking'],
+  ['savings', 'For Budget: Savings'],
+  ['cash', 'For Budget: Cash'],
+  ['creditCard', 'For Budget: Credit Card'],
+  ['lineOfCredit', 'For Budget: Line of Credit'],
+  ['mortgage', 'Off Budget: Mortgage'],
+  ['autoLoan', 'Off Budget: Auto Loan'],
+  ['studentLoan', 'Off Budget: Student Loan'],
+  ['personalLoan', 'Off Budget: Personal Loan'],
+  ['medicalDebt', 'Off Budget: Medical Debt'],
+  ['otherDebt', 'Off Budget: Other Debt'],
+  ['otherAsset', 'Off Budget: Other Asset'],
+  ['otherLiability', 'Off Budget: Other Liability'],
+  ];
+
+  function handleTypeChange(newValue) {
+    setType(newValue);
+  }
+
+
   return (
     <Modal name="add-local-account">
       {({ state: { close } }) => (
@@ -100,59 +142,16 @@ export function CreateLocalAccountModal() {
                 </FormError>
               )}
 
-              <View
-                style={{
-                  width: '100%',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                }}
-              >
-                <View style={{ flexDirection: 'column' }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'flex-end',
-                    }}
-                  >
-                    <Checkbox
-                      id="offbudget"
-                      name="offbudget"
-                      checked={offbudget}
-                      onChange={() => setOffbudget(!offbudget)}
-                    />
-                    <label
-                      htmlFor="offbudget"
-                      style={{
-                        userSelect: 'none',
-                        verticalAlign: 'center',
-                      }}
-                    >
-                      {t('Off budget')}
-                    </label>
-                  </View>
-                  <div
-                    style={{
-                      textAlign: 'right',
-                      fontSize: '0.7em',
-                      color: theme.pageTextLight,
-                      marginTop: 3,
-                    }}
-                  >
-                    <Text>
-                      {t('This cannot be changed later.')} <br /> {'\n'}
-                      {t('See')}{' '}
-                      <Link
-                        variant="external"
-                        linkColor="muted"
-                        to="https://actualbudget.org/docs/accounts/#off-budget-accounts"
-                      >
-                        {t('Accounts Overview')}
-                      </Link>{' '}
-                      {t('for more information.')}
-                    </Text>
-                  </div>
-                </View>
-              </View>
+
+              <InlineField label="Type" >
+                <Select options={typeList}  value={type} onChange={newValue => handleTypeChange(newValue)}/>
+              </InlineField>
+              {typeError && (
+                <FormError style={{ marginLeft: 75, color: theme.warningText }}>
+                  Select a type
+                </FormError>
+              )}
+
 
               <InlineField label="Balance" width="100%">
                 <Input

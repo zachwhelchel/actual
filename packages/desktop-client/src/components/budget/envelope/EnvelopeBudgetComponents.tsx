@@ -135,6 +135,8 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
 });
 
 export function IncomeHeaderMonth() {
+    let { commonElementsRef } = useCoach(); // this is causing the errors.
+
   return (
     <Row
       style={{
@@ -144,7 +146,13 @@ export function IncomeHeaderMonth() {
       }}
     >
       <View style={{ flex: 1, textAlign: 'right' }}>
-        <Trans>Received</Trans>
+        <div
+          ref={element => {
+            commonElementsRef.current['received_column'] = element;
+          }}
+        >
+          <Trans>Received</Trans>
+        </div>
       </View>
     </Row>
   );

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+import { Auth0Lock } from 'auth0-lock';
 
 import { isElectron } from 'loot-core/shared/environment';
 import { loggedIn } from 'loot-core/src/client/actions/user';
@@ -23,6 +24,7 @@ import { useAvailableLoginMethods, useLoginMethod } from '../../ServerContext';
 
 import { useBootstrapped, Title } from './common';
 import { OpenIdForm } from './OpenIdForm';
+import * as colorPalette from '../../../style/palette';
 
 function PasswordLogin({ setError, dispatch }) {
   const [password, setPassword] = useState('');
@@ -71,6 +73,74 @@ function PasswordLogin({ setError, dispatch }) {
   );
 }
 
+
+function EmbeddedOpenIdLogin({ setError }) {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const lock = new Auth0Lock(
+      'id',
+      'domain',
+      {
+        container: 'auth0-login-container',
+        allowSignUp: true,
+        initialScreen: 'login', // or 'signUp'
+         languageDictionary: {
+           title: 'MyBudgetCoach', 
+           signUpTitle: 'Create Account',
+           signUpLabel: 'Sign Up',
+           loginLabel: 'Sign In'
+         },
+         // Full style customization
+         theme: {
+           labeledSubmitButton: true,
+           logo: '/public/logo_circle.png',
+           primaryColor: '#112a43',
+          headerColor: '#ffffff',     // Change header background
+          container: {
+            headerBackground: 'none'  // Style override
+          }
+         },
+          auth: {
+           redirect: false,
+           responseType: 'token',
+           redirectUrl: 'http://localhost:3001/openid/callback'
+         },
+
+      }
+    );
+
+    lock.on('authenticated', async (authResult) => {
+
+
+      const { error, redirect_url } = await send('subscribe-sign-in', {
+        return_url: window.location.origin,
+        loginMethod: 'openid',
+        code: authResult.code
+      });
+
+      if (error) {
+        setError(error);
+      } else {
+        window.location.href = redirect_url;
+      }
+    });
+
+    lock.show();
+
+    return () => lock.destroy();
+  }, []);
+
+  return (
+    <div>
+      <div id="auth0-login-container" style={{ width: '100%', height: 600 }} />
+      {isLoading && <div>Logging in...</div>}
+    </div>
+  );
+}
+
+
 function OpenIdLogin({ setError }) {
   const [warnMasterCreation, setWarnMasterCreation] = useState(false);
   const [reviewOpenIdConfiguration, setReviewOpenIdConfiguration] =
@@ -115,7 +185,7 @@ function OpenIdLogin({ setError }) {
     <View>
       {!reviewOpenIdConfiguration && (
         <>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <Button
               variant="primary"
               style={{
@@ -126,7 +196,7 @@ function OpenIdLogin({ setError }) {
               }}
               onPress={onSubmitOpenId}
             >
-              <Trans>Sign in with OpenID</Trans>
+              <Trans>Sign In</Trans>
             </Button>
           </View>
           {warnMasterCreation && (
@@ -252,45 +322,7 @@ export function Login() {
   }
 
   return (
-    <View style={{ maxWidth: 450, marginTop: -30, color: theme.pageText }}>
-      <Title text={t('Sign in to this Actual instance')} />
-
-      {loginMethods?.length > 1 && (
-        <Text
-          style={{
-            fontSize: 16,
-            color: theme.pageTextDark,
-            lineHeight: 1.4,
-            marginBottom: 10,
-          }}
-        >
-          <Trans>
-            If you lost your password, you likely still have access to your
-            server to manually reset it.
-          </Trans>
-        </Text>
-      )}
-
-      {loginMethods?.length > 1 && (
-        <View style={{ marginTop: 10 }}>
-          <Label
-            style={{
-              ...styles.verySmallText,
-              color: theme.pageTextLight,
-              paddingTop: 5,
-            }}
-            title={t('Select the login method')}
-          />
-          <Select
-            value={method}
-            onChange={newValue => {
-              setError(null);
-              setMethod(newValue);
-            }}
-            options={loginMethods?.map(m => [m.method, m.displayName])}
-          />
-        </View>
-      )}
+    <View style={{ color: theme.pageText, marginTop: -43 }}>
 
       {error && (
         <Text
@@ -305,13 +337,7 @@ export function Login() {
         </Text>
       )}
 
-      {method === 'password' && (
-        <PasswordLogin setError={setError} dispatch={dispatch} />
-      )}
-
-      {method === 'openid' && <OpenIdLogin setError={setError} />}
-
-      {method === 'header' && <HeaderLogin error={error} />}
+      <EmbeddedOpenIdLogin setError={setError} />
     </View>
   );
 }

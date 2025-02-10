@@ -35,15 +35,27 @@ export function PrimaryButtons() {
     }
   }, [isActive, location.pathname]);
 
-  let { totalUnreadCount } = useCoach(); // this is causing the errors.
+  let { totalUnreadCount, commonElementsRef } = useCoach(); // this is causing the errors.
 
 
   return (
     <View style={{ flexShrink: 0 }}>
-      <Item title={t('Budget')} Icon={SvgWallet} to="/budget" />
+      <div
+        ref={element => {
+          commonElementsRef.current['budget_button'] = element;
+        }}
+      >
+        <Item title={t('Budget')} Icon={SvgWallet} to="/budget" />
+      </div>
       <Item title={t('Reports')} Icon={SvgReports} to="/reports" />
       <Item title={t('Schedules')} Icon={SvgCalendar} to="/schedules" />
-      <Item title="Messages" badge={totalUnreadCount} Icon={SvgChatBubbleDots} to="/coachmessagecenter" />
+      <div
+        ref={element => {
+          commonElementsRef.current['message_center'] = element;
+        }}
+      >
+        <Item title="Messages" badge={totalUnreadCount} Icon={SvgChatBubbleDots} to="/coachmessagecenter" />
+      </div>
 
       <Item
         title={t('More')}

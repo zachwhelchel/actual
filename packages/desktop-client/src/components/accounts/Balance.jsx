@@ -18,6 +18,7 @@ import { PrivacyFilter } from '../PrivacyFilter';
 import { CellValue, CellValueText } from '../spreadsheet/CellValue';
 import { useFormat } from '../spreadsheet/useFormat';
 import { useSheetValue } from '../spreadsheet/useSheetValue';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 function DetailedBalance({ name, balance, isExactBalance = true }) {
   const format = useFormat();
@@ -146,20 +147,18 @@ function MoreBalances({ balanceQuery }) {
   );
 }
 
-
 export function Balances({
   balanceQuery,
   showExtraBalances,
   onToggleExtraBalances,
   account,
-  commonElementsRef,
   isFiltered,
   filteredAmount,
 }) {
   const selectedItems = useSelectedItems();
   const buttonRef = useRef(null);
   const isButtonHovered = useHover(buttonRef);
-
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   return (
     <View
@@ -170,19 +169,19 @@ export function Balances({
         marginLeft: -5,
       }}
     >
-      <div
-        ref={element => {
-          commonElementsRef.current['account_balance'] = element;
+      <Button
+        ref={buttonRef}
+        data-testid="account-balance"
+        variant="bare"
+        onPress={onToggleExtraBalances}
+        style={{
+          paddingTop: 1,
+          paddingBottom: 1,
         }}
       >
-        <Button
-          ref={buttonRef}
-          data-testid="account-balance"
-          variant="bare"
-          onPress={onToggleExtraBalances}
-          style={{
-            paddingTop: 1,
-            paddingBottom: 1,
+        <div
+          ref={element => {
+            commonElementsRef.current['account_balance'] = element;
           }}
         >
           <CellValue binding={{ ...balanceQuery, value: 0 }} type="financial">
@@ -202,54 +201,22 @@ export function Balances({
               />
             )}
           </CellValue>
-        </Button>
+        </div>
 
-          <Button
-            data-testid="account-balance"
-            type="bare"
-            onClick={onToggleExtraBalances}
-            style={{
-              width: 10,
-              height: 10,
-              marginLeft: 10,
-              color: theme.pillText,
-              transform: showExtraBalances ? 'rotateZ(180deg)' : 'rotateZ(0)',
-              opacity:
-                isButtonHovered || selectedItems.size > 0 || showExtraBalances
-                  ? 1
-                  : 0,
-            }}
-          >
-
-          <CellValue
-            binding={{ ...balanceQuery, value: 0 }}
-            type="financial"
-            style={{ fontSize: 22, fontWeight: 400 }}
-            getStyle={value => ({
-              color:
-                value < 0
-                  ? theme.errorText
-                  : value > 0
-                    ? theme.noticeTextLight
-                    : theme.pageTextSubdued,
-            })}
-            privacyFilter={{
-              blurIntensity: 5,
-            }}
-          />
-
-          <SvgArrowButtonRight1
-            style={{
-              width: 10,
-              height: 10,
-              marginLeft: 10,
-              color: theme.pillText,
-              transform: showExtraBalances ? 'rotateZ(180deg)' : 'rotateZ(0)',
-            }}
-          />
-        </Button>
-      </div>
-
+        <SvgArrowButtonRight1
+          style={{
+            width: 10,
+            height: 10,
+            marginLeft: 10,
+            color: theme.pillText,
+            transform: showExtraBalances ? 'rotateZ(180deg)' : 'rotateZ(0)',
+            opacity:
+              isButtonHovered || selectedItems.size > 0 || showExtraBalances
+                ? 1
+                : 0,
+          }}
+        />
+      </Button>
       {showExtraBalances && <MoreBalances balanceQuery={balanceQuery} />}
 
       {selectedItems.size > 0 && (

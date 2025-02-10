@@ -40,13 +40,7 @@ export function Sidebar() {
   const MIN_SIDEBAR_WIDTH = 200;
 
   const [sidebarWidth, setSidebarWidth] = useState(
-    Math.min(
-      MAX_SIDEBAR_WIDTH,
-      Math.max(
-        MIN_SIDEBAR_WIDTH,
-        sidebarWidthLocalPref || DEFAULT_SIDEBAR_WIDTH,
-      ),
-    ),
+    DEFAULT_SIDEBAR_WIDTH
   );
 
   const onResizeStop = () => {
@@ -102,7 +96,7 @@ export function Sidebar() {
       minWidth={MIN_SIDEBAR_WIDTH}
       enable={{
         top: false,
-        right: true,
+        right: false,
         bottom: false,
         left: false,
         topRight: false,
@@ -131,10 +125,10 @@ export function Sidebar() {
         })}
       >
         <BudgetName>
-          {!sidebar.alwaysFloats && (
+{/*          {!sidebar.alwaysFloats && (
             <ToggleButton isFloating={isFloating} onFloat={onFloat} />
           )}
-        </BudgetName>
+*/}        </BudgetName>
 
         <View
           style={{

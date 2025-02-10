@@ -227,12 +227,27 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
               borderTop: '1px solid ' + theme.tableBorder,
             }}
           >
-            <ToBudget
-              prevMonthName={prevMonthName}
-              month={month}
-              onBudgetAction={onBudgetAction}
-              isCollapsed
-            />
+              {currentMonth === month ? (
+                <div
+                  ref={element => {
+                    commonElementsRef.current['budget_header'] = element;
+                  }}
+                >
+                  <ToBudget
+                    prevMonthName={prevMonthName}
+                    month={month}
+                    onBudgetAction={onBudgetAction}
+                    isCollapsed
+                  />
+                </div>
+              ) : (
+                <ToBudget
+                  prevMonthName={prevMonthName}
+                  month={month}
+                  onBudgetAction={onBudgetAction}
+                  isCollapsed
+                />
+              )}
           </View>
         ) : (
           <>

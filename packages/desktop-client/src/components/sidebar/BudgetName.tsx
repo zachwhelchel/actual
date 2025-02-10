@@ -17,6 +17,7 @@ import { Menu } from '../common/Menu';
 import { Popover } from '../common/Popover';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 type BudgetNameProps = {
   children?: ReactNode;
@@ -24,6 +25,8 @@ type BudgetNameProps = {
 
 export function BudgetName({ children }: BudgetNameProps) {
   const hasWindowButtons = !Platform.isBrowser && Platform.OS === 'mac';
+
+  let { commonElementsRef } = useCoach(); // this is causing the errors.
 
   return (
     <View
@@ -41,7 +44,13 @@ export function BudgetName({ children }: BudgetNameProps) {
         }),
       }}
     >
-      <EditableBudgetName />
+      <div
+        ref={element => {
+          commonElementsRef.current['budget_name'] = element;
+        }}
+      >
+        <EditableBudgetName />
+      </div>
 
       <View style={{ flex: 1, flexDirection: 'row' }} />
 

@@ -1349,6 +1349,7 @@ export default function Coach({
       commonElementsRef.current['zoom_link'] !== undefined &&
       commonElementsRef.current['zoom_link'] !== null
     ) {
+      commonElementsRef.current['zoom_link'].style.backgroundColor = null;
       commonElementsRef.current['zoom_link'].style.outlineColor = null;
       commonElementsRef.current['zoom_link'].style.outlineStyle = null;
     }
@@ -1441,6 +1442,7 @@ export default function Coach({
           setLeft(window.innerWidth - 20 - 240 + xOffset);
           setOffset(100);
 
+          commonElementsRef.current['zoom_link'].style.backgroundColor = "yellow";
           commonElementsRef.current['zoom_link'].style.outlineColor = "yellow";
           commonElementsRef.current['zoom_link'].style.outlineStyle = "dashed";
           commonElementsRef.current['zoom_link'].style.outlineWidth = 5;
@@ -1481,13 +1483,13 @@ export default function Coach({
           const { top: t, left: l } =
             commonElementsRef.current['message_center'].getBoundingClientRect();
           const centerY = t;
-          // setTop(centerY - 33 + yOffset);
-          // setLeft(14 + xOffset);
-          // setOffset(0);
+          setTop(centerY - 33 + yOffset);
+          setLeft(14 + xOffset);
+          setOffset(0);
 
-          setTop(window.innerHeight - 20 + yOffset);
-          setLeft(window.innerWidth - 20 - 240 + xOffset);
-          setOffset(100);
+          // setTop(window.innerHeight - 20 + yOffset);
+          // setLeft(window.innerWidth - 20 - 240 + xOffset);
+          // setOffset(100);
 
           commonElementsRef.current['message_center'].style.outlineColor = "yellow";
           commonElementsRef.current['message_center'].style.outlineStyle = "dashed";
