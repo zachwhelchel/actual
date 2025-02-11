@@ -73,74 +73,6 @@ function PasswordLogin({ setError, dispatch }) {
   );
 }
 
-
-function EmbeddedOpenIdLogin({ setError }) {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const lock = new Auth0Lock(
-      'id',
-      'domain',
-      {
-        container: 'auth0-login-container',
-        allowSignUp: true,
-        initialScreen: 'login', // or 'signUp'
-         languageDictionary: {
-           title: 'MyBudgetCoach', 
-           signUpTitle: 'Create Account',
-           signUpLabel: 'Sign Up',
-           loginLabel: 'Sign In'
-         },
-         // Full style customization
-         theme: {
-           labeledSubmitButton: true,
-           logo: '/public/logo_circle.png',
-           primaryColor: '#112a43',
-          headerColor: '#ffffff',     // Change header background
-          container: {
-            headerBackground: 'none'  // Style override
-          }
-         },
-          auth: {
-           redirect: false,
-           responseType: 'token',
-           redirectUrl: 'http://localhost:3001/openid/callback'
-         },
-
-      }
-    );
-
-    lock.on('authenticated', async (authResult) => {
-
-
-      const { error, redirect_url } = await send('subscribe-sign-in', {
-        return_url: window.location.origin,
-        loginMethod: 'openid',
-        code: authResult.code
-      });
-
-      if (error) {
-        setError(error);
-      } else {
-        window.location.href = redirect_url;
-      }
-    });
-
-    lock.show();
-
-    return () => lock.destroy();
-  }, []);
-
-  return (
-    <div>
-      <div id="auth0-login-container" style={{ width: '100%', height: 600 }} />
-      {isLoading && <div>Logging in...</div>}
-    </div>
-  );
-}
-
-
 function OpenIdLogin({ setError }) {
   const [warnMasterCreation, setWarnMasterCreation] = useState(false);
   const [reviewOpenIdConfiguration, setReviewOpenIdConfiguration] =
@@ -337,7 +269,7 @@ export function Login() {
         </Text>
       )}
 
-      <EmbeddedOpenIdLogin setError={setError} />
+      <OpenIdLogin setError={setError} />
     </View>
   );
 }
