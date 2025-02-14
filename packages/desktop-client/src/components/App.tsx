@@ -74,6 +74,7 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
     return cb?.();
   };
 
+
   const [stateSomeDialogues, setStateSomeDialogues] = useState(new Map());
   const [stateInitialDialogueId, setStateInitialDialogueId] = useState(null);
 
@@ -193,10 +194,40 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
     </View>
   )
 
+  if (userData === null) {
+    return <ManagementApp />;
+  }
 
 
+  if (stateSomeDialogues.size === 0) {
+    return (
+      <NeedStuffApp
+        userData={userData}
+        setStateSomeDialogues={setStateSomeDialogues}
+        setStateInitialDialogueId={setStateInitialDialogueId}
+      />
+    );
+  }
 
-  return budgetId ? stateSomeDialogues.size !== 0 ? <FinancesApp budgetId={budgetId} someDialogues={stateSomeDialogues} initialDialogueId={stateInitialDialogueId} /> : <NeedStuffApp setStateSomeDialogues={setStateSomeDialogues} setStateInitialDialogueId={setStateInitialDialogueId} /> : <ManagementApp />;
+  if (!budgetId) {
+    return <ManagementApp />;
+  }
+
+  if (stateSomeDialogues.size !== 0) {
+    return (
+      <FinancesApp 
+        budgetId={budgetId}
+        someDialogues={stateSomeDialogues}
+        initialDialogueId={stateInitialDialogueId}
+      />
+    );
+  }
+
+  return (
+    <bg/>
+  );
+
+  //return budgetId ? stateSomeDialogues.size !== 0 ? <FinancesApp budgetId={budgetId} someDialogues={stateSomeDialogues} initialDialogueId={stateInitialDialogueId} /> : <NeedStuffApp setStateSomeDialogues={setStateSomeDialogues} setStateInitialDialogueId={setStateInitialDialogueId} /> : <ManagementApp />;
 }
 
 function ErrorFallback({ error }: FallbackProps) {

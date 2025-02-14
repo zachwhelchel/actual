@@ -53,6 +53,7 @@ import { Tooltip } from '../common/Tooltip';
 import { View } from '../common/View';
 import { useResponsive } from '../responsive/ResponsiveProvider';
 import { useMultiuserEnabled } from '../ServerContext';
+import { deleteBudget } from 'loot-core/client/actions';
 
 function getFileDescription(file: File, t: (key: string) => string) {
   if (file.state === 'unknown') {
@@ -599,7 +600,15 @@ export function BudgetList({ showHeader = true, quickSwitchMode = false }) {
         quickSwitchMode={quickSwitchMode}
         onSelect={onSelect}
         onDelete={(file: File) =>
-          dispatch(pushModal('delete-budget', { file }))
+
+          dispatch(
+            deleteBudget(
+              'id' in file ? file.id : undefined,
+              file.cloudFileId,
+            ),
+          )
+
+          //dispatch(pushModal('delete-budget', { file }))
         }
         onDuplicate={(file: File) => {
           if (file && 'id' in file) {

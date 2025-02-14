@@ -12,6 +12,9 @@ let REACT_APP_COACH_FIRST_NAME = localStorage.getItem("REACT_APP_COACH_FIRST_NAM
 let REACT_APP_USER_FIRST_NAME = localStorage.getItem("REACT_APP_USER_FIRST_NAME");
 let REACT_APP_UI_MODE = localStorage.getItem("REACT_APP_UI_MODE");
 
+let REACT_APP_COACH_PHOTO = localStorage.getItem("REACT_APP_COACH_PHOTO"); // this is new.
+
+
 let REACT_APP_RESPONSE_EXPECTATIONS = null;
 
 let testableCoachList = [['select', 'Select a Coach...'], 
@@ -454,14 +457,14 @@ function modifyVars() {
     REACT_APP_UI_MODE = "coach"
   }
   else if (url.includes("localhost")) {
-    REACT_APP_USER_EMAIL = "zach.whelchel@gmail.com"
-    REACT_APP_BILLING_STATUS = "paid"
-    REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
+    // REACT_APP_USER_EMAIL = "zach.whelchel@gmail.com"
+    // REACT_APP_BILLING_STATUS = "paid"
+    // REACT_APP_TRIAL_END_DATE = "December 31st, 2024"
     // REACT_APP_ZOOM_RATE = "39.99 USD / hour"
     // REACT_APP_ZOOM_LINK = "https://calendly.com/zach-whelchel/1-hour"
     // REACT_APP_COACH = "zachdemo"
     // REACT_APP_COACH_FIRST_NAME = "Zach"
-    REACT_APP_USER_FIRST_NAME = "User"
+    // REACT_APP_USER_FIRST_NAME = "User"
     //REACT_APP_UI_MODE = "coach"
 
     // these are gotten from the server now.
@@ -717,4 +720,4 @@ function getCoach() {
 //if we find that file then set everything to that...
 //that's really the bulk of it...
 
-export {REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_USER_EMAIL, REACT_APP_UI_MODE, REACT_APP_CHAT_USER_ID, REACT_APP_RESPONSE_EXPECTATIONS, testableCoachList, getCoach}
+export {REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_USER_EMAIL, REACT_APP_UI_MODE, REACT_APP_CHAT_USER_ID, REACT_APP_RESPONSE_EXPECTATIONS, REACT_APP_COACH_PHOTO, testableCoachList, getCoach}

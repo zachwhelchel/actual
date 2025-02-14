@@ -10,7 +10,7 @@ import { View } from '../common/View';
 import { Tooltip } from '../common/Tooltip';
 import { Menu } from '../common/Menu';
 import { BigInput } from '../common/Input';
-import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_USER_EMAIL, REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
+import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_USER_EMAIL, REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE, REACT_APP_COACH_PHOTO } from '../../coaches/coachVariables';
 import { SvgClose } from '../../icons/v1';
 import { SvgDotsHorizontalTriple } from '../../icons/v1';
 import { StreamChat } from 'stream-chat';
@@ -18,6 +18,7 @@ import {
   init as initConnection,
   send,
 } from 'loot-core/src/platform/client/fetch';
+import Airtable from 'airtable';
 
 const analytics = AnalyticsBrowser.load({ writeKey: '44e3df5b84cde8138074' })
 
@@ -201,6 +202,8 @@ console.log(cd)
     });
 
     localStorage.removeItem(coachState_key);
+
+    updateAirtableWithLocalStorage()
   };
 
   const triggerFired = (id) => {
@@ -280,6 +283,91 @@ console.log(cd)
     }
   };
 
+
+  /**
+ * Aggregates localStorage items with specified prefixes and updates an Airtable record
+ * @param {string[]} prefixes - Array of prefixes to filter localStorage keys
+ * @param {string} airtableApiKey - Your Airtable API key
+ * @param {string} baseId - Your Airtable base ID
+ * @param {string} tableName - The name of your Airtable table
+ * @param {string} recordId - The ID of the record to update
+ * @param {string} fieldName - The name of the field to update in Airtable
+ * @returns {Promise<Object>} - Response from Airtable
+ */
+async function updateAirtableWithLocalStorage() {
+  // Get all localStorage keys
+  const allKeys = Object.keys(localStorage);
+  
+  // Filter keys based on prefixes
+  const filteredData = {};
+
+  const prefixes = ['conversationDeck_', 'dialogueStack_', 'coachState_']
+  
+  prefixes.forEach(prefix => {
+    const matchingKeys = allKeys.filter(key => key.startsWith(prefix));
+    
+    matchingKeys.forEach(key => {
+      try {
+        // Try to parse JSON values, fall back to raw string if parsing fails
+        let value;
+        try {
+          value = JSON.parse(localStorage.getItem(key));
+        } catch {
+          value = localStorage.getItem(key);
+        }
+        
+        filteredData[key] = value;
+      } catch (error) {
+        console.error(`Error processing key ${key}:`, error);
+      }
+    });
+  });
+
+
+  // Update record in Airtable
+  const base = new Airtable({
+    apiKey:'patD1GWrGGJA0pvQ9.9e5b4ebdaf739900ef004a7a8b2ef58693cb444c39e547859b54492e474cc721'
+  }).base('appYAaDkGzB3ecOzl');
+
+ // Update record in Airtable
+  try {
+    const response = await base('Accounts').update([
+      {
+        id: 'rectbfPvCGW3hNiQY', //how to fix this
+        fields: {
+          'local_storage_sync': JSON.stringify(filteredData)
+        }
+      }
+    ]);
+
+    return response[0];
+  } catch (error) {
+    console.error('Error updating Airtable record:', error);
+    throw error;
+  }
+
+}
+
+// Example usage:
+// const prefixes = ['user_', 'app_', 'settings_'];
+// const airtableApiKey = 'your_api_key';
+// const baseId = 'your_base_id';
+// const tableName = 'your_table_name';
+// const recordId = 'rec123456789';
+// const fieldName = 'localStorage_data';
+// 
+// updateAirtableWithLocalStorage(
+//   prefixes, 
+//   airtableApiKey, 
+//   baseId, 
+//   tableName, 
+//   recordId,
+//   fieldName
+// )
+//   .then(response => console.log('Record updated successfully:', response))
+//   .catch(error => console.error('Error:', error));
+
+
   useEffect(() => {
     for (const key in dialogueStacks) {
       const value = dialogueStacks[key];
@@ -287,6 +375,7 @@ console.log(cd)
       // console.log("and I saving thissss? " + dialogueStack_key);
       localStorage.setItem(dialogueStack_key, JSON.stringify(value));
     };
+    updateAirtableWithLocalStorage()
   }, [dialogueStacks]);
 
 
@@ -298,6 +387,7 @@ console.log(cd)
     console.log("no one mourns");
     console.log(JSON.stringify(simpleConversationDeck));
     localStorage.setItem(conversationDeck_key, JSON.stringify(simpleConversationDeck));
+    updateAirtableWithLocalStorage()
   }, [conversationDeck]);
 
 
@@ -306,6 +396,7 @@ console.log(cd)
     // console.log("I should have stored the state here:");
     // console.log(coachState_key);
     // console.log(coachState);
+    updateAirtableWithLocalStorage()
   }, [coachState]);
 
 
@@ -2897,7 +2988,7 @@ export default function Coach({
 
   } 
 
-  let imgSrc = "/coach-icon-" + REACT_APP_COACH + "-200x200.png";
+  let imgSrc = REACT_APP_COACH_PHOTO;
 
   if (content === undefined) {
     return (

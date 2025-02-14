@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import AirtableButton from './airtable-button'
 import Airtable from 'airtable';
+import { type State } from 'loot-core/client/state-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, ButtonWithLoading } from '../common/Button2';
 
 // const TEST_DATA = {
 //   coaches: [
@@ -62,22 +65,163 @@ const CoachQuiz = () => {
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [selectedCoach, setSelectedCoach] = useState(null);
   
+const [formData, setFormData] = useState({
+  firstName: '',
+  lastName: '',
+  email: '',
+  foundUs: '',
+  motivation: '',
+  language: ''
+});
+
+
+  
+
+
+  const userData = useSelector((state: State) => state.user.data);
+
   // Contact form data
-  const [formData, setFormData] = useState({
-    name: '',
-    foundUs: '',
-    motivation: ''
-  });
+  // const [formData, setFormData] = useState({
+  //   name: '',
+  //   foundUs: '',
+  //   motivation: ''
+  // });
 
   // Progress bar component
   const ProgressBar = () => (
-    <div className="w-full bg-gray-200 h-2 rounded-full mb-6">
+    <div style={{
+      width: '100%',
+      backgroundColor: 'rgb(229, 231, 235)', // bg-gray-200
+      height: '0.5rem',                      // h-2
+      borderRadius: '9999px',                // rounded-full
+      marginBottom: '1.5rem'                 // mb-6
+    }}>
       <div 
-        className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-        style={{ width: `${((currentStage + 1) / 3) * 100}%` }}
+        style={{
+          backgroundColor: '#8719e0', // bg-blue-500
+          height: '0.5rem',                     // h-2
+          borderRadius: '9999px',               // rounded-full
+          transition: 'all 300ms',              // transition-all duration-300
+          width: `${((currentStage + 1) / 4) * 100}%`
+        }}
       />
     </div>
   );
+
+
+
+  const updateUserCoachRelationship = async (userId, coachId) => {
+    const base = new Airtable({
+      apiKey:'patD1GWrGGJA0pvQ9.9e5b4ebdaf739900ef004a7a8b2ef58693cb444c39e547859b54492e474cc721'
+    }).base('appYAaDkGzB3ecOzl');
+
+
+
+
+    const existingRecords = await base('Accounts').select({
+      filterByFormula: `{user_id} = '${userId}'`
+    }).all();
+
+    // If user exists, return the record
+    if (existingRecords.length > 0) {
+
+      userId = existingRecords[0].id
+
+    }
+
+
+
+    try {
+      const updatedRecord = await base('Accounts').update([
+        {
+          id: userId,
+          fields: {
+            coach: [coachId]
+          }
+        }
+      ]);
+      
+      return updatedRecord[0];
+    } catch (error) {
+      console.error('Error updating coach relationship:', error);
+      throw error;
+    }
+  };
+
+
+
+  const selectThisCoach = async (coachName) => {
+
+    if (userData?.userId !== null) {
+      await updateUserCoachRelationship(userData?.userId, coachName);
+
+    }
+
+
+
+
+    setCurrentStage(3);
+  };
+
+
+
+  const handleSubmit = async () => {
+
+    if (userData?.userId !== null) {
+      await updateUserData(userData?.userId);
+    }
+
+    window.location.reload()
+
+  };
+
+
+  const updateUserData = async (userId) => {
+    const base = new Airtable({
+      apiKey:'patD1GWrGGJA0pvQ9.9e5b4ebdaf739900ef004a7a8b2ef58693cb444c39e547859b54492e474cc721'
+    }).base('appYAaDkGzB3ecOzl');
+
+
+
+
+    const existingRecords = await base('Accounts').select({
+      filterByFormula: `{user_id} = '${userId}'`
+    }).all();
+
+    // If user exists, return the record
+    if (existingRecords.length > 0) {
+
+      userId = existingRecords[0].id
+
+    }
+
+    try {
+      const updatedRecord = await base('Accounts').update([
+        {
+          id: userId,
+          fields: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            email: formData.email,
+            found_us: formData.foundUs,
+            motivation: formData.motivation,
+            language: formData.language,
+          }
+        }
+      ]);
+      
+      return updatedRecord[0];
+    } catch (error) {
+      console.error('Error updating user values:', error);
+      throw error;
+    }
+  };
+
+
+
+
+
+
 
   // Coach card component
   const CoachCard = ({ coach, isMainResult = false, hasMatch }) => {
@@ -87,57 +231,137 @@ const CoachQuiz = () => {
     const hasAnyMatch = priceMatch || matchingNiches.length > 0;
 
     return (
-      <div className={`text-center ${!isMainResult ? 'border-t py-6' : ''}`}>
+      <div style={{
+        textAlign: 'center',
+        ...((!isMainResult) ? {
+          borderTop: '1px solid #e5e7eb',
+          paddingTop: '1.5rem',
+          paddingBottom: '1.5rem'
+        } : {})
+      }}>
         {coach.photo && (
-          <div className="flex justify-center mb-4">
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: '1rem'
+          }}>
             <img 
               src={coach.photo} 
               alt={coach.name}
-              className={`rounded-full object-cover ${isMainResult ? 'w-32 h-32' : 'w-32 h-32'}`}
+              style={{
+                borderRadius: '9999px',
+                objectFit: 'cover',
+                width: '8rem',
+                height: '8rem'
+              }}
             />
           </div>
         )}
-        <h3 className={`font-semibold ${isMainResult ? 'text-xl mb-2' : 'text-xl mb-2'}`}>
+        <h3 style={{
+          fontWeight: 600,
+          fontSize: '1.25rem',
+          marginBottom: '0.5rem'
+        }}>
           {coach.name}
         </h3>
-
-        <div className="bg-gray-50 p-6 rounded-lg border border-gray-300">
-          <p className="text-sm text-gray-700 italic mb-2">
+        <div style={{
+          backgroundColor: 'rgb(249, 250, 251)',
+          padding: '1.0rem',
+          borderRadius: '0.5rem',
+          border: '1px solid rgb(209, 213, 219)'
+        }}>
+          <p style={{
+            fontSize: '0.875rem',
+            color: 'rgb(55, 65, 81)',
+            fontStyle: 'italic',
+            marginBottom: '0.5rem'
+          }}>
             "{coach.quizQuote}"
           </p>
-          <footer className="text-xs text-gray-500">
+          <footer style={{
+            fontSize: '0.75rem',
+            color: 'rgb(107, 114, 128)',
+            paddingBottom: '0.2rem'
+          }}>
             — {coach.firstName}
           </footer>
         </div>
-
-        <div className="mt-4 bg-blue-50 p-4 rounded-lg" style={{marginBottom: 20}}>
+        <div style={{
+          marginTop: '1rem',
+          backgroundColor: 'rgb(239, 246, 255)',
+          padding: '1rem',
+          borderRadius: '0.5rem',
+          marginBottom: '20px'
+        }}>
           {hasAnyMatch ? (
             <>
-              <h4 className="font-semibold text-blue-800 mb-2">
+              <h4 style={{
+                fontWeight: 600,
+                marginTop: 0,
+                color: 'rgb(30, 64, 175)',
+                marginBottom: '0.5rem'
+              }}>
                 {isMainResult ? 'Why we matched you' : 'How they match'}
               </h4>
-              <div className="space-y-2 text-sm">
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.5rem',
+                fontSize: '0.875rem',
+                marginBottom: '0px'
+              }}>
                 {priceMatch && (
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="text-blue-600">✓</span>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem'
+                  }}>
+                    <span style={{ color: 'black' }}>✓</span>
                     <span>Offers {coach.price.toLowerCase()} pricing</span>
                   </div>
                 )}
                 {matchingNiches.map(niche => (
-                  <div key={niche} className="flex items-center justify-center gap-2">
-                    <span className="text-blue-600">✓</span>
+                  <div key={niche} style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem'
+                  }}>
+                    <span style={{ color: 'black' }}>✓</span>
                     <span>Specializes in {niche}</span>
                   </div>
                 ))}
               </div>
             </>
           ) : (
-            <p className="text-blue-800">
+            <p style={{ color: 'rgb(30, 64, 175)' }}>
               We think {coach.name.split(' ')[0]} would be a great coach to help you achieve your goals.
             </p>
           )}
         </div>
-        <AirtableButton coachName={coach.name} coachFirstName={coach.firstName} />
+
+        <button
+          onClick={() => selectThisCoach(coach.id)}
+          style={{
+            padding: '0.7rem 1rem',
+            width: '100%',
+            fontSize: '15px',
+            fontWeight: 'bold',
+            backgroundColor: selectedNiches.length === 0 ? 'rgb(209, 213, 219)' : '#8719e0',
+            color: 'white',
+            borderRadius: '0.5rem',
+            transition: 'background-color 150ms',
+            cursor: selectedNiches.length === 0 ? 'not-allowed' : 'pointer'
+          }}
+        >
+          Choose {coach.firstName}
+        </button>
+
+
+
+
+
       </div>
     );
   };
@@ -281,10 +505,25 @@ const CoachQuiz = () => {
 
   if (loading) {
     return (
-      <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow">
-        <ProgressBar />
-        <div className="text-center py-8">Loading...</div>
-      </div>
+      // <div style={{
+      //   maxWidth: '36rem',        // max-w-xl
+      //   marginLeft: 'auto',       // mx-auto
+      //   marginRight: 'auto',      // mx-auto
+      //   padding: '1.5rem',        // p-6
+      //   backgroundColor: 'white', // bg-white
+      //   borderRadius: '0.5rem',   // rounded-lg
+      //   boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)' // shadow
+      // }}>
+      //   <ProgressBar />
+      //   <div style={{
+      //     textAlign: 'center',    // text-center
+      //     paddingTop: '2rem',     // py-8
+      //     paddingBottom: '2rem'   // py-8
+      //   }}>
+      //     Loading...
+      //   </div>
+      // </div>
+      <div/>
     );
   }
 
@@ -294,47 +533,102 @@ const CoachQuiz = () => {
     const { exactMatches, partialMatches } = findAllMatches();
 
     return (
-      <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow">
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        paddingTop: 20,
+        paddingBottom: 20,
+        minHeight: '100vh',
+        overflow: 'auto',    // Add this to enable scrolling
+        backgroundColor: '#f5f5f5'  // Optional: adds a background color to the page
+      }}>
+
+      <div style={{
+        width: '60%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        padding: '1.5rem',
+        backgroundColor: 'white',
+        borderRadius: '0.5rem',
+        boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)'
+      }}>
         <ProgressBar />
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold mb-4">Your Recommended Coach</h2>
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '1.5rem'
+        }}>
+          <h2 style={{
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            marginBottom: '1rem'
+          }}>
+            Your Recommended Coach
+          </h2>
           <CoachCard coach={matchedCoach} isMainResult={true} hasMatch={hasMatch} />
         </div>
         
         {usingTestData && (
-          <div className="text-center text-sm text-gray-500 mb-4">
+          <div style={{
+            textAlign: 'center',
+            fontSize: '0.875rem',
+            color: 'rgb(107, 114, 128)',
+            marginBottom: '1rem'
+          }}>
             No results found.
           </div>
         )}
         
-        <div className="flex justify-center gap-4">
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '1rem'
+        }}>
           <button
             onClick={resetQuiz}
-            className="px-2 py-1 text-blue-600 underline hover:text-blue-800"
+            style={{
+              padding: '0.25rem 0.5rem',
+              color: 'black',
+              ':hover': {
+                color: 'rgb(30, 64, 175)'
+              }
+            }}
           >
             Start Over
           </button>
           {hasAlternatives && !showingAlternatives && (
             <button
               onClick={() => setShowingAlternatives(true)}
-              className="px-2 py-1 text-blue-600 underline hover:text-blue-800"
+              style={{
+                padding: '0.25rem 0.5rem',
+                color: 'black',
+                ':hover': {
+                  color: 'rgb(30, 64, 175)'
+                }
+              }}
             >
               See Other Matches
             </button>
           )}
-          <button
-            onClick={handleClick}
-            className="px-2 py-1 text-blue-600 underline hover:text-blue-800"
-          >
-            Browse All Coaches
-          </button>
-
         </div>
 
         {showingAlternatives && (
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold text-center mb-6">Other Potential Matches</h3>
-            <div className="space-y-6">
+          <div style={{
+            marginTop: '2rem'
+          }}>
+            <h3 style={{
+              fontSize: '1.25rem',
+              fontWeight: 600,
+              textAlign: 'center',
+              marginBottom: '1.5rem'
+            }}>
+              Other Potential Matches
+            </h3>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.5rem'
+            }}>
               {[...exactMatches, ...partialMatches]
                 .filter(coach => coach.id !== matchedCoach.id)
                 .map(coach => (
@@ -344,84 +638,456 @@ const CoachQuiz = () => {
           </div>
         )}
       </div>
+      </div>
     );
   }
+
+
+if (currentStage === 3) {
+  return (
+
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
+      paddingTop: 20,
+      paddingBottom: 20,
+      minHeight: '100vh',
+      backgroundColor: '#f5f5f5'  // Optional: adds a background color to the page
+    }}>
+
+
+    <div style={{
+      width: '60%',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      padding: '1.5rem',
+      backgroundColor: 'white',
+      borderRadius: '0.5rem',
+      boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)'
+    }}>
+      <ProgressBar />
+      <div style={{
+        textAlign: 'center',
+        marginBottom: '1.5rem'
+      }}>
+        <h2 style={{
+          fontSize: '1.5rem',
+          fontWeight: 'bold',
+          marginBottom: '1rem'
+        }}>
+          About You
+        </h2>
+
+        <form style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          margin: '0 auto',
+          textAlign: 'left'
+        }}>
+          <div style={{
+            display: 'flex',
+            gap: '1rem'
+          }}>
+            <div style={{ flex: 1 }}>
+              <label style={{
+                display: 'block',
+                fontSize: '1.0rem',
+                fontWeight: 500,
+                color: 'rgb(55, 65, 81)',
+                marginBottom: '0.25rem'
+              }}>
+                First Name
+              </label>
+              <input
+                type="text"
+                value={formData.firstName}
+                onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  borderRadius: '0.375rem',
+                  border: '1px solid rgb(209, 213, 219)',
+                  fontSize: '1.0rem'
+                }}
+                required
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{
+                display: 'block',
+                fontSize: '1.0rem',
+                fontWeight: 500,
+                color: 'rgb(55, 65, 81)',
+                marginBottom: '0.25rem'
+              }}>
+                Last Name
+              </label>
+              <input
+                type="text"
+                value={formData.lastName}
+                onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  borderRadius: '0.375rem',
+                  border: '1px solid rgb(209, 213, 219)',
+                  fontSize: '1.0rem'
+                }}
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label style={{
+              display: 'block',
+              fontSize: '1.0rem',
+              fontWeight: 500,
+              color: 'rgb(55, 65, 81)',
+              marginBottom: '0.25rem'
+            }}>
+              Email
+            </label>
+            <input
+              type="email"
+              value={formData.email}
+              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+              style={{
+                width: '100%',
+                padding: '0.5rem',
+                borderRadius: '0.375rem',
+                border: '1px solid rgb(209, 213, 219)',
+                fontSize: '1.0rem'
+              }}
+              required
+            />
+          </div>
+
+          <div>
+            <label style={{
+              display: 'block',
+              fontSize: '1.0rem',
+              fontWeight: 500,
+              color: 'rgb(55, 65, 81)',
+              marginBottom: '0.25rem'
+            }}>
+              How did you find us?
+            </label>
+            <p style={{
+              fontSize: '1.0rem',
+              color: 'rgb(107, 114, 128)',
+              marginBottom: '0.5rem'
+            }}>
+              Please tell us how you heard about our coaching services.
+            </p>
+            <textarea
+              value={formData.foundUs}
+              onChange={(e) => setFormData(prev => ({ ...prev, foundUs: e.target.value }))}
+              style={{
+                width: '100%',
+                padding: '0.5rem',
+                borderRadius: '0.375rem',
+                border: '1px solid rgb(209, 213, 219)',
+                fontSize: '1.0rem',
+                minHeight: '6rem',
+                resize: 'vertical'
+              }}
+              required
+            />
+          </div>
+
+          <div>
+            <label style={{
+              display: 'block',
+              fontSize: '1.0rem',
+              fontWeight: 500,
+              color: 'rgb(55, 65, 81)',
+              marginBottom: '0.25rem'
+            }}>
+              What is your motivation for seeking coaching?
+            </label>
+            <p style={{
+              fontSize: '1.0rem',
+              color: 'rgb(107, 114, 128)',
+              marginBottom: '0.5rem'
+            }}>
+              Tell us about your goals and what you hope to achieve through coaching.
+            </p>
+            <textarea
+              value={formData.motivation}
+              onChange={(e) => setFormData(prev => ({ ...prev, motivation: e.target.value }))}
+              style={{
+                width: '100%',
+                padding: '0.5rem',
+                borderRadius: '0.375rem',
+                border: '1px solid rgb(209, 213, 219)',
+                fontSize: '1.0rem',
+                minHeight: '6rem',
+                resize: 'vertical'
+              }}
+              required
+            />
+          </div>
+
+          <div>
+            <label style={{
+              display: 'block',
+              fontSize: '1.0rem',
+              fontWeight: 500,
+              color: 'rgb(55, 65, 81)',
+              marginBottom: '0.25rem'
+            }}>
+              Preferred Language
+            </label>
+            <select
+              value={formData.language}
+              onChange={(e) => setFormData(prev => ({ ...prev, language: e.target.value }))}
+              style={{
+                width: '100%',
+                padding: '0.5rem',
+                borderRadius: '0.375rem',
+                border: '1px solid rgb(209, 213, 219)',
+                fontSize: '1.0rem',
+                backgroundColor: 'white'
+              }}
+              required
+            >
+              <option value="">Select a language</option>
+              <option value="English">English</option>
+              <option value="Spanish">Spanish</option>
+            </select>
+          </div>
+
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: '1rem'
+          }}>
+            <button
+              type="button"
+              onClick={() => setCurrentStage(2)}
+              style={{
+                padding: '0.5rem 1rem',
+                border: '1px solid rgb(209, 213, 219)',
+                borderRadius: '0.375rem',
+                backgroundColor: 'white',
+                transition: 'background-color 150ms'
+              }}
+            >
+              Back
+            </button>
+            <button
+              type="button" 
+              onClick={handleSubmit}
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: '#8719e0',
+                color: 'white',
+                borderRadius: '0.375rem',
+                transition: 'background-color 150ms'
+              }}
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    </div>
+  );
+}
+
+
 
   // Niche selection page
 if (currentStage === 0) {
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow">
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
+      paddingTop: 20,
+      paddingBottom: 20,
+      minHeight: '100vh',
+      backgroundColor: '#f5f5f5'  // Optional: adds a background color to the page
+    }}>
+
+    <div style={{
+      width: '60%',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      padding: '1.5rem',
+      backgroundColor: 'white',
+      borderRadius: '0.5rem',
+      boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)'
+    }}>
       <ProgressBar />
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-center mb-4">
+      <div style={{
+        marginBottom: '1.5rem'
+      }}>
+        <h2 style={{
+          fontSize: '1.5rem',
+          fontWeight: 'bold',
+          textAlign: 'center',
+          marginBottom: '1rem'
+        }}>
           Select up to 3 that apply to you:
         </h2>
         {usingTestData && (
-          <div className="text-center text-sm text-gray-500">
+          <div style={{
+            textAlign: 'center',
+            fontSize: '0.875rem',
+            color: 'rgb(107, 114, 128)'
+          }}>
             No results found.
           </div>
         )}
       </div>
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '0.5rem',
+        marginBottom: '1.5rem'
+      }}>
         {uniqueNiches.map((niche) => (
           <label 
             key={niche} 
-            className={`
-              flex items-center px-4 py-2 rounded-full border cursor-pointer
-              transition-all duration-200
-              ${selectedNiches.includes(niche) 
-                ? 'bg-blue-100 border-blue-500 text-blue-700' 
-                : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'}
-              ${selectedNiches.length >= 3 && !selectedNiches.includes(niche)
-                ? 'opacity-50 cursor-not-allowed'
-                : ''}
-            `}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '0.5rem 1rem',
+              borderRadius: '9999px',
+              border: '1px solid',
+              cursor: 'pointer',
+              transition: 'all 200ms',
+              ...selectedNiches.includes(niche) 
+                ? {
+                    backgroundColor: 'rgb(219, 234, 254)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    color: 'rgb(29, 78, 216)'
+                  }
+                : {
+                    backgroundColor: 'white',
+                    borderColor: 'rgb(229, 231, 235)',
+                    color: 'rgb(55, 65, 81)'
+                  },
+              ...(selectedNiches.length >= 3 && !selectedNiches.includes(niche)
+                ? {
+                    opacity: 0.5,
+                    cursor: 'not-allowed'
+                  }
+                : {})
+            }}
           >
             <input
               type="checkbox"
               checked={selectedNiches.includes(niche)}
               onChange={() => handleNicheSelection(niche)}
               disabled={selectedNiches.length >= 3 && !selectedNiches.includes(niche)}
-              className="hidden"
+              style={{ display: 'none' }}
             />
             <span>{niche}</span>
           </label>
         ))}
       </div>
-      <div className="flex justify-between items-center">
-        <div className="text-sm text-gray-500">
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}>
+        <div style={{
+          fontSize: '0.875rem',
+          color: 'rgb(107, 114, 128)'
+        }}>
           Selected: {selectedNiches.length}/3
-        </div>
+        </div> 
+
+
         <button
           onClick={() => setCurrentStage(1)}
           disabled={selectedNiches.length === 0}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+          style={{
+            padding: '0.5rem 1rem',
+            backgroundColor: selectedNiches.length === 0 ? 'rgb(209, 213, 219)' : '#8719e0',
+            color: 'white',
+            borderRadius: '0.25rem',
+            transition: 'background-color 150ms',
+            cursor: selectedNiches.length === 0 ? 'not-allowed' : 'pointer'
+          }}
         >
           Next
         </button>
+
+
+
       </div>
     </div>
+    </div>
+
   );
 }
   // Price selection page
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow">
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
+      paddingTop: 20,
+      paddingBottom: 20,
+      minHeight: '100vh',
+      backgroundColor: '#f5f5f5'  // Optional: adds a background color to the page
+    }}>
+
+    <div style={{
+      width: '60%',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      padding: '1.5rem',
+      backgroundColor: 'white',
+      borderRadius: '0.5rem',
+      boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)'
+    }}>
       <ProgressBar />
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-center mb-4">
+      <div style={{
+        marginBottom: '1.5rem'
+      }}>
+        <h2 style={{
+          fontSize: '1.5rem',
+          fontWeight: 'bold',
+          textAlign: 'center',
+          marginBottom: '1rem'
+        }}>
           What's your preferred price for 1-on-1 sessions?
         </h2>
         {usingTestData && (
-          <div className="text-center text-sm text-gray-500">
+          <div style={{
+            textAlign: 'center',
+            fontSize: '0.875rem',
+            color: 'rgb(107, 114, 128)'
+          }}>
             No results found.
           </div>
         )}
       </div>
-      <div className="space-y-3 mb-6">
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.75rem',
+        marginBottom: '1.5rem'
+      }}>
         {['Affordable', 'Average', 'Premium'].map((price) => (
           <label 
             key={price}
-            className="flex items-center space-x-3 p-2 rounded hover:bg-gray-50 cursor-pointer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              padding: '0.5rem',
+              borderRadius: '0.25rem',
+              cursor: 'pointer'
+            }}
           >
             <input
               type="radio"
@@ -429,27 +1095,50 @@ if (currentStage === 0) {
               value={price}
               checked={selectedPrice === price}
               onChange={() => setSelectedPrice(price)}
-              className="w-4 h-4 text-blue-600"
+              style={{
+                width: '1rem',
+                height: '1rem',
+                color: '#8719e0'
+              }}
             />
-            <span className="text-gray-700">{price}</span>
+            <span style={{ color: 'rgb(55, 65, 81)' }}>{price}</span>
           </label>
         ))}
       </div>
-      <div className="flex justify-between">
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between'
+      }}>
+
+
         <button
           onClick={() => setCurrentStage(0)}
-          className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+          style={{
+            padding: '0.5rem 1rem',
+            border: '1px solid rgb(209, 213, 219)',
+            borderRadius: '0.25rem',
+            transition: 'background-color 150ms'
+          }}
         >
           Back
         </button>
         <button
           onClick={() => setCurrentStage(2)}
           disabled={!selectedPrice}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+          style={{
+            padding: '0.5rem 1rem',
+            backgroundColor: !selectedPrice ? 'rgb(209, 213, 219)' : '#8719e0',
+            color: 'white',
+            borderRadius: '0.25rem',
+            transition: 'background-color 150ms',
+            cursor: !selectedPrice ? 'not-allowed' : 'pointer'
+          }}
         >
           Find My Coach
         </button>
+
       </div>
+    </div>
     </div>
   );
 };
