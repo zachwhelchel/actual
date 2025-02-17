@@ -54,6 +54,8 @@ import { View } from '../common/View';
 import { useResponsive } from '../responsive/ResponsiveProvider';
 import { useMultiuserEnabled } from '../ServerContext';
 import { deleteBudget } from 'loot-core/client/actions';
+import * as colorPalette from '../../style/palette';
+import { Modals } from '../Modals';
 
 function getFileDescription(file: File, t: (key: string) => string) {
   if (file.state === 'unknown') {
@@ -479,9 +481,10 @@ function BudgetListHeader({
       <Text
         style={{
           ...styles.veryLargeText,
+          color: 'black'
         }}
       >
-        <Trans>Files</Trans>
+        <Trans>Budgets</Trans>
       </Text>
       {!quickSwitchMode && (
         <View
@@ -585,8 +588,11 @@ export function BudgetList({ showHeader = true, quickSwitchMode = false }) {
           maxWidth: tokens.breakpoint_small,
           width: '100%',
         },
+        backgroundColor: colorPalette.navy100
       }}
     >
+      <Modals />
+
       {showHeader && (
         <BudgetListHeader
           quickSwitchMode={quickSwitchMode}
@@ -601,14 +607,14 @@ export function BudgetList({ showHeader = true, quickSwitchMode = false }) {
         onSelect={onSelect}
         onDelete={(file: File) =>
 
-          dispatch(
-            deleteBudget(
-              'id' in file ? file.id : undefined,
-              file.cloudFileId,
-            ),
-          )
+          // dispatch(
+          //   deleteBudget(
+          //     'id' in file ? file.id : undefined,
+          //     file.cloudFileId,
+          //   ),
+          // )
 
-          //dispatch(pushModal('delete-budget', { file }))
+          dispatch(pushModal('delete-budget', { file }))
         }
         onDuplicate={(file: File) => {
           if (file && 'id' in file) {
