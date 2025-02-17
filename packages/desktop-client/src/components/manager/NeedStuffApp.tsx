@@ -202,19 +202,13 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
 
 
       //proxy for all coach stuff
-      if (coach_id === undefined) {
+      if (coach_id === null) { // this one has to be null and the below is undefined
 
 
 
 
         setNeedCoachData(true)
-      }
-
-      //proxy for all user stuff
-
-      console.log('first name')
-      console.log(first_name)
-      if (first_name === undefined) { //not working as a check
+      } else if (first_name === undefined) { //not working as a check
         setNeedUserData(true)
       }
 
