@@ -59,6 +59,7 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
 
 
   const [needCoachData, setNeedCoachData] = useState(null);
+  const [needUserData, setNeedUserData] = useState(null);
 
 
 
@@ -93,16 +94,33 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
         }
 
         // If user doesn't exist, create new record
-        const newRecord = await base('Accounts').create([
-          {
-            fields: {
-              user_id: userId,
-              // Add any other default fields you want to set
-            }
-          }
-        ]);
 
-        return newRecord[0];
+
+        const storedParams = localStorage.getItem('urlParams');
+        let params = storedParams ? JSON.parse(storedParams) : null;
+        if (params.coach !== null && params.coach !== undefined && params.coach !== '') {
+          const newRecord = await base('Accounts').create([
+            {
+              fields: {
+                user_id: userId,
+                coach: [params.coach]
+              }
+            }
+          ]);
+          return newRecord[0];
+        } else {
+          const newRecord = await base('Accounts').create([
+            {
+              fields: {
+                user_id: userId
+              }
+            }
+          ]);
+          return newRecord[0];
+        }
+
+
+
 
       } catch (error) {
         console.error('Error in findOrCreateUser:', error);
@@ -184,22 +202,30 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
 
 
       //proxy for all coach stuff
-      if (coach_id === null) {
+      if (coach_id === undefined) {
+
+
+
+
         setNeedCoachData(true)
       }
 
       //proxy for all user stuff
-      if (first_name === null) { //not working as a check
-        setNeedCoachData(true)
+
+      console.log('first name')
+      console.log(first_name)
+      if (first_name === undefined) { //not working as a check
+        setNeedUserData(true)
       }
 
 
-      }
+    }
 
 
 
     //await initAvatar();
   }
+
 
 
   useEffect(() => {
@@ -208,16 +234,16 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
       await initAvatar();
     }
 
-    if (airtableCoachId !== null &&
-        airtableStatus !== null &&
-        airtableStatusExpiresAt !== null &&
-        airtableZoomRate !== null &&
-        airtableZoomLink !== null &&
-        airtableStreamChatUserId !== null &&
-        airtableCoachFirstName !== null &&
-        airtableFirstName !== null &&
-        airtableEmail !== null &&
-        airtableAvatarFile !== null
+    if (airtableCoachId !== undefined &&
+        airtableStatus !== undefined &&
+        airtableStatusExpiresAt !== undefined &&
+        airtableZoomRate !== undefined &&
+        airtableZoomLink !== undefined &&
+        airtableStreamChatUserId !== undefined &&
+        airtableCoachFirstName !== undefined &&
+        airtableFirstName !== undefined &&
+        airtableEmail !== undefined &&
+        airtableAvatarFile !== undefined
         ) {
       wrapper()
     }
@@ -1215,10 +1241,16 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
   if (needCoachData === true) {
     return (
       <View style={{ height: '100%', color: 'black' }}>
-        <CoachQuiz/>
+        <CoachQuiz jumpToUser={false}/>
       </View>
     );
-
+  }
+  if (needUserData === true) {
+    return (
+      <View style={{ height: '100%', color: 'black' }}>
+        <CoachQuiz jumpToUser={true}/>
+      </View>
+    );
   }
 
   let imgSrc = "/maskable-192x192.png";

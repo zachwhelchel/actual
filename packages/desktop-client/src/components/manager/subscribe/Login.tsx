@@ -263,6 +263,36 @@ export function Login() {
   const { checked } = useBootstrapped();
   const loginMethods = useAvailableLoginMethods();
 
+
+
+  useEffect(() => {
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Create an object to store the parameters
+    const urlParamsObject = {
+      coach: urlParams.get('coach') || '',
+      fprom_tid: urlParams.get('fprom_tid') || '',
+      fprom_ref: urlParams.get('fprom_ref') || '',
+      utm_campaign: urlParams.get('utm_campaign') || '',
+      utm_medium: urlParams.get('utm_medium') || '',
+      utm_source: urlParams.get('utm_source') || '',
+      utm_term: urlParams.get('utm_term') || '',
+      utm_content: urlParams.get('utm_content') || ''
+    };
+
+    // Store in localStorage for persistence
+    localStorage.setItem('urlParams', JSON.stringify(urlParamsObject));
+    
+    console.log('saving some url params')
+    console.log(JSON.stringify(urlParamsObject))
+
+  }, []);
+
+
+
+
+
   useEffect(() => {
     if (checked && !searchParams.has('error')) {
       (async () => {

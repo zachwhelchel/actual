@@ -51,8 +51,8 @@ const TEST_DATA = {
 };
 
 
-const CoachQuiz = () => {
-  const [currentStage, setCurrentStage] = useState(0);
+const CoachQuiz = ({ jumpToUser = false }) => {
+  const [currentStage, setCurrentStage] = useState(jumpToUser ? 3 : 0);
   const [coaches, setCoaches] = useState([]);
   const [uniqueNiches, setUniqueNiches] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -65,14 +65,15 @@ const CoachQuiz = () => {
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [selectedCoach, setSelectedCoach] = useState(null);
   
-const [formData, setFormData] = useState({
-  firstName: '',
-  lastName: '',
-  email: '',
-  foundUs: '',
-  motivation: '',
-  language: ''
-});
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    foundUs: '',
+    motivation: '',
+    language: ''
+  });
 
 
   
@@ -195,6 +196,13 @@ const [formData, setFormData] = useState({
 
     }
 
+
+
+
+    const storedParams = localStorage.getItem('urlParams');
+    let params = storedParams ? JSON.parse(storedParams) : null;
+
+
     try {
       const updatedRecord = await base('Accounts').update([
         {
@@ -206,10 +214,19 @@ const [formData, setFormData] = useState({
             found_us: formData.foundUs,
             motivation: formData.motivation,
             language: formData.language,
+            fprom_tid: params.fprom_tid,
+            fprom_ref: params.fprom_ref,
+            utm_campaign: params.utm_campaign,
+            utm_medium: params.utm_medium,
+            utm_source: params.utm_source,
+            utm_term: params.utm_term,
+            utm_content: params.utm_content
           }
         }
       ]);
       
+      localStorage.removeItem('urlParams');
+
       return updatedRecord[0];
     } catch (error) {
       console.error('Error updating user values:', error);
@@ -666,7 +683,8 @@ if (currentStage === 3) {
       borderRadius: '0.5rem',
       boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)'
     }}>
-      <ProgressBar />
+
+      {!jumpToUser && <ProgressBar />}
       <div style={{
         textAlign: 'center',
         marginBottom: '1.5rem'
@@ -780,7 +798,7 @@ if (currentStage === 3) {
               color: 'rgb(107, 114, 128)',
               marginBottom: '0.5rem'
             }}>
-              Please tell us how you heard about our coaching services.
+              How did you learn about MyBudgetCoach and your chosen coach on the platform? Please be specific as this helps us reach more people who want to get their finances in order.
             </p>
             <textarea
               value={formData.foundUs}
@@ -813,7 +831,7 @@ if (currentStage === 3) {
               color: 'rgb(107, 114, 128)',
               marginBottom: '0.5rem'
             }}>
-              Tell us about your goals and what you hope to achieve through coaching.
+              We'll share this with your coach so they know a bit more about your hopes and desires for your finances.
             </p>
             <textarea
               value={formData.motivation}
@@ -862,22 +880,26 @@ if (currentStage === 3) {
 
           <div style={{
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: !jumpToUser ? 'space-between': 'right',
             marginTop: '1rem'
           }}>
-            <button
-              type="button"
-              onClick={() => setCurrentStage(2)}
-              style={{
-                padding: '0.5rem 1rem',
-                border: '1px solid rgb(209, 213, 219)',
-                borderRadius: '0.375rem',
-                backgroundColor: 'white',
-                transition: 'background-color 150ms'
-              }}
-            >
-              Back
-            </button>
+
+            {!jumpToUser && 
+
+              <button
+                type="button"
+                onClick={() => setCurrentStage(2)}
+                style={{
+                  padding: '0.5rem 1rem',
+                  border: '1px solid rgb(209, 213, 219)',
+                  borderRadius: '0.375rem',
+                  backgroundColor: 'white',
+                  transition: 'background-color 150ms'
+                }}
+              >
+                Back
+              </button>
+            }
             <button
               type="button" 
               onClick={handleSubmit}
