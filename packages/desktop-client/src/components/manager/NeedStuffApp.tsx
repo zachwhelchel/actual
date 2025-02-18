@@ -65,121 +65,57 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
 
   async function init() {
 
-    // get all fields for user. and if doesn't exist then create one... and then ya this should all be moved to the server.
-
-    // might need a staging concept too then for this... ugh...
-
-
-    // i need to determine if this user has a coach.
-
-
-    const findOrCreateUser = async (userId) => {
-      const base = new Airtable({
-        apiKey:'patD1GWrGGJA0pvQ9.9e5b4ebdaf739900ef004a7a8b2ef58693cb444c39e547859b54492e474cc721'
-      }).base('appYAaDkGzB3ecOzl');
-
-      try {
-        // First try to find the user
-        const existingRecords = await base('Accounts').select({
-          filterByFormula: `{user_id} = '${userId}'`
-        }).all();
-
-
-        console.log('existingRecords')
-        console.log(userId)
-
-        // If user exists, return the record
-        if (existingRecords.length > 0) {
-          return existingRecords[0];
-        }
-
-        // If user doesn't exist, create new record
-
-
-        const storedParams = localStorage.getItem('urlParams');
-        let params = storedParams ? JSON.parse(storedParams) : null;
-        if (params.coach !== null && params.coach !== undefined && params.coach !== '') {
-          const newRecord = await base('Accounts').create([
-            {
-              fields: {
-                user_id: userId,
-                coach: [params.coach]
-              }
-            }
-          ]);
-          return newRecord[0];
-        } else {
-          const newRecord = await base('Accounts').create([
-            {
-              fields: {
-                user_id: userId
-              }
-            }
-          ]);
-          return newRecord[0];
-        }
-
-
-
-
-      } catch (error) {
-        console.error('Error in findOrCreateUser:', error);
-        throw error;
-      }
-    };
-
-
-    // can't get the user id for some reason, lame.
-
-
-    console.log('userData');
-    console.log(userData);
-
     if (userData?.userId !== null) {
-      const record = await findOrCreateUser(userData.userId);
+
+      let url = String(window.location.href);
+
+      const storedParams = localStorage.getItem('urlParams');
+      let params = storedParams ? JSON.parse(storedParams) : null;
+
+      const results = await send('airtable-user', {url: url, coachId: params?.coach});
+
+      const record = results.fields;
 
       console.log('record')
       console.log(record)
 
-      const coach_id = record.get('coach_id')?.[0] || null;
+      //const coach_id = record.get('coach_id')?.[0] || null;
+      const coach_id = record.coach_id?.[0] || null;
       setAirtableCoachId(coach_id)
 
-      const status = record.get('status');
+      //const status = record.get('status');
+      const status = record.status;
       setAirtableStatus(status)
 
-      const status_expires_at = record.get('status_expires_at');
+      const status_expires_at = record.status_expires_at;
       setAirtableStatusExpiresAt(status_expires_at)
 
-      const coach_zoom_rate = record.get('coach_zoom_rate');
+      const coach_zoom_rate = record.coach_zoom_rate;
       setAirtableZoomRate(coach_zoom_rate)
 
-      const coach_zoom_link = record.get('coach_zoom_link');
+      const coach_zoom_link = record.coach_zoom_link;
       setAirtableZoomLink(coach_zoom_link)
 
-      const stream_chat_user_id = record.get('stream_chat_user_id');
+      const stream_chat_user_id = record.stream_chat_user_id;
       setAirtableStreamChatUserId(stream_chat_user_id)
 
-      const coach_first_name = record.get('coach_first_name');
+      const coach_first_name = record.coach_first_name;
       setAirtableCoachFirstName(coach_first_name)
 
-      const first_name = record.get('first_name');
+      const first_name = record.first_name;
       setAirtableFirstName(first_name)
 
-      const email = record.get('email');
+      const email = record.email;
       setAirtableEmail(email)
 
-      const avatar = record.get('coach_avatar')?.[0]?.url || null;
+      const avatar = record.coach_avatar?.[0]?.url || null;
       setAirtableAvatarFile(avatar)
 
-      const coach_photo = record.get('coach_photo')?.[0]?.url || null;
+      const coach_photo = record.coach_photo?.[0]?.url || null;
       setAirtableAvatarPhoto(coach_photo)
 
 
-
-
-      const local_storage_sync = record.get('local_storage_sync');
-
-      // Parse the serialized data
+      const local_storage_sync = record.local_storage_sync;
 
 
       if (local_storage_sync !== undefined) {
@@ -199,23 +135,14 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
 
       }
 
-
-
       //proxy for all coach stuff
       if (coach_id === null) { // this one has to be null and the below is undefined
-
-
-
-
         setNeedCoachData(true)
       } else if (first_name === undefined) { //not working as a check
         setNeedUserData(true)
       }
 
-
     }
-
-
 
     //await initAvatar();
   }

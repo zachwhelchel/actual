@@ -323,28 +323,12 @@ async function updateAirtableWithLocalStorage() {
     });
   });
 
+  let local_storage = JSON.stringify(filteredData)
 
-  // Update record in Airtable
-  const base = new Airtable({
-    apiKey:'patD1GWrGGJA0pvQ9.9e5b4ebdaf739900ef004a7a8b2ef58693cb444c39e547859b54492e474cc721'
-  }).base('appYAaDkGzB3ecOzl');
-
- // Update record in Airtable
-  try {
-    const response = await base('Accounts').update([
-      {
-        id: 'rectbfPvCGW3hNiQY', //how to fix this
-        fields: {
-          'local_storage_sync': JSON.stringify(filteredData)
-        }
-      }
-    ]);
-
-    return response[0];
-  } catch (error) {
-    console.error('Error updating Airtable record:', error);
-    throw error;
-  }
+  let url = String(window.location.href);
+  const results = await send('airtable-update-local-storage-sync', {url: url, local_storage: local_storage});
+  console.log('updateAirtableWithLocalStorage');
+  console.log(results);
 
 }
 

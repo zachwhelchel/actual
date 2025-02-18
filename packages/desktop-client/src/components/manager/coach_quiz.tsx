@@ -4,6 +4,9 @@ import Airtable from 'airtable';
 import { type State } from 'loot-core/client/state-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonWithLoading } from '../common/Button2';
+import {
+  send,
+} from 'loot-core/src/platform/client/fetch';
 
 // const TEST_DATA = {
 //   coaches: [
@@ -111,44 +114,6 @@ const CoachQuiz = ({ jumpToUser = false }) => {
 
 
 
-  const updateUserCoachRelationship = async (userId, coachId) => {
-    const base = new Airtable({
-      apiKey:'patD1GWrGGJA0pvQ9.9e5b4ebdaf739900ef004a7a8b2ef58693cb444c39e547859b54492e474cc721'
-    }).base('appYAaDkGzB3ecOzl');
-
-
-
-
-    const existingRecords = await base('Accounts').select({
-      filterByFormula: `{user_id} = '${userId}'`
-    }).all();
-
-    // If user exists, return the record
-    if (existingRecords.length > 0) {
-
-      userId = existingRecords[0].id
-
-    }
-
-
-
-    try {
-      const updatedRecord = await base('Accounts').update([
-        {
-          id: userId,
-          fields: {
-            coach: [coachId]
-          }
-        }
-      ]);
-      
-      return updatedRecord[0];
-    } catch (error) {
-      console.error('Error updating coach relationship:', error);
-      throw error;
-    }
-  };
-
 
 
   const selectThisCoach = async (coachName) => {
@@ -177,61 +142,27 @@ const CoachQuiz = ({ jumpToUser = false }) => {
   };
 
 
+
+  const updateUserCoachRelationship = async (userId, coachId) => {
+    let url = String(window.location.href);
+    const results = await send('airtable-update-coach', {url: url, coachId: coachId});
+    console.log('updateUserCoachRelationship');
+    console.log(results);
+  };
+
+
+
   const updateUserData = async (userId) => {
-    const base = new Airtable({
-      apiKey:'patD1GWrGGJA0pvQ9.9e5b4ebdaf739900ef004a7a8b2ef58693cb444c39e547859b54492e474cc721'
-    }).base('appYAaDkGzB3ecOzl');
 
-
-
-
-    const existingRecords = await base('Accounts').select({
-      filterByFormula: `{user_id} = '${userId}'`
-    }).all();
-
-    // If user exists, return the record
-    if (existingRecords.length > 0) {
-
-      userId = existingRecords[0].id
-
-    }
-
-
-
-
+    let url = String(window.location.href);
     const storedParams = localStorage.getItem('urlParams');
     let params = storedParams ? JSON.parse(storedParams) : null;
 
+    const results = await send('airtable-update-user', {url: url, first_name: formData.firstName, last_name: formData.lastName, email: formData.email, found_us: formData.foundUs, motivation: formData.motivation, language: formData.language, fprom_tid: params?.fprom_tid, fprom_ref: params?.fprom_ref, utm_campaign: params?.utm_campaign, utm_medium: params?.utm_medium, utm_source: params?.utm_source, utm_term: params?.utm_term, utm_content: params?.utm_content});
+    console.log('updateUserCoachRelationship');
+    console.log(results);
 
-    try {
-      const updatedRecord = await base('Accounts').update([
-        {
-          id: userId,
-          fields: {
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-            email: formData.email,
-            found_us: formData.foundUs,
-            motivation: formData.motivation,
-            language: formData.language,
-            fprom_tid: params.fprom_tid,
-            fprom_ref: params.fprom_ref,
-            utm_campaign: params.utm_campaign,
-            utm_medium: params.utm_medium,
-            utm_source: params.utm_source,
-            utm_term: params.utm_term,
-            utm_content: params.utm_content
-          }
-        }
-      ]);
-      
-      localStorage.removeItem('urlParams');
-
-      return updatedRecord[0];
-    } catch (error) {
-      console.error('Error updating user values:', error);
-      throw error;
-    }
+    localStorage.removeItem('urlParams');
   };
 
 

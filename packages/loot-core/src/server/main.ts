@@ -900,6 +900,198 @@ handlers['secret-check'] = async function (name) {
   }
 };
 
+handlers['airtable-user'] = async function ({url, coachId}) {
+
+  let server = getServer();
+
+  if (url.includes('localhost')) {
+  } else {
+    let firstlast = url.substring(8, url.indexOf('.'));
+    if (url.includes('.app')) {
+      server = getServer("https://" + firstlast + ".mybudgetcoach.app");
+    }
+    else if (url.includes('.com')) {
+      server = getServer("https://" + firstlast + ".mybudgetcoach.com");
+    }
+  }
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken')
+  console.log(userToken)
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    }
+  });
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/user',
+    {
+      'coachId': coachId
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  return data;
+};
+
+
+handlers['airtable-update-coach'] = async function ({url, coachId}) {
+
+  let server = getServer();
+
+  if (url.includes('localhost')) {
+  } else {
+    let firstlast = url.substring(8, url.indexOf('.'));
+    if (url.includes('.app')) {
+      server = getServer("https://" + firstlast + ".mybudgetcoach.app");
+    }
+    else if (url.includes('.com')) {
+      server = getServer("https://" + firstlast + ".mybudgetcoach.com");
+    }
+  }
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken')
+  console.log(userToken)
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    }
+  });
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/update-coach',
+    {
+      'coachId': coachId
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  return data;
+};
+
+
+handlers['airtable-update-user'] = async function ({url, first_name, last_name, email, found_us, motivation, language, fprom_tid, fprom_ref, utm_campaign, utm_medium, utm_source, utm_term, utm_content}) {
+
+  let server = getServer();
+
+  if (url.includes('localhost')) {
+  } else {
+    let firstlast = url.substring(8, url.indexOf('.'));
+    if (url.includes('.app')) {
+      server = getServer("https://" + firstlast + ".mybudgetcoach.app");
+    }
+    else if (url.includes('.com')) {
+      server = getServer("https://" + firstlast + ".mybudgetcoach.com");
+    }
+  }
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken')
+  console.log(userToken)
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    }
+  });
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/update-user',
+    {
+      'first_name': first_name,
+      'last_name': last_name,
+      'email': email,
+      'found_us': found_us,
+      'motivation': motivation,
+      'language': language,
+      'fprom_tid': fprom_tid,
+      'fprom_ref': fprom_ref,
+      'utm_campaign': utm_campaign,
+      'utm_medium': utm_medium,
+      'utm_source': utm_source,
+      'utm_term': utm_term,
+      'utm_content': utm_content
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  return data;
+};
+
+handlers['airtable-update-local-storage-sync'] = async function ({url, local_storage}) {
+
+  let server = getServer();
+
+  if (url.includes('localhost')) {
+  } else {
+    let firstlast = url.substring(8, url.indexOf('.'));
+    if (url.includes('.app')) {
+      server = getServer("https://" + firstlast + ".mybudgetcoach.app");
+    }
+    else if (url.includes('.com')) {
+      server = getServer("https://" + firstlast + ".mybudgetcoach.com");
+    }
+  }
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken')
+  console.log(userToken)
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    }
+  });
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/update-local-storage-sync',
+    {
+      'local_storage': local_storage
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  return data;
+};
+
+
+
+
+
+
+
 handlers['env-variables'] = async function (url) {
 
   if (url.includes('localhost')) {
