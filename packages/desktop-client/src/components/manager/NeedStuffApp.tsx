@@ -56,6 +56,8 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
   const [airtableAvatarPhoto, setAirtableAvatarPhoto] = useState(null);
 
   // const userData = useSelector((state: State) => state.user.data);
+  const [airtableLastName, setAirtableLastName] = useState(null);
+  const [airtableHeard, setAirtableHeard] = useState(null);
 
 
   const [needCoachData, setNeedCoachData] = useState(null);
@@ -118,6 +120,13 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
       const local_storage_sync = record.local_storage_sync;
 
 
+      const last_name = record.last_name;
+      setAirtableLastName(last_name)
+
+      const found_us = record.found_us;
+      setAirtableHeard(found_us)
+
+
       if (local_storage_sync !== undefined) {
         const data = JSON.parse(local_storage_sync);
 
@@ -138,7 +147,7 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
       //proxy for all coach stuff
       if (coach_id === null) { // this one has to be null and the below is undefined
         setNeedCoachData(true)
-      } else if (first_name === undefined) { //not working as a check
+      } else if (found_us === undefined) { //not working as a check
         setNeedUserData(true)
       }
 
@@ -155,7 +164,7 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
       await initAvatar();
     }
 
-    if (airtableCoachId !== undefined &&
+    if (airtableCoachId !== null &&
         airtableStatus !== undefined &&
         airtableStatusExpiresAt !== undefined &&
         airtableZoomRate !== undefined &&
@@ -164,12 +173,13 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
         airtableCoachFirstName !== undefined &&
         airtableFirstName !== undefined &&
         airtableEmail !== undefined &&
-        airtableAvatarFile !== undefined
+        airtableAvatarFile !== undefined &&
+        airtableHeard !== undefined
         ) {
       wrapper()
     }
     
-  }, [airtableCoachId, airtableStatus, airtableStatusExpiresAt, airtableZoomRate, airtableZoomLink, airtableStreamChatUserId, airtableCoachFirstName, airtableFirstName, airtableEmail, airtableAvatarFile]);
+  }, [airtableCoachId, airtableStatus, airtableStatusExpiresAt, airtableZoomRate, airtableZoomLink, airtableStreamChatUserId, airtableCoachFirstName, airtableFirstName, airtableEmail, airtableAvatarFile, airtableHeard]);
 
 
   useEffect(() => {
@@ -1162,14 +1172,14 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
   if (needCoachData === true) {
     return (
       <View style={{ height: '100%', color: 'black' }}>
-        <CoachQuiz jumpToUser={false}/>
+        <CoachQuiz jumpToUser={false} firstName={airtableFirstName} lastName={airtableLastName} email={airtableEmail}/>
       </View>
     );
   }
   if (needUserData === true) {
     return (
       <View style={{ height: '100%', color: 'black' }}>
-        <CoachQuiz jumpToUser={true}/>
+        <CoachQuiz jumpToUser={true} firstName={airtableFirstName} lastName={airtableLastName} email={airtableEmail}/>
       </View>
     );
   }

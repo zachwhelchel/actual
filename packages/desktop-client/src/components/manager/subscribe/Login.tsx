@@ -36,7 +36,7 @@ function PasswordLogin({ setError, dispatch }) {
       return;
     }
 
-    setError(null);
+    //setError(null);
     setLoading(true);
     const { error } = await send('subscribe-sign-in', {
       password,
@@ -45,6 +45,8 @@ function PasswordLogin({ setError, dispatch }) {
     setLoading(false);
 
     if (error) {
+      console.log('hhhhhhh')
+      console.log(error)
       setError(error);
     } else {
       dispatch(loggedIn());
@@ -400,7 +402,8 @@ export function Login() {
 
 
       <OpenIdLogin setError={setError} />
-    
+{/*      <PasswordLogin dispatch={dispatch}/>
+*/}    
     </View>
   );
 }

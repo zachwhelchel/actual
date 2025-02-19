@@ -54,7 +54,7 @@ const TEST_DATA = {
 };
 
 
-const CoachQuiz = ({ jumpToUser = false }) => {
+const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
   const [currentStage, setCurrentStage] = useState(jumpToUser ? 3 : 0);
   const [coaches, setCoaches] = useState([]);
   const [uniqueNiches, setUniqueNiches] = useState([]);
@@ -70,9 +70,9 @@ const CoachQuiz = ({ jumpToUser = false }) => {
   
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
+    firstName: firstName || '',
+    lastName: lastName || '',
+    email: email || '',
     foundUs: '',
     motivation: '',
     language: ''
@@ -652,6 +652,7 @@ if (currentStage === 3) {
               <input
                 type="text"
                 value={formData.firstName}
+                disabled={firstName}
                 onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
                 style={{
                   width: '100%',
@@ -676,6 +677,7 @@ if (currentStage === 3) {
               <input
                 type="text"
                 value={formData.lastName}
+                disabled={lastName}
                 onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
                 style={{
                   width: '100%',
@@ -702,6 +704,7 @@ if (currentStage === 3) {
             <input
               type="email"
               value={formData.email}
+              disabled={email}
               onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
               style={{
                 width: '100%',
