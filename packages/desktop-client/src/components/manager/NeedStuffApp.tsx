@@ -165,15 +165,15 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
     }
 
     if (airtableCoachId !== null &&
-        airtableStatus !== undefined &&
-        airtableStatusExpiresAt !== undefined &&
-        airtableZoomRate !== undefined &&
-        airtableZoomLink !== undefined &&
-        airtableStreamChatUserId !== undefined &&
-        airtableCoachFirstName !== undefined &&
-        airtableFirstName !== undefined &&
-        airtableEmail !== undefined &&
-        airtableAvatarFile !== undefined &&
+        airtableStatus !== null &&
+        airtableStatusExpiresAt !== null &&
+        airtableZoomRate !== null &&
+        airtableZoomLink !== null &&
+        airtableStreamChatUserId !== null &&
+        airtableCoachFirstName !== null &&
+        airtableFirstName !== null &&
+        airtableEmail !== null &&
+        airtableAvatarFile !== null &&
         airtableHeard !== undefined
         ) {
       wrapper()
