@@ -46,6 +46,7 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['skylerfleming', 'Skyler Fleming'],
 ['robphelan', 'Rob Phelan'],
 ['shaunmorgan', 'Shaun Morgan'],
+['jessicaduncan', 'Jessica Duncan'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
 ];
@@ -654,6 +655,11 @@ function modifyVars() {
       REACT_APP_ZOOM_RATE = "75.00 USD / hour"
       REACT_APP_ZOOM_LINK = "https://calendly.com/teachermoneyshow/30min"
     }
+    else if (testPublishedAvatar === "jessicaduncan") {
+      REACT_APP_COACH_FIRST_NAME = "Jessica"
+      REACT_APP_ZOOM_RATE = "35.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://calendly.com/jessica-risingphoenixcoach/mbc-coaching-call"
+    }
 
     else {
       REACT_APP_COACH_FIRST_NAME = testPublishedAvatar
@@ -708,6 +714,8 @@ function modifyVars() {
     REACT_APP_RESPONSE_EXPECTATIONS = "I will reply within the next business day."
   } else if (REACT_APP_COACH === "shaunmorgan") {
     REACT_APP_RESPONSE_EXPECTATIONS = "I will respond to all message within two business days, but hopefully much sooner!"
+  } else if (REACT_APP_COACH === "jessicaduncan") {
+    REACT_APP_RESPONSE_EXPECTATIONS = "I will reply within two business days. Please include screenshots with your questions when necessary."
   } else {
     REACT_APP_RESPONSE_EXPECTATIONS = null;
   }
