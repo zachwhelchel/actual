@@ -22,7 +22,6 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['naseemamcelroy', 'Naseema McElroy'],
 ['tashiekamaat', "Tashieka Ma'at"],
 ['jacquelinekeeley', 'Jacqueline Keeley'],
-['danielaaron', 'Daniel Aaron'],
 ['trevorvance', 'Trevor Vance'],
 ['celiabenton', 'Celia Benton'],
 ['spencerstephenson', 'Spencer Stephenson'],
@@ -51,6 +50,8 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
 ];
+
+//['danielaaron', 'Daniel Aaron'],
 
 function modifyVars() {
 
