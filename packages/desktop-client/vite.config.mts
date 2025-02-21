@@ -72,8 +72,9 @@ export default defineConfig(async ({ mode }) => {
   const devHeaders = {
     'Cross-Origin-Opener-Policy': 'same-origin',
     'Cross-Origin-Embedder-Policy': 'credentialless',
-  };
-
+    'Content-Security-Policy': "default-src 'self' https://cdn.plaid.com/ blob:; img-src 'self' https://ohio.stream-io-cdn.com/ blob: data:; script-src 'self' https://cdn.plaid.com/ 'unsafe-eval' 'sha256-Z2/iFzh9VMlVkEOar1f/oSHWwQk3ve1qk/C2WdsC4Xk=' blob:; style-src 'self' 'unsafe-inline'; connect-src 'self' http: https: ws: wss: ws://localhost:3001/ https://sandbox.plaid.com/ https://production.plaid.com/; frame-src 'self' https://cdn.plaid.com/;"
+  };  
+  
   // Forward Netlify env variables
   if (process.env.REVIEW_ID) {
     process.env.REACT_APP_REVIEW_ID = process.env.REVIEW_ID;

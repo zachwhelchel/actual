@@ -7903,6 +7903,7 @@ __metadata:
     node-jq: "npm:^4.0.1"
     npm-run-all: "npm:^4.1.5"
     prettier: "npm:3.3.3"
+    react-plaid-link: "npm:^3.6.1"
     source-map-support: "npm:^0.5.21"
     stream-chat: "npm:^8.36.0"
     stream-chat-react: "npm:^11.21.0"
@@ -18514,6 +18515,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-plaid-link@npm:^3.6.1":
+  version: 3.6.1
+  resolution: "react-plaid-link@npm:3.6.1"
+  dependencies:
+    prop-types: "npm:^15.7.2"
+    react-script-hook: "npm:^1.7.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10/67f941c4c9664388981691a21bc3193653609bb85f73b8c70b84d80e06c784823f63878247d6ee37d7a36d50fd98e5e5e9ff08a18f843c4d5035ff2d80a83e67
+  languageName: node
+  linkType: hard
+
 "react-player@npm:2.10.1":
   version: 2.10.1
   resolution: "react-player@npm:2.10.1"
@@ -18597,6 +18611,16 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 10/3d5107cfdb440519d84e6ad6d95454e3bf41ec97677b95f7b2a7f281f8ddf191b765cf1b599ead951f3cd33ed4429f140590d74a01cfdf835dc2f812023a978a
+  languageName: node
+  linkType: hard
+
+"react-script-hook@npm:^1.7.2":
+  version: 1.7.2
+  resolution: "react-script-hook@npm:1.7.2"
+  peerDependencies:
+    react: ^16.8.6 || 17 - 18
+    react-dom: ^16.8.6 || 17 - 18
+  checksum: 10/a9ed431997fa9df629bd3ec51302141173d8d1d77fa561127fa8fee088769af9af25f14b7e655715e3c9ee9b5fc161dfab413706d9ddbb72c577021959654482
   languageName: node
   linkType: hard
 

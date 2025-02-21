@@ -25,6 +25,7 @@ import { Popover } from '../common/Popover';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { useMultiuserEnabled } from '../ServerContext';
+import { usePlaidLink } from 'react-plaid-link';
 
 type CreateAccountProps = {
   upgradingAccountId?: string;
@@ -32,6 +33,9 @@ type CreateAccountProps = {
 
 export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
   const { t } = useTranslation();
+
+  const [linkToken, setLinkToken] = useState(null);
+
 
   const syncServerStatus = useSyncServerStatus();
   const dispatch = useDispatch();
@@ -167,6 +171,14 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
     dispatch(pushModal('add-local-account'));
   };
 
+  const getPlaidLink = async () => {
+    let url = String(window.location.href);
+    const results = await send('plaid-create-link-token', {url: url});
+    console.log('plaidresults')
+    console.log(results.link_token)
+    setLinkToken(results.link_token)
+  };
+
   const { configuredGoCardless } = useGoCardlessStatus();
   useEffect(() => {
     setIsGoCardlessSetupComplete(configuredGoCardless);
@@ -187,6 +199,42 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
 
   const canSetSecrets =
     !multiuserEnabled || hasPermission(Permissions.ADMINISTRATOR);
+
+  // LINK COMPONENT
+  // Use Plaid Link and pass link token and onSuccess function
+  // in configuration to initialize Plaid Link
+  interface LinkProps {
+    linkToken: string | null;
+  }
+  const Link: React.FC<LinkProps> = (props: LinkProps) => {
+    const onSuccess = React.useCallback((public_token, metadata) => {
+      // send public_token to server
+      const response = fetch('/api/set_access_token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ public_token }),
+      });
+      // Handle response ...
+    }, []);
+    const config: Parameters<typeof usePlaidLink>[0] = {
+      token: props.linkToken!,
+      onSuccess,
+    };
+    const { open, ready } = usePlaidLink(config);
+    return (
+      <button onClick={() => open()} disabled={!ready}>
+        Link account
+      </button>
+    );
+  };
+
+  if (linkToken) {
+    return (
+      <Link linkToken={linkToken} />
+    );
+  }
 
   return (
     <Modal name="add-account">
@@ -212,6 +260,20 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
                     {t('Create local account')}
                   </Button>
                 </InitialFocus>
+
+                <Button
+                  variant="primary"
+                  style={{
+                    padding: '10px 0',
+                    fontSize: 15,
+                    fontWeight: 600,
+                  }}
+                  onPress={getPlaidLink}
+                >
+                  Plaid things start
+                </Button>
+
+
                 <View style={{ lineHeight: '1.4em', fontSize: 15 }}>
                   <Text>
                     <strong>{t('Create a local account')}</strong>{' '}
