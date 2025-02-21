@@ -177,6 +177,11 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
     console.log('plaidresults')
     console.log(results.link_token)
     setLinkToken(results.link_token)
+
+    window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${results.link_token}&redirect_uri=http://localhost:3001/plaid/callback`;
+
+
+
   };
 
   const { configuredGoCardless } = useGoCardlessStatus();
