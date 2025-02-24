@@ -47,6 +47,7 @@ let testableCoachList = [['select', 'Select a Coach...'],
 ['robphelan', 'Rob Phelan'],
 ['shaunmorgan', 'Shaun Morgan'],
 ['jessicaduncan', 'Jessica Duncan'],
+['zeidersenterprises', 'Zeiders Enterprises'],
 ['zachdemo', 'Zach Demo'],
 ['highlights', 'Highlights Demo'],
 ];
@@ -659,6 +660,11 @@ function modifyVars() {
       REACT_APP_COACH_FIRST_NAME = "Jessica"
       REACT_APP_ZOOM_RATE = "35.00 USD / hour"
       REACT_APP_ZOOM_LINK = "https://calendly.com/jessica-risingphoenixcoach/mbc-coaching-call"
+    }
+    else if (testPublishedAvatar === "zeidersenterprises") {
+      REACT_APP_COACH_FIRST_NAME = "Zeiders"
+      REACT_APP_ZOOM_RATE = "0.00 USD / hour"
+      REACT_APP_ZOOM_LINK = "https://www.mybudgetcoach.com"
     }
 
     else {
