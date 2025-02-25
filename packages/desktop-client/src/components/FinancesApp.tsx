@@ -48,6 +48,7 @@ import Coach, { CoachProvider, useCoach } from './coach/Coach';
 import { REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 import { Titlebar } from './Titlebar';
 import { Modals } from './Modals';
+import { send } from 'loot-core/src/platform/client/fetch';
 
 function NarrowNotSupported({
   redirectTo = '/budget',
@@ -168,6 +169,40 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
 
     run();
   }, [lastUsedVersion, setLastUsedVersion]);
+
+
+  useEffect(() => {
+    // Check for Plaid callback parameters
+    const params = new URLSearchParams(window.location.search);
+    const oauthStateId = params.get('oauth_state_id');
+    const publicToken = params.get('public_token');
+    
+    if (oauthStateId || publicToken) {
+      handlePlaidCallback(oauthStateId, publicToken);
+      
+      // Optionally clear the URL parameters after processing
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [location.search]); // Re-run when URL query parameters change
+  
+
+  const handlePlaidCallback = async (oauthStateId, publicToken) => {
+    let currentUrl = window.location.origin + window.location.pathname + window.location.search;
+    try {
+      if (oauthStateId) {
+        const linkToken = localStorage.getItem('plaidLinkToken');
+        window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${linkToken}&receivedRedirectUri=${currentUrl}`
+        localStorage.removeItem('plaidLinkToken');
+      }
+      if (publicToken) {
+        let url = String(window.location.href);
+        const results = await send('plaid-exchange-public-token', {url: url, publicToken: publicToken});
+      }
+    } catch (error) {
+      console.error('Error handling Plaid callback:', error);
+    }
+  };
+
 
   const scrollableRef = useRef<HTMLDivElement>(null);
 

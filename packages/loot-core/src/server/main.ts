@@ -1355,7 +1355,6 @@ function handleSyncError(err, acct) {
 }
 
 
-//hereish
 handlers['plaid-create-link-token'] = async function ({url}) {
 
   let server = getServer();
@@ -1403,6 +1402,51 @@ handlers['plaid-create-link-token'] = async function ({url}) {
 };
 
 
+handlers['plaid-exchange-public-token'] = async function ({url, publicToken}) {
+
+  let server = getServer();
+
+  if (url.includes('localhost')) {
+  } else {
+    let firstlast = url.substring(8, url.indexOf('.'));
+    if (url.includes('.app')) {
+      server = getServer("https://" + firstlast + ".mybudgetcoach.app");
+    }
+    else if (url.includes('.com')) {
+      server = getServer("https://" + firstlast + ".mybudgetcoach.com");
+    }
+  }
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken')
+  console.log(userToken)
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    }
+  });
+
+  const data = await post(
+    server.BASE_SERVER + '/plaid/api/exchange_public_token',
+    {
+      'public_token': publicToken
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  console.log('got this from plaid')
+  console.log(data)
+
+  return data;
+};
 
 
 

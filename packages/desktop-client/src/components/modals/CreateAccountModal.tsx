@@ -26,6 +26,7 @@ import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { useMultiuserEnabled } from '../ServerContext';
 import { usePlaidLink } from 'react-plaid-link';
+import { useLocation } from 'react-router-dom';
 
 type CreateAccountProps = {
   upgradingAccountId?: string;
@@ -35,6 +36,7 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
   const { t } = useTranslation();
 
   const [linkToken, setLinkToken] = useState(null);
+  const location = useLocation();
 
 
   const syncServerStatus = useSyncServerStatus();
@@ -178,10 +180,13 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
     console.log(results.link_token)
     setLinkToken(results.link_token)
 
-    window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${results.link_token}&redirect_uri=http://localhost:3001/plaid/callback`;
+
+    localStorage.setItem('plaidLinkToken', results.link_token);
 
 
+    let currentUrl = window.location.origin + window.location.pathname;
 
+    window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${results.link_token}&redirect_uri=${encodeURIComponent('http://localhost:3001/accounts')}`;
   };
 
   const { configuredGoCardless } = useGoCardlessStatus();
@@ -235,12 +240,6 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
     );
   };
 
-  if (linkToken) {
-    return (
-      <Link linkToken={linkToken} />
-    );
-  }
-
   return (
     <Modal name="add-account">
       {({ state: { close } }) => (
@@ -275,7 +274,7 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
                   }}
                   onPress={getPlaidLink}
                 >
-                  Plaid things start
+                  Set up Plaid account
                 </Button>
 
 
