@@ -66,6 +66,7 @@ function modifyVars() {
   REACT_APP_USER_FIRST_NAME = localStorage.getItem("REACT_APP_USER_FIRST_NAME");
   REACT_APP_USER_EMAIL = localStorage.getItem("REACT_APP_USER_EMAIL");
   REACT_APP_UI_MODE = localStorage.getItem("REACT_APP_UI_MODE");
+  REACT_APP_COACH_PHOTO = localStorage.getItem("REACT_APP_COACH_PHOTO");
 
   if (url.includes("kristinwade")) {
     REACT_APP_BILLING_STATUS = "paid"
