@@ -318,7 +318,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     const fetchData = async () => {
       try {
         const base = new Airtable({
-          apiKey:'patesb8ApiuPgnTkp.f0f41936aedd9e96ccf7c5ea24d447d3596b3e117f67a14abe8a7176d3dd7107'
+          apiKey:'patesb8ApiuPgnTkp.f0f41936aedd9e96ccf7c5ea24d447d3596b3e117f67a14abe8a7176d3dd7107' //this base access is to an intentionally public resource, so the secret can be public.
         }).base('appgjreoARDMPmznt');
 
         const records = await base('Coaches').select({
