@@ -187,13 +187,15 @@ const [accountsError, setAccountsError] = useState(null);
     console.log(results.link_token)
     setLinkToken(results.link_token)
 
-
     localStorage.setItem('plaidLinkToken', results.link_token);
 
 
     let currentUrl = window.location.origin + window.location.pathname;
 
-    window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${results.link_token}&redirect_uri=${encodeURIComponent('http://localhost:3001/accounts')}`;
+
+    url = url + "/accounts";
+
+    window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${results.link_token}&redirect_uri=${encodeURIComponent(url)}`;
   };
 
   const getPlaidAccounts = async () => {
