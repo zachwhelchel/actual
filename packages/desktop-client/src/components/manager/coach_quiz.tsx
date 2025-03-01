@@ -486,6 +486,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-start',
+        overflow: 'auto',
         paddingTop: 20,
         paddingBottom: 20,
         minHeight: '100vh',
@@ -494,7 +495,8 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       }}>
 
       <div style={{
-        width: '60%',
+        width: '90%',
+        maxWidth: '600px',
         marginLeft: 'auto',
         marginRight: 'auto',
         padding: '1.5rem',
@@ -599,6 +601,7 @@ if (currentStage === 3) {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'flex-start',
+      overflow: 'auto',
       paddingTop: 20,
       paddingBottom: 20,
       minHeight: '100vh',
@@ -607,7 +610,8 @@ if (currentStage === 3) {
 
 
     <div style={{
-      width: '60%',
+      width: '90%',
+      maxWidth: '600px',
       marginLeft: 'auto',
       marginRight: 'auto',
       padding: '1.5rem',
@@ -865,6 +869,7 @@ if (currentStage === 0) {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'flex-start',
+      overflow: 'auto',
       paddingTop: 20,
       paddingBottom: 20,
       minHeight: '100vh',
@@ -872,7 +877,8 @@ if (currentStage === 0) {
     }}>
 
     <div style={{
-      width: '60%',
+      width: '90%',
+      maxWidth: '600px',
       marginLeft: 'auto',
       marginRight: 'auto',
       padding: '1.5rem',
@@ -991,6 +997,7 @@ if (currentStage === 0) {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'flex-start',
+      overflow: 'auto',
       paddingTop: 20,
       paddingBottom: 20,
       minHeight: '100vh',
@@ -998,7 +1005,8 @@ if (currentStage === 0) {
     }}>
 
     <div style={{
-      width: '60%',
+      width: '90%',
+      maxWidth: '600px',
       marginLeft: 'auto',
       marginRight: 'auto',
       padding: '1.5rem',
