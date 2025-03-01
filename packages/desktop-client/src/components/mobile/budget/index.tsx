@@ -494,38 +494,38 @@ export function Budget() {
     );
   }
 
-  if (mobileWarningShown != 'yes') {
-    let imgSrc = REACT_APP_COACH_PHOTO;
+  // if (mobileWarningShown != 'yes') {
+  //   let imgSrc = REACT_APP_COACH_PHOTO;
 
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: theme.mobilePageBackground,
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: 25,
-        }}
-      >
-        <img
-          style={{
-            display: 'block',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            width: '130px',
-            height: '130px',
-            borderRadius: '130px',
-          }}
-          src={imgSrc}
-          alt="coach"
-        />
-        <div style={{margin: '30px', fontSize: '18px'}}>
-          Welcome to the mobile version of MyBudgetCoach. You can use the mobile version for on-the-go access. To make the most of your budget and learn from your coach, {REACT_APP_COACH_FIRST_NAME}, please be sure to use your computer to complete set-up. <u>We reccomend completing the Introduction conversation on a computer, prior to using the mobile version.</u>
-        </div>
-        <Button style={{fontSize: '16px'}} onClick={() => onMobileWarningShownAwknoledged()}>I will use a computer to complete setup.</Button>
-      </View>
-    );
-  }
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         backgroundColor: theme.mobilePageBackground,
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //         marginBottom: 25,
+  //       }}
+  //     >
+  //       <img
+  //         style={{
+  //           display: 'block',
+  //           marginLeft: 'auto',
+  //           marginRight: 'auto',
+  //           width: '130px',
+  //           height: '130px',
+  //           borderRadius: '130px',
+  //         }}
+  //         src={imgSrc}
+  //         alt="coach"
+  //       />
+  //       <div style={{margin: '30px', fontSize: '18px'}}>
+  //         Welcome to the mobile version of MyBudgetCoach. You can use the mobile version for on-the-go access. To make the most of your budget and learn from your coach, {REACT_APP_COACH_FIRST_NAME}, please be sure to use your computer to complete set-up. <u>We reccomend completing the Introduction conversation on a computer, prior to using the mobile version.</u>
+  //       </div>
+  //       <Button style={{fontSize: '16px'}} onClick={() => onMobileWarningShownAwknoledged()}>I will use a computer to complete setup.</Button>
+  //     </View>
+  //   );
+  // }
 
   return (
     <NamespaceContext.Provider value={monthUtils.sheetForMonth(startMonth)}>

@@ -717,6 +717,66 @@ handlers['simplefin-accounts-link'] = async function ({
   return 'ok';
 };
 
+handlers['plaid-accounts-link'] = async function ({
+  externalAccount,
+  upgradingId,
+  offBudget,
+}) {
+  let id;
+
+  const institution = {
+    name: externalAccount.institution ?? 'Unknown',
+  };
+
+  const bank = await link.findOrCreateBank(
+    institution,
+    externalAccount.orgId, //externalAccount.orgDomain ?? externalAccount.orgId,
+  );
+
+  if (upgradingId) {
+    const accRow = await db.first('SELECT * FROM accounts WHERE id = ?', [
+      upgradingId,
+    ]);
+    id = accRow.id;
+    await db.update('accounts', {
+      id,
+      account_id: externalAccount.account_id,
+      bank: bank.id,
+      account_sync_source: 'plaid',
+    });
+  } else {
+    id = uuidv4();
+    await db.insertWithUUID('accounts', {
+      id,
+      account_id: externalAccount.account_id,
+      name: externalAccount.name,
+      official_name: externalAccount.name,
+      bank: bank.id,
+      offbudget: offBudget ? 1 : 0,
+      account_sync_source: 'plaid',
+    });
+    await db.insertPayee({
+      name: '',
+      transfer_acct: id,
+    });
+  }
+
+  await bankSync.syncAccount(
+    undefined,
+    undefined,
+    id,
+    externalAccount.account_id,
+    bank.bank_id,
+  );
+
+  await connection.send('sync-event', {
+    type: 'success',
+    tables: ['transactions'],
+  });
+
+  return 'ok';
+};
+
 handlers['account-create'] = mutator(async function ({
   name,
   balance,
@@ -1259,6 +1319,71 @@ handlers['simplefin-accounts'] = async function () {
   }
 };
 
+handlers['plaid-accounts'] = async function () {
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  try {
+    return await post(
+      getServer().BASE_SERVER + '/plaid/accounts',
+      {},
+      {
+        'X-ACTUAL-TOKEN': userToken,
+      },
+      60000,
+    );
+  } catch (error) {
+    return { error_code: 'TIMED_OUT' };
+  }
+};
+
+handlers['plaid-institutions'] = async function () {
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  try {
+    return await post(
+      getServer().BASE_SERVER + '/plaid/institutions',
+      {},
+      {
+        'X-ACTUAL-TOKEN': userToken,
+      },
+      60000,
+    );
+  } catch (error) {
+    return { error_code: 'TIMED_OUT' };
+  }
+};
+
+
+handlers['plaid-remove-institution'] = async function (item_id) {
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  try {
+    return await post(
+      getServer().BASE_SERVER + '/plaid/institution/remove',
+      {item_id: item_id},
+      {
+        'X-ACTUAL-TOKEN': userToken,
+      },
+      60000,
+    );
+  } catch (error) {
+    return { error_code: 'TIMED_OUT' };
+  }
+};
+
+
 handlers['gocardless-get-banks'] = async function (country) {
   const userToken = await asyncStorage.getItem('user-token');
 
@@ -1355,7 +1480,7 @@ function handleSyncError(err, acct) {
 }
 
 
-handlers['plaid-create-link-token'] = async function ({url}) {
+handlers['plaid-create-link-token'] = async function ({url, item_id}) {
 
   let server = getServer();
 
@@ -1376,8 +1501,7 @@ handlers['plaid-create-link-token'] = async function ({url}) {
     return { error: 'unauthorized' };
   }
 
-  console.log('userToken')
-  console.log(userToken)
+  console.log('itemId')
 
   const res = await get(server.SIGNUP_SERVER + '/validate', {
     headers: {
@@ -1388,7 +1512,7 @@ handlers['plaid-create-link-token'] = async function ({url}) {
   const data = await post(
     server.BASE_SERVER + '/plaid/api/create_link_token',
     {
-      'dunno': 'dunno'
+      item_id
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -1472,6 +1596,8 @@ handlers['accounts-bank-sync'] = async function ({ ids = [] }) {
     true,
   );
 
+      console.log("set me free??")
+
   const errors = [];
   const newTransactions = [];
   const matchedTransactions = [];
@@ -1479,7 +1605,13 @@ handlers['accounts-bank-sync'] = async function ({ ids = [] }) {
 
   for (let i = 0; i < accounts.length; i++) {
     const acct = accounts[i];
-    if (acct.bankId) {
+
+          console.log("set me free111")
+
+    if (acct.bankId || acct.account_sync_source === 'plaid') { //hack for now
+
+      console.log("set me free")
+
       try {
         console.group('Bank Sync operation for account:', acct.name);
         const res = await bankSync.syncAccount(
@@ -1632,6 +1764,42 @@ handlers['transactions-import'] = mutator(function ({
       throw err;
     }
   });
+});
+
+handlers['bank-remove'] = mutator(async function ({ item_id }) {
+
+
+// const allBanks = await db.all(
+//   'SELECT id, bank_id, name FROM banks',
+// );
+
+// console.log('All banks in database:', allBanks);
+
+
+  // Step 1: Find the bank using bank_id
+  const bank = await db.first('SELECT id FROM banks WHERE bank_id = ?', [item_id]);
+
+  // Check if a bank was found
+  if (bank) {
+    // Step 2: Use the bank's id to find related accounts
+
+    const accs = await db.all(
+      'SELECT id FROM accounts WHERE bank = ?',
+      [bank.id],
+    );
+
+
+    console.log('Related accounts:', accs);
+        return accs;
+
+  } else {
+    console.log(`No bank found with bank_id: ${item_id}`);
+        return 'ok';
+
+  }
+
+
+  return accs;
 });
 
 handlers['account-unlink'] = mutator(async function ({ id }) {

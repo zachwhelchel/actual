@@ -87,7 +87,7 @@ async function getAccountOldestTransaction(id): Promise<TransactionEntity> {
 async function getAccountSyncStartDate(id) {
   // Many GoCardless integrations do not support getting more than 90 days
   // worth of data, so make that the earliest possible limit.
-  const dates = [monthUtils.subDays(monthUtils.currentDay(), 90)];
+  const dates = [monthUtils.subDays(monthUtils.currentDay(), 3)]; //just gonna hardcode it at 3 for now. not ideal.
 
   const oldestTransaction = await getAccountOldestTransaction(id);
 
@@ -186,6 +186,8 @@ async function downloadSimpleFinTransactions(
   acctId: AccountEntity['id'] | AccountEntity['id'][],
   since: string | string[],
 ) {
+
+  console.log("here?")
   const userToken = await asyncStorage.getItem('user-token');
   if (!userToken) return;
 
@@ -244,6 +246,81 @@ async function downloadSimpleFinTransactions(
   console.log('Response:', retVal);
   return retVal;
 }
+
+async function downloadPlaidTransactions(
+  acctId: AccountEntity['id'] | AccountEntity['id'][],
+  since: string | string[],
+  bankId
+) {
+
+  console.log("Alex")
+  console.log("bankId:" + bankId)
+
+
+  // const fileId = prefs.getPrefs().cloudFileId;
+
+
+  const userToken = await asyncStorage.getItem('user-token');
+  if (!userToken) return;
+
+  const batchSync = Array.isArray(acctId);
+
+  console.log('Pulling transactions from Plaid');
+
+  const res = await post(
+    getServer().BASE_SERVER + '/plaid/transactions',
+    {
+      accountId: acctId,
+      startDate: since,
+      bankId: bankId,
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+    60000,
+  );
+
+  if (Object.keys(res).length === 0) {
+    throw BankSyncError('NO_DATA', 'NO_DATA');
+  }
+  if (res.error_code) {
+    throw BankSyncError(res.error_type, res.error_code);
+  }
+
+  let retVal = {};
+  if (batchSync) {
+    for (const [accountId, data] of Object.entries(
+      res as SimpleFinBatchSyncResponse,
+    )) {
+      if (accountId === 'errors') continue;
+
+      const error = res?.errors?.[accountId]?.[0];
+
+      retVal[accountId] = {
+        transactions: data?.transactions?.all,
+        accountBalance: data?.balances,
+        startingBalance: data?.startingBalance,
+      };
+
+      if (error) {
+        retVal[accountId].error_type = error.error_type;
+        retVal[accountId].error_code = error.error_code;
+      }
+    }
+  } else {
+    const singleRes = res as BankSyncResponse;
+    retVal = {
+      transactions: singleRes.transactions.all,
+      accountBalance: singleRes.balances,
+      startingBalance: singleRes.startingBalance,
+    };
+  }
+
+  console.log('Response:', retVal);
+  return retVal;
+}
+
+
 
 async function resolvePayee(trans, payeeName, payeesToCreate) {
   if (trans.payee == null && payeeName) {
@@ -815,15 +892,32 @@ export async function syncAccount(
   acctId: string,
   bankId: string,
 ) {
+
+    console.log("promisssss")
+
   const acctRow = await db.select('accounts', id);
+  console.log(acctRow)
+  console.log(acctRow.bank)
+const bankData = acctRow.bank; // The bank might already be included
+  console.log(bankData.bank_id)
+console.log('Bank value:', acctRow.bank, 'Type:', typeof acctRow.bank);
+
+
+  const bankRow = await db.select('banks', acctRow.bank);
+
+  console.log(bankRow.bank_id)
+
 
   const syncStartDate = await getAccountSyncStartDate(id);
   const oldestTransaction = await getAccountOldestTransaction(id);
   const newAccount = oldestTransaction == null;
 
+
   let download;
   if (acctRow.account_sync_source === 'simpleFin') {
     download = await downloadSimpleFinTransactions(acctId, syncStartDate);
+  } else if (acctRow.account_sync_source === 'plaid') {
+    download = await downloadPlaidTransactions(acctId, syncStartDate, bankRow.bank_id);
   } else if (acctRow.account_sync_source === 'goCardless') {
     download = await downloadGoCardlessTransactions(
       userId,

@@ -443,7 +443,7 @@ export function Accounts({
               paddingBottom: 0,
               flexShrink: '1',
               textAlign: 'center',
-              color: theme.pageBackground,
+              color: theme.pageText,
             }}
             onClick={() => onStartNewConversation()}
           >

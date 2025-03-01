@@ -290,7 +290,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
         </div>
 
         <button
-          onClick={() => selectThisCoach(coach.id)}
+          onClick={() => selectThisCoach(coach.recordId)}
           style={{
             padding: '0.7rem 1rem',
             width: '100%',
@@ -318,12 +318,12 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     const fetchData = async () => {
       try {
         const base = new Airtable({
-          apiKey:'patMOyRhq0NRBgLsN.0399271203b563dfbb1d89d39df338828c48bc7defaf1e1b753e1e3821247081'
-        }).base('appYAaDkGzB3ecOzl');
+          apiKey:'patesb8ApiuPgnTkp.f0f41936aedd9e96ccf7c5ea24d447d3596b3e117f67a14abe8a7176d3dd7107'
+        }).base('appgjreoARDMPmznt');
 
         const records = await base('Coaches').select({
-          view: "viweKhfFeBYy0rvbf",
-          fields: ["Name", "Price","Photo", "Niche", "Quiz", "First Name", "Quiz Quote"],
+          view: "viwU2P9LzwQMPB2lV",
+          fields: ["Name", "Price","Photo", "Niche", "Quiz", "First Name", "Quiz Quote", "Record Id"],
           filterByFormula: "{Quiz} = 1"
         }).all();
         
@@ -333,6 +333,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
           name: record.get('Name'),
           firstName: record.get('First Name'),
           quizQuote: record.get('Quiz Quote'),
+          recordId: record.get('Record Id'),
           photo: record.fields.Photo ? record.fields.Photo[0]?.url : null,
           price: record.get('Price'),
           niches: record.get('Niche') || []

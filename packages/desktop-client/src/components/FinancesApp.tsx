@@ -191,8 +191,8 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
     try {
       if (oauthStateId) {
         const linkToken = localStorage.getItem('plaidLinkToken');
-        window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${linkToken}&receivedRedirectUri=${currentUrl}`
         localStorage.removeItem('plaidLinkToken');
+        window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${linkToken}&receivedRedirectUri=${currentUrl}`
       }
       if (publicToken) {
         let url = String(window.location.href);
