@@ -10,6 +10,7 @@ import { Link } from '../common/Link';
 import { Paragraph } from '../common/Paragraph';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
+import * as colorPalette from '../../style/palette';
 
 export function WelcomeScreen() {
   const { t } = useTranslation();
@@ -23,16 +24,18 @@ export function WelcomeScreen() {
         fontSize: 15,
         maxHeight: '100vh',
         marginBlock: 20,
+        color: 'black',
+        backgroundColor: colorPalette.navy100
       }}
     >
       <Text style={styles.veryLargeText}>{t('Let’s get started!')}</Text>
       <View style={{ overflowY: 'auto' }}>
-        <Paragraph>
+        <Paragraph style={{ color: 'black' }}>
           <Trans>
             Finally make a budget you'll stick to with the guidance and encouragement you've been missing.{' '}
           </Trans>
         </Paragraph>
-        <Paragraph style={{ color: theme.pageTextLight }}>
+        <Paragraph style={{ color: 'black' }}>
           <Trans>
             Get started by importing an existing budget file from MyBudgetCoach or
             another budgeting app, create a demo budget file, or start fresh
@@ -59,9 +62,6 @@ export function WelcomeScreen() {
             gap: 10,
           }}
         >
-          <Button onPress={() => dispatch(createBudget({ testMode: true }))}>
-            {t('View demo')}
-          </Button>
           <Button
             variant="primary"
             autoFocus

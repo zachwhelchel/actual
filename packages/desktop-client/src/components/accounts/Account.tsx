@@ -79,6 +79,8 @@ import { validateAccountName } from '../util/accountValidation';
 import { AccountHeader } from './Header';
 import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
+import { useMetadataPref } from '../../hooks/useMetadataPref';
+
 type ConditionEntity = Partial<RuleConditionEntity> | TransactionFilterEntity;
 
 function isTransactionFilterEntity(

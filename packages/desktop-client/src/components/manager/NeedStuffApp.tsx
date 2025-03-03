@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
@@ -36,18 +36,151 @@ import {
 } from 'loot-core/src/platform/client/fetch';
 import { getCoach } from '../../coaches/coachVariables';
 import CoachQuiz from "./coach_quiz";
+import Airtable from 'airtable';
+import { type State } from 'loot-core/client/state-types';
 
-export function NeedStuffApp({ setStateSomeDialogues, setStateInitialDialogueId }) {
+export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialDialogueId }) {
+
+
+  const [coachId, setCoachId] = useState(null);
+  const [airtableCoachId, setAirtableCoachId] = useState(null);
+  const [airtableStatus, setAirtableStatus] = useState(null);
+  const [airtableStatusExpiresAt, setAirtableStatusExpiresAt] = useState(null);
+  const [airtableZoomRate, setAirtableZoomRate] = useState(null);
+  const [airtableZoomLink, setAirtableZoomLink] = useState(null);
+  const [airtableStreamChatUserId, setAirtableStreamChatUserId] = useState(null);
+  const [airtableCoachFirstName, setAirtableCoachFirstName] = useState(null);
+  const [airtableFirstName, setAirtableFirstName] = useState(null);
+  const [airtableEmail, setAirtableEmail] = useState(null);
+  const [airtableAvatarFile, setAirtableAvatarFile] = useState(null);
+  const [airtableAvatarPhoto, setAirtableAvatarPhoto] = useState(null);
+
+  // const userData = useSelector((state: State) => state.user.data);
+  const [airtableLastName, setAirtableLastName] = useState(null);
+  const [airtableHeard, setAirtableHeard] = useState(null);
+
+
+  const [needCoachData, setNeedCoachData] = useState(null);
+  const [needUserData, setNeedUserData] = useState(null);
+
+
 
   async function init() {
 
-    // get all fields for user. and if doesn't exist then create one... and then ya this should all be moved to the server.
+    if (userData?.userId !== null) {
 
-    // might need a staging concept too then for this... ugh...
+      let url = String(window.location.href);
+
+      const storedParams = localStorage.getItem('urlParams');
+      let params = storedParams ? JSON.parse(storedParams) : null;
+
+      const results = await send('airtable-user', {url: url, coachId: params?.coach});
+
+      const record = results.fields;
+
+      console.log('record')
+      console.log(record)
+
+      //const coach_id = record.get('coach_id')?.[0] || null;
+      const coach_id = record.coach_id?.[0] || null;
+      setAirtableCoachId(coach_id)
+
+      //const status = record.get('status');
+      const status = record.status;
+      setAirtableStatus(status)
+
+      const status_expires_at = record.status_expires_at;
+      setAirtableStatusExpiresAt(status_expires_at)
+
+      const coach_zoom_rate = record.coach_zoom_rate;
+      setAirtableZoomRate(coach_zoom_rate)
+
+      const coach_zoom_link = record.coach_zoom_link;
+      setAirtableZoomLink(coach_zoom_link)
+
+      const stream_chat_user_id = record.stream_chat_user_id;
+      setAirtableStreamChatUserId(stream_chat_user_id)
+
+      const coach_first_name = record.coach_first_name;
+      setAirtableCoachFirstName(coach_first_name)
+
+      const first_name = record.first_name;
+      setAirtableFirstName(first_name)
+
+      const email = record.email;
+      setAirtableEmail(email)
+
+      const avatar = record.coach_avatar?.[0]?.url || null;
+      setAirtableAvatarFile(avatar)
+
+      const coach_photo = record.coach_photo?.[0]?.url || null;
+      setAirtableAvatarPhoto(coach_photo)
 
 
-    await initAvatar();
+      const local_storage_sync = record.local_storage_sync;
+
+
+      const last_name = record.last_name;
+      setAirtableLastName(last_name)
+
+      const found_us = record.found_us;
+      setAirtableHeard(found_us)
+
+
+      if (local_storage_sync !== undefined) {
+        const data = JSON.parse(local_storage_sync);
+
+        // Restore items
+        Object.entries(data).forEach(([key, value]) => {
+          try {
+            // Store the value, ensuring it's properly serialized if it's an object
+            const serializedValue = typeof value === 'object' ? 
+              JSON.stringify(value) : 
+              String(value);
+            localStorage.setItem(key, serializedValue);
+          } catch (error) {
+          }
+        });
+
+      }
+
+      //proxy for all coach stuff
+      if (coach_id === null) { // this one has to be null and the below is undefined
+        setNeedCoachData(true)
+      } else if (found_us === undefined) { //not working as a check
+        setNeedUserData(true)
+      }
+
+    }
+
+    //await initAvatar();
   }
+
+
+
+  useEffect(() => {
+
+    async function wrapper() {
+      await initAvatar();
+    }
+
+    if (airtableCoachId !== null &&
+        airtableStatus !== null &&
+        airtableStatusExpiresAt !== null &&
+        airtableZoomRate !== null &&
+        airtableZoomLink !== null &&
+        airtableStreamChatUserId !== null &&
+        airtableCoachFirstName !== null &&
+        airtableFirstName !== null &&
+        airtableEmail !== null &&
+        airtableAvatarFile !== null &&
+        airtableHeard !== undefined
+        ) {
+      wrapper()
+    }
+    
+  }, [airtableCoachId, airtableStatus, airtableStatusExpiresAt, airtableZoomRate, airtableZoomLink, airtableStreamChatUserId, airtableCoachFirstName, airtableFirstName, airtableEmail, airtableAvatarFile, airtableHeard]);
+
 
   useEffect(() => {
     async function initAll() {
@@ -66,20 +199,40 @@ export function NeedStuffApp({ setStateSomeDialogues, setStateInitialDialogueId 
 
     //return // add this when breaking.
 
-    const results = await send('env-variables', url);
-    var myobj = JSON.parse(results);
+    //const results = await send('env-variables', url);
+    //var myobj = JSON.parse(results);
 
-    let REACT_APP_BILLING_STATUS = myobj.data.REACT_APP_BILLING_STATUS;
-    let REACT_APP_TRIAL_END_DATE = myobj.data.REACT_APP_TRIAL_END_DATE;
-    let REACT_APP_START_PAYING_DATE = myobj.data.REACT_APP_START_PAYING_DATE;
-    let REACT_APP_ZOOM_RATE = myobj.data.REACT_APP_ZOOM_RATE;
-    let REACT_APP_ZOOM_LINK = myobj.data.REACT_APP_ZOOM_LINK;
-    let REACT_APP_CHAT_USER_ID = myobj.data.REACT_APP_CHAT_USER_ID;
-    let REACT_APP_COACH = myobj.data.REACT_APP_COACH;
-    let REACT_APP_COACH_FIRST_NAME = myobj.data.REACT_APP_COACH_FIRST_NAME;
-    let REACT_APP_USER_FIRST_NAME = myobj.data.REACT_APP_USER_FIRST_NAME;
-    let REACT_APP_USER_EMAIL = myobj.data.REACT_APP_USER_EMAIL;
-    let REACT_APP_UI_MODE = myobj.data.REACT_APP_UI_MODE;
+    console.log('airtableAvatarFile')
+    console.log(airtableAvatarFile)
+
+
+
+    // let REACT_APP_BILLING_STATUS = myobj.data.REACT_APP_BILLING_STATUS;
+    // let REACT_APP_TRIAL_END_DATE = myobj.data.REACT_APP_TRIAL_END_DATE;
+    // let REACT_APP_START_PAYING_DATE = myobj.data.REACT_APP_START_PAYING_DATE;
+    // let REACT_APP_ZOOM_RATE = myobj.data.REACT_APP_ZOOM_RATE;
+    // let REACT_APP_ZOOM_LINK = myobj.data.REACT_APP_ZOOM_LINK;
+    // let REACT_APP_CHAT_USER_ID = myobj.data.REACT_APP_CHAT_USER_ID;
+    // let REACT_APP_COACH = myobj.data.REACT_APP_COACH;
+    // let REACT_APP_COACH_FIRST_NAME = myobj.data.REACT_APP_COACH_FIRST_NAME;
+    // let REACT_APP_USER_FIRST_NAME = myobj.data.REACT_APP_USER_FIRST_NAME;
+    // let REACT_APP_USER_EMAIL = myobj.data.REACT_APP_USER_EMAIL;
+    // let REACT_APP_UI_MODE = myobj.data.REACT_APP_UI_MODE;
+
+
+    let REACT_APP_BILLING_STATUS = airtableStatus;
+    let REACT_APP_TRIAL_END_DATE = airtableStatusExpiresAt;
+    let REACT_APP_START_PAYING_DATE = airtableStatusExpiresAt;
+    let REACT_APP_ZOOM_RATE = airtableZoomRate;
+    let REACT_APP_ZOOM_LINK = airtableZoomLink;
+    let REACT_APP_CHAT_USER_ID = airtableStreamChatUserId;
+    let REACT_APP_COACH = airtableCoachId;
+    let REACT_APP_COACH_FIRST_NAME = airtableCoachFirstName;
+    let REACT_APP_USER_FIRST_NAME = airtableFirstName;
+    let REACT_APP_USER_EMAIL = airtableEmail;
+    let REACT_APP_UI_MODE = airtableStatus == 'coach_account' ? 'coach' : 'user';
+    let REACT_APP_COACH_PHOTO = airtableAvatarPhoto; // this is new.
+
 
     if (REACT_APP_BILLING_STATUS != null) {
       localStorage.setItem('REACT_APP_BILLING_STATUS', REACT_APP_BILLING_STATUS);
@@ -147,13 +300,19 @@ export function NeedStuffApp({ setStateSomeDialogues, setStateInitialDialogueId 
       localStorage.removeItem('REACT_APP_UI_MODE');
     }
 
+    if (REACT_APP_COACH_PHOTO != null) {
+      localStorage.setItem('REACT_APP_COACH_PHOTO', REACT_APP_COACH_PHOTO);
+    } else {
+      localStorage.removeItem('REACT_APP_COACH_PHOTO');
+    }
+
 
     //Set up the coach dialogues.
     let coachSrc = "/avatars/" + getCoach() + ".drawio.xml";
 
     // console.log("anita 1:", REACT_APP_COACH);
     // console.log("anita 1:", getCoach());
-    //coachSrc = "https://firebasestorage.googleapis.com/v0/b/mybudgetcoach-3c977.appspot.com/o/%20KristinWade.drawio-24.xml?alt=media&token=c20c8ead-89b9-4c1c-8a32-b59ced6f7f87"
+    coachSrc = airtableAvatarFile
 
     type Conversation = {
       id: string;
@@ -1009,11 +1168,56 @@ if (source === "iygmyBO8lgVPopkCsqYT-73") {
 }
 
 
-  return (
-    <View style={{ height: '100%', color: 'black' }}>
-      I need stuff.
-              <CoachQuiz/>
 
+  if (needCoachData === true) {
+    return (
+      <View style={{ height: '100%', color: 'black' }}>
+        <CoachQuiz jumpToUser={false} firstName={airtableFirstName} lastName={airtableLastName} email={airtableEmail}/>
+      </View>
+    );
+  }
+  if (needUserData === true) {
+    return (
+      <View style={{ height: '100%', color: 'black' }}>
+        <CoachQuiz jumpToUser={true} firstName={airtableFirstName} lastName={airtableLastName} email={airtableEmail}/>
+      </View>
+    );
+  }
+
+  let imgSrc = "/maskable-192x192.png";
+
+  let bg = (
+
+    <View style={{ height: '100%' }}>
+      <AppBackground />
+      <View
+        style={{
+          height: '100%'
+        }}
+      >
+        <img
+          style={{
+            width: '150px',
+            height: '150px',
+            borderRadius: '75px',
+            position: 'absolute',
+            margin: 'auto',
+            top: '0px',
+            left: '0px',
+            bottom: '0px',
+            right: '0px',
+
+          }}
+          src={imgSrc}
+          alt="coach"
+        />
+      </View>
     </View>
-  );
+  )
+
+
+  return bg;
+
+
+
 }

@@ -2,7 +2,7 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: credentialless
   Content-Security-Policy: default-src 'self' blob:; img-src 'self' https://ohio.stream-io-cdn.com/ blob: data:; script-src 'self' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; connect-src http: https:;
-
+  
 /kcab/*
   Content-Security-Policy: default-src 'self' blob:; img-src 'self' https://ohio.stream-io-cdn.com/ blob: data:; script-src 'self' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; connect-src http: https:;
 

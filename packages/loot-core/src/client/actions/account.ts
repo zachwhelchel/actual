@@ -89,6 +89,22 @@ export function linkAccountSimpleFin(
   };
 }
 
+export function linkAccountPlaid(
+  externalAccount: unknown,
+  upgradingId?: string,
+  offBudget?: boolean,
+) {
+  return async (dispatch: Dispatch) => {
+    await send('plaid-accounts-link', {
+      externalAccount,
+      upgradingId,
+      offBudget,
+    });
+    await dispatch(getPayees());
+    await dispatch(getAccounts());
+  };
+}
+
 function handleSyncResponse(
   accountId,
   res,
@@ -201,6 +217,8 @@ export function syncAccounts(id?: string) {
     // Loop through the accounts and perform sync operation.. one by one
     for (let idx = 0; idx < accountIdsToSync.length; idx++) {
       const accountId = accountIdsToSync[idx];
+
+      console.log("another")
 
       // Perform sync operation
       const res = await send('accounts-bank-sync', {

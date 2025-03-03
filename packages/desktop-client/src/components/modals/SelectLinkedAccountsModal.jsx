@@ -6,6 +6,7 @@ import {
   closeModal,
   linkAccount,
   linkAccountSimpleFin,
+  linkAccountPlaid,
   unlinkAccount,
 } from 'loot-core/client/actions';
 
@@ -70,6 +71,17 @@ export function SelectLinkedAccountsModal({
         if (syncSource === 'simpleFin') {
           dispatch(
             linkAccountSimpleFin(
+              externalAccount,
+              chosenLocalAccountId !== addOnBudgetAccountOption.id &&
+                chosenLocalAccountId !== addOffBudgetAccountOption.id
+                ? chosenLocalAccountId
+                : undefined,
+              offBudget,
+            ),
+          );
+        } else if (syncSource === 'plaid') {
+          dispatch(
+            linkAccountPlaid(
               externalAccount,
               chosenLocalAccountId !== addOnBudgetAccountOption.id &&
                 chosenLocalAccountId !== addOffBudgetAccountOption.id

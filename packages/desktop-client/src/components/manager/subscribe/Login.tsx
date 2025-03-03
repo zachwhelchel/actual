@@ -36,7 +36,7 @@ function PasswordLogin({ setError, dispatch }) {
       return;
     }
 
-    setError(null);
+    //setError(null);
     setLoading(true);
     const { error } = await send('subscribe-sign-in', {
       password,
@@ -45,6 +45,8 @@ function PasswordLogin({ setError, dispatch }) {
     setLoading(false);
 
     if (error) {
+      console.log('hhhhhhh')
+      console.log(error)
       setError(error);
     } else {
       dispatch(loggedIn());
@@ -72,74 +74,6 @@ function PasswordLogin({ setError, dispatch }) {
     </View>
   );
 }
-
-
-function EmbeddedOpenIdLogin({ setError }) {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const lock = new Auth0Lock(
-      'id',
-      'domain',
-      {
-        container: 'auth0-login-container',
-        allowSignUp: true,
-        initialScreen: 'login', // or 'signUp'
-         languageDictionary: {
-           title: 'MyBudgetCoach', 
-           signUpTitle: 'Create Account',
-           signUpLabel: 'Sign Up',
-           loginLabel: 'Sign In'
-         },
-         // Full style customization
-         theme: {
-           labeledSubmitButton: true,
-           logo: '/public/logo_circle.png',
-           primaryColor: '#112a43',
-          headerColor: '#ffffff',     // Change header background
-          container: {
-            headerBackground: 'none'  // Style override
-          }
-         },
-          auth: {
-           redirect: false,
-           responseType: 'token',
-           redirectUrl: 'http://localhost:3001/openid/callback'
-         },
-
-      }
-    );
-
-    lock.on('authenticated', async (authResult) => {
-
-
-      const { error, redirect_url } = await send('subscribe-sign-in', {
-        return_url: window.location.origin,
-        loginMethod: 'openid',
-        code: authResult.code
-      });
-
-      if (error) {
-        setError(error);
-      } else {
-        window.location.href = redirect_url;
-      }
-    });
-
-    lock.show();
-
-    return () => lock.destroy();
-  }, []);
-
-  return (
-    <div>
-      <div id="auth0-login-container" style={{ width: '100%', height: 600 }} />
-      {isLoading && <div>Logging in...</div>}
-    </div>
-  );
-}
-
 
 function OpenIdLogin({ setError }) {
   const [warnMasterCreation, setWarnMasterCreation] = useState(false);
@@ -185,20 +119,71 @@ function OpenIdLogin({ setError }) {
     <View>
       {!reviewOpenIdConfiguration && (
         <>
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Button
-              variant="primary"
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          minHeight: '100vh'  // This ensures the parent takes full viewport height
+        }}>
+
+          <div 
+            style={{
+              width: '300px',
+              padding: '24px',
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '10px',
+              alignSelf: 'center',
+            }}
+          >
+            {/* Logo */}
+            <img 
+              src="/logo_circle.png" 
+              alt="Logo"
               style={{
-                padding: 10,
-                fontSize: 14,
-                width: 170,
-                marginTop: 5,
+                width: '64px',
+                height: '64px'
               }}
-              onPress={onSubmitOpenId}
-            >
-              <Trans>Sign In</Trans>
-            </Button>
-          </View>
+            />
+
+            {/* Welcome Text */}
+            <div style={{ textAlign: 'center' }}>
+              <h2 style={{ 
+                fontSize: '20px', 
+                fontWeight: 'bold',
+                marginBottom: '8px',
+                color: 'black'
+              }}>
+                MyBudgetCoach
+              </h2>
+              <p style={{ 
+                color: '#666',
+                fontSize: '14px'
+              }}>
+                Sign in to continue to your account:
+              </p>
+            </div>
+
+            {/* Button Container */}
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button
+                variant="primary"
+                style={{
+                  padding: 10,
+                  fontSize: 14,
+                  width: 170,
+                  marginTop: 5,
+                }}
+                onPress={onSubmitOpenId}
+              >
+                <Trans>Sign In</Trans>
+              </Button>
+            </div>
+          </div>
+          </div>
           {warnMasterCreation && (
             <>
               <label style={{ color: theme.warningText, marginTop: 10 }}>
@@ -280,6 +265,36 @@ export function Login() {
   const { checked } = useBootstrapped();
   const loginMethods = useAvailableLoginMethods();
 
+
+
+  useEffect(() => {
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Create an object to store the parameters
+    const urlParamsObject = {
+      coach: urlParams.get('coach') || '',
+      fprom_tid: urlParams.get('fprom_tid') || '',
+      fprom_ref: urlParams.get('fprom_ref') || '',
+      utm_campaign: urlParams.get('utm_campaign') || '',
+      utm_medium: urlParams.get('utm_medium') || '',
+      utm_source: urlParams.get('utm_source') || '',
+      utm_term: urlParams.get('utm_term') || '',
+      utm_content: urlParams.get('utm_content') || ''
+    };
+
+    // Store in localStorage for persistence
+    localStorage.setItem('urlParams', JSON.stringify(urlParamsObject));
+    
+    console.log('saving some url params')
+    console.log(JSON.stringify(urlParamsObject))
+
+  }, []);
+
+
+
+
+
   useEffect(() => {
     if (checked && !searchParams.has('error')) {
       (async () => {
@@ -322,7 +337,55 @@ export function Login() {
   }
 
   return (
-    <View style={{ color: theme.pageText, marginTop: -43 }}>
+    <View style={{ width: '100%', height: '100%', color: theme.pageText, marginTop: 0 }}>
+
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: colorPalette.navy100,
+      }}
+    >
+      <svg
+        viewBox="0 0 642 535"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          height: '100%',
+          width: '100%',
+          borderRadius: 5
+        }}
+      >
+        <path fill="url(#paint0_linear)" d="M0 0h642v535H0z" />
+        <defs>
+          <linearGradient
+            id="paint0_linear"
+            x1="162"
+            y1="23.261"
+            x2="468.904"
+            y2="520.44"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor={'#8719e0'} />
+            <stop
+              offset="1"
+              stopColor={'#0c3966'}
+              stopOpacity="1.0"
+            />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+
+
 
       {error && (
         <Text
@@ -337,7 +400,10 @@ export function Login() {
         </Text>
       )}
 
-      <EmbeddedOpenIdLogin setError={setError} />
+
+      <OpenIdLogin setError={setError} />
+{/*      <PasswordLogin dispatch={dispatch}/>
+*/}    
     </View>
   );
 }

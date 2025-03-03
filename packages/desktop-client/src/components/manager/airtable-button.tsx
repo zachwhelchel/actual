@@ -43,11 +43,17 @@ const AirtableButton = ({ coachName, coachFirstName }) => {
   return (
     <div 
       onClick={handleClick}
-      className="px-6 py-3 bg-blue-600 text-white text-lg font-bold rounded-lg 
-        hover:bg-blue-700 hover:scale-105 hover:shadow-lg 
-        transition-all duration-200 
-        transform active:scale-95 
-        shadow-md"
+      style={{
+        padding: '0.75rem 1.5rem',    // px-6 py-3
+        backgroundColor: 'rgb(37, 99, 235)',  // bg-blue-600
+        color: 'white',
+        fontSize: '1.125rem',         // text-lg
+        fontWeight: 'bold',
+        borderRadius: '0.5rem',       // rounded-lg
+        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)', // shadow-md
+        transition: 'all 200ms',      // transition-all duration-200
+        cursor: 'pointer'
+      }}
     >
       Choose {coachFirstName}
     </div>

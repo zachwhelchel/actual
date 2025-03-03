@@ -5,6 +5,9 @@ import { loadAllFiles, closeBudget } from './budgets';
 import { loadGlobalPrefs } from './prefs';
 import type { Dispatch } from './types';
 
+import { deleteBudget } from 'loot-core/client/actions';
+
+
 export function getUserData() {
   return async (dispatch: Dispatch) => {
     const data = await send('subscribe-get-user');
@@ -41,6 +44,17 @@ export function loggedIn() {
 
 export function signOut() {
   return async (dispatch: Dispatch) => {
+
+    const budgets = await send('get-budgets');
+
+    for (const file of budgets) {
+      await dispatch(
+        deleteBudget(
+          'id' in file ? file.id : undefined // not passing the cloud means it deletes locally only.
+        ),
+      );
+    }
+
     await send('subscribe-sign-out');
 
     dispatch(getUserData());

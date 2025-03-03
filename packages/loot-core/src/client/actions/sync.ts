@@ -53,6 +53,9 @@ export function sync() {
 }
 
 export function syncAndDownload(accountId?: string) {
+
+console.log("little")
+
   return async (dispatch: Dispatch) => {
     // It is *critical* that we sync first because of transaction
     // reconciliation. We want to get all transactions that other
@@ -64,7 +67,11 @@ export function syncAndDownload(accountId?: string) {
       return { error: syncState.error };
     }
 
+console.log("little1")
+
     const hasDownloaded = await dispatch(syncAccounts(accountId));
+
+console.log("little2")
 
     if (hasDownloaded) {
       // Sync again afterwards if new transactions were created

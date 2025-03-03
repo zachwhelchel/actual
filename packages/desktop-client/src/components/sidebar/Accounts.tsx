@@ -28,7 +28,7 @@ import { Account } from './Account';
 import { SecondaryItem } from './SecondaryItem';
 
 import Coach, { CoachProvider, useCoach } from '../coach/Coach';
-import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
+import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE, REACT_APP_COACH_PHOTO } from '../../coaches/coachVariables';
 
 const fontWeight = 600;
 
@@ -106,7 +106,7 @@ export function Accounts({
 
   let coachFirstNameZoom = "Zoom with " + REACT_APP_COACH_FIRST_NAME;
   let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
-  let imgSrc = "/coach-icon-" + REACT_APP_COACH + "-200x200.png";
+  let imgSrc = REACT_APP_COACH_PHOTO;
   let myCoach = "My Coach: " + REACT_APP_COACH_FIRST_NAME;
 
   let mode = "subscribed";
@@ -134,16 +134,22 @@ export function Accounts({
     var now = new Date();
     now.setHours(0,0,0,0);
     if (startPayingDate >= now) {
+      console.log('free')
       mode = "free_trial";
       freeTrialDaysLeft = Math.round(Math.abs((startPayingDate - now) / oneDay));
 
     } else {
+            console.log('deletion_soon')
+
       mode = "deletion_soon"
       daysUntilDeletion = Math.round(Math.abs((now - startPayingDate) / oneDay));
     }
   }
 
   if (REACT_APP_BILLING_STATUS === 'paid') {
+                console.log('subscribed')
+                console.log(REACT_APP_BILLING_STATUS)
+
     mode = "subscribed";
   }
 
@@ -437,7 +443,7 @@ export function Accounts({
               paddingBottom: 0,
               flexShrink: '1',
               textAlign: 'center',
-              color: theme.pageBackground,
+              color: theme.pageText,
             }}
             onClick={() => onStartNewConversation()}
           >
@@ -517,7 +523,7 @@ export function Accounts({
             You are currently subscribed. Manage your subscription
             {" "}
             <Link
-              type="external"
+              variant="external"
               linkColor="white"
               to={`https://mybudgetcoach.app/subscription`}
             >
@@ -538,7 +544,7 @@ export function Accounts({
             Your Free Trial has {freeTrialDaysLeft} days remaining.
             {" "}
             <Link
-              type="external"
+              variant="external"
               linkColor="white"
               to={`https://mybudgetcoach.app/subscription`}
             >
@@ -562,7 +568,7 @@ export function Accounts({
               Your Free Trial ended {daysUntilDeletion} days ago.
               {" "}
               <Link
-                type="external"
+                variant="external"
                 linkColor="white"
                 to={`https://mybudgetcoach.app/subscription`}
               >

@@ -156,7 +156,7 @@ export function Modals() {
 
         case 'start-new-conversation':
           return (
-            <StartNewConversation
+            <StartNewConversation key={name}
             />
           );
 
