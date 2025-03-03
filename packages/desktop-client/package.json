@@ -1,6 +1,6 @@
 {
-  "name": "@zachwhelchel/actual-app-web",
-  "version": "25.1.0",
+  "name": "@zachwhelchel/actual-app-web-multi",
+  "version": "24.0.0",
   "license": "MIT",
   "files": [
     "build"

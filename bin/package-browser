@@ -5,6 +5,6 @@ ROOT=`dirname $0`
 cd "$ROOT/.."
 
 yarn workspace loot-core build:browser
-yarn workspace @zachwhelchel/actual-app-web build:browser
+yarn workspace @zachwhelchel/actual-app-web-multi build:browser
 
 echo "packages/desktop-client/build"

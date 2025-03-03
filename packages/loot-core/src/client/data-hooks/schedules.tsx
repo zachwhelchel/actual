@@ -8,7 +8,7 @@ import React, {
   type PropsWithChildren,
 } from 'react';
 
-import { useSyncedPref } from '@zachwhelchel/actual-app-web/src/hooks/useSyncedPref';
+import { useSyncedPref } from '@zachwhelchel/actual-app-web-multi/src/hooks/useSyncedPref';
 
 import { q, type Query } from '../../shared/query';
 import { getHasTransactionsQuery, getStatus } from '../../shared/schedules';
