@@ -402,8 +402,8 @@ export function Login() {
 
 
       <OpenIdLogin setError={setError} />
-{/*      <PasswordLogin dispatch={dispatch}/>
-*/}    
+      <PasswordLogin dispatch={dispatch}/>
+    
     </View>
   );
 }
