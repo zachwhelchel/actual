@@ -211,7 +211,7 @@ export function Accounts({
         <Account
           name="Off budget"
           to="/accounts/offbudget"
-          query={queries.offbudgetAccountBalance()}
+          query={queries.offBudgetAccountBalance()}
           style={{
             fontWeight,
             marginTop: 13,

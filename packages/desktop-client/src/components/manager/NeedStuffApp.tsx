@@ -113,7 +113,7 @@ export function NeedStuffApp({ userData, setStateSomeDialogues, setStateInitialD
       const avatar = record.coach_avatar?.[0]?.url || null;
       setAirtableAvatarFile(avatar)
 
-      const coach_photo = record.coach_photo?.[0]?.url || null;
+      const coach_photo = record.coach_photo?.[0]?.base64 || null;
       setAirtableAvatarPhoto(coach_photo)
 
 

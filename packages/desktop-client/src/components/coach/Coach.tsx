@@ -2973,6 +2973,9 @@ export default function Coach({
   } 
 
   let imgSrc = REACT_APP_COACH_PHOTO;
+  // console.log("coach64")
+  // console.log(imgSrc)
+
 
   if (content === undefined) {
     return (
