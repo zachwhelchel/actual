@@ -92,14 +92,23 @@ export function loadBudget(id: string, options = {}) {
 export function closeBudget() {
   return async (dispatch: Dispatch, getState: GetState) => {
     const prefs = getState().prefs.local;
+
     if (prefs && prefs.id) {
       // This clears out all the app state so the user starts fresh
       dispatch({ type: constants.CLOSE_BUDGET });
 
-      dispatch(setAppState({ loadingText: t('Closing...') }));
+      //weird bug in MBC where removing these two lines causes the closing budget to somewhat work.
+      //still doesn't actualy succeed in calling the close-budget but at least takes you back to the UI
+      //to pick a budget. Also fixes the logout not showing you the login page.
+      //but on a refresh it takes you back to the last opened budget because close didn't actually close.
+      //which maybe isn't terrible behavior so not too upset for now.
+
+      //dispatch(setAppState({ loadingText: t('Closing...') }));
       await send('close-budget');
-      dispatch(setAppState({ loadingText: null }));
+
+      //dispatch(setAppState({ loadingText: null }));
       if (localStorage.getItem('SharedArrayBufferOverride')) {
+
         window.location.reload();
       }
     }
