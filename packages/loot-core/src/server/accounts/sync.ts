@@ -813,11 +813,16 @@ async function processBankSyncDownload(
   // that account sync sources can give two different transaction IDs even though it's the same transaction.
   const useStrictIdChecking = !acctRow.account_sync_source;
 
+  console.log("download.startingBalance")
+  console.log(download.startingBalance)
+
+
   if (initialSync) {
+
     const { transactions } = download;
     let balanceToUse = download.startingBalance;
 
-    if (acctRow.account_sync_source === 'simpleFin') {
+    if (acctRow.account_sync_source === 'simpleFin' || acctRow.account_sync_source === 'plaid') {
       const currentBalance = download.startingBalance;
       const previousBalance = transactions.reduce((total, trans) => {
         return (
