@@ -1179,8 +1179,6 @@ handlers['chat-secrets'] = async function (url) {
 
   const userToken = await asyncStorage.getItem('user-token');
 
-  console.log('whyme ut:' + userToken)
-
   if (!userToken) {
     return { error: 'unauthorized' };
   }
