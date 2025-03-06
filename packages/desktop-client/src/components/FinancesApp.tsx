@@ -192,7 +192,8 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
       if (oauthStateId) {
         const linkToken = localStorage.getItem('plaidLinkToken');
         localStorage.removeItem('plaidLinkToken');
-        window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${linkToken}&receivedRedirectUri=${currentUrl}`
+        //window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${linkToken}&receivedRedirectUri=${currentUrl}`
+        window.location.href = `https://mbc-plaid.fly.dev?link_token=${linkToken}&receivedRedirectUri=${currentUrl}`;
       }
       if (publicToken) {
         let url = String(window.location.href);
