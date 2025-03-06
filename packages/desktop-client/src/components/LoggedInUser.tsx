@@ -206,7 +206,7 @@ export function LoggedInUser({
         !hasSyncedPrefs && (
           <small>
             <Trans>
-              (logged in as: <span>{userData?.displayName}</span>)
+              (<span>{userData?.displayName}</span>)
             </Trans>
           </small>
         )}

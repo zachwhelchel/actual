@@ -189,6 +189,7 @@ export function ManagementApp() {
                   right: 0,
                   padding: '6px 10px',
                   zIndex: 4000,
+                  color: 'black'
                 }}
               >
                 <Routes>

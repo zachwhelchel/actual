@@ -28,7 +28,7 @@ export function BudgetPageMenuModal({
       {({ state: { close } }) => (
         <>
           <ModalHeader
-            showLogo
+            showLogo={false}
             rightContent={<ModalCloseButton onPress={close} />}
           />
           <BudgetPageMenu
@@ -93,10 +93,12 @@ function BudgetPageMenu({
           name: 'toggle-hidden-categories',
           text: `${!showHiddenCategories ? t('Show') : t('Hide')} ${t('hidden categories')}`,
         },
-        {
-          name: 'switch-budget-file',
-          text: t('Switch budget file'),
-        },
+        //this was causing the server to bug out by calling validate account many times.
+        //removed it since there are other ways to close the budget
+        // { 
+        //   name: 'switch-budget-file',
+        //   text: t('Switch budget file'),
+        // },
       ]}
     />
   );
