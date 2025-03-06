@@ -182,20 +182,47 @@ const [accountsError, setAccountsError] = useState(null);
 
   const getPlaidLink = async (itemId) => {
     let url = String(window.location.href);
-    const results = await send('plaid-create-link-token', {url: url, itemId: itemId});
+
+    console.log('getPlaidLink')
+    console.log(itemId)
+
+
+    const results = await send('plaid-create-link-token', {url: url, item_id: itemId});
     console.log('plaidresults')
     console.log(results.link_token)
     setLinkToken(results.link_token)
 
+
     localStorage.setItem('plaidLinkToken', results.link_token);
 
 
-    let currentUrl = window.location.origin + window.location.pathname;
+    let currentUrl = window.location.origin;
 
 
-    url = url + "/accounts";
+    currentUrl = currentUrl + "/accounts";
 
-    window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${results.link_token}&redirect_uri=${encodeURIComponent(url)}`;
+    let s = String(currentUrl);
+    console.log('sssssss')
+    console.log(s)
+
+    //s = "https://www.google.com"
+
+    //encodeURIComponent(currentUrl)
+
+    // const handler = Plaid.create({
+    //   token: results.link_token,
+    //   onSuccess: (public_token, metadata) => {},
+    //   onLoad: () => {},
+    //   onExit: (err, metadata) => {},
+    //   onEvent: (eventName, metadata) => {},
+    // });
+
+
+    // window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${results.link_token}&redirect_uri=${s}`;
+    window.location.href = `https://mbc-plaid.fly.dev?link_token=${results.link_token}&redirect_uri=${s}`;
+
+
+
   };
 
   const getPlaidAccounts = async () => {

@@ -105,9 +105,14 @@ function FileMenu({
   const { t } = useTranslation();
 
   const items = [
-    ...(onDuplicate ? [{ name: 'duplicate', text: t('Duplicate') }] : []),
     { name: 'delete', text: t('Delete') },
   ];
+
+//Taking out duplicate for now because not sure of the multi-user implications.
+  // const items = [
+  //   ...(onDuplicate ? [{ name: 'duplicate', text: t('Duplicate') }] : []),
+  //   { name: 'delete', text: t('Delete') },
+  // ];
 
   return <Menu onMenuSelect={onMenuSelect} items={items} />;
 }

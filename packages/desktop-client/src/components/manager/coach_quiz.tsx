@@ -334,10 +334,13 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
           firstName: record.get('First Name'),
           quizQuote: record.get('Quiz Quote'),
           recordId: record.get('Record Id'),
-          photo: record.fields.Photo ? record.fields.Photo[0]?.url : null,
           price: record.get('Price'),
           niches: record.get('Niche') || []
         }));
+
+        //took this out for now bc cors
+        // photo: record.fields.Photo ? record.fields.Photo[0]?.url : null,
+
 
         // Get unique niches from all coaches
         const allNiches = formattedCoaches.flatMap(coach => coach.niches);

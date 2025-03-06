@@ -11,6 +11,7 @@ import { Paragraph } from '../common/Paragraph';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 import * as colorPalette from '../../style/palette';
+import { Modals } from '../Modals';
 
 export function WelcomeScreen() {
   const { t } = useTranslation();
@@ -28,6 +29,8 @@ export function WelcomeScreen() {
         backgroundColor: colorPalette.navy100
       }}
     >
+      <Modals />
+
       <Text style={styles.veryLargeText}>{t('Let’s get started!')}</Text>
       <View style={{ overflowY: 'auto' }}>
         <Paragraph style={{ color: 'black' }}>
