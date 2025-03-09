@@ -133,9 +133,7 @@ export function Sidebar() {
         <View
           style={{
             flexGrow: 1,
-            '@media screen and (max-height: 480px)': {
-              overflowY: 'auto',
-            },
+            overflowY: 'auto',
           }}
         >
           <PrimaryButtons />
