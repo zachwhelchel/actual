@@ -11,9 +11,10 @@ import {
 
 import { useCategories } from '../../hooks/useCategories';
 import { useLocalPref } from '../../hooks/useLocalPref';
+import { SvgStepBackward, SvgStepForward } from '../../icons/v1';
 import { theme, styles } from '../../style';
-import { View } from '../common/View';
 import { Button } from '../common/Button';
+import { View } from '../common/View';
 import { type DropPosition } from '../sort';
 
 import { BudgetCategories } from './BudgetCategories';
@@ -26,7 +27,6 @@ import {
   getScrollbarWidth,
   separateGroups,
 } from './util';
-import { SvgStepBackward, SvgStepForward } from '../../icons/v1';
 
 type BudgetTableProps = {
   type: string;
@@ -269,13 +269,41 @@ export function BudgetTable(props: BudgetTableProps) {
             paddingRight: 5 + getScrollbarWidth(),
           }}
         >
-          <View style={{ width: 200, display: 'flex', justifyContent: 'space-between', flexDirection: 'row', paddingBottom: 10, paddingLeft: 35, paddingRight: 35}}>
-            <Button type="bare" style={{ alignSelf: 'flex-end' }} onClick={() => window.__actionsForMenu.undo()}>
-              <SvgStepBackward width={16} height={16} style={{ marginRight: 3 }} /> Undo
+          <View
+            style={{
+              width: 200,
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexDirection: 'row',
+              paddingBottom: 10,
+              paddingLeft: 35,
+              paddingRight: 35,
+            }}
+          >
+            <Button
+              type="bare"
+              style={{ alignSelf: 'flex-end' }}
+              onClick={() => window.__actionsForMenu.undo()}
+            >
+              <SvgStepBackward
+                width={16}
+                height={16}
+                style={{ marginRight: 3 }}
+              />{' '}
+              Undo
             </Button>
 
-            <Button type="bare" style={{ alignSelf: 'flex-end' }} onClick={() => window.__actionsForMenu.redo()}>
-              Redo <SvgStepForward width={16} height={16} style={{ marginLeft: 3 }} />
+            <Button
+              type="bare"
+              style={{ alignSelf: 'flex-end' }}
+              onClick={() => window.__actionsForMenu.redo()}
+            >
+              Redo{' '}
+              <SvgStepForward
+                width={16}
+                height={16}
+                style={{ marginLeft: 3 }}
+              />
             </Button>
           </View>
         </View>

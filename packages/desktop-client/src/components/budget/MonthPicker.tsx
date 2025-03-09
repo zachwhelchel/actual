@@ -7,6 +7,7 @@ import * as monthUtils from 'loot-core/src/shared/months';
 import { useResizeObserver } from '../../hooks/useResizeObserver';
 import { SvgCalendar } from '../../icons/v2';
 import { styles, theme } from '../../style';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { Link } from '../common/Link';
 import { View } from '../common/View';
 
@@ -19,7 +20,6 @@ type MonthPickerProps = {
   style: CSSProperties;
   onSelect: (month: string) => void;
 };
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 export const MonthPicker = ({
   startMonth,
@@ -64,9 +64,9 @@ export const MonthPicker = ({
   });
 
   const yearHeadersShown = [];
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
 
-return (
+  return (
     <div
       ref={element => {
         commonElementsRef.current['months_band'] = element;

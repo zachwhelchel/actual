@@ -35,9 +35,9 @@ function RenderSimple({ error }: RenderSimpleProps) {
       <Text>
         <Trans>
           Your browser doesn’t support IndexedDB in this environment, a feature
-          that MyBudgetCoach requires to run. This might happen if you are in private
-          browsing mode. Please try a different browser or turn off private
-          browsing.
+          that MyBudgetCoach requires to run. This might happen if you are in
+          private browsing mode. Please try a different browser or turn off
+          private browsing.
         </Trans>
       </Text>
     );
@@ -49,10 +49,11 @@ function RenderSimple({ error }: RenderSimpleProps) {
     msg = (
       <Text>
         <Trans>
-          MyBudgetCoach requires access to <code>SharedArrayBuffer</code> in order to
-          function properly. If you’re seeing this error, either your browser
-          does not support <code>SharedArrayBuffer</code>, or your server is not
-          sending the appropriate headers, or you are not using HTTPS. See{' '}
+          MyBudgetCoach requires access to <code>SharedArrayBuffer</code> in
+          order to function properly. If you’re seeing this error, either your
+          browser does not support <code>SharedArrayBuffer</code>, or your
+          server is not sending the appropriate headers, or you are not using
+          HTTPS. See{' '}
           <Link
             variant="external"
             linkColor="muted"
@@ -166,7 +167,8 @@ function SharedArrayBufferOverride() {
           onChange={() => setUnderstand(!understand)}
         />{' '}
         <Trans>
-          I understand the risks, run MyBudgetCoach in the unsupported fallback mode
+          I understand the risks, run MyBudgetCoach in the unsupported fallback
+          mode
         </Trans>
       </label>
       <Button

@@ -11,6 +11,7 @@ import * as monthUtils from 'loot-core/src/shared/months';
 import { useMetadataPref } from '../hooks/useMetadataPref';
 import { useModalState } from '../hooks/useModalState';
 
+import Coach, { CoachProvider, useCoach } from './coach/Coach';
 import { ModalTitle, ModalHeader } from './common/Modal';
 import { AccountAutocompleteModal } from './modals/AccountAutocompleteModal';
 import { AccountMenuModal } from './modals/AccountMenuModal';
@@ -20,13 +21,13 @@ import { CategoryAutocompleteModal } from './modals/CategoryAutocompleteModal';
 import { CategoryGroupMenuModal } from './modals/CategoryGroupMenuModal';
 import { CategoryMenuModal } from './modals/CategoryMenuModal';
 import { CloseAccountModal } from './modals/CloseAccountModal';
-import { CreateCategory } from './modals/CreateCategory';
 import { ConfirmCategoryDeleteModal } from './modals/ConfirmCategoryDeleteModal';
 import { ConfirmTransactionDeleteModal } from './modals/ConfirmTransactionDeleteModal';
 import { ConfirmTransactionEditModal } from './modals/ConfirmTransactionEditModal';
 import { ConfirmUnlinkAccountModal } from './modals/ConfirmUnlinkAccountModal';
 import { CoverModal } from './modals/CoverModal';
 import { CreateAccountModal } from './modals/CreateAccountModal';
+import { CreateCategory } from './modals/CreateCategory';
 import { CreateEncryptionKeyModal } from './modals/CreateEncryptionKeyModal';
 import { CreateLocalAccountModal } from './modals/CreateLocalAccountModal';
 import { EditUserAccess } from './modals/EditAccess';
@@ -39,6 +40,7 @@ import { EnvelopeBudgetMonthMenuModal } from './modals/EnvelopeBudgetMonthMenuMo
 import { EnvelopeBudgetSummaryModal } from './modals/EnvelopeBudgetSummaryModal';
 import { EnvelopeToBudgetMenuModal } from './modals/EnvelopeToBudgetMenuModal';
 import { FixEncryptionKeyModal } from './modals/FixEncryptionKeyModal';
+import { FreeTrial } from './modals/FreeTrial';
 import { GoalTemplateModal } from './modals/GoalTemplateModal';
 import { GoCardlessExternalMsgModal } from './modals/GoCardlessExternalMsgModal';
 import { GoCardlessInitialiseModal } from './modals/GoCardlessInitialiseModal';
@@ -55,34 +57,32 @@ import { ImportModal } from './modals/manager/ImportModal';
 import { ImportYNAB4Modal } from './modals/manager/ImportYNAB4Modal';
 import { ImportYNAB5Modal } from './modals/manager/ImportYNAB5Modal';
 import { ManageRulesModal } from './modals/ManageRulesModal';
+import { ManageSubscription } from './modals/ManageSubscription';
 import { MergeUnusedPayeesModal } from './modals/MergeUnusedPayeesModal';
 import { NotesModal } from './modals/NotesModal';
 import { OpenIDEnableModal } from './modals/OpenIDEnableModal';
 import { OutOfSyncMigrationsModal } from './modals/OutOfSyncMigrationsModal';
 import { PasswordEnableModal } from './modals/PasswordEnableModal';
 import { PayeeAutocompleteModal } from './modals/PayeeAutocompleteModal';
+import { ResetAvatar } from './modals/ResetAvatar';
 import { ScheduledTransactionMenuModal } from './modals/ScheduledTransactionMenuModal';
+import { ScheduleZoom } from './modals/ScheduleZoom';
 import { SelectLinkedAccountsModal } from './modals/SelectLinkedAccountsModal';
 import { SimpleFinInitialiseModal } from './modals/SimpleFinInitialiseModal';
 import { SingleInputModal } from './modals/SingleInputModal';
+import { StartNewConversation } from './modals/StartNewConversation';
 import { TrackingBalanceMenuModal } from './modals/TrackingBalanceMenuModal';
 import { TrackingBudgetMenuModal } from './modals/TrackingBudgetMenuModal';
 import { TrackingBudgetMonthMenuModal } from './modals/TrackingBudgetMonthMenuModal';
 import { TrackingBudgetSummaryModal } from './modals/TrackingBudgetSummaryModal';
 import { TransferModal } from './modals/TransferModal';
 import { TransferOwnership } from './modals/TransferOwnership';
+import { UploadAvatarModal } from './modals/UploadAvatarModal';
 import { DiscoverSchedules } from './schedules/DiscoverSchedules';
 import { PostsOfflineNotification } from './schedules/PostsOfflineNotification';
 import { ScheduleDetails } from './schedules/ScheduleDetails';
 import { ScheduleLink } from './schedules/ScheduleLink';
-import { ScheduleZoom } from './modals/ScheduleZoom';
-import { FreeTrial } from './modals/FreeTrial';
-import { ManageSubscription } from './modals/ManageSubscription';
-import { ResetAvatar } from './modals/ResetAvatar';
-import { UploadAvatarModal } from './modals/UploadAvatarModal';
-import { StartNewConversation } from './modals/StartNewConversation';
 import { NamespaceContext } from './spreadsheet/NamespaceContext';
-import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
 export function Modals() {
   const location = useLocation();
@@ -100,9 +100,8 @@ export function Modals() {
 
   const modals = modalStack
     .map(({ name, options }) => {
-
-      console.log("options")
-      console.log(options)
+      console.log('options');
+      console.log(options);
 
       switch (name) {
         case 'goal-templates':
@@ -124,41 +123,22 @@ export function Modals() {
           );
 
         case 'schedule-zoom':
-          return (
-            <ScheduleZoom
-            />
-          );
+          return <ScheduleZoom />;
 
         case 'free-trial':
-          return (
-            <FreeTrial
-            />
-          );
+          return <FreeTrial />;
 
         case 'manage-subscription':
-          return (
-            <ManageSubscription
-            />
-          );
+          return <ManageSubscription />;
 
         case 'reset-avatar':
-          return (
-            <ResetAvatar
-            />
-          );
+          return <ResetAvatar />;
 
         case 'upload-avatar':
-          return (
-            <UploadAvatarModal
-              key={name}
-            />
-          );
+          return <UploadAvatarModal key={name} />;
 
         case 'start-new-conversation':
-          return (
-            <StartNewConversation key={name}
-            />
-          );
+          return <StartNewConversation key={name} />;
 
         case 'add-local-account':
           return <CreateLocalAccountModal key={name} />;

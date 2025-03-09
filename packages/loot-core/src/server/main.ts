@@ -142,16 +142,16 @@ handlers['transaction-delete'] = mutator(async function (transaction) {
 });
 
 handlers['transactions-parse-file'] = async function ({ filepath, options }) {
-    console.log("fifisdadasdasdflfilf");
+  console.log('fifisdadasdasdflfilf');
   console.log(filepath);
 
   return parseFile(filepath, options);
 };
 
 handlers['uploaded-avatar-parse-file'] = async function ({ filepath }) {
-  console.log("fififlfilf");
+  console.log('fififlfilf');
   console.log(filepath);
-  let contents = await fs.readFile(filepath);
+  const contents = await fs.readFile(filepath);
   return contents;
 };
 
@@ -298,12 +298,15 @@ handlers['category-create'] = mutator(async function ({
       throw APIError('Creating a category: groupId is required');
     }
 
-    return db.insertCategory({
-      name: name.trim(),
-      cat_group: groupId,
-      is_income: isIncome ? 1 : 0,
-      hidden: hidden ? 1 : 0,
-    }, { atEnd: atEnd });
+    return db.insertCategory(
+      {
+        name: name.trim(),
+        cat_group: groupId,
+        is_income: isIncome ? 1 : 0,
+        hidden: hidden ? 1 : 0,
+      },
+      { atEnd },
+    );
   });
 });
 
@@ -960,18 +963,16 @@ handlers['secret-check'] = async function (name) {
   }
 };
 
-handlers['airtable-user'] = async function ({url, coachId}) {
-
+handlers['airtable-user'] = async function ({ url, coachId }) {
   let server = getServer();
 
   if (url.includes('localhost')) {
   } else {
-    let firstlast = url.substring(8, url.indexOf('.'));
+    const firstlast = url.substring(8, url.indexOf('.'));
     if (url.includes('.app')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.app");
-    }
-    else if (url.includes('.com')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.com");
+      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
+    } else if (url.includes('.com')) {
+      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
     }
   }
 
@@ -981,19 +982,19 @@ handlers['airtable-user'] = async function ({url, coachId}) {
     return { error: 'unauthorized' };
   }
 
-  console.log('userToken')
-  console.log(userToken)
+  console.log('userToken');
+  console.log(userToken);
 
   const res = await get(server.SIGNUP_SERVER + '/validate', {
     headers: {
       'X-ACTUAL-TOKEN': userToken,
-    }
+    },
   });
 
   const data = await post(
     server.BASE_SERVER + '/airtable/user',
     {
-      'coachId': coachId
+      coachId,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -1003,19 +1004,16 @@ handlers['airtable-user'] = async function ({url, coachId}) {
   return data;
 };
 
-
-handlers['airtable-update-coach'] = async function ({url, coachId}) {
-
+handlers['airtable-update-coach'] = async function ({ url, coachId }) {
   let server = getServer();
 
   if (url.includes('localhost')) {
   } else {
-    let firstlast = url.substring(8, url.indexOf('.'));
+    const firstlast = url.substring(8, url.indexOf('.'));
     if (url.includes('.app')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.app");
-    }
-    else if (url.includes('.com')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.com");
+      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
+    } else if (url.includes('.com')) {
+      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
     }
   }
 
@@ -1025,19 +1023,19 @@ handlers['airtable-update-coach'] = async function ({url, coachId}) {
     return { error: 'unauthorized' };
   }
 
-  console.log('userToken')
-  console.log(userToken)
+  console.log('userToken');
+  console.log(userToken);
 
   const res = await get(server.SIGNUP_SERVER + '/validate', {
     headers: {
       'X-ACTUAL-TOKEN': userToken,
-    }
+    },
   });
 
   const data = await post(
     server.BASE_SERVER + '/airtable/update-coach',
     {
-      'coachId': coachId
+      coachId,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -1047,19 +1045,31 @@ handlers['airtable-update-coach'] = async function ({url, coachId}) {
   return data;
 };
 
-
-handlers['airtable-update-user'] = async function ({url, first_name, last_name, email, found_us, motivation, language, fprom_tid, fprom_ref, utm_campaign, utm_medium, utm_source, utm_term, utm_content}) {
-
+handlers['airtable-update-user'] = async function ({
+  url,
+  first_name,
+  last_name,
+  email,
+  found_us,
+  motivation,
+  language,
+  fprom_tid,
+  fprom_ref,
+  utm_campaign,
+  utm_medium,
+  utm_source,
+  utm_term,
+  utm_content,
+}) {
   let server = getServer();
 
   if (url.includes('localhost')) {
   } else {
-    let firstlast = url.substring(8, url.indexOf('.'));
+    const firstlast = url.substring(8, url.indexOf('.'));
     if (url.includes('.app')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.app");
-    }
-    else if (url.includes('.com')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.com");
+      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
+    } else if (url.includes('.com')) {
+      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
     }
   }
 
@@ -1069,31 +1079,31 @@ handlers['airtable-update-user'] = async function ({url, first_name, last_name, 
     return { error: 'unauthorized' };
   }
 
-  console.log('userToken')
-  console.log(userToken)
+  console.log('userToken');
+  console.log(userToken);
 
   const res = await get(server.SIGNUP_SERVER + '/validate', {
     headers: {
       'X-ACTUAL-TOKEN': userToken,
-    }
+    },
   });
 
   const data = await post(
     server.BASE_SERVER + '/airtable/update-user',
     {
-      'first_name': first_name,
-      'last_name': last_name,
-      'email': email,
-      'found_us': found_us,
-      'motivation': motivation,
-      'language': language,
-      'fprom_tid': fprom_tid,
-      'fprom_ref': fprom_ref,
-      'utm_campaign': utm_campaign,
-      'utm_medium': utm_medium,
-      'utm_source': utm_source,
-      'utm_term': utm_term,
-      'utm_content': utm_content
+      first_name,
+      last_name,
+      email,
+      found_us,
+      motivation,
+      language,
+      fprom_tid,
+      fprom_ref,
+      utm_campaign,
+      utm_medium,
+      utm_source,
+      utm_term,
+      utm_content,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -1103,18 +1113,19 @@ handlers['airtable-update-user'] = async function ({url, first_name, last_name, 
   return data;
 };
 
-handlers['airtable-update-local-storage-sync'] = async function ({url, local_storage}) {
-
+handlers['airtable-update-local-storage-sync'] = async function ({
+  url,
+  local_storage,
+}) {
   let server = getServer();
 
   if (url.includes('localhost')) {
   } else {
-    let firstlast = url.substring(8, url.indexOf('.'));
+    const firstlast = url.substring(8, url.indexOf('.'));
     if (url.includes('.app')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.app");
-    }
-    else if (url.includes('.com')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.com");
+      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
+    } else if (url.includes('.com')) {
+      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
     }
   }
 
@@ -1124,19 +1135,19 @@ handlers['airtable-update-local-storage-sync'] = async function ({url, local_sto
     return { error: 'unauthorized' };
   }
 
-  console.log('userToken')
-  console.log(userToken)
+  console.log('userToken');
+  console.log(userToken);
 
   const res = await get(server.SIGNUP_SERVER + '/validate', {
     headers: {
       'X-ACTUAL-TOKEN': userToken,
-    }
+    },
   });
 
   const data = await post(
     server.BASE_SERVER + '/airtable/update-local-storage-sync',
     {
-      'local_storage': local_storage
+      local_storage,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -1146,37 +1157,27 @@ handlers['airtable-update-local-storage-sync'] = async function ({url, local_sto
   return data;
 };
 
-
-
-
-
-
-
 handlers['env-variables'] = async function (url) {
-
   if (url.includes('localhost')) {
-    return await get(
-      getServer().BASE_SERVER + '/envvariables',
-    );
+    return await get(getServer().BASE_SERVER + '/envvariables');
   } else {
-    let firstlast = url.substring(8, url.indexOf('.'));
-    console.log("Can we?", firstlast);
+    const firstlast = url.substring(8, url.indexOf('.'));
+    console.log('Can we?', firstlast);
     if (url.includes('.app')) {
       return await get(
-        getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/envvariables',
+        getServer('https://' + firstlast + '.mybudgetcoach.app').BASE_SERVER +
+          '/envvariables',
       );
-    }
-    else if (url.includes('.com')) {
+    } else if (url.includes('.com')) {
       return await get(
-        getServer("https://" + firstlast + ".mybudgetcoach.com").BASE_SERVER + '/envvariables',
+        getServer('https://' + firstlast + '.mybudgetcoach.com').BASE_SERVER +
+          '/envvariables',
       );
     }
-
   }
 };
 
 handlers['chat-secrets'] = async function (url) {
-
   const userToken = await asyncStorage.getItem('user-token');
 
   if (!userToken) {
@@ -1185,30 +1186,39 @@ handlers['chat-secrets'] = async function (url) {
 
   if (url.includes('localhost')) {
     return await post(
-      getServer().BASE_SERVER + '/chatsecrets', {}, {
-      'X-ACTUAL-TOKEN': userToken,
-    });
+      getServer().BASE_SERVER + '/chatsecrets',
+      {},
+      {
+        'X-ACTUAL-TOKEN': userToken,
+      },
+    );
   } else {
-    let firstlast = url.substring(8, url.indexOf('.'));
-    console.log("Can we?", firstlast);
+    const firstlast = url.substring(8, url.indexOf('.'));
+    console.log('Can we?', firstlast);
     if (url.includes('.app')) {
       return await post(
-        getServer("https://" + firstlast + ".mybudgetcoach.app").BASE_SERVER + '/chatsecrets', {}, {
+        getServer('https://' + firstlast + '.mybudgetcoach.app').BASE_SERVER +
+          '/chatsecrets',
+        {},
+        {
           'X-ACTUAL-TOKEN': userToken,
-        });
-    }
-    else if (url.includes('.com')) {
+        },
+      );
+    } else if (url.includes('.com')) {
       return await post(
-        getServer("https://" + firstlast + ".mybudgetcoach.com").BASE_SERVER + '/chatsecrets', {}, {
+        getServer('https://' + firstlast + '.mybudgetcoach.com').BASE_SERVER +
+          '/chatsecrets',
+        {},
+        {
           'X-ACTUAL-TOKEN': userToken,
-        });
+        },
+      );
     }
   }
 };
 
-
 function delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 handlers['gocardless-poll-web-token'] = async function ({
@@ -1359,7 +1369,6 @@ handlers['plaid-institutions'] = async function () {
   }
 };
 
-
 handlers['plaid-remove-institution'] = async function (item_id) {
   const userToken = await asyncStorage.getItem('user-token');
 
@@ -1370,7 +1379,7 @@ handlers['plaid-remove-institution'] = async function (item_id) {
   try {
     return await post(
       getServer().BASE_SERVER + '/plaid/institution/remove',
-      {item_id: item_id},
+      { item_id },
       {
         'X-ACTUAL-TOKEN': userToken,
       },
@@ -1380,7 +1389,6 @@ handlers['plaid-remove-institution'] = async function (item_id) {
     return { error_code: 'TIMED_OUT' };
   }
 };
-
 
 handlers['gocardless-get-banks'] = async function (country) {
   const userToken = await asyncStorage.getItem('user-token');
@@ -1477,19 +1485,16 @@ function handleSyncError(err, acct) {
   };
 }
 
-
-handlers['plaid-create-link-token'] = async function ({url, item_id}) {
-
+handlers['plaid-create-link-token'] = async function ({ url, item_id }) {
   let server = getServer();
 
   if (url.includes('localhost')) {
   } else {
-    let firstlast = url.substring(8, url.indexOf('.'));
+    const firstlast = url.substring(8, url.indexOf('.'));
     if (url.includes('.app')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.app");
-    }
-    else if (url.includes('.com')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.com");
+      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
+    } else if (url.includes('.com')) {
+      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
     }
   }
 
@@ -1499,43 +1504,43 @@ handlers['plaid-create-link-token'] = async function ({url, item_id}) {
     return { error: 'unauthorized' };
   }
 
-  console.log('itemId')
+  console.log('itemId');
 
   const res = await get(server.SIGNUP_SERVER + '/validate', {
     headers: {
       'X-ACTUAL-TOKEN': userToken,
-    }
+    },
   });
 
   const data = await post(
     server.BASE_SERVER + '/plaid/api/create_link_token',
     {
-      item_id
+      item_id,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
     },
   );
 
-  console.log('got this from plaid')
-  console.log(data)
+  console.log('got this from plaid');
+  console.log(data);
 
   return data;
 };
 
-
-handlers['plaid-exchange-public-token'] = async function ({url, publicToken}) {
-
+handlers['plaid-exchange-public-token'] = async function ({
+  url,
+  publicToken,
+}) {
   let server = getServer();
 
   if (url.includes('localhost')) {
   } else {
-    let firstlast = url.substring(8, url.indexOf('.'));
+    const firstlast = url.substring(8, url.indexOf('.'));
     if (url.includes('.app')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.app");
-    }
-    else if (url.includes('.com')) {
-      server = getServer("https://" + firstlast + ".mybudgetcoach.com");
+      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
+    } else if (url.includes('.com')) {
+      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
     }
   }
 
@@ -1545,35 +1550,30 @@ handlers['plaid-exchange-public-token'] = async function ({url, publicToken}) {
     return { error: 'unauthorized' };
   }
 
-  console.log('userToken')
-  console.log(userToken)
+  console.log('userToken');
+  console.log(userToken);
 
   const res = await get(server.SIGNUP_SERVER + '/validate', {
     headers: {
       'X-ACTUAL-TOKEN': userToken,
-    }
+    },
   });
 
   const data = await post(
     server.BASE_SERVER + '/plaid/api/exchange_public_token',
     {
-      'public_token': publicToken
+      public_token: publicToken,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
     },
   );
 
-  console.log('got this from plaid')
-  console.log(data)
+  console.log('got this from plaid');
+  console.log(data);
 
   return data;
 };
-
-
-
-
-
 
 handlers['accounts-bank-sync'] = async function ({ ids = [] }) {
   const [[, userId], [, userKey]] = await asyncStorage.multiGet([
@@ -1594,7 +1594,7 @@ handlers['accounts-bank-sync'] = async function ({ ids = [] }) {
     true,
   );
 
-      console.log("set me free??")
+  console.log('set me free??');
 
   const errors = [];
   const newTransactions = [];
@@ -1604,11 +1604,12 @@ handlers['accounts-bank-sync'] = async function ({ ids = [] }) {
   for (let i = 0; i < accounts.length; i++) {
     const acct = accounts[i];
 
-          console.log("set me free111")
+    console.log('set me free111');
 
-    if (acct.bankId || acct.account_sync_source === 'plaid') { //hack for now
+    if (acct.bankId || acct.account_sync_source === 'plaid') {
+      //hack for now
 
-      console.log("set me free")
+      console.log('set me free');
 
       try {
         console.group('Bank Sync operation for account:', acct.name);
@@ -1765,37 +1766,31 @@ handlers['transactions-import'] = mutator(function ({
 });
 
 handlers['bank-remove'] = mutator(async function ({ item_id }) {
+  // const allBanks = await db.all(
+  //   'SELECT id, bank_id, name FROM banks',
+  // );
 
-
-// const allBanks = await db.all(
-//   'SELECT id, bank_id, name FROM banks',
-// );
-
-// console.log('All banks in database:', allBanks);
-
+  // console.log('All banks in database:', allBanks);
 
   // Step 1: Find the bank using bank_id
-  const bank = await db.first('SELECT id FROM banks WHERE bank_id = ?', [item_id]);
+  const bank = await db.first('SELECT id FROM banks WHERE bank_id = ?', [
+    item_id,
+  ]);
 
   // Check if a bank was found
   if (bank) {
     // Step 2: Use the bank's id to find related accounts
 
-    const accs = await db.all(
-      'SELECT id FROM accounts WHERE bank = ?',
-      [bank.id],
-    );
-
+    const accs = await db.all('SELECT id FROM accounts WHERE bank = ?', [
+      bank.id,
+    ]);
 
     console.log('Related accounts:', accs);
-        return accs;
-
+    return accs;
   } else {
     console.log(`No bank found with bank_id: ${item_id}`);
-        return 'ok';
-
+    return 'ok';
   }
-
 
   return accs;
 });

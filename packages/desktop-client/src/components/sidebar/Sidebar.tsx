@@ -39,9 +39,7 @@ export function Sidebar() {
   const MAX_SIDEBAR_WIDTH = width / 3;
   const MIN_SIDEBAR_WIDTH = 200;
 
-  const [sidebarWidth, setSidebarWidth] = useState(
-    DEFAULT_SIDEBAR_WIDTH
-  );
+  const [sidebarWidth, setSidebarWidth] = useState(DEFAULT_SIDEBAR_WIDTH);
 
   const onResizeStop = () => {
     setSidebarWidthLocalPref(sidebarWidth);
@@ -62,7 +60,7 @@ export function Sidebar() {
   const onFreeTrial = () => {
     dispatch(replaceModal('free-trial'));
   };
-  
+
   const onManageSubscription = () => {
     dispatch(replaceModal('manage-subscription'));
   };
@@ -72,14 +70,14 @@ export function Sidebar() {
   };
 
   const onUploadAvatar = () => {
-        //dispatch(replaceModal('add-account'));
+    //dispatch(replaceModal('add-account'));
 
     dispatch(replaceModal('upload-avatar'));
   };
 
   const onStartNewConversation = () => {
     dispatch(replaceModal('start-new-conversation'));
-  };  
+  };
 
   const containerRef = useResizeObserver<HTMLDivElement>(rect => {
     setSidebarWidth(rect.width);
@@ -125,10 +123,11 @@ export function Sidebar() {
         })}
       >
         <BudgetName>
-{/*          {!sidebar.alwaysFloats && (
+          {/*          {!sidebar.alwaysFloats && (
             <ToggleButton isFloating={isFloating} onFloat={onFloat} />
           )}
-*/}        </BudgetName>
+*/}{' '}
+        </BudgetName>
 
         <View
           style={{
@@ -147,7 +146,6 @@ export function Sidebar() {
             onUploadAvatar={onUploadAvatar}
             onStartNewConversation={onStartNewConversation}
           />
-
         </View>
       </View>
     </Resizable>

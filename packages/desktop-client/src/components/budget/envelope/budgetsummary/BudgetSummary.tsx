@@ -31,7 +31,7 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
     onToggleSummaryCollapse,
   } = useEnvelopeBudget();
 
-  let { setTop, setLeft, setOffset, commonElementsRef } = useCoach(); // this is causing the errors.
+  const { setTop, setLeft, setOffset, commonElementsRef } = useCoach(); // this is causing the errors.
 
   const [menuOpen, setMenuOpen] = useState(false);
   const triggerRef = useRef(null);
@@ -139,7 +139,6 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
               />
             </View>
             <View style={{ userSelect: 'none', marginLeft: 2 }}>
-
               {currentMonth === month ? (
                 <div
                   ref={element => {
@@ -159,10 +158,7 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
                     />
                   </Button>
                 </div>
-
-
               ) : (
-
                 <Button
                   ref={triggerRef}
                   variant="bare"
@@ -227,27 +223,27 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
               borderTop: '1px solid ' + theme.tableBorder,
             }}
           >
-              {currentMonth === month ? (
-                <div
-                  ref={element => {
-                    commonElementsRef.current['budget_header'] = element;
-                  }}
-                >
-                  <ToBudget
-                    prevMonthName={prevMonthName}
-                    month={month}
-                    onBudgetAction={onBudgetAction}
-                    isCollapsed
-                  />
-                </div>
-              ) : (
+            {currentMonth === month ? (
+              <div
+                ref={element => {
+                  commonElementsRef.current['budget_header'] = element;
+                }}
+              >
                 <ToBudget
                   prevMonthName={prevMonthName}
                   month={month}
                   onBudgetAction={onBudgetAction}
                   isCollapsed
                 />
-              )}
+              </div>
+            ) : (
+              <ToBudget
+                prevMonthName={prevMonthName}
+                month={month}
+                onBudgetAction={onBudgetAction}
+                isCollapsed
+              />
+            )}
           </View>
         ) : (
           <>
@@ -263,7 +259,6 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
               }}
             />
             <View style={{ margin: '23px 0' }}>
-
               {currentMonth === month ? (
                 <div
                   ref={element => {
@@ -283,7 +278,6 @@ export function BudgetSummary({ month }: BudgetSummaryProps) {
                   onBudgetAction={onBudgetAction}
                 />
               )}
-
             </View>
           </>
         )}

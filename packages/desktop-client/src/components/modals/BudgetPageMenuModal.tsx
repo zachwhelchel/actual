@@ -95,7 +95,7 @@ function BudgetPageMenu({
         },
         //this was causing the server to bug out by calling validate account many times.
         //removed it since there are other ways to close the budget
-        // { 
+        // {
         //   name: 'switch-budget-file',
         //   text: t('Switch budget file'),
         // },

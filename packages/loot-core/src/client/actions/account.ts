@@ -218,7 +218,7 @@ export function syncAccounts(id?: string) {
     for (let idx = 0; idx < accountIdsToSync.length; idx++) {
       const accountId = accountIdsToSync[idx];
 
-      console.log("another")
+      console.log('another');
 
       // Perform sync operation
       const res = await send('accounts-bank-sync', {

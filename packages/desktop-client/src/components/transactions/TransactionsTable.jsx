@@ -14,6 +14,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
+import { AnalyticsBrowser } from '@customerio/cdp-analytics-browser';
 import { css } from '@emotion/css';
 import {
   format as formatDate,
@@ -64,6 +65,7 @@ import { styles, theme } from '../../style';
 import { AccountAutocomplete } from '../autocomplete/AccountAutocomplete';
 import { CategoryAutocomplete } from '../autocomplete/CategoryAutocomplete';
 import { PayeeAutocomplete } from '../autocomplete/PayeeAutocomplete';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { Button } from '../common/Button2';
 import { Popover } from '../common/Popover';
 import { Text } from '../common/Text';
@@ -88,10 +90,7 @@ import {
 
 import { TransactionMenu } from './TransactionMenu';
 
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
-import { AnalyticsBrowser } from '@customerio/cdp-analytics-browser'
-
-const analytics = AnalyticsBrowser.load({ writeKey: '44e3df5b84cde8138074' })
+const analytics = AnalyticsBrowser.load({ writeKey: '44e3df5b84cde8138074' });
 
 function getDisplayValue(obj, name) {
   return obj ? obj[name] : '';
@@ -184,7 +183,7 @@ const TransactionHeader = memo(
   }) => {
     const dispatchSelected = useSelectedDispatch();
 
-    let { commonElementsRef } = useCoach(); // this is causing the errors.
+    const { commonElementsRef } = useCoach(); // this is causing the errors.
 
     const { t } = useTranslation();
 
@@ -343,7 +342,7 @@ const TransactionHeader = memo(
                 selectAscDesc(field, ascDesc, 'cleared', 'asc'),
               );
             }}
-            refForHighlighting='cleared_status_header'
+            refForHighlighting="cleared_status_header"
           />
         )}
       </Row>
@@ -413,7 +412,7 @@ function StatusCell({
     }
   }
 
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
 
   if (isNew == true) {
     return (
@@ -462,8 +461,6 @@ function StatusCell({
         </CellButton>
       </Cell>
     );
-
-
   }
 
   return (
@@ -522,8 +519,7 @@ function HeaderCell({
   onClick,
   refForHighlighting,
 }) {
-
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
 
   const style = {
     whiteSpace: 'nowrap',
@@ -555,7 +551,11 @@ function HeaderCell({
             <Button variant="bare" onPress={onClick} style={style}>
               <UnexposedCellContent value={cellValue} />
               {icon === 'asc' && (
-                <SvgArrowDown width={10} height={10} style={{ marginLeft: 5 }} />
+                <SvgArrowDown
+                  width={10}
+                  height={10}
+                  style={{ marginLeft: 5 }}
+                />
               )}
               {icon === 'desc' && (
                 <SvgArrowUp width={10} height={10} style={{ marginLeft: 5 }} />
@@ -635,9 +635,9 @@ function PayeeCell({
 }) {
   const isCreatingPayee = useRef(false);
 
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
   let refForHighlighting = null;
-  if (isNew == true && payee == null) { 
+  if (isNew == true && payee == null) {
     refForHighlighting = 'select_payee';
   }
 
@@ -846,7 +846,6 @@ function PayeeCell({
         />
       )}
     </CustomCell>
-
 
     // </div>
   );
@@ -1584,7 +1583,7 @@ const Transaction = memo(function Transaction({
               if (newNavigator != null) {
                 newNavigator.onEdit(null);
               }
-              onUpdate('category', "");
+              onUpdate('category', '');
             } else {
               onUpdate('category', value);
             }
@@ -1833,8 +1832,8 @@ function NewTransaction({
   const childTransactions = transactions.filter(
     t => t.parent_id === transactions[0].id,
   );
-  
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
   const emptyChildTransactions = childTransactions.filter(t => t.amount === 0);
 
   const addButtonRef = useRef(null);
@@ -1936,7 +1935,7 @@ function NewTransaction({
               }}
             >
               Add
-            </div>            
+            </div>
           </Button>
         )}
       </View>
@@ -2521,7 +2520,6 @@ export const TransactionTable = forwardRef((props, ref) => {
   }, [props.onAdd, newNavigator.onEdit]);
 
   const onSave = useCallback(
-
     async (transaction, subtransactions = null, updatedFieldName = null) => {
       savePending.current = true;
 

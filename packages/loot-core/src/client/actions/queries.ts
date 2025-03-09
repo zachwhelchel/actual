@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { AnalyticsBrowser } from '@customerio/cdp-analytics-browser';
 import { t } from 'i18next';
 import throttle from 'throttleit';
 
@@ -9,9 +10,8 @@ import * as constants from '../constants';
 import { pushModal } from './modals';
 import { addNotification, addGenericErrorNotification } from './notifications';
 import type { Dispatch, GetState } from './types';
-import { AnalyticsBrowser } from '@customerio/cdp-analytics-browser'
 
-const analytics = AnalyticsBrowser.load({ writeKey: '44e3df5b84cde8138074' })
+const analytics = AnalyticsBrowser.load({ writeKey: '44e3df5b84cde8138074' });
 
 export function applyBudgetAction(month, type, args) {
   return async (dispatch: Dispatch) => {
@@ -19,7 +19,7 @@ export function applyBudgetAction(month, type, args) {
       case 'budget-amount':
         analytics.track('update_budgeted_amount', {
           category: args.category,
-          month: month,
+          month,
         });
 
         await send('budget/budget-amount', {
@@ -170,9 +170,8 @@ export function createCategory(
   hidden: boolean,
   atEnd: boolean = false,
 ) {
-
   analytics.track('create_category', {
-    name: name,
+    name,
   });
 
   return async (dispatch: Dispatch) => {
@@ -322,9 +321,8 @@ export function updateAccount(account: AccountEntity) {
 }
 
 export function createAccount(name, balance, offBudget) {
-
   analytics.track('create_account', {
-    name: name,
+    name,
     off_budget: offBudget,
   });
 

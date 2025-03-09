@@ -83,7 +83,7 @@ export function ManagementApp() {
     fetchData();
   }, [dispatch]);
 
-  let imgSrc = "/maskable-192x192.png";
+  const imgSrc = '/maskable-192x192.png';
 
   return (
     <View style={{ height: '100%', color: theme.pageText }}>
@@ -113,10 +113,9 @@ export function ManagementApp() {
           }}
         />
       </View>
-
       <View
         style={{
-          height: '100%'
+          height: '100%',
         }}
       >
         <img
@@ -130,14 +129,11 @@ export function ManagementApp() {
             left: '0px',
             bottom: '0px',
             right: '0px',
-
           }}
           src={imgSrc}
           alt="coach"
         />
       </View>
-
-
       {managerHasInitialized && !isLoading && (
         <View
           style={{
@@ -189,7 +185,7 @@ export function ManagementApp() {
                   right: 0,
                   padding: '6px 10px',
                   zIndex: 4000,
-                  color: 'black'
+                  color: 'black',
                 }}
               >
                 <Routes>
@@ -231,12 +227,12 @@ export function ManagementApp() {
           )}
         </View>
       )}
-
       <Routes>
         <Route path="/config-server" element={null} />
         <Route path="/*" element={<ServerURL />} />
       </Routes>
-{/*      <Version />
-*/}    </View>
+      {/*      <Version />
+       */}{' '}
+    </View>
   );
 }

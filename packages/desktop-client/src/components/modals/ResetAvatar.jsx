@@ -1,30 +1,28 @@
 import React, { useState } from 'react';
 
+import { REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 import { colors } from '../../style';
+import { useCoach } from '../coach/Coach';
 import { Block } from '../common/Block';
 import { Button } from '../common/Button';
+import { BigInput } from '../common/Input';
 import { Modal } from '../common/Modal';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
-import { useCoach } from '../coach/Coach';
-import { BigInput } from '../common/Input';
-import { REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 
-export function ResetAvatar({
-  modalProps,
-}) {
-  let { resetCoach, setDialogueId } = useCoach();
+export function ResetAvatar({ modalProps }) {
+  const { resetCoach, setDialogueId } = useCoach();
 
-  let [currentInput, setCurrentInput] = useState("");
+  const [currentInput, setCurrentInput] = useState('');
 
   //this has implications for the back track for back buttons that need to be considered.
   function jumpToInput() {
     if (currentInput !== undefined && currentInput !== null) {
       if (currentInput.length > 0) {
         setDialogueId(currentInput);
-        console.log("move it to: " + currentInput);
+        console.log('move it to: ' + currentInput);
       } else {
-        return
+        return;
       }
     }
   }
@@ -34,9 +32,10 @@ export function ResetAvatar({
       {() => (
         <View style={{ lineHeight: 1.5 }}>
           <Block>
-            Would you like to reset your coach avatar? This will reset them to the beginning of their prompts here on the app.
+            Would you like to reset your coach avatar? This will reset them to
+            the beginning of their prompts here on the app.
           </Block>
-          {REACT_APP_UI_MODE === 'coach' &&
+          {REACT_APP_UI_MODE === 'coach' && (
             <>
               <View
                 style={{
@@ -44,7 +43,8 @@ export function ResetAvatar({
                 }}
               >
                 <Block>
-                  Alternatively you can use the <b>Jump To Id</b> button to jump straight to a specific dialogue.
+                  Alternatively you can use the <b>Jump To Id</b> button to jump
+                  straight to a specific dialogue.
                 </Block>
               </View>
               <View
@@ -72,7 +72,7 @@ export function ResetAvatar({
                 </Button>
               </View>
             </>
-          }
+          )}
           <View
             style={{
               marginTop: 20,

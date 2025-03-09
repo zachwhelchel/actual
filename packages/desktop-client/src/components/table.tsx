@@ -30,6 +30,7 @@ import { SvgDelete, SvgExpandArrow } from '../icons/v0';
 import { SvgCheckmark } from '../icons/v1';
 import { styles, theme } from '../style';
 
+import Coach, { CoachProvider, useCoach } from './coach/Coach';
 import { Button } from './common/Button2';
 import { Input } from './common/Input';
 import { Menu, type MenuItem } from './common/Menu';
@@ -49,7 +50,6 @@ import {
 } from './spreadsheet';
 import { type FormatType, useFormat } from './spreadsheet/useFormat';
 import { useSheetValue } from './spreadsheet/useSheetValue';
-import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
 export const ROW_HEIGHT = 32;
 
@@ -194,7 +194,7 @@ export function Cell({
     alignItems,
   };
 
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
 
   const conditionalPrivacyFilter = useMemo(
     () => (
@@ -246,7 +246,8 @@ export function Cell({
               <UnexposedCellContent value={value} formatter={formatter} />
             )}
           </View>
-        ) : (refForHighlighting == 'select_category' || refForHighlighting == 'payment_input') ? (
+        ) : refForHighlighting == 'select_category' ||
+          refForHighlighting == 'payment_input' ? (
           <View
             style={{
               flexDirection: 'row',
@@ -428,7 +429,12 @@ function InputValue({
   function onKeyDown(e) {
     // Only enter and tab to escape (which allows the user to move
     // around)
-    if (e.key !== 'Enter' && e.key !== 'Tab' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') {
+    if (
+      e.key !== 'Enter' &&
+      e.key !== 'Tab' &&
+      e.key !== 'ArrowDown' &&
+      e.key !== 'ArrowUp'
+    ) {
       e.stopPropagation();
     }
 
@@ -487,7 +493,11 @@ export function InputCell({
   ...props
 }: InputCellProps) {
   return (
-    <Cell textAlign={textAlign} refForHighlighting={refForHighlighting} {...props}>
+    <Cell
+      textAlign={textAlign}
+      refForHighlighting={refForHighlighting}
+      {...props}
+    >
       {() => (
         <InputValue
           value={props.value}
@@ -559,7 +569,11 @@ export function CustomCell({
   }
 
   return (
-    <Cell {...props} refForHighlighting={refForHighlighting} value={defaultValue}>
+    <Cell
+      {...props}
+      refForHighlighting={refForHighlighting}
+      value={defaultValue}
+    >
       {() =>
         children({
           onBlur: onBlur_,

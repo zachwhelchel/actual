@@ -1,6 +1,4 @@
 import React, { useState, useMemo, useContext } from 'react';
-import { SvgAdd, SvgEducation, SvgBadge, SvgReload, SvgBolt, SvgChatBubbleDots } from '../../icons/v1';
-
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -9,6 +7,18 @@ import * as queries from 'loot-core/src/client/queries';
 import { type State } from 'loot-core/src/client/state-types';
 import { type AccountEntity } from 'loot-core/types/models';
 
+import {
+  REACT_APP_BILLING_STATUS,
+  REACT_APP_TRIAL_END_DATE,
+  REACT_APP_START_PAYING_DATE,
+  REACT_APP_ZOOM_RATE,
+  REACT_APP_ZOOM_LINK,
+  REACT_APP_COACH,
+  REACT_APP_COACH_FIRST_NAME,
+  REACT_APP_USER_FIRST_NAME,
+  REACT_APP_UI_MODE,
+  REACT_APP_COACH_PHOTO,
+} from '../../coaches/coachVariables';
 import { useAccounts } from '../../hooks/useAccounts';
 import { useClosedAccounts } from '../../hooks/useClosedAccounts';
 import { useFailedAccounts } from '../../hooks/useFailedAccounts';
@@ -16,19 +26,25 @@ import { useLocalPref } from '../../hooks/useLocalPref';
 import { useOffBudgetAccounts } from '../../hooks/useOffBudgetAccounts';
 import { useOnBudgetAccounts } from '../../hooks/useOnBudgetAccounts';
 import { useUpdatedAccounts } from '../../hooks/useUpdatedAccounts';
-import { View } from '../common/View';
-import { Link } from '../common/Link';
+import {
+  SvgAdd,
+  SvgEducation,
+  SvgBadge,
+  SvgReload,
+  SvgBolt,
+  SvgChatBubbleDots,
+} from '../../icons/v1';
+import { theme } from '../../style';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
+import { Button } from '../common/Button';
 import { Card } from '../common/Card';
+import { Link } from '../common/Link';
+import { View } from '../common/View';
 import { type OnDropCallback } from '../sort';
 import { type Binding } from '../spreadsheet';
-import { theme } from '../../style';
-import { Button } from '../common/Button';
 
 import { Account } from './Account';
 import { SecondaryItem } from './SecondaryItem';
-
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
-import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE, REACT_APP_COACH_PHOTO } from '../../coaches/coachVariables';
 
 const fontWeight = 600;
 
@@ -102,62 +118,74 @@ export function Accounts({
     setShowClosedAccountsPref(!showClosedAccounts);
   };
 
-  let { commonElementsRef, conversationDeck, openConversation, setOpenConversation, allConversations } = useCoach(); // this is causing the errors.
+  const {
+    commonElementsRef,
+    conversationDeck,
+    openConversation,
+    setOpenConversation,
+    allConversations,
+  } = useCoach(); // this is causing the errors.
 
-  let coachFirstNameZoom = "Zoom with " + REACT_APP_COACH_FIRST_NAME;
-  let coachFirstNameReset = "Reset " + REACT_APP_COACH_FIRST_NAME;
-  let imgSrc = REACT_APP_COACH_PHOTO;
-  let myCoach = "My Coach: " + REACT_APP_COACH_FIRST_NAME;
+  const coachFirstNameZoom = 'Zoom with ' + REACT_APP_COACH_FIRST_NAME;
+  const coachFirstNameReset = 'Reset ' + REACT_APP_COACH_FIRST_NAME;
+  const imgSrc = REACT_APP_COACH_PHOTO;
+  const myCoach = 'My Coach: ' + REACT_APP_COACH_FIRST_NAME;
 
-  let mode = "subscribed";
+  let mode = 'subscribed';
   let freeTrialDaysLeft = 0;
   let daysUntilDeletion = 0;
 
-
-  let supportedTriggerTypes = [];
+  const supportedTriggerTypes = [];
 
   allConversations.forEach((value, key) => {
     const conversation = value;
     conversation.triggerType;
     if (conversation.canBeUserInitiated == true) {
-      supportedTriggerTypes.push({title: conversation.title, triggerType: conversation.triggerType});
+      supportedTriggerTypes.push({
+        title: conversation.title,
+        triggerType: conversation.triggerType,
+      });
     }
   });
 
-
   const oneDay = 24 * 60 * 60 * 1000;
 
-  if (REACT_APP_START_PAYING_DATE !== null && REACT_APP_START_PAYING_DATE !== undefined) {
+  if (
+    REACT_APP_START_PAYING_DATE !== null &&
+    REACT_APP_START_PAYING_DATE !== undefined
+  ) {
     const startPayingDate = Date.parse(REACT_APP_START_PAYING_DATE);
-    console.log("startPayingDate:" + startPayingDate);
+    console.log('startPayingDate:' + startPayingDate);
 
-    var now = new Date();
-    now.setHours(0,0,0,0);
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
     if (startPayingDate >= now) {
-      console.log('free')
-      mode = "free_trial";
-      freeTrialDaysLeft = Math.round(Math.abs((startPayingDate - now) / oneDay));
-
+      console.log('free');
+      mode = 'free_trial';
+      freeTrialDaysLeft = Math.round(
+        Math.abs((startPayingDate - now) / oneDay),
+      );
     } else {
-            console.log('deletion_soon')
+      console.log('deletion_soon');
 
-      mode = "deletion_soon"
-      daysUntilDeletion = Math.round(Math.abs((now - startPayingDate) / oneDay));
+      mode = 'deletion_soon';
+      daysUntilDeletion = Math.round(
+        Math.abs((now - startPayingDate) / oneDay),
+      );
     }
   }
 
   if (REACT_APP_BILLING_STATUS === 'paid') {
-                console.log('subscribed')
-                console.log(REACT_APP_BILLING_STATUS)
+    console.log('subscribed');
+    console.log(REACT_APP_BILLING_STATUS);
 
-    mode = "subscribed";
+    mode = 'subscribed';
   }
 
-  const messageCenterText = "Message Center";
+  const messageCenterText = 'Message Center';
 
   return (
     <View>
-
       <div
         ref={element => {
           commonElementsRef.current['all_accounts'] = element;
@@ -275,7 +303,6 @@ export function Accounts({
         />
       </div>
 
-
       <View
         style={{
           height: 1,
@@ -293,7 +320,6 @@ export function Accounts({
           marginTop: 22,
         }}
       >
-
         {openConversation == null && REACT_APP_COACH_FIRST_NAME != null && (
           <img
             style={{
@@ -311,7 +337,7 @@ export function Accounts({
         {openConversation != null && REACT_APP_COACH_FIRST_NAME != null && (
           <img
             style={{
-              opacity: .4,
+              opacity: 0.4,
               display: 'block',
               marginLeft: 'auto',
               marginRight: 'auto',
@@ -323,7 +349,6 @@ export function Accounts({
             alt="coach"
           />
         )}
-
       </div>
 
       <View
@@ -348,7 +373,7 @@ export function Accounts({
         {openConversation != null && REACT_APP_COACH_FIRST_NAME != null && (
           <h4
             style={{
-              opacity: .4,
+              opacity: 0.4,
               marginBottom: '0',
               paddingBottom: '0',
             }}
@@ -358,7 +383,6 @@ export function Accounts({
         )}
       </View>
 
-
       <div
         style={{
           marginTop: 5,
@@ -367,13 +391,12 @@ export function Accounts({
           flexShrink: '0',
         }}
       >
-        {conversationDeck.map((conversation) => (
-
+        {conversationDeck.map(conversation => (
           <>
             {conversation.id === openConversation && (
               <Card
                 style={{
-                  opacity: .4,
+                  opacity: 0.4,
                   marginTop: 15,
                   marginBottom: 7,
                   paddingLeft: 10,
@@ -384,20 +407,28 @@ export function Accounts({
                 }}
                 onClick={() => setOpenConversation(null)}
               >
-                <h4 style={{
-                  marginTop: 0,
-                  marginBottom: 0,
-                  paddingTop: 0,
-                  paddingBottom: 0,
-                  color: theme.pageText,
-                }}>{conversation.title}</h4>
-                <p style={{
-                  marginTop: 0,
-                  marginBottom: 0,
-                  paddingTop: 0,
-                  paddingBottom: 0,
-                  color: theme.pageText,
-                }}>In progress...</p>
+                <h4
+                  style={{
+                    marginTop: 0,
+                    marginBottom: 0,
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    color: theme.pageText,
+                  }}
+                >
+                  {conversation.title}
+                </h4>
+                <p
+                  style={{
+                    marginTop: 0,
+                    marginBottom: 0,
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    color: theme.pageText,
+                  }}
+                >
+                  In progress...
+                </p>
               </Card>
             )}
             {conversation.id !== openConversation && (
@@ -414,28 +445,35 @@ export function Accounts({
                 }}
                 onClick={() => setOpenConversation(conversation.id)}
               >
-                <h4 style={{
-                  marginTop: 0,
-                  marginBottom: 0,
-                  paddingTop: 0,
-                  paddingBottom: 0,
-                  color: theme.pageText,
-                }}>{conversation.title}</h4>
-                <p style={{
-                  marginTop: 0,
-                  marginBottom: 0,
-                  paddingTop: 0,
-                  paddingBottom: 0,
-                  color: theme.pageText,
-                }}>Continue conversation...</p>
+                <h4
+                  style={{
+                    marginTop: 0,
+                    marginBottom: 0,
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    color: theme.pageText,
+                  }}
+                >
+                  {conversation.title}
+                </h4>
+                <p
+                  style={{
+                    marginTop: 0,
+                    marginBottom: 0,
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    color: theme.pageText,
+                  }}
+                >
+                  Continue conversation...
+                </p>
               </Card>
             )}
-
           </>
         ))}
 
-      {supportedTriggerTypes.length > 0 && (
-          <p 
+        {supportedTriggerTypes.length > 0 && (
+          <p
             style={{
               marginTop: 15,
               marginLeft: 15,
@@ -447,12 +485,9 @@ export function Accounts({
             }}
             onClick={() => onStartNewConversation()}
           >
-              <u>Start a New Conversation</u>
+            <u>Start a New Conversation</u>
           </p>
-      )}
-
-
-
+        )}
       </div>
 
       <View
@@ -464,7 +499,6 @@ export function Accounts({
           flexShrink: '0',
         }}
       >
-
         {REACT_APP_COACH != undefined && (
           <div
             ref={element => {
@@ -480,7 +514,7 @@ export function Accounts({
                 width: '90%',
                 marginLeft: '5%',
                 marginRight: '5%',
-                marginTop: 0
+                marginTop: 0,
               }}
             >
               Schedule Video Call
@@ -488,19 +522,18 @@ export function Accounts({
           </div>
         )}
 
-          <Button
-            type="primary"
-            onClick={() => onUploadAvatar()}
-            style={{
-              width: '90%',
-              marginLeft: '5%',
-              marginRight: '5%',
-              marginTop: 10
-            }}
-          >
-            Manage Coach
-          </Button>
-
+        <Button
+          type="primary"
+          onClick={() => onUploadAvatar()}
+          style={{
+            width: '90%',
+            marginLeft: '5%',
+            marginRight: '5%',
+            marginTop: 10,
+          }}
+        >
+          Manage Coach
+        </Button>
       </View>
 
       <View
@@ -512,84 +545,87 @@ export function Accounts({
         }}
       />
 
-      {REACT_APP_UI_MODE === "user" && mode === "subscribed" && (
-        <p style={{
+      {REACT_APP_UI_MODE === 'user' && mode === 'subscribed' && (
+        <p
+          style={{
             marginTop: 15,
             marginLeft: 15,
             marginRight: 15,
             paddingBottom: 15,
             flexShrink: '1',
-          }}>
-            You are currently subscribed. Manage your subscription
-            {" "}
-            <Link
-              variant="external"
-              linkColor="white"
-              to={`https://mybudgetcoach.app/subscription`}
-            >
+          }}
+        >
+          You are currently subscribed. Manage your subscription{' '}
+          <Link
+            variant="external"
+            linkColor="white"
+            to="https://mybudgetcoach.app/subscription"
+          >
             here
-            </Link>
-            .
+          </Link>
+          .
         </p>
       )}
 
-      {REACT_APP_UI_MODE === "user" && mode === "free_trial" && (
-        <p style={{
+      {REACT_APP_UI_MODE === 'user' && mode === 'free_trial' && (
+        <p
+          style={{
             marginTop: 15,
             marginLeft: 15,
             marginRight: 15,
             paddingBottom: 15,
             flexShrink: '1',
-          }}>
-            Your Free Trial has {freeTrialDaysLeft} days remaining.
-            {" "}
-            <Link
-              variant="external"
-              linkColor="white"
-              to={`https://mybudgetcoach.app/subscription`}
-            >
+          }}
+        >
+          Your Free Trial has {freeTrialDaysLeft} days remaining.{' '}
+          <Link
+            variant="external"
+            linkColor="white"
+            to="https://mybudgetcoach.app/subscription"
+          >
             Subscribe at any time
-            </Link>
-            {" "}
-            to keep your budget beyond your trial.
+          </Link>{' '}
+          to keep your budget beyond your trial.
         </p>
       )}
 
-      {REACT_APP_UI_MODE === "user" && mode === "deletion_soon" && (
+      {REACT_APP_UI_MODE === 'user' && mode === 'deletion_soon' && (
         <>
-          <p style={{
+          <p
+            style={{
               marginTop: 15,
               marginLeft: 15,
               marginRight: 15,
               paddingBottom: 15,
               flexShrink: '1',
               color: theme.errorText,
-            }}>
-              Your Free Trial ended {daysUntilDeletion} days ago.
-              {" "}
-              <Link
-                variant="external"
-                linkColor="white"
-                to={`https://mybudgetcoach.app/subscription`}
-              >
+            }}
+          >
+            Your Free Trial ended {daysUntilDeletion} days ago.{' '}
+            <Link
+              variant="external"
+              linkColor="white"
+              to="https://mybudgetcoach.app/subscription"
+            >
               Subscribe now
-              </Link>
-              {" "}
-              to avoid losing your budget.
+            </Link>{' '}
+            to avoid losing your budget.
           </p>
-          <p style={{
+          <p
+            style={{
               marginTop: 0,
               marginLeft: 15,
               marginRight: 15,
               paddingBottom: 15,
               flexShrink: '1',
               color: theme.errorText,
-            }}>
-            Note: Once subscribed this warning will disapear within 2 business days.
+            }}
+          >
+            Note: Once subscribed this warning will disapear within 2 business
+            days.
           </p>
         </>
       )}
-
     </View>
   );
 }

@@ -3,6 +3,7 @@ import { useTranslation, Trans } from 'react-i18next';
 
 import { SvgDotsHorizontalTriple } from '../../icons/v1';
 import { theme, styles } from '../../style';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { Button } from '../common/Button2';
 import { Menu } from '../common/Menu';
 import { Popover } from '../common/Popover';
@@ -10,7 +11,6 @@ import { View } from '../common/View';
 
 import { RenderMonths } from './RenderMonths';
 import { getScrollbarWidth } from './util';
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 type BudgetTotalsProps = {
   MonthComponent: ComponentProps<typeof RenderMonths>['component'];
@@ -28,7 +28,7 @@ export const BudgetTotals = memo(function BudgetTotals({
 }: BudgetTotalsProps) {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
   const triggerRef = useRef(null);
 
   return (

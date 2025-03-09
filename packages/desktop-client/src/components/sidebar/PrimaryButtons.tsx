@@ -13,11 +13,11 @@ import {
   SvgChatBubbleDots,
 } from '../../icons/v1';
 import { SvgCalendar } from '../../icons/v2';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { View } from '../common/View';
 
 import { Item } from './Item';
 import { SecondaryItem } from './SecondaryItem';
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 export function PrimaryButtons() {
   const { t } = useTranslation();
@@ -35,8 +35,7 @@ export function PrimaryButtons() {
     }
   }, [isActive, location.pathname]);
 
-  let { totalUnreadCount, commonElementsRef } = useCoach(); // this is causing the errors.
-
+  const { totalUnreadCount, commonElementsRef } = useCoach(); // this is causing the errors.
 
   return (
     <View style={{ flexShrink: 0 }}>
@@ -54,7 +53,12 @@ export function PrimaryButtons() {
           commonElementsRef.current['message_center'] = element;
         }}
       >
-        <Item title="Messages" badge={totalUnreadCount} Icon={SvgChatBubbleDots} to="/coachmessagecenter" />
+        <Item
+          title="Messages"
+          badge={totalUnreadCount}
+          Icon={SvgChatBubbleDots}
+          to="/coachmessagecenter"
+        />
       </div>
 
       <Item

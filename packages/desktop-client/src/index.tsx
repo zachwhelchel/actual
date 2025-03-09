@@ -31,11 +31,20 @@ import {
 import { q } from 'loot-core/src/shared/query';
 
 import { AuthProvider } from './auth/AuthProvider';
+import {
+  REACT_APP_BILLING_STATUS,
+  REACT_APP_TRIAL_END_DATE,
+  REACT_APP_ZOOM_RATE,
+  REACT_APP_ZOOM_LINK,
+  REACT_APP_COACH,
+  REACT_APP_COACH_FIRST_NAME,
+  REACT_APP_USER_FIRST_NAME,
+  REACT_APP_USER_EMAIL,
+} from './coaches/coachVariables';
 import { App } from './components/App';
 import { ServerProvider } from './components/ServerContext';
 import { handleGlobalEvents } from './global-events';
 import { type BoundActions } from './hooks/useActions';
-import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_USER_EMAIL } from './coaches/coachVariables';
 
 // See https://github.com/WICG/focus-visible. Only makes the blue
 // focus outline appear from keyboard events.
@@ -104,19 +113,17 @@ window.$send = send;
 window.$query = runQuery;
 window.$q = q;
 
-
 // const socketName = await global.Actual.getServerSocket();
 
 // await initConnection(socketName);
 
-    //await loadGlobalPrefs();
+//await loadGlobalPrefs();
 
-  console.log("here though?");
+console.log('here though?');
 
-
-  //const results = await send('env-variables');
+//const results = await send('env-variables');
 // var myobj = JSON.parse(results);
-  console.log("here though 2?");
+console.log('here though 2?');
 
 // let REACT_APP_BILLING_STATUS = myobj.data.REACT_APP_BILLING_STATUS;
 // let REACT_APP_TRIAL_END_DATE = myobj.data.REACT_APP_TRIAL_END_DATE;
@@ -128,10 +135,8 @@ window.$q = q;
 // let REACT_APP_USER_FIRST_NAME = myobj.data.REACT_APP_USER_FIRST_NAME;
 // let REACT_APP_UI_MODE = myobj.data.REACT_APP_UI_MODE;
 
-
-let someConversations = new Map();
-let initialDialogueId = undefined;
-
+const someConversations = new Map();
+const initialDialogueId = undefined;
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -139,7 +144,10 @@ root.render(
   <Provider store={store}>
     <ServerProvider>
       <AuthProvider>
-        <App someDialogues={someConversations} initialDialogueId={initialDialogueId}/>
+        <App
+          someDialogues={someConversations}
+          initialDialogueId={initialDialogueId}
+        />
       </AuthProvider>
     </ServerProvider>
   </Provider>,

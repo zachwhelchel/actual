@@ -27,9 +27,9 @@ import { useLocalPref } from '../../hooks/useLocalPref';
 import { useNavigate } from '../../hooks/useNavigate';
 import { useSyncedPref } from '../../hooks/useSyncedPref';
 import { styles } from '../../style';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { View } from '../common/View';
 import { NamespaceContext } from '../spreadsheet/NamespaceContext';
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 import { DynamicBudgetTable } from './DynamicBudgetTable';
 import * as envelopeBudget from './envelope/EnvelopeBudgetComponents';
@@ -220,8 +220,8 @@ function BudgetInner(props: BudgetInnerProps) {
   const onSaveNewCategories = async (categories, atEnd = false) => {
     //let ids = [];
     console.log('Sugar were going dowm');
-    for (var index in categories) {
-      let category = categories[index];
+    for (const index in categories) {
+      const category = categories[index];
       console.log('Sugar for loop');
       console.log(category);
 
@@ -399,7 +399,7 @@ function BudgetInner(props: BudgetInnerProps) {
         onBudgetAction={onBudgetAction}
         onToggleSummaryCollapse={onToggleCollapse}
       >
-        <Coach 
+        <Coach
           context="Budget"
           onSaveGroup={onSaveGroup}
           onDeleteGroup={onDeleteGroup}
@@ -471,7 +471,7 @@ export function Budget() {
   );
 
   //let categoriesRef = useRef([]);
-  let { categoriesCoachRef } = useCoach(); // this is causing the errors.
+  const { categoriesCoachRef } = useCoach(); // this is causing the errors.
 
   // In a previous iteration, the wrapper needs `overflow: hidden` for
   // some reason. Without it at certain dimensions the width/height

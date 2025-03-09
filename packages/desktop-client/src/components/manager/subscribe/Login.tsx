@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+
 import { Auth0Lock } from 'auth0-lock';
 
 import { isElectron } from 'loot-core/shared/environment';
@@ -13,6 +14,7 @@ import { type OpenIdConfig } from 'loot-core/types/models/openid';
 import { useNavigate } from '../../../hooks/useNavigate';
 import { AnimatedLoading } from '../../../icons/AnimatedLoading';
 import { styles, theme } from '../../../style';
+import * as colorPalette from '../../../style/palette';
 import { Button, ButtonWithLoading } from '../../common/Button2';
 import { BigInput } from '../../common/Input';
 import { Label } from '../../common/Label';
@@ -24,7 +26,6 @@ import { useAvailableLoginMethods, useLoginMethod } from '../../ServerContext';
 
 import { useBootstrapped, Title } from './common';
 import { OpenIdForm } from './OpenIdForm';
-import * as colorPalette from '../../../style/palette';
 
 function PasswordLogin({ setError, dispatch }) {
   const [password, setPassword] = useState('');
@@ -45,8 +46,8 @@ function PasswordLogin({ setError, dispatch }) {
     setLoading(false);
 
     if (error) {
-      console.log('hhhhhhh')
-      console.log(error)
+      console.log('hhhhhhh');
+      console.log(error);
       setError(error);
     } else {
       dispatch(loggedIn());
@@ -119,70 +120,75 @@ function OpenIdLogin({ setError }) {
     <View>
       {!reviewOpenIdConfiguration && (
         <>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          minHeight: '100vh'  // This ensures the parent takes full viewport height
-        }}>
-
-          <div 
+          <div
             style={{
-              width: '300px',
-              padding: '24px',
-              backgroundColor: 'white',
-              borderRadius: '8px',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
               display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '10px',
-              alignSelf: 'center',
+              justifyContent: 'center',
+              minHeight: '100vh', // This ensures the parent takes full viewport height
             }}
           >
-            {/* Logo */}
-            <img 
-              src="/logo_circle.png" 
-              alt="Logo"
+            <div
               style={{
-                width: '64px',
-                height: '64px'
+                width: '300px',
+                padding: '24px',
+                backgroundColor: 'white',
+                borderRadius: '8px',
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '10px',
+                alignSelf: 'center',
               }}
-            />
-
-            {/* Welcome Text */}
-            <div style={{ textAlign: 'center' }}>
-              <h2 style={{ 
-                fontSize: '20px', 
-                fontWeight: 'bold',
-                marginBottom: '8px',
-                color: 'black'
-              }}>
-                MyBudgetCoach
-              </h2>
-              <p style={{ 
-                color: '#666',
-                fontSize: '14px'
-              }}>
-                Sign in to continue to your account:
-              </p>
-            </div>
-
-            {/* Button Container */}
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button
-                variant="primary"
+            >
+              {/* Logo */}
+              <img
+                src="/logo_circle.png"
+                alt="Logo"
                 style={{
-                  padding: 10,
-                  fontSize: 14,
-                  width: 170,
-                  marginTop: 5,
+                  width: '64px',
+                  height: '64px',
                 }}
-                onPress={onSubmitOpenId}
-              >
-                <Trans>Sign In</Trans>
-              </Button>
+              />
+
+              {/* Welcome Text */}
+              <div style={{ textAlign: 'center' }}>
+                <h2
+                  style={{
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                    color: 'black',
+                  }}
+                >
+                  MyBudgetCoach
+                </h2>
+                <p
+                  style={{
+                    color: '#666',
+                    fontSize: '14px',
+                  }}
+                >
+                  Sign in to continue to your account:
+                </p>
+              </div>
+
+              {/* Button Container */}
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button
+                  variant="primary"
+                  style={{
+                    padding: 10,
+                    fontSize: 14,
+                    width: 170,
+                    marginTop: 5,
+                  }}
+                  onPress={onSubmitOpenId}
+                >
+                  <Trans>Sign In</Trans>
+                </Button>
+              </div>
             </div>
-          </div>
           </div>
           {warnMasterCreation && (
             <>
@@ -265,12 +271,10 @@ export function Login() {
   const { checked } = useBootstrapped();
   const loginMethods = useAvailableLoginMethods();
 
-
-
   useEffect(() => {
     // Get URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-    
+
     // Create an object to store the parameters
     const urlParamsObject = {
       coach: urlParams.get('coach') || '',
@@ -280,20 +284,15 @@ export function Login() {
       utm_medium: urlParams.get('utm_medium') || '',
       utm_source: urlParams.get('utm_source') || '',
       utm_term: urlParams.get('utm_term') || '',
-      utm_content: urlParams.get('utm_content') || ''
+      utm_content: urlParams.get('utm_content') || '',
     };
 
     // Store in localStorage for persistence
     localStorage.setItem('urlParams', JSON.stringify(urlParamsObject));
-    
-    console.log('saving some url params')
-    console.log(JSON.stringify(urlParamsObject))
 
+    console.log('saving some url params');
+    console.log(JSON.stringify(urlParamsObject));
   }, []);
-
-
-
-
 
   useEffect(() => {
     if (checked && !searchParams.has('error')) {
@@ -337,55 +336,54 @@ export function Login() {
   }
 
   return (
-    <View style={{ width: '100%', height: '100%', color: theme.pageText, marginTop: 0 }}>
-
-    <div
+    <View
       style={{
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: colorPalette.navy100,
+        width: '100%',
+        height: '100%',
+        color: theme.pageText,
+        marginTop: 0,
       }}
     >
-      <svg
-        viewBox="0 0 642 535"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="none"
+      <div
         style={{
           position: 'absolute',
           top: 0,
+          bottom: 0,
           left: 0,
-          height: '100%',
-          width: '100%',
-          borderRadius: 5
+          right: 0,
+          backgroundColor: colorPalette.navy100,
         }}
       >
-        <path fill="url(#paint0_linear)" d="M0 0h642v535H0z" />
-        <defs>
-          <linearGradient
-            id="paint0_linear"
-            x1="162"
-            y1="23.261"
-            x2="468.904"
-            y2="520.44"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor={'#8719e0'} />
-            <stop
-              offset="1"
-              stopColor={'#0c3966'}
-              stopOpacity="1.0"
-            />
-          </linearGradient>
-        </defs>
-      </svg>
-    </div>
-
-
-
+        <svg
+          viewBox="0 0 642 535"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            height: '100%',
+            width: '100%',
+            borderRadius: 5,
+          }}
+        >
+          <path fill="url(#paint0_linear)" d="M0 0h642v535H0z" />
+          <defs>
+            <linearGradient
+              id="paint0_linear"
+              x1="162"
+              y1="23.261"
+              x2="468.904"
+              y2="520.44"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#8719e0" />
+              <stop offset="1" stopColor="#0c3966" stopOpacity="1.0" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
 
       {error && (
         <Text
@@ -400,10 +398,8 @@ export function Login() {
         </Text>
       )}
 
-
       <OpenIdLogin setError={setError} />
-{/*      <PasswordLogin dispatch={dispatch}/>
-*/}    
+      <PasswordLogin dispatch={dispatch} />
     </View>
   );
 }

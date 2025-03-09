@@ -10,6 +10,7 @@ import { useMetadataPref } from '../../hooks/useMetadataPref';
 import { useNavigate } from '../../hooks/useNavigate';
 import { SvgExpandArrow } from '../../icons/v0';
 import { theme } from '../../style';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { Button } from '../common/Button2';
 import { InitialFocus } from '../common/InitialFocus';
 import { Input } from '../common/Input';
@@ -17,7 +18,6 @@ import { Menu } from '../common/Menu';
 import { Popover } from '../common/Popover';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 type BudgetNameProps = {
   children?: ReactNode;
@@ -26,7 +26,7 @@ type BudgetNameProps = {
 export function BudgetName({ children }: BudgetNameProps) {
   const hasWindowButtons = !Platform.isBrowser && Platform.OS === 'mac';
 
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
 
   return (
     <View

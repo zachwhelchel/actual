@@ -57,6 +57,7 @@ import { useCategories } from '../../hooks/useCategories';
 import { useDateFormat } from '../../hooks/useDateFormat';
 import { useFailedAccounts } from '../../hooks/useFailedAccounts';
 import { useLocalPref } from '../../hooks/useLocalPref';
+import { useMetadataPref } from '../../hooks/useMetadataPref';
 import { usePayees } from '../../hooks/usePayees';
 import {
   SelectedProviderWithItems,
@@ -69,6 +70,7 @@ import {
 import { useSyncedPref } from '../../hooks/useSyncedPref';
 import { useTransactionBatchActions } from '../../hooks/useTransactionBatchActions';
 import { styles, theme } from '../../style';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { Button } from '../common/Button2';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
@@ -77,9 +79,6 @@ import { TransactionList } from '../transactions/TransactionList';
 import { validateAccountName } from '../util/accountValidation';
 
 import { AccountHeader } from './Header';
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
-
-import { useMetadataPref } from '../../hooks/useMetadataPref';
 
 type ConditionEntity = Partial<RuleConditionEntity> | TransactionFilterEntity;
 
@@ -115,9 +114,9 @@ function EmptyMessage({ onAdd }: EmptyMessageProps) {
       >
         <Text style={{ textAlign: 'center', lineHeight: '1.4em' }}>
           <Trans>
-            For MyBudgetCoach to be useful, you need to <strong>add an account</strong>.
-            You can link an account to automatically download transactions, or
-            manage it locally yourself.
+            For MyBudgetCoach to be useful, you need to{' '}
+            <strong>add an account</strong>. You can link an account to
+            automatically download transactions, or manage it locally yourself.
           </Trans>
         </Text>
 
@@ -896,14 +895,15 @@ class AccountInternal extends PureComponent<
 
     return this.props.pushModal('create-category', {
       onConfirm: (groupId, categoryName) => {
-
-        let existingGroup = this.props.categoryGroups.find(g => g.id === groupId);
+        const existingGroup = this.props.categoryGroups.find(
+          g => g.id === groupId,
+        );
 
         if (existingGroup !== null && existingGroup !== undefined) {
-
-          let existingCat = existingGroup.categories.find(g => g.name === categoryName);
+          const existingCat = existingGroup.categories.find(
+            g => g.name === categoryName,
+          );
           if (existingCat !== null && existingCat !== undefined) {
-
           } else {
             this.props.createCategory(
               categoryName,
@@ -1717,8 +1717,7 @@ class AccountInternal extends PureComponent<
             registerDispatch={dispatch => (this.dispatchSelected = dispatch)}
             selectAllFilter={item => !item._unmatched && !item.is_parent}
           >
-            <Coach context="Accounts"
-            />
+            <Coach context="Accounts" />
 
             <View style={styles.page}>
               <AccountHeader

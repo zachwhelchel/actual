@@ -17,6 +17,7 @@ import {
   loadAllFiles,
   loadBudget,
   pushModal,
+  deleteBudget,
 } from 'loot-core/client/actions';
 import {
   isElectron,
@@ -44,6 +45,7 @@ import {
 } from '../../icons/v1';
 import { SvgCloudUnknown, SvgKey, SvgRefreshArrow } from '../../icons/v2';
 import { styles, theme } from '../../style';
+import * as colorPalette from '../../style/palette';
 import { tokens } from '../../tokens';
 import { Button } from '../common/Button2';
 import { Menu } from '../common/Menu';
@@ -51,11 +53,9 @@ import { Popover } from '../common/Popover';
 import { Text } from '../common/Text';
 import { Tooltip } from '../common/Tooltip';
 import { View } from '../common/View';
+import { Modals } from '../Modals';
 import { useResponsive } from '../responsive/ResponsiveProvider';
 import { useMultiuserEnabled } from '../ServerContext';
-import { deleteBudget } from 'loot-core/client/actions';
-import * as colorPalette from '../../style/palette';
-import { Modals } from '../Modals';
 
 function getFileDescription(file: File, t: (key: string) => string) {
   if (file.state === 'unknown') {
@@ -104,11 +104,9 @@ function FileMenu({
 
   const { t } = useTranslation();
 
-  const items = [
-    { name: 'delete', text: t('Delete') },
-  ];
+  const items = [{ name: 'delete', text: t('Delete') }];
 
-//Taking out duplicate for now because not sure of the multi-user implications.
+  //Taking out duplicate for now because not sure of the multi-user implications.
   // const items = [
   //   ...(onDuplicate ? [{ name: 'duplicate', text: t('Duplicate') }] : []),
   //   { name: 'delete', text: t('Delete') },
@@ -486,7 +484,7 @@ function BudgetListHeader({
       <Text
         style={{
           ...styles.veryLargeText,
-          color: 'black'
+          color: 'black',
         }}
       >
         <Trans>Budgets</Trans>
@@ -593,7 +591,7 @@ export function BudgetList({ showHeader = true, quickSwitchMode = false }) {
           maxWidth: tokens.breakpoint_small,
           width: '100%',
         },
-        backgroundColor: colorPalette.navy100
+        backgroundColor: colorPalette.navy100,
       }}
     >
       <Modals />
@@ -611,7 +609,6 @@ export function BudgetList({ showHeader = true, quickSwitchMode = false }) {
         quickSwitchMode={quickSwitchMode}
         onSelect={onSelect}
         onDelete={(file: File) =>
-
           // dispatch(
           //   deleteBudget(
           //     'id' in file ? file.id : undefined,

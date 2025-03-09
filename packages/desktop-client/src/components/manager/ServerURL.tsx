@@ -22,7 +22,7 @@ export function ServerURL() {
         zIndex: 5000,
       }}
     >
-{/*      <Text>
+      {/*      <Text>
         {url ? (
           <Trans>
             Using server: <strong>{url}</strong>
@@ -36,6 +36,7 @@ export function ServerURL() {
       <Link variant="internal" to="/config-server" style={{ marginLeft: 15 }}>
         <Trans>Change</Trans>
       </Link>
-*/}    </View>
+*/}{' '}
+    </View>
   );
 }

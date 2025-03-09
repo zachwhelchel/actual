@@ -44,8 +44,8 @@ function About() {
 
   return (
     <Setting>
-        <Text>Client version: v{window.Actual?.ACTUAL_VERSION}</Text>
-        <Text>Server version: {version}</Text>
+      <Text>Client version: v{window.Actual?.ACTUAL_VERSION}</Text>
+      <Text>Server version: {version}</Text>
     </Setting>
   );
 }
@@ -140,22 +140,19 @@ export function Settings() {
         <About />
         <ThemeSettings />
         <FormatSettings />
-{/*        <AuthSettings />
-*/}
-        
-{/*        <EncryptionSettings />
+        <AuthSettings />
+
+        {/*        <EncryptionSettings />
         <BudgetTypeSettings />*/}
         {isElectron() && <Backups />}
         <ExportBudget />
-        {/*
         <AdvancedToggle>
           <AdvancedAbout />
           <ResetCache />
           <ResetSync />
           <FixSplits />
           <ExperimentalFeatures />
-        </AdvancedToggle>*/}
-
+        </AdvancedToggle>
       </View>
     </Page>
   );

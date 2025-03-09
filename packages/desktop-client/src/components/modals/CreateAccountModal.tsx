@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { DialogTrigger } from 'react-aria-components';
 import { Trans, useTranslation } from 'react-i18next';
+import { usePlaidLink } from 'react-plaid-link';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import { pushModal, unlinkAccount } from 'loot-core/client/actions';
 import { send } from 'loot-core/src/platform/client/fetch';
@@ -10,6 +12,7 @@ import { useAuth } from '../../auth/AuthProvider';
 import { Permissions } from '../../auth/types';
 import { authorizeBank } from '../../gocardless';
 import { useGoCardlessStatus } from '../../hooks/useGoCardlessStatus';
+import { useMetadataPref } from '../../hooks/useMetadataPref';
 import { useSimpleFinStatus } from '../../hooks/useSimpleFinStatus';
 import { useSyncServerStatus } from '../../hooks/useSyncServerStatus';
 import { SvgDotsHorizontalTriple } from '../../icons/v1';
@@ -25,9 +28,6 @@ import { Popover } from '../common/Popover';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { useMultiuserEnabled } from '../ServerContext';
-import { usePlaidLink } from 'react-plaid-link';
-import { useLocation } from 'react-router-dom';
-import { useMetadataPref } from '../../hooks/useMetadataPref';
 
 type CreateAccountProps = {
   upgradingAccountId?: string;
@@ -39,12 +39,9 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
   const [linkToken, setLinkToken] = useState(null);
   const location = useLocation();
 
-
-const [accounts, setAccounts] = useState([]);
-const [accountsLoading, setAccountsLoading] = useState(true);
-const [accountsError, setAccountsError] = useState(null);
-
-
+  const [accounts, setAccounts] = useState([]);
+  const [accountsLoading, setAccountsLoading] = useState(true);
+  const [accountsError, setAccountsError] = useState(null);
 
   const syncServerStatus = useSyncServerStatus();
   const dispatch = useDispatch();
@@ -180,30 +177,29 @@ const [accountsError, setAccountsError] = useState(null);
     dispatch(pushModal('add-local-account'));
   };
 
-  const getPlaidLink = async (itemId) => {
-    let url = String(window.location.href);
+  const getPlaidLink = async itemId => {
+    const url = String(window.location.href);
 
-    console.log('getPlaidLink')
-    console.log(itemId)
+    console.log('getPlaidLink');
+    console.log(itemId);
 
-
-    const results = await send('plaid-create-link-token', {url: url, item_id: itemId});
-    console.log('plaidresults')
-    console.log(results.link_token)
-    setLinkToken(results.link_token)
-
+    const results = await send('plaid-create-link-token', {
+      url,
+      item_id: itemId,
+    });
+    console.log('plaidresults');
+    console.log(results.link_token);
+    setLinkToken(results.link_token);
 
     localStorage.setItem('plaidLinkToken', results.link_token);
 
-
     let currentUrl = window.location.origin;
 
+    currentUrl = currentUrl + '/accounts';
 
-    currentUrl = currentUrl + "/accounts";
-
-    let s = String(currentUrl);
-    console.log('sssssss')
-    console.log(s)
+    const s = String(currentUrl);
+    console.log('sssssss');
+    console.log(s);
 
     //s = "https://www.google.com"
 
@@ -217,12 +213,8 @@ const [accountsError, setAccountsError] = useState(null);
     //   onEvent: (eventName, metadata) => {},
     // });
 
-
     // window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${results.link_token}&redirect_uri=${s}`;
     window.location.href = `https://mbc-plaid.fly.dev?link_token=${results.link_token}&redirect_uri=${s}`;
-
-
-
   };
 
   const getPlaidAccounts = async () => {
@@ -263,10 +255,6 @@ const [accountsError, setAccountsError] = useState(null);
     );
   };
 
-
-
-
-
   const { configuredGoCardless } = useGoCardlessStatus();
   useEffect(() => {
     setIsGoCardlessSetupComplete(configuredGoCardless);
@@ -291,9 +279,9 @@ const [accountsError, setAccountsError] = useState(null);
   // LINK COMPONENT
   // Use Plaid Link and pass link token and onSuccess function
   // in configuration to initialize Plaid Link
-  interface LinkProps {
+  type LinkProps = {
     linkToken: string | null;
-  }
+  };
   const Link: React.FC<LinkProps> = (props: LinkProps) => {
     const onSuccess = React.useCallback((public_token, metadata) => {
       // send public_token to server
@@ -318,7 +306,6 @@ const [accountsError, setAccountsError] = useState(null);
     );
   };
 
-
   useEffect(() => {
     async function fetchAccounts() {
       try {
@@ -327,9 +314,9 @@ const [accountsError, setAccountsError] = useState(null);
         if (results.error_code) {
           throw new Error(results.reason);
         }
-        
+
         const newAccounts = [];
-        
+
         for (const oldAccount of results.institutions) {
           const newAccount = {
             name: oldAccount.name,
@@ -338,7 +325,7 @@ const [accountsError, setAccountsError] = useState(null);
           };
           newAccounts.push(newAccount);
         }
-        
+
         setAccounts(newAccounts);
         setAccountsError(null);
       } catch (err) {
@@ -351,25 +338,23 @@ const [accountsError, setAccountsError] = useState(null);
     fetchAccounts();
   }, []);
 
-
-  const handleUpdate = (account) => {
+  const handleUpdate = account => {
     // Implement update functionality
     console.log(`Update account: ${account}`);
 
-    getPlaidLink(account.item_id)
-
+    getPlaidLink(account.item_id);
   };
 
-  const handleRemove = async (account) => {
-
-    let accs = await send('bank-remove', { item_id: account.item_id });
+  const handleRemove = async account => {
+    const accs = await send('bank-remove', { item_id: account.item_id });
 
     if (Array.isArray(accs)) {
       accs.forEach(acc => dispatch(unlinkAccount(acc.id)));
     }
 
-    const results = await send('plaid-remove-institution', { item_id: account.item_id });
-
+    const results = await send('plaid-remove-institution', {
+      item_id: account.item_id,
+    });
   };
 
   // Define styles
@@ -447,7 +432,7 @@ const [accountsError, setAccountsError] = useState(null);
       fontSize: '16px',
       color: '#666',
       margin: '30px 0',
-    }
+    },
   };
 
   const [cloudFileId] = useMetadataPref('cloudFileId');
@@ -458,8 +443,8 @@ const [accountsError, setAccountsError] = useState(null);
   const currentFile = remoteFiles.find(f => f.cloudFileId === cloudFileId);
   const userData = useSelector((state: State) => state.user.data);
 
-  console.log('currentFile')
-  console.log(currentFile)
+  console.log('currentFile');
+  console.log(currentFile);
 
   let isOwner = false;
 
@@ -478,80 +463,104 @@ const [accountsError, setAccountsError] = useState(null);
           <View style={{ maxWidth: 500, gap: 30, color: theme.pageText }}>
             {isOwner && (
               <View style={{ gap: 10 }}>
-
-                <View style={{ gap: 10, borderColor: theme.pageText, borderRadius: 10, borderWidth: 1, paddingLeft: 10, paddingRight: 10, paddingBottom: 15 }}>
-
-                <Text>
-                  <h2 style={{ textAlign: 'center' }}>{t('Bank Connections')}</h2>{' '}
-                </Text>
-
-                <Text style={{ textAlign: 'center', marginTop: -10 }}>
-                  {t('MyBudgetCoach allows you to connect to your banks using Plaid. Connecting your bank will allow you to import transactions automatically, saving time. Click ‘Add a New Bank Connection’ to get started. Use the ‘Update‘ button to fix any syncing issues you are experiencing or include more accounts from a particular bank.')}
-                </Text>
-
-                <>
-                  {accountsLoading ? (
-                    <div style={styles.loading}>Loading connections...</div>
-                  ) : accountsError ? (
-                    <div style={styles.error}>Error: {accountsError}</div>
-                  ) : (
-                    <div style={styles.container}>
-                      {accounts.length === 0 ? (
-                        <p style={styles.noAccounts}>No bank connections found</p>
-                      ) : (
-                        <table style={styles.table}>
-                          <tbody>
-                            {accounts.map((account) => (
-                              <tr key={account.account_id}>
-                                <td style={styles.td}>{account.name}</td>
-                                <td style={styles.td}>
-                                  {account.accounts_count} account{account.accounts_count !== 1 ? 's' : ''}
-                                </td>
-                                <td style={{...styles.td, ...styles.actions}}>
-                                  <button 
-                                    style={styles.updateBtn}
-                                    onClick={() => handleUpdate(account)}
-                                  >
-                                    Update
-                                  </button>
-                                  <button 
-                                    style={styles.removeBtn} 
-                                    onClick={() => handleRemove(account)}
-                                  >
-                                    Remove
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      )}
-                    </div>
-                  )}
-                </>
-
-                <ButtonWithLoading
-                  isDisabled={false}
-                  isLoading={false}
+                <View
                   style={{
-                    padding: '10px 0',
-                    fontSize: 15,
-                    fontWeight: 600,
-                    flex: 1,
-                    width: 300,
-                    alignSelf: 'center',
-                    marginBottom: 10,
-                    marginTop: 10,
+                    gap: 10,
+                    borderColor: theme.pageText,
+                    borderRadius: 10,
+                    borderWidth: 1,
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    paddingBottom: 15,
                   }}
-                  onPress={() => getPlaidLink(null)}
                 >
-                  Add a New Bank Connection
-                </ButtonWithLoading>
+                  <Text>
+                    <h2 style={{ textAlign: 'center' }}>
+                      {t('Bank Connections')}
+                    </h2>{' '}
+                  </Text>
 
+                  <Text style={{ textAlign: 'center', marginTop: -10 }}>
+                    {t(
+                      'MyBudgetCoach allows you to connect to your banks using Plaid. Connecting your bank will allow you to import transactions automatically, saving time. Click ‘Add a New Bank Connection’ to get started. Use the ‘Update‘ button to fix any syncing issues you are experiencing or include more accounts from a particular bank.',
+                    )}
+                  </Text>
+
+                  <>
+                    {accountsLoading ? (
+                      <div style={styles.loading}>Loading connections...</div>
+                    ) : accountsError ? (
+                      <div style={styles.error}>Error: {accountsError}</div>
+                    ) : (
+                      <div style={styles.container}>
+                        {accounts.length === 0 ? (
+                          <p style={styles.noAccounts}>
+                            No bank connections found
+                          </p>
+                        ) : (
+                          <table style={styles.table}>
+                            <tbody>
+                              {accounts.map(account => (
+                                <tr key={account.account_id}>
+                                  <td style={styles.td}>{account.name}</td>
+                                  <td style={styles.td}>
+                                    {account.accounts_count} account
+                                    {account.accounts_count !== 1 ? 's' : ''}
+                                  </td>
+                                  <td
+                                    style={{ ...styles.td, ...styles.actions }}
+                                  >
+                                    <button
+                                      style={styles.updateBtn}
+                                      onClick={() => handleUpdate(account)}
+                                    >
+                                      Update
+                                    </button>
+                                    <button
+                                      style={styles.removeBtn}
+                                      onClick={() => handleRemove(account)}
+                                    >
+                                      Remove
+                                    </button>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
+                      </div>
+                    )}
+                  </>
+
+                  <ButtonWithLoading
+                    isDisabled={false}
+                    isLoading={false}
+                    style={{
+                      padding: '10px 0',
+                      fontSize: 15,
+                      fontWeight: 600,
+                      flex: 1,
+                      width: 300,
+                      alignSelf: 'center',
+                      marginBottom: 10,
+                      marginTop: 10,
+                    }}
+                    onPress={() => getPlaidLink(null)}
+                  >
+                    Add a New Bank Connection
+                  </ButtonWithLoading>
                 </View>
 
-                <Text style={{ textAlign: 'center', marginTop: 10, marginBottom: 10 }}>
-                  {t('After setting up your bank connections in the above section you will be ready to associate specific accounts from each bank with accounts here in MyBudgetCoach. Click ‘Next’ to get started:')}
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    marginTop: 10,
+                    marginBottom: 10,
+                  }}
+                >
+                  {t(
+                    'After setting up your bank connections in the above section you will be ready to associate specific accounts from each bank with accounts here in MyBudgetCoach. Click ‘Next’ to get started:',
+                  )}
                 </Text>
 
                 <Button
@@ -570,8 +579,16 @@ const [accountsError, setAccountsError] = useState(null);
 
                 {upgradingAccountId == null && (
                   <>
-                    <Text style={{ textAlign: 'center', marginTop: 10, marginBottom: 10 }}>
-                      {t('Alternatively you can create a local account without connecting to a bank:')}
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        marginTop: 10,
+                        marginBottom: 10,
+                      }}
+                    >
+                      {t(
+                        'Alternatively you can create a local account without connecting to a bank:',
+                      )}
                     </Text>
 
                     <ButtonWithLoading
@@ -592,7 +609,6 @@ const [accountsError, setAccountsError] = useState(null);
                     </ButtonWithLoading>
                   </>
                 )}
-
               </View>
             )}
             {!isOwner && (
