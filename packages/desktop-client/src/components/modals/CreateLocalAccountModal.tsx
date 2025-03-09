@@ -23,11 +23,11 @@ import {
   ModalHeader,
   ModalTitle,
 } from '../common/Modal';
+import { Select } from '../common/Select';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { Checkbox } from '../forms';
 import { validateAccountName } from '../util/accountValidation';
-import { Select } from '../common/Select';
 
 export function CreateLocalAccountModal() {
   const { t } = useTranslation();
@@ -64,51 +64,65 @@ export function CreateLocalAccountModal() {
     const typeError = type === 'select';
     setTypeError(typeError);
 
-
     let offBudget = false;
 
-    if (type === 'mortgage' || type === 'autoLoan' || type === 'studentLoan' || type === 'personalLoan' || type === 'medicalDebt' || type === 'otherDebt' || type === 'otherAsset' || type === 'otherLiability') {
+    if (
+      type === 'mortgage' ||
+      type === 'autoLoan' ||
+      type === 'studentLoan' ||
+      type === 'personalLoan' ||
+      type === 'medicalDebt' ||
+      type === 'otherDebt' ||
+      type === 'otherAsset' ||
+      type === 'otherLiability'
+    ) {
       offBudget = true;
     }
 
     let lintedBalance = toRelaxedNumber(balance);
 
-    if (type === 'creditCard' || type === 'lineOfCredit' || type === 'mortgage' || type === 'autoLoan' || type === 'studentLoan' || type === 'personalLoan' || type === 'medicalDebt' || type === 'otherDebt' || type === 'otherLiability') {
+    if (
+      type === 'creditCard' ||
+      type === 'lineOfCredit' ||
+      type === 'mortgage' ||
+      type === 'autoLoan' ||
+      type === 'studentLoan' ||
+      type === 'personalLoan' ||
+      type === 'medicalDebt' ||
+      type === 'otherDebt' ||
+      type === 'otherLiability'
+    ) {
       lintedBalance = Math.abs(lintedBalance) * -1;
     }
 
-
     if (!nameError && !balanceError && !typeError) {
       dispatch(closeModal());
-      const id = await dispatch(
-        createAccount(name, lintedBalance, offBudget),
-      );
+      const id = await dispatch(createAccount(name, lintedBalance, offBudget));
       navigate('/accounts/' + id);
     }
   };
 
-
   const [type, setType] = useState('select');
-  let typeList = [['select', 'Select a Type...'], 
-  ['checking', 'For Budget: Checking'],
-  ['savings', 'For Budget: Savings'],
-  ['cash', 'For Budget: Cash'],
-  ['creditCard', 'For Budget: Credit Card'],
-  ['lineOfCredit', 'For Budget: Line of Credit'],
-  ['mortgage', 'Off Budget: Mortgage'],
-  ['autoLoan', 'Off Budget: Auto Loan'],
-  ['studentLoan', 'Off Budget: Student Loan'],
-  ['personalLoan', 'Off Budget: Personal Loan'],
-  ['medicalDebt', 'Off Budget: Medical Debt'],
-  ['otherDebt', 'Off Budget: Other Debt'],
-  ['otherAsset', 'Off Budget: Other Asset'],
-  ['otherLiability', 'Off Budget: Other Liability'],
+  const typeList = [
+    ['select', 'Select a Type...'],
+    ['checking', 'For Budget: Checking'],
+    ['savings', 'For Budget: Savings'],
+    ['cash', 'For Budget: Cash'],
+    ['creditCard', 'For Budget: Credit Card'],
+    ['lineOfCredit', 'For Budget: Line of Credit'],
+    ['mortgage', 'Off Budget: Mortgage'],
+    ['autoLoan', 'Off Budget: Auto Loan'],
+    ['studentLoan', 'Off Budget: Student Loan'],
+    ['personalLoan', 'Off Budget: Personal Loan'],
+    ['medicalDebt', 'Off Budget: Medical Debt'],
+    ['otherDebt', 'Off Budget: Other Debt'],
+    ['otherAsset', 'Off Budget: Other Asset'],
+    ['otherLiability', 'Off Budget: Other Liability'],
   ];
 
   function handleTypeChange(newValue) {
     setType(newValue);
   }
-
 
   return (
     <Modal name="add-local-account">
@@ -142,16 +156,18 @@ export function CreateLocalAccountModal() {
                 </FormError>
               )}
 
-
-              <InlineField label="Type" >
-                <Select options={typeList}  value={type} onChange={newValue => handleTypeChange(newValue)}/>
+              <InlineField label="Type">
+                <Select
+                  options={typeList}
+                  value={type}
+                  onChange={newValue => handleTypeChange(newValue)}
+                />
               </InlineField>
               {typeError && (
                 <FormError style={{ marginLeft: 75, color: theme.warningText }}>
                   Select a type
                 </FormError>
               )}
-
 
               <InlineField label="Balance" width="100%">
                 <Input

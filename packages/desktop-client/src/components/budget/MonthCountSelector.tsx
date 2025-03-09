@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 
 import { SvgCalendar } from '../../icons/v2';
 import { theme } from '../../style';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { View } from '../common/View';
 
 import { useBudgetMonthCount } from './BudgetMonthCountContext';
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 type CalendarProps = {
   color: string;
@@ -52,8 +52,7 @@ export function MonthCountSelector({
     );
   }
 
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
-
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
 
   return (
     <div

@@ -12,8 +12,13 @@ import {
 
 import { addNotification, sync } from 'loot-core/client/actions';
 import { type State } from 'loot-core/src/client/state-types';
+import { send } from 'loot-core/src/platform/client/fetch';
 import * as undo from 'loot-core/src/platform/client/undo';
 
+import {
+  REACT_APP_CHAT_USER_ID,
+  REACT_APP_UI_MODE,
+} from '../../coaches/coachVariables';
 import { ProtectedRoute } from '../auth/ProtectedRoute';
 import { Permissions } from '../auth/types';
 import { useAccounts } from '../hooks/useAccounts';
@@ -25,17 +30,19 @@ import { getIsOutdated, getLatestVersion } from '../util/versions';
 
 import { UserAccessPage } from './admin/UserAccess/UserAccessPage';
 import { BankSyncStatus } from './BankSyncStatus';
+import Coach, { CoachProvider, useCoach } from './coach/Coach';
+import { CoachDashboard } from './coachdashboard';
+import { CoachMessageCenter } from './coachmessagecenter';
 import { View } from './common/View';
 import { GlobalKeys } from './GlobalKeys';
 import { ManageRulesPage } from './ManageRulesPage';
 import { Category } from './mobile/budget/Category';
 import { MobileNavTabs } from './mobile/MobileNavTabs';
 import { TransactionEdit } from './mobile/transactions/TransactionEdit';
+import { Modals } from './Modals';
 import { Notifications } from './Notifications';
 import { ManagePayeesPage } from './payees/ManagePayeesPage';
 import { Reports } from './reports';
-import { CoachDashboard } from './coachdashboard';
-import { CoachMessageCenter } from './coachmessagecenter';
 import { LoadingIndicator } from './reports/LoadingIndicator';
 import { NarrowAlternate, WideComponent } from './responsive';
 import { useResponsive } from './responsive/ResponsiveProvider';
@@ -44,11 +51,7 @@ import { ScrollProvider } from './ScrollProvider';
 import { useMultiuserEnabled } from './ServerContext';
 import { Settings } from './settings';
 import { FloatableSidebar } from './sidebar';
-import Coach, { CoachProvider, useCoach } from './coach/Coach';
-import { REACT_APP_CHAT_USER_ID, REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 import { Titlebar } from './Titlebar';
-import { Modals } from './Modals';
-import { send } from 'loot-core/src/platform/client/fetch';
 
 function NarrowNotSupported({
   redirectTo = '/budget',
@@ -88,7 +91,11 @@ function RouterBehaviors() {
   return null;
 }
 
-export function FinancesApp({budgetId, someDialogues, initialDialogueId}: FinancesAppProps) {
+export function FinancesApp({
+  budgetId,
+  someDialogues,
+  initialDialogueId,
+}: FinancesAppProps) {
   const { isNarrowWidth } = useResponsive();
   useMetaThemeColor(isNarrowWidth ? theme.mobileViewTheme : null);
 
@@ -170,24 +177,25 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
     run();
   }, [lastUsedVersion, setLastUsedVersion]);
 
-
   useEffect(() => {
     // Check for Plaid callback parameters
     const params = new URLSearchParams(window.location.search);
     const oauthStateId = params.get('oauth_state_id');
     const publicToken = params.get('public_token');
-    
+
     if (oauthStateId || publicToken) {
       handlePlaidCallback(oauthStateId, publicToken);
-      
+
       // Optionally clear the URL parameters after processing
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, [location.search]); // Re-run when URL query parameters change
-  
 
   const handlePlaidCallback = async (oauthStateId, publicToken) => {
-    let currentUrl = window.location.origin + window.location.pathname + window.location.search;
+    const currentUrl =
+      window.location.origin +
+      window.location.pathname +
+      window.location.search;
     try {
       if (oauthStateId) {
         const linkToken = localStorage.getItem('plaidLinkToken');
@@ -196,19 +204,26 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
         window.location.href = `https://mbc-plaid.fly.dev?link_token=${linkToken}&receivedRedirectUri=${currentUrl}`;
       }
       if (publicToken) {
-        let url = String(window.location.href);
-        const results = await send('plaid-exchange-public-token', {url: url, publicToken: publicToken});
+        const url = String(window.location.href);
+        const results = await send('plaid-exchange-public-token', {
+          url,
+          publicToken,
+        });
       }
     } catch (error) {
       console.error('Error handling Plaid callback:', error);
     }
   };
 
-
   const scrollableRef = useRef<HTMLDivElement>(null);
 
   return (
-    <CoachProvider budgetId={budgetId} allConversations={someDialogues} initialDialogueId={initialDialogueId} isNarrowWidth={isNarrowWidth} >
+    <CoachProvider
+      budgetId={budgetId}
+      allConversations={someDialogues}
+      initialDialogueId={initialDialogueId}
+      isNarrowWidth={isNarrowWidth}
+    >
       <View style={{ height: '100%' }}>
         <Modals />
         <RouterBehaviors />
@@ -281,7 +296,7 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
                     path="/coachdashboard/"
                     element={
                       <NarrowNotSupported>
-                          <CoachDashboard />
+                        <CoachDashboard />
                       </NarrowNotSupported>
                     }
                   />
@@ -290,7 +305,13 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
                     path="/coachmessagecenter/"
                     element={
                       <NarrowNotSupported>
-                        <div style={{width: '100%', height: '100%', display: 'flex'}}>
+                        <div
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                          }}
+                        >
                           <CoachMessageCenter />
                         </div>
                       </NarrowNotSupported>
@@ -375,7 +396,10 @@ export function FinancesApp({budgetId, someDialogues, initialDialogueId}: Financ
                     />
                   )}
                   {/* redirect all other traffic to the budget page */}
-                  <Route path="/*" element={<Navigate to="/budget" replace />} />
+                  <Route
+                    path="/*"
+                    element={<Navigate to="/budget" replace />}
+                  />
                 </Routes>
               </View>
 

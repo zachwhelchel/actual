@@ -40,6 +40,7 @@
     "rebuild-node": "yarn workspace loot-core rebuild",
     "lint": "eslint . --max-warnings 0 --ext .js,.jsx,.ts,.tsx",
     "lint:verbose": "DEBUG=eslint:cli-engine eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
     "typecheck": "yarn tsc && tsc-strict",
     "jq": "./node_modules/node-jq/bin/jq",
     "prepare": "husky"

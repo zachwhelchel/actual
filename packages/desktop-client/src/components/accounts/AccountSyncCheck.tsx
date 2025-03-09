@@ -158,16 +158,30 @@ export function AccountSyncCheck() {
         placement="bottom start"
         isOpen={open}
         onOpenChange={() => setOpen(false)}
-        style={{ fontSize: 14, paddingLeft: 15, paddingRight: 15, maxWidth: 400 }}
+        style={{
+          fontSize: 14,
+          paddingLeft: 15,
+          paddingRight: 15,
+          maxWidth: 400,
+        }}
       >
         <div style={{ marginBottom: '1.15em' }}>
           <p>This may be a temporary connection issue. Try again later.</p>
-          <p>Sometimes bank connections with Plaid need to be updated to continue working:</p>
-          <p>Select the <b>+ Add Account</b> button in the left menu and then the <b>Update</b> button beside this account's bank connection.</p>
-          <p>If the issue persists please reach out to support: admin@mybudgetcoach.com</p>
+          <p>
+            Sometimes bank connections with Plaid need to be updated to continue
+            working:
+          </p>
+          <p>
+            Select the <b>+ Add Account</b> button in the left menu and then the{' '}
+            <b>Update</b> button beside this account's bank connection.
+          </p>
+          <p>
+            If the issue persists please reach out to support:
+            admin@mybudgetcoach.com
+          </p>
         </div>
 
-{/*        <div style={{ marginBottom: '1.15em' }}>
+        {/*        <div style={{ marginBottom: '1.15em' }}>
           <Trans>The server returned the following error:</Trans>
         </div>
 
@@ -197,7 +211,7 @@ export function AccountSyncCheck() {
           )}
                   </View>
 
-*/}        
+*/}
       </Popover>
     </View>
   );

@@ -7,12 +7,12 @@ import React, {
 } from 'react';
 
 import { theme } from '../../style';
+import { useCoach } from '../coach/Coach';
 import { Block } from '../common/Block';
 import { View } from '../common/View';
 
 import { accountNameStyle } from './Account';
 import { ItemContent } from './ItemContent';
-import { useCoach } from '../coach/Coach';
 
 const fontWeight = 600;
 
@@ -53,23 +53,25 @@ export function SecondaryItem({
         {title}
       </Block>
       {badge > 0 && (
-        <div style={{
-          backgroundColor: theme.errorText,
-          width: 'fit-content',
-          paddingTop: '2px',
-          paddingLeft: '8px',
-          paddingRight: '8px',
-          borderRadius: '12px',
-          paddingTop: '-100px',
-          marginLeft: '10px'
-        }}>
-          { badge }
+        <div
+          style={{
+            backgroundColor: theme.errorText,
+            width: 'fit-content',
+            paddingTop: '2px',
+            paddingLeft: '8px',
+            paddingRight: '8px',
+            borderRadius: '12px',
+            paddingTop: '-100px',
+            marginLeft: '10px',
+          }}
+        >
+          {badge}
         </div>
       )}
     </View>
   );
 
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
 
   return (
     <View style={{ flexShrink: 0, ...style }}>
@@ -98,9 +100,6 @@ export function SecondaryItem({
           {content}
         </div>
       </ItemContent>
-
-
-
     </View>
   );
 }

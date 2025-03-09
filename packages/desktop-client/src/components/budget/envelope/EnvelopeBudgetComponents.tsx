@@ -17,6 +17,7 @@ import { useContextMenu } from '../../../hooks/useContextMenu';
 import { useUndo } from '../../../hooks/useUndo';
 import { SvgCheveronDown } from '../../../icons/v1';
 import { styles, theme } from '../../../style';
+import Coach, { CoachProvider, useCoach } from '../../coach/Coach';
 import { Button } from '../../common/Button2';
 import { Popover } from '../../common/Popover';
 import { Text } from '../../common/Text';
@@ -31,7 +32,6 @@ import { makeAmountGrey } from '../util';
 
 import { BalanceMovementMenu } from './BalanceMovementMenu';
 import { BudgetMenu } from './BudgetMenu';
-import Coach, { CoachProvider, useCoach } from '../../coach/Coach';
 
 export function useEnvelopeSheetName<
   FieldName extends SheetFields<'envelope-budget'>,
@@ -71,8 +71,7 @@ const cellStyle: CSSProperties = {
 };
 
 export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
-
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
 
   return (
     <View
@@ -135,7 +134,7 @@ export const BudgetTotalsMonth = memo(function BudgetTotalsMonth() {
 });
 
 export function IncomeHeaderMonth() {
-    let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
 
   return (
     <Row

@@ -108,7 +108,6 @@ export function closeBudget() {
 
       //dispatch(setAppState({ loadingText: null }));
       if (localStorage.getItem('SharedArrayBufferOverride')) {
-
         window.location.reload();
       }
     }

@@ -1,16 +1,16 @@
 // @ts-strict-ignore
 import React, { useState } from 'react';
 
+import { styles } from '../../style';
 import { type CommonModalProps } from '../../types/modals';
 import { Block } from '../common/Block';
 import { Button } from '../common/Button';
-import { Modal } from '../common/Modal';
-import { View } from '../common/View';
-import { Select } from '../common/Select';
-import { styles } from '../../style';
+import { FormError } from '../common/FormError';
 import { InitialFocus } from '../common/InitialFocus';
 import { Input } from '../common/Input';
-import { FormError } from '../common/FormError';
+import { Modal } from '../common/Modal';
+import { Select } from '../common/Select';
+import { View } from '../common/View';
 
 type CreateCategoryProps = {
   modalProps: Partial<CommonModalProps>;
@@ -23,46 +23,46 @@ export function CreateCategory({
   onConfirm,
   categoryGroups,
 }: CreateCategoryProps) {
-
-  let [currentGroup, setCurrentGroup] = useState(categoryGroups[0].id);
+  const [currentGroup, setCurrentGroup] = useState(categoryGroups[0].id);
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
 
   function handleOnChangeCoach(newValue) {
-    setCurrentGroup(newValue)
+    setCurrentGroup(newValue);
   }
 
-  let options = [];
+  const options = [];
 
   for (const [key, value] of Object.entries(categoryGroups)) {
-    options.push([value.id, value.name])
+    options.push([value.id, value.name]);
   }
 
   return (
     <Modal title="Create Category" {...modalProps} style={{ flex: 0 }}>
       {() => (
-
         <View style={{ lineHeight: 1.5 }}>
-
-          <Block style={{paddingTop: '0px', paddingBottom: '4px'}}>Category Name:</Block>
+          <Block style={{ paddingTop: '0px', paddingBottom: '4px' }}>
+            Category Name:
+          </Block>
 
           <View style={{ flexDirection: 'column', flex: 1 }}>
             <InitialFocus>
-              <Input
-                style={{ ...styles.mediumText }}
-                onUpdate={setValue}
-              />
+              <Input style={{ ...styles.mediumText }} onUpdate={setValue} />
             </InitialFocus>
           </View>
           {errorMessage && (
-            <FormError style={{ paddingTop: 5 }}>
-              * {errorMessage}
-            </FormError>
+            <FormError style={{ paddingTop: 5 }}>* {errorMessage}</FormError>
           )}
 
-          <Block style={{paddingTop: '8px', paddingBottom: '4px'}}>In Category Group:</Block>
+          <Block style={{ paddingTop: '8px', paddingBottom: '4px' }}>
+            In Category Group:
+          </Block>
 
-          <Select options={options} value={currentGroup} onChange={newValue => handleOnChangeCoach(newValue)}/>
+          <Select
+            options={options}
+            value={currentGroup}
+            onChange={newValue => handleOnChangeCoach(newValue)}
+          />
 
           <View
             style={{
@@ -84,10 +84,9 @@ export function CreateCategory({
               <Button
                 type="primary"
                 onClick={() => {
-
                   const error = value == '';
                   if (error) {
-                    setErrorMessage("Category must have a name.");
+                    setErrorMessage('Category must have a name.');
                     return;
                   }
 

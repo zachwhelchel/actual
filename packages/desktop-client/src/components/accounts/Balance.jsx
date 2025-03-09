@@ -11,6 +11,7 @@ import { getScheduledAmount } from 'loot-core/src/shared/schedules';
 import { useSelectedItems } from '../../hooks/useSelected';
 import { SvgArrowButtonRight1 } from '../../icons/v2';
 import { theme } from '../../style';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { Button } from '../common/Button2';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
@@ -18,7 +19,6 @@ import { PrivacyFilter } from '../PrivacyFilter';
 import { CellValue, CellValueText } from '../spreadsheet/CellValue';
 import { useFormat } from '../spreadsheet/useFormat';
 import { useSheetValue } from '../spreadsheet/useSheetValue';
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 function DetailedBalance({ name, balance, isExactBalance = true }) {
   const format = useFormat();
@@ -158,7 +158,7 @@ export function Balances({
   const selectedItems = useSelectedItems();
   const buttonRef = useRef(null);
   const isButtonHovered = useHover(buttonRef);
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
 
   return (
     <View

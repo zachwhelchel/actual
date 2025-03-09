@@ -29,6 +29,7 @@ import {
 } from '../../icons/v2';
 import { theme, styles } from '../../style';
 import { AnimatedRefresh } from '../AnimatedRefresh';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { Button } from '../common/Button2';
 import { InitialFocus } from '../common/InitialFocus';
 import { Input } from '../common/Input';
@@ -47,8 +48,6 @@ import { SelectedTransactionsButton } from '../transactions/SelectedTransactions
 import { type TableRef } from './Account';
 import { Balances } from './Balance';
 import { ReconcilingMessage, ReconcileMenu } from './Reconcile';
-
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 type AccountHeaderProps = {
   tableRef: TableRef;
@@ -214,7 +213,7 @@ export function AccountHeader({
     }
   }
 
-  let { commonElementsRef } = useCoach(); // this is causing the errors.
+  const { commonElementsRef } = useCoach(); // this is causing the errors.
 
   useHotkeys(
     'ctrl+f, cmd+f, meta+f',
@@ -384,7 +383,8 @@ export function AccountHeader({
           ) : (
             <div
               ref={element => {
-                commonElementsRef.current['selected_transactions_button'] = element;
+                commonElementsRef.current['selected_transactions_button'] =
+                  element;
               }}
             >
               <SelectedTransactionsButton

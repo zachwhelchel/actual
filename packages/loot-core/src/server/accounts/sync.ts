@@ -191,8 +191,7 @@ async function downloadSimpleFinTransactions(
   acctId: AccountEntity['id'] | AccountEntity['id'][],
   since: string | string[],
 ) {
-
-  console.log("here?")
+  console.log('here?');
   const userToken = await asyncStorage.getItem('user-token');
   if (!userToken) return;
 
@@ -255,15 +254,12 @@ async function downloadSimpleFinTransactions(
 async function downloadPlaidTransactions(
   acctId: AccountEntity['id'] | AccountEntity['id'][],
   since: string | string[],
-  bankId
+  bankId,
 ) {
-
-  console.log("Alex")
-  console.log("bankId:" + bankId)
-
+  console.log('Alex');
+  console.log('bankId:' + bankId);
 
   // const fileId = prefs.getPrefs().cloudFileId;
-
 
   const userToken = await asyncStorage.getItem('user-token');
   if (!userToken) return;
@@ -277,7 +273,7 @@ async function downloadPlaidTransactions(
     {
       accountId: acctId,
       startDate: since,
-      bankId: bankId,
+      bankId,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -324,8 +320,6 @@ async function downloadPlaidTransactions(
   console.log('Response:', retVal);
   return retVal;
 }
-
-
 
 async function resolvePayee(trans, payeeName, payeesToCreate) {
   if (trans.payee == null && payeeName) {
@@ -818,16 +812,17 @@ async function processBankSyncDownload(
   // that account sync sources can give two different transaction IDs even though it's the same transaction.
   const useStrictIdChecking = !acctRow.account_sync_source;
 
-  console.log("download.startingBalance")
-  console.log(download.startingBalance)
-
+  console.log('download.startingBalance');
+  console.log(download.startingBalance);
 
   if (initialSync) {
-
     const { transactions } = download;
     let balanceToUse = download.startingBalance;
 
-    if (acctRow.account_sync_source === 'simpleFin' || acctRow.account_sync_source === 'plaid') {
+    if (
+      acctRow.account_sync_source === 'simpleFin' ||
+      acctRow.account_sync_source === 'plaid'
+    ) {
       const currentBalance = download.startingBalance;
       const previousBalance = transactions.reduce((total, trans) => {
         return (
@@ -902,32 +897,32 @@ export async function syncAccount(
   acctId: string,
   bankId: string,
 ) {
-
-    console.log("promisssss")
+  console.log('promisssss');
 
   const acctRow = await db.select('accounts', id);
-  console.log(acctRow)
-  console.log(acctRow.bank)
-const bankData = acctRow.bank; // The bank might already be included
-  console.log(bankData.bank_id)
-console.log('Bank value:', acctRow.bank, 'Type:', typeof acctRow.bank);
-
+  console.log(acctRow);
+  console.log(acctRow.bank);
+  const bankData = acctRow.bank; // The bank might already be included
+  console.log(bankData.bank_id);
+  console.log('Bank value:', acctRow.bank, 'Type:', typeof acctRow.bank);
 
   const bankRow = await db.select('banks', acctRow.bank);
 
-  console.log(bankRow.bank_id)
-
+  console.log(bankRow.bank_id);
 
   const syncStartDate = await getAccountSyncStartDate(id);
   const oldestTransaction = await getAccountOldestTransaction(id);
   const newAccount = oldestTransaction == null;
 
-
   let download;
   if (acctRow.account_sync_source === 'simpleFin') {
     download = await downloadSimpleFinTransactions(acctId, syncStartDate);
   } else if (acctRow.account_sync_source === 'plaid') {
-    download = await downloadPlaidTransactions(acctId, syncStartDate, bankRow.bank_id);
+    download = await downloadPlaidTransactions(
+      acctId,
+      syncStartDate,
+      bankRow.bank_id,
+    );
   } else if (acctRow.account_sync_source === 'goCardless') {
     download = await downloadGoCardlessTransactions(
       userId,

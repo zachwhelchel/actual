@@ -31,6 +31,7 @@ import { theme, styles } from '../style';
 import { AccountSyncCheck } from './accounts/AccountSyncCheck';
 import { AnimatedRefresh } from './AnimatedRefresh';
 import { MonthCountSelector } from './budget/MonthCountSelector';
+import Coach, { CoachProvider, useCoach } from './coach/Coach';
 import { Button } from './common/Button2';
 import { Link } from './common/Link';
 import { SpaceBetween } from './common/SpaceBetween';
@@ -44,7 +45,6 @@ import { useSidebar } from './sidebar/SidebarProvider';
 import { useSheetValue } from './spreadsheet/useSheetValue';
 import { ThemeSelector } from './ThemeSelector';
 import { Tooltip } from './tooltips';
-import Coach, { CoachProvider, useCoach } from './coach/Coach';
 
 function UncategorizedButton() {
   const count: number | null = useSheetValue(queries.uncategorizedCount());
@@ -344,14 +344,17 @@ export function Titlebar({ style }: TitlebarProps) {
       <View style={{ flex: 1 }} />
       <SpaceBetween gap={10}>
         <UncategorizedButton />
-{/*        {isDevelopmentEnvironment() && !Platform.isPlaywright && (
+        {/*        {isDevelopmentEnvironment() && !Platform.isPlaywright && (
           <ThemeSelector />
         )}
-*/}        <PrivacyButton />
-{/*        {serverURL ? <SyncButton /> : null}
-*/}        <LoggedInUser />
-{/*        {!isElectron() && <HelpMenu />}
-*/}      </SpaceBetween>
+*/}{' '}
+        <PrivacyButton />
+        {/*        {serverURL ? <SyncButton /> : null}
+         */}{' '}
+        <LoggedInUser />
+        {/*        {!isElectron() && <HelpMenu />}
+         */}{' '}
+      </SpaceBetween>
     </View>
   );
 }

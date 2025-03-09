@@ -27,6 +27,7 @@ import {
   send,
 } from 'loot-core/src/platform/client/fetch';
 
+import { getCoach } from '../coaches/coachVariables';
 import { useActions } from '../hooks/useActions';
 import { useMetadataPref } from '../hooks/useMetadataPref';
 import { installPolyfills } from '../polyfills';
@@ -46,7 +47,6 @@ import { ResponsiveProvider } from './responsive/ResponsiveProvider';
 import { SidebarProvider } from './sidebar/SidebarProvider';
 import { UpdateNotification } from './UpdateNotification';
 //import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME } from '../coaches/coachVariables';
-import { getCoach } from '../coaches/coachVariables';
 
 type AppInnerProps = {
   someDialogues: Map;
@@ -73,7 +73,6 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
     }
     return cb?.();
   };
-
 
   const [stateSomeDialogues, setStateSomeDialogues] = useState(new Map());
   const [stateInitialDialogueId, setStateInitialDialogueId] = useState(null);
@@ -131,8 +130,6 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
     //await initAvatar();
   }
 
-
-
   useEffect(() => {
     async function initAll() {
       await Promise.all([installPolyfills(), init()]);
@@ -162,16 +159,14 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
     }
   }, [userData, userData?.tokenExpired]);
 
+  const imgSrc = '/maskable-192x192.png';
 
-  let imgSrc = "/maskable-192x192.png";
-
-  let bg = (
-
+  const bg = (
     <View style={{ height: '100%' }}>
       <AppBackground />
       <View
         style={{
-          height: '100%'
+          height: '100%',
         }}
       >
         <img
@@ -185,19 +180,17 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
             left: '0px',
             bottom: '0px',
             right: '0px',
-
           }}
           src={imgSrc}
           alt="coach"
         />
       </View>
     </View>
-  )
+  );
 
   if (userData === null) {
     return <ManagementApp />;
   }
-
 
   if (stateSomeDialogues.size === 0) {
     return (
@@ -215,7 +208,7 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
 
   if (stateSomeDialogues.size !== 0) {
     return (
-      <FinancesApp 
+      <FinancesApp
         budgetId={budgetId}
         someDialogues={stateSomeDialogues}
         initialDialogueId={stateInitialDialogueId}
@@ -223,9 +216,7 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
     );
   }
 
-  return (
-    <bg/>
-  );
+  return <bg />;
 
   //return budgetId ? stateSomeDialogues.size !== 0 ? <FinancesApp budgetId={budgetId} someDialogues={stateSomeDialogues} initialDialogueId={stateInitialDialogueId} /> : <NeedStuffApp setStateSomeDialogues={setStateSomeDialogues} setStateInitialDialogueId={setStateInitialDialogueId} /> : <ManagementApp />;
 }
@@ -239,7 +230,7 @@ function ErrorFallback({ error }: FallbackProps) {
   );
 }
 
-export function App({someDialogues, initialDialogueId}) {
+export function App({ someDialogues, initialDialogueId }) {
   const [hiddenScrollbars, setHiddenScrollbars] = useState(
     hasHiddenScrollbars(),
   );
@@ -304,7 +295,10 @@ export function App({someDialogues, initialDialogueId}) {
                       <ErrorBoundary FallbackComponent={ErrorFallback}>
                         {process.env.REACT_APP_REVIEW_ID &&
                           !Platform.isPlaywright && <DevelopmentTopBar />}
-                        <AppInner someDialogues={someDialogues} initialDialogueId={initialDialogueId} />
+                        <AppInner
+                          someDialogues={someDialogues}
+                          initialDialogueId={initialDialogueId}
+                        />
                       </ErrorBoundary>
                       <ThemeStyle />
                       <UpdateNotification />
@@ -319,5 +313,3 @@ export function App({someDialogues, initialDialogueId}) {
     </BrowserRouter>
   );
 }
-
-

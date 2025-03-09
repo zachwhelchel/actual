@@ -5,12 +5,12 @@ import { useDispatch } from 'react-redux';
 import { createBudget, pushModal } from 'loot-core/client/actions';
 
 import { styles, theme } from '../../style';
+import * as colorPalette from '../../style/palette';
 import { Button } from '../common/Button2';
 import { Link } from '../common/Link';
 import { Paragraph } from '../common/Paragraph';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
-import * as colorPalette from '../../style/palette';
 import { Modals } from '../Modals';
 
 export function WelcomeScreen() {
@@ -26,7 +26,7 @@ export function WelcomeScreen() {
         maxHeight: '100vh',
         marginBlock: 20,
         color: 'black',
-        backgroundColor: colorPalette.navy100
+        backgroundColor: colorPalette.navy100,
       }}
     >
       <Modals />
@@ -35,13 +35,14 @@ export function WelcomeScreen() {
       <View style={{ overflowY: 'auto' }}>
         <Paragraph style={{ color: 'black' }}>
           <Trans>
-            Finally make a budget you'll stick to with the guidance and encouragement you've been missing.{' '}
+            Finally make a budget you'll stick to with the guidance and
+            encouragement you've been missing.{' '}
           </Trans>
         </Paragraph>
         <Paragraph style={{ color: 'black' }}>
           <Trans>
-            Get started by importing an existing budget file from MyBudgetCoach or
-            another budgeting app, create a demo budget file, or start fresh
+            Get started by importing an existing budget file from MyBudgetCoach
+            or another budgeting app, create a demo budget file, or start fresh
             with an empty budget. You can always create or import another budget
             later.
           </Trans>

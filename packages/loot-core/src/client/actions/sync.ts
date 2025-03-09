@@ -53,8 +53,7 @@ export function sync() {
 }
 
 export function syncAndDownload(accountId?: string) {
-
-console.log("little")
+  console.log('little');
 
   return async (dispatch: Dispatch) => {
     // It is *critical* that we sync first because of transaction
@@ -67,11 +66,11 @@ console.log("little")
       return { error: syncState.error };
     }
 
-console.log("little1")
+    console.log('little1');
 
     const hasDownloaded = await dispatch(syncAccounts(accountId));
 
-console.log("little2")
+    console.log('little2');
 
     if (hasDownloaded) {
       // Sync again afterwards if new transactions were created

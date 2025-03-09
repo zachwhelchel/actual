@@ -29,7 +29,7 @@ import {
   SvgArrowThinRight,
   SvgArrowThickRight,
   SvgCheveronRight,
-  SvgMenu
+  SvgMenu,
 } from '../../../icons/v1';
 import { SvgViewShow } from '../../../icons/v2';
 import { theme, styles } from '../../../style';

@@ -7,16 +7,12 @@ import { Modal } from '../common/Modal';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 
-export function ManageSubscription({
-  modalProps,
-}) {
+export function ManageSubscription({ modalProps }) {
   return (
     <Modal title="Manage Subscription" {...modalProps} style={{ flex: 0 }}>
       {() => (
         <View style={{ lineHeight: 1.5 }}>
-          <Block>
-            To manage your subscription please contact support.
-          </Block>
+          <Block>To manage your subscription please contact support.</Block>
 
           <View
             style={{
@@ -38,7 +34,7 @@ export function ManageSubscription({
               <Button
                 type="primary"
                 onClick={() => {
-                  window.location.href = "mailto:admin@mybudgetcoach.com";
+                  window.location.href = 'mailto:admin@mybudgetcoach.com';
                   modalProps.onClose();
                 }}
               >

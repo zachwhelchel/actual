@@ -26,6 +26,7 @@ import {
 import { useCategories } from '../../hooks/useCategories';
 import { useSyncedPref } from '../../hooks/useSyncedPref';
 import { SvgSplit } from '../../icons/v0';
+import { SvgAdd } from '../../icons/v1';
 import { theme, styles } from '../../style';
 import { useEnvelopeSheetValue } from '../budget/envelope/EnvelopeBudgetComponents';
 import { makeAmountFullStyle } from '../budget/util';
@@ -34,8 +35,6 @@ import { TextOneLine } from '../common/TextOneLine';
 import { View } from '../common/View';
 import { useResponsive } from '../responsive/ResponsiveProvider';
 import { useSheetValue } from '../spreadsheet/useSheetValue';
-
-import { SvgAdd } from '../../icons/v1';
 
 import { Autocomplete, defaultFilterSuggestion } from './Autocomplete';
 import { ItemHeader } from './ItemHeader';
@@ -80,7 +79,7 @@ function CategoryList({
   const { t } = useTranslation();
   let lastGroup: string | undefined | null = null;
 
-  let createNew = 'Create Category';
+  const createNew = 'Create Category';
 
   const offset = createNew ? 1 : 0;
 
@@ -146,17 +145,16 @@ function CategoryList({
         })}
 
         {createNew &&
-        renderCategoryItemGroupHeader({
-                    title: "New Category",
-                  })}
+          renderCategoryItemGroupHeader({
+            title: 'New Category',
+          })}
         {createNew &&
-        renderCreateCategoryButton({
-          ...(getItemProps ? getItemProps({ item: createNew }) : null),
-          categoryName: "inputValue",
-          highlighted: highlightedIndex === items.length,
-          embedded,
-        })}
-
+          renderCreateCategoryButton({
+            ...(getItemProps ? getItemProps({ item: createNew }) : null),
+            categoryName: 'inputValue',
+            highlighted: highlightedIndex === items.length,
+            embedded,
+          })}
       </View>
       {footer}
     </View>
@@ -325,9 +323,9 @@ export function CreateCategoryButton({
         fontSize: isNarrowWidth ? 17 : 11,
         fontWeight: isNarrowWidth ? 425 : 500,
         padding: '6px 9px',
-          backgroundColor: highlighted
-            ? theme.menuAutoCompleteBackgroundHover
-            : 'transparent',
+        backgroundColor: highlighted
+          ? theme.menuAutoCompleteBackgroundHover
+          : 'transparent',
         ':active': {
           backgroundColor: 'rgba(100, 100, 100, .25)',
         },

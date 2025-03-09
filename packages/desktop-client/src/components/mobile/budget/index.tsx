@@ -21,19 +21,30 @@ import { useSpreadsheet } from 'loot-core/src/client/SpreadsheetProvider';
 import { send, listen } from 'loot-core/src/platform/client/fetch';
 import * as monthUtils from 'loot-core/src/shared/months';
 
+import {
+  REACT_APP_BILLING_STATUS,
+  REACT_APP_TRIAL_END_DATE,
+  REACT_APP_START_PAYING_DATE,
+  REACT_APP_ZOOM_RATE,
+  REACT_APP_ZOOM_LINK,
+  REACT_APP_COACH,
+  REACT_APP_COACH_FIRST_NAME,
+  REACT_APP_USER_FIRST_NAME,
+  REACT_APP_UI_MODE,
+  REACT_APP_COACH_PHOTO,
+} from '../../../coaches/coachVariables';
 import { useCategories } from '../../../hooks/useCategories';
 import { useLocalPref } from '../../../hooks/useLocalPref';
 import { useSyncedPref } from '../../../hooks/useSyncedPref';
 import { AnimatedLoading } from '../../../icons/AnimatedLoading';
 import { theme } from '../../../style';
 import { prewarmMonth } from '../../budget/util';
-import { View } from '../../common/View';
 import { Button } from '../../common/Button';
+import { View } from '../../common/View';
 import { NamespaceContext } from '../../spreadsheet/NamespaceContext';
 import { SyncRefresh } from '../../SyncRefresh';
 
 import { BudgetTable } from './BudgetTable';
-import { REACT_APP_BILLING_STATUS, REACT_APP_TRIAL_END_DATE, REACT_APP_START_PAYING_DATE, REACT_APP_ZOOM_RATE, REACT_APP_ZOOM_LINK, REACT_APP_COACH, REACT_APP_COACH_FIRST_NAME, REACT_APP_USER_FIRST_NAME, REACT_APP_UI_MODE, REACT_APP_COACH_PHOTO } from '../../../coaches/coachVariables';
 
 function isBudgetType(input?: string): input is 'rollover' | 'report' {
   return ['rollover', 'report'].includes(input);
@@ -474,8 +485,8 @@ export function Budget() {
   ]);
 
   const onMobileWarningShownAwknoledged = () => {
-    localStorage.setItem("mobile_warning_shown", 'yes');
-    setMobileWarningShown('yes')
+    localStorage.setItem('mobile_warning_shown', 'yes');
+    setMobileWarningShown('yes');
   };
 
   if (!categoryGroups || !initialized) {

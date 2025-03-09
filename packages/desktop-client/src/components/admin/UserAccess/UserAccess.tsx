@@ -203,7 +203,7 @@ function UserAccessContent({
           flexShrink: 0,
         }}
       />
-{/*      <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+      {/*      <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
         <LockToggle
           style={{ width: 16, height: 16 }}
           onToggleSave={async () => {
@@ -212,7 +212,8 @@ function UserAccessContent({
           }}
         />
       </View>
-*/}    </View>
+*/}{' '}
+    </View>
   );
 }
 

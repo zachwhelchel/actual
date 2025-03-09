@@ -2,6 +2,7 @@ import React, { memo, useState, useMemo } from 'react';
 
 import { useLocalPref } from '../../hooks/useLocalPref';
 import { theme, styles } from '../../style';
+import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { View } from '../common/View';
 import { DropHighlightPosContext } from '../sort';
 import { Row } from '../table';
@@ -14,7 +15,6 @@ import { IncomeHeader } from './IncomeHeader';
 import { SidebarCategory } from './SidebarCategory';
 import { SidebarGroup } from './SidebarGroup';
 import { separateGroups } from './util';
-import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 
 export const BudgetCategories = memo(
   ({
@@ -181,7 +181,7 @@ export const BudgetCategories = memo(
         onHideNewCategory();
       }
     }
-    let { commonElementsRef } = useCoach(); // this is causing the errors.
+    const { commonElementsRef } = useCoach(); // this is causing the errors.
 
     return (
       <div
@@ -189,178 +189,179 @@ export const BudgetCategories = memo(
           commonElementsRef.current['budget_table'] = element;
         }}
       >
+        <View
+          style={{
+            marginBottom: 10,
+            backgroundColor: theme.tableBackground,
+            overflow: 'hidden',
+            boxShadow: styles.cardShadow,
+            borderRadius: '0 0 4px 4px',
+            flex: 1,
+          }}
+        >
+          {items.map((item, idx) => {
+            let content;
+            switch (item.type) {
+              case 'new-group':
+                content = (
+                  <Row
+                    style={{ backgroundColor: theme.tableRowHeaderBackground }}
+                  >
+                    <SidebarGroup
+                      group={{ id: 'new', name: '' }}
+                      editing={true}
+                      categoriesRef={categoriesRef}
+                      onSave={_onSaveGroup}
+                      onHideNewGroup={onHideNewGroup}
+                      onEdit={onEditName}
+                    />
+                  </Row>
+                );
+                break;
+              case 'new-category':
+                content = (
+                  <Row>
+                    <SidebarCategory
+                      category={{
+                        name: '',
+                        cat_group: newCategoryForGroup,
+                        is_income:
+                          newCategoryForGroup ===
+                          categoryGroups.find(g => g.is_income).id,
+                        id: 'new',
+                      }}
+                      editing={true}
+                      onSave={_onSaveCategory}
+                      onHideNewCategory={onHideNewCategory}
+                      onEditName={onEditName}
+                    />
+                  </Row>
+                );
+                break;
 
-      <View
-        style={{
-          marginBottom: 10,
-          backgroundColor: theme.tableBackground,
-          overflow: 'hidden',
-          boxShadow: styles.cardShadow,
-          borderRadius: '0 0 4px 4px',
-          flex: 1,
-        }}
-      >
-        {items.map((item, idx) => {
-          let content;
-          switch (item.type) {
-            case 'new-group':
-              content = (
-                <Row
-                  style={{ backgroundColor: theme.tableRowHeaderBackground }}
-                >
-                  <SidebarGroup
-                    group={{ id: 'new', name: '' }}
-                    editing={true}
+              case 'expense-group':
+                content = (
+                  <ExpenseGroup
+                    group={item.value}
+                    editingCell={editingCell}
+                    collapsed={collapsedGroupIds.includes(item.value.id)}
+                    MonthComponent={dataComponents.ExpenseGroupComponent}
+                    dragState={dragState}
+                    onEditName={onEditName}
                     categoriesRef={categoriesRef}
                     onSave={_onSaveGroup}
-                    onHideNewGroup={onHideNewGroup}
-                    onEdit={onEditName}
+                    onDelete={onDeleteGroup}
+                    onDragChange={onDragChange}
+                    onReorderGroup={onReorderGroup}
+                    onReorderCategory={onReorderCategory}
+                    onToggleCollapse={onToggleCollapse}
+                    onShowNewCategory={onShowNewCategory}
+                    onApplyBudgetTemplatesInGroup={
+                      onApplyBudgetTemplatesInGroup
+                    }
                   />
-                </Row>
-              );
-              break;
-            case 'new-category':
-              content = (
-                <Row>
-                  <SidebarCategory
-                    category={{
-                      name: '',
-                      cat_group: newCategoryForGroup,
-                      is_income:
-                        newCategoryForGroup ===
-                        categoryGroups.find(g => g.is_income).id,
-                      id: 'new',
-                    }}
-                    editing={true}
-                    onSave={_onSaveCategory}
-                    onHideNewCategory={onHideNewCategory}
+                );
+                break;
+              case 'expense-category':
+                content = (
+                  <ExpenseCategory
+                    cat={item.value}
+                    categoryGroup={item.group}
+                    editingCell={editingCell}
+                    MonthComponent={dataComponents.ExpenseCategoryComponent}
+                    dragState={dragState}
                     onEditName={onEditName}
+                    categoriesRef={categoriesRef}
+                    onEditMonth={onEditMonth}
+                    onSave={_onSaveCategory}
+                    onDelete={onDeleteCategory}
+                    onDragChange={onDragChange}
+                    onReorder={onReorderCategory}
+                    onBudgetAction={onBudgetAction}
+                    onShowActivity={onShowActivity}
                   />
-                </Row>
-              );
-              break;
-
-            case 'expense-group':
-              content = (
-                <ExpenseGroup
-                  group={item.value}
-                  editingCell={editingCell}
-                  collapsed={collapsedGroupIds.includes(item.value.id)}
-                  MonthComponent={dataComponents.ExpenseGroupComponent}
-                  dragState={dragState}
-                  onEditName={onEditName}
-                  categoriesRef={categoriesRef}
-                  onSave={_onSaveGroup}
-                  onDelete={onDeleteGroup}
-                  onDragChange={onDragChange}
-                  onReorderGroup={onReorderGroup}
-                  onReorderCategory={onReorderCategory}
-                  onToggleCollapse={onToggleCollapse}
-                  onShowNewCategory={onShowNewCategory}
-                  onApplyBudgetTemplatesInGroup={onApplyBudgetTemplatesInGroup}
-                />
-              );
-              break;
-            case 'expense-category':
-              content = (
-                <ExpenseCategory
-                  cat={item.value}
-                  categoryGroup={item.group}
-                  editingCell={editingCell}
-                  MonthComponent={dataComponents.ExpenseCategoryComponent}
-                  dragState={dragState}
-                  onEditName={onEditName}
-                  categoriesRef={categoriesRef}
-                  onEditMonth={onEditMonth}
-                  onSave={_onSaveCategory}
-                  onDelete={onDeleteCategory}
-                  onDragChange={onDragChange}
-                  onReorder={onReorderCategory}
-                  onBudgetAction={onBudgetAction}
-                  onShowActivity={onShowActivity}
-                />
-              );
-              break;
-            case 'income-separator':
-              content = (
-                <View
-                  style={{
-                    height: styles.incomeHeaderHeight,
-                    backgroundColor: theme.tableBackground,
-                  }}
-                >
-                  <IncomeHeader
-                    MonthComponent={dataComponents.IncomeHeaderComponent}
-                    onShowNewGroup={onShowNewGroup}
+                );
+                break;
+              case 'income-separator':
+                content = (
+                  <View
+                    style={{
+                      height: styles.incomeHeaderHeight,
+                      backgroundColor: theme.tableBackground,
+                    }}
+                  >
+                    <IncomeHeader
+                      MonthComponent={dataComponents.IncomeHeaderComponent}
+                      onShowNewGroup={onShowNewGroup}
+                    />
+                  </View>
+                );
+                break;
+              case 'income-group':
+                content = (
+                  <IncomeGroup
+                    group={item.value}
+                    editingCell={editingCell}
+                    MonthComponent={dataComponents.IncomeGroupComponent}
+                    collapsed={collapsedGroupIds.includes(item.value.id)}
+                    onEditName={onEditName}
+                    categoriesRef={categoriesRef}
+                    onSave={_onSaveGroup}
+                    onToggleCollapse={onToggleCollapse}
+                    onShowNewCategory={onShowNewCategory}
                   />
-                </View>
-              );
-              break;
-            case 'income-group':
-              content = (
-                <IncomeGroup
-                  group={item.value}
-                  editingCell={editingCell}
-                  MonthComponent={dataComponents.IncomeGroupComponent}
-                  collapsed={collapsedGroupIds.includes(item.value.id)}
-                  onEditName={onEditName}
-                  categoriesRef={categoriesRef}
-                  onSave={_onSaveGroup}
-                  onToggleCollapse={onToggleCollapse}
-                  onShowNewCategory={onShowNewCategory}
-                />
-              );
-              break;
-            case 'income-category':
-              content = (
-                <IncomeCategory
-                  cat={item.value}
-                  editingCell={editingCell}
-                  isLast={idx === items.length - 1}
-                  MonthComponent={dataComponents.IncomeCategoryComponent}
-                  onEditName={onEditName}
-                  onEditMonth={onEditMonth}
-                  categoriesRef={categoriesRef}
-                  onSave={_onSaveCategory}
-                  onDelete={onDeleteCategory}
-                  onDragChange={onDragChange}
-                  onReorder={onReorderCategory}
-                  onBudgetAction={onBudgetAction}
-                  onShowActivity={onShowActivity}
-                />
-              );
-              break;
-            default:
-              throw new Error('Unknown item type: ' + item.type);
-          }
+                );
+                break;
+              case 'income-category':
+                content = (
+                  <IncomeCategory
+                    cat={item.value}
+                    editingCell={editingCell}
+                    isLast={idx === items.length - 1}
+                    MonthComponent={dataComponents.IncomeCategoryComponent}
+                    onEditName={onEditName}
+                    onEditMonth={onEditMonth}
+                    categoriesRef={categoriesRef}
+                    onSave={_onSaveCategory}
+                    onDelete={onDeleteCategory}
+                    onDragChange={onDragChange}
+                    onReorder={onReorderCategory}
+                    onBudgetAction={onBudgetAction}
+                    onShowActivity={onShowActivity}
+                  />
+                );
+                break;
+              default:
+                throw new Error('Unknown item type: ' + item.type);
+            }
 
-          const pos =
-            idx === 0 ? 'first' : idx === items.length - 1 ? 'last' : null;
+            const pos =
+              idx === 0 ? 'first' : idx === items.length - 1 ? 'last' : null;
 
-          return (
-            <DropHighlightPosContext.Provider
-              key={
-                item.value
-                  ? item.value.id
-                  : item.type === 'income-separator'
-                    ? 'separator'
-                    : idx
-              }
-              value={pos}
-            >
-              <View
-                style={
-                  !dragState && {
-                    ':hover': { backgroundColor: theme.tableBackground },
-                  }
+            return (
+              <DropHighlightPosContext.Provider
+                key={
+                  item.value
+                    ? item.value.id
+                    : item.type === 'income-separator'
+                      ? 'separator'
+                      : idx
                 }
+                value={pos}
               >
-                {content}
-              </View>
-            </DropHighlightPosContext.Provider>
-          );
-        })}
-      </View>
+                <View
+                  style={
+                    !dragState && {
+                      ':hover': { backgroundColor: theme.tableBackground },
+                    }
+                  }
+                >
+                  {content}
+                </View>
+              </DropHighlightPosContext.Provider>
+            );
+          })}
+        </View>
       </div>
     );
   },
