@@ -15,6 +15,7 @@ type SearchProps = {
   placeholder: string;
   isInModal?: boolean;
   width?: number;
+  name?: string;
 };
 
 export function Search({
@@ -24,6 +25,7 @@ export function Search({
   placeholder,
   isInModal = false,
   width = 250,
+  name = 'Search',
 }: SearchProps) {
   const { t } = useTranslation();
   return (
@@ -87,6 +89,7 @@ export function Search({
         if (e.key === 'Escape') onChange('');
       }}
       onChangeValue={value => onChange(value)}
+      name={name}
     />
   );
 }
