@@ -42,18 +42,20 @@ export function SecondaryItem({
 }: SecondaryItemProps) {
   const content = (
     <View
+      key="secItemView"
       style={{
         flexDirection: 'row',
         alignItems: 'center',
         height: 16,
       }}
     >
-      {Icon && <Icon width={12} height={12} />}
-      <Block style={{ marginLeft: Icon ? 8 : 0, color: 'inherit' }}>
+      {Icon && <Icon key="secItemIcon" width={12} height={12} />}
+      <Block key="secItemBlock" style={{ marginLeft: Icon ? 8 : 0, color: 'inherit' }}>
         {title}
       </Block>
       {badge > 0 && (
         <div
+          key="secItemDiv"
           style={{
             backgroundColor: theme.errorText,
             width: 'fit-content',

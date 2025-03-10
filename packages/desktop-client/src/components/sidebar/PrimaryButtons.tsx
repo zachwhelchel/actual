@@ -44,16 +44,27 @@ export function PrimaryButtons() {
           commonElementsRef.current['budget_button'] = element;
         }}
       >
-        <Item title={t('Budget')} Icon={SvgWallet} to="/budget" />
+        <Item key="budget" title={t('Budget')} Icon={SvgWallet} to="/budget" />
       </div>
-      <Item title={t('Reports')} Icon={SvgReports} to="/reports" />
-      <Item title={t('Schedules')} Icon={SvgCalendar} to="/schedules" />
+      <Item
+        key="reports"
+        title={t('Reports')}
+        Icon={SvgReports}
+        to="/reports"
+      />
+      <Item
+        key="schedules"
+        title={t('Schedules')}
+        Icon={SvgCalendar}
+        to="/schedules"
+      />
       <div
         ref={element => {
           commonElementsRef.current['message_center'] = element;
         }}
       >
         <Item
+          key="messages"
           title="Messages"
           badge={totalUnreadCount}
           Icon={SvgChatBubbleDots}
@@ -62,6 +73,7 @@ export function PrimaryButtons() {
       </div>
 
       <Item
+        key="seeMore"
         title={t('More')}
         Icon={isOpen ? SvgCheveronDown : SvgCheveronRight}
         onClick={onToggle}
@@ -71,18 +83,21 @@ export function PrimaryButtons() {
       {isOpen && (
         <>
           <SecondaryItem
+            key="payees"
             title={t('Payees')}
             Icon={SvgStoreFront}
             to="/payees"
             indent={15}
           />
           <SecondaryItem
+            key="rules"
             title={t('Rules')}
             Icon={SvgTuning}
             to="/rules"
             indent={15}
           />
           <SecondaryItem
+            key="settings"
             title={t('Settings')}
             Icon={SvgCog}
             to="/settings"

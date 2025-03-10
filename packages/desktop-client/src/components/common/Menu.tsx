@@ -138,7 +138,7 @@ export function Menu<const NameType = string>({
         if (item === Menu.line) {
           return (
             <View key={idx} style={{ margin: '3px 0px' }}>
-              <View style={{ borderTop: '1px solid ' + theme.menuBorder }} />
+              <View key={`border${idx}`} style={{ borderTop: '1px solid ' + theme.menuBorder }} />
             </View>
           );
         } else if (isLabel(item)) {
@@ -164,7 +164,7 @@ export function Menu<const NameType = string>({
         return (
           <View
             role="button"
-            key={String(item.name)}
+            key={`button-${item.name}`}
             style={{
               cursor: 'default',
               padding: 10,
@@ -199,16 +199,19 @@ export function Menu<const NameType = string>({
               <>
                 {Icon && (
                   <Icon
+                    key={'icon-' + String(item.name)}
                     width={item.iconSize || 10}
                     height={item.iconSize || 10}
                     style={{ marginRight: 7, width: item.iconSize || 10 }}
                   />
                 )}
-                <Text title={item.tooltip}>{item.text}</Text>
-                <View style={{ flex: 1 }} />
+                <Text key={'text-' + String(item.name)}
+                                          title={item.tooltip}>{item.text}</Text>
+                <View key={'view-' + String(item.name)} style={{ flex: 1 }} />
               </>
             ) : (
               <View
+                key={'view-' + String(item.name)}
                 style={{
                   flexDirection: 'row',
                   flex: 1,
@@ -216,10 +219,11 @@ export function Menu<const NameType = string>({
                   alignItems: 'center',
                 }}
               >
-                <label htmlFor={String(item.name)} title={item.tooltip}>
+                <label key={'label-' + String(item.name)} htmlFor={String(item.name)} title={item.tooltip}>
                   {item.text}
                 </label>
                 <Toggle
+                  key={'toggle-' + String(item.name)}
                   id={String(item.name)}
                   isOn={item.toggle}
                   style={{ marginLeft: 5 }}
@@ -232,7 +236,7 @@ export function Menu<const NameType = string>({
                 />
               </View>
             )}
-            {item.key && <Keybinding keyName={item.key} />}
+            {item.key && <Keybinding key={'keyBinding-' + String(item.name)} keyName={item.key} />}
           </View>
         );
       })}

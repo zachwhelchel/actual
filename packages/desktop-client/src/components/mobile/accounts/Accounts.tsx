@@ -237,12 +237,13 @@ function AccountList({
           title={t('Accounts')}
           rightContent={
             <Button
+              key="addAccountButton"
               variant="bare"
               aria-label={t('Add account')}
               style={{ margin: 10 }}
               onPress={onAddAccount}
             >
-              <SvgAdd width={20} height={20} />
+              <SvgAdd key="addAccountSvg" width={20} height={20} />
             </Button>
           }
         />
@@ -257,6 +258,7 @@ function AccountList({
         <View aria-label="Account list" style={{ margin: 10 }}>
           {onBudgetAccounts.length > 0 && (
             <AccountHeader
+              key="onBudget"
               id="onbudget"
               name="On budget"
               amount={getOnBudgetBalance()}
@@ -277,6 +279,7 @@ function AccountList({
 
           {offBudgetAccounts.length > 0 && (
             <AccountHeader
+              key="offBudget"
               id="offbudget"
               name="Off budget"
               amount={getOffBudgetBalance()}
