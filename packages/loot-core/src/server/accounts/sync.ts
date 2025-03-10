@@ -824,11 +824,14 @@ async function processBankSyncDownload(
       acctRow.account_sync_source === 'plaid'
     ) {
       const currentBalance = download.startingBalance;
+
       const previousBalance = transactions.reduce((total, trans) => {
-        return (
-          total - parseInt(trans.transactionAmount.amount.replace('.', ''))
-        );
+        if (trans.booked === true) {
+          return total - parseInt(trans.transactionAmount.amount.replace('.', ''));
+        }
+        return total;
       }, currentBalance);
+
       balanceToUse = previousBalance;
     }
 
