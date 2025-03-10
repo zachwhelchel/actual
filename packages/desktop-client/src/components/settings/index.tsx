@@ -140,8 +140,8 @@ export function Settings() {
         <About />
         <ThemeSettings />
         <FormatSettings />
-        <AuthSettings />
-
+{/*        <AuthSettings />
+*/}
         {/*        <EncryptionSettings />
         <BudgetTypeSettings />*/}
         {isElectron() && <Backups />}
@@ -151,8 +151,8 @@ export function Settings() {
           <ResetCache />
           <ResetSync />
           <FixSplits />
-          <ExperimentalFeatures />
-        </AdvancedToggle>
+{/*          <ExperimentalFeatures />
+*/}        </AdvancedToggle>
       </View>
     </Page>
   );

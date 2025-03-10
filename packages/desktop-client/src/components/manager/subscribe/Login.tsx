@@ -399,7 +399,7 @@ export function Login() {
       )}
 
       <OpenIdLogin setError={setError} />
-      <PasswordLogin dispatch={dispatch} />
-    </View>
+{/*      <PasswordLogin dispatch={dispatch} />
+*/}    </View>
   );
 }
