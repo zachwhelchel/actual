@@ -111,14 +111,16 @@ export function Account<FieldName extends SheetFields<'account'>>({
 
   const accountRow = (
     <View
+      key={`ACC-L1-${account?.id}`}
       innerRef={dropRef}
       style={{ flexShrink: 0, ...outerStyle }}
       onContextMenu={needsTooltip ? handleContextMenu : undefined}
     >
-      <View innerRef={triggerRef}>
-        <DropHighlight pos={dropPos} />
-        <View innerRef={dragRef}>
+      <View key={`ACC-L2-${account?.id}`} innerRef={triggerRef}>
+        <DropHighlight key="dropHighlight" pos={dropPos} />
+        <View key={`ACC-L3-${account?.id}`} innerRef={dragRef}>
           <Link
+            key="accountLink"
             variant="internal"
             to={to}
             isDisabled={isEditing}
@@ -145,6 +147,7 @@ export function Account<FieldName extends SheetFields<'account'>>({
             }}
           >
             <View
+              key={`ACC-L4-${account?.id}`}
               style={{
                 position: 'absolute',
                 left: 0,
@@ -155,6 +158,7 @@ export function Account<FieldName extends SheetFields<'account'>>({
               }}
             >
               <div
+                key={`ACC-L5-${account?.id}`}
                 className={cx(
                   'dot',
                   css({
@@ -176,6 +180,7 @@ export function Account<FieldName extends SheetFields<'account'>>({
             </View>
 
             <AlignedText
+              key={`ACC-L5-budgetTextAligner-${account?.id}`}
               style={
                 (name === 'Off budget' || name === 'On budget') && {
                   borderBottom: `1.5px solid rgba(255,255,255,0.4)`,
@@ -184,8 +189,10 @@ export function Account<FieldName extends SheetFields<'account'>>({
               }
               left={
                 isEditing ? (
-                  <InitialFocus>
+                  <InitialFocus key={`ACC-L5-initialFocus-${account?.id}`}>
                     <Input
+                      key={`ACC-L5-accountInput-${account?.id}`}
+                      ref={inputRef}
                       style={{
                         padding: 0,
                         width: '100%',
@@ -212,11 +219,12 @@ export function Account<FieldName extends SheetFields<'account'>>({
                   name
                 )
               }
-              right={<CellValue binding={query} type="financial" />}
+              right={<CellValue key={`ACC-L5-budgetCell-${account?.id}`} binding={query} type="financial" />}
             />
           </Link>
           {account && (
             <Popover
+              key={`ACC-L5-accountPopover-${account?.id}`}
               triggerRef={triggerRef}
               placement="bottom start"
               isOpen={menuOpen}
@@ -226,6 +234,7 @@ export function Account<FieldName extends SheetFields<'account'>>({
               {...position}
             >
               <Menu
+                key={`ACC-L-Menu-${account?.id}`}
                 onMenuSelect={type => {
                   switch (type) {
                     case 'close': {
@@ -263,13 +272,16 @@ export function Account<FieldName extends SheetFields<'account'>>({
 
   return (
     <Tooltip
+      key={`ACC-TT-${account?.id}`}
       content={
         <View
+          key="ACC-TT-View-${account?.id}"
           style={{
             padding: 10,
           }}
         >
           <Text
+            key="accountText"
             style={{
               fontWeight: 'bold',
               borderBottom: accountNote ? `1px solid ${theme.tableBorder}` : 0,
@@ -280,6 +292,7 @@ export function Account<FieldName extends SheetFields<'account'>>({
           </Text>
           {accountNote && (
             <Notes
+              key="accountNotes"
               getStyle={() => ({
                 padding: 0,
               })}

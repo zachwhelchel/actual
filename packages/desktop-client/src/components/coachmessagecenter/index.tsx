@@ -41,8 +41,8 @@ import {
 } from 'stream-chat-react';
 import 'stream-chat-react/dist/css/v2/index.css';
 
-import { init, SearchIndex } from 'emoji-mart';
 import data from '@emoji-mart/data';
+import { init, SearchIndex } from 'emoji-mart';
 import { EmojiPicker } from 'stream-chat-react/emojis';
 
 import {

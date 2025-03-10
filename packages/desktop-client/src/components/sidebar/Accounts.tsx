@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext } from 'react';
+import React, { useState, useMemo, useContext, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -192,6 +192,7 @@ export function Accounts({
         }}
       >
         <Account
+          key="allAccounts"
           name="All accounts"
           to="/accounts"
           query={queries.allAccountBalance()}
@@ -201,11 +202,13 @@ export function Accounts({
 
       {onBudgetAccounts.length > 0 && (
         <div
+          key="forBudgetAccounts"
           ref={element => {
             commonElementsRef.current['for_budget_accounts'] = element;
           }}
         >
           <Account
+            key="forBudget"
             name="For budget"
             to="/accounts/budgeted"
             query={queries.onBudgetAccountBalance()}
@@ -237,6 +240,7 @@ export function Accounts({
 
       {offbudgetAccounts.length > 0 && (
         <Account
+          key="offBudget"
           name="Off budget"
           to="/accounts/offbudget"
           query={queries.offBudgetAccountBalance()}
@@ -267,6 +271,7 @@ export function Accounts({
 
       {closedAccounts.length > 0 && (
         <SecondaryItem
+          key="closedAccounts"
           style={{ marginTop: 15 }}
           title={'Closed accounts' + (showClosedAccounts ? '' : '...')}
           onClick={onToggleClosedAccounts}
@@ -288,11 +293,13 @@ export function Accounts({
         ))}
 
       <div
+        key="addAccount"
         ref={element => {
           commonElementsRef.current['add_account'] = element;
         }}
       >
         <SecondaryItem
+          key={"addAccount"}
           style={{
             marginTop: 15,
             marginBottom: 9,
@@ -304,6 +311,7 @@ export function Accounts({
       </div>
 
       <View
+        key="viewSpace1"
         style={{
           height: 1,
           backgroundColor: theme.sidebarItemBackgroundHover,
@@ -313,6 +321,7 @@ export function Accounts({
       />
 
       <div
+        key="conversation"
         style={{
           flex: 1,
           display: 'flex',
@@ -352,6 +361,7 @@ export function Accounts({
       </div>
 
       <View
+        key="viewSpace2"
         style={{
           marginLeft: '16',
           marginRight: '16',
@@ -362,6 +372,7 @@ export function Accounts({
       >
         {openConversation == null && REACT_APP_COACH_FIRST_NAME != null && (
           <h4
+            key="convoClosed"
             style={{
               marginBottom: '0',
               paddingBottom: '0',
@@ -372,6 +383,7 @@ export function Accounts({
         )}
         {openConversation != null && REACT_APP_COACH_FIRST_NAME != null && (
           <h4
+            key="convoOpen"
             style={{
               opacity: 0.4,
               marginBottom: '0',
@@ -384,6 +396,7 @@ export function Accounts({
       </View>
 
       <div
+        key="conversationDeck"
         style={{
           marginTop: 5,
           marginLeft: 11,
@@ -392,9 +405,10 @@ export function Accounts({
         }}
       >
         {conversationDeck.map(conversation => (
-          <>
+          <Fragment key={`convo-${conversation.id}`}>
             {conversation.id === openConversation && (
               <Card
+                key={`convo-open-${conversation.id}`}
                 style={{
                   opacity: 0.4,
                   marginTop: 15,
@@ -433,6 +447,7 @@ export function Accounts({
             )}
             {conversation.id !== openConversation && (
               <Card
+                key={`convo-closed-${conversation.id}`}
                 style={{
                   opacity: 1.0,
                   marginTop: 15,
@@ -469,7 +484,7 @@ export function Accounts({
                 </p>
               </Card>
             )}
-          </>
+          </Fragment>
         ))}
 
         {supportedTriggerTypes.length > 0 && (
@@ -491,6 +506,7 @@ export function Accounts({
       </div>
 
       <View
+        key="viewSpace3"
         style={{
           marginLeft: '16',
           marginRight: '16',
@@ -506,6 +522,7 @@ export function Accounts({
             }}
           >
             <Button
+              key="scheduleZoom"
               type="primary"
               onClick={() => onScheduleZoom()}
               style={{
@@ -523,6 +540,7 @@ export function Accounts({
         )}
 
         <Button
+          key="manageCoach"
           type="primary"
           onClick={() => onUploadAvatar()}
           style={{
@@ -537,6 +555,7 @@ export function Accounts({
       </View>
 
       <View
+        key="viewSpace4"
         style={{
           height: 1,
           backgroundColor: theme.sidebarItemBackgroundHover,
@@ -547,6 +566,7 @@ export function Accounts({
 
       {REACT_APP_UI_MODE === 'user' && mode === 'subscribed' && (
         <p
+          key="subscribed"
           style={{
             marginTop: 15,
             marginLeft: 15,
@@ -557,6 +577,7 @@ export function Accounts({
         >
           You are currently subscribed. Manage your subscription{' '}
           <Link
+            key={"manageSubscription"}
             variant="external"
             linkColor="white"
             to="https://mybudgetcoach.app/subscription"
@@ -569,6 +590,7 @@ export function Accounts({
 
       {REACT_APP_UI_MODE === 'user' && mode === 'free_trial' && (
         <p
+          key="freeTrial"
           style={{
             marginTop: 15,
             marginLeft: 15,
@@ -592,6 +614,7 @@ export function Accounts({
       {REACT_APP_UI_MODE === 'user' && mode === 'deletion_soon' && (
         <>
           <p
+            key="deleteSoon"
             style={{
               marginTop: 15,
               marginLeft: 15,
@@ -612,6 +635,7 @@ export function Accounts({
             to avoid losing your budget.
           </p>
           <p
+            key="disappearWarning"
             style={{
               marginTop: 0,
               marginLeft: 15,
@@ -621,7 +645,7 @@ export function Accounts({
               color: theme.errorText,
             }}
           >
-            Note: Once subscribed this warning will disapear within 2 business
+            Note: Once subscribed this warning will disappear within 2 business
             days.
           </p>
         </>

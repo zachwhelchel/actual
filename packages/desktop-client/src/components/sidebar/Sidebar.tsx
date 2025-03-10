@@ -85,6 +85,7 @@ export function Sidebar() {
 
   return (
     <Resizable
+      key="sidebarResizable"
       defaultSize={{
         width: sidebarWidth,
         height: '100%',
@@ -104,6 +105,7 @@ export function Sidebar() {
       }}
     >
       <View
+        key="sidebarContainerView"
         innerRef={containerRef}
         className={css({
           color: theme.sidebarItemText,
@@ -122,7 +124,8 @@ export function Sidebar() {
           ...styles.darkScrollbar,
         })}
       >
-        <BudgetName>
+        <BudgetName
+          key="sidebarBudgetName">
           {/*          {!sidebar.alwaysFloats && (
             <ToggleButton isFloating={isFloating} onFloat={onFloat} />
           )}
@@ -130,14 +133,16 @@ export function Sidebar() {
         </BudgetName>
 
         <View
+          key="sidebarView"
           style={{
             flexGrow: 1,
             overflowY: 'auto',
           }}
         >
-          <PrimaryButtons />
+          <PrimaryButtons key="sidebarButtons" />
 
           <Accounts
+            key="sidebarAccounts"
             onAddAccount={onAddAccount}
             onScheduleZoom={onScheduleZoom}
             onFreeTrial={onFreeTrial}
