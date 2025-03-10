@@ -50,7 +50,10 @@ export function SecondaryItem({
       }}
     >
       {Icon && <Icon key="secItemIcon" width={12} height={12} />}
-      <Block key="secItemBlock" style={{ marginLeft: Icon ? 8 : 0, color: 'inherit' }}>
+      <Block
+        key="secItemBlock"
+        style={{ marginLeft: Icon ? 8 : 0, color: 'inherit' }}
+      >
         {title}
       </Block>
       {badge > 0 && (

@@ -10,7 +10,7 @@ import {
   useHref,
 } from 'react-router-dom';
 
-import { addNotification, sync } from 'loot-core/client/actions';
+import { addNotification, sync, replaceModal } from 'loot-core/client/actions';
 import { type State } from 'loot-core/src/client/state-types';
 import { send } from 'loot-core/src/platform/client/fetch';
 import * as undo from 'loot-core/src/platform/client/undo';
@@ -209,6 +209,8 @@ export function FinancesApp({
           url,
           publicToken,
         });
+
+        dispatch(replaceModal('add-account'));
       }
     } catch (error) {
       console.error('Error handling Plaid callback:', error);

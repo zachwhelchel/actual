@@ -299,7 +299,7 @@ export function Accounts({
         }}
       >
         <SecondaryItem
-          key={"addAccount"}
+          key="addAccount"
           style={{
             marginTop: 15,
             marginBottom: 9,
@@ -577,7 +577,7 @@ export function Accounts({
         >
           You are currently subscribed. Manage your subscription{' '}
           <Link
-            key={"manageSubscription"}
+            key="manageSubscription"
             variant="external"
             linkColor="white"
             to="https://mybudgetcoach.app/subscription"

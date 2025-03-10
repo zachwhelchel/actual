@@ -219,7 +219,13 @@ export function Account<FieldName extends SheetFields<'account'>>({
                   name
                 )
               }
-              right={<CellValue key={`ACC-L5-budgetCell-${account?.id}`} binding={query} type="financial" />}
+              right={
+                <CellValue
+                  key={`ACC-L5-budgetCell-${account?.id}`}
+                  binding={query}
+                  type="financial"
+                />
+              }
             />
           </Link>
           {account && (

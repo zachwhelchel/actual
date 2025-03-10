@@ -138,7 +138,10 @@ export function Menu<const NameType = string>({
         if (item === Menu.line) {
           return (
             <View key={idx} style={{ margin: '3px 0px' }}>
-              <View key={`border${idx}`} style={{ borderTop: '1px solid ' + theme.menuBorder }} />
+              <View
+                key={`border${idx}`}
+                style={{ borderTop: '1px solid ' + theme.menuBorder }}
+              />
             </View>
           );
         } else if (isLabel(item)) {
@@ -205,8 +208,9 @@ export function Menu<const NameType = string>({
                     style={{ marginRight: 7, width: item.iconSize || 10 }}
                   />
                 )}
-                <Text key={'text-' + String(item.name)}
-                                          title={item.tooltip}>{item.text}</Text>
+                <Text key={'text-' + String(item.name)} title={item.tooltip}>
+                  {item.text}
+                </Text>
                 <View key={'view-' + String(item.name)} style={{ flex: 1 }} />
               </>
             ) : (
@@ -219,7 +223,11 @@ export function Menu<const NameType = string>({
                   alignItems: 'center',
                 }}
               >
-                <label key={'label-' + String(item.name)} htmlFor={String(item.name)} title={item.tooltip}>
+                <label
+                  key={'label-' + String(item.name)}
+                  htmlFor={String(item.name)}
+                  title={item.tooltip}
+                >
                   {item.text}
                 </label>
                 <Toggle
@@ -236,7 +244,12 @@ export function Menu<const NameType = string>({
                 />
               </View>
             )}
-            {item.key && <Keybinding key={'keyBinding-' + String(item.name)} keyName={item.key} />}
+            {item.key && (
+              <Keybinding
+                key={'keyBinding-' + String(item.name)}
+                keyName={item.key}
+              />
+            )}
           </View>
         );
       })}

@@ -32,7 +32,7 @@ export function AlignedText({
       {...nativeProps}
     >
       <Block
-        key={"firstBlock"}
+        key="firstBlock"
         style={{
           marginRight: 10,
           ...(truncate === 'left' && truncateStyle),
@@ -42,7 +42,7 @@ export function AlignedText({
         {left}
       </Block>
       <Block
-        key={"lastBlock"}
+        key="lastBlock"
         style={{
           flex: 1,
           textAlign: 'right',

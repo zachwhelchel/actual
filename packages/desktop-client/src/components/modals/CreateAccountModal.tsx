@@ -340,9 +340,17 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
 
   const handleUpdate = account => {
     // Implement update functionality
+
     console.log(`Update account: ${account}`);
 
-    getPlaidLink(account.item_id);
+    dispatch(
+      pushModal('confirm-update-account', {
+        accountName: account.name,
+        onConfirm: () => {
+          getPlaidLink(account.item_id);
+        },
+      }),
+    );
   };
 
   const handleRemove = async account => {
@@ -463,6 +471,33 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
           <View style={{ maxWidth: 500, gap: 30, color: theme.pageText }}>
             {isOwner && (
               <View style={{ gap: 10 }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    marginTop: 10,
+                    marginBottom: 10,
+                  }}
+                >
+                  {t(
+                    'After setting up your bank connections in the below section you will be ready to link specific accounts from each bank with accounts here in MyBudgetCoach:',
+                  )}
+                </Text>
+
+                <Button
+                  variant="primary"
+                  style={{
+                    padding: '10px 0',
+                    fontSize: 15,
+                    fontWeight: 600,
+                    width: 240,
+                    alignSelf: 'center',
+                    marginBottom: 20,
+                  }}
+                  onPress={getPlaidAccounts}
+                >
+                  Link Connected Accounts
+                </Button>
+
                 <View
                   style={{
                     gap: 10,
@@ -472,6 +507,7 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
                     paddingLeft: 10,
                     paddingRight: 10,
                     paddingBottom: 15,
+                    marginBottom: 10,
                   }}
                 >
                   <Text>
@@ -551,32 +587,6 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
                   </ButtonWithLoading>
                 </View>
 
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    marginTop: 10,
-                    marginBottom: 10,
-                  }}
-                >
-                  {t(
-                    'After setting up your bank connections in the above section you will be ready to associate specific accounts from each bank with accounts here in MyBudgetCoach. Click ‘Next’ to get started:',
-                  )}
-                </Text>
-
-                <Button
-                  variant="primary"
-                  style={{
-                    padding: '10px 0',
-                    fontSize: 15,
-                    fontWeight: 600,
-                    width: 200,
-                    alignSelf: 'center',
-                  }}
-                  onPress={getPlaidAccounts}
-                >
-                  Next
-                </Button>
-
                 {upgradingAccountId == null && (
                   <>
                     <Text
@@ -587,7 +597,7 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
                       }}
                     >
                       {t(
-                        'Alternatively you can create a local account without connecting to a bank:',
+                        'Alternatively you can create a local account without connecting to a bank. Note that all "off budget" accounts must be local accounts:',
                       )}
                     </Text>
 

@@ -25,6 +25,7 @@ import { ConfirmCategoryDeleteModal } from './modals/ConfirmCategoryDeleteModal'
 import { ConfirmTransactionDeleteModal } from './modals/ConfirmTransactionDeleteModal';
 import { ConfirmTransactionEditModal } from './modals/ConfirmTransactionEditModal';
 import { ConfirmUnlinkAccountModal } from './modals/ConfirmUnlinkAccountModal';
+import { ConfirmUpdateAccountModal } from './modals/ConfirmUpdateAccountModal';
 import { CoverModal } from './modals/CoverModal';
 import { CreateAccountModal } from './modals/CreateAccountModal';
 import { CreateCategory } from './modals/CreateCategory';
@@ -179,6 +180,15 @@ export function Modals() {
               key={name}
               accountName={options.accountName}
               onUnlink={options.onUnlink}
+            />
+          );
+
+        case 'confirm-update-account':
+          return (
+            <ConfirmUpdateAccountModal
+              key={name}
+              accountName={options.accountName}
+              onConfirm={options.onConfirm}
             />
           );
 

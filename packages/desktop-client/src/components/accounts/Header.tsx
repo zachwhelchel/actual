@@ -798,7 +798,7 @@ function AccountMenu({
                   text: t('Unlink account'),
                 } as const,
               ]
-            : syncServerStatus === 'online'
+            : syncServerStatus === 'online' && account.offbudget === 0
               ? [
                   {
                     name: 'link',

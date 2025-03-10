@@ -110,7 +110,9 @@ export function SelectLinkedAccountsModal({
   }
 
   const unlinkedAccounts = localAccounts.filter(
-    account => !Object.values(chosenAccounts).includes(account.id),
+    account =>
+      !Object.values(chosenAccounts).includes(account.id) &&
+      account.offbudget === 0,
   );
 
   function onSetLinkedAccount(externalAccount, localAccountId) {
@@ -220,7 +222,6 @@ function TableRow({
     ...unlinkedAccounts,
     chosenAccount?.id !== addOnBudgetAccountOption.id && chosenAccount,
     addOnBudgetAccountOption,
-    addOffBudgetAccountOption,
   ].filter(Boolean);
 
   return (

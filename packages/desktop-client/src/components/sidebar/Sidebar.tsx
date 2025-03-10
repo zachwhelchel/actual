@@ -124,8 +124,7 @@ export function Sidebar() {
           ...styles.darkScrollbar,
         })}
       >
-        <BudgetName
-          key="sidebarBudgetName">
+        <BudgetName key="sidebarBudgetName">
           {/*          {!sidebar.alwaysFloats && (
             <ToggleButton isFloating={isFloating} onFloat={onFloat} />
           )}
