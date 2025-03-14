@@ -438,26 +438,6 @@ export function Accounts({
         }}
       >
 
-        {REACT_APP_COACH != undefined && (
-          <div
-            ref={element => {
-              commonElementsRef.current['zoom_link'] = element;
-            }}
-          >
-            <Button
-              type="primary"
-              onClick={() => onScheduleZoom()}
-              style={{
-                flex: 1,
-                display: 'flex',
-                width: '100%',
-              }}
-            >
-              Schedule Video Call
-            </Button>
-          </div>
-        )}
-
           <Button
             type="primary"
             onClick={() => onUploadAvatar()}

@@ -64,7 +64,7 @@ export function handleGlobalEvents(actions: BoundActions, store: Store<State>) {
     }
   });
 
-  sharedListeners.listenForSyncEvent(actions, store);
+  //sharedListeners.listenForSyncEvent(actions, store);
 
   listen('undo-event', undoState => {
     const { tables, undoTag } = undoState;

@@ -161,6 +161,8 @@ export function importBudget(
 }
 
 export function uploadBudget(id: string) {
+  return {};
+
   return async (dispatch: Dispatch) => {
     const { error } = await send('upload-budget', { id });
     if (error) {

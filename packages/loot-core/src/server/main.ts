@@ -1852,6 +1852,9 @@ handlers['create-budget'] = async function ({
   testMode?;
   testBudgetId?;
 } = {}) {
+
+  avoidUpload = true
+
   let id;
   if (testMode) {
     budgetName = budgetName || 'Test Budget';

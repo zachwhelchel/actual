@@ -159,8 +159,6 @@ export function Sidebar() {
 
         <Item title="Schedules" Icon={SvgCalendar} to="/schedules" />
 
-        <Item title="Messages" badge={totalUnreadCount} Icon={SvgChatBubbleDots} to="/coachmessagecenter" />
-
         <Tools />
 
         <View

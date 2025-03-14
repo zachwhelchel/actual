@@ -473,7 +473,7 @@ export function Titlebar({ style }: TitlebarProps) {
       )}
       <PrivacyButton style={{ marginLeft: 10 }} />
 {/*      {serverURL ? <SyncButton style={{ marginLeft: 10 }} /> : null}
-*/}      <LoggedInUser style={{ marginLeft: 10 }} />
+      <LoggedInUser style={{ marginLeft: 10 }} />*/}
     </View>
   );
 }
