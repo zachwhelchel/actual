@@ -81,7 +81,7 @@ export function NeedStuffApp({
       const record = results.fields;
 
       console.log('record');
-      console.log(record);
+      //console.log(record);
 
       //const coach_id = record.get('coach_id')?.[0] || null;
       const coach_id = record.coach_id?.[0] || null;

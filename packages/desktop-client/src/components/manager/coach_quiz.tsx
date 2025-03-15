@@ -72,6 +72,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     firstName: firstName || '',
     lastName: lastName || '',
     email: email || '',
+    phoneNumber: '',
     foundUs: '',
     motivation: '',
     language: '',
@@ -117,12 +118,38 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     setCurrentStage(3);
   };
 
+
   const handleSubmit = async () => {
-    if (userData?.userId !== null) {
-      await updateUserData(userData?.userId);
+
+
+    const newErrors = {};
+    let isValid = true;
+    
+    // Check each field
+    Object.entries(formData).forEach(([key, value]) => {
+      if (!value || value.trim() === '') {
+        newErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
+        isValid = false;
+      }
+    });
+    
+    // Update error state
+    // setErrors(newErrors);
+    
+    // Only proceed if all fields are valid
+    if (isValid) {
+      if (userData?.userId !== null) {
+        await updateUserData(userData?.userId);
+        window.location.reload();
+      }
+      window.location.reload();
+    } else {
+      // Optional: Scroll to the top or first error
+      window.scrollTo(0, 0);
+      // Or alert the user
+      alert("Please fill in all required fields");
     }
 
-    window.location.reload();
   };
 
   const updateUserCoachRelationship = async (userId, coachId) => {
@@ -142,6 +169,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       first_name: formData.firstName,
       last_name: formData.lastName,
       email: formData.email,
+      phone_number: formData.phoneNumber,
       found_us: formData.foundUs,
       motivation: formData.motivation,
       language: formData.language,
@@ -808,6 +836,37 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                   required
                 />
               </div>
+
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: '1.0rem',
+                    fontWeight: 500,
+                    color: 'rgb(55, 65, 81)',
+                    marginBottom: '0.25rem',
+                  }}
+                >
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  value={formData.phoneNumber}
+                  onChange={e =>
+                    setFormData(prev => ({ ...prev, phoneNumber: e.target.value }))
+                  }
+                  placeholder="(123) 456-7890"
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    borderRadius: '0.375rem',
+                    border: '1px solid rgb(209, 213, 219)',
+                    fontSize: '1.0rem',
+                  }}
+                  required
+                />
+              </div>
+
 
               <div>
                 <label

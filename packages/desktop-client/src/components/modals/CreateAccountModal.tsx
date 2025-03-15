@@ -567,6 +567,11 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
                       </div>
                     )}
                   </>
+                  <Warning>
+                    <Trans>
+                      Support for Chase bank coming soon (estimated by end of March 2025).
+                    </Trans>
+                  </Warning>
 
                   <ButtonWithLoading
                     isDisabled={false}
