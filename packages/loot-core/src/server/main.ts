@@ -2866,8 +2866,8 @@ async function loadBudget(id: string) {
   // Load all the in-memory state
   await mappings.loadMappings();
   await rules.loadRules();
-  await syncMigrations.listen();
-  await app.startServices();
+  syncMigrations.listen();
+  app.startServices();
 
   clearUndo();
 
