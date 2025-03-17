@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36" version="26.1.0">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36" version="26.1.1">
   <diagram id="nSMB9zkZIrrzeE3D5YY0" name="Introduction">
-    <mxGraphModel dx="3483" dy="1826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3419" dy="1773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -904,7 +904,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="WCeGoeHqpxaAAw5ey9_L-5" value="Welcome back [[student_name]]! Let&#39;s kick off Module 3 - Budget set-up." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0" parent="1" vertex="1">
-          <mxGeometry x="-1835" y="1210" width="255" height="160" as="geometry" />
+          <mxGeometry x="-1835" y="1206.75" width="255" height="160" as="geometry" />
         </mxCell>
         <mxCell id="WCeGoeHqpxaAAw5ey9_L-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="WCeGoeHqpxaAAw5ey9_L-7" target="WCeGoeHqpxaAAw5ey9_L-8" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -918,58 +918,31 @@
         <mxCell id="WCeGoeHqpxaAAw5ey9_L-8" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Before we begin, I want to point out that there is no &quot;one-size-fits-all&quot; when it comes to finances. Personal finance is personal and each person&#39;s budget will reflect their own individual needs, wants, and life situations.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="-1090" y="1210" width="255" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="WCeGoeHqpxaAAw5ey9_L-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="WCeGoeHqpxaAAw5ey9_L-10" target="WCeGoeHqpxaAAw5ey9_L-13" edge="1">
+        <mxCell id="mjYlPFp1Lo52OdahQdc0-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="WCeGoeHqpxaAAw5ey9_L-10" target="mjYlPFp1Lo52OdahQdc0-2" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="WCeGoeHqpxaAAw5ey9_L-10" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;The categories that we will review, and will be added to your Budget table, are to be viewed as a starting point for trying to determine a balanced way of spending money that allows:&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1. Needs to be met&lt;div&gt;2. Wants to be included&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;3. Saving/investing (or debt paydown) to be prioritized&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="WCeGoeHqpxaAAw5ey9_L-10" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;The categories that we will review, and will be added to your Budget table, are to be viewed as a starting point for trying to determine a balanced way of spending money that allows:&lt;br&gt;&lt;br&gt;1. Needs to be met&lt;br&gt;2. Wants to be included&lt;br&gt;3. Saving/investing (or debt paydown) to be prioritized" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="-702.5" y="1210" width="255" height="160" as="geometry" />
         </mxCell>
         <mxCell id="WCeGoeHqpxaAAw5ey9_L-12" value="Language with a small blue triangle closely aligns to &quot;Suggested Monthly Baseline Budget Percentages Website PDF.pdf&quot; file provided by Rob" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="-1210" y="1140" width="195" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="WCeGoeHqpxaAAw5ey9_L-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="WCeGoeHqpxaAAw5ey9_L-13" target="WCeGoeHqpxaAAw5ey9_L-16" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="70" y="1289.8333333333335" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="WCeGoeHqpxaAAw5ey9_L-13" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;After each category name, there will be a percentage range. This will help you calculate the budgeted amount range based on your scenario selected.&lt;br&gt;&lt;br&gt;For Example: A category name of &quot;Housing (25-30%)&quot; is recommending your Housing expenses should be in a range of 25-30% of your take home income (after taxes and deductions)." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0" parent="1" vertex="1">
-          <mxGeometry x="-340" y="1205" width="275" height="170" as="geometry" />
-        </mxCell>
-        <mxCell id="WCeGoeHqpxaAAw5ey9_L-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="WCeGoeHqpxaAAw5ey9_L-16" target="WCeGoeHqpxaAAw5ey9_L-17" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <object label="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Ready to start building your budget table?&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Select the &quot;Next&quot; button below to clear out the template budget categories, and add your first category.&lt;/div&gt;" id="WCeGoeHqpxaAAw5ey9_L-16">
-          <mxCell style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0" parent="1" vertex="1">
-            <mxGeometry x="32.5" y="1205" width="275" height="170" as="geometry" />
-          </mxCell>
-        </object>
-        <mxCell id="WCeGoeHqpxaAAw5ey9_L-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="WCeGoeHqpxaAAw5ey9_L-17" target="WCeGoeHqpxaAAw5ey9_L-25" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <object label="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Is that an emoji you see in the category name!? Yup!&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;The software allows you to customize the budget category names and include emojis. We have started off with a category for Housing.&lt;/div&gt;" id="WCeGoeHqpxaAAw5ey9_L-17">
-          <mxCell style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0" parent="1" vertex="1">
-            <mxGeometry x="390.97" y="1205" width="275" height="170" as="geometry" />
-          </mxCell>
-        </object>
         <mxCell id="WCeGoeHqpxaAAw5ey9_L-19" value="" style="triangle;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="-870" y="1220" width="20" height="20" as="geometry" />
         </mxCell>
         <mxCell id="WCeGoeHqpxaAAw5ey9_L-20" value="" style="triangle;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="-480" y="1220" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="WCeGoeHqpxaAAw5ey9_L-22" value="" style="triangle;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-          <mxGeometry x="-94.5" y="1210" width="20" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="WCeGoeHqpxaAAw5ey9_L-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="WCeGoeHqpxaAAw5ey9_L-23" target="WCeGoeHqpxaAAw5ey9_L-17" edge="1">
+        <mxCell id="mjYlPFp1Lo52OdahQdc0-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="WCeGoeHqpxaAAw5ey9_L-23" target="mjYlPFp1Lo52OdahQdc0-7" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="WCeGoeHqpxaAAw5ey9_L-23" value="delete_category_group: Usual Expenses&lt;br&gt;delete_category_group: Investments and Savings&lt;br&gt;create_category_group: Expenses&lt;br&gt;create_category: Expenses: 🏡 Housing (25-30%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-          <mxGeometry x="390.97" y="1420" width="275" height="90" as="geometry" />
+          <mxGeometry x="405" y="1433.76" width="275" height="90" as="geometry" />
         </mxCell>
         <mxCell id="WCeGoeHqpxaAAw5ey9_L-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="qz3wOOaB-lKSFnDg1d6j-3" target="WCeGoeHqpxaAAw5ey9_L-27" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="WCeGoeHqpxaAAw5ey9_L-25" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;After the software adds a category, I will give you an overview of the category and provide a list of which expenses should be categorized to that category.&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0" parent="1" vertex="1">
+        <mxCell id="WCeGoeHqpxaAAw5ey9_L-25" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;After the software adds a category, I will give you an overview of the category and provide a list of which expenses should be categorized to that category." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="800" y="1230.5" width="180" height="126.72" as="geometry" />
         </mxCell>
         <mxCell id="WCeGoeHqpxaAAw5ey9_L-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="WCeGoeHqpxaAAw5ey9_L-27" target="WCeGoeHqpxaAAw5ey9_L-29" edge="1">
@@ -2456,6 +2429,24 @@
         </mxCell>
         <mxCell id="_RVYeRPxx_lOlcrgJWZ8-64" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;You may need to take more than one screen grab by scrolling down in your budget table to ensure all categories and columns are captured for your submission.&amp;nbsp;&lt;br&gt;&lt;br&gt;You can close out the conversation by selecting the &#39;x&#39; in the top left of my picture within this window. I recommend closing out the conversation prior to the screen grab so your budget table can easily be seen.&lt;br&gt;&lt;br&gt;You can re-open this conversation by selecting the &quot;Introduction&quot; on the left hand menu bar." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=0" parent="1" vertex="1">
           <mxGeometry x="10600" y="2780.69" width="270" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="mjYlPFp1Lo52OdahQdc0-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="mjYlPFp1Lo52OdahQdc0-2" target="mjYlPFp1Lo52OdahQdc0-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mjYlPFp1Lo52OdahQdc0-2" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;After each category name, there will be a percentage range. This will help you calculate the budgeted amount range based on your scenario selected.&lt;br&gt;&lt;br&gt;For Example: A category name of &quot;Housing (25-30%)&quot; is recommending your Housing expenses should be in a range of 25-30% of your take home income (after taxes and deductions)." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="-367.28" y="1185" width="209.28" height="209.28" as="geometry" />
+        </mxCell>
+        <mxCell id="mjYlPFp1Lo52OdahQdc0-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="mjYlPFp1Lo52OdahQdc0-3" target="mjYlPFp1Lo52OdahQdc0-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mjYlPFp1Lo52OdahQdc0-3" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Ready to start building your budget table?&lt;br&gt;&lt;br&gt;Select the &quot;Next&quot; button below to clear out the template budget categories, and add your first category." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="32.50000000000003" y="1196.25" width="209.28" height="209.28" as="geometry" />
+        </mxCell>
+        <mxCell id="mjYlPFp1Lo52OdahQdc0-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="mjYlPFp1Lo52OdahQdc0-7" target="WCeGoeHqpxaAAw5ey9_L-25" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mjYlPFp1Lo52OdahQdc0-7" value="&amp;lt;&amp;lt;Budget&amp;gt;&amp;gt;&lt;br&gt;&lt;br&gt;Is that an emoji you see in the category name!? Yup!&lt;br&gt;&lt;br&gt;The software allows you to customize the budget category names and include emojis. We have started off with a category for Housing." style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="436.41" y="1174.47" width="209.28" height="209.28" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
