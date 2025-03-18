@@ -3,4 +3,5 @@ export interface Client {
   name: string;
   status: string;
   statusExpiresAt: string;
+  joinedAt: string;
 }

@@ -11,6 +11,7 @@ import {
   SvgTuning,
   SvgWallet,
   SvgChatBubbleDots,
+  SvgFlag,
 } from '../../icons/v1';
 import { SvgCalendar } from '../../icons/v2';
 import Coach, { CoachProvider, useCoach } from '../coach/Coach';
@@ -63,8 +64,8 @@ export function PrimaryButtons() {
       {REACT_APP_UI_MODE === 'coach' && (
         <Item
           key="dashboard"
-          title="Coach Dashboard"
-          Icon={SvgChatBubbleDots}
+          title="Dashboard"
+          Icon={SvgFlag}
           to="/coachdashboard"
         />
       )}
