@@ -963,6 +963,26 @@ handlers['secret-check'] = async function (name) {
   }
 };
 
+handlers['airtable-clients'] = async function () {
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  try {
+    return await post(
+      getServer().BASE_SERVER + '/airtable/clients',
+      {},
+      {
+        'X-ACTUAL-TOKEN': userToken,
+      },
+      60000,
+    );
+  } catch (error) {
+    return { error_code: 'TIMED_OUT' };
+  }
+};
 handlers['airtable-user'] = async function ({ url, coachId }) {
   let server = getServer();
 
