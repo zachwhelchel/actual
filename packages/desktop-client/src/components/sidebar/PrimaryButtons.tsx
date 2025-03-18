@@ -15,7 +15,9 @@ import {
 import { SvgCalendar } from '../../icons/v2';
 import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { View } from '../common/View';
-
+import {
+  REACT_APP_UI_MODE,
+} from '../../coaches/coachVariables';
 import { Item } from './Item';
 import { SecondaryItem } from './SecondaryItem';
 
@@ -58,6 +60,15 @@ export function PrimaryButtons() {
         Icon={SvgCalendar}
         to="/schedules"
       />
+      {REACT_APP_UI_MODE === 'coach' && (
+        <Item
+          key="dashboard"
+          title="Coach Dashboard"
+          Icon={SvgChatBubbleDots}
+          to="/coachdashboard"
+        />
+      )}
+
       <div
         ref={element => {
           commonElementsRef.current['message_center'] = element;

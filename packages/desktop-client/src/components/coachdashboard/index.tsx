@@ -60,9 +60,9 @@ export function CoachDashboard() {
           </tr>
           {clientList.map((client, index) => (
             <tr key={index}>
-              <td>{client.client_name}</td>
-              <td>{client.client_status}</td>
-              <td>{client.client_status_expires_at}</td>
+              <td>{client.name}</td>
+              <td>{client.status}</td>
+              <td>{client.statusExpiresAt}</td>
             </tr>
           ))}
         </SimpleTable>
