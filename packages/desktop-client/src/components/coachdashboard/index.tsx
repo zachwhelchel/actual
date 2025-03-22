@@ -265,7 +265,7 @@ export function CoachDashboard() {
         </div>
       </div>
       <View style={{ marginTop: 0, width: 'auto' }}>
-        <div style={tableStyles.clientTable}>
+        <table style={tableStyles.clientTable}>
           <tr>
             {headers.map((header, index) => (
               <th
@@ -300,7 +300,7 @@ export function CoachDashboard() {
               </td>
             </tr>
           ))}
-        </div>
+        </table>
       </View>
     </View>
   );
