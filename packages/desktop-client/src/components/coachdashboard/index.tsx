@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
+
+import { send } from 'loot-core/platform/client/fetch';
+import { type Client } from 'loot-core/src/types/client';
+
 import { styles, theme, type CSSProperties } from '../../style';
 import { Button } from '../common/Button';
 import { Card } from '../common/Card';
 import { Select } from '../common/Select';
-import { View } from '../common/View';
-import { Text } from '../common/Text';
 import { SimpleTable } from '../common/SimpleTable';
-import { send } from 'loot-core/platform/client/fetch';
-import { Client } from 'loot-core/src/types/client';
+import { Text } from '../common/Text';
+import { View } from '../common/View';
 
 export function CoachDashboard() {
   const [clientList, setClientList] = useState<Client[]>([]);
-  
+
   // Table headers configuration
   const headers = [
     { title: 'Name', width: 200 },
@@ -39,25 +41,25 @@ export function CoachDashboard() {
       fontSize: 14,
       textAlign: 'left' as const,
       padding: '14px 18px',
-      borderBottom: '1px solid #e5e9f2'
+      borderBottom: '1px solid #e5e9f2',
     },
     tableRow: {
       width: 'auto',
       borderBottom: '1px solid #e5e9f2',
       ':hover': {
-        backgroundColor: '#f9fafc'
-      }
+        backgroundColor: '#f9fafc',
+      },
     },
     tableCell: {
       padding: '14px 18px',
       fontSize: 14,
-      color: '#3c4257'
+      color: '#3c4257',
     },
     clientName: {
-      fontWeight: 500
+      fontWeight: 500,
     },
     expiryDate: {
-      color: '#6b7c93'
+      color: '#6b7c93',
     },
     statusPill: {
       display: 'inline-block',
@@ -66,32 +68,32 @@ export function CoachDashboard() {
       fontSize: 12,
       fontWeight: 500,
       textAlign: 'center' as const,
-      textTransform: 'capitalize' as const
-    }
+      textTransform: 'capitalize' as const,
+    },
   };
 
   // Status-specific styles
   const statusStyles: Record<string, CSSProperties> = {
     active: {
       backgroundColor: '#e3fcef',
-      color: '#0c6b58'
+      color: '#0c6b58',
     },
     pending: {
       backgroundColor: '#fff7e6',
-      color: '#975a16'
+      color: '#975a16',
     },
     inactive: {
       backgroundColor: '#f3f4f6',
-      color: '#6b7280'
+      color: '#6b7280',
     },
     expired: {
       backgroundColor: '#fee2e2',
-      color: '#b91c1c'
+      color: '#b91c1c',
     },
     trial: {
       backgroundColor: '#e0e7ff',
-      color: '#3730a3'
-    }
+      color: '#3730a3',
+    },
     // Add more status styles as needed
   };
 
@@ -99,56 +101,56 @@ export function CoachDashboard() {
   const getStatusStyle = (status: string): CSSProperties => {
     let normalizedStatus = status.toLowerCase();
 
-    if (normalizedStatus === "free_trial") {
+    if (normalizedStatus === 'free_trial') {
       normalizedStatus = 'trial';
-    } else if (normalizedStatus === "free_trial_expired") {
+    } else if (normalizedStatus === 'free_trial_expired') {
       normalizedStatus = 'inactive';
-    } else if (normalizedStatus === "paid") {
+    } else if (normalizedStatus === 'paid') {
       normalizedStatus = 'active';
-    } else if (normalizedStatus === "paid_expired") {
+    } else if (normalizedStatus === 'paid_expired') {
       normalizedStatus = 'inactive';
-    } else if (normalizedStatus === "sponsored") {
+    } else if (normalizedStatus === 'sponsored') {
       normalizedStatus = 'active';
-    } else if (normalizedStatus === "sponsored_expired") {
+    } else if (normalizedStatus === 'sponsored_expired') {
       normalizedStatus = 'inactive';
-    } else if (normalizedStatus === "coach_account") {
+    } else if (normalizedStatus === 'coach_account') {
       normalizedStatus = 'active';
-    } else if (normalizedStatus === "coach_account_expired") {
+    } else if (normalizedStatus === 'coach_account_expired') {
       normalizedStatus = 'inactive';
-    } else if (normalizedStatus === "server_specific") {
+    } else if (normalizedStatus === 'server_specific') {
       normalizedStatus = 'active';
-    } 
+    }
 
     return {
       ...tableStyles.statusPill,
-      ...(statusStyles[normalizedStatus] || statusStyles.inactive) // Fallback to inactive if status not found
+      ...(statusStyles[normalizedStatus] || statusStyles.inactive), // Fallback to inactive if status not found
     };
   };
 
   // Helper function to normalize status text for display
   const getNormalizedStatusText = (status: string): string => {
     const normalizedStatus = status.toLowerCase();
-    
-    if (normalizedStatus === "free_trial") {
+
+    if (normalizedStatus === 'free_trial') {
       return 'Free Trial';
-    } else if (normalizedStatus === "free_trial_expired") {
+    } else if (normalizedStatus === 'free_trial_expired') {
       return 'Trial Expired';
-    } else if (normalizedStatus === "paid") {
+    } else if (normalizedStatus === 'paid') {
       return 'Paid User';
-    } else if (normalizedStatus === "paid_expired") {
+    } else if (normalizedStatus === 'paid_expired') {
       return 'Expired Paid';
-    } else if (normalizedStatus === "sponsored") {
+    } else if (normalizedStatus === 'sponsored') {
       return 'Sponsored';
-    } else if (normalizedStatus === "sponsored_expired") {
+    } else if (normalizedStatus === 'sponsored_expired') {
       return 'Expired Sponsored';
-    } else if (normalizedStatus === "coach_account") {
+    } else if (normalizedStatus === 'coach_account') {
       return 'Coach';
-    } else if (normalizedStatus === "coach_account_expired") {
+    } else if (normalizedStatus === 'coach_account_expired') {
       return 'Expired Coach';
-    } else if (normalizedStatus === "server_specific") {
+    } else if (normalizedStatus === 'server_specific') {
       return 'Unknown';
     }
-    
+
     // Default case - return capitalized version of original status
     return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
   };
@@ -159,20 +161,20 @@ export function CoachDashboard() {
       if (results.error_code) {
         throw new Error(results.reason);
       }
-      
+
       // Sort clients by joinedAt date in descending order (newest first)
       const sortedClients = [...(results.clients || [])].sort((a, b) => {
         // If joinedAt is missing for either client, treat as oldest
         if (!a.joinedAt) return 1;
         if (!b.joinedAt) return -1;
-        
+
         // Convert to date objects and compare (newer dates first)
         const dateA = new Date(a.joinedAt);
         const dateB = new Date(b.joinedAt);
-        
+
         return dateB.getTime() - dateA.getTime();
       });
-      
+
       setClientList(sortedClients);
     } catch (error) {
       console.error('Failed to fetch clients:', error);
@@ -182,18 +184,18 @@ export function CoachDashboard() {
   // Helper function to format dates in a friendly way
   const formatDate = (dateString: string): string => {
     if (!dateString) return 'N/A';
-    
+
     try {
       const date = new Date(dateString);
-      
+
       // Check if date is valid
       if (isNaN(date.getTime())) return dateString;
-      
+
       // Format as "Month Day, Year" (e.g., "March 31, 2025")
       return date.toLocaleDateString('en-US', {
         month: 'long',
         day: 'numeric',
-        year: 'numeric'
+        year: 'numeric',
       });
     } catch (error) {
       console.error('Error formatting date:', error);
@@ -204,17 +206,17 @@ export function CoachDashboard() {
   // Helper function to format dates as relative time
   const formatRelativeDate = (dateString: string): string => {
     if (!dateString) return 'N/A';
-    
+
     try {
       const date = new Date(dateString);
-      
+
       // Check if date is valid
       if (isNaN(date.getTime())) return dateString;
-      
+
       const now = new Date();
       const diffTime = Math.abs(now.getTime() - date.getTime());
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      
+
       // Future dates
       if (date > now) {
         if (diffDays === 0) return 'Today';
@@ -224,7 +226,7 @@ export function CoachDashboard() {
         if (diffDays < 365) return `In ${Math.floor(diffDays / 30)} months`;
         return `In ${Math.floor(diffDays / 365)} years`;
       }
-      
+
       // Past dates
       if (diffDays === 0) return 'Today';
       if (diffDays === 1) return 'Yesterday';
@@ -238,7 +240,6 @@ export function CoachDashboard() {
     }
   };
 
-
   useEffect(() => {
     getClients();
   }, []);
@@ -248,34 +249,38 @@ export function CoachDashboard() {
       <div style={{ marginLeft: 20 }}>
         <Text style={styles.mediumText}>My Clients</Text>
 
-      <div
-        key="underConstruction"
-        style={{
-          width: '80%',
-          backgroundColor: theme.pillBackground,
-          color: theme.pillText,
-          padding: '10px',
-          textAlign: 'center',
-          marginTop: 20,
-          marginRight: 10
-        }}
-      >
-        Currently showing users on the new MyBudgetCoach only.
-      </div>
-
+        <div
+          key="underConstruction"
+          style={{
+            width: '80%',
+            backgroundColor: theme.pillBackground,
+            color: theme.pillText,
+            padding: '10px',
+            textAlign: 'center',
+            marginTop: 20,
+            marginRight: 10,
+          }}
+        >
+          Currently showing users on the new MyBudgetCoach only.
+        </div>
       </div>
       <View style={{ marginTop: 0, width: 'auto' }}>
         <div style={tableStyles.clientTable}>
           <tr>
             {headers.map((header, index) => (
-              <th key={index} style={{ ...tableStyles.tableHeader, width: header.width }}>
+              <th
+                key={index}
+                style={{ ...tableStyles.tableHeader, width: header.width }}
+              >
                 {header.title}
               </th>
             ))}
           </tr>
           {clientList.map((client, index) => (
             <tr key={index} style={tableStyles.tableRow}>
-              <td style={{ ...tableStyles.tableCell, ...tableStyles.clientName }}>
+              <td
+                style={{ ...tableStyles.tableCell, ...tableStyles.clientName }}
+              >
                 {client.name}
               </td>
               <td style={tableStyles.tableCell}>
@@ -283,10 +288,14 @@ export function CoachDashboard() {
                   {getNormalizedStatusText(client.status)}
                 </span>
               </td>
-              <td style={{ ...tableStyles.tableCell, ...tableStyles.expiryDate }}>
+              <td
+                style={{ ...tableStyles.tableCell, ...tableStyles.expiryDate }}
+              >
                 {formatRelativeDate(client.joinedAt)}
               </td>
-              <td style={{ ...tableStyles.tableCell, ...tableStyles.expiryDate }}>
+              <td
+                style={{ ...tableStyles.tableCell, ...tableStyles.expiryDate }}
+              >
                 {formatDate(client.statusExpiresAt)}
               </td>
             </tr>

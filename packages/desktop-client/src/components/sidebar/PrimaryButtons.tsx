@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
+import { REACT_APP_UI_MODE } from '../../coaches/coachVariables';
 import {
   SvgCheveronDown,
   SvgCheveronRight,
@@ -16,9 +17,7 @@ import {
 import { SvgCalendar } from '../../icons/v2';
 import Coach, { CoachProvider, useCoach } from '../coach/Coach';
 import { View } from '../common/View';
-import {
-  REACT_APP_UI_MODE,
-} from '../../coaches/coachVariables';
+
 import { Item } from './Item';
 import { SecondaryItem } from './SecondaryItem';
 
