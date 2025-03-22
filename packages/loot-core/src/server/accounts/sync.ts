@@ -827,7 +827,9 @@ async function processBankSyncDownload(
 
       const previousBalance = transactions.reduce((total, trans) => {
         if (trans.booked === true) {
-          return total - parseInt(trans.transactionAmount.amount.replace('.', ''));
+          return (
+            total - parseInt(trans.transactionAmount.amount.replace('.', ''))
+          );
         }
         return total;
       }, currentBalance);

@@ -384,7 +384,6 @@ export function Login() {
           </defs>
         </svg>
       </div>
-
       {error && (
         <Text
           style={{
@@ -397,9 +396,9 @@ export function Login() {
           {getErrorMessage(error)}
         </Text>
       )}
-
       <OpenIdLogin setError={setError} />
-{/*      <PasswordLogin dispatch={dispatch} />
-*/}    </View>
+      {/*      <PasswordLogin dispatch={dispatch} />
+       */}{' '}
+    </View>
   );
 }

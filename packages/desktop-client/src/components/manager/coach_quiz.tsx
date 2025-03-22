@@ -118,24 +118,22 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     setCurrentStage(3);
   };
 
-
   const handleSubmit = async () => {
-
-
     const newErrors = {};
     let isValid = true;
-    
+
     // Check each field
     Object.entries(formData).forEach(([key, value]) => {
       if (!value || value.trim() === '') {
-        newErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
+        newErrors[key] =
+          `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
         isValid = false;
       }
     });
-    
+
     // Update error state
     // setErrors(newErrors);
-    
+
     // Only proceed if all fields are valid
     if (isValid) {
       if (userData?.userId !== null) {
@@ -147,9 +145,8 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       // Optional: Scroll to the top or first error
       window.scrollTo(0, 0);
       // Or alert the user
-      alert("Please fill in all required fields");
+      alert('Please fill in all required fields');
     }
-
   };
 
   const updateUserCoachRelationship = async (userId, coachId) => {
@@ -853,7 +850,10 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                   type="tel"
                   value={formData.phoneNumber}
                   onChange={e =>
-                    setFormData(prev => ({ ...prev, phoneNumber: e.target.value }))
+                    setFormData(prev => ({
+                      ...prev,
+                      phoneNumber: e.target.value,
+                    }))
                   }
                   placeholder="(123) 456-7890"
                   style={{
@@ -866,7 +866,6 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                   required
                 />
               </div>
-
 
               <div>
                 <label
