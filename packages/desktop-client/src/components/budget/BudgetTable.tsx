@@ -42,6 +42,7 @@ type BudgetTableProps = {
       typeof BudgetTotals
     >['MonthComponent'];
   };
+  categoriesRef: React.RefObject<BudgetCategories>;
   onSaveCategory: (category: CategoryEntity) => void;
   onDeleteCategory: (id: CategoryEntity['id']) => void;
   onSaveGroup: (group: CategoryGroupEntity) => void;
