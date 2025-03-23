@@ -17,9 +17,7 @@ import {
   loadBudget,
   pushModal,
 } from 'loot-core/client/actions';
-import {
-  isElectron,
-} from 'loot-core/src/shared/environment';
+import { isElectron } from 'loot-core/src/shared/environment';
 import {
   type File,
   type LocalFile,
@@ -30,9 +28,7 @@ import {
 import { useInitialMount } from '../../hooks/useInitialMount';
 import { useMetadataPref } from '../../hooks/useMetadataPref';
 import { AnimatedLoading } from '../../icons/AnimatedLoading';
-import {
-  SvgCog,
-} from '../../icons/v1';
+import { SvgCog } from '../../icons/v1';
 import { SvgRefreshArrow } from '../../icons/v2';
 import { styles, theme } from '../../style';
 import * as colorPalette from '../../style/palette';

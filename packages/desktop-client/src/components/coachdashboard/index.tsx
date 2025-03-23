@@ -1,10 +1,15 @@
 import React, { type CSSProperties, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { closeAndDownloadBudget, closeAndLoadBudget, closeBudget, pushModal } from 'loot-core/client/actions';
+import {
+  closeAndDownloadBudget,
+  closeAndLoadBudget,
+  closeBudget,
+  pushModal,
+} from 'loot-core/client/actions';
 import { send } from 'loot-core/platform/client/fetch';
 import { type Client } from 'loot-core/src/types/client';
+import type { Budget } from 'loot-core/types/budget';
 import type { RemoteFile, SyncedLocalFile } from 'loot-core/types/file';
 
 import { useMetadataPref } from '../../hooks/useMetadataPref';
@@ -12,10 +17,9 @@ import { styles, theme } from '../../style';
 import { FileItem } from '../common/FileItem';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
-import type { Budget } from 'loot-core/types/budget';
 
 export function CoachDashboard() {
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [clientList, setClientList] = useState<Client[]>([]);
   const [cloudFileId] = useMetadataPref('cloudFileId');
   const allFiles = useSelector(state => state.budgets.allFiles || []);
@@ -337,26 +341,47 @@ const dispatch = useDispatch();
                       onSelect={() => {
                         const budgetId = (client.budget as Budget).id;
                         if (budgetId) {
-                          dispatch(closeAndLoadBudget(budgetId)).then(() => {
-                            console.log(`Local Budget(${index}) ${budgetId} onSelect: completed`);
-                          }).catch((error) => {
-                            console.error(`Error loading local budget(${index}) ${budgetId}:`, error);
-                          });
-                        } else {
-                          const cloudFileId = (client.budget as Budget).cloudFileId;
-                          if (cloudFileId) {
-                            dispatch(closeAndDownloadBudget(cloudFileId)).then(() => {
-                              console.log(`Remote Budget(${index}) ${cloudFileId} onSelect: completed`);
-                            }).catch((error) => {
-                              console.error(`Error downloading remote budget(${index}) ${cloudFileId}:`, error);
+                          dispatch(closeAndLoadBudget(budgetId))
+                            .then(() => {
+                              console.log(
+                                `Local Budget(${index}) ${budgetId} onSelect: completed`,
+                              );
+                            })
+                            .catch(error => {
+                              console.error(
+                                `Error loading local budget(${index}) ${budgetId}:`,
+                                error,
+                              );
                             });
+                        } else {
+                          const cloudFileId = (client.budget as Budget)
+                            .cloudFileId;
+                          if (cloudFileId) {
+                            dispatch(closeAndDownloadBudget(cloudFileId))
+                              .then(() => {
+                                console.log(
+                                  `Remote Budget(${index}) ${cloudFileId} onSelect: completed`,
+                                );
+                              })
+                              .catch(error => {
+                                console.error(
+                                  `Error downloading remote budget(${index}) ${cloudFileId}:`,
+                                  error,
+                                );
+                              });
                           } else {
-                            console.error(`Unable to load budget for client ${index}?`);
+                            console.error(
+                              `Unable to load budget for client ${index}?`,
+                            );
                           }
                         }
                       }}
-                      onDelete={() => { console.log(`Budget ${index} onDelete`); }}
-                      onDuplicate={() => { console.log(`Budget ${index} onDuplicate`); }}
+                      onDelete={() => {
+                        console.log(`Budget ${index} onDelete`);
+                      }}
+                      onDuplicate={() => {
+                        console.log(`Budget ${index} onDuplicate`);
+                      }}
                     />
                   ) : (
                     <span key={`budget-${index}`}>No budget</span>
