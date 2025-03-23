@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   closeAndDownloadBudget,
   closeAndLoadBudget,
-  closeBudget,
-  pushModal,
 } from 'loot-core/client/actions';
 import { send } from 'loot-core/platform/client/fetch';
 import { type Client } from 'loot-core/src/types/client';
@@ -23,10 +21,10 @@ export function CoachDashboard() {
   const [clientList, setClientList] = useState<Client[]>([]);
   const [cloudFileId] = useMetadataPref('cloudFileId');
   const allFiles = useSelector(state => state.budgets.allFiles || []);
-  const remoteFiles = allFiles.filter(
-    f => f.state === 'remote' || f.state === 'synced' || f.state === 'detached',
-  ) as (SyncedLocalFile | RemoteFile)[];
-  const currentFile = remoteFiles.find(f => f.cloudFileId === cloudFileId);
+  // const remoteFiles = allFiles.filter(
+  //   f => f.state === 'remote' || f.state === 'synced' || f.state === 'detached',
+  // ) as (SyncedLocalFile | RemoteFile)[];
+  // const currentFile = remoteFiles.find(f => f.cloudFileId === cloudFileId);
 
   // Table headers configuration
   const headers = [
@@ -177,11 +175,6 @@ export function CoachDashboard() {
       if (results.error_code) {
         throw new Error(results.reason);
       }
-
-      // console.log('getClients-results', results);
-      // console.log('getClients-allFiles', allFiles);
-      // console.log('getClients-remoteFiles', remoteFiles);
-      // console.log('getClients-currentFile', currentFile);
 
       // Sort clients by joinedAt date in descending order (newest first)
       const sortedClients = [...(results.clients || [])].sort((a, b) => {
