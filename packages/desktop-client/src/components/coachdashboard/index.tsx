@@ -1,5 +1,6 @@
 import React, { type CSSProperties, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { closeAndDownloadBudget, closeAndLoadBudget, closeBudget, pushModal } from 'loot-core/client/actions';
 import { send } from 'loot-core/platform/client/fetch';
@@ -14,6 +15,7 @@ import { View } from '../common/View';
 import type { Budget } from 'loot-core/types/budget';
 
 export function CoachDashboard() {
+const dispatch = useDispatch();
   const [clientList, setClientList] = useState<Client[]>([]);
   const [cloudFileId] = useMetadataPref('cloudFileId');
   const allFiles = useSelector(state => state.budgets.allFiles || []);
@@ -333,15 +335,21 @@ export function CoachDashboard() {
                       }
                       quickSwitchMode={true}
                       onSelect={() => {
-                        const budgetId = (client.budget as Budget).id
+                        const budgetId = (client.budget as Budget).id;
                         if (budgetId) {
-                          const result = closeAndLoadBudget(budgetId);
-                          console.log(`Local Budget(${index}) ${budgetId} onSelect:`, result);
+                          dispatch(closeAndLoadBudget(budgetId)).then(() => {
+                            console.log(`Local Budget(${index}) ${budgetId} onSelect: completed`);
+                          }).catch((error) => {
+                            console.error(`Error loading local budget(${index}) ${budgetId}:`, error);
+                          });
                         } else {
-                          const cloudFileId = (client.budget as Budget).cloudFileId
+                          const cloudFileId = (client.budget as Budget).cloudFileId;
                           if (cloudFileId) {
-                            const result = closeAndDownloadBudget(cloudFileId);
-                            console.log(`Remote Budget(${index}) ${cloudFileId} onSelect:`, result);
+                            dispatch(closeAndDownloadBudget(cloudFileId)).then(() => {
+                              console.log(`Remote Budget(${index}) ${cloudFileId} onSelect: completed`);
+                            }).catch((error) => {
+                              console.error(`Error downloading remote budget(${index}) ${cloudFileId}:`, error);
+                            });
                           } else {
                             console.error(`Unable to load budget for client ${index}?`);
                           }
