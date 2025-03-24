@@ -140,11 +140,13 @@ export function Modals() {
           return <UploadAvatarModal key={name} />;
 
         case 'sponsor-user':
-          return <SponsorUserModal
+          return (
+            <SponsorUserModal
               key={name}
               client={options.client}
               onSave={options.onSave}
-            />;
+            />
+          );
 
         case 'start-new-conversation':
           return <StartNewConversation key={name} />;

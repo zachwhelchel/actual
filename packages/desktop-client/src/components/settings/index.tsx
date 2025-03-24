@@ -146,7 +146,7 @@ export function Settings() {
         <BudgetTypeSettings />*/}
         {isElectron() && <Backups />}
         <ExportBudget />
-{/*        <AdvancedToggle>
+        {/*        <AdvancedToggle>
           <AdvancedAbout />
           <ResetCache />
           <ResetSync />
@@ -154,7 +154,8 @@ export function Settings() {
           <ExperimentalFeatures />
           {' '}
         </AdvancedToggle>
-*/}      </View>
+*/}{' '}
+      </View>
     </Page>
   );
 }
