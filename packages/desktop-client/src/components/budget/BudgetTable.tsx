@@ -1,8 +1,12 @@
+// We have to import react twice here because we are using React as a type,
+//  and it can't be imported as a type in a statement where other things are imported.
+// eslint-disable-next-line import/no-duplicates
 import type React from 'react';
 import {
   type ComponentPropsWithoutRef,
   type KeyboardEvent,
   useState,
+  // eslint-disable-next-line import/no-duplicates
 } from 'react';
 
 import {
