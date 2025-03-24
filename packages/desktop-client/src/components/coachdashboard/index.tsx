@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   closeAndDownloadBudget,
   closeAndLoadBudget,
+  replaceModal,
 } from 'loot-core/client/actions';
 import { send } from 'loot-core/platform/client/fetch';
 import { type Client } from 'loot-core/src/types/client';
@@ -15,6 +16,7 @@ import { styles, theme } from '../../style';
 import { FileItem } from '../common/FileItem';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
+import { Link } from '../common/Link';
 
 export function CoachDashboard() {
   const dispatch = useDispatch();
@@ -32,7 +34,6 @@ export function CoachDashboard() {
     { title: 'Status', width: 200 },
     { title: 'Budget', width: 200 },
     { title: 'Joined', width: 200 },
-    { title: 'Expires', width: 200 },
   ];
 
   // Custom styles defined as React CSSProperties objects
@@ -274,6 +275,19 @@ export function CoachDashboard() {
     getClients();
   }, []);
 
+  const onSponsorClient = client => {
+
+    dispatch(
+      replaceModal('sponsor-user', {
+        client,
+        onSave: async () => {
+          console.log("onsaveeee")
+        },
+      }),
+    );
+
+  };
+
   return (
     <View style={{ marginTop: 40 }}>
       <div style={{ marginLeft: 20 }}>
@@ -318,9 +332,56 @@ export function CoachDashboard() {
                   {client.name}
                 </td>
                 <td style={tableStyles.tableCell}>
-                  <span style={getStatusStyle(client.status)}>
-                    {getNormalizedStatusText(client.status)}
-                  </span>
+                  {client.status === "free_trial" || client.status === "free_trial_expired" ? (
+                    <>
+                      <span 
+                        style={{
+                          ...getStatusStyle(client.status),
+                        }}
+                      >
+                        {getNormalizedStatusText(client.status)}
+                      </span>
+                      <span
+                        style={{
+                          display: 'block',
+                          flexShrink: 0,
+                          marginTop: 8 // Add some spacing
+                        }}
+                      >
+                        Expires: {formatDate(client.statusExpiresAt)}
+                      </span>
+                      <Link
+                        variant="text"
+                        onClick={() => onSponsorClient(client)}
+                        style={{
+                          display: 'block',
+                          flexShrink: 0,
+                          marginTop: 8 // Add some spacing
+                        }}
+                      >
+                        Sponsor this client
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <span 
+                        style={{
+                          ...getStatusStyle(client.status),
+                        }}
+                      >
+                        {getNormalizedStatusText(client.status)}
+                      </span>
+                      <span
+                        style={{
+                          display: 'block',
+                          flexShrink: 0,
+                          marginTop: 8 // Add some spacing
+                        }}
+                      >
+                        Expires: {formatDate(client.statusExpiresAt)}
+                      </span>
+                    </>
+                  )}
                 </td>
                 <td style={tableStyles.tableCell}>
                   {client.budget ? (
@@ -377,7 +438,7 @@ export function CoachDashboard() {
                       }}
                     />
                   ) : (
-                    <span key={`budget-${index}`}>No budget</span>
+                    <span key={`budget-${index}`}>No budget shared.</span>
                   )}
                 </td>
                 <td
@@ -387,14 +448,6 @@ export function CoachDashboard() {
                   }}
                 >
                   {formatRelativeDate(client.joinedAt)}
-                </td>
-                <td
-                  style={{
-                    ...tableStyles.tableCell,
-                    ...tableStyles.expiryDate,
-                  }}
-                >
-                  {formatDate(client.statusExpiresAt)}
                 </td>
               </tr>
             ))}

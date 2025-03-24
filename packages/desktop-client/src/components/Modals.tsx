@@ -71,6 +71,7 @@ import { ScheduleZoom } from './modals/ScheduleZoom';
 import { SelectLinkedAccountsModal } from './modals/SelectLinkedAccountsModal';
 import { SimpleFinInitialiseModal } from './modals/SimpleFinInitialiseModal';
 import { SingleInputModal } from './modals/SingleInputModal';
+import { SponsorUserModal } from './modals/SponsorUserModal';
 import { StartNewConversation } from './modals/StartNewConversation';
 import { TrackingBalanceMenuModal } from './modals/TrackingBalanceMenuModal';
 import { TrackingBudgetMenuModal } from './modals/TrackingBudgetMenuModal';
@@ -137,6 +138,13 @@ export function Modals() {
 
         case 'upload-avatar':
           return <UploadAvatarModal key={name} />;
+
+        case 'sponsor-user':
+          return <SponsorUserModal
+              key={name}
+              client={options.client}
+              onSave={options.onSave}
+            />;
 
         case 'start-new-conversation':
           return <StartNewConversation key={name} />;

@@ -118,7 +118,7 @@ export function UploadAvatarModal() {
       {({ state: { close } }) => (
         <>
           <ModalHeader
-            title={<ModalTitle title="Schedule Video Call" shrinkOnOverflow />}
+            title={<ModalTitle title="Manage Coach" shrinkOnOverflow />}
             rightContent={<ModalCloseButton onPress={close} />}
           />
           <View style={{ lineHeight: 1.5 }}>
