@@ -1,4 +1,5 @@
-import React, {
+import type React from 'react';
+import {
   type ComponentPropsWithoutRef,
   type KeyboardEvent,
   useState,
