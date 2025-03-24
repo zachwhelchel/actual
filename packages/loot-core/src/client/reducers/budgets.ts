@@ -133,6 +133,7 @@ const initialState: BudgetsState = {
   budgets: [],
   remoteFiles: null,
   allFiles: null,
+  inviteToShare: null,
 };
 
 export function update(state = initialState, action: Action): BudgetsState {
@@ -156,9 +157,24 @@ export function update(state = initialState, action: Action): BudgetsState {
         remoteFiles: action.remoteFiles,
         allFiles: reconcileFiles(action.budgets, action.remoteFiles),
       };
+    case constants.INVITE_TO_SHARE_SUCCESS:
+      return {
+        ...state,
+        inviteToShare: true,
+      };
+    case constants.INVITE_TO_SHARE_FAILURE:
+      return {
+        ...state,
+        inviteToShare: false,
+      };
+    case constants.INVITE_TO_SHARE_RESET:
+      return {
+        ...state,
+        inviteToShare: null,
+      };
     case constants.SIGN_OUT:
       // If the user logs out, make sure to reset all the files
-      return { ...state, allFiles: null };
+      return { ...state, allFiles: null, inviteToShare: null };
     default:
   }
   return state;

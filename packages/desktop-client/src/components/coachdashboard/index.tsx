@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   closeAndDownloadBudget,
   closeAndLoadBudget,
+  inviteToShare,
 } from 'loot-core/client/actions';
 import { send } from 'loot-core/platform/client/fetch';
 import { type Client } from 'loot-core/src/types/client';
@@ -16,9 +17,29 @@ import { MBCFileItem } from '../common/MBCFileItem';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 
+import { LastShareRequestedAt } from './LastShareRequestedAt';
+const Notification = ({ message }) => (
+  <div
+    style={{
+      position: 'fixed',
+      top: '20px',
+      right: '20px',
+      backgroundColor: theme.noticeBackground || '#4CAF50',
+      color: theme.noticeText || 'white',
+      padding: '10px',
+      borderRadius: '4px',
+      zIndex: 1000,
+    }}
+  >
+    {message}
+  </div>
+);
+
 export function CoachDashboard() {
   const dispatch = useDispatch();
+  const inviteToShareStatus = useSelector(state => state.budgets.inviteToShare);
   const [clientList, setClientList] = useState<Client[]>([]);
+  const [showNotification, setShowNotification] = useState(false);
   const [cloudFileId] = useMetadataPref('cloudFileId');
   const allFiles = useSelector(state => state.budgets.allFiles || []);
   // const remoteFiles = allFiles.filter(
@@ -33,6 +54,7 @@ export function CoachDashboard() {
     { title: 'Budget', width: 200 },
     { title: 'Joined', width: 200 },
     { title: 'Expires', width: 200 },
+    { title: 'Invite', width: 100 },
   ];
 
   // Custom styles defined as React CSSProperties objects
@@ -82,6 +104,14 @@ export function CoachDashboard() {
       fontWeight: 500,
       textAlign: 'center' as const,
       textTransform: 'capitalize' as const,
+    },
+    inviteButton: {
+      padding: '6px 12px',
+      backgroundColor: theme.buttonPrimaryBackground,
+      color: theme.buttonPrimaryText,
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer',
     },
   };
 
@@ -176,8 +206,14 @@ export function CoachDashboard() {
         throw new Error(results.reason);
       }
 
+      // Filter out the coach from their client list
+      const filteredClients = (results.clients || []).filter(
+        (client: { userId: string | null; coachUserId: string }) =>
+          client.userId !== client.coachUserId,
+      );
+
       // Sort clients by joinedAt date in descending order (newest first)
-      const sortedClients = [...(results.clients || [])].sort((a, b) => {
+      const sortedClients = filteredClients.sort((a, b) => {
         // If joinedAt is missing for either client, treat as oldest
         if (!a.joinedAt) return 1;
         if (!b.joinedAt) return -1;
@@ -274,8 +310,51 @@ export function CoachDashboard() {
     getClients();
   }, []);
 
+  useEffect(() => {
+    if (inviteToShareStatus) {
+      console.log('Show notification for invite to share');
+      setShowNotification(true);
+      // Optionally, you can set a timer to hide the notification after a few seconds
+      setTimeout(() => setShowNotification(false), 5000);
+      console.log('Hide notification for invite to share & Reset');
+
+      // Trigger a re-fetch of clients to update the UI
+      getClients();
+
+      // Reset the success flag
+      dispatch({ type: 'INVITE_TO_SHARE_RESET' });
+    }
+  }, [inviteToShareStatus, dispatch]);
+  const handleInvite = (
+    clientUserId: string | undefined | null,
+    coachUserId: string | undefined | null,
+  ) => {
+    if (!clientUserId || !coachUserId) {
+      console.error('Invalid clientUserId or coachUserId for invite');
+      return;
+    }
+    console.log(
+      `Inviting client w/ userId ${clientUserId} to share their budget with ${coachUserId}`,
+    );
+    dispatch(inviteToShare(clientUserId, coachUserId))
+      .then(() => {
+        console.log(
+          `Invited client w/ userId ${clientUserId} to share their budget with ${coachUserId}`,
+        );
+      })
+      .catch(error => {
+        console.log(
+          `Error inviting client w/ userId ${clientUserId} to share their budget with ${coachUserId}`,
+          error,
+        );
+      });
+  };
+
   return (
     <View style={{ marginTop: 40 }}>
+      {showNotification && (
+        <Notification message="Invite to share was successful!" />
+      )}
       <div style={{ marginLeft: 20 }}>
         <Text style={styles.mediumText}>My Clients</Text>
 
@@ -388,6 +467,41 @@ export function CoachDashboard() {
                   }}
                 >
                   {formatDate(client.statusExpiresAt)}
+                </td>
+                <td style={tableStyles.tableCell}>
+                  {client.budget ? (
+                    client.userId ? (
+                      client.coachUserId ? (
+                        client.lastShareRequestedAt ? (
+                          <LastShareRequestedAt
+                            client={client}
+                            onInvite={handleInvite}
+                            inviteButtonStyle={tableStyles.inviteButton}
+                          />
+                        ) : client.userIdsSharedWith &&
+                          client.userIdsSharedWith.includes(
+                            client.coachUserId,
+                          ) ? (
+                          <span>Shared with you</span>
+                        ) : (
+                          <button
+                            onClick={() =>
+                              handleInvite(client.userId, client.coachUserId)
+                            }
+                            style={tableStyles.inviteButton}
+                          >
+                            Invite to share budget
+                          </button>
+                        )
+                      ) : (
+                        <span>Contact Support (ERR-1001)</span>
+                      )
+                    ) : (
+                      <span>Contact Support (ERR-1000)</span>
+                    )
+                  ) : (
+                    <span>No Budget</span>
+                  )}
                 </td>
               </tr>
             ))}
