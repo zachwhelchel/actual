@@ -12,7 +12,7 @@ import type { RemoteFile, SyncedLocalFile } from 'loot-core/types/file';
 
 import { useMetadataPref } from '../../hooks/useMetadataPref';
 import { styles, theme } from '../../style';
-import { FileItem } from '../common/FileItem';
+import { MBCFileItem } from '../common/MBCFileItem';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 
@@ -324,13 +324,12 @@ export function CoachDashboard() {
                 </td>
                 <td style={tableStyles.tableCell}>
                   {client.budget ? (
-                    <FileItem
+                    <MBCFileItem
                       key={`budget-${index}`}
                       file={client.budget as SyncedLocalFile | RemoteFile}
                       currentUserId={
                         client.coachUserId ? client.coachUserId : ''
                       }
-                      quickSwitchMode={true}
                       onSelect={() => {
                         const budgetId = (client.budget as Budget).id;
                         if (budgetId) {
@@ -368,12 +367,6 @@ export function CoachDashboard() {
                             );
                           }
                         }
-                      }}
-                      onDelete={() => {
-                        console.log(`Budget ${index} onDelete`);
-                      }}
-                      onDuplicate={() => {
-                        console.log(`Budget ${index} onDuplicate`);
                       }}
                     />
                   ) : (
