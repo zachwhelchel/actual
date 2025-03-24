@@ -58,7 +58,12 @@ import * as prefs from './prefs';
 import { app as reportsApp } from './reports/app';
 import { app as rulesApp } from './rules/app';
 import { app as schedulesApp } from './schedules/app';
-import { getServer, isValidBaseURL, setServer } from './server-config';
+import {
+  getServer,
+  isValidBaseURL,
+  setServer,
+  type ServerConfig,
+} from './server-config';
 import * as sheet from './sheet';
 import { resolveName, unresolveName } from './spreadsheet/util';
 import {
@@ -85,6 +90,23 @@ const DEMO_BUDGET_ID = '_demo-budget';
 const TEST_BUDGET_ID = '_test-budget';
 
 // util
+function determineMBCenv(url: string) {
+  let server: ServerConfig;
+
+  if (url.includes('localhost')) {
+    server = getServer();
+  } else {
+    const firstlast = url.substring(8, url.indexOf('.'));
+    if (url.includes('.app')) {
+      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
+    } else if (url.includes('.com')) {
+      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
+    } else {
+      server = getServer();
+    }
+  }
+  return server;
+}
 
 function onSheetChange({ names }) {
   const nodes = names.map(name => {
@@ -984,17 +1006,7 @@ handlers['airtable-clients'] = async function () {
   }
 };
 handlers['airtable-user'] = async function ({ url, coachId }) {
-  let server = getServer();
-
-  if (url.includes('localhost')) {
-  } else {
-    const firstlast = url.substring(8, url.indexOf('.'));
-    if (url.includes('.app')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
-    } else if (url.includes('.com')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
-    }
-  }
+  const server = determineMBCenv(url);
 
   const userToken = await asyncStorage.getItem('user-token');
 
@@ -1025,17 +1037,7 @@ handlers['airtable-user'] = async function ({ url, coachId }) {
 };
 
 handlers['airtable-update-coach'] = async function ({ url, coachId }) {
-  let server = getServer();
-
-  if (url.includes('localhost')) {
-  } else {
-    const firstlast = url.substring(8, url.indexOf('.'));
-    if (url.includes('.app')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
-    } else if (url.includes('.com')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
-    }
-  }
+  const server = determineMBCenv(url);
 
   const userToken = await asyncStorage.getItem('user-token');
 
@@ -1065,6 +1067,33 @@ handlers['airtable-update-coach'] = async function ({ url, coachId }) {
   return data;
 };
 
+handlers['airtable-invite-to-share'] = async function ({
+  clientUserId,
+  coachUserId,
+}) {
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  try {
+    return await post(
+      getServer().BASE_SERVER + '/airtable/invite-to-share',
+      {
+        clientUserId,
+        coachUserId,
+      },
+      {
+        'X-ACTUAL-TOKEN': userToken,
+      },
+      60000,
+    );
+  } catch (error) {
+    return { error_code: 'TIMED_OUT' };
+  }
+};
+
 handlers['airtable-update-user'] = async function ({
   url,
   first_name,
@@ -1082,17 +1111,7 @@ handlers['airtable-update-user'] = async function ({
   utm_term,
   utm_content,
 }) {
-  let server = getServer();
-
-  if (url.includes('localhost')) {
-  } else {
-    const firstlast = url.substring(8, url.indexOf('.'));
-    if (url.includes('.app')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
-    } else if (url.includes('.com')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
-    }
-  }
+  const server = determineMBCenv(url);
 
   const userToken = await asyncStorage.getItem('user-token');
 
@@ -1139,17 +1158,7 @@ handlers['airtable-update-local-storage-sync'] = async function ({
   url,
   local_storage,
 }) {
-  let server = getServer();
-
-  if (url.includes('localhost')) {
-  } else {
-    const firstlast = url.substring(8, url.indexOf('.'));
-    if (url.includes('.app')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
-    } else if (url.includes('.com')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
-    }
-  }
+  const server = determineMBCenv(url);
 
   const userToken = await asyncStorage.getItem('user-token');
 
@@ -1179,7 +1188,9 @@ handlers['airtable-update-local-storage-sync'] = async function ({
   return data;
 };
 
-handlers['env-variables'] = async function (url) {
+handlers['env-variables'] = async function ({
+  url,
+}): Promise<{ status: string; data: unknown }> {
   if (url.includes('localhost')) {
     return await get(getServer().BASE_SERVER + '/envvariables');
   } else {
@@ -1197,6 +1208,8 @@ handlers['env-variables'] = async function (url) {
       );
     }
   }
+  // Add a default return statement to satisfy the return type
+  return { status: 'error', data: 'Invalid URL' };
 };
 
 handlers['chat-secrets'] = async function (url) {
@@ -1508,17 +1521,7 @@ function handleSyncError(err, acct) {
 }
 
 handlers['plaid-create-link-token'] = async function ({ url, item_id }) {
-  let server = getServer();
-
-  if (url.includes('localhost')) {
-  } else {
-    const firstlast = url.substring(8, url.indexOf('.'));
-    if (url.includes('.app')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
-    } else if (url.includes('.com')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
-    }
-  }
+  const server = determineMBCenv(url);
 
   const userToken = await asyncStorage.getItem('user-token');
 
@@ -1554,17 +1557,7 @@ handlers['plaid-exchange-public-token'] = async function ({
   url,
   publicToken,
 }) {
-  let server = getServer();
-
-  if (url.includes('localhost')) {
-  } else {
-    const firstlast = url.substring(8, url.indexOf('.'));
-    if (url.includes('.app')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
-    } else if (url.includes('.com')) {
-      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
-    }
-  }
+  const server = determineMBCenv(url);
 
   const userToken = await asyncStorage.getItem('user-token');
 

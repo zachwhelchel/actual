@@ -16,10 +16,10 @@ import { SvgCloudUnknown, SvgKey } from '../../icons/v2';
 import { styles, theme } from '../../style';
 import { useMultiuserEnabled } from '../ServerContext';
 
-import { Button } from './Button2';
-import { Text } from './Text';
-import { Tooltip } from './Tooltip';
-import { View } from './View';
+import { Button } from '../common/Button2';
+import { Text } from '../common/Text';
+import { Tooltip } from '../common/Tooltip';
+import { View } from '../common/View';
 
 // Duplicates FileState in BudgetList.tsx
 function MBCFileState({ file }: { file: File }) {
@@ -179,7 +179,7 @@ function UserAccessForFile({ fileId, currentUserId }: UserAccessForFileProps) {
 }
 
 // Similar to FileItem in BudgetList.tsx, but removes display of owner
-export function MBCFileItem({
+export function CRMClientBudget({
   file,
   onSelect,
   currentUserId,

@@ -23,6 +23,38 @@ import { Query } from './query';
 import { EmptyObject } from './util';
 
 export interface ServerHandlers {
+  'airtable-clients': () => Promise<Client[]>;
+  'airtable-user': (arg: { url: string; coachId: string }) => Promise<unknown>;
+  'airtable-update-coach': (arg: {
+    url: string;
+    coachId: string;
+  }) => Promise<unknown>;
+  'airtable-update-user': (arg: {
+    url: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone_number: string;
+    found_us: string;
+    motivation: string;
+    language: string;
+    fprom_tid: string;
+    fprom_ref: string;
+    utm_campaign: string;
+    utm_medium: string;
+    utm_source: string;
+    utm_term: string;
+    utm_content: string;
+  }) => Promise<unknown>;
+  'airtable-invite-to-share': (arg: {
+    clientUserId: string;
+    coachUserId: string;
+  }) => Promise<unknown>;
+  'airtable-update-local-storage-sync': (arg: {
+    url: string;
+    local_storage: GlobalPrefs;
+  }) => Promise<unknown>;
+
   'transaction-update': (transaction: { id: string }) => Promise<EmptyObject>;
 
   undo: () => Promise<void>;
@@ -183,7 +215,9 @@ export interface ServerHandlers {
 
   'secret-set': (arg: { name: string; value: string | null }) => Promise<null>;
   'secret-check': (arg: string) => Promise<string | { error?: string }>;
-  'env-variables': (arg: string) => Promise<{ status: string; data: unknown }>;
+  'env-variables': (arg: {
+    url: string;
+  }) => Promise<{ status: string; data: unknown }>;
   'chat-secrets': (arg: string) => Promise<{ status: string; data: unknown }>;
 
   'gocardless-poll-web-token': (arg: {

@@ -7,6 +7,7 @@ export type BudgetsState = {
   budgets: Budget[];
   remoteFiles: RemoteFile[] | null;
   allFiles: File[] | null;
+  inviteToShare: boolean | null;
 };
 
 export type SetBudgetsAction = {
@@ -29,8 +30,23 @@ export type SignOutAction = {
   type: typeof constants.SIGN_OUT;
 };
 
+export type InviteToShareSuccessAction = {
+  type: typeof constants.INVITE_TO_SHARE_SUCCESS;
+};
+
+export type InviteToShareFailureAction = {
+  type: typeof constants.INVITE_TO_SHARE_FAILURE;
+};
+
+export type InviteToShareResetAction = {
+  type: typeof constants.INVITE_TO_SHARE_RESET;
+};
+
 export type BudgetsActions =
   | SetBudgetsAction
   | SetRemoteFilesAction
   | SetAllFilesAction
-  | SignOutAction;
+  | SignOutAction
+  | InviteToShareSuccessAction
+  | InviteToShareFailureAction
+  | InviteToShareResetAction;

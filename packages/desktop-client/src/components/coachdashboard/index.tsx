@@ -4,21 +4,28 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   closeAndDownloadBudget,
   closeAndLoadBudget,
+  inviteToShare,
 } from 'loot-core/client/actions';
 import { send } from 'loot-core/platform/client/fetch';
 import { type Client } from 'loot-core/src/types/client';
+import { clientFactory } from 'loot-core/src/types/factories/clientFactory';
 import type { Budget } from 'loot-core/types/budget';
 import type { RemoteFile, SyncedLocalFile } from 'loot-core/types/file';
 
 import { useMetadataPref } from '../../hooks/useMetadataPref';
 import { styles, theme } from '../../style';
-import { MBCFileItem } from '../common/MBCFileItem';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 
+import { CRMClientBudget } from './CRMClientBudget';
+import { LastShareRequestedAt } from './LastShareRequestedAt';
+import { Notification } from './Notification';
+
 export function CoachDashboard() {
   const dispatch = useDispatch();
+  const inviteToShareStatus = useSelector(state => state.budgets.inviteToShare);
   const [clientList, setClientList] = useState<Client[]>([]);
+  const [showNotification, setShowNotification] = useState(false);
   const [cloudFileId] = useMetadataPref('cloudFileId');
   const allFiles = useSelector(state => state.budgets.allFiles || []);
   // const remoteFiles = allFiles.filter(
@@ -82,6 +89,14 @@ export function CoachDashboard() {
       fontWeight: 500,
       textAlign: 'center' as const,
       textTransform: 'capitalize' as const,
+    },
+    inviteButton: {
+      padding: '6px 12px',
+      backgroundColor: theme.buttonPrimaryBackground,
+      color: theme.buttonPrimaryText,
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer',
     },
   };
 
@@ -176,8 +191,14 @@ export function CoachDashboard() {
         throw new Error(results.reason);
       }
 
+      // Filter out the coach from their client list
+      const filteredClients = (results.clients || []).filter(
+        (client: { userId: string | null; coachUserId: string }) =>
+          client.userId !== client.coachUserId,
+      );
+
       // Sort clients by joinedAt date in descending order (newest first)
-      const sortedClients = [...(results.clients || [])].sort((a, b) => {
+      const sortedClients = filteredClients.sort((a, b) => {
         // If joinedAt is missing for either client, treat as oldest
         if (!a.joinedAt) return 1;
         if (!b.joinedAt) return -1;
@@ -194,16 +215,18 @@ export function CoachDashboard() {
         allFiles.map(file => [file.owner, file]),
       );
 
-      // Add matching budget to each client
-      const clientsWithBudgets = sortedClients.map(client => {
+      const clientsWithBudgets = sortedClients.map((client: Client) => {
         const matchingBudget = ownerToBudgetMap.get(client.userId);
-        return {
+        const factoriedClient: Client = clientFactory({
           ...client,
-          budget: matchingBudget || null,
-        };
+          budget:
+            matchingBudget && 'id' in matchingBudget
+              ? matchingBudget
+              : undefined,
+        });
+        console.log(`getClients - client user_id: ${factoriedClient.userId}`, factoriedClient, 'budgetShared:', factoriedClient.budgetShared(), 'canInviteToShare', factoriedClient.canInviteToShare());
+        return factoriedClient;
       });
-
-      console.log('getClients-clientsWithBudgets', clientsWithBudgets);
 
       setClientList(clientsWithBudgets);
     } catch (error) {
@@ -274,8 +297,88 @@ export function CoachDashboard() {
     getClients();
   }, []);
 
+  useEffect(() => {
+    if (inviteToShareStatus) {
+      console.log('Show notification for invite to share');
+      setShowNotification(true);
+      // Optionally, you can set a timer to hide the notification after a few seconds
+      setTimeout(() => setShowNotification(false), 5000);
+      console.log('Hide notification for invite to share & Reset');
+
+      // Trigger a re-fetch of clients to update the UI
+      const result = getClients();
+      console.log('Re-fetching clients after invite to share', result);
+
+      // Reset the success flag
+      dispatch({ type: 'INVITE_TO_SHARE_RESET' });
+    }
+  }, [inviteToShareStatus, dispatch]);
+  const handleInvite = (
+    clientUserId: string | undefined | null,
+    coachUserId: string | undefined | null,
+  ) => {
+    if (!clientUserId || !coachUserId) {
+      console.error('Invalid clientUserId or coachUserId for invite');
+      return;
+    }
+    console.log(
+      `Inviting client w/ userId ${clientUserId} to share their budget with ${coachUserId}`,
+    );
+    dispatch(inviteToShare(clientUserId, coachUserId))
+      .then(() => {
+        console.log(
+          `Invited client w/ userId ${clientUserId} to share their budget with ${coachUserId}`,
+        );
+      })
+      .catch(error => {
+        console.log(
+          `Error inviting client w/ userId ${clientUserId} to share their budget with ${coachUserId}`,
+          error,
+        );
+      });
+  };
+
+  const handleBudgetSelect = (
+    client: Client,
+    index: number,
+    dispatch: Dispatch,
+  ) => {
+    const budget = client.budget as Budget;
+    if (budget.id) {
+      dispatch(closeAndLoadBudget(budget.id))
+        .then(() => {
+          console.log(
+            `Local Budget(${index}) ${budget.id} onSelect: completed`,
+          );
+        })
+        .catch(error => {
+          console.error(
+            `Error loading local budget(${index}) ${budget.id}:`,
+            error,
+          );
+        });
+    } else if (budget.cloudFileId) {
+      dispatch(closeAndDownloadBudget(budget.cloudFileId))
+        .then(() => {
+          console.log(
+            `Remote Budget(${index}) ${budget.cloudFileId} onSelect: completed`,
+          );
+        })
+        .catch(error => {
+          console.error(
+            `Error downloading remote budget(${index}) ${budget.cloudFileId}:`,
+            error,
+          );
+        });
+    } else {
+      console.error(`Unable to load budget for client ${index}`);
+    }
+  };
   return (
     <View style={{ marginTop: 40 }}>
+      {showNotification && (
+        <Notification message="Invite to share was successful!" />
+      )}
       <div style={{ marginLeft: 20 }}>
         <Text style={styles.mediumText}>My Clients</Text>
 
@@ -323,54 +426,27 @@ export function CoachDashboard() {
                   </span>
                 </td>
                 <td style={tableStyles.tableCell}>
-                  {client.budget ? (
-                    <MBCFileItem
+                  {client.budgetShared() ? (
+                    <CRMClientBudget
                       key={`budget-${index}`}
                       file={client.budget as SyncedLocalFile | RemoteFile}
                       currentUserId={
                         client.coachUserId ? client.coachUserId : ''
                       }
-                      onSelect={() => {
-                        const budgetId = (client.budget as Budget).id;
-                        if (budgetId) {
-                          dispatch(closeAndLoadBudget(budgetId))
-                            .then(() => {
-                              console.log(
-                                `Local Budget(${index}) ${budgetId} onSelect: completed`,
-                              );
-                            })
-                            .catch(error => {
-                              console.error(
-                                `Error loading local budget(${index}) ${budgetId}:`,
-                                error,
-                              );
-                            });
-                        } else {
-                          const cloudFileId = (client.budget as Budget)
-                            .cloudFileId;
-                          if (cloudFileId) {
-                            dispatch(closeAndDownloadBudget(cloudFileId))
-                              .then(() => {
-                                console.log(
-                                  `Remote Budget(${index}) ${cloudFileId} onSelect: completed`,
-                                );
-                              })
-                              .catch(error => {
-                                console.error(
-                                  `Error downloading remote budget(${index}) ${cloudFileId}:`,
-                                  error,
-                                );
-                              });
-                          } else {
-                            console.error(
-                              `Unable to load budget for client ${index}?`,
-                            );
-                          }
-                        }
-                      }}
+                      onSelect={() =>
+                        handleBudgetSelect(client, index, dispatch)
+                      }
+                    />
+                  ) : client.canInviteToShare() ? (
+                    <LastShareRequestedAt
+                      client={client}
+                      onInvite={handleInvite}
+                      inviteButtonStyle={tableStyles.inviteButton}
                     />
                   ) : (
-                    <span key={`budget-${index}`}>No budget</span>
+                    <button disabled style={tableStyles.inviteButton}>
+                      External Client
+                    </button>
                   )}
                 </td>
                 <td
