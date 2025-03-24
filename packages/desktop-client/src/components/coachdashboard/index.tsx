@@ -1,23 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { type CSSProperties, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
+import {
+  closeAndDownloadBudget,
+  closeAndLoadBudget,
+} from 'loot-core/client/actions';
 import { send } from 'loot-core/platform/client/fetch';
 import { type Client } from 'loot-core/src/types/client';
+import type { Budget } from 'loot-core/types/budget';
+import type { RemoteFile, SyncedLocalFile } from 'loot-core/types/file';
 
-import { styles, theme, type CSSProperties } from '../../style';
-import { Button } from '../common/Button';
-import { Card } from '../common/Card';
-import { Select } from '../common/Select';
-import { SimpleTable } from '../common/SimpleTable';
+import { useMetadataPref } from '../../hooks/useMetadataPref';
+import { styles, theme } from '../../style';
+import { FileItem } from '../common/FileItem';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
 
 export function CoachDashboard() {
+  const dispatch = useDispatch();
   const [clientList, setClientList] = useState<Client[]>([]);
+  const [cloudFileId] = useMetadataPref('cloudFileId');
+  const allFiles = useSelector(state => state.budgets.allFiles || []);
+  // const remoteFiles = allFiles.filter(
+  //   f => f.state === 'remote' || f.state === 'synced' || f.state === 'detached',
+  // ) as (SyncedLocalFile | RemoteFile)[];
+  // const currentFile = remoteFiles.find(f => f.cloudFileId === cloudFileId);
 
   // Table headers configuration
   const headers = [
     { title: 'Name', width: 200 },
     { title: 'Status', width: 200 },
+    { title: 'Budget', width: 200 },
     { title: 'Joined', width: 200 },
     { title: 'Expires', width: 200 },
   ];
@@ -157,6 +170,7 @@ export function CoachDashboard() {
 
   const getClients = async () => {
     try {
+      // TODO Check someInfo to see what kind of data it has
       const results = await send('airtable-clients');
       if (results.error_code) {
         throw new Error(results.reason);
@@ -175,7 +189,23 @@ export function CoachDashboard() {
         return dateB.getTime() - dateA.getTime();
       });
 
-      setClientList(sortedClients);
+      // Create a map of owner to budget for quick lookup
+      const ownerToBudgetMap = new Map(
+        allFiles.map(file => [file.owner, file]),
+      );
+
+      // Add matching budget to each client
+      const clientsWithBudgets = sortedClients.map(client => {
+        const matchingBudget = ownerToBudgetMap.get(client.userId);
+        return {
+          ...client,
+          budget: matchingBudget || null,
+        };
+      });
+
+      console.log('getClients-clientsWithBudgets', clientsWithBudgets);
+
+      setClientList(clientsWithBudgets);
     } catch (error) {
       console.error('Failed to fetch clients:', error);
     }
@@ -266,40 +296,109 @@ export function CoachDashboard() {
       </div>
       <View style={{ marginTop: 0, width: 'auto' }}>
         <table style={tableStyles.clientTable}>
-          <tr>
-            {headers.map((header, index) => (
-              <th
-                key={index}
-                style={{ ...tableStyles.tableHeader, width: header.width }}
-              >
-                {header.title}
-              </th>
-            ))}
-          </tr>
-          {clientList.map((client, index) => (
-            <tr key={index} style={tableStyles.tableRow}>
-              <td
-                style={{ ...tableStyles.tableCell, ...tableStyles.clientName }}
-              >
-                {client.name}
-              </td>
-              <td style={tableStyles.tableCell}>
-                <span style={getStatusStyle(client.status)}>
-                  {getNormalizedStatusText(client.status)}
-                </span>
-              </td>
-              <td
-                style={{ ...tableStyles.tableCell, ...tableStyles.expiryDate }}
-              >
-                {formatRelativeDate(client.joinedAt)}
-              </td>
-              <td
-                style={{ ...tableStyles.tableCell, ...tableStyles.expiryDate }}
-              >
-                {formatDate(client.statusExpiresAt)}
-              </td>
+          <tbody>
+            <tr>
+              {headers.map((header, index) => (
+                <th
+                  key={index}
+                  style={{ ...tableStyles.tableHeader, width: header.width }}
+                >
+                  {header.title}
+                </th>
+              ))}
             </tr>
-          ))}
+            {clientList.map((client, index) => (
+              <tr key={index} style={tableStyles.tableRow}>
+                <td
+                  style={{
+                    ...tableStyles.tableCell,
+                    ...tableStyles.clientName,
+                  }}
+                >
+                  {client.name}
+                </td>
+                <td style={tableStyles.tableCell}>
+                  <span style={getStatusStyle(client.status)}>
+                    {getNormalizedStatusText(client.status)}
+                  </span>
+                </td>
+                <td style={tableStyles.tableCell}>
+                  {client.budget ? (
+                    <FileItem
+                      key={`budget-${index}`}
+                      file={client.budget as SyncedLocalFile | RemoteFile}
+                      currentUserId={
+                        client.coachUserId ? client.coachUserId : ''
+                      }
+                      quickSwitchMode={true}
+                      onSelect={() => {
+                        const budgetId = (client.budget as Budget).id;
+                        if (budgetId) {
+                          dispatch(closeAndLoadBudget(budgetId))
+                            .then(() => {
+                              console.log(
+                                `Local Budget(${index}) ${budgetId} onSelect: completed`,
+                              );
+                            })
+                            .catch(error => {
+                              console.error(
+                                `Error loading local budget(${index}) ${budgetId}:`,
+                                error,
+                              );
+                            });
+                        } else {
+                          const cloudFileId = (client.budget as Budget)
+                            .cloudFileId;
+                          if (cloudFileId) {
+                            dispatch(closeAndDownloadBudget(cloudFileId))
+                              .then(() => {
+                                console.log(
+                                  `Remote Budget(${index}) ${cloudFileId} onSelect: completed`,
+                                );
+                              })
+                              .catch(error => {
+                                console.error(
+                                  `Error downloading remote budget(${index}) ${cloudFileId}:`,
+                                  error,
+                                );
+                              });
+                          } else {
+                            console.error(
+                              `Unable to load budget for client ${index}?`,
+                            );
+                          }
+                        }
+                      }}
+                      onDelete={() => {
+                        console.log(`Budget ${index} onDelete`);
+                      }}
+                      onDuplicate={() => {
+                        console.log(`Budget ${index} onDuplicate`);
+                      }}
+                    />
+                  ) : (
+                    <span key={`budget-${index}`}>No budget</span>
+                  )}
+                </td>
+                <td
+                  style={{
+                    ...tableStyles.tableCell,
+                    ...tableStyles.expiryDate,
+                  }}
+                >
+                  {formatRelativeDate(client.joinedAt)}
+                </td>
+                <td
+                  style={{
+                    ...tableStyles.tableCell,
+                    ...tableStyles.expiryDate,
+                  }}
+                >
+                  {formatDate(client.statusExpiresAt)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </View>
     </View>

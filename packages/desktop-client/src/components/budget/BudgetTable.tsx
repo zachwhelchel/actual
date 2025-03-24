@@ -1,4 +1,5 @@
-import React, {
+import type React from 'react';
+import {
   type ComponentPropsWithoutRef,
   type KeyboardEvent,
   useState,
@@ -42,6 +43,7 @@ type BudgetTableProps = {
       typeof BudgetTotals
     >['MonthComponent'];
   };
+  categoriesRef: React.RefObject<BudgetCategories>;
   onSaveCategory: (category: CategoryEntity) => void;
   onDeleteCategory: (id: CategoryEntity['id']) => void;
   onSaveGroup: (group: CategoryGroupEntity) => void;

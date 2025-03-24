@@ -1,5 +1,6 @@
 // @ts-strict-ignore
-import React, { memo, useMemo, useState, useEffect } from 'react';
+import type React from 'react';
+import { memo, useMemo, useState, useEffect, ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
@@ -62,6 +63,7 @@ type BudgetInnerProps = {
   accountId?: string;
   trackingComponents: TrackingReportComponents;
   envelopeComponents: EnvelopeBudgetComponents;
+  categoriesRef: unknown;
 };
 
 function BudgetInner(props: BudgetInnerProps) {
@@ -471,7 +473,9 @@ export function Budget() {
   );
 
   //let categoriesRef = useRef([]);
-  const { categoriesCoachRef } = useCoach(); // this is causing the errors.
+  const { categoriesCoachRef } = useCoach() as {
+    categoriesCoachRef: React.RefObject<unknown>;
+  };
 
   // In a previous iteration, the wrapper needs `overflow: hidden` for
   // some reason. Without it at certain dimensions the width/height
