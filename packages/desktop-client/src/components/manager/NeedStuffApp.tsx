@@ -202,7 +202,7 @@ export function NeedStuffApp({
 
     //return // add this when breaking.
 
-    //const results = await send('env-variables', url);
+    //const results = await send('env-variables', url:);
     //var myobj = JSON.parse(results);
 
     console.log('airtableAvatarFile');

@@ -33,6 +33,31 @@ export function loadRemoteFiles() {
   };
 }
 
+export function inviteToShare(clientUserId: string, coachUserId: string) {
+  return async (dispatch: Dispatch) => {
+    const { error } = await send('airtable-invite-to-share', {
+      clientUserId,
+      coachUserId,
+    });
+
+    if (error) {
+      dispatch({
+        type: constants.INVITE_TO_SHARE_FAILURE,
+        clientUserId,
+        coachUserId,
+      });
+      console.error('Failed to invite user to share budget:', error);
+      return;
+    }
+
+    dispatch({
+      type: constants.INVITE_TO_SHARE_SUCCESS,
+      clientUserId,
+      coachUserId,
+    });
+  };
+}
+
 export function loadAllFiles() {
   return async (dispatch: Dispatch, getState: GetState) => {
     const budgets = await send('get-budgets');

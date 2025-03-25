@@ -2,11 +2,17 @@ import type { RemoteFile } from '../../server/cloud-storage';
 import type { Budget } from '../../types/budget';
 import type { File } from '../../types/file';
 import type * as constants from '../constants';
+import {
+  INVITE_TO_SHARE_FAILURE,
+  INVITE_TO_SHARE_RESET,
+  INVITE_TO_SHARE_SUCCESS,
+} from '../constants';
 
 export type BudgetsState = {
   budgets: Budget[];
   remoteFiles: RemoteFile[] | null;
   allFiles: File[] | null;
+  inviteToShare: boolean | null;
 };
 
 export type SetBudgetsAction = {
@@ -29,8 +35,23 @@ export type SignOutAction = {
   type: typeof constants.SIGN_OUT;
 };
 
+export type InviteToShareSuccessAction = {
+  type: typeof constants.INVITE_TO_SHARE_SUCCESS;
+};
+
+export type InviteToShareFailureAction = {
+  type: typeof constants.INVITE_TO_SHARE_FAILURE;
+};
+
+export type InviteToShareResetAction = {
+  type: typeof constants.INVITE_TO_SHARE_RESET;
+};
+
 export type BudgetsActions =
   | SetBudgetsAction
   | SetRemoteFilesAction
   | SetAllFilesAction
-  | SignOutAction;
+  | SignOutAction
+  | InviteToShareSuccessAction
+  | InviteToShareFailureAction
+  | InviteToShareResetAction;

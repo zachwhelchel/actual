@@ -1,6 +1,6 @@
 import * as fs from '../platform/server/fs';
 
-type ServerConfig = {
+export type ServerConfig = {
   BASE_SERVER: string;
   SYNC_SERVER: string;
   SIGNUP_SERVER: string;
