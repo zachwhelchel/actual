@@ -5,6 +5,7 @@ import {
   closeAndDownloadBudget,
   closeAndLoadBudget,
   inviteToShare,
+  replaceModal,
 } from 'loot-core/client/actions';
 import { send } from 'loot-core/platform/client/fetch';
 import { type Client } from 'loot-core/src/types/client';
@@ -16,6 +17,7 @@ import { styles, theme } from '../../style';
 import { MBCFileItem } from '../common/MBCFileItem';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
+import { Link } from '../common/Link';
 
 import { LastShareRequestedAt } from './LastShareRequestedAt';
 const Notification = ({ message }) => (
@@ -53,7 +55,6 @@ export function CoachDashboard() {
     { title: 'Status', width: 200 },
     { title: 'Budget', width: 200 },
     { title: 'Joined', width: 200 },
-    { title: 'Expires', width: 200 },
     { title: 'Invite', width: 100 },
   ];
 
@@ -325,6 +326,7 @@ export function CoachDashboard() {
       dispatch({ type: 'INVITE_TO_SHARE_RESET' });
     }
   }, [inviteToShareStatus, dispatch]);
+  
   const handleInvite = (
     clientUserId: string | undefined | null,
     coachUserId: string | undefined | null,
@@ -348,6 +350,18 @@ export function CoachDashboard() {
           error,
         );
       });
+   };
+
+  const onSponsorClient = client => {
+    dispatch(
+      replaceModal('sponsor-user', {
+        client,
+        onSave: async () => {
+          console.log("onsaveeee")
+          getClients()
+        },
+      }),
+    );
   };
 
   return (
@@ -397,9 +411,56 @@ export function CoachDashboard() {
                   {client.name}
                 </td>
                 <td style={tableStyles.tableCell}>
-                  <span style={getStatusStyle(client.status)}>
-                    {getNormalizedStatusText(client.status)}
-                  </span>
+                  {client.status === "free_trial" || client.status === "free_trial_expired" ? (
+                    <>
+                      <span 
+                        style={{
+                          ...getStatusStyle(client.status),
+                        }}
+                      >
+                        {getNormalizedStatusText(client.status)}
+                      </span>
+                      <span
+                        style={{
+                          display: 'block',
+                          flexShrink: 0,
+                          marginTop: 8 // Add some spacing
+                        }}
+                      >
+                        Expires: {formatDate(client.statusExpiresAt)}
+                      </span>
+                      <Link
+                        variant="text"
+                        onClick={() => onSponsorClient(client)}
+                        style={{
+                          display: 'block',
+                          flexShrink: 0,
+                          marginTop: 8 // Add some spacing
+                        }}
+                      >
+                        Sponsor this client
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <span 
+                        style={{
+                          ...getStatusStyle(client.status),
+                        }}
+                      >
+                        {getNormalizedStatusText(client.status)}
+                      </span>
+                      <span
+                        style={{
+                          display: 'block',
+                          flexShrink: 0,
+                          marginTop: 8 // Add some spacing
+                        }}
+                      >
+                        Expires: {formatDate(client.statusExpiresAt)}
+                      </span>
+                    </>
+                  )}
                 </td>
                 <td style={tableStyles.tableCell}>
                   {client.budget ? (
@@ -449,7 +510,7 @@ export function CoachDashboard() {
                       }}
                     />
                   ) : (
-                    <span key={`budget-${index}`}>No budget</span>
+                    <span key={`budget-${index}`}>No budget shared.</span>
                   )}
                 </td>
                 <td
@@ -459,14 +520,6 @@ export function CoachDashboard() {
                   }}
                 >
                   {formatRelativeDate(client.joinedAt)}
-                </td>
-                <td
-                  style={{
-                    ...tableStyles.tableCell,
-                    ...tableStyles.expiryDate,
-                  }}
-                >
-                  {formatDate(client.statusExpiresAt)}
                 </td>
                 <td style={tableStyles.tableCell}>
                   {client.budget ? (

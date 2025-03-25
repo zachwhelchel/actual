@@ -1188,6 +1188,52 @@ handlers['airtable-update-local-storage-sync'] = async function ({
   return data;
 };
 
+handlers['airtable-sponsor-client'] = async function ({
+  url,
+  accountId,
+  sponsorshipLength,
+}) {
+  let server = getServer();
+
+  if (url.includes('localhost')) {
+  } else {
+    const firstlast = url.substring(8, url.indexOf('.'));
+    if (url.includes('.app')) {
+      server = getServer('https://' + firstlast + '.mybudgetcoach.app');
+    } else if (url.includes('.com')) {
+      server = getServer('https://' + firstlast + '.mybudgetcoach.com');
+    }
+  }
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken');
+  console.log(userToken);
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  });
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/sponsor-client',
+    {
+      accountId,
+      sponsorshipLength,
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  return data;
+};
+
 handlers['env-variables'] = async function ({
   url,
 }): Promise<{ status: string; data: unknown }> {
