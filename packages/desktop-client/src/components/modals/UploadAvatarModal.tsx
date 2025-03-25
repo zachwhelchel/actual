@@ -89,6 +89,14 @@ export function UploadAvatarModal() {
     location.reload();
   }
 
+  async function onRemove() {
+    localStorage.removeItem('uploaded_draw_io_file');
+    localStorage.removeItem('test_published_avatar');
+
+    await resetCoach();
+    location.reload();
+  }
+
   async function onReset() {
     //localStorage.removeItem('uploaded_draw_io_file');
     //localStorage.removeItem('test_published_avatar');
@@ -136,7 +144,7 @@ export function UploadAvatarModal() {
               <Block>
                 <Button
                   type="primary"
-                  onClick={onReset}
+                  onClick={() => onRemove()}
                   style={{ marginTop: '0px', marginBottom: '20px' }}
                 >
                   <>
