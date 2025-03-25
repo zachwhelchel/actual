@@ -14,35 +14,46 @@ export function LastShareRequestedAt({
   onInvite,
   inviteButtonStyle,
 }: LastShareRequestedAtProps): JSX.Element {
-  if (!client.lastShareRequestedAt) {
-    return <span>Unshared</span>;
-  }
+  // The logic in the view currently prevents this component
+  //  from rendering for external clients.
   if (!client.userId) {
-    return <span>Unshareable</span>;
+    return <span>External Client</span>;
   }
 
-  const date = new Date(client.lastShareRequestedAt);
-  const now = new Date();
-  const diffTime = Math.abs(now.getTime() - date.getTime());
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  if (client.lastShareRequestedAt) {
+    const date = new Date(client.lastShareRequestedAt);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  if (diffDays <= 7) {
-    return (
-      <span>
-        Invite sent{' '}
-        {diffDays === 0
-          ? 'today'
-          : `${diffDays} day${diffDays > 1 ? 's' : ''} ago`}
-      </span>
-    );
-  } else {
-    return (
-      <button
-        onClick={() => onInvite(client.userId, client.coachUserId)}
-        style={inviteButtonStyle}
-      >
-        Resend invite to share budget
-      </button>
-    );
+    if (diffDays <= 7) {
+      return (
+        <span>
+          Invite sent{' '}
+          {diffDays === 0
+            ? 'today'
+            : `${diffDays} day${diffDays > 1 ? 's' : ''} ago`}
+        </span>
+      );
+    } else {
+      return (
+        <button
+          onClick={() => onInvite(client.userId, client.coachUserId)}
+          style={inviteButtonStyle}
+        >
+          <div>Resend invite to share budget</div>
+          <small>{`( Last sent ${diffDays} days ago )`}</small>
+        </button>
+      );
+    }
   }
+
+  return (
+    <button
+      onClick={() => onInvite(client.userId, client.coachUserId)}
+      style={inviteButtonStyle}
+    >
+      Invite to share budget
+    </button>
+  );
 }

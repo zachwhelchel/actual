@@ -11,4 +11,7 @@ export interface Client {
   joinedAt: string;
   lastShareRequestedAt?: string;
   budget?: Budget;
+
+  budgetShared(): boolean;
+  canInviteToShare(): boolean;
 }
