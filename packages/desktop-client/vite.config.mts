@@ -71,8 +71,8 @@ export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const devHeaders = {
     'Cross-Origin-Opener-Policy': 'same-origin',
-    'Cross-Origin-Embedder-Policy': 'credentialless'
-  };  
+    'Cross-Origin-Embedder-Policy': 'require-corp',
+  };
 
   // Forward Netlify env variables
   if (process.env.REVIEW_ID) {
@@ -103,10 +103,16 @@ export default defineConfig(async ({ mode }) => {
     ];
   }
 
+  const browserOpen = env.BROWSER_OPEN ? `//${env.BROWSER_OPEN}` : true;
+
   return {
     base: '/',
     envPrefix: 'REACT_APP_',
     build: {
+      terserOptions: {
+        compress: false,
+        mangle: false,
+      },
       target: 'es2022',
       sourcemap: true,
       outDir: mode === 'desktop' ? 'build-electron' : 'build',
@@ -115,6 +121,9 @@ export default defineConfig(async ({ mode }) => {
       assetsInlineLimit: 0,
       chunkSizeWarningLimit: 1500,
       rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+        },
         output: {
           assetFileNames: assetInfo => {
             const info = assetInfo.name.split('.');
@@ -139,7 +148,7 @@ export default defineConfig(async ({ mode }) => {
         ? ['chrome', 'firefox', 'edge', 'browser', 'browserPrivate'].includes(
             env.BROWSER,
           )
-        : true,
+        : browserOpen,
       watch: {
         disableGlobbing: false,
       },
@@ -159,6 +168,7 @@ export default defineConfig(async ({ mode }) => {
               ],
               ignoreURLParametersMatching: [/^v$/],
               navigateFallback: '/index.html',
+              maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
               navigateFallbackDenylist: [
                 /^\/account\/.*$/,
                 /^\/admin\/.*$/,
