@@ -182,6 +182,13 @@ export function Accounts({
     mode = 'subscribed';
   }
 
+  if (REACT_APP_BILLING_STATUS === 'sponsored') {
+    console.log('subscribed');
+    console.log(REACT_APP_BILLING_STATUS);
+
+    mode = 'sponsored';
+  }
+
   const messageCenterText = 'Message Center';
 
   return (
@@ -585,6 +592,21 @@ export function Accounts({
             here
           </Link>
           .
+        </p>
+      )}
+
+      {REACT_APP_UI_MODE === 'user' && mode === 'sponsored' && (
+        <p
+          key="sponsored"
+          style={{
+            marginTop: 15,
+            marginLeft: 15,
+            marginRight: 15,
+            paddingBottom: 15,
+            flexShrink: '1',
+          }}
+        >
+          Your account is currently sponsored.
         </p>
       )}
 

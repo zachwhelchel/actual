@@ -35,13 +35,30 @@ import { View } from '../common/View';
 
 export function SponsorUserModal({ client, onSave: originalOnSave }) {
 
-  function resetCoach() {
+  async function sponsor(sponsorshipLength, close) {
 
     //make the call...
+    const url = String(window.location.href);
+
+    const accountId = client.userId
+
+    const results = await send('airtable-sponsor-client', {
+      url,
+      accountId,
+      sponsorshipLength,
+    });
+
+    console.log('airtable-sponsor-client');
+    console.log(results);
 
 
-    location.reload();
+      originalOnSave?.();
+      close();
+
+    //location.reload();
   }
+
+
 
   return (
     <Modal name="sponsor-user" containerProps={{ style: { width: 800 } }}>
@@ -66,7 +83,7 @@ export function SponsorUserModal({ client, onSave: originalOnSave }) {
                   type="primary"
                   style={{ marginBottom: '20px' }}
                   onClick={() => {
-                    resetCoach();
+                    sponsor("1_month", close);
                   }}
                 >
                   <>
@@ -89,7 +106,7 @@ export function SponsorUserModal({ client, onSave: originalOnSave }) {
                   type="primary"
                   style={{ marginBottom: '20px' }}
                   onClick={() => {
-                    resetCoach();
+                    sponsor("3_months", close);
                   }}
                 >
                   <>
@@ -112,7 +129,7 @@ export function SponsorUserModal({ client, onSave: originalOnSave }) {
                   type="primary"
                   style={{ marginBottom: '20px' }}
                   onClick={() => {
-                    resetCoach();
+                    sponsor("5_months", close);
                   }}
                 >
                   <>
@@ -135,7 +152,7 @@ export function SponsorUserModal({ client, onSave: originalOnSave }) {
                   type="primary"
                   style={{ marginBottom: '20px' }}
                   onClick={() => {
-                    resetCoach();
+                    sponsor("1_year", close);
                   }}
                 >
                   <>

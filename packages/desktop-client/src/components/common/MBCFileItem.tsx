@@ -226,11 +226,10 @@ export function MBCFileItem({
       onPress={() => _onSelect(file)}
       style={{
         ...styles.shadow,
-        margin: 10,
         padding: '12px 15px',
         cursor: 'pointer',
         borderRadius: 6,
-        borderColor: 'transparent',
+        borderColor: 'black',
       }}
     >
       <View

@@ -32,8 +32,8 @@ export function CoachDashboard() {
   const headers = [
     { title: 'Name', width: 200 },
     { title: 'Status', width: 200 },
-    { title: 'Budget', width: 200 },
-    { title: 'Joined', width: 200 },
+    { title: 'Budget', width: 250 },
+    { title: 'Joined', width: 150 },
   ];
 
   // Custom styles defined as React CSSProperties objects
@@ -282,6 +282,7 @@ export function CoachDashboard() {
         client,
         onSave: async () => {
           console.log("onsaveeee")
+          getClients()
         },
       }),
     );
