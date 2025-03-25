@@ -10,8 +10,7 @@ export function clientFactory(
       return !!(
         this.userId &&
         this.coachUserId &&
-        this.userIdsSharedWith &&
-        this.userIdsSharedWith.includes(this.coachUserId)
+        this.budget
       );
     },
 

@@ -39,9 +39,8 @@ export function CoachDashboard() {
   const headers = [
     { title: 'Name', width: 200 },
     { title: 'Status', width: 200 },
-    { title: 'Budget', width: 200 },
-    { title: 'Joined', width: 200 },
-    { title: 'Expires', width: 200 },
+    { title: 'Budget', width: 250 },
+    { title: 'Joined', width: 150 },
   ];
 
   // Custom styles defined as React CSSProperties objects
@@ -222,9 +221,7 @@ export function CoachDashboard() {
         const factoriedClient: Client = clientFactory({
           ...client,
           budget:
-            matchingBudget && 'id' in matchingBudget
-              ? matchingBudget
-              : undefined,
+            matchingBudget,
         });
         console.log(
           `getClients - client user_id: ${factoriedClient.userId}`,
@@ -522,41 +519,6 @@ export function CoachDashboard() {
                   }}
                 >
                   {formatRelativeDate(client.joinedAt)}
-                </td>
-                <td style={tableStyles.tableCell}>
-                  {client.budget ? (
-                    client.userId ? (
-                      client.coachUserId ? (
-                        client.lastShareRequestedAt ? (
-                          <LastShareRequestedAt
-                            client={client}
-                            onInvite={handleInvite}
-                            inviteButtonStyle={tableStyles.inviteButton}
-                          />
-                        ) : client.userIdsSharedWith &&
-                          client.userIdsSharedWith.includes(
-                            client.coachUserId,
-                          ) ? (
-                          <span>Shared with you</span>
-                        ) : (
-                          <button
-                            onClick={() =>
-                              handleInvite(client.userId, client.coachUserId)
-                            }
-                            style={tableStyles.inviteButton}
-                          >
-                            Invite to share budget
-                          </button>
-                        )
-                      ) : (
-                        <span>Contact Support (ERR-1001)</span>
-                      )
-                    ) : (
-                      <span>Contact Support (ERR-1000)</span>
-                    )
-                  ) : (
-                    <span>No Budget</span>
-                  )}
                 </td>
               </tr>
             ))}

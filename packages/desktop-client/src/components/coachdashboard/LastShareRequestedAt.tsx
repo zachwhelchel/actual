@@ -29,7 +29,7 @@ export function LastShareRequestedAt({
     if (diffDays <= 7) {
       return (
         <span>
-          Invite sent{' '}
+          Invite to share sent{' '}
           {diffDays === 0
             ? 'today'
             : `${diffDays} day${diffDays > 1 ? 's' : ''} ago`}
