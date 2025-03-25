@@ -190,9 +190,7 @@ export function CoachProvider({
 
   const [coachState, setCoachState] = useState(newObject ?? {});
 
-  const resetCoach = () => {
-    // console.log('reseeeeeeet');
-
+  const resetCoach = async () => {
     localStorage.removeItem(conversationDeck_key);
 
     allConversations.forEach((value, key) => {
@@ -204,14 +202,18 @@ export function CoachProvider({
 
     localStorage.removeItem(coachState_key);
 
-    updateAirtableWithLocalStorage();
+    await updateAirtableWithLocalStorage();
   };
 
   const triggerFired = id => {
     let conversationId = null;
     let conversationTitle = null;
 
-    allConversations.forEach((value, key) => {
+    //reversed the array so we end up with the first in the tabs that addresses it.
+    //so if none the intro instead of some last, non-trigger, page.
+    Array.from(allConversations.entries())
+      .reverse()
+      .forEach(([key, value]) => {
       const conversation = value;
       conversation.triggerType;
       if (conversation.triggerType === id) {

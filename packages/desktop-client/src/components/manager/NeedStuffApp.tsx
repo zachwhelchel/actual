@@ -378,6 +378,11 @@ export function NeedStuffApp({
     //   coachSrc = file;
     // }
 
+    const testPublishedAvatar = localStorage.getItem('test_published_avatar');
+    if (testPublishedAvatar != null) {
+      coachSrc = "/avatars/" + getCoach() + ".drawio.xml";
+    }
+
     await fetch(coachSrc)
       .then(res => res.text())
       .then(xmlString => {
@@ -407,7 +412,7 @@ export function NeedStuffApp({
           // console.log("Um... hello");
 
           const items = diagrams[0].getElementsByTagName('mxCell');
-          const [dialogues, firstDialogueId, triggerType, canBeUserInitiated] =
+          let [dialogues, firstDialogueId, triggerType, canBeUserInitiated] =
             dialoguesForConversation(items);
 
           // console.log("Um... hello");
@@ -416,6 +421,8 @@ export function NeedStuffApp({
           const name = diagrams[0].getAttribute('name');
 
           // console.log("Um... hello");
+
+          canBeUserInitiated = true;
 
           const conversation: Conversation = {
             id,
@@ -436,12 +443,16 @@ export function NeedStuffApp({
             const name = diagram.getAttribute('name');
 
             const items = diagram.getElementsByTagName('mxCell');
-            const [
+            let [
               dialogues,
               firstDialogueId,
               triggerType,
               canBeUserInitiated,
             ] = dialoguesForConversation(items);
+
+            if (name === 'Introduction') {
+              canBeUserInitiated = true;
+            }
 
             const conversation: Conversation = {
               id,

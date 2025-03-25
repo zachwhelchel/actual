@@ -473,6 +473,8 @@ function modifyVars() {
     REACT_APP_ZOOM_LINK = 'https://calendly.com/';
     REACT_APP_COACH = 'drawioavatar';
     REACT_APP_COACH_FIRST_NAME = 'Draw.io Avatar';
+    REACT_APP_COACH_PHOTO = '/coach-icon-drawioavatar-200x200.png';
+
   }
 
   const testPublishedAvatar = localStorage.getItem('test_published_avatar');
@@ -482,6 +484,7 @@ function modifyVars() {
     REACT_APP_ZOOM_RATE = '0.00 USD / hour';
     REACT_APP_ZOOM_LINK = 'https://calendly.com/';
     REACT_APP_COACH = testPublishedAvatar;
+    REACT_APP_COACH_PHOTO = "/coach-icon-" + REACT_APP_COACH + "-200x200.png";
 
     if (testPublishedAvatar === 'anitadombovari') {
       REACT_APP_COACH_FIRST_NAME = 'Anita';

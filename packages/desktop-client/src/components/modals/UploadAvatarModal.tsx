@@ -66,7 +66,7 @@ export function UploadAvatarModal() {
 
     localStorage.removeItem('test_published_avatar');
     localStorage.setItem('uploaded_draw_io_file', stuff);
-    resetCoach();
+    await resetCoach();
     location.reload();
   };
 
@@ -82,17 +82,18 @@ export function UploadAvatarModal() {
     }
   }
 
-  function handleOnChangeCoach(newValue) {
+  async function handleOnChangeCoach(newValue) {
     localStorage.removeItem('uploaded_draw_io_file');
     localStorage.setItem('test_published_avatar', newValue);
-    resetCoach();
+    await resetCoach();
     location.reload();
   }
 
-  function onReset() {
-    localStorage.removeItem('uploaded_draw_io_file');
-    localStorage.removeItem('test_published_avatar');
-    resetCoach();
+  async function onReset() {
+    //localStorage.removeItem('uploaded_draw_io_file');
+    //localStorage.removeItem('test_published_avatar');
+
+    await resetCoach();
     location.reload();
   }
 
@@ -160,10 +161,7 @@ export function UploadAvatarModal() {
                 <Button
                   type="primary"
                   style={{ marginBottom: '20px' }}
-                  onClick={() => {
-                    resetCoach();
-                    location.reload();
-                  }}
+                  onClick={() => onReset()}
                 >
                   <>
                     <SvgAlertTriangle
