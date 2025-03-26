@@ -50,9 +50,9 @@ export function DeleteFileModal({ file }: DeleteFileProps) {
               <>
                 <Text>
                   <Trans>
-                    This is a <strong>hosted file</strong> which means it is
-                    stored on your server to make it available for download on
-                    any device. You can delete it from the server, which will
+                    This is a <strong>hosted budget</strong> which means it is
+                    stored in the cloud to make it available for download on
+                    any of your devices. You can delete it from the cloud, which will
                     also remove it from all of your devices.
                   </Trans>
                 </Text>
@@ -80,7 +80,7 @@ export function DeleteFileModal({ file }: DeleteFileProps) {
                     close();
                   }}
                 >
-                  <Trans>Delete file from all devices</Trans>
+                  <Trans>Delete budget from all devices</Trans>
                 </ButtonWithLoading>
               </>
             )}
@@ -91,7 +91,7 @@ export function DeleteFileModal({ file }: DeleteFileProps) {
                   <Text>
                     <Trans>
                       You can also delete just the local copy. This will remove
-                      all local data and the file will be listed as available
+                      all local data and the budget will be listed as available
                       for download.
                     </Trans>
                   </Text>
@@ -142,7 +142,7 @@ export function DeleteFileModal({ file }: DeleteFileProps) {
                     close();
                   }}
                 >
-                  <Trans>Delete file locally</Trans>
+                  <Trans>Delete budget locally</Trans>
                 </ButtonWithLoading>
               </>
             )}

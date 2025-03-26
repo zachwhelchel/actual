@@ -19,7 +19,7 @@ import { useLocalPref } from '../../hooks/useLocalPref';
 import { useSplitsExpanded } from '../../hooks/useSplitsExpanded';
 import { useSyncServerStatus } from '../../hooks/useSyncServerStatus';
 import { AnimatedLoading } from '../../icons/AnimatedLoading';
-import { SvgAdd } from '../../icons/v1';
+import { SvgAdd, SvgQuestion, SvgStepBackward, SvgStepForward } from '../../icons/v1';
 import {
   SvgArrowsExpand3,
   SvgArrowsShrink3,
@@ -215,6 +215,15 @@ export function AccountHeader({
 
   const { commonElementsRef } = useCoach(); // this is causing the errors.
 
+  function undo() {
+    console.log("undo me");
+    window.__actionsForMenu.undo();
+  }
+
+  function redo() {
+    window.__actionsForMenu.redo();
+  }
+
   useHotkeys(
     'ctrl+f, cmd+f, meta+f',
     () => {
@@ -363,7 +372,17 @@ export function AccountHeader({
               <FilterButton onApply={onApplyFilter} />
             </div>
           </View>
+
+          <Button variant="bare" onClick={undo}>
+            <SvgStepBackward width={16} height={16} style={{ marginRight: 3 }} /> Undo
+          </Button>
+
+          <Button variant="bare" onClick={redo}>
+            Redo <SvgStepForward width={16} height={16} style={{ marginLeft: 3 }} />
+          </Button>
+
           <View style={{ flex: 1 }} />
+          
           <div
             ref={element => {
               commonElementsRef.current['search_bar'] = element;
@@ -494,6 +513,7 @@ export function AccountHeader({
                     showBalances={showBalances}
                     showCleared={showCleared}
                     showReconciled={showReconciled}
+                    setReconcileOpen={setReconcileOpen}
                     onMenuSelect={item => {
                       setMenuOpen(false);
                       onMenuSelect(item);
@@ -733,6 +753,7 @@ type AccountMenuProps = {
       | 'close'
       | 'reopen'
       | 'export'
+      | 'reconcile'
       | 'toggle-balance'
       | 'remove-sorting'
       | 'toggle-cleared'
@@ -747,16 +768,21 @@ function AccountMenu({
   canShowBalances,
   showCleared,
   showReconciled,
+  setReconcileOpen,
   isSorted,
   onMenuSelect,
 }: AccountMenuProps) {
   const { t } = useTranslation();
   const syncServerStatus = useSyncServerStatus();
-
   return (
     <Menu
       onMenuSelect={item => {
-        onMenuSelect(item);
+        if (item === 'reconcile') {
+          setReconcileOpen(true);
+          onMenuSelect(item);
+        } else {
+          onMenuSelect(item);
+        }
       }}
       items={[
         ...(isSorted
@@ -790,6 +816,7 @@ function AccountMenu({
             : t('Show reconciled transactions'),
         },
         { name: 'export', text: t('Export') },
+        { name: 'reconcile', text: 'Reconcile' },
         ...(account && !account.closed
           ? canSync
             ? [

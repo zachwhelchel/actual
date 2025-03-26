@@ -740,6 +740,7 @@ class AccountInternal extends PureComponent<
       | 'close'
       | 'reopen'
       | 'export'
+      | 'reconcile'
       | 'toggle-balance'
       | 'remove-sorting'
       | 'toggle-cleared'
@@ -773,6 +774,8 @@ class AccountInternal extends PureComponent<
       case 'export':
         const accountName = this.getAccountTitle(account, accountId);
         this.onExport(accountName);
+        break;
+      case 'reconcile':
         break;
       case 'toggle-balance':
         if (this.state.showBalances) {
