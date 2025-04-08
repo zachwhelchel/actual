@@ -1577,11 +1577,10 @@ const Transaction = memo(function Transaction({
               onSplit(transaction.id);
             } else if (value === 'Create Category') {
               onCreateCategory(transaction.id);
-              if (tableNavigator != null) {
-                tableNavigator.onEdit(null);
-              }
-              if (newNavigator != null) {
-                newNavigator.onEdit(null);
+              try {
+                onEdit(null);
+              } catch (error) {
+                console.error("Error occurred during onEdit:", error);
               }
               onUpdate('category', '');
             } else {

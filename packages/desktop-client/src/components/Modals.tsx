@@ -215,7 +215,6 @@ export function Modals() {
         case 'create-category':
           return (
             <CreateCategory
-              modalProps={modalProps}
               onConfirm={options.onConfirm}
               categoryGroups={options.categoryGroups}
             />

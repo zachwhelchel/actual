@@ -8,7 +8,13 @@ import { Button } from '../common/Button';
 import { FormError } from '../common/FormError';
 import { InitialFocus } from '../common/InitialFocus';
 import { Input } from '../common/Input';
-import { Modal } from '../common/Modal';
+import {
+  Modal,
+  ModalButtons,
+  ModalCloseButton,
+  ModalHeader,
+  ModalTitle,
+} from '../common/Modal';
 import { Select } from '../common/Select';
 import { View } from '../common/View';
 
@@ -38,67 +44,70 @@ export function CreateCategory({
   }
 
   return (
-    <Modal title="Create Category" {...modalProps} style={{ flex: 0 }}>
-      {() => (
-        <View style={{ lineHeight: 1.5 }}>
-          <Block style={{ paddingTop: '0px', paddingBottom: '4px' }}>
-            Category Name:
-          </Block>
-
-          <View style={{ flexDirection: 'column', flex: 1 }}>
-            <InitialFocus>
-              <Input style={{ ...styles.mediumText }} onUpdate={setValue} />
-            </InitialFocus>
-          </View>
-          {errorMessage && (
-            <FormError style={{ paddingTop: 5 }}>* {errorMessage}</FormError>
-          )}
-
-          <Block style={{ paddingTop: '8px', paddingBottom: '4px' }}>
-            In Category Group:
-          </Block>
-
-          <Select
-            options={options}
-            value={currentGroup}
-            onChange={newValue => handleOnChangeCoach(newValue)}
+    <Modal name="create-category">
+      {({ state: { close } }) => (
+        <>
+          <ModalHeader
+            title={<ModalTitle title="Create Category" shrinkOnOverflow />}
+            rightContent={<ModalCloseButton onPress={close} />}
           />
+          <View style={{ lineHeight: 1.5 }}>
+            <Block style={{ paddingTop: '0px', paddingBottom: '4px' }}>
+              Category Name:
+            </Block>
 
-          <View
-            style={{
-              marginTop: 20,
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-            }}
-          >
+            <View style={{ flexDirection: 'column', flex: 1 }}>
+              <InitialFocus>
+                <Input style={{ ...styles.mediumText }} onUpdate={setValue} />
+              </InitialFocus>
+            </View>
+            {errorMessage && (
+              <FormError style={{ paddingTop: 5 }}>* {errorMessage}</FormError>
+            )}
+
+            <Block style={{ paddingTop: '8px', paddingBottom: '4px' }}>
+              In Category Group:
+            </Block>
+
+            <Select
+              options={options}
+              value={currentGroup}
+              onChange={newValue => handleOnChangeCoach(newValue)}
+            />
+
             <View
               style={{
+                marginTop: 20,
                 flexDirection: 'row',
-                justifyContent: 'flex-end',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
               }}
             >
-              <Button style={{ marginRight: 10 }} onClick={modalProps.onClose}>
-                Cancel
-              </Button>
-              <Button
-                type="primary"
-                onClick={() => {
-                  const error = value == '';
-                  if (error) {
-                    setErrorMessage('Category must have a name.');
-                    return;
-                  }
-
-                  modalProps.onClose();
-                  onConfirm(currentGroup, value);
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
                 }}
               >
-                Confirm
-              </Button>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    const error = value == '';
+                    if (error) {
+                      setErrorMessage('Category must have a name.');
+                      return;
+                    }
+                    close();
+                    // modalProps.onClose();
+                    onConfirm(currentGroup, value);
+                  }}
+                >
+                  Confirm
+                </Button>
+              </View>
             </View>
           </View>
-        </View>
+        </>
       )}
     </Modal>
   );
