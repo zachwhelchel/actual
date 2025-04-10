@@ -5,6 +5,7 @@ import Airtable from 'airtable';
 
 import { type State } from 'loot-core/client/state-types';
 import { send } from 'loot-core/src/platform/client/fetch';
+import { Sparkles } from 'lucide-react';
 
 import { Button, ButtonWithLoading } from '../common/Button2';
 
@@ -67,6 +68,10 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
   const [selectedNiches, setSelectedNiches] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [selectedCoach, setSelectedCoach] = useState(null);
+
+  const [freeZoomLink, setFreeZoomLink] = useState(null);
+  const [coachPhoto, setCoachPhoto] = useState(null);
+
 
   const [formData, setFormData] = useState({
     firstName: firstName || '',
@@ -137,16 +142,25 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     // Only proceed if all fields are valid
     if (isValid) {
       if (userData?.userId !== null) {
-        await updateUserData(userData?.userId);
-        window.location.reload();
+        const { coach_free_zoom_link, coach_photo } = await updateUserData(userData?.userId);
+        if (coach_free_zoom_link !== null) {
+          setFreeZoomLink(coach_free_zoom_link)
+          setCoachPhoto(coach_photo)
+          setCurrentStage(4);
+        } else {
+          window.location.reload();
+        }        
       }
-      window.location.reload();
     } else {
       // Optional: Scroll to the top or first error
       window.scrollTo(0, 0);
       // Or alert the user
       alert('Please fill in all required fields');
     }
+  };
+
+  const handleDoneWithFreeCall = async () => {
+    window.location.reload();
   };
 
   const updateUserCoachRelationship = async (userId, coachId) => {
@@ -181,7 +195,20 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     console.log('updateUserCoachRelationship');
     console.log(results);
 
+
+    const record = results.fields;
+
+    const coach_free_zoom_link = record.coach_free_zoom_link?.[0] || null;
+    const coach_photo = record.coach_photo?.[0]?.base64 || null;
+
+
+    console.log(coach_free_zoom_link);
+    console.log(coach_photo);
+
     localStorage.removeItem('urlParams');
+
+    return { coach_free_zoom_link, coach_photo };
+
   };
 
   // Coach card component
@@ -1027,6 +1054,74 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     );
   }
 
+
+  if (currentStage === 4) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          overflow: 'auto',
+          paddingTop: 20,
+          paddingBottom: 20,
+          minHeight: '100vh',
+          backgroundColor: '#f5f5f5', // Optional: adds a background color to the page
+        }}
+      >
+        <div
+          style={{
+            width: '90%',
+            maxWidth: '600px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            padding: '1.5rem',
+            backgroundColor: 'white',
+            borderRadius: '0.5rem',
+            boxShadow:
+              '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+          }}
+        >
+          <div
+            style={{
+              textAlign: 'center',
+              marginBottom: '1.5rem',
+            }}
+          >
+            <h2
+              style={{
+                fontSize: '1.5rem',
+                fontWeight: 'bold',
+                marginBottom: 30,
+              }}
+            >
+            Free Zoom
+            </h2>
+            <FreeSessionButton zoomLink={freeZoomLink} coachPhoto={coachPhoto} />
+
+          <button
+            onClick={handleDoneWithFreeCall}
+            style={{
+              padding: '0.5rem 1rem',
+              border: '1px solid rgb(209, 213, 219)',
+              borderRadius: '0.25rem',
+              marginTop: 30,
+              transition: 'background-color 150ms',
+            }}
+          >
+            Done
+          </button>
+
+
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+
+
+
   // Niche selection page
   if (currentStage === 0) {
     return (
@@ -1303,5 +1398,272 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     </div>
   );
 };
+
+
+const FreeSessionButton = ({ zoomLink, coachPhoto }) => {
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  const handleHover = () => {
+    setShowConfetti(false); // Reset first to ensure a clean animation
+    setTimeout(() => {
+      setShowConfetti(true);
+    }, 10);
+    setTimeout(() => setShowConfetti(false), 3000);
+  };
+
+  return (
+    <div 
+      style={{
+        position: 'relative',
+        textAlign: 'center',
+        padding: '2rem',
+        backgroundColor: '#f8f9ff',
+        borderRadius: '1rem',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+        maxWidth: '600px',
+        margin: '0 auto'
+      }}
+    >
+      {showConfetti && <Confetti />}
+
+
+      <img
+        src={coachPhoto}
+        style={{
+          borderRadius: '9999px',
+          objectFit: 'cover',
+          width: '8rem',
+          height: '8rem',
+          marginBottom: 10,
+        }}
+      />
+
+
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: '1rem'
+      }}>
+        <Sparkles size={24} style={{ color: '#FFD700', marginRight: '0.5rem' }} />
+        <h2 style={{ 
+          fontSize: '1.5rem', 
+          fontWeight: 'bold', 
+          color: '#4338ca',
+          margin: 0
+        }}>Limited Time Offer!</h2>
+        <Sparkles size={24} style={{ color: '#FFD700', marginLeft: '0.5rem' }} />
+      </div>
+
+      <p style={{
+        fontSize: '1.125rem',
+        marginBottom: '1.5rem',
+        color: '#4b5563'
+      }}>
+        Unlock your budgeting potential with a <span style={{ fontWeight: 'bold', color: '#4f46e5' }}>FREE 30-minute Zoom consultation</span>. 
+        Your coach will help you get started!
+      </p>
+
+      <div style={{
+        marginBottom: '1.5rem',
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '2rem'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            backgroundColor: '#dcfce7',
+            borderRadius: '50%',
+            width: '3rem',
+            height: '3rem',
+            marginBottom: '0.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 0.75rem auto'
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" style={{ width: '1.5rem', height: '1.5rem', color: '#16a34a' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <p style={{ fontSize: '0.875rem', fontWeight: '500', color: '#4b5563', margin: 0 }}>Personalized</p>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            backgroundColor: '#dbeafe',
+            borderRadius: '50%',
+            width: '3rem',
+            height: '3rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 0.75rem auto'
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" style={{ width: '1.5rem', height: '1.5rem', color: '#2563eb' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <p style={{ fontSize: '0.875rem', fontWeight: '500', color: '#4b5563', margin: 0 }}>30-Minutes</p>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            backgroundColor: '#f3e8ff',
+            borderRadius: '50%',
+            width: '3rem',
+            height: '3rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 0.75rem auto'
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" style={{ width: '1.5rem', height: '1.5rem', color: '#9333ea' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <p style={{ fontSize: '0.875rem', fontWeight: '500', color: '#4b5563', margin: 0 }}>Completely Free</p>
+        </div>
+      </div>
+
+      <a
+        href={zoomLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseEnter={handleHover}
+        style={{
+          display: 'inline-block',
+          background: 'linear-gradient(to right, #4f46e5, #9333ea)',
+          color: 'white',
+          fontWeight: 'bold',
+          padding: '1rem 2rem',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          transform: 'scale(1)',
+          transition: 'transform 0.3s, box-shadow 0.3s',
+          textDecoration: 'none',
+          fontSize: '1.125rem'
+        }}
+        onMouseOver={(e) => {
+          e.target.style.transform = 'scale(1.05)';
+          e.target.style.boxShadow = '0 10px 15px rgba(0, 0, 0, 0.1)';
+        }}
+        onMouseOut={(e) => {
+          e.target.style.transform = 'scale(1)';
+          e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+        }}
+      >
+        Claim Your Free Session Now
+      </a>
+      
+      <p style={{
+        marginTop: '1rem',
+        fontSize: '0.875rem',
+        color: '#6b7280',
+        fontStyle: 'italic'
+      }}>
+        *Limited slots available. No credit card required.
+      </p>
+    </div>
+  );
+};
+
+// Confetti animation component
+const Confetti = () => {
+  const [particles, setParticles] = useState([]);
+  
+  useEffect(() => {
+    // Generate random confetti particles
+    const colors = ['#FFC700', '#FF0055', '#2BD1FC', '#F19AF7', '#C3FF99'];
+    const shapes = ['square', 'circle'];
+    const newParticles = [];
+    
+    // Create all particles at once with pre-calculated positions for the entire animation
+    for (let i = 0; i < 100; i++) {
+      const speedX = -1.5 + Math.random() * 3;
+      const speedY = 3 + Math.random() * 5;
+      const rotation = -1 + Math.random() * 2;
+      const frames = [];
+      
+      // Pre-calculate 90 frames of animation (approximately 3 seconds at 30fps)
+      let x = Math.random() * 100;
+      let y = -20 - Math.random() * 30;
+      let currentSpeedY = speedY;
+      
+      for (let frame = 0; frame < 90; frame++) {
+        // Calculate position for this frame
+        frames.push({
+          x: x,
+          y: y,
+          opacity: Math.max(0, 1 - y / 120),
+          rotation: frame * rotation
+        });
+        
+        // Update for next frame
+        x += speedX;
+        y += currentSpeedY;
+        currentSpeedY += 0.1; // Gravity effect
+      }
+      
+      newParticles.push({
+        id: i,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        size: 4 + Math.random() * 8,
+        shape: shapes[Math.floor(Math.random() * shapes.length)],
+        frames: frames,
+        currentFrame: 0
+      });
+    }
+    
+    setParticles(newParticles);
+    
+    // Animation loop that just increments the current frame instead of recalculating positions
+    const animation = setInterval(() => {
+      setParticles(currentParticles => 
+        currentParticles.map(p => ({
+          ...p,
+          currentFrame: Math.min(p.currentFrame + 1, p.frames.length - 1)
+        }))
+      );
+    }, 30);
+    
+    return () => clearInterval(animation);
+  }, []);
+
+  return (
+    <div style={{ 
+      position: 'absolute', 
+      top: 0, 
+      left: 0, 
+      width: '100%', 
+      height: '100%', 
+      pointerEvents: 'none',
+      overflow: 'hidden',
+      zIndex: 10
+    }}>
+      {particles.map(p => {
+        const frame = p.frames[p.currentFrame];
+        return (
+          <div
+            key={p.id}
+            style={{
+              position: 'absolute',
+              backgroundColor: p.color,
+              width: p.size + 'px',
+              height: p.size + 'px',
+              borderRadius: p.shape === 'circle' ? '50%' : '2px',
+              top: frame.y + '%',
+              left: frame.x + '%',
+              transform: `rotate(${frame.rotation}deg)`,
+              opacity: frame.opacity,
+              transition: 'none',
+              willChange: 'transform, top, left, opacity'
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+
 
 export default CoachQuiz;
