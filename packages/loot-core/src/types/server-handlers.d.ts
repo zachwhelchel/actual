@@ -38,6 +38,7 @@ export interface ServerHandlers {
     found_us: string;
     motivation: string;
     language: string;
+    share_contact_with_coach: string;
     fprom_tid: string;
     fprom_ref: string;
     utm_campaign: string;

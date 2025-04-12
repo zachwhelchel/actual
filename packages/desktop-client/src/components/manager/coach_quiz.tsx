@@ -81,6 +81,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     foundUs: '',
     motivation: '',
     language: '',
+    shareContact: '',
   });
 
   const userData = useSelector((state: State) => state.user.data);
@@ -184,6 +185,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       found_us: formData.foundUs,
       motivation: formData.motivation,
       language: formData.language,
+      share_contact_with_coach: formData.shareContact,
       fprom_tid: params?.fprom_tid,
       fprom_ref: params?.fprom_ref,
       utm_campaign: params?.utm_campaign,
@@ -978,6 +980,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                 />
               </div>
 
+
               <div>
                 <label
                   style={{
@@ -986,6 +989,50 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                     fontWeight: 500,
                     color: 'rgb(55, 65, 81)',
                     marginBottom: '0.25rem',
+                  }}
+                >
+                  Share contact information with your coach?
+                </label>
+                <p
+                  style={{
+                    fontSize: '1.0rem',
+                    color: 'rgb(107, 114, 128)',
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  Allow your coach to take a more active role in helping you succeed with your budget.
+                </p>
+                <select
+                  value={formData.shareContact}
+                  onChange={e =>
+                    setFormData(prev => ({ ...prev, shareContact: e.target.value }))
+                  }
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    borderRadius: '0.375rem',
+                    border: '1px solid rgb(209, 213, 219)',
+                    fontSize: '1.0rem',
+                    backgroundColor: 'white',
+                  }}
+                  required
+                >
+                  <option value="">Select a preference</option>
+                  <option value="share_contact_info">Yes, share my contact information with my coach.</option>
+                  <option value="dont_share_contact_info">No, don't share my contact information with my coach.</option>
+                </select>
+              </div>
+
+
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: '1.0rem',
+                    fontWeight: 500,
+                    color: 'rgb(55, 65, 81)',
+                    marginBottom: '0.25rem',
+                    marginTop: '0.5rem',
                   }}
                 >
                   Preferred Language
