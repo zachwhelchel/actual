@@ -1151,7 +1151,496 @@ export function NeedStuffApp({
 
     //return someDialogues;
 
-    return [someDialogues, initialDialogueId, triggerType, canBeUserInitiated];
+
+
+    //so here you have all the some dialogues... they all have actions... etc...
+
+
+    const updatedDialogueData = addProgressToDialogue(someDialogues, initialDialogueId);
+
+    return [updatedDialogueData, initialDialogueId, triggerType, canBeUserInitiated];
+  }
+
+  /**
+   * Adds a progress percentage to each node in a dialogue Map object,
+   * with improved cycle detection to prevent infinite loops.
+   * 
+   * @param {string} dialogueMapStr - The dialogue data as a Map constructor string
+   * @return {string} - The updated dialogue data with progress values added
+   */
+  function addProgressToDialogue(dialogueMapStr, startNodeId) {
+    try {
+      // Parse the dialogue data into a Map, then convert to a plain object
+      const dialogueMap = eval(dialogueMapStr);
+      const dialogueNodes = {};
+      
+      dialogueMap.forEach((value, key) => {
+        dialogueNodes[key] = { ...value };
+      });
+      
+      // Find the start node (node with no incoming connections)
+      // const startNodeId = findStartNode(dialogueNodes);
+      
+      // Find all end nodes (nodes with no outgoing connections or null toId)
+      const endNodes = findEndNodes(dialogueNodes);
+      
+      console.log(`Start node: ${startNodeId}`);
+      console.log(`End nodes: ${Array.from(endNodes).join(', ')}`);
+      
+      // Build a graph representation for better cycle detection
+      const graph = buildGraph(dialogueNodes);
+      
+      // Calculate max possible depth (with cycle detection)
+      const nodeDepths = calculateNodeDepthsWithCycleDetection(graph, startNodeId);
+      const maxDepth = Math.max(...Object.values(nodeDepths));
+      
+      console.log(`Maximum depth: ${maxDepth}`);
+      
+      // Calculate distance to end nodes (with cycle detection)
+      const nodeDistancesToEnd = calculateDistancesToEnd(graph, endNodes);
+      const maxDistance = Math.max(...Object.values(nodeDistancesToEnd).filter(d => d < Infinity));
+      
+      console.log(`Maximum distance to end: ${maxDistance}`);
+      
+      // Calculate progress for each node
+      for (const nodeId in dialogueNodes) {
+        // Handle nodes that are part of cycles differently
+        const depth = nodeDepths[nodeId] || 0;
+        const distanceToEnd = nodeDistancesToEnd[nodeId] === Infinity ? 
+                              maxDistance : nodeDistancesToEnd[nodeId];
+        
+        // Progress based on depth from start
+        const depthProgress = Math.round((depth / maxDepth) * 100);
+        
+        // Progress based on distance to end
+        const distanceProgress = Math.round(((maxDistance - distanceToEnd) / maxDistance) * 100);
+        
+        // Combine the two metrics with a weighting factor
+        const weightFactor = depth / maxDepth;
+        const progress = Math.round(
+          (weightFactor * distanceProgress) + 
+          ((1 - weightFactor) * depthProgress)
+        );
+        
+        // Ensure progress is within valid range
+        dialogueNodes[nodeId].progress = Math.max(0, Math.min(100, progress));
+      }
+      
+      // Set specific values for start and end nodes
+      dialogueNodes[startNodeId].progress = 0;
+      endNodes.forEach(nodeId => {
+        dialogueNodes[nodeId].progress = 100;
+      });
+      
+      // Handle nodes in cycles more explicitly
+      handleCyclicNodes(dialogueNodes, graph, startNodeId, endNodes);
+      
+      // Smooth out progress values to avoid large jumps between connected nodes
+      smoothProgressValues(dialogueNodes, graph, startNodeId);
+      
+      // Rescale progress values to use the full 0-100 range
+      rescaleProgress(dialogueNodes, startNodeId, endNodes);
+      
+      // Convert back to a Map
+      const updatedMap = new Map();
+      for (const nodeId in dialogueNodes) {
+        updatedMap.set(nodeId, dialogueNodes[nodeId]);
+      }
+      
+      // Convert the Map to a string similar to the input format
+      return updatedMap;
+    } catch (error) {
+      console.error("Error processing dialogue data:", error);
+      return dialogueMapStr; // Return original on error
+    }
+  }
+
+  /**
+   * Builds a directed graph representation of the dialogue.
+   * This makes cycle detection and traversal more efficient.
+   */
+  function buildGraph(dialogueNodes) {
+    const graph = {
+      outgoing: {}, // outgoing edges: nodeId -> [childNodeIds]
+      incoming: {}  // incoming edges: nodeId -> [parentNodeIds]
+    };
+    
+    // Initialize all nodes
+    for (const nodeId in dialogueNodes) {
+      if (!graph.outgoing[nodeId]) graph.outgoing[nodeId] = [];
+      if (!graph.incoming[nodeId]) graph.incoming[nodeId] = [];
+    }
+    
+    // Add edges
+    for (const nodeId in dialogueNodes) {
+      const node = dialogueNodes[nodeId];
+      if (node.dialogueOptions) {
+        for (const option of node.dialogueOptions) {
+          if (option.toId) {
+            // Add outgoing edge
+            graph.outgoing[nodeId].push(option.toId);
+            
+            // Add incoming edge
+            if (!graph.incoming[option.toId]) {
+              graph.incoming[option.toId] = [];
+            }
+            graph.incoming[option.toId].push(nodeId);
+          }
+        }
+      }
+    }
+    
+    return graph;
+  }
+
+  /**
+   * Finds the start node (node with no incoming connections).
+   */
+  function findStartNode(dialogueNodes) {
+    const incomingConnections = new Set();
+    
+    // Collect all nodes that are referenced as destinations
+    for (const nodeId in dialogueNodes) {
+      const node = dialogueNodes[nodeId];
+      if (node.dialogueOptions) {
+        node.dialogueOptions.forEach(option => {
+          if (option.toId) {
+            incomingConnections.add(option.toId);
+          }
+        });
+      }
+    }
+    
+    // The start node is likely the one that isn't referenced as a destination
+    for (const nodeId in dialogueNodes) {
+      if (!incomingConnections.has(nodeId)) {
+        return nodeId;
+      }
+    }
+    
+    // Fallback to the first node if no clear start is found
+    return Object.keys(dialogueNodes)[0];
+  }
+
+  /**
+   * Finds all end nodes (nodes with no outgoing connections or null toId).
+   */
+  function findEndNodes(dialogueNodes) {
+    const endNodes = new Set();
+    
+    for (const nodeId in dialogueNodes) {
+      const node = dialogueNodes[nodeId];
+      if (!node.dialogueOptions || 
+          node.dialogueOptions.length === 0 || 
+          node.dialogueOptions.every(option => option.toId === null)) {
+        endNodes.add(nodeId);
+      }
+    }
+    
+    return endNodes;
+  }
+
+  /**
+   * Calculates node depths with cycle detection using breadth-first search.
+   * This avoids getting stuck in cycles.
+   */
+  function calculateNodeDepthsWithCycleDetection(graph, startNodeId) {
+    const depths = {};
+    const queue = [{ id: startNodeId, depth: 0 }];
+    const visited = new Set();
+    
+    while (queue.length > 0) {
+      const { id, depth } = queue.shift();
+      
+      // Skip if we've already found a shorter path to this node
+      if (visited.has(id) && depths[id] <= depth) {
+        continue;
+      }
+      
+      // Update depth
+      depths[id] = Math.min(depths[id] || Infinity, depth);
+      visited.add(id);
+      
+      // Add all children to the queue
+      for (const childId of graph.outgoing[id] || []) {
+        // Only visit if we haven't found a shorter path yet
+        if (!visited.has(childId) || depths[childId] > depth + 1) {
+          queue.push({ id: childId, depth: depth + 1 });
+        }
+      }
+    }
+    
+    return depths;
+  }
+
+  /**
+   * Calculates the minimum distance from each node to any end node.
+   * Uses Dijkstra's algorithm with cycle detection.
+   */
+  function calculateDistancesToEnd(graph, endNodes) {
+    const distances = {};
+    const processed = new Set();
+    
+    // Initialize distances
+    for (const nodeId in graph.outgoing) {
+      distances[nodeId] = Infinity;
+    }
+    
+    // End nodes have distance 0
+    for (const endNodeId of endNodes) {
+      distances[endNodeId] = 0;
+    }
+    
+    // Process all nodes
+    const allNodes = Object.keys(graph.outgoing);
+    
+    while (processed.size < allNodes.length) {
+      // Find the unprocessed node with minimum distance
+      let minDistance = Infinity;
+      let currentNode = null;
+      
+      for (const nodeId in distances) {
+        if (!processed.has(nodeId) && distances[nodeId] < minDistance) {
+          minDistance = distances[nodeId];
+          currentNode = nodeId;
+        }
+      }
+      
+      // If no nodes can reach an end node, break
+      if (!currentNode || minDistance === Infinity) {
+        break;
+      }
+      
+      processed.add(currentNode);
+      
+      // Update distances of incoming nodes
+      for (const parentId of graph.incoming[currentNode] || []) {
+        if (!processed.has(parentId)) {
+          const newDistance = distances[currentNode] + 1;
+          if (newDistance < distances[parentId]) {
+            distances[parentId] = newDistance;
+          }
+        }
+      }
+    }
+    
+    return distances;
+  }
+
+  /**
+   * Detects nodes that are part of cycles and handles their progress values.
+   */
+  function handleCyclicNodes(dialogueNodes, graph, startNodeId, endNodes) {
+    // Find strongly connected components (cycles)
+    const cycles = findStronglyConnectedComponents(graph);
+    
+    console.log(`Found ${cycles.length} cycles in the dialogue graph`);
+    
+    for (const cycle of cycles) {
+      if (cycle.length <= 1) continue; // Skip single-node cycles
+      
+      console.log(`Handling cycle: ${cycle.join(', ')}`);
+      
+      // Calculate the average progress of nodes connected to this cycle
+      const connectedNodes = new Set();
+      
+      // Add nodes that lead into the cycle
+      for (const nodeId of cycle) {
+        for (const parentId of graph.incoming[nodeId] || []) {
+          if (!cycle.includes(parentId)) {
+            connectedNodes.add(parentId);
+          }
+        }
+      }
+      
+      // Add nodes that the cycle leads to
+      for (const nodeId of cycle) {
+        for (const childId of graph.outgoing[nodeId] || []) {
+          if (!cycle.includes(childId)) {
+            connectedNodes.add(childId);
+          }
+        }
+      }
+      
+      // Calculate average progress of connected nodes
+      let totalProgress = 0;
+      let count = 0;
+      
+      for (const nodeId of connectedNodes) {
+        totalProgress += dialogueNodes[nodeId].progress;
+        count++;
+      }
+      
+      const avgProgress = count > 0 ? totalProgress / count : 50; // Default to 50% if no connections
+      
+      // Apply a slightly different progress to each node in the cycle
+      // to maintain a sense of progression
+      cycle.forEach((nodeId, index) => {
+        // Distribute progress values within ±5% of the average
+        const offset = ((index / (cycle.length - 1)) * 10) - 5;
+        dialogueNodes[nodeId].progress = Math.max(0, Math.min(100, Math.round(avgProgress + offset)));
+      });
+    }
+  }
+
+  /**
+   * Finds strongly connected components (cycles) in the graph using Kosaraju's algorithm.
+   */
+  function findStronglyConnectedComponents(graph) {
+    const visited = new Set();
+    const finished = [];
+    const components = [];
+    
+    // First DFS pass
+    function dfs1(node) {
+      if (visited.has(node)) return;
+      visited.add(node);
+      
+      for (const neighbor of graph.outgoing[node] || []) {
+        dfs1(neighbor);
+      }
+      
+      finished.push(node);
+    }
+    
+    // Second DFS pass
+    function dfs2(node, component) {
+      if (!visited.has(node)) return;
+      visited.delete(node);
+      component.push(node);
+      
+      for (const neighbor of graph.incoming[node] || []) {
+        dfs2(neighbor, component);
+      }
+    }
+    
+    // First pass - fill the finished array
+    for (const node in graph.outgoing) {
+      dfs1(node);
+    }
+    
+    // Second pass - find components
+    while (finished.length > 0) {
+      const node = finished.pop();
+      if (!visited.has(node)) continue;
+      
+      const component = [];
+      dfs2(node, component);
+      
+      if (component.length > 0) {
+        components.push(component);
+      }
+    }
+    
+    return components;
+  }
+
+  /**
+   * Smooths progress values to avoid large jumps between connected nodes.
+   */
+  function smoothProgressValues(dialogueNodes, graph, startNodeId) {
+    // Sort nodes by topological order (as much as possible, given cycles)
+    const sorted = topologicalSort(graph, startNodeId);
+    
+    // Multiple passes to propagate smoother values
+    for (let pass = 0; pass < 3; pass++) {
+      for (const nodeId of sorted) {
+        const node = dialogueNodes[nodeId];
+        const progress = node.progress;
+        
+        // Smooth forward (children)
+        for (const childId of graph.outgoing[nodeId] || []) {
+          const childNode = dialogueNodes[childId];
+          
+          // Child should be slightly more progressed than parent
+          const minExpectedProgress = progress + 1;
+          const maxExpectedProgress = progress + 15;
+          
+          if (childNode.progress < minExpectedProgress) {
+            childNode.progress = minExpectedProgress;
+          } else if (childNode.progress > maxExpectedProgress) {
+            childNode.progress = maxExpectedProgress;
+          }
+        }
+        
+        // Smooth backward (parents) - but with less effect
+        for (const parentId of graph.incoming[nodeId] || []) {
+          const parentNode = dialogueNodes[parentId];
+          
+          // Parent should be slightly less progressed than this node
+          const maxExpectedParentProgress = progress - 1;
+          
+          if (parentNode.progress > maxExpectedParentProgress) {
+            // Only pull back by half to avoid destabilizing
+            parentNode.progress = Math.round((parentNode.progress + maxExpectedParentProgress) / 2);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Performs a topological sort of the graph nodes.
+   * For nodes within cycles, order is arbitrary but deterministic.
+   */
+  function topologicalSort(graph, startNodeId) {
+    const visited = new Set();
+    const result = [];
+    
+    function visit(nodeId) {
+      if (visited.has(nodeId)) return;
+      visited.add(nodeId);
+      
+      for (const childId of graph.outgoing[nodeId] || []) {
+        visit(childId);
+      }
+      
+      result.unshift(nodeId);
+    }
+    
+    // Start with the start node
+    visit(startNodeId);
+    
+    // Process any nodes not reachable from start
+    for (const nodeId in graph.outgoing) {
+      visit(nodeId);
+    }
+    
+    return result;
+  }
+
+  /**
+   * Rescales progress values to ensure full range utilization from 0 to 100.
+   */
+  function rescaleProgress(dialogueNodes, startNodeId, endNodes) {
+    // Find min and max progress values (excluding start and end nodes)
+    let minProgress = 100;
+    let maxProgress = 0;
+    
+    for (const nodeId in dialogueNodes) {
+      if (nodeId !== startNodeId && !endNodes.has(nodeId)) {
+        minProgress = Math.min(minProgress, dialogueNodes[nodeId].progress);
+        maxProgress = Math.max(maxProgress, dialogueNodes[nodeId].progress);
+      }
+    }
+    
+    // Only rescale if there's a meaningful range
+    if (maxProgress > minProgress) {
+      const range = maxProgress - minProgress;
+      
+      for (const nodeId in dialogueNodes) {
+        if (nodeId !== startNodeId && !endNodes.has(nodeId)) {
+          const normalizedProgress = ((dialogueNodes[nodeId].progress - minProgress) / range) * 98;
+          dialogueNodes[nodeId].progress = Math.round(normalizedProgress + 1); // Range from 1 to 99
+        }
+      }
+    }
+    
+    // Ensure start node is 0% and end nodes are 100%
+    dialogueNodes[startNodeId].progress = 0;
+    for (const nodeId of endNodes) {
+      dialogueNodes[nodeId].progress = 100;
+    }
   }
 
   if (needCoachData === true) {

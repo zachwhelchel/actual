@@ -37,6 +37,7 @@ import { BigInput } from '../common/Input';
 import { Menu } from '../common/Menu';
 import { Tooltip } from '../common/Tooltip';
 import { View } from '../common/View';
+import { theme } from '../../style';
 
 const analytics = AnalyticsBrowser.load({ writeKey: '44e3df5b84cde8138074' });
 
@@ -2693,8 +2694,7 @@ export default function Coach({
   }
 
   //allDialogues.get(dialogueStack[dialogueStack.length-1]);
-
-  // console.log(dialogue);
+  
   if (dialogue != null) {
     highlight(dialogue);
 
@@ -2748,7 +2748,6 @@ export default function Coach({
       content = <div>{dialogueText}</div>;
     } else {
       const dialogueText = lintDisplayText(dialogue.text);
-
       let backContent;
       if (pastDialogue !== undefined) {
         backContent = (
@@ -3146,7 +3145,24 @@ export default function Coach({
                 width: '300px',
               }}
             >
-              {content}
+
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 3,
+                  left: 0,
+                  borderRadius: '2px',
+                  height: '4px',
+                  width: `${dialogue.progress || 0}%`, // Use the progress value from the node
+                  backgroundColor: theme.noteTagBackgroundHover,
+                  transition: 'width 0.3s ease-in-out'
+                }}
+              />
+                            
+              {/* Add margin-top to content to make room for the progress indicator */}
+              <div style={{ marginTop: '16px' }}>
+                {content}
+              </div>
 
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Button

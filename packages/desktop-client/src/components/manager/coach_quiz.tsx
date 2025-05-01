@@ -1000,7 +1000,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                     marginBottom: '0.5rem',
                   }}
                 >
-                  Allow your coach to take a more active role in helping you succeed with your budget.
+                  Allow your coach to take a more active role in helping you succeed with your budget. Your information will only be used for MyBudgetCoach related communication.
                 </p>
                 <select
                   value={formData.shareContact}
