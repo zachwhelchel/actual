@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   closeAndDownloadBudget,
   closeAndLoadBudget,
-  inviteToShare,
+  inviteToShare, pushModal,
   replaceModal,
 } from 'loot-core/client/actions';
 import { send } from 'loot-core/platform/client/fetch';
@@ -22,6 +22,7 @@ import { View } from '../common/View';
 import { CRMClientBudget } from './CRMClientBudget';
 import { LastShareRequestedAt } from './LastShareRequestedAt';
 import { Notification } from './Notification';
+import { ButtonWithLoading } from '../common/Button2';
 
 export function CoachDashboard() {
   const dispatch = useDispatch();
@@ -128,6 +129,12 @@ export function CoachDashboard() {
 
   // Helper function to get status style based on client status
   const getStatusStyle = (status: string): CSSProperties => {
+    if (!status) {
+      return {
+        ...tableStyles.statusPill,
+        ...statusStyles.inactive, // Fallback to inactive if status not found
+      };
+    }
     let normalizedStatus = status.toLowerCase();
 
     if (normalizedStatus === 'free_trial') {
@@ -158,6 +165,9 @@ export function CoachDashboard() {
 
   // Helper function to normalize status text for display
   const getNormalizedStatusText = (status: string): string => {
+    if (!status) {
+      return 'Unknown';
+    }
     const normalizedStatus = status.toLowerCase();
 
     if (normalizedStatus === 'free_trial') {
@@ -186,7 +196,6 @@ export function CoachDashboard() {
 
   const getClients = async () => {
     try {
-      // TODO Check someInfo to see what kind of data it has
       const results = await send('airtable-clients');
       if (results.error_code) {
         throw new Error(results.reason);
@@ -220,8 +229,7 @@ export function CoachDashboard() {
         const matchingBudget = ownerToBudgetMap.get(client.userId);
         const factoriedClient: Client = clientFactory({
           ...client,
-          budget:
-            matchingBudget,
+          budget: matchingBudget,
         });
         console.log(
           `getClients - client user_id: ${factoriedClient.userId}`,
@@ -357,6 +365,9 @@ export function CoachDashboard() {
     );
   };
 
+  const onCreateClient = () => {
+    dispatch(pushModal('add-client'));
+  };
   const handleBudgetSelect = (client: Client, index: number) => {
     const budget = client.budget as Budget;
     if (budget.id) {
@@ -524,6 +535,22 @@ export function CoachDashboard() {
             ))}
           </tbody>
         </table>
+        <ButtonWithLoading
+          isDisabled={false}
+          isLoading={false}
+          style={{
+            padding: '10px 0',
+            fontSize: 15,
+            fontWeight: 600,
+            flex: 1,
+            width: 300,
+            alignSelf: 'center',
+            marginBottom: 10,
+          }}
+          onPress={onCreateClient}
+        >
+          Add New Client
+        </ButtonWithLoading>
       </View>
     </View>
   );

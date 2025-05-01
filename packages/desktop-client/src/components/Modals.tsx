@@ -85,6 +85,7 @@ import { PostsOfflineNotification } from './schedules/PostsOfflineNotification';
 import { ScheduleDetails } from './schedules/ScheduleDetails';
 import { ScheduleLink } from './schedules/ScheduleLink';
 import { NamespaceContext } from './spreadsheet/NamespaceContext';
+import { CreateExternalClientModal } from './modals/CreateExternalClientModal';
 
 export function Modals() {
   const location = useLocation();
@@ -153,6 +154,9 @@ export function Modals() {
 
         case 'add-local-account':
           return <CreateLocalAccountModal key={name} />;
+
+        case 'add-client':
+          return <CreateExternalClientModal key={name} />;
 
         case 'close-account':
           return (

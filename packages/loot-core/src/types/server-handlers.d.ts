@@ -24,6 +24,7 @@ import { EmptyObject } from './util';
 
 export interface ServerHandlers {
   'airtable-clients': () => Promise<Client[]>;
+  'airtable-create-client': (arg: { firstName: string; lastName: string, email: string, phone: string, coachNotes: string, status: string }) => Promise<Client>;
   'airtable-user': (arg: { url: string; coachId: string }) => Promise<unknown>;
   'airtable-update-coach': (arg: {
     url: string;

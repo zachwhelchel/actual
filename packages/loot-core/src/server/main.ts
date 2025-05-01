@@ -1005,6 +1005,44 @@ handlers['airtable-clients'] = async function () {
     return { error_code: 'TIMED_OUT' };
   }
 };
+
+handlers['airtable-create-client'] = async function ({firstName, lastName, email, phone, status, coachNotes }) {
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+  const PARAMS = {
+    NEW_CLIENT: {
+      FIRST_NAME: 'firstName',
+      LAST_NAME: 'lastName',
+      EMAIL: 'email',
+      PHONE: 'phone',
+      STATUS: 'status',
+      COACH_NOTES: 'coachNotes',
+    },
+  };
+  try {
+    return await post(
+      getServer().BASE_SERVER + '/airtable/create-client',
+      {
+        [PARAMS.NEW_CLIENT.FIRST_NAME]: firstName,
+        [PARAMS.NEW_CLIENT.LAST_NAME]: lastName,
+        [PARAMS.NEW_CLIENT.EMAIL]: email,
+        [PARAMS.NEW_CLIENT.PHONE]: phone,
+        [PARAMS.NEW_CLIENT.STATUS]: status,
+        [PARAMS.NEW_CLIENT.COACH_NOTES]: coachNotes,
+      },
+      {
+        'X-ACTUAL-TOKEN': userToken,
+      },
+      60000,
+    );
+  } catch (error) {
+    return { error_code: 'TIMED_OUT' };
+  }
+};
+
 handlers['airtable-user'] = async function ({ url, coachId }) {
   const server = determineMBCenv(url);
 
