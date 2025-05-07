@@ -22,6 +22,7 @@ import { View } from '../common/View';
 import { CRMClientBudget } from './CRMClientBudget';
 import { LastShareRequestedAt } from './LastShareRequestedAt';
 import { Notification } from './Notification';
+import { MotivationDashboard } from './Motivation';
 
 export function CoachDashboard() {
   const dispatch = useDispatch();
@@ -51,9 +52,12 @@ export function CoachDashboard() {
       borderSpacing: 0,
       borderRadius: 8,
       overflow: 'auto',
-      margin: 20,
-      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
-      background: 'white',
+      marginLeft: 20,
+      marginRight: 20,
+      marginTop: 10,
+      backgroundColor: 'white',
+      borderRadius: '8px',
+      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
     },
     tableHeader: {
       width: 'auto',
@@ -220,8 +224,7 @@ export function CoachDashboard() {
         const matchingBudget = ownerToBudgetMap.get(client.userId);
         const factoriedClient: Client = clientFactory({
           ...client,
-          budget:
-            matchingBudget,
+          budget: matchingBudget,
         });
         console.log(
           `getClients - client user_id: ${factoriedClient.userId}`,
@@ -390,141 +393,160 @@ export function CoachDashboard() {
     }
   };
 
+  const [activeSection, setActiveSection] = useState('clients'); // 'clients' or 'revenue'
+
+  // Function to handle section change
+  const handleSectionChange = event => {
+    setActiveSection(event.target.value);
+  };
+
   return (
     <View style={{ marginTop: 40 }}>
       {showNotification && (
         <Notification message="Invite to share was successful!" />
       )}
-      <div style={{ marginLeft: 20 }}>
-        <Text style={styles.mediumText}>My Clients</Text>
 
-        <div
-          key="underConstruction"
+      {/* Dropdown selector for sections */}
+      <View style={{ marginLeft: 20, marginBottom: 20 }}>
+        <select
+          value={activeSection}
+          onChange={handleSectionChange}
           style={{
-            width: '80%',
-            backgroundColor: theme.pillBackground,
-            color: theme.pillText,
-            padding: '10px',
-            textAlign: 'center',
-            marginTop: 20,
-            marginRight: 10,
+            padding: '8px 12px',
+            fontSize: '16px',
+            borderRadius: '4px',
+            border: '1px solid #ccc',
+            backgroundColor: '#fff',
+            cursor: 'pointer',
+            width: '400px',
           }}
         >
-          Currently showing users on the new MyBudgetCoach only.
-        </div>
-      </div>
-      <View style={{ marginTop: 0, width: 'auto' }}>
-        <table style={tableStyles.clientTable}>
-          <tbody>
-            <tr>
-              {headers.map((header, index) => (
-                <th
-                  key={index}
-                  style={{ ...tableStyles.tableHeader, width: header.width }}
-                >
-                  {header.title}
-                </th>
-              ))}
-            </tr>
-            {clientList.map((client, index) => (
-              <tr key={index} style={tableStyles.tableRow}>
-                <td
-                  style={{
-                    ...tableStyles.tableCell,
-                    ...tableStyles.clientName,
-                  }}
-                >
-                  {client.name}
-                </td>
-                <td style={tableStyles.tableCell}>
-                  {client.status === 'free_trial' ||
-                  client.status === 'free_trial_expired' ? (
-                    <>
-                      <span
-                        style={{
-                          ...getStatusStyle(client.status),
-                        }}
-                      >
-                        {getNormalizedStatusText(client.status)}
-                      </span>
-                      <span
-                        style={{
-                          display: 'block',
-                          flexShrink: 0,
-                          marginTop: 8, // Add some spacing
-                        }}
-                      >
-                        Expires: {formatDate(client.statusExpiresAt)}
-                      </span>
-                      <Link
-                        variant="text"
-                        onClick={() => onSponsorClient(client)}
-                        style={{
-                          display: 'block',
-                          flexShrink: 0,
-                          marginTop: 8, // Add some spacing
-                        }}
-                      >
-                        Sponsor this client
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <span
-                        style={{
-                          ...getStatusStyle(client.status),
-                        }}
-                      >
-                        {getNormalizedStatusText(client.status)}
-                      </span>
-                      <span
-                        style={{
-                          display: 'block',
-                          flexShrink: 0,
-                          marginTop: 8, // Add some spacing
-                        }}
-                      >
-                        Expires: {formatDate(client.statusExpiresAt)}
-                      </span>
-                    </>
-                  )}
-                </td>
-                <td style={tableStyles.tableCell}>
-                  {client.budgetShared() ? (
-                    <CRMClientBudget
-                      key={`budget-${index}`}
-                      file={client.budget as SyncedLocalFile | RemoteFile}
-                      currentUserId={
-                        client.coachUserId ? client.coachUserId : ''
-                      }
-                      onSelect={() => handleBudgetSelect(client, index)}
-                    />
-                  ) : client.canInviteToShare() ? (
-                    <LastShareRequestedAt
-                      key={`budget-invite-${index}`}
-                      client={client}
-                      onInvite={handleInvite}
-                      inviteButtonStyle={tableStyles.inviteButton}
-                    />
-                  ) : (
-                    <button disabled style={tableStyles.inviteButton}>
-                      External Client
-                    </button>
-                  )}
-                </td>
-                <td
-                  style={{
-                    ...tableStyles.tableCell,
-                    ...tableStyles.expiryDate,
-                  }}
-                >
-                  {formatRelativeDate(client.joinedAt)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          <option value="clients">🤝 My Clients</option>
+          <option value="revenue">🌱 My Revenue Projections</option>
+        </select>
       </View>
+
+      {activeSection === 'clients' && (
+        <View style={{ marginTop: 0, width: 'auto' }}>
+          <table style={tableStyles.clientTable}>
+            <tbody>
+              <tr>
+                {headers.map((header, index) => (
+                  <th
+                    key={index}
+                    style={{ ...tableStyles.tableHeader, width: header.width }}
+                  >
+                    {header.title}
+                  </th>
+                ))}
+              </tr>
+              {clientList.map((client, index) => (
+                <tr key={index} style={tableStyles.tableRow}>
+                  <td
+                    style={{
+                      ...tableStyles.tableCell,
+                      ...tableStyles.clientName,
+                    }}
+                  >
+                    {client.name}
+                  </td>
+                  <td style={tableStyles.tableCell}>
+                    {client.status === 'free_trial' ||
+                    client.status === 'free_trial_expired' ? (
+                      <>
+                        <span
+                          style={{
+                            ...getStatusStyle(client.status),
+                          }}
+                        >
+                          {getNormalizedStatusText(client.status)}
+                        </span>
+                        <span
+                          style={{
+                            display: 'block',
+                            flexShrink: 0,
+                            marginTop: 8, // Add some spacing
+                          }}
+                        >
+                          Expires: {formatDate(client.statusExpiresAt)}
+                        </span>
+                        <Link
+                          variant="text"
+                          onClick={() => onSponsorClient(client)}
+                          style={{
+                            display: 'block',
+                            flexShrink: 0,
+                            marginTop: 8, // Add some spacing
+                          }}
+                        >
+                          Sponsor this client
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <span
+                          style={{
+                            ...getStatusStyle(client.status),
+                          }}
+                        >
+                          {getNormalizedStatusText(client.status)}
+                        </span>
+                        <span
+                          style={{
+                            display: 'block',
+                            flexShrink: 0,
+                            marginTop: 8, // Add some spacing
+                          }}
+                        >
+                          Expires: {formatDate(client.statusExpiresAt)}
+                        </span>
+                      </>
+                    )}
+                  </td>
+                  <td style={tableStyles.tableCell}>
+                    {client.budgetShared() ? (
+                      <CRMClientBudget
+                        key={`budget-${index}`}
+                        file={client.budget as SyncedLocalFile | RemoteFile}
+                        currentUserId={
+                          client.coachUserId ? client.coachUserId : ''
+                        }
+                        onSelect={() => handleBudgetSelect(client, index)}
+                      />
+                    ) : client.canInviteToShare() ? (
+                      <LastShareRequestedAt
+                        key={`budget-invite-${index}`}
+                        client={client}
+                        onInvite={handleInvite}
+                        inviteButtonStyle={tableStyles.inviteButton}
+                      />
+                    ) : (
+                      <button disabled style={tableStyles.inviteButton}>
+                        External Client
+                      </button>
+                    )}
+                  </td>
+                  <td
+                    style={{
+                      ...tableStyles.tableCell,
+                      ...tableStyles.expiryDate,
+                    }}
+                  >
+                    {formatRelativeDate(client.joinedAt)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </View>
+      )}
+
+      {/* Grow Your Revenue Section */}
+      {activeSection === 'revenue' && (
+        <View style={{ width: 'auto' }}>
+          <MotivationDashboard />
+        </View>
+      )}
     </View>
   );
 }
