@@ -97,7 +97,8 @@ function OpenIdLogin({ setError }) {
     send('owner-created').then(created => setWarnMasterCreation(!created));
   }, []);
 
-  async function onSubmitOpenId() {
+  // Updated onSubmitOpenId function that takes a signUp boolean parameter
+  async function onSubmitOpenId(signUp = false) {
     const { error, redirect_url } = await send('subscribe-sign-in', {
       return_url: isElectron()
         ? await window.Actual.startOAuthServer()
@@ -108,13 +109,61 @@ function OpenIdLogin({ setError }) {
     if (error) {
       setError(error);
     } else {
+      let finalRedirectUrl = redirect_url;
+
+      // If this is a sign-up action, modify the URL for Auth0
+      if (signUp) {
+        // Check if it's an Auth0 URL (contains auth0.com)
+        finalRedirectUrl = finalRedirectUrl.replace(
+          'prompt=login',
+          'prompt=login&screen_hint=signup',
+        );
+      }
+
       if (isElectron()) {
-        window.Actual?.openURLInBrowser(redirect_url);
+        window.Actual?.openURLInBrowser(finalRedirectUrl);
       } else {
-        window.location.href = redirect_url;
+        window.location.href = finalRedirectUrl;
       }
     }
   }
+
+  const primaryButtonStyle = {
+    padding: 10,
+    fontSize: 14,
+    width: 170,
+    marginTop: 5,
+  };
+
+  // Styles for the secondary (small) button
+  const secondaryButtonStyle = {
+    padding: 6,
+    fontSize: 12,
+    marginTop: 8,
+    backgroundColor: 'transparent',
+    color: '#4285F4', // Assuming a blue color for the text link
+    border: 'none',
+    cursor: 'pointer',
+  };
+
+  // Container styles
+  const containerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+
+  const [likelyHereForSignUp, setLikelyHereForSignUp] = useState(true);
+
+  useEffect(() => {
+    // Get the current URL
+    const url = new URL(window.location.href);
+    // Check if 'coach' parameter exists
+    const hasCoachParam = url.searchParams.has('coach');
+    // Set state based on coach parameter presence
+    setLikelyHereForSignUp(hasCoachParam);
+  }, []);
 
   return (
     <View>
@@ -169,24 +218,48 @@ function OpenIdLogin({ setError }) {
                     fontSize: '14px',
                   }}
                 >
-                  Sign in to continue to your account:
+                  Continue to your account:
                 </p>
               </div>
 
-              {/* Button Container */}
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button
-                  variant="primary"
-                  style={{
-                    padding: 10,
-                    fontSize: 14,
-                    width: 170,
-                    marginTop: 5,
-                  }}
-                  onPress={onSubmitOpenId}
-                >
-                  <Trans>Sign In</Trans>
-                </Button>
+              <div style={containerStyle}>
+                {likelyHereForSignUp ? (
+                  // Sign Up is the primary action
+                  <>
+                    <Button
+                      variant="primary"
+                      style={primaryButtonStyle}
+                      onPress={() => onSubmitOpenId(true)}
+                    >
+                      <Trans>Sign Up</Trans>
+                    </Button>
+
+                    <button
+                      style={secondaryButtonStyle}
+                      onClick={() => onSubmitOpenId(false)}
+                    >
+                      <Trans>Already have an account? Log in</Trans>
+                    </button>
+                  </>
+                ) : (
+                  // Log In is the primary action
+                  <>
+                    <Button
+                      variant="primary"
+                      style={primaryButtonStyle}
+                      onPress={() => onSubmitOpenId(false)}
+                    >
+                      <Trans>Log In</Trans>
+                    </Button>
+
+                    <button
+                      style={secondaryButtonStyle}
+                      onClick={() => onSubmitOpenId(true)}
+                    >
+                      <Trans>New here? Sign up</Trans>
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
