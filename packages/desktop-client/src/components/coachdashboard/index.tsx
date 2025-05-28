@@ -12,12 +12,16 @@ import { type Client } from 'loot-core/src/types/client';
 import { clientFactory } from 'loot-core/src/types/factories/clientFactory';
 import type { Budget } from 'loot-core/types/budget';
 import type { RemoteFile, SyncedLocalFile } from 'loot-core/types/file';
+import { SvgCheveronOutlineRight } from '../../icons/v1';
+// import { SvgArrowRight } from '../../icons/v2';
+import { ClientDetailPage } from './ClientDetailPage';
 
 import { useMetadataPref } from '../../hooks/useMetadataPref';
 import { styles, theme } from '../../style';
 import { Link } from '../common/Link';
 import { Text } from '../common/Text';
 import { View } from '../common/View';
+import { Button } from '../common/Button2';
 
 import { CRMClientBudget } from './CRMClientBudget';
 import { LastShareRequestedAt } from './LastShareRequestedAt';
@@ -36,12 +40,80 @@ export function CoachDashboard() {
   // ) as (SyncedLocalFile | RemoteFile)[];
   // const currentFile = remoteFiles.find(f => f.cloudFileId === cloudFileId);
 
+  const [showClientDetail, setShowClientDetail] = useState(false);
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+
+  const [sortConfig, setSortConfig] = useState<{
+    key: 'name' | 'status' | 'joinedAt' | null;
+    direction: 'asc' | 'desc';
+  }>({ key: null, direction: 'asc' });
+
+  const handleSort = (key: 'name' | 'status' | 'joinedAt') => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getSortedClients = () => {
+    if (!sortConfig.key) return clientList;
+
+    return [...clientList].sort((a, b) => {
+      let aValue: string | number;
+      let bValue: string | number;
+
+      switch (sortConfig.key) {
+        case 'name':
+          aValue = a.name?.toLowerCase() || '';
+          bValue = b.name?.toLowerCase() || '';
+          break;
+        case 'status':
+          aValue = a.status?.toLowerCase() || '';
+          bValue = b.status?.toLowerCase() || '';
+          break;
+        case 'joinedAt':
+          aValue = new Date(a.joinedAt || 0).getTime();
+          bValue = new Date(b.joinedAt || 0).getTime();
+          break;
+        default:
+          return 0;
+      }
+
+      if (aValue < bValue) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  };
+
+  const handleClientDetail = (client?: Client) => {
+    setSelectedClientId(client?.userId || null);
+    setSelectedClient(client || null);
+    setShowClientDetail(true);
+  };
+
+  const handleBackToList = () => {
+    setShowClientDetail(false);
+    setSelectedClientId(null);
+    setSelectedClient(null);
+  };
+
+  const handleClientSaved = () => {
+    getClients(); // Refresh the client list
+  };
+
   // Table headers configuration
   const headers = [
-    { title: 'Name', width: 200 },
-    { title: 'Status', width: 200 },
-    { title: 'Budget', width: 250 },
-    { title: 'Joined', width: 150 },
+    { title: 'Name', width: 200, sortKey: 'name' as const },
+    { title: 'Status', width: 200, sortKey: 'status' as const },
+    { title: 'Budget', width: 250, sortKey: null },
+    { title: 'Joined', width: 150, sortKey: 'joinedAt' as const },
+    { title: '', width: 80, sortKey: null }, // For the arrow button
   ];
 
   // Custom styles defined as React CSSProperties objects
@@ -132,7 +204,12 @@ export function CoachDashboard() {
 
   // Helper function to get status style based on client status
   const getStatusStyle = (status: string): CSSProperties => {
-    let normalizedStatus = status.toLowerCase();
+    let normalizedStatus = 'free_trial_expired';
+
+    if (status == null || status == undefined) {
+    } else {
+      normalizedStatus = status.toLowerCase();
+    }
 
     if (normalizedStatus === 'free_trial') {
       normalizedStatus = 'trial';
@@ -162,7 +239,12 @@ export function CoachDashboard() {
 
   // Helper function to normalize status text for display
   const getNormalizedStatusText = (status: string): string => {
-    const normalizedStatus = status.toLowerCase();
+    let normalizedStatus = 'server_specific';
+
+    if (status == null || status == undefined) {
+    } else {
+      normalizedStatus = status.toLowerCase();
+    }
 
     if (normalizedStatus === 'free_trial') {
       return 'Free Trial';
@@ -180,6 +262,8 @@ export function CoachDashboard() {
       return 'Coach';
     } else if (normalizedStatus === 'coach_account_expired') {
       return 'Expired Coach';
+    } else if (normalizedStatus === 'external_client') {
+      return 'Non-MBC Client';
     } else if (normalizedStatus === 'server_specific') {
       return 'Unknown';
     }
@@ -195,6 +279,9 @@ export function CoachDashboard() {
       if (results.error_code) {
         throw new Error(results.reason);
       }
+
+      console.log('results');
+      console.log(results);
 
       // Filter out the coach from their client list
       const filteredClients = (results.clients || []).filter(
@@ -407,26 +494,44 @@ export function CoachDashboard() {
       )}
 
       {/* Dropdown selector for sections */}
-      <View style={{ marginLeft: 20, marginBottom: 20 }}>
-        <select
-          value={activeSection}
-          onChange={handleSectionChange}
-          style={{
-            padding: '8px 12px',
-            fontSize: '16px',
-            borderRadius: '4px',
-            border: '1px solid #ccc',
-            backgroundColor: '#fff',
-            cursor: 'pointer',
-            width: '400px',
-          }}
-        >
-          <option value="clients">🤝 My Clients</option>
-          <option value="revenue">🌱 My Revenue Projections</option>
-        </select>
+      <View
+        style={{
+          marginLeft: 20,
+          marginRight: 20,
+          marginBottom: 20,
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        {!showClientDetail && (
+          <select
+            value={activeSection}
+            onChange={handleSectionChange}
+            style={{
+              padding: '8px 12px',
+              fontSize: '16px',
+              borderRadius: '4px',
+              border: '1px solid #ccc',
+              backgroundColor: '#fff',
+              cursor: 'pointer',
+              width: '400px',
+            }}
+          >
+            <option value="clients">🤝 My Clients</option>
+            <option value="revenue">🌱 My Revenue Projections (BETA)</option>
+          </select>
+        )}
+
+        {activeSection === 'clients' && !showClientDetail && (
+          <Button variant="primary" onClick={() => handleClientDetail()}>
+            + Add Client
+          </Button>
+        )}
       </View>
 
-      {activeSection === 'clients' && (
+      {activeSection === 'clients' && showClientDetail === false && (
         <View style={{ marginTop: 0, width: 'auto' }}>
           <table style={tableStyles.clientTable}>
             <tbody>
@@ -434,13 +539,28 @@ export function CoachDashboard() {
                 {headers.map((header, index) => (
                   <th
                     key={index}
-                    style={{ ...tableStyles.tableHeader, width: header.width }}
+                    style={{
+                      ...tableStyles.tableHeader,
+                      width: header.width,
+                      cursor: header.sortKey ? 'pointer' : 'default',
+                      userSelect: 'none',
+                    }}
+                    onClick={() => header.sortKey && handleSort(header.sortKey)}
                   >
-                    {header.title}
+                    <div
+                      style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+                    >
+                      {header.title}
+                      {header.sortKey && sortConfig.key === header.sortKey && (
+                        <span style={{ fontSize: 12 }}>
+                          {sortConfig.direction === 'asc' ? '↑' : '↓'}
+                        </span>
+                      )}
+                    </div>
                   </th>
                 ))}
               </tr>
-              {clientList.map((client, index) => (
+              {getSortedClients().map((client, index) => (
                 <tr key={index} style={tableStyles.tableRow}>
                   <td
                     style={{
@@ -482,6 +602,17 @@ export function CoachDashboard() {
                           Sponsor this client
                         </Link>
                       </>
+                    ) : client.status === 'external_client' ||
+                      client.status === 'lead' ? (
+                      <>
+                        <span
+                          style={{
+                            ...getStatusStyle(client.status),
+                          }}
+                        >
+                          {getNormalizedStatusText(client.status)}
+                        </span>
+                      </>
                     ) : (
                       <>
                         <span
@@ -504,7 +635,16 @@ export function CoachDashboard() {
                     )}
                   </td>
                   <td style={tableStyles.tableCell}>
-                    {client.budgetShared() ? (
+                    {client.status === 'external_client' ||
+                    client.status === 'lead' ? (
+                      <div
+                        style={{
+                          ...tableStyles.expiryDate,
+                        }}
+                      >
+                        N/A
+                      </div>
+                    ) : client.budgetShared() ? (
                       <CRMClientBudget
                         key={`budget-${index}`}
                         file={client.budget as SyncedLocalFile | RemoteFile}
@@ -521,9 +661,7 @@ export function CoachDashboard() {
                         inviteButtonStyle={tableStyles.inviteButton}
                       />
                     ) : (
-                      <button disabled style={tableStyles.inviteButton}>
-                        External Client
-                      </button>
+                      <></>
                     )}
                   </td>
                   <td
@@ -534,6 +672,26 @@ export function CoachDashboard() {
                   >
                     {formatRelativeDate(client.joinedAt)}
                   </td>
+                  <td style={tableStyles.tableCell}>
+                    <button
+                      onClick={() => handleClientDetail(client)}
+                      style={{
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '4px',
+                        ':hover': {
+                          backgroundColor: '#f3f4f6',
+                        },
+                      }}
+                    >
+                      <SvgCheveronOutlineRight width={16} height={16} />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -542,10 +700,18 @@ export function CoachDashboard() {
       )}
 
       {/* Grow Your Revenue Section */}
-      {activeSection === 'revenue' && (
+      {activeSection === 'revenue' && showClientDetail === false && (
         <View style={{ width: 'auto' }}>
           <MotivationDashboard />
         </View>
+      )}
+
+      {showClientDetail === true && (
+        <ClientDetailPage
+          client={selectedClient}
+          onBack={handleBackToList}
+          onSave={handleClientSaved}
+        />
       )}
     </View>
   );

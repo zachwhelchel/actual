@@ -928,7 +928,9 @@ export const MotivationDashboard = () => {
 
       {/* Intervention Toggles */}
       <div style={styles.chartContainerEnd}>
-        <h2 style={styles.chartTitleFixed}>Growth Initiatives</h2>
+        <h2 style={styles.chartTitleFixed}>
+          Growth Initiatives (UNDER CONSTRUCTION)
+        </h2>
         <div style={styles.initiativesContainer}>
           <div style={initiativesGridStyle}>
             {suggestions.map(suggestion => (

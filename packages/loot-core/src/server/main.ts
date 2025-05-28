@@ -1156,6 +1156,174 @@ handlers['airtable-update-user'] = async function ({
   return data;
 };
 
+handlers['airtable-update-internal-client'] = async function ({
+  url,
+  clientId,
+  coachNotes,
+}) {
+  console.log('airtable-update-issssnternal-client');
+
+  const server = determineMBCenv(url);
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken');
+  console.log(userToken);
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  });
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/update-internal-client',
+    {
+      clientId,
+      coachNotes,
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  return data;
+};
+
+handlers['airtable-update-external-client'] = async function ({
+  url,
+  clientId,
+  firstName,
+  lastName,
+  email,
+  phone,
+  status,
+  coachNotes,
+}) {
+  console.log('airtable-update-issssnternal-client');
+
+  const server = determineMBCenv(url);
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken');
+  console.log(userToken);
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  });
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/update-external-client',
+    {
+      clientId,
+      firstName,
+      lastName,
+      email,
+      phone,
+      status,
+      coachNotes,
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  return data;
+};
+
+handlers['airtable-delete-external-client'] = async function ({
+  url,
+  clientId,
+}) {
+  console.log('airtable-update-issssnternal-client');
+
+  const server = determineMBCenv(url);
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken');
+  console.log(userToken);
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  });
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/delete-external-client',
+    {
+      clientId,
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  return data;
+};
+
+handlers['airtable-create-client'] = async function ({
+  url,
+  firstName,
+  lastName,
+  email,
+  phone,
+  status,
+  coachNotes,
+}) {
+  console.log('airtable-update-issssnternal-client');
+
+  const server = determineMBCenv(url);
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken');
+  console.log(userToken);
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  });
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/create-client',
+    {
+      firstName,
+      lastName,
+      email,
+      phone,
+      status,
+      coachNotes,
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  return data;
+};
+
 handlers['airtable-update-local-storage-sync'] = async function ({
   url,
   local_storage,

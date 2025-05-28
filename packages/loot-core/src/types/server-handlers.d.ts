@@ -47,6 +47,11 @@ export interface ServerHandlers {
     utm_term: string;
     utm_content: string;
   }) => Promise<unknown>;
+  'airtable-update-internal-client': (arg: {
+    url: string;
+    clientId: string;
+    coachNotes: string;
+  }) => Promise<unknown>;
   'airtable-invite-to-share': (arg: {
     clientUserId: string;
     coachUserId: string;
