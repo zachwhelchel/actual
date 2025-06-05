@@ -13,6 +13,8 @@ import { clientFactory } from 'loot-core/src/types/factories/clientFactory';
 import type { Budget } from 'loot-core/types/budget';
 import type { RemoteFile, SyncedLocalFile } from 'loot-core/types/file';
 import { SvgCheveronOutlineRight } from '../../icons/v1';
+import { SvgComputerLaptop } from '../../icons/v1';
+import { SvgMobileDevices } from '../../icons/v1';
 // import { SvgArrowRight } from '../../icons/v2';
 import { ClientDetailPage } from './ClientDetailPage';
 
@@ -44,18 +46,40 @@ export function CoachDashboard() {
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
+  const [clickedClient, setClickedClient] = useState<string | null>(null);
+
   const [sortConfig, setSortConfig] = useState<{
-    key: 'name' | 'status' | 'joinedAt' | null;
+    key:
+      | 'name'
+      | 'status'
+      | 'joinedAt'
+      | 'lastSeenInBudget'
+      | 'nextMeeting'
+      | null;
     direction: 'asc' | 'desc';
   }>({ key: null, direction: 'asc' });
 
-  const handleSort = (key: 'name' | 'status' | 'joinedAt') => {
+  const handleSort = (
+    key: 'name' | 'status' | 'joinedAt' | 'lastSeenInBudget' | 'nextMeeting',
+  ) => {
     let direction: 'asc' | 'desc' = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
       direction = 'desc';
     }
     setSortConfig({ key, direction });
   };
+
+  useEffect(() => {
+    const handleClickOutside = event => {
+      // Close popup when clicking outside
+      if (!event.target.closest('[data-activity-popup]')) {
+        setClickedClient(null);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
 
   const getSortedClients = () => {
     if (!sortConfig.key) return clientList;
@@ -76,6 +100,28 @@ export function CoachDashboard() {
         case 'joinedAt':
           aValue = new Date(a.joinedAt || 0).getTime();
           bValue = new Date(b.joinedAt || 0).getTime();
+          break;
+        case 'lastSeenInBudget':
+          aValue = Math.max(
+            a.lastVisitedBudgetSmallScreen
+              ? new Date(a.lastVisitedBudgetSmallScreen).getTime()
+              : 0,
+            a.lastVisitedBudgetLargeScreen
+              ? new Date(a.lastVisitedBudgetLargeScreen).getTime()
+              : 0,
+          );
+          bValue = Math.max(
+            b.lastVisitedBudgetSmallScreen
+              ? new Date(b.lastVisitedBudgetSmallScreen).getTime()
+              : 0,
+            b.lastVisitedBudgetLargeScreen
+              ? new Date(b.lastVisitedBudgetLargeScreen).getTime()
+              : 0,
+          );
+          break;
+        case 'nextMeeting':
+          aValue = new Date(a.nextMeetingDate || 0).getTime();
+          bValue = new Date(b.nextMeetingDate || 0).getTime();
           break;
         default:
           return 0;
@@ -109,11 +155,13 @@ export function CoachDashboard() {
 
   // Table headers configuration
   const headers = [
-    { title: 'Name', width: 200, sortKey: 'name' as const },
-    { title: 'Status', width: 200, sortKey: 'status' as const },
-    { title: 'Budget', width: 250, sortKey: null },
-    { title: 'Joined', width: 150, sortKey: 'joinedAt' as const },
-    { title: '', width: 80, sortKey: null }, // For the arrow button
+    { title: 'Name', width: 150, sortKey: 'name' as const },
+    { title: 'Status', width: 180, sortKey: 'status' as const },
+    { title: 'Budget', width: 180, sortKey: null },
+    { title: 'Joined', width: 130, sortKey: 'joinedAt' as const },
+    { title: 'Last Seen', width: 120, sortKey: 'lastSeenInBudget' as const }, // New column
+    { title: 'Next Meeting', width: 200, sortKey: 'nextMeeting' as const }, // New column
+    { title: '', width: 40, sortKey: null, sticky: true }, // Mark as sticky
   ];
 
   // Custom styles defined as React CSSProperties objects
@@ -130,6 +178,8 @@ export function CoachDashboard() {
       backgroundColor: 'white',
       borderRadius: '8px',
       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+      overflowX: 'auto',
+      position: 'relative',
     },
     tableHeader: {
       width: 'auto',
@@ -155,9 +205,7 @@ export function CoachDashboard() {
     clientName: {
       fontWeight: 500,
     },
-    expiryDate: {
-      color: '#6b7c93',
-    },
+    expiryDate: {},
     statusPill: {
       display: 'inline-block',
       padding: '6px 12px',
@@ -174,6 +222,30 @@ export function CoachDashboard() {
       border: 'none',
       borderRadius: '4px',
       cursor: 'pointer',
+    },
+    stickyColumn: {
+      position: 'sticky',
+      right: 0,
+      backgroundColor: 'white',
+      zIndex: 2,
+    },
+    activityPopup: {
+      position: 'absolute',
+      top: '100%',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      backgroundColor: 'white',
+      border: '1px solid #e5e9f2',
+      borderRadius: '8px',
+      padding: '16px',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+      zIndex: 1000,
+      width: '360px',
+      marginTop: '-30px',
+    },
+    timelineItem: {
+      paddingBottom: '0px',
+      // Remove position, paddingLeft, and borderLeft
     },
   };
 
@@ -328,6 +400,95 @@ export function CoachDashboard() {
     } catch (error) {
       console.error('Failed to fetch clients:', error);
     }
+  };
+
+  const getClientActivityData = client => {
+    const now = new Date();
+    const activities = [
+      {
+        label: 'Visited budget on a large screen',
+        date: client.lastVisitedBudgetLargeScreen
+          ? new Date(client.lastVisitedBudgetLargeScreen)
+          : null,
+        color: '#3b82f6', // Using same blue color for all
+      },
+      {
+        label: 'Visited budget on a small screen',
+        date: client.lastVisitedBudgetSmallScreen
+          ? new Date(client.lastVisitedBudgetSmallScreen)
+          : null,
+        color: '#3b82f6', // Using same blue color for all
+      },
+      {
+        label: 'Synced an account from bank',
+        date: client.lastSyncedAccount
+          ? new Date(client.lastSyncedAccount)
+          : null,
+        color: '#3b82f6',
+      },
+      {
+        label: 'Edited a transaction',
+        date: client.lastEditedTransaction
+          ? new Date(client.lastEditedTransaction)
+          : null,
+        color: '#3b82f6',
+      },
+      {
+        label: 'Changed a budgeted amount',
+        date: client.lastChangedBudgetedAmount
+          ? new Date(client.lastChangedBudgetedAmount)
+          : null,
+        color: '#3b82f6',
+      },
+      {
+        label: 'Interacted with avatar',
+        date: client.lastInteractedWithAvatar
+          ? new Date(client.lastInteractedWithAvatar)
+          : null,
+        color: '#3b82f6',
+      },
+      {
+        label: 'Added an account',
+        date: client.lastAddedAccount
+          ? new Date(client.lastAddedAccount)
+          : null,
+        color: '#3b82f6',
+      },
+      {
+        label: 'Added a category',
+        date: client.lastAddedCategory
+          ? new Date(client.lastAddedCategory)
+          : null,
+        color: '#3b82f6',
+      },
+    ];
+
+    // Sort by most recent first
+    //const sortedActivities = activities.sort((a, b) => b.date.getTime() - a.date.getTime());
+    const sortedActivities = activities;
+
+    return sortedActivities.map(activity => {
+      // Handle missing dates
+      if (!activity.date) {
+        return {
+          ...activity,
+          daysAgo: null,
+          barPercentage: 0, // 0% for missing dates
+        };
+      }
+
+      const daysAgo = Math.floor(
+        (now.getTime() - activity.date.getTime()) / (1000 * 60 * 60 * 24),
+      );
+      // Calculate percentage based on 30-day scale, cap at 100%
+      const barPercentage = Math.min((daysAgo / 30) * 100, 100);
+
+      return {
+        ...activity,
+        daysAgo,
+        barPercentage,
+      };
+    });
   };
 
   // Helper function to format dates in a friendly way
@@ -544,6 +705,7 @@ export function CoachDashboard() {
                       width: header.width,
                       cursor: header.sortKey ? 'pointer' : 'default',
                       userSelect: 'none',
+                      ...(header.sticky ? tableStyles.stickyColumn : {}),
                     }}
                     onClick={() => header.sortKey && handleSort(header.sortKey)}
                   >
@@ -642,7 +804,7 @@ export function CoachDashboard() {
                           ...tableStyles.expiryDate,
                         }}
                       >
-                        N/A
+                        –
                       </div>
                     ) : client.budgetShared() ? (
                       <CRMClientBudget
@@ -664,15 +826,405 @@ export function CoachDashboard() {
                       <></>
                     )}
                   </td>
+
+                  {client.status === 'external_client' ||
+                  client.status === 'lead' ? (
+                    <>
+                      <td
+                        style={{
+                          ...tableStyles.tableCell,
+                          ...tableStyles.expiryDate,
+                        }}
+                      >
+                        –
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td
+                        style={{
+                          ...tableStyles.tableCell,
+                          ...tableStyles.expiryDate,
+                        }}
+                      >
+                        {formatRelativeDate(client.joinedAt)}
+                      </td>
+                    </>
+                  )}
+
+                  {client.status === 'external_client' ||
+                  client.status === 'lead' ? (
+                    <>
+                      <td
+                        style={{
+                          ...tableStyles.tableCell,
+                          ...tableStyles.expiryDate,
+                        }}
+                      >
+                        –
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td
+                        style={{
+                          ...tableStyles.tableCell,
+                          ...tableStyles.expiryDate,
+                          position: 'relative',
+                          cursor: 'pointer',
+                        }}
+                        onClick={e => {
+                          e.stopPropagation();
+                          setClickedClient(
+                            clickedClient === client.userId
+                              ? null
+                              : client.userId,
+                          );
+                        }}
+                        data-activity-popup
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center', // Add this to center horizontally
+                            gap: 6,
+                            backgroundColor: '#f3f4f6',
+                            border: '1px solid #e5e7eb',
+                            borderRadius: '6px',
+                            padding: '8px 8px',
+                            cursor: 'pointer',
+                          }}
+                          onMouseEnter={e =>
+                            (e.target.style.backgroundColor = '#e5e7eb')
+                          }
+                          onMouseLeave={e =>
+                            (e.target.style.backgroundColor = '#f3f4f6')
+                          }
+                        >
+                          {(() => {
+                            const smallScreenDate =
+                              client.lastVisitedBudgetSmallScreen
+                                ? new Date(client.lastVisitedBudgetSmallScreen)
+                                : null;
+                            const largeScreenDate =
+                              client.lastVisitedBudgetLargeScreen
+                                ? new Date(client.lastVisitedBudgetLargeScreen)
+                                : null;
+
+                            // If neither date exists
+                            if (!smallScreenDate && !largeScreenDate) {
+                              return (
+                                <span
+                                  style={{ fontSize: '12px', color: '#6b7280' }}
+                                >
+                                  N/A
+                                </span>
+                              );
+                            }
+
+                            // If only one date exists
+                            if (!smallScreenDate) {
+                              return (
+                                <>
+                                  <SvgComputerLaptop
+                                    width={14}
+                                    height={14}
+                                    style={{ color: '#6b7c93' }}
+                                  />
+                                  <span style={{ fontSize: '12px' }}>
+                                    {formatRelativeDate(
+                                      client.lastVisitedBudgetLargeScreen,
+                                    )}
+                                  </span>
+                                </>
+                              );
+                            }
+
+                            if (!largeScreenDate) {
+                              return (
+                                <>
+                                  <SvgMobileDevices
+                                    width={14}
+                                    height={14}
+                                    style={{ color: '#6b7c93' }}
+                                  />
+                                  <span style={{ fontSize: '12px' }}>
+                                    {formatRelativeDate(
+                                      client.lastVisitedBudgetSmallScreen,
+                                    )}
+                                  </span>
+                                </>
+                              );
+                            }
+
+                            // Both dates exist - show the more recent one
+                            const isMobileMoreRecent =
+                              smallScreenDate > largeScreenDate;
+
+                            return (
+                              <>
+                                {isMobileMoreRecent ? (
+                                  <SvgMobileDevices
+                                    width={14}
+                                    height={14}
+                                    style={{ color: '#6b7c93' }}
+                                  />
+                                ) : (
+                                  <SvgComputerLaptop
+                                    width={14}
+                                    height={14}
+                                    style={{ color: '#6b7c93' }}
+                                  />
+                                )}
+                                <span style={{ fontSize: '12px' }}>
+                                  {formatRelativeDate(
+                                    isMobileMoreRecent
+                                      ? client.lastVisitedBudgetSmallScreen
+                                      : client.lastVisitedBudgetLargeScreen,
+                                  )}
+                                </span>
+                              </>
+                            );
+                          })()}
+                        </div>
+
+                        {clickedClient === client.userId &&
+                          clickedClient != null && (
+                            <div
+                              style={tableStyles.activityPopup}
+                              data-activity-popup
+                            >
+                              {/* Conditional invite message */}
+                              {!client.budgetShared() && (
+                                <div
+                                  style={{
+                                    backgroundColor: '#f9fafb',
+                                    border: '1px solid #e5e7eb',
+                                    borderRadius: '8px',
+                                    padding: '12px',
+                                    marginBottom: '20px',
+                                    textAlign: 'center',
+                                    fontSize: '13px',
+                                    color: '#374151',
+                                  }}
+                                >
+                                  Invite your client to share their budget to
+                                  get access to these stats
+                                </div>
+                              )}
+
+                              <div
+                                style={{
+                                  fontSize: '14px',
+                                  fontWeight: 600,
+                                  marginBottom: '20px',
+                                  color: '#374151',
+                                  opacity: client.budgetShared() ? 1 : 0.4, // Fade when no access
+                                }}
+                              >
+                                Recent Activity
+                              </div>
+                              <div
+                                style={{
+                                  opacity: client.budgetShared() ? 1 : 0.4,
+                                }}
+                              >
+                                {' '}
+                                {/* Fade entire activity list */}
+                                {getClientActivityData(client).map(
+                                  (activity, idx) => (
+                                    <div
+                                      key={idx}
+                                      style={{
+                                        ...tableStyles.timelineItem,
+                                        marginBottom: '16px',
+                                      }}
+                                    >
+                                      <div
+                                        style={{
+                                          display: 'flex',
+                                          justifyContent: 'space-between',
+                                          alignItems: 'center',
+                                          marginBottom: '6px',
+                                        }}
+                                      >
+                                        <span
+                                          style={{
+                                            fontSize: '13px',
+                                            color: '#374151',
+                                          }}
+                                        >
+                                          {activity.label}
+                                        </span>
+                                        {/* Only show days ago if date exists AND client has shared budget */}
+                                        {activity.daysAgo !== null &&
+                                          client.budgetShared() && (
+                                            <span
+                                              style={{
+                                                fontSize: '12px',
+                                                color: '#6b7280',
+                                              }}
+                                            >
+                                              {activity.daysAgo === 0
+                                                ? 'Today'
+                                                : `${activity.daysAgo} days ago`}
+                                            </span>
+                                          )}
+                                      </div>
+                                      <div
+                                        style={{
+                                          width: '100%',
+                                          height: '6px',
+                                          backgroundColor: '#f3f4f6',
+                                          borderRadius: '3px',
+                                          position: 'relative',
+                                        }}
+                                      >
+                                        {/* Only show colored bar if client has shared budget */}
+                                        {client.budgetShared() && (
+                                          <div
+                                            style={{
+                                              position: 'absolute',
+                                              right: 0,
+                                              width: `${activity.barPercentage}%`,
+                                              height: '100%',
+                                              backgroundColor: activity.color,
+                                              borderTopRightRadius: '3px',
+                                              borderBottomRightRadius: '3px',
+                                              borderTopLeftRadius: '0px',
+                                              borderBottomLeftRadius: '0px',
+                                              opacity:
+                                                activity.daysAgo !== null
+                                                  ? 0.7
+                                                  : 0.2,
+                                            }}
+                                          />
+                                        )}
+                                        {/* Vertical time marker line - only show if date exists, less than 30 days, AND has shared budget */}
+                                        {activity.daysAgo !== null &&
+                                          activity.daysAgo < 30 &&
+                                          client.budgetShared() && (
+                                            <div
+                                              style={{
+                                                position: 'absolute',
+                                                right: `${activity.barPercentage}%`,
+                                                top: '-6px',
+                                                width: '2px',
+                                                height: '18px',
+                                                backgroundColor: '#000000',
+                                              }}
+                                            />
+                                          )}
+                                      </div>
+                                    </div>
+                                  ),
+                                )}
+                              </div>
+                              <div
+                                style={{
+                                  marginTop: '20px',
+                                  fontSize: '13px',
+                                  color: '#374151',
+                                  opacity: client.budgetShared() ? 1 : 0.4, // Fade disclaimer text too
+                                }}
+                              >
+                                This chart highlights activity from the last 30
+                                days. Note that only activity logged after June
+                                5th, 2025 is included.
+                              </div>
+                            </div>
+                          )}
+                      </td>
+                    </>
+                  )}
+
+                  {/* New Next Meeting column */}
                   <td
                     style={{
                       ...tableStyles.tableCell,
                       ...tableStyles.expiryDate,
                     }}
                   >
-                    {formatRelativeDate(client.joinedAt)}
+                    {(() => {
+                      if (!client.nextMeetingDate) {
+                        return (
+                          <span
+                            style={{ color: '#9ca3af', fontStyle: 'italic' }}
+                          >
+                            Not Set
+                          </span>
+                        );
+                      }
+
+                      try {
+                        const meetingDate = new Date(client.nextMeetingDate);
+                        const now = new Date();
+                        const today = new Date(
+                          now.getFullYear(),
+                          now.getMonth(),
+                          now.getDate(),
+                        );
+                        const tomorrow = new Date(today);
+                        tomorrow.setDate(tomorrow.getDate() + 1);
+                        const meetingDay = new Date(
+                          meetingDate.getFullYear(),
+                          meetingDate.getMonth(),
+                          meetingDate.getDate(),
+                        );
+
+                        // Check if it's in the past (before start of today)
+                        const isPast = meetingDay < today;
+
+                        // Format the time portion
+                        const timeStr = meetingDate.toLocaleString('en-US', {
+                          hour: 'numeric',
+                          minute: '2-digit',
+                          hour12: true,
+                        });
+
+                        // Format the date portion
+                        const dateStr = meetingDate.toLocaleString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                        });
+
+                        let displayText;
+                        if (meetingDay.getTime() === today.getTime()) {
+                          displayText = `${dateStr} (Today) @ ${timeStr}`;
+                        } else if (
+                          meetingDay.getTime() === tomorrow.getTime()
+                        ) {
+                          displayText = `${dateStr} (Tomorrow) @ ${timeStr}`;
+                        } else {
+                          displayText = `${dateStr} @ ${timeStr}`;
+                        }
+
+                        return (
+                          <span
+                            style={{ color: isPast ? '#9ca3af' : 'inherit' }}
+                          >
+                            {displayText}
+                          </span>
+                        );
+                      } catch (error) {
+                        return (
+                          <span
+                            style={{ color: '#9ca3af', fontStyle: 'italic' }}
+                          >
+                            Not Set
+                          </span>
+                        );
+                      }
+                    })()}
                   </td>
-                  <td style={tableStyles.tableCell}>
+
+                  <td
+                    style={{
+                      ...tableStyles.tableCell,
+                      ...tableStyles.stickyColumn,
+                    }}
+                  >
                     <button
                       onClick={() => handleClientDetail(client)}
                       style={{

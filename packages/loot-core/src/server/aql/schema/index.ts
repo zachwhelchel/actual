@@ -73,6 +73,8 @@ export const schema = {
     account_id: f('string'),
     official_name: f('string'),
     account_sync_source: f('string'),
+    balance_current: f('integer'),
+    balance_available: f('integer'),
   },
   categories: {
     id: f('id'),

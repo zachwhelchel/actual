@@ -46,6 +46,7 @@ import { MobilePageHeader, Page } from '../../Page';
 import { MobileBackButton } from '../MobileBackButton';
 import { AddTransactionButton } from '../transactions/AddTransactionButton';
 import { TransactionListWithBalances } from '../transactions/TransactionListWithBalances';
+import analyticsHelper from '../../AnalyticsHelper';
 
 export function AccountTransactions({
   account,
@@ -255,6 +256,8 @@ function TransactionListWithPreviews({
   const navigate = useNavigate();
 
   const onRefresh = useCallback(() => {
+    analyticsHelper.logActivity('last_synced_account');
+
     if (accountId) {
       dispatch(syncAndDownload(accountId));
     }

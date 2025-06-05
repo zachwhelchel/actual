@@ -15,6 +15,8 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
 import { AnalyticsBrowser } from '@customerio/cdp-analytics-browser';
+import analyticsHelper from '../AnalyticsHelper';
+
 import { css } from '@emotion/css';
 import {
   format as formatDate,
@@ -1580,7 +1582,7 @@ const Transaction = memo(function Transaction({
               try {
                 onEdit(null);
               } catch (error) {
-                console.error("Error occurred during onEdit:", error);
+                console.error('Error occurred during onEdit:', error);
               }
               onUpdate('category', '');
             } else {
@@ -2525,6 +2527,8 @@ export const TransactionTable = forwardRef((props, ref) => {
       analytics.track('update_transaction', {
         updated_field_name: updatedFieldName,
       });
+
+      analyticsHelper.logActivity('last_edited_transaction');
 
       let groupedTransaction = subtransactions
         ? groupTransaction([transaction, ...subtransactions])

@@ -32,6 +32,7 @@ export function ClientDetailPage({
     phone: '',
     notes: '',
     status: 'external_client', // Default status for new external clients
+    nextMeetingDate: '', // Add this new field
   });
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -216,6 +217,22 @@ export function ClientDetailPage({
     },
   };
 
+  const formatDateTimeLocal = dateString => {
+    if (!dateString) return '';
+    try {
+      const date = new Date(dateString);
+      // Convert to local timezone and format as YYYY-MM-DDTHH:mm
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    } catch (error) {
+      return '';
+    }
+  };
+
   useEffect(() => {
     if (passedClient) {
       setClient(passedClient);
@@ -229,6 +246,9 @@ export function ClientDetailPage({
         lastName = nameParts.slice(1).join(' ') || '';
       }
 
+      console.log('nextMeetingDate');
+      console.log(passedClient.nextMeetingDate);
+
       setFormData({
         firstName: firstName,
         lastName: lastName,
@@ -237,9 +257,22 @@ export function ClientDetailPage({
         phone: passedClient.phone || '',
         notes: passedClient.coachNotes || '',
         status: passedClient.status || 'external_client',
+        nextMeetingDate: formatDateTimeLocal(passedClient.nextMeetingDate), // Format the date
       });
     }
   }, [passedClient]);
+
+  const convertToUTC = localDateTime => {
+    if (!localDateTime) return null;
+    try {
+      // Create date object from local datetime input
+      const localDate = new Date(localDateTime);
+      // This automatically converts to UTC when you call toISOString()
+      return localDate.toISOString();
+    } catch (error) {
+      return null;
+    }
+  };
 
   const validateForm = () => {
     const errors: string[] = [];
@@ -321,6 +354,7 @@ export function ClientDetailPage({
           phone: formData.phone,
           status: formData.status,
           coachNotes: formData.notes,
+          nextMeetingDate: convertToUTC(formData.nextMeetingDate), // Convert to UTC
         });
         console.log('airtable-update-internal-client');
         console.log(results);
@@ -338,6 +372,7 @@ export function ClientDetailPage({
           phone: formData.phone,
           status: formData.status,
           coachNotes: formData.notes,
+          nextMeetingDate: convertToUTC(formData.nextMeetingDate), // Convert to UTC
         });
         console.log('airtable-update-internal-client');
         console.log(results);
@@ -351,6 +386,7 @@ export function ClientDetailPage({
           url,
           clientId: passedClient.recordId,
           coachNotes: formData.notes,
+          nextMeetingDate: convertToUTC(formData.nextMeetingDate), // Convert to UTC
         });
         console.log('airtable-update-internal-client');
         console.log(results);
@@ -618,6 +654,19 @@ export function ClientDetailPage({
               style={formStyles.textarea}
               disabled={false}
               placeholder="Add any notes about this client"
+            />
+          </View>
+
+          <View style={formStyles.formGroup}>
+            <Text style={formStyles.label}>Next Meeting Date</Text>
+            <input
+              type="datetime-local"
+              value={formData.nextMeetingDate}
+              onChange={e =>
+                handleInputChange('nextMeetingDate', e.target.value)
+              }
+              style={formStyles.input}
+              placeholder="Select next meeting date and time"
             />
           </View>
         </View>

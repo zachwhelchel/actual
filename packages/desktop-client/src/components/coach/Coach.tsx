@@ -11,6 +11,7 @@ import React, {
 import { AnalyticsBrowser } from '@customerio/cdp-analytics-browser';
 import Airtable from 'airtable';
 import { StreamChat } from 'stream-chat';
+import analyticsHelper from '../AnalyticsHelper';
 
 import {
   init as initConnection,
@@ -215,13 +216,13 @@ export function CoachProvider({
     Array.from(allConversations.entries())
       .reverse()
       .forEach(([key, value]) => {
-      const conversation = value;
-      conversation.triggerType;
-      if (conversation.triggerType === id) {
-        conversationId = conversation.id;
-        conversationTitle = conversation.title;
-      }
-    });
+        const conversation = value;
+        conversation.triggerType;
+        if (conversation.triggerType === id) {
+          conversationId = conversation.id;
+          conversationTitle = conversation.title;
+        }
+      });
 
     if (conversationId != null && conversationTitle != null) {
       let add = true;
@@ -510,6 +511,12 @@ export function CoachProvider({
     analytics.track('visited_budget', {
       screen_size: screenSize,
     });
+
+    if (isNarrowWidth == true) {
+      analyticsHelper.logActivity('last_visited_budget_small_screen');
+    } else {
+      analyticsHelper.logActivity('last_visited_budget_large_screen');
+    }
   };
 
   useEffect(() => {
@@ -924,6 +931,8 @@ export default function Coach({
       client_text: clientText,
       coach_text: text,
     });
+
+    analyticsHelper.logActivity('last_interacted_with_avatar');
 
     if (
       variableToSet !== undefined &&
@@ -2694,7 +2703,7 @@ export default function Coach({
   }
 
   //allDialogues.get(dialogueStack[dialogueStack.length-1]);
-  
+
   if (dialogue != null) {
     highlight(dialogue);
 
@@ -3145,7 +3154,6 @@ export default function Coach({
                 width: '300px',
               }}
             >
-
               <div
                 style={{
                   position: 'absolute',
@@ -3155,14 +3163,12 @@ export default function Coach({
                   height: '4px',
                   width: `${dialogue.progress || 0}%`, // Use the progress value from the node
                   backgroundColor: theme.noteTagBackgroundHover,
-                  transition: 'width 0.3s ease-in-out'
+                  transition: 'width 0.3s ease-in-out',
                 }}
               />
-                            
+
               {/* Add margin-top to content to make room for the progress indicator */}
-              <div style={{ marginTop: '16px' }}>
-                {content}
-              </div>
+              <div style={{ marginTop: '16px' }}>{content}</div>
 
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Button

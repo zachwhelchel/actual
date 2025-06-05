@@ -72,6 +72,7 @@ import { FieldLabel, TapField, InputField, ToggleField } from '../MobileForms';
 import { getPrettyPayee } from '../utils';
 
 import { FocusableAmountInput } from './FocusableAmountInput';
+import analyticsHelper from '../../AnalyticsHelper';
 
 function getFieldName(transactionId, field) {
   return `${field}-${transactionId}`;
@@ -537,6 +538,8 @@ const TransactionEditInner = memo(function TransactionEditInner({
 
   const onSaveInner = useCallback(() => {
     const [unserializedTransaction] = unserializedTransactions;
+
+    analyticsHelper.logActivity('last_edited_transaction');
 
     const onConfirmSave = () => {
       let transactionsToSave = unserializedTransactions;

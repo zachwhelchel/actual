@@ -79,6 +79,7 @@ import { TransactionList } from '../transactions/TransactionList';
 import { validateAccountName } from '../util/accountValidation';
 
 import { AccountHeader } from './Header';
+import analyticsHelper from '../AnalyticsHelper';
 
 type ConditionEntity = Partial<RuleConditionEntity> | TransactionFilterEntity;
 
@@ -611,6 +612,8 @@ class AccountInternal extends PureComponent<
   onSync = async () => {
     const accountId = this.props.accountId;
     const account = this.props.accounts.find(acct => acct.id === accountId);
+
+    analyticsHelper.logActivity('last_synced_account');
 
     await this.props.syncAndDownload(account ? account.id : undefined);
   };

@@ -38,6 +38,7 @@ import { EnvelopeBudgetProvider } from './envelope/EnvelopeBudgetContext';
 import * as trackingBudget from './tracking/TrackingBudgetComponents';
 import { TrackingBudgetProvider } from './tracking/TrackingBudgetContext';
 import { prewarmAllMonths, prewarmMonth } from './util';
+import analyticsHelper from '../AnalyticsHelper';
 
 type TrackingReportComponents = {
   SummaryComponent: typeof trackingBudget.BudgetSummary;
@@ -213,6 +214,8 @@ function BudgetInner(props: BudgetInnerProps) {
         ),
       );
 
+      analyticsHelper.logActivity('last_added_category');
+
       //return id;
     } else {
       dispatch(updateCategory(category));
@@ -311,6 +314,10 @@ function BudgetInner(props: BudgetInnerProps) {
 
   const onBudgetAction = (month, type, args) => {
     dispatch(applyBudgetAction(month, type, args));
+
+    if (type === 'budget-amount') {
+      analyticsHelper.logActivity('last_changed_budgeted_amount');
+    }
   };
 
   const onShowActivity = (categoryId, month) => {

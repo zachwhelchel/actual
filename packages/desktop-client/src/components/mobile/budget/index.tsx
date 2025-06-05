@@ -45,6 +45,7 @@ import { NamespaceContext } from '../../spreadsheet/NamespaceContext';
 import { SyncRefresh } from '../../SyncRefresh';
 
 import { BudgetTable } from './BudgetTable';
+import analyticsHelper from '../../AnalyticsHelper';
 
 function isBudgetType(input?: string): input is 'rollover' | 'report' {
   return ['rollover', 'report'].includes(input);
@@ -100,6 +101,10 @@ export function Budget() {
   const onBudgetAction = useCallback(
     async (month, type, args) => {
       dispatch(applyBudgetAction(month, type, args));
+
+      if (type === 'budget-amount') {
+        analyticsHelper.logActivity('last_changed_budgeted_amount');
+      }
     },
     [dispatch],
   );
@@ -141,6 +146,7 @@ export function Budget() {
           onSubmit: async name => {
             dispatch(collapseModals('category-group-menu'));
             dispatch(createCategory(name, groupId, isIncome, false));
+            analyticsHelper.logActivity('last_added_category');
           },
         }),
       );

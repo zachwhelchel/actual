@@ -19,6 +19,7 @@ import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { PrivacyFilter } from '../PrivacyFilter';
 import { TableHeader, Table, Row, Field } from '../table';
+import analyticsHelper from '../AnalyticsHelper';
 
 const addOnBudgetAccountOption = { id: 'new-on', name: 'Create new account' };
 const addOffBudgetAccountOption = {
@@ -52,6 +53,8 @@ export function SelectLinkedAccountsModal({
       .filter(acc => acc.account_id)
       .filter(acc => !chosenLocalAccountIds.includes(acc.id))
       .forEach(acc => dispatch(unlinkAccount(acc.id)));
+
+    analyticsHelper.logActivity('last_added_account');
 
     // Link new accounts
     Object.entries(chosenAccounts).forEach(

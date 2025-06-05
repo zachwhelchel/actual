@@ -1067,6 +1067,64 @@ handlers['airtable-update-coach'] = async function ({ url, coachId }) {
   return data;
 };
 
+handlers['airtable-update-analytics'] = async function ({
+  url,
+  last_visited_budget_small_screen,
+  last_visited_budget_large_screen,
+  last_changed_budgeted_amount,
+  last_synced_account,
+  last_interacted_with_avatar,
+  last_edited_transaction,
+  last_added_account,
+  last_added_category,
+}) {
+  const server = determineMBCenv(url);
+  const userToken = await asyncStorage.getItem('user-token');
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+  console.log('userToken');
+  console.log(userToken);
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  });
+
+  // Create analytics payload with all fields
+  const analyticsPayload = {};
+
+  // Only include fields that have values (not null)
+  if (last_visited_budget_small_screen !== null)
+    analyticsPayload.last_visited_budget_small_screen =
+      last_visited_budget_small_screen;
+  if (last_visited_budget_large_screen !== null)
+    analyticsPayload.last_visited_budget_large_screen =
+      last_visited_budget_large_screen;
+  if (last_changed_budgeted_amount !== null)
+    analyticsPayload.last_changed_budgeted_amount =
+      last_changed_budgeted_amount;
+  if (last_synced_account !== null)
+    analyticsPayload.last_synced_account = last_synced_account;
+  if (last_interacted_with_avatar !== null)
+    analyticsPayload.last_interacted_with_avatar = last_interacted_with_avatar;
+  if (last_edited_transaction !== null)
+    analyticsPayload.last_edited_transaction = last_edited_transaction;
+  if (last_added_account !== null)
+    analyticsPayload.last_added_account = last_added_account;
+  if (last_added_category !== null)
+    analyticsPayload.last_added_category = last_added_category;
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/update-analytics',
+    analyticsPayload,
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+  return data;
+};
+
 handlers['airtable-invite-to-share'] = async function ({
   clientUserId,
   coachUserId,
@@ -1160,6 +1218,7 @@ handlers['airtable-update-internal-client'] = async function ({
   url,
   clientId,
   coachNotes,
+  nextMeetingDate,
 }) {
   console.log('airtable-update-issssnternal-client');
 
@@ -1185,6 +1244,7 @@ handlers['airtable-update-internal-client'] = async function ({
     {
       clientId,
       coachNotes,
+      nextMeetingDate,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -1203,6 +1263,7 @@ handlers['airtable-update-external-client'] = async function ({
   phone,
   status,
   coachNotes,
+  nextMeetingDate,
 }) {
   console.log('airtable-update-issssnternal-client');
 
@@ -1233,6 +1294,7 @@ handlers['airtable-update-external-client'] = async function ({
       phone,
       status,
       coachNotes,
+      nextMeetingDate,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -1286,6 +1348,7 @@ handlers['airtable-create-client'] = async function ({
   phone,
   status,
   coachNotes,
+  nextMeetingDate,
 }) {
   console.log('airtable-update-issssnternal-client');
 
@@ -1315,6 +1378,7 @@ handlers['airtable-create-client'] = async function ({
       phone,
       status,
       coachNotes,
+      nextMeetingDate,
     },
     {
       'X-ACTUAL-TOKEN': userToken,

@@ -28,6 +28,7 @@ import { Text } from '../common/Text';
 import { View } from '../common/View';
 import { Checkbox } from '../forms';
 import { validateAccountName } from '../util/accountValidation';
+import analyticsHelper from '../AnalyticsHelper';
 
 export function CreateLocalAccountModal() {
   const { t } = useTranslation();
@@ -97,6 +98,9 @@ export function CreateLocalAccountModal() {
 
     if (!nameError && !balanceError && !typeError) {
       dispatch(closeModal());
+
+      analyticsHelper.logActivity('last_added_account');
+
       const id = await dispatch(createAccount(name, lintedBalance, offBudget));
       navigate('/accounts/' + id);
     }

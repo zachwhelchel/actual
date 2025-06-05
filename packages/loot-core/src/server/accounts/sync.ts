@@ -62,11 +62,53 @@ function getAccountBalance(account) {
   }
 }
 
-async function updateAccountBalance(id, balance) {
-  await db.runQuery('UPDATE accounts SET balance_current = ? WHERE id = ?', [
-    amountToInteger(balance),
-    id,
-  ]);
+// async function updateAccountBalance(id, balance) {
+//   console.log("you ever called?")
+//   await db.runQuery('UPDATE accounts SET balance_current = ? WHERE id = ?', [
+//     amountToInteger(balance),
+//     id,
+//   ]);
+// }
+
+async function updateAccountBalance(id, balanceData) {
+  // Extract balance amounts from the balance array
+  const balances = {};
+
+  if (Array.isArray(balanceData)) {
+    balanceData.forEach(balance => {
+      console.log('Processing balance:', balance); // Debug log
+
+      if (
+        balance.balanceType === 'expected' &&
+        balance.balanceAmount &&
+        balance.balanceAmount.amount
+      ) {
+        balances.current = amountToInteger(balance.balanceAmount.amount);
+      } else if (
+        balance.balanceType === 'interimAvailable' &&
+        balance.balanceAmount &&
+        balance.balanceAmount.amount
+      ) {
+        balances.available = amountToInteger(balance.balanceAmount.amount);
+      }
+    });
+  }
+
+  // Update balance_current if expected balance exists
+  if (balances.current !== undefined) {
+    await db.runQuery('UPDATE accounts SET balance_current = ? WHERE id = ?', [
+      balances.current,
+      id,
+    ]);
+  }
+
+  // Update balance_available if interimAvailable balance exists
+  if (balances.available !== undefined) {
+    await db.runQuery(
+      'UPDATE accounts SET balance_available = ? WHERE id = ?',
+      [balances.available, id],
+    );
+  }
 }
 
 async function getAccountOldestTransaction(id): Promise<TransactionEntity> {
@@ -813,7 +855,7 @@ async function processBankSyncDownload(
   const useStrictIdChecking = !acctRow.account_sync_source;
 
   console.log('download.startingBalance');
-  console.log(download.startingBalance);
+  console.log(download);
 
   if (initialSync) {
     const { transactions } = download;
