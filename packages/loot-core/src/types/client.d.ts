@@ -20,6 +20,18 @@ export interface Client {
   last_added_account: string;
   last_added_category: string;
   nextMeetingDate?: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  timezone: string;
+  contactPreference: string;
+  leadSource: string;
+  budgetingPlatform: string;
+  partnerFirstName: string;
+  partnerLastName: string;
+  partnerEmail: string;
+  partnerPhoneNumber: string;
 
   budgetShared(): boolean;
   canInviteToShare(): boolean;

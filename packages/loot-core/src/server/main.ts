@@ -1219,8 +1219,19 @@ handlers['airtable-update-internal-client'] = async function ({
   clientId,
   coachNotes,
   nextMeetingDate,
+  address,
+  city,
+  state,
+  zip,
+  timezone,
+  contactPreference,
+  leadSource,
+  partnerFirstName,
+  partnerLastName,
+  partnerEmail,
+  partnerPhoneNumber,
 }) {
-  console.log('airtable-update-issssnternal-client');
+  console.log('airtable-update-internal-client');
 
   const server = determineMBCenv(url);
 
@@ -1245,6 +1256,17 @@ handlers['airtable-update-internal-client'] = async function ({
       clientId,
       coachNotes,
       nextMeetingDate,
+      address,
+      city,
+      state,
+      zip,
+      timezone,
+      contactPreference,
+      leadSource,
+      partnerFirstName,
+      partnerLastName,
+      partnerEmail,
+      partnerPhoneNumber,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -1264,8 +1286,20 @@ handlers['airtable-update-external-client'] = async function ({
   status,
   coachNotes,
   nextMeetingDate,
+  address,
+  city,
+  state,
+  zip,
+  timezone,
+  contactPreference,
+  leadSource,
+  budgetingPlatform,
+  partnerFirstName,
+  partnerLastName,
+  partnerEmail,
+  partnerPhoneNumber,
 }) {
-  console.log('airtable-update-issssnternal-client');
+  console.log('airtable-update-internal-client');
 
   const server = determineMBCenv(url);
 
@@ -1295,6 +1329,18 @@ handlers['airtable-update-external-client'] = async function ({
       status,
       coachNotes,
       nextMeetingDate,
+      address,
+      city,
+      state,
+      zip,
+      timezone,
+      contactPreference,
+      leadSource,
+      budgetingPlatform,
+      partnerFirstName,
+      partnerLastName,
+      partnerEmail,
+      partnerPhoneNumber,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -1349,6 +1395,18 @@ handlers['airtable-create-client'] = async function ({
   status,
   coachNotes,
   nextMeetingDate,
+  address,
+  city,
+  state,
+  zip,
+  timezone,
+  contactPreference,
+  leadSource,
+  budgetingPlatform,
+  partnerFirstName,
+  partnerLastName,
+  partnerEmail,
+  partnerPhoneNumber,
 }) {
   console.log('airtable-update-issssnternal-client');
 
@@ -1379,6 +1437,18 @@ handlers['airtable-create-client'] = async function ({
       status,
       coachNotes,
       nextMeetingDate,
+      address,
+      city,
+      state,
+      zip,
+      timezone,
+      contactPreference,
+      leadSource,
+      budgetingPlatform,
+      partnerFirstName,
+      partnerLastName,
+      partnerEmail,
+      partnerPhoneNumber,
     },
     {
       'X-ACTUAL-TOKEN': userToken,

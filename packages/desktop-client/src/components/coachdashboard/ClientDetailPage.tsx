@@ -31,8 +31,20 @@ export function ClientDetailPage({
     email: '',
     phone: '',
     notes: '',
-    status: 'external_client', // Default status for new external clients
+    status: '', // Default status for new external clients
     nextMeetingDate: '', // Add this new field
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
+    timezone: '',
+    contact_preference: '',
+    lead_source: '',
+    budgeting_platform: '',
+    partner_first_name: '',
+    partner_last_name: '',
+    partner_email: '',
+    partner_phone_number: '',
   });
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -48,6 +60,25 @@ export function ClientDetailPage({
   const canEditField = (fieldName: string, client: Client | null) => {
     if (!client) return true; // New clients can edit all fields
     if (fieldName === 'notes') return true; // Notes always editable
+
+    // Allow these new fields to be edited for both internal and external clients
+    const alwaysEditableFields = [
+      'address',
+      'city',
+      'state',
+      'zip',
+      'timezone',
+      'contact_preference',
+      'lead_source',
+      'partner_first_name',
+      'partner_last_name',
+      'partner_email',
+      'partner_phone_number',
+      'nextMeetingDate',
+    ];
+
+    if (alwaysEditableFields.includes(fieldName)) return true;
+
     return isExternalClient(client); // Other fields only editable for external clients
   };
 
@@ -99,6 +130,7 @@ export function ClientDetailPage({
     label: {
       fontSize: 14,
       fontWeight: 500,
+      marginTop: 15,
       color: '#374151',
     },
     input: {
@@ -215,6 +247,55 @@ export function ClientDetailPage({
       gap: 12,
       justifyContent: 'flex-end',
     },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: 600,
+      color: '#111827',
+      marginBottom: 6,
+      marginTop: 14,
+      paddingBottom: 8,
+      borderBottom: '1px solid #e5e7eb',
+    },
+    formSection: {
+      marginBottom: 12,
+    },
+    formRow: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 20,
+      '@media (max-width: 768px)': {
+        gridTemplateColumns: '1fr',
+      },
+    },
+    formRowThree: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr 1fr',
+      gap: 20,
+      '@media (max-width: 768px)': {
+        gridTemplateColumns: '1fr',
+      },
+    },
+    fullWidth: {
+      gridColumn: '1 / -1',
+    },
+    select: {
+      padding: '10px 32px 10px 12px',
+      fontSize: 14,
+      border: '1px solid #d1d5db',
+      borderRadius: '6px',
+      backgroundColor: '#fff',
+      appearance: 'none', // Hide default arrow
+      backgroundImage:
+        "url(\"data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e\")",
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'right 12px center',
+      backgroundSize: '16px',
+      ':focus': {
+        outline: 'none',
+        borderColor: theme.buttonPrimaryBackground,
+        boxShadow: `0 0 0 3px ${theme.buttonPrimaryBackground}20`,
+      },
+    },
   };
 
   const formatDateTimeLocal = dateString => {
@@ -258,6 +339,18 @@ export function ClientDetailPage({
         notes: passedClient.coachNotes || '',
         status: passedClient.status || 'external_client',
         nextMeetingDate: formatDateTimeLocal(passedClient.nextMeetingDate), // Format the date
+        address: passedClient.address || '',
+        city: passedClient.city || '',
+        state: passedClient.state || '',
+        zip: passedClient.zip || '',
+        timezone: passedClient.timezone || '',
+        contact_preference: passedClient.contactPreference || '',
+        lead_source: passedClient.leadSource || '',
+        budgeting_platform: passedClient.budgetingPlatform || '',
+        partner_first_name: passedClient.partnerFirstName || '',
+        partner_last_name: passedClient.partnerLastName || '',
+        partner_email: passedClient.partnerEmail || '',
+        partner_phone_number: passedClient.partnerPhoneNumber || '',
       });
     }
   }, [passedClient]);
@@ -284,6 +377,9 @@ export function ClientDetailPage({
       }
       if (!formData.lastName.trim()) {
         errors.push('Last name is required');
+      }
+      if (!formData.status.trim()) {
+        errors.push('MBC Status is required');
       }
     } else {
       // Internal clients
@@ -355,6 +451,18 @@ export function ClientDetailPage({
           status: formData.status,
           coachNotes: formData.notes,
           nextMeetingDate: convertToUTC(formData.nextMeetingDate), // Convert to UTC
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zip: formData.zip,
+          timezone: formData.timezone,
+          contactPreference: formData.contact_preference,
+          leadSource: formData.lead_source,
+          budgetingPlatform: formData.budgeting_platform,
+          partnerFirstName: formData.partner_first_name,
+          partnerLastName: formData.partner_last_name,
+          partnerEmail: formData.partner_email,
+          partnerPhoneNumber: formData.partner_phone_number,
         });
         console.log('airtable-update-internal-client');
         console.log(results);
@@ -373,6 +481,18 @@ export function ClientDetailPage({
           status: formData.status,
           coachNotes: formData.notes,
           nextMeetingDate: convertToUTC(formData.nextMeetingDate), // Convert to UTC
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zip: formData.zip,
+          timezone: formData.timezone,
+          contactPreference: formData.contact_preference,
+          leadSource: formData.lead_source,
+          budgetingPlatform: formData.budgeting_platform,
+          partnerFirstName: formData.partner_first_name,
+          partnerLastName: formData.partner_last_name,
+          partnerEmail: formData.partner_email,
+          partnerPhoneNumber: formData.partner_phone_number,
         });
         console.log('airtable-update-internal-client');
         console.log(results);
@@ -387,6 +507,17 @@ export function ClientDetailPage({
           clientId: passedClient.recordId,
           coachNotes: formData.notes,
           nextMeetingDate: convertToUTC(formData.nextMeetingDate), // Convert to UTC
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zip: formData.zip,
+          timezone: formData.timezone,
+          contactPreference: formData.contact_preference,
+          leadSource: formData.lead_source,
+          partnerFirstName: formData.partner_first_name,
+          partnerLastName: formData.partner_last_name,
+          partnerEmail: formData.partner_email,
+          partnerPhoneNumber: formData.partner_phone_number,
         });
         console.log('airtable-update-internal-client');
         console.log(results);
@@ -492,7 +623,7 @@ export function ClientDetailPage({
           </Text>
         </View>
 
-        {client && (
+        {/*        {client && (
           <View style={formStyles.infoSection}>
             <View style={formStyles.infoGrid}>
               <View style={formStyles.infoItem}>
@@ -516,7 +647,7 @@ export function ClientDetailPage({
             </View>
           </View>
         )}
-
+*/}
         {validationErrors.length > 0 && (
           <View
             style={{
@@ -536,138 +667,334 @@ export function ClientDetailPage({
         )}
 
         <View style={formStyles.form}>
-          {/* Name fields - different for internal vs external clients */}
-          {isExternalClient(client) || !passedClient ? (
-            // External clients or new clients - first and last name fields
-            <>
+          {/* Basic Information Section */}
+          <View style={formStyles.formSection}>
+            {/* Name fields - different for internal vs external clients */}
+            {isExternalClient(client) || !passedClient ? (
+              // External clients or new clients - first and last name fields
+              <View style={formStyles.formRow}>
+                <View style={formStyles.formGroup}>
+                  <Text style={formStyles.label}>First Name *</Text>
+                  <input
+                    type="text"
+                    value={formData.firstName}
+                    onChange={e =>
+                      handleInputChange('firstName', e.target.value)
+                    }
+                    style={formStyles.input}
+                    placeholder="Enter first name"
+                  />
+                </View>
+
+                <View style={formStyles.formGroup}>
+                  <Text style={formStyles.label}>Last Name *</Text>
+                  <input
+                    type="text"
+                    value={formData.lastName}
+                    onChange={e =>
+                      handleInputChange('lastName', e.target.value)
+                    }
+                    style={formStyles.input}
+                    placeholder="Enter last name"
+                  />
+                </View>
+              </View>
+            ) : (
+              // Internal clients - single name field (read-only)
               <View style={formStyles.formGroup}>
-                <Text style={formStyles.label}>First Name *</Text>
+                <Text style={formStyles.label}>Name</Text>
                 <input
                   type="text"
-                  value={formData.firstName}
-                  onChange={e => handleInputChange('firstName', e.target.value)}
+                  value={formData.name}
+                  onChange={e => handleInputChange('name', e.target.value)}
+                  style={{
+                    ...formStyles.input,
+                    backgroundColor: !canEditField('name', client)
+                      ? '#f3f4f6'
+                      : '#fff',
+                  }}
+                  disabled={!canEditField('name', client)}
+                  placeholder="Enter client name"
+                />
+                {!canEditField('name', client) && client && (
+                  <Text
+                    style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}
+                  >
+                    Name cannot be edited for MyBudgetCoach users.
+                  </Text>
+                )}
+              </View>
+            )}
+
+            <View style={formStyles.formRow}>
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>Email</Text>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={e => handleInputChange('email', e.target.value)}
+                  style={{
+                    ...formStyles.input,
+                    backgroundColor: !canEditField('email', client)
+                      ? '#f3f4f6'
+                      : '#fff',
+                  }}
+                  disabled={!canEditField('email', client)}
+                  placeholder="Enter email address"
+                />
+                {!canEditField('email', client) && client && (
+                  <Text
+                    style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}
+                  >
+                    Email cannot be edited for MyBudgetCoach users.
+                  </Text>
+                )}
+              </View>
+
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>Phone</Text>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={e => handleInputChange('phone', e.target.value)}
+                  style={{
+                    ...formStyles.input,
+                    backgroundColor: !canEditField('phone', client)
+                      ? '#f3f4f6'
+                      : '#fff',
+                  }}
+                  disabled={!canEditField('phone', client)}
+                  placeholder="Enter phone number"
+                />
+                {!canEditField('phone', client) && client && (
+                  <Text
+                    style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}
+                  >
+                    Phone cannot be edited for MyBudgetCoach users.
+                  </Text>
+                )}
+              </View>
+            </View>
+
+            <View style={formStyles.formGroup}>
+              <Text style={formStyles.label}>Notes</Text>
+              <textarea
+                value={formData.notes}
+                onChange={e => handleInputChange('notes', e.target.value)}
+                style={formStyles.textarea}
+                disabled={false}
+                placeholder="Add any notes about this client"
+              />
+            </View>
+
+            <View style={formStyles.formRow}>
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>Lead Source</Text>
+                <input
+                  type="text"
+                  value={formData.lead_source}
+                  onChange={e =>
+                    handleInputChange('lead_source', e.target.value)
+                  }
                   style={formStyles.input}
-                  placeholder="Enter first name"
+                  placeholder="How did they find you?"
                 />
               </View>
 
               <View style={formStyles.formGroup}>
-                <Text style={formStyles.label}>Last Name *</Text>
+                <Text style={formStyles.label}>Next Meeting Date</Text>
                 <input
-                  type="text"
-                  value={formData.lastName}
-                  onChange={e => handleInputChange('lastName', e.target.value)}
+                  type="datetime-local"
+                  value={formData.nextMeetingDate}
+                  onChange={e =>
+                    handleInputChange('nextMeetingDate', e.target.value)
+                  }
                   style={formStyles.input}
-                  placeholder="Enter last name"
+                  placeholder="Select next meeting date and time"
                 />
               </View>
-            </>
-          ) : (
-            // Internal clients - single name field (read-only)
-            <View style={formStyles.formGroup}>
-              <Text style={formStyles.label}>Name</Text>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={e => handleInputChange('name', e.target.value)}
-                style={{
-                  ...formStyles.input,
-                  backgroundColor: !canEditField('name', client)
-                    ? '#f3f4f6'
-                    : '#fff',
-                }}
-                disabled={!canEditField('name', client)}
-                placeholder="Enter client name"
-              />
-              {!canEditField('name', client) && client && (
-                <Text style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>
-                  Name cannot be edited for MyBudgetCoach users.
-                </Text>
+            </View>
+
+            <View style={formStyles.formRow}>
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>Contact Preference</Text>
+                <select
+                  value={formData.contact_preference}
+                  onChange={e =>
+                    handleInputChange('contact_preference', e.target.value)
+                  }
+                  style={formStyles.select}
+                >
+                  <option value="">Select preference</option>
+                  <option value="email">Email</option>
+                  <option value="text">Text</option>
+                  <option value="phone">Phone</option>
+                  <option value="app">App</option>
+                </select>
+              </View>
+
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>Timezone</Text>
+                <input
+                  type="text"
+                  value={formData.timezone}
+                  onChange={e => handleInputChange('timezone', e.target.value)}
+                  style={formStyles.input}
+                  placeholder="Enter timezone (e.g., EST, PST)"
+                />
+              </View>
+            </View>
+
+            <View style={formStyles.formRow}>
+              {/* Status dropdown for external clients */}
+              {(isExternalClient(client) || !passedClient) && (
+                <View style={formStyles.formGroup}>
+                  <Text style={formStyles.label}>MBC Status *</Text>
+                  <select
+                    value={formData.status}
+                    onChange={e => handleInputChange('status', e.target.value)}
+                    style={formStyles.select}
+                  >
+                    <option value="">Select status</option>
+                    <option value="lead">MBC Lead</option>
+                    <option value="external_client">Non-MBC Client</option>
+                  </select>
+                </View>
+              )}
+
+              {/* Budgeting Platform - only for external clients */}
+              {(isExternalClient(client) || !passedClient) && (
+                <View style={formStyles.formGroup}>
+                  <Text style={formStyles.label}>Budgeting Platform</Text>
+                  <select
+                    value={formData.budgeting_platform}
+                    onChange={e =>
+                      handleInputChange('budgeting_platform', e.target.value)
+                    }
+                    style={formStyles.select}
+                  >
+                    <option value="">Select platform</option>
+                    <option value="mybudgetcoach">MyBudgetCoach</option>
+                    <option value="ynab">YNAB</option>
+                    <option value="monarch">Monarch</option>
+                    <option value="copilot">Copilot</option>
+                    <option value="spreadsheet">Spreadsheet</option>
+                  </select>
+                </View>
               )}
             </View>
-          )}
-
-          <View style={formStyles.formGroup}>
-            <Text style={formStyles.label}>Email</Text>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={e => handleInputChange('email', e.target.value)}
-              style={{
-                ...formStyles.input,
-                backgroundColor: !canEditField('email', client)
-                  ? '#f3f4f6'
-                  : '#fff',
-              }}
-              disabled={!canEditField('email', client)}
-              placeholder="Enter email address"
-            />
-            {!canEditField('email', client) && client && (
-              <Text style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>
-                Email cannot be edited for MyBudgetCoach users.
-              </Text>
-            )}
           </View>
 
-          <View style={formStyles.formGroup}>
-            <Text style={formStyles.label}>Phone</Text>
-            <input
-              type="tel"
-              value={formData.phone}
-              onChange={e => handleInputChange('phone', e.target.value)}
-              style={{
-                ...formStyles.input,
-                backgroundColor: !canEditField('phone', client)
-                  ? '#f3f4f6'
-                  : '#fff',
-              }}
-              disabled={!canEditField('phone', client)}
-              placeholder="Enter phone number"
-            />
-            {!canEditField('phone', client) && client && (
-              <Text style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>
-                Phone cannot be edited for MyBudgetCoach users.
-              </Text>
-            )}
-          </View>
+          {/* Partner Information Section */}
+          <View style={formStyles.formSection}>
+            <Text style={formStyles.sectionTitle}>Partner Information</Text>
 
-          {/* Status dropdown for external clients */}
-          {(isExternalClient(client) || !passedClient) && (
-            <View style={formStyles.formGroup}>
-              <Text style={formStyles.label}>Status *</Text>
-              <select
-                value={formData.status}
-                onChange={e => handleInputChange('status', e.target.value)}
-                style={formStyles.input}
-              >
-                <option value="external_client">Non-MBC Client</option>
-                <option value="lead">Lead</option>
-              </select>
+            <View style={formStyles.formRow}>
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>Partner First Name</Text>
+                <input
+                  type="text"
+                  value={formData.partner_first_name}
+                  onChange={e =>
+                    handleInputChange('partner_first_name', e.target.value)
+                  }
+                  style={formStyles.input}
+                  placeholder="Enter partner's first name"
+                />
+              </View>
+
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>Partner Last Name</Text>
+                <input
+                  type="text"
+                  value={formData.partner_last_name}
+                  onChange={e =>
+                    handleInputChange('partner_last_name', e.target.value)
+                  }
+                  style={formStyles.input}
+                  placeholder="Enter partner's last name"
+                />
+              </View>
             </View>
-          )}
 
-          <View style={formStyles.formGroup}>
-            <Text style={formStyles.label}>Notes</Text>
-            <textarea
-              value={formData.notes}
-              onChange={e => handleInputChange('notes', e.target.value)}
-              style={formStyles.textarea}
-              disabled={false}
-              placeholder="Add any notes about this client"
-            />
+            <View style={formStyles.formRow}>
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>Partner Email</Text>
+                <input
+                  type="email"
+                  value={formData.partner_email}
+                  onChange={e =>
+                    handleInputChange('partner_email', e.target.value)
+                  }
+                  style={formStyles.input}
+                  placeholder="Enter partner's email"
+                />
+              </View>
+
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>Partner Phone</Text>
+                <input
+                  type="tel"
+                  value={formData.partner_phone_number}
+                  onChange={e =>
+                    handleInputChange('partner_phone_number', e.target.value)
+                  }
+                  style={formStyles.input}
+                  placeholder="Enter partner's phone number"
+                />
+              </View>
+            </View>
           </View>
 
-          <View style={formStyles.formGroup}>
-            <Text style={formStyles.label}>Next Meeting Date</Text>
-            <input
-              type="datetime-local"
-              value={formData.nextMeetingDate}
-              onChange={e =>
-                handleInputChange('nextMeetingDate', e.target.value)
-              }
-              style={formStyles.input}
-              placeholder="Select next meeting date and time"
-            />
+          {/* Address Section */}
+          <View style={formStyles.formSection}>
+            <Text style={formStyles.sectionTitle}>Address</Text>
+
+            <View style={formStyles.formGroup}>
+              <Text style={formStyles.label}>Street Address</Text>
+              <input
+                type="text"
+                value={formData.address}
+                onChange={e => handleInputChange('address', e.target.value)}
+                style={formStyles.input}
+                placeholder="Enter street address"
+              />
+            </View>
+
+            <View style={formStyles.formRowThree}>
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>City</Text>
+                <input
+                  type="text"
+                  value={formData.city}
+                  onChange={e => handleInputChange('city', e.target.value)}
+                  style={formStyles.input}
+                  placeholder="Enter city"
+                />
+              </View>
+
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>State</Text>
+                <input
+                  type="text"
+                  value={formData.state}
+                  onChange={e => handleInputChange('state', e.target.value)}
+                  style={formStyles.input}
+                  placeholder="Enter state"
+                />
+              </View>
+
+              <View style={formStyles.formGroup}>
+                <Text style={formStyles.label}>ZIP Code</Text>
+                <input
+                  type="text"
+                  value={formData.zip}
+                  onChange={e => handleInputChange('zip', e.target.value)}
+                  style={formStyles.input}
+                  placeholder="Enter ZIP code"
+                />
+              </View>
+            </View>
           </View>
         </View>
 

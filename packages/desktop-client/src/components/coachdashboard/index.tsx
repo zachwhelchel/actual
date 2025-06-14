@@ -48,6 +48,12 @@ export function CoachDashboard() {
 
   const [clickedClient, setClickedClient] = useState<string | null>(null);
 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 25; // Remove useState, make it a constant
+  const [isLoading, setIsLoading] = useState(true);
+
   const [sortConfig, setSortConfig] = useState<{
     key:
       | 'name'
@@ -81,60 +87,129 @@ export function CoachDashboard() {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  const getSortedClients = () => {
-    if (!sortConfig.key) return clientList;
+  const getFilteredAndSortedClients = () => {
+    let filteredClients = [...clientList];
 
-    return [...clientList].sort((a, b) => {
-      let aValue: string | number;
-      let bValue: string | number;
+    // Apply search filter
+    if (searchTerm.trim()) {
+      filteredClients = filteredClients.filter(client =>
+        client.name?.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+    }
 
-      switch (sortConfig.key) {
-        case 'name':
-          aValue = a.name?.toLowerCase() || '';
-          bValue = b.name?.toLowerCase() || '';
-          break;
-        case 'status':
-          aValue = a.status?.toLowerCase() || '';
-          bValue = b.status?.toLowerCase() || '';
-          break;
-        case 'joinedAt':
-          aValue = new Date(a.joinedAt || 0).getTime();
-          bValue = new Date(b.joinedAt || 0).getTime();
-          break;
-        case 'lastSeenInBudget':
-          aValue = Math.max(
-            a.lastVisitedBudgetSmallScreen
-              ? new Date(a.lastVisitedBudgetSmallScreen).getTime()
-              : 0,
-            a.lastVisitedBudgetLargeScreen
-              ? new Date(a.lastVisitedBudgetLargeScreen).getTime()
-              : 0,
-          );
-          bValue = Math.max(
-            b.lastVisitedBudgetSmallScreen
-              ? new Date(b.lastVisitedBudgetSmallScreen).getTime()
-              : 0,
-            b.lastVisitedBudgetLargeScreen
-              ? new Date(b.lastVisitedBudgetLargeScreen).getTime()
-              : 0,
-          );
-          break;
-        case 'nextMeeting':
-          aValue = new Date(a.nextMeetingDate || 0).getTime();
-          bValue = new Date(b.nextMeetingDate || 0).getTime();
-          break;
-        default:
-          return 0;
-      }
+    // Apply status filter
+    if (statusFilter !== 'all') {
+      filteredClients = filteredClients.filter(client => {
+        const normalizedStatus =
+          client.status?.toLowerCase() || 'server_specific';
 
-      if (aValue < bValue) {
-        return sortConfig.direction === 'asc' ? -1 : 1;
-      }
-      if (aValue > bValue) {
-        return sortConfig.direction === 'asc' ? 1 : -1;
-      }
-      return 0;
-    });
+        switch (statusFilter) {
+          case 'trial':
+            return ['free_trial', 'free_trial_expired'].includes(
+              normalizedStatus,
+            );
+          case 'paid':
+            return ['paid', 'paid_expired'].includes(normalizedStatus);
+          case 'sponsored':
+            return ['sponsored', 'sponsored_expired'].includes(
+              normalizedStatus,
+            );
+          case 'leads':
+            return ['lead'].includes(normalizedStatus);
+          case 'external':
+            return ['external_client'].includes(normalizedStatus);
+          default:
+            return normalizedStatus === statusFilter;
+        }
+      });
+    }
+
+    // Apply sorting
+    if (sortConfig.key) {
+      filteredClients.sort((a, b) => {
+        let aValue, bValue;
+
+        switch (sortConfig.key) {
+          case 'name':
+            aValue = a.name?.toLowerCase() || '';
+            bValue = b.name?.toLowerCase() || '';
+            break;
+          case 'status':
+            aValue = a.status?.toLowerCase() || '';
+            bValue = b.status?.toLowerCase() || '';
+            break;
+          case 'joinedAt':
+            aValue = new Date(a.joinedAt || 0).getTime();
+            bValue = new Date(b.joinedAt || 0).getTime();
+            break;
+          case 'lastSeenInBudget':
+            aValue = Math.max(
+              a.lastVisitedBudgetSmallScreen
+                ? new Date(a.lastVisitedBudgetSmallScreen).getTime()
+                : 0,
+              a.lastVisitedBudgetLargeScreen
+                ? new Date(a.lastVisitedBudgetLargeScreen).getTime()
+                : 0,
+            );
+            bValue = Math.max(
+              b.lastVisitedBudgetSmallScreen
+                ? new Date(b.lastVisitedBudgetSmallScreen).getTime()
+                : 0,
+              b.lastVisitedBudgetLargeScreen
+                ? new Date(b.lastVisitedBudgetLargeScreen).getTime()
+                : 0,
+            );
+            break;
+          case 'nextMeeting':
+            aValue = new Date(a.nextMeetingDate || 0).getTime();
+            bValue = new Date(b.nextMeetingDate || 0).getTime();
+            break;
+          default:
+            return 0;
+        }
+
+        if (aValue < bValue) {
+          return sortConfig.direction === 'asc' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortConfig.direction === 'asc' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
+    return filteredClients;
+  };
+
+  const getPaginatedClients = () => {
+    const filtered = getFilteredAndSortedClients();
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filtered.slice(startIndex, endIndex);
+  };
+
+  const getTotalPages = () => {
+    return Math.ceil(getFilteredAndSortedClients().length / itemsPerPage);
+  };
+
+  const handleSearchChange = value => {
+    setSearchTerm(value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
+  const handleStatusFilterChange = value => {
+    setStatusFilter(value);
+    setCurrentPage(1); // Reset to first page when filtering
+  };
+
+  const handlePageChange = page => {
+    setCurrentPage(page);
+  };
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setStatusFilter('all');
+    setCurrentPage(1);
   };
 
   const handleClientDetail = (client?: Client) => {
@@ -179,6 +254,23 @@ export function CoachDashboard() {
       borderRadius: '8px',
       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
       overflowX: 'auto',
+      position: 'relative',
+    },
+    tableContainer: {
+      marginLeft: 20,
+      marginRight: 20,
+      marginTop: 10,
+      backgroundColor: 'white',
+      borderRadius: '8px',
+      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+      display: 'flex',
+      flexDirection: 'column',
+      height: 'calc(100vh - 187px)', // Adjust this value based on your header height
+      overflow: 'hidden',
+    },
+    tableWrapper: {
+      flex: 1,
+      overflow: 'auto',
       position: 'relative',
     },
     tableHeader: {
@@ -345,6 +437,8 @@ export function CoachDashboard() {
   };
 
   const getClients = async () => {
+    setIsLoading(true);
+
     try {
       // TODO Check someInfo to see what kind of data it has
       const results = await send('airtable-clients');
@@ -397,8 +491,10 @@ export function CoachDashboard() {
       });
 
       setClientList(clientsWithBudgets);
+      setIsLoading(false); // Add this at the end
     } catch (error) {
       console.error('Failed to fetch clients:', error);
+      setIsLoading(false); // Add this in the catch block too
     }
   };
 
@@ -693,561 +789,814 @@ export function CoachDashboard() {
       </View>
 
       {activeSection === 'clients' && showClientDetail === false && (
-        <View style={{ marginTop: 0, width: 'auto' }}>
-          <table style={tableStyles.clientTable}>
-            <tbody>
-              <tr>
-                {headers.map((header, index) => (
-                  <th
-                    key={index}
-                    style={{
-                      ...tableStyles.tableHeader,
-                      width: header.width,
-                      cursor: header.sortKey ? 'pointer' : 'default',
-                      userSelect: 'none',
-                      ...(header.sticky ? tableStyles.stickyColumn : {}),
-                    }}
-                    onClick={() => header.sortKey && handleSort(header.sortKey)}
-                  >
-                    <div
-                      style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+        <View
+          style={{
+            marginLeft: 20,
+            marginRight: 20,
+            marginBottom: 20,
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 15,
+            alignItems: 'center',
+            flexWrap: 'wrap',
+          }}
+        >
+          {/* Search Input */}
+          <input
+            type="text"
+            placeholder="Search clients by name..."
+            value={searchTerm}
+            onChange={e => handleSearchChange(e.target.value)}
+            style={{
+              padding: '8px 12px',
+              fontSize: '14px',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              minWidth: '250px',
+              flex: '1',
+            }}
+          />
+
+          {/* Status Filter */}
+          <select
+            value={statusFilter}
+            onChange={e => handleStatusFilterChange(e.target.value)}
+            style={{
+              padding: '8px 12px',
+              fontSize: '14px',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              minWidth: '150px',
+            }}
+          >
+            <option value="all">All Statuses</option>
+            <option value="trial">Free Trial</option>
+            <option value="paid">Paid</option>
+            <option value="sponsored">Sponsored</option>
+            <option value="leads">Leads</option>
+            <option value="external">External Clients</option>
+          </select>
+        </View>
+      )}
+
+      {activeSection === 'clients' && showClientDetail === false && (
+        <View style={tableStyles.tableContainer}>
+          <View style={tableStyles.tableWrapper}>
+            <table
+              style={{
+                ...tableStyles.clientTable,
+                margin: 0, // Remove margins since container handles them
+                boxShadow: 'none', // Remove shadow since container handles it
+                borderRadius: 0, // Remove border radius since container handles it
+              }}
+            >
+              <tbody>
+                <tr>
+                  {headers.map((header, index) => (
+                    <th
+                      key={index}
+                      style={{
+                        ...tableStyles.tableHeader,
+                        width: header.width,
+                        cursor: header.sortKey ? 'pointer' : 'default',
+                        userSelect: 'none',
+                        ...(header.sticky ? tableStyles.stickyColumn : {}),
+                      }}
+                      onClick={() =>
+                        header.sortKey && handleSort(header.sortKey)
+                      }
                     >
-                      {header.title}
-                      {header.sortKey && sortConfig.key === header.sortKey && (
-                        <span style={{ fontSize: 12 }}>
-                          {sortConfig.direction === 'asc' ? '↑' : '↓'}
-                        </span>
-                      )}
-                    </div>
-                  </th>
-                ))}
-              </tr>
-              {getSortedClients().map((client, index) => (
-                <tr key={index} style={tableStyles.tableRow}>
-                  <td
-                    style={{
-                      ...tableStyles.tableCell,
-                      ...tableStyles.clientName,
-                    }}
-                  >
-                    {client.name}
-                  </td>
-                  <td style={tableStyles.tableCell}>
-                    {client.status === 'free_trial' ||
-                    client.status === 'free_trial_expired' ? (
-                      <>
-                        <span
-                          style={{
-                            ...getStatusStyle(client.status),
-                          }}
-                        >
-                          {getNormalizedStatusText(client.status)}
-                        </span>
-                        <span
-                          style={{
-                            display: 'block',
-                            flexShrink: 0,
-                            marginTop: 8, // Add some spacing
-                          }}
-                        >
-                          Expires: {formatDate(client.statusExpiresAt)}
-                        </span>
-                        <Link
-                          variant="text"
-                          onClick={() => onSponsorClient(client)}
-                          style={{
-                            display: 'block',
-                            flexShrink: 0,
-                            marginTop: 8, // Add some spacing
-                          }}
-                        >
-                          Sponsor this client
-                        </Link>
-                      </>
-                    ) : client.status === 'external_client' ||
-                      client.status === 'lead' ? (
-                      <>
-                        <span
-                          style={{
-                            ...getStatusStyle(client.status),
-                          }}
-                        >
-                          {getNormalizedStatusText(client.status)}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <span
-                          style={{
-                            ...getStatusStyle(client.status),
-                          }}
-                        >
-                          {getNormalizedStatusText(client.status)}
-                        </span>
-                        <span
-                          style={{
-                            display: 'block',
-                            flexShrink: 0,
-                            marginTop: 8, // Add some spacing
-                          }}
-                        >
-                          Expires: {formatDate(client.statusExpiresAt)}
-                        </span>
-                      </>
-                    )}
-                  </td>
-                  <td style={tableStyles.tableCell}>
-                    {client.status === 'external_client' ||
-                    client.status === 'lead' ? (
                       <div
                         style={{
-                          ...tableStyles.expiryDate,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 4,
                         }}
                       >
-                        –
-                      </div>
-                    ) : client.budgetShared() ? (
-                      <CRMClientBudget
-                        key={`budget-${index}`}
-                        file={client.budget as SyncedLocalFile | RemoteFile}
-                        currentUserId={
-                          client.coachUserId ? client.coachUserId : ''
-                        }
-                        onSelect={() => handleBudgetSelect(client, index)}
-                      />
-                    ) : client.canInviteToShare() ? (
-                      <LastShareRequestedAt
-                        key={`budget-invite-${index}`}
-                        client={client}
-                        onInvite={handleInvite}
-                        inviteButtonStyle={tableStyles.inviteButton}
-                      />
-                    ) : (
-                      <></>
-                    )}
-                  </td>
-
-                  {client.status === 'external_client' ||
-                  client.status === 'lead' ? (
-                    <>
-                      <td
-                        style={{
-                          ...tableStyles.tableCell,
-                          ...tableStyles.expiryDate,
-                        }}
-                      >
-                        –
-                      </td>
-                    </>
-                  ) : (
-                    <>
-                      <td
-                        style={{
-                          ...tableStyles.tableCell,
-                          ...tableStyles.expiryDate,
-                        }}
-                      >
-                        {formatRelativeDate(client.joinedAt)}
-                      </td>
-                    </>
-                  )}
-
-                  {client.status === 'external_client' ||
-                  client.status === 'lead' ? (
-                    <>
-                      <td
-                        style={{
-                          ...tableStyles.tableCell,
-                          ...tableStyles.expiryDate,
-                        }}
-                      >
-                        –
-                      </td>
-                    </>
-                  ) : (
-                    <>
-                      <td
-                        style={{
-                          ...tableStyles.tableCell,
-                          ...tableStyles.expiryDate,
-                          position: 'relative',
-                          cursor: 'pointer',
-                        }}
-                        onClick={e => {
-                          e.stopPropagation();
-                          setClickedClient(
-                            clickedClient === client.userId
-                              ? null
-                              : client.userId,
-                          );
-                        }}
-                        data-activity-popup
-                      >
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center', // Add this to center horizontally
-                            gap: 6,
-                            backgroundColor: '#f3f4f6',
-                            border: '1px solid #e5e7eb',
-                            borderRadius: '6px',
-                            padding: '8px 8px',
-                            cursor: 'pointer',
-                          }}
-                          onMouseEnter={e =>
-                            (e.target.style.backgroundColor = '#e5e7eb')
-                          }
-                          onMouseLeave={e =>
-                            (e.target.style.backgroundColor = '#f3f4f6')
-                          }
-                        >
-                          {(() => {
-                            const smallScreenDate =
-                              client.lastVisitedBudgetSmallScreen
-                                ? new Date(client.lastVisitedBudgetSmallScreen)
-                                : null;
-                            const largeScreenDate =
-                              client.lastVisitedBudgetLargeScreen
-                                ? new Date(client.lastVisitedBudgetLargeScreen)
-                                : null;
-
-                            // If neither date exists
-                            if (!smallScreenDate && !largeScreenDate) {
-                              return (
-                                <span
-                                  style={{ fontSize: '12px', color: '#6b7280' }}
-                                >
-                                  N/A
-                                </span>
-                              );
-                            }
-
-                            // If only one date exists
-                            if (!smallScreenDate) {
-                              return (
-                                <>
-                                  <SvgComputerLaptop
-                                    width={14}
-                                    height={14}
-                                    style={{ color: '#6b7c93' }}
-                                  />
-                                  <span style={{ fontSize: '12px' }}>
-                                    {formatRelativeDate(
-                                      client.lastVisitedBudgetLargeScreen,
-                                    )}
-                                  </span>
-                                </>
-                              );
-                            }
-
-                            if (!largeScreenDate) {
-                              return (
-                                <>
-                                  <SvgMobileDevices
-                                    width={14}
-                                    height={14}
-                                    style={{ color: '#6b7c93' }}
-                                  />
-                                  <span style={{ fontSize: '12px' }}>
-                                    {formatRelativeDate(
-                                      client.lastVisitedBudgetSmallScreen,
-                                    )}
-                                  </span>
-                                </>
-                              );
-                            }
-
-                            // Both dates exist - show the more recent one
-                            const isMobileMoreRecent =
-                              smallScreenDate > largeScreenDate;
-
-                            return (
-                              <>
-                                {isMobileMoreRecent ? (
-                                  <SvgMobileDevices
-                                    width={14}
-                                    height={14}
-                                    style={{ color: '#6b7c93' }}
-                                  />
-                                ) : (
-                                  <SvgComputerLaptop
-                                    width={14}
-                                    height={14}
-                                    style={{ color: '#6b7c93' }}
-                                  />
-                                )}
-                                <span style={{ fontSize: '12px' }}>
-                                  {formatRelativeDate(
-                                    isMobileMoreRecent
-                                      ? client.lastVisitedBudgetSmallScreen
-                                      : client.lastVisitedBudgetLargeScreen,
-                                  )}
-                                </span>
-                              </>
-                            );
-                          })()}
-                        </div>
-
-                        {clickedClient === client.userId &&
-                          clickedClient != null && (
-                            <div
-                              style={tableStyles.activityPopup}
-                              data-activity-popup
-                            >
-                              {/* Conditional invite message */}
-                              {!client.budgetShared() && (
-                                <div
-                                  style={{
-                                    backgroundColor: '#f9fafb',
-                                    border: '1px solid #e5e7eb',
-                                    borderRadius: '8px',
-                                    padding: '12px',
-                                    marginBottom: '20px',
-                                    textAlign: 'center',
-                                    fontSize: '13px',
-                                    color: '#374151',
-                                  }}
-                                >
-                                  Invite your client to share their budget to
-                                  get access to these stats
-                                </div>
-                              )}
-
-                              <div
-                                style={{
-                                  fontSize: '14px',
-                                  fontWeight: 600,
-                                  marginBottom: '20px',
-                                  color: '#374151',
-                                  opacity: client.budgetShared() ? 1 : 0.4, // Fade when no access
-                                }}
-                              >
-                                Recent Activity
-                              </div>
-                              <div
-                                style={{
-                                  opacity: client.budgetShared() ? 1 : 0.4,
-                                }}
-                              >
-                                {' '}
-                                {/* Fade entire activity list */}
-                                {getClientActivityData(client).map(
-                                  (activity, idx) => (
-                                    <div
-                                      key={idx}
-                                      style={{
-                                        ...tableStyles.timelineItem,
-                                        marginBottom: '16px',
-                                      }}
-                                    >
-                                      <div
-                                        style={{
-                                          display: 'flex',
-                                          justifyContent: 'space-between',
-                                          alignItems: 'center',
-                                          marginBottom: '6px',
-                                        }}
-                                      >
-                                        <span
-                                          style={{
-                                            fontSize: '13px',
-                                            color: '#374151',
-                                          }}
-                                        >
-                                          {activity.label}
-                                        </span>
-                                        {/* Only show days ago if date exists AND client has shared budget */}
-                                        {activity.daysAgo !== null &&
-                                          client.budgetShared() && (
-                                            <span
-                                              style={{
-                                                fontSize: '12px',
-                                                color: '#6b7280',
-                                              }}
-                                            >
-                                              {activity.daysAgo === 0
-                                                ? 'Today'
-                                                : `${activity.daysAgo} days ago`}
-                                            </span>
-                                          )}
-                                      </div>
-                                      <div
-                                        style={{
-                                          width: '100%',
-                                          height: '6px',
-                                          backgroundColor: '#f3f4f6',
-                                          borderRadius: '3px',
-                                          position: 'relative',
-                                        }}
-                                      >
-                                        {/* Only show colored bar if client has shared budget */}
-                                        {client.budgetShared() && (
-                                          <div
-                                            style={{
-                                              position: 'absolute',
-                                              right: 0,
-                                              width: `${activity.barPercentage}%`,
-                                              height: '100%',
-                                              backgroundColor: activity.color,
-                                              borderTopRightRadius: '3px',
-                                              borderBottomRightRadius: '3px',
-                                              borderTopLeftRadius: '0px',
-                                              borderBottomLeftRadius: '0px',
-                                              opacity:
-                                                activity.daysAgo !== null
-                                                  ? 0.7
-                                                  : 0.2,
-                                            }}
-                                          />
-                                        )}
-                                        {/* Vertical time marker line - only show if date exists, less than 30 days, AND has shared budget */}
-                                        {activity.daysAgo !== null &&
-                                          activity.daysAgo < 30 &&
-                                          client.budgetShared() && (
-                                            <div
-                                              style={{
-                                                position: 'absolute',
-                                                right: `${activity.barPercentage}%`,
-                                                top: '-6px',
-                                                width: '2px',
-                                                height: '18px',
-                                                backgroundColor: '#000000',
-                                              }}
-                                            />
-                                          )}
-                                      </div>
-                                    </div>
-                                  ),
-                                )}
-                              </div>
-                              <div
-                                style={{
-                                  marginTop: '20px',
-                                  fontSize: '13px',
-                                  color: '#374151',
-                                  opacity: client.budgetShared() ? 1 : 0.4, // Fade disclaimer text too
-                                }}
-                              >
-                                This chart highlights activity from the last 30
-                                days. Note that only activity logged after June
-                                5th, 2025 is included.
-                              </div>
-                            </div>
+                        {header.title}
+                        {header.sortKey &&
+                          sortConfig.key === header.sortKey && (
+                            <span style={{ fontSize: 12 }}>
+                              {sortConfig.direction === 'asc' ? '↑' : '↓'}
+                            </span>
                           )}
-                      </td>
-                    </>
-                  )}
+                      </div>
+                    </th>
+                  ))}
+                </tr>
 
-                  {/* New Next Meeting column */}
-                  <td
-                    style={{
-                      ...tableStyles.tableCell,
-                      ...tableStyles.expiryDate,
-                    }}
-                  >
-                    {(() => {
-                      if (!client.nextMeetingDate) {
-                        return (
-                          <span
-                            style={{ color: '#9ca3af', fontStyle: 'italic' }}
-                          >
-                            Not Set
-                          </span>
-                        );
-                      }
-
-                      try {
-                        const meetingDate = new Date(client.nextMeetingDate);
-                        const now = new Date();
-                        const today = new Date(
-                          now.getFullYear(),
-                          now.getMonth(),
-                          now.getDate(),
-                        );
-                        const tomorrow = new Date(today);
-                        tomorrow.setDate(tomorrow.getDate() + 1);
-                        const meetingDay = new Date(
-                          meetingDate.getFullYear(),
-                          meetingDate.getMonth(),
-                          meetingDate.getDate(),
-                        );
-
-                        // Check if it's in the past (before start of today)
-                        const isPast = meetingDay < today;
-
-                        // Format the time portion
-                        const timeStr = meetingDate.toLocaleString('en-US', {
-                          hour: 'numeric',
-                          minute: '2-digit',
-                          hour12: true,
-                        });
-
-                        // Format the date portion
-                        const dateStr = meetingDate.toLocaleString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                        });
-
-                        let displayText;
-                        if (meetingDay.getTime() === today.getTime()) {
-                          displayText = `${dateStr} (Today) @ ${timeStr}`;
-                        } else if (
-                          meetingDay.getTime() === tomorrow.getTime()
-                        ) {
-                          displayText = `${dateStr} (Tomorrow) @ ${timeStr}`;
-                        } else {
-                          displayText = `${dateStr} @ ${timeStr}`;
-                        }
-
-                        return (
-                          <span
-                            style={{ color: isPast ? '#9ca3af' : 'inherit' }}
-                          >
-                            {displayText}
-                          </span>
-                        );
-                      } catch (error) {
-                        return (
-                          <span
-                            style={{ color: '#9ca3af', fontStyle: 'italic' }}
-                          >
-                            Not Set
-                          </span>
-                        );
-                      }
-                    })()}
-                  </td>
-
-                  <td
-                    style={{
-                      ...tableStyles.tableCell,
-                      ...tableStyles.stickyColumn,
-                    }}
-                  >
-                    <button
-                      onClick={() => handleClientDetail(client)}
+                {isLoading ? (
+                  <tr>
+                    <td
+                      colSpan={headers.length}
                       style={{
-                        backgroundColor: 'transparent',
-                        border: 'none',
-                        cursor: 'pointer',
-                        padding: '4px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '4px',
-                        ':hover': {
-                          backgroundColor: '#f3f4f6',
-                        },
+                        textAlign: 'center',
+                        padding: '60px 40px',
+                        fontSize: '16px',
+                        color: '#6b7280',
                       }}
                     >
-                      <SvgCheveronOutlineRight width={16} height={16} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                      Loading clients...
+                    </td>
+                  </tr>
+                ) : getPaginatedClients().length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={headers.length}
+                      style={{
+                        textAlign: 'center',
+                        padding: '60px 40px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: '16px',
+                            color: '#6b7280',
+                            marginBottom: '20px',
+                          }}
+                        >
+                          {clientList.length === 0
+                            ? 'No clients found'
+                            : 'No clients match your filters'}
+                        </Text>
+                        {(searchTerm || statusFilter !== 'all') && (
+                          <Button variant="primary" onClick={clearFilters}>
+                            Clear Filters
+                          </Button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  getPaginatedClients().map((client, index) => (
+                    <tr key={index} style={tableStyles.tableRow}>
+                      <td
+                        style={{
+                          ...tableStyles.tableCell,
+                          ...tableStyles.clientName,
+                        }}
+                      >
+                        {client.name}
+                      </td>
+                      <td style={tableStyles.tableCell}>
+                        {client.status === 'free_trial' ||
+                        client.status === 'free_trial_expired' ? (
+                          <>
+                            <span
+                              style={{
+                                ...getStatusStyle(client.status),
+                              }}
+                            >
+                              {getNormalizedStatusText(client.status)}
+                            </span>
+                            <span
+                              style={{
+                                display: 'block',
+                                flexShrink: 0,
+                                marginTop: 8, // Add some spacing
+                              }}
+                            >
+                              Expires: {formatDate(client.statusExpiresAt)}
+                            </span>
+                            <Link
+                              variant="text"
+                              onClick={() => onSponsorClient(client)}
+                              style={{
+                                display: 'block',
+                                flexShrink: 0,
+                                marginTop: 8, // Add some spacing
+                              }}
+                            >
+                              Sponsor this client
+                            </Link>
+                          </>
+                        ) : client.status === 'external_client' ||
+                          client.status === 'lead' ? (
+                          <>
+                            <span
+                              style={{
+                                ...getStatusStyle(client.status),
+                              }}
+                            >
+                              {getNormalizedStatusText(client.status)}
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <span
+                              style={{
+                                ...getStatusStyle(client.status),
+                              }}
+                            >
+                              {getNormalizedStatusText(client.status)}
+                            </span>
+                            <span
+                              style={{
+                                display: 'block',
+                                flexShrink: 0,
+                                marginTop: 8, // Add some spacing
+                              }}
+                            >
+                              Expires: {formatDate(client.statusExpiresAt)}
+                            </span>
+                          </>
+                        )}
+                      </td>
+                      <td style={tableStyles.tableCell}>
+                        {client.status === 'external_client' ||
+                        client.status === 'lead' ? (
+                          <div
+                            style={{
+                              ...tableStyles.expiryDate,
+                            }}
+                          >
+                            –
+                          </div>
+                        ) : client.budgetShared() ? (
+                          <CRMClientBudget
+                            key={`budget-${index}`}
+                            file={client.budget as SyncedLocalFile | RemoteFile}
+                            currentUserId={
+                              client.coachUserId ? client.coachUserId : ''
+                            }
+                            onSelect={() => handleBudgetSelect(client, index)}
+                          />
+                        ) : client.canInviteToShare() ? (
+                          <LastShareRequestedAt
+                            key={`budget-invite-${index}`}
+                            client={client}
+                            onInvite={handleInvite}
+                            inviteButtonStyle={tableStyles.inviteButton}
+                          />
+                        ) : (
+                          <></>
+                        )}
+                      </td>
+
+                      {client.status === 'external_client' ||
+                      client.status === 'lead' ? (
+                        <>
+                          <td
+                            style={{
+                              ...tableStyles.tableCell,
+                              ...tableStyles.expiryDate,
+                            }}
+                          >
+                            –
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td
+                            style={{
+                              ...tableStyles.tableCell,
+                              ...tableStyles.expiryDate,
+                            }}
+                          >
+                            {formatRelativeDate(client.joinedAt)}
+                          </td>
+                        </>
+                      )}
+
+                      {client.status === 'external_client' ||
+                      client.status === 'lead' ? (
+                        <>
+                          <td
+                            style={{
+                              ...tableStyles.tableCell,
+                              ...tableStyles.expiryDate,
+                            }}
+                          >
+                            –
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td
+                            style={{
+                              ...tableStyles.tableCell,
+                              ...tableStyles.expiryDate,
+                              position: 'relative',
+                              cursor: 'pointer',
+                            }}
+                            onClick={e => {
+                              e.stopPropagation();
+                              setClickedClient(
+                                clickedClient === client.userId
+                                  ? null
+                                  : client.userId,
+                              );
+                            }}
+                            data-activity-popup
+                          >
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center', // Add this to center horizontally
+                                gap: 6,
+                                backgroundColor: '#f3f4f6',
+                                border: '1px solid #e5e7eb',
+                                borderRadius: '6px',
+                                padding: '8px 8px',
+                                cursor: 'pointer',
+                              }}
+                              onMouseEnter={e =>
+                                (e.target.style.backgroundColor = '#e5e7eb')
+                              }
+                              onMouseLeave={e =>
+                                (e.target.style.backgroundColor = '#f3f4f6')
+                              }
+                            >
+                              {(() => {
+                                const smallScreenDate =
+                                  client.lastVisitedBudgetSmallScreen
+                                    ? new Date(
+                                        client.lastVisitedBudgetSmallScreen,
+                                      )
+                                    : null;
+                                const largeScreenDate =
+                                  client.lastVisitedBudgetLargeScreen
+                                    ? new Date(
+                                        client.lastVisitedBudgetLargeScreen,
+                                      )
+                                    : null;
+
+                                // If neither date exists
+                                if (!smallScreenDate && !largeScreenDate) {
+                                  return (
+                                    <span
+                                      style={{
+                                        fontSize: '12px',
+                                        color: '#6b7280',
+                                      }}
+                                    >
+                                      N/A
+                                    </span>
+                                  );
+                                }
+
+                                // If only one date exists
+                                if (!smallScreenDate) {
+                                  return (
+                                    <>
+                                      <SvgComputerLaptop
+                                        width={14}
+                                        height={14}
+                                        style={{ color: '#6b7c93' }}
+                                      />
+                                      <span style={{ fontSize: '12px' }}>
+                                        {formatRelativeDate(
+                                          client.lastVisitedBudgetLargeScreen,
+                                        )}
+                                      </span>
+                                    </>
+                                  );
+                                }
+
+                                if (!largeScreenDate) {
+                                  return (
+                                    <>
+                                      <SvgMobileDevices
+                                        width={14}
+                                        height={14}
+                                        style={{ color: '#6b7c93' }}
+                                      />
+                                      <span style={{ fontSize: '12px' }}>
+                                        {formatRelativeDate(
+                                          client.lastVisitedBudgetSmallScreen,
+                                        )}
+                                      </span>
+                                    </>
+                                  );
+                                }
+
+                                // Both dates exist - show the more recent one
+                                const isMobileMoreRecent =
+                                  smallScreenDate > largeScreenDate;
+
+                                return (
+                                  <>
+                                    {isMobileMoreRecent ? (
+                                      <SvgMobileDevices
+                                        width={14}
+                                        height={14}
+                                        style={{ color: '#6b7c93' }}
+                                      />
+                                    ) : (
+                                      <SvgComputerLaptop
+                                        width={14}
+                                        height={14}
+                                        style={{ color: '#6b7c93' }}
+                                      />
+                                    )}
+                                    <span style={{ fontSize: '12px' }}>
+                                      {formatRelativeDate(
+                                        isMobileMoreRecent
+                                          ? client.lastVisitedBudgetSmallScreen
+                                          : client.lastVisitedBudgetLargeScreen,
+                                      )}
+                                    </span>
+                                  </>
+                                );
+                              })()}
+                            </div>
+
+                            {clickedClient === client.userId &&
+                              clickedClient != null && (
+                                <div
+                                  style={tableStyles.activityPopup}
+                                  data-activity-popup
+                                >
+                                  {/* Conditional invite message */}
+                                  {!client.budgetShared() && (
+                                    <div
+                                      style={{
+                                        backgroundColor: '#f9fafb',
+                                        border: '1px solid #e5e7eb',
+                                        borderRadius: '8px',
+                                        padding: '12px',
+                                        marginBottom: '20px',
+                                        textAlign: 'center',
+                                        fontSize: '13px',
+                                        color: '#374151',
+                                      }}
+                                    >
+                                      Invite your client to share their budget
+                                      to get access to these stats
+                                    </div>
+                                  )}
+
+                                  <div
+                                    style={{
+                                      fontSize: '14px',
+                                      fontWeight: 600,
+                                      marginBottom: '20px',
+                                      color: '#374151',
+                                      opacity: client.budgetShared() ? 1 : 0.4, // Fade when no access
+                                    }}
+                                  >
+                                    Recent Activity
+                                  </div>
+                                  <div
+                                    style={{
+                                      opacity: client.budgetShared() ? 1 : 0.4,
+                                    }}
+                                  >
+                                    {' '}
+                                    {/* Fade entire activity list */}
+                                    {getClientActivityData(client).map(
+                                      (activity, idx) => (
+                                        <div
+                                          key={idx}
+                                          style={{
+                                            ...tableStyles.timelineItem,
+                                            marginBottom: '16px',
+                                          }}
+                                        >
+                                          <div
+                                            style={{
+                                              display: 'flex',
+                                              justifyContent: 'space-between',
+                                              alignItems: 'center',
+                                              marginBottom: '6px',
+                                            }}
+                                          >
+                                            <span
+                                              style={{
+                                                fontSize: '13px',
+                                                color: '#374151',
+                                              }}
+                                            >
+                                              {activity.label}
+                                            </span>
+                                            {/* Only show days ago if date exists AND client has shared budget */}
+                                            {activity.daysAgo !== null &&
+                                              client.budgetShared() && (
+                                                <span
+                                                  style={{
+                                                    fontSize: '12px',
+                                                    color: '#6b7280',
+                                                  }}
+                                                >
+                                                  {activity.daysAgo === 0
+                                                    ? 'Today'
+                                                    : `${activity.daysAgo} days ago`}
+                                                </span>
+                                              )}
+                                          </div>
+                                          <div
+                                            style={{
+                                              width: '100%',
+                                              height: '6px',
+                                              backgroundColor: '#f3f4f6',
+                                              borderRadius: '3px',
+                                              position: 'relative',
+                                            }}
+                                          >
+                                            {/* Only show colored bar if client has shared budget */}
+                                            {client.budgetShared() && (
+                                              <div
+                                                style={{
+                                                  position: 'absolute',
+                                                  right: 0,
+                                                  width: `${activity.barPercentage}%`,
+                                                  height: '100%',
+                                                  backgroundColor:
+                                                    activity.color,
+                                                  borderTopRightRadius: '3px',
+                                                  borderBottomRightRadius:
+                                                    '3px',
+                                                  borderTopLeftRadius: '0px',
+                                                  borderBottomLeftRadius: '0px',
+                                                  opacity:
+                                                    activity.daysAgo !== null
+                                                      ? 0.7
+                                                      : 0.2,
+                                                }}
+                                              />
+                                            )}
+                                            {/* Vertical time marker line - only show if date exists, less than 30 days, AND has shared budget */}
+                                            {activity.daysAgo !== null &&
+                                              activity.daysAgo < 30 &&
+                                              client.budgetShared() && (
+                                                <div
+                                                  style={{
+                                                    position: 'absolute',
+                                                    right: `${activity.barPercentage}%`,
+                                                    top: '-6px',
+                                                    width: '2px',
+                                                    height: '18px',
+                                                    backgroundColor: '#000000',
+                                                  }}
+                                                />
+                                              )}
+                                          </div>
+                                        </div>
+                                      ),
+                                    )}
+                                  </div>
+                                  <div
+                                    style={{
+                                      marginTop: '20px',
+                                      fontSize: '13px',
+                                      color: '#374151',
+                                      opacity: client.budgetShared() ? 1 : 0.4, // Fade disclaimer text too
+                                    }}
+                                  >
+                                    This chart highlights activity from the last
+                                    30 days. Note that only activity logged
+                                    after June 5th, 2025 is included.
+                                  </div>
+                                </div>
+                              )}
+                          </td>
+                        </>
+                      )}
+
+                      {/* New Next Meeting column */}
+                      <td
+                        style={{
+                          ...tableStyles.tableCell,
+                          ...tableStyles.expiryDate,
+                        }}
+                      >
+                        {(() => {
+                          if (!client.nextMeetingDate) {
+                            return (
+                              <span
+                                style={{
+                                  color: '#9ca3af',
+                                  fontStyle: 'italic',
+                                }}
+                              >
+                                Not Set
+                              </span>
+                            );
+                          }
+
+                          try {
+                            const meetingDate = new Date(
+                              client.nextMeetingDate,
+                            );
+                            const now = new Date();
+                            const today = new Date(
+                              now.getFullYear(),
+                              now.getMonth(),
+                              now.getDate(),
+                            );
+                            const tomorrow = new Date(today);
+                            tomorrow.setDate(tomorrow.getDate() + 1);
+                            const meetingDay = new Date(
+                              meetingDate.getFullYear(),
+                              meetingDate.getMonth(),
+                              meetingDate.getDate(),
+                            );
+
+                            // Check if it's in the past (before start of today)
+                            const isPast = meetingDay < today;
+
+                            // Format the time portion
+                            const timeStr = meetingDate.toLocaleString(
+                              'en-US',
+                              {
+                                hour: 'numeric',
+                                minute: '2-digit',
+                                hour12: true,
+                              },
+                            );
+
+                            // Format the date portion
+                            const dateStr = meetingDate.toLocaleString(
+                              'en-US',
+                              {
+                                month: 'short',
+                                day: 'numeric',
+                              },
+                            );
+
+                            let displayText;
+                            if (meetingDay.getTime() === today.getTime()) {
+                              displayText = `${dateStr} (Today) @ ${timeStr}`;
+                            } else if (
+                              meetingDay.getTime() === tomorrow.getTime()
+                            ) {
+                              displayText = `${dateStr} (Tomorrow) @ ${timeStr}`;
+                            } else {
+                              displayText = `${dateStr} @ ${timeStr}`;
+                            }
+
+                            return (
+                              <span
+                                style={{
+                                  color: isPast ? '#9ca3af' : 'inherit',
+                                }}
+                              >
+                                {displayText}
+                              </span>
+                            );
+                          } catch (error) {
+                            return (
+                              <span
+                                style={{
+                                  color: '#9ca3af',
+                                  fontStyle: 'italic',
+                                }}
+                              >
+                                Not Set
+                              </span>
+                            );
+                          }
+                        })()}
+                      </td>
+
+                      <td
+                        style={{
+                          ...tableStyles.tableCell,
+                          ...tableStyles.stickyColumn,
+                        }}
+                      >
+                        <button
+                          onClick={() => handleClientDetail(client)}
+                          style={{
+                            backgroundColor: 'transparent',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderRadius: '4px',
+                            ':hover': {
+                              backgroundColor: '#f3f4f6',
+                            },
+                          }}
+                        >
+                          <SvgCheveronOutlineRight width={16} height={16} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </View>
+
+          {activeSection === 'clients' &&
+            showClientDetail === false &&
+            getTotalPages() > 1 && (
+              <View
+                style={{
+                  padding: '15px 20px',
+                  borderTop: '1px solid #e5e9f2',
+                  backgroundColor: 'white',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 15,
+                }}
+              >
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    if (currentPage > 1 && !isLoading && getTotalPages() > 0) {
+                      handlePageChange(currentPage - 1);
+                    }
+                  }}
+                  style={{
+                    opacity:
+                      currentPage === 1 || isLoading || getTotalPages() === 0
+                        ? 0.5
+                        : 1,
+                    cursor:
+                      currentPage === 1 || isLoading || getTotalPages() === 0
+                        ? 'not-allowed'
+                        : 'pointer',
+                    pointerEvents:
+                      currentPage === 1 || isLoading || getTotalPages() === 0
+                        ? 'none'
+                        : 'auto',
+                  }}
+                >
+                  Back
+                </Button>
+
+                <select
+                  value={currentPage}
+                  onChange={e => {
+                    if (!isLoading && getTotalPages() > 0) {
+                      handlePageChange(Number(e.target.value));
+                    }
+                  }}
+                  style={{
+                    padding: '8px 12px',
+                    fontSize: '14px',
+                    border: '1px solid #ccc',
+                    borderRadius: '4px',
+                    minWidth: '120px',
+                    opacity: isLoading || getTotalPages() === 0 ? 0.5 : 1,
+                    cursor:
+                      isLoading || getTotalPages() === 0
+                        ? 'not-allowed'
+                        : 'pointer',
+                    pointerEvents:
+                      isLoading || getTotalPages() === 0 ? 'none' : 'auto',
+                  }}
+                >
+                  {Array.from(
+                    { length: Math.max(getTotalPages(), 1) },
+                    (_, i) => i + 1,
+                  ).map(page => (
+                    <option key={page} value={page}>
+                      Page {page}
+                    </option>
+                  ))}
+                </select>
+
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    if (
+                      currentPage < getTotalPages() &&
+                      !isLoading &&
+                      getTotalPages() > 0
+                    ) {
+                      handlePageChange(currentPage + 1);
+                    }
+                  }}
+                  style={{
+                    opacity:
+                      currentPage >= getTotalPages() ||
+                      isLoading ||
+                      getTotalPages() === 0
+                        ? 0.5
+                        : 1,
+                    cursor:
+                      currentPage >= getTotalPages() ||
+                      isLoading ||
+                      getTotalPages() === 0
+                        ? 'not-allowed'
+                        : 'pointer',
+                    pointerEvents:
+                      currentPage >= getTotalPages() ||
+                      isLoading ||
+                      getTotalPages() === 0
+                        ? 'none'
+                        : 'auto',
+                  }}
+                >
+                  Next
+                </Button>
+              </View>
+            )}
         </View>
       )}
 
