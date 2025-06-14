@@ -379,7 +379,7 @@ export function ClientDetailPage({
         errors.push('Last name is required');
       }
       if (!formData.status.trim()) {
-        errors.push('MBC Status is required');
+        errors.push('Status is required');
       }
     } else {
       // Internal clients
@@ -849,15 +849,15 @@ export function ClientDetailPage({
               {/* Status dropdown for external clients */}
               {(isExternalClient(client) || !passedClient) && (
                 <View style={formStyles.formGroup}>
-                  <Text style={formStyles.label}>MBC Status *</Text>
+                  <Text style={formStyles.label}>Status *</Text>
                   <select
                     value={formData.status}
                     onChange={e => handleInputChange('status', e.target.value)}
                     style={formStyles.select}
                   >
                     <option value="">Select status</option>
-                    <option value="lead">MBC Lead</option>
-                    <option value="external_client">Non-MBC Client</option>
+                    <option value="lead">Lead</option>
+                    <option value="external_client">Client</option>
                   </select>
                 </View>
               )}
