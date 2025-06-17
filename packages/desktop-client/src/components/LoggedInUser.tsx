@@ -91,6 +91,15 @@ export function LoggedInUser({
         break;
       case 'sign-out':
         dispatch(signOut());
+
+        // Clear messenger details in React Native
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(
+            JSON.stringify({
+              type: 'logout',
+            }),
+          );
+        }
         break;
       case 'config-server':
         await onCloseBudget();

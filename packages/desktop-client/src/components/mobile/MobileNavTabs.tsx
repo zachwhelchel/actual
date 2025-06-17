@@ -25,10 +25,10 @@ import { View } from '../common/View';
 import { useResponsive } from '../responsive/ResponsiveProvider';
 import { useScrollListener } from '../ScrollProvider';
 
-const COLUMN_COUNT = 3;
+const COLUMN_COUNT = 4;
 const PILL_HEIGHT = 15;
 const ROW_HEIGHT = 70;
-const TOTAL_HEIGHT = ROW_HEIGHT * COLUMN_COUNT;
+const TOTAL_HEIGHT = ROW_HEIGHT * 2;
 const OPEN_FULL_Y = 1;
 const OPEN_DEFAULT_Y = TOTAL_HEIGHT - ROW_HEIGHT;
 const HIDDEN_Y = TOTAL_HEIGHT;
@@ -89,40 +89,33 @@ export function MobileNavTabs() {
       Icon: SvgWallet,
     },
     {
-      name: 'Transaction',
-      path: '/transactions/new',
-      style: navTabStyle,
-      Icon: SvgAdd,
-    },
-    {
       name: 'Accounts',
       path: '/accounts',
       style: navTabStyle,
       Icon: SvgPiggyBank,
     },
     {
+      name: 'Transaction',
+      path: '/transactions/new',
+      style: navTabStyle,
+      Icon: SvgAdd,
+    },
+    ...(window.ReactNativeWebView
+      ? [
+          {
+            name: 'Messages',
+            path: '/reports',
+            style: navTabStyle,
+            Icon: SvgChatBubbleDots,
+            isSpecial: true,
+          },
+        ]
+      : []),
+    {
       name: 'Reports',
       path: '/reports',
       style: navTabStyle,
       Icon: SvgReports,
-    },
-    {
-      name: 'Schedules (Soon)',
-      path: '/schedules/soon',
-      style: navTabStyle,
-      Icon: SvgCalendar,
-    },
-    {
-      name: 'Payees (Soon)',
-      path: '/payees/soon',
-      style: navTabStyle,
-      Icon: SvgStoreFront,
-    },
-    {
-      name: 'Rules (Soon)',
-      path: '/rules/soon',
-      style: navTabStyle,
-      Icon: SvgTuning,
     },
     {
       name: 'Settings',
@@ -241,9 +234,55 @@ type NavTabProps = {
   Icon: ComponentType<NavTabIconProps>;
   style?: CSSProperties;
   onClick: ComponentProps<typeof NavLink>['onClick'];
+  isSpecial?: boolean; // Add this
 };
 
-function NavTab({ Icon: TabIcon, name, path, style, onClick }: NavTabProps) {
+function NavTab({
+  Icon: TabIcon,
+  name,
+  path,
+  style,
+  onClick,
+  isSpecial,
+}: NavTabProps & { isSpecial?: boolean }) {
+  const handleClick = (e: React.MouseEvent) => {
+    if (isSpecial && name === 'Messages') {
+      e.preventDefault(); // Prevent navigation
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(
+          JSON.stringify({
+            type: 'showMessenger',
+          }),
+        );
+      }
+      onClick?.(e);
+      return;
+    }
+    onClick?.(e);
+  };
+
+  if (isSpecial && name === 'Messages') {
+    return (
+      <div
+        style={{
+          ...styles.noTapHighlight,
+          alignItems: 'center',
+          color: theme.mobileNavItem, // You might want to handle active state differently
+          display: 'flex',
+          flexDirection: 'column',
+          textDecoration: 'none',
+          textAlign: 'center',
+          cursor: 'pointer',
+          ...style,
+        }}
+        onClick={handleClick}
+      >
+        <TabIcon width={22} height={22} />
+        {name}
+      </div>
+    );
+  }
+
   return (
     <NavLink
       to={path}
@@ -257,7 +296,7 @@ function NavTab({ Icon: TabIcon, name, path, style, onClick }: NavTabProps) {
         textAlign: 'center',
         ...style,
       })}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <TabIcon width={22} height={22} />
       {name}

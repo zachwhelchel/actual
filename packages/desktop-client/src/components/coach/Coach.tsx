@@ -422,6 +422,18 @@ export function CoachProvider({
 
     setChatAccessToken(REACT_APP_CHAT_ACCESS_TOKEN);
 
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          type: 'messengerDetails',
+          data: {
+            userId: REACT_APP_CHAT_USER_ID,
+            userToken: REACT_APP_CHAT_ACCESS_TOKEN,
+          },
+        }),
+      );
+    }
+
     chatClient.on(event => {
       if (event.total_unread_count != null) {
         setTotalUnreadCount(event.total_unread_count);
