@@ -72,7 +72,6 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
   const [freeZoomLink, setFreeZoomLink] = useState(null);
   const [coachPhoto, setCoachPhoto] = useState(null);
 
-
   const [formData, setFormData] = useState({
     firstName: firstName || '',
     lastName: lastName || '',
@@ -116,9 +115,13 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     </div>
   );
 
-  const selectThisCoach = async coachName => {
+  const selectThisCoach = async (coachName, isTopRecommendation) => {
     if (userData?.userId !== null) {
-      await updateUserCoachRelationship(userData?.userId, coachName);
+      await updateUserCoachRelationship(
+        userData?.userId,
+        coachName,
+        isTopRecommendation ? 'quiz_top_match' : 'quiz_other_match',
+      );
     }
 
     setCurrentStage(3);
@@ -143,14 +146,16 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     // Only proceed if all fields are valid
     if (isValid) {
       if (userData?.userId !== null) {
-        const { coach_free_zoom_link, coach_photo } = await updateUserData(userData?.userId);
+        const { coach_free_zoom_link, coach_photo } = await updateUserData(
+          userData?.userId,
+        );
         if (coach_free_zoom_link !== null) {
-          setFreeZoomLink(coach_free_zoom_link)
-          setCoachPhoto(coach_photo)
+          setFreeZoomLink(coach_free_zoom_link);
+          setCoachPhoto(coach_photo);
           setCurrentStage(4);
         } else {
           window.location.reload();
-        }        
+        }
       }
     } else {
       // Optional: Scroll to the top or first error
@@ -164,9 +169,17 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     window.location.reload();
   };
 
-  const updateUserCoachRelationship = async (userId, coachId) => {
+  const updateUserCoachRelationship = async (
+    userId,
+    coachId,
+    coachSelectionSource,
+  ) => {
     const url = String(window.location.href);
-    const results = await send('airtable-update-coach', { url, coachId });
+    const results = await send('airtable-update-coach', {
+      url,
+      coachId,
+      coachSelectionSource,
+    });
     console.log('updateUserCoachRelationship');
     console.log(results);
   };
@@ -197,12 +210,10 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     console.log('updateUserCoachRelationship');
     console.log(results);
 
-
     const record = results.fields;
 
     const coach_free_zoom_link = record.coach_free_zoom_link?.[0] || null;
     const coach_photo = record.coach_photo?.[0]?.base64 || null;
-
 
     console.log(coach_free_zoom_link);
     console.log(coach_photo);
@@ -210,11 +221,15 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     localStorage.removeItem('urlParams');
 
     return { coach_free_zoom_link, coach_photo };
-
   };
 
   // Coach card component
-  const CoachCard = ({ coach, isMainResult = false, hasMatch }) => {
+  const CoachCard = ({
+    coach,
+    isMainResult = false,
+    hasMatch,
+    wasBumped = false,
+  }) => {
     // Calculate matching criteria for this coach
     const matchingNiches = selectedNiches.filter(niche =>
       coach.niches.includes(niche),
@@ -349,6 +364,12 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                     <span>Specializes in {niche}</span>
                   </div>
                 ))}
+                {isMainResult && wasBumped && (
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-blue-600">✓</span>
+                    <span>This coach is highly responsive</span>
+                  </div>
+                )}
               </div>
             </>
           ) : (
@@ -360,7 +381,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
         </div>
 
         <button
-          onClick={() => selectThisCoach(coach.recordId)}
+          onClick={() => selectThisCoach(coach.recordId, isMainResult)}
           style={{
             padding: '0.7rem 1rem',
             width: '100%',
@@ -399,6 +420,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
               'Quiz',
               'First Name',
               'Quiz Quote',
+              'Quiz Weight',
               'Record Id',
             ],
             filterByFormula: '{Quiz} = 1',
@@ -406,7 +428,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
           .all();
 
         // Format coach data
-        const formattedCoaches = records.map(record => ({
+        let formattedCoaches = records.map(record => ({
           id: record.id,
           name: record.get('Name'),
           firstName: record.get('First Name'),
@@ -414,10 +436,15 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
           recordId: record.get('Record Id'),
           price: record.get('Price'),
           niches: record.get('Niche') || [],
+          quizWeight: parseInt(record.get('Quiz Weight')) || 5,
         }));
 
         //took this out for now bc cors
         // photo: record.fields.Photo ? record.fields.Photo[0]?.url : null,
+
+        formattedCoaches = formattedCoaches.filter(
+          coach => coach.quizWeight !== 1,
+        );
 
         // Get unique niches from all coaches
         const allNiches = formattedCoaches.flatMap(coach => coach.niches);
@@ -456,22 +483,38 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
   };
 
   const findAllMatches = () => {
-    const exactMatches = coaches.filter(coach => {
-      const priceMatch = coach.price === selectedPrice;
-      const nicheMatch = coach.niches.some(niche =>
-        selectedNiches.includes(niche),
-      );
-      return priceMatch && nicheMatch;
-    });
+    const exactMatches = coaches
+      .filter(coach => {
+        const priceMatch = coach.price === selectedPrice;
+        const nicheMatch = coach.niches.every(niche =>
+          selectedNiches.includes(niche),
+        );
+        return priceMatch && nicheMatch;
+      })
+      .map(coach => ({
+        ...coach,
+        nicheMatchCount: selectedNiches.filter(niche =>
+          coach.niches.includes(niche),
+        ).length,
+      }));
 
-    const partialMatches = coaches.filter(coach => {
-      const priceMatch = coach.price === selectedPrice;
-      const nicheMatch = coach.niches.some(niche =>
-        selectedNiches.includes(niche),
-      );
-      return nicheMatch && !exactMatches.includes(coach);
-      //return (priceMatch || nicheMatch) && !exactMatches.includes(coach);
-    });
+    const partialMatches = coaches
+      .filter(coach => {
+        const priceMatch = coach.price === selectedPrice;
+        const nicheMatch = coach.niches.some(niche =>
+          selectedNiches.includes(niche),
+        );
+        return (
+          nicheMatch &&
+          !exactMatches.some(exactCoach => exactCoach.id === coach.id)
+        );
+      })
+      .map(coach => ({
+        ...coach,
+        nicheMatchCount: selectedNiches.filter(niche =>
+          coach.niches.includes(niche),
+        ).length,
+      }));
 
     return {
       exactMatches,
@@ -481,28 +524,76 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
   const findMatchingCoach = () => {
     const { exactMatches, partialMatches } = findAllMatches();
+    // Combine all potential coaches and evaluate them
+    const allPotentialCoaches = [];
 
-    if (exactMatches.length > 0) {
-      return {
-        coach: exactMatches[Math.floor(Math.random() * exactMatches.length)],
-        hasMatch: true,
-        hasAlternatives: exactMatches.length > 1 || partialMatches.length > 0,
-      };
+    // Add exact matches with priority score
+    exactMatches.forEach(coach => {
+      allPotentialCoaches.push({
+        coach,
+        matchScore: 11, // Base score + niche matches
+        totalScore: 11 + coach.quizWeight,
+        isExactMatch: true,
+      });
+    });
+
+    // Add partial matches with priority score
+    partialMatches.forEach(coach => {
+      allPotentialCoaches.push({
+        coach,
+        matchScore: 9 + coach.nicheMatchCount, // Base score + niche matches
+        totalScore: 9 + coach.nicheMatchCount + coach.quizWeight,
+        isExactMatch: false,
+      });
+    });
+
+    // If no matches at all, use all coaches
+    if (allPotentialCoaches.length === 0) {
+      coaches.forEach(coach => {
+        const nicheMatchCount = selectedNiches.filter(niche =>
+          coach.niches.includes(niche),
+        ).length;
+        allPotentialCoaches.push({
+          coach: { ...coach, nicheMatchCount },
+          matchScore: nicheMatchCount,
+          totalScore: nicheMatchCount + coach.quizWeight,
+          isExactMatch: false,
+        });
+      });
     }
 
-    if (partialMatches.length > 0) {
+    if (allPotentialCoaches.length === 0) {
       return {
-        coach:
-          partialMatches[Math.floor(Math.random() * partialMatches.length)],
+        coach: null,
         hasMatch: false,
-        hasAlternatives: partialMatches.length > 1,
+        hasAlternatives: false,
+        wasBumped: false,
       };
     }
+
+    // Sort by match score first (to see who would win without weight)
+    const matchOnlySort = [...allPotentialCoaches].sort(
+      (a, b) => b.matchScore - a.matchScore,
+    );
+    const wouldBeFirst = matchOnlySort[0];
+
+    // Sort by total score (match quality + quiz weight)
+    allPotentialCoaches.sort((a, b) => b.totalScore - a.totalScore);
+
+    // Get the actual winner
+    const actualFirst = allPotentialCoaches[0];
+
+    // Check if the weight caused a different coach to win
+    const wasBumped = wouldBeFirst.coach.id !== actualFirst.coach.id;
+
+    // Check if we have alternatives
+    const hasAlternatives = allPotentialCoaches.length > 1;
 
     return {
-      coach: coaches[Math.floor(Math.random() * coaches.length)],
-      hasMatch: false,
-      hasAlternatives: false,
+      coach: actualFirst.coach,
+      hasMatch: actualFirst.isExactMatch,
+      hasAlternatives,
+      wasBumped,
     };
   };
 
@@ -567,6 +658,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       coach: matchedCoach,
       hasMatch,
       hasAlternatives,
+      wasBumped,
     } = findMatchingCoach();
     const { exactMatches, partialMatches } = findAllMatches();
 
@@ -617,6 +709,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
               coach={matchedCoach}
               isMainResult={true}
               hasMatch={hasMatch}
+              wasBumped={wasBumped}
             />
           </div>
 
@@ -980,7 +1073,6 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                 />
               </div>
 
-
               <div>
                 <label
                   style={{
@@ -1000,12 +1092,17 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                     marginBottom: '0.5rem',
                   }}
                 >
-                  Allow your coach to take a more active role in helping you succeed with your budget. Your information will only be used for MyBudgetCoach related communication.
+                  Allow your coach to take a more active role in helping you
+                  succeed with your budget. Your information will only be used
+                  for MyBudgetCoach related communication.
                 </p>
                 <select
                   value={formData.shareContact}
                   onChange={e =>
-                    setFormData(prev => ({ ...prev, shareContact: e.target.value }))
+                    setFormData(prev => ({
+                      ...prev,
+                      shareContact: e.target.value,
+                    }))
                   }
                   style={{
                     width: '100%',
@@ -1018,11 +1115,14 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                   required
                 >
                   <option value="">Select a preference</option>
-                  <option value="share_contact_info">Yes, share my contact information with my coach.</option>
-                  <option value="dont_share_contact_info">No, don't share my contact information with my coach.</option>
+                  <option value="share_contact_info">
+                    Yes, share my contact information with my coach.
+                  </option>
+                  <option value="dont_share_contact_info">
+                    No, don't share my contact information with my coach.
+                  </option>
                 </select>
               </div>
-
 
               <div>
                 <label
@@ -1101,7 +1201,6 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     );
   }
 
-
   if (currentStage === 4) {
     return (
       <div
@@ -1142,32 +1241,30 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                 marginBottom: 30,
               }}
             >
-            Free Zoom
+              Free Zoom
             </h2>
-            <FreeSessionButton zoomLink={freeZoomLink} coachPhoto={coachPhoto} />
+            <FreeSessionButton
+              zoomLink={freeZoomLink}
+              coachPhoto={coachPhoto}
+            />
 
-          <button
-            onClick={handleDoneWithFreeCall}
-            style={{
-              padding: '0.5rem 1rem',
-              border: '1px solid rgb(209, 213, 219)',
-              borderRadius: '0.25rem',
-              marginTop: 30,
-              transition: 'background-color 150ms',
-            }}
-          >
-            Done
-          </button>
-
-
+            <button
+              onClick={handleDoneWithFreeCall}
+              style={{
+                padding: '0.5rem 1rem',
+                border: '1px solid rgb(209, 213, 219)',
+                borderRadius: '0.25rem',
+                marginTop: 30,
+                transition: 'background-color 150ms',
+              }}
+            >
+              Done
+            </button>
           </div>
         </div>
       </div>
     );
   }
-
-
-
 
   // Niche selection page
   if (currentStage === 0) {
@@ -1379,33 +1476,30 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
             marginBottom: '1.5rem',
           }}
         >
-          {['Affordable', 'Average', 'Premium'].map(price => (
-            <label
-              key={price}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                padding: '0.5rem',
-                borderRadius: '0.25rem',
-                cursor: 'pointer',
-              }}
-            >
-              <input
-                type="radio"
-                name="price"
-                value={price}
-                checked={selectedPrice === price}
-                onChange={() => setSelectedPrice(price)}
-                style={{
-                  width: '1rem',
-                  height: '1rem',
-                  color: '#8719e0',
-                }}
-              />
-              <span style={{ color: 'rgb(55, 65, 81)' }}>{price}</span>
-            </label>
-          ))}
+          {['Affordable', 'Average', 'Premium'].map(price => {
+            const displayText = {
+              Affordable: 'Affordable: $50/hour and under',
+              Average: 'Average: Between $50/hour and $100/hour',
+              Premium: 'Premium: $100/hour and over',
+            };
+
+            return (
+              <label
+                key={price}
+                className="flex items-center space-x-3 p-2 rounded hover:bg-gray-50 cursor-pointer"
+              >
+                <input
+                  type="radio"
+                  name="price"
+                  value={price}
+                  checked={selectedPrice === price}
+                  onChange={() => setSelectedPrice(price)}
+                  className="w-4 h-4 text-blue-600"
+                />
+                <span className="text-gray-700">{displayText[price]}</span>
+              </label>
+            );
+          })}
         </div>
         <div
           style={{
@@ -1446,7 +1540,6 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
   );
 };
 
-
 const FreeSessionButton = ({ zoomLink, coachPhoto }) => {
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -1458,8 +1551,26 @@ const FreeSessionButton = ({ zoomLink, coachPhoto }) => {
     setTimeout(() => setShowConfetti(false), 3000);
   };
 
+  const handleFreeSessionClick = e => {
+    // Check if we're in a React Native WebView
+    if (window.ReactNativeWebView) {
+      e.preventDefault(); // Prevent default navigation
+
+      console.log('Broadcasting openInBrowser for Zoom link:', zoomLink);
+
+      // Send message to React Native to open in external browser
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          type: 'openInBrowser',
+          url: zoomLink,
+        }),
+      );
+    }
+    // If not in WebView, the default href behavior will handle opening the link
+  };
+
   return (
-    <div 
+    <div
       style={{
         position: 'relative',
         textAlign: 'center',
@@ -1468,11 +1579,10 @@ const FreeSessionButton = ({ zoomLink, coachPhoto }) => {
         borderRadius: '1rem',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
         maxWidth: '600px',
-        margin: '0 auto'
+        margin: '0 auto',
       }}
     >
       {showConfetti && <Confetti />}
-
 
       <img
         src={coachPhoto}
@@ -1485,89 +1595,173 @@ const FreeSessionButton = ({ zoomLink, coachPhoto }) => {
         }}
       />
 
-
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: '1rem'
-      }}>
-        <Sparkles size={24} style={{ color: '#FFD700', marginRight: '0.5rem' }} />
-        <h2 style={{ 
-          fontSize: '1.5rem', 
-          fontWeight: 'bold', 
-          color: '#4338ca',
-          margin: 0
-        }}>Limited Time Offer!</h2>
-        <Sparkles size={24} style={{ color: '#FFD700', marginLeft: '0.5rem' }} />
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '1rem',
+        }}
+      >
+        <Sparkles
+          size={24}
+          style={{ color: '#FFD700', marginRight: '0.5rem' }}
+        />
+        <h2
+          style={{
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            color: '#4338ca',
+            margin: 0,
+          }}
+        >
+          Limited Time Offer!
+        </h2>
+        <Sparkles
+          size={24}
+          style={{ color: '#FFD700', marginLeft: '0.5rem' }}
+        />
       </div>
 
-      <p style={{
-        fontSize: '1.125rem',
-        marginBottom: '1.5rem',
-        color: '#4b5563'
-      }}>
-        Unlock your budgeting potential with a <span style={{ fontWeight: 'bold', color: '#4f46e5' }}>FREE 30-minute Zoom consultation</span>. 
-        Your coach will help you get started!
+      <p
+        style={{
+          fontSize: '1.125rem',
+          marginBottom: '1.5rem',
+          color: '#4b5563',
+        }}
+      >
+        Unlock your budgeting potential with a{' '}
+        <span style={{ fontWeight: 'bold', color: '#4f46e5' }}>
+          FREE 30-minute Zoom consultation
+        </span>
+        . Your coach will help you get started!
       </p>
 
-      <div style={{
-        marginBottom: '1.5rem',
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '2rem'
-      }}>
+      <div
+        style={{
+          marginBottom: '1.5rem',
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '2rem',
+        }}
+      >
         <div style={{ textAlign: 'center' }}>
-          <div style={{
-            backgroundColor: '#dcfce7',
-            borderRadius: '50%',
-            width: '3rem',
-            height: '3rem',
-            marginBottom: '0.5rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '0 auto 0.75rem auto'
-          }}>
-            <svg xmlns="http://www.w3.org/2000/svg" style={{ width: '1.5rem', height: '1.5rem', color: '#16a34a' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <div
+            style={{
+              backgroundColor: '#dcfce7',
+              borderRadius: '50%',
+              width: '3rem',
+              height: '3rem',
+              marginBottom: '0.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 0.75rem auto',
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ width: '1.5rem', height: '1.5rem', color: '#16a34a' }}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
           </div>
-          <p style={{ fontSize: '0.875rem', fontWeight: '500', color: '#4b5563', margin: 0 }}>Personalized</p>
+          <p
+            style={{
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              color: '#4b5563',
+              margin: 0,
+            }}
+          >
+            Personalized
+          </p>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <div style={{
-            backgroundColor: '#dbeafe',
-            borderRadius: '50%',
-            width: '3rem',
-            height: '3rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '0 auto 0.75rem auto'
-          }}>
-            <svg xmlns="http://www.w3.org/2000/svg" style={{ width: '1.5rem', height: '1.5rem', color: '#2563eb' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <div
+            style={{
+              backgroundColor: '#dbeafe',
+              borderRadius: '50%',
+              width: '3rem',
+              height: '3rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 0.75rem auto',
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ width: '1.5rem', height: '1.5rem', color: '#2563eb' }}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
           </div>
-          <p style={{ fontSize: '0.875rem', fontWeight: '500', color: '#4b5563', margin: 0 }}>30-Minutes</p>
+          <p
+            style={{
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              color: '#4b5563',
+              margin: 0,
+            }}
+          >
+            30-Minutes
+          </p>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <div style={{
-            backgroundColor: '#f3e8ff',
-            borderRadius: '50%',
-            width: '3rem',
-            height: '3rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '0 auto 0.75rem auto'
-          }}>
-            <svg xmlns="http://www.w3.org/2000/svg" style={{ width: '1.5rem', height: '1.5rem', color: '#9333ea' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <div
+            style={{
+              backgroundColor: '#f3e8ff',
+              borderRadius: '50%',
+              width: '3rem',
+              height: '3rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 0.75rem auto',
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ width: '1.5rem', height: '1.5rem', color: '#9333ea' }}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
           </div>
-          <p style={{ fontSize: '0.875rem', fontWeight: '500', color: '#4b5563', margin: 0 }}>Completely Free</p>
+          <p
+            style={{
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              color: '#4b5563',
+              margin: 0,
+            }}
+          >
+            Completely Free
+          </p>
         </div>
       </div>
 
@@ -1575,6 +1769,7 @@ const FreeSessionButton = ({ zoomLink, coachPhoto }) => {
         href={zoomLink}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={handleFreeSessionClick} // Add this onClick handler
         onMouseEnter={handleHover}
         style={{
           display: 'inline-block',
@@ -1587,26 +1782,28 @@ const FreeSessionButton = ({ zoomLink, coachPhoto }) => {
           transform: 'scale(1)',
           transition: 'transform 0.3s, box-shadow 0.3s',
           textDecoration: 'none',
-          fontSize: '1.125rem'
+          fontSize: '1.125rem',
         }}
-        onMouseOver={(e) => {
+        onMouseOver={e => {
           e.target.style.transform = 'scale(1.05)';
           e.target.style.boxShadow = '0 10px 15px rgba(0, 0, 0, 0.1)';
         }}
-        onMouseOut={(e) => {
+        onMouseOut={e => {
           e.target.style.transform = 'scale(1)';
           e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
         }}
       >
         Claim Your Free Session Now
       </a>
-      
-      <p style={{
-        marginTop: '1rem',
-        fontSize: '0.875rem',
-        color: '#6b7280',
-        fontStyle: 'italic'
-      }}>
+
+      <p
+        style={{
+          marginTop: '1rem',
+          fontSize: '0.875rem',
+          color: '#6b7280',
+          fontStyle: 'italic',
+        }}
+      >
         *Limited slots available. No credit card required.
       </p>
     </div>
@@ -1616,76 +1813,78 @@ const FreeSessionButton = ({ zoomLink, coachPhoto }) => {
 // Confetti animation component
 const Confetti = () => {
   const [particles, setParticles] = useState([]);
-  
+
   useEffect(() => {
     // Generate random confetti particles
     const colors = ['#FFC700', '#FF0055', '#2BD1FC', '#F19AF7', '#C3FF99'];
     const shapes = ['square', 'circle'];
     const newParticles = [];
-    
+
     // Create all particles at once with pre-calculated positions for the entire animation
     for (let i = 0; i < 100; i++) {
       const speedX = -1.5 + Math.random() * 3;
       const speedY = 3 + Math.random() * 5;
       const rotation = -1 + Math.random() * 2;
       const frames = [];
-      
+
       // Pre-calculate 90 frames of animation (approximately 3 seconds at 30fps)
       let x = Math.random() * 100;
       let y = -20 - Math.random() * 30;
       let currentSpeedY = speedY;
-      
+
       for (let frame = 0; frame < 90; frame++) {
         // Calculate position for this frame
         frames.push({
           x: x,
           y: y,
           opacity: Math.max(0, 1 - y / 120),
-          rotation: frame * rotation
+          rotation: frame * rotation,
         });
-        
+
         // Update for next frame
         x += speedX;
         y += currentSpeedY;
         currentSpeedY += 0.1; // Gravity effect
       }
-      
+
       newParticles.push({
         id: i,
         color: colors[Math.floor(Math.random() * colors.length)],
         size: 4 + Math.random() * 8,
         shape: shapes[Math.floor(Math.random() * shapes.length)],
         frames: frames,
-        currentFrame: 0
+        currentFrame: 0,
       });
     }
-    
+
     setParticles(newParticles);
-    
+
     // Animation loop that just increments the current frame instead of recalculating positions
     const animation = setInterval(() => {
-      setParticles(currentParticles => 
+      setParticles(currentParticles =>
         currentParticles.map(p => ({
           ...p,
-          currentFrame: Math.min(p.currentFrame + 1, p.frames.length - 1)
-        }))
+          currentFrame: Math.min(p.currentFrame + 1, p.frames.length - 1),
+        })),
       );
     }, 30);
-    
+
     return () => clearInterval(animation);
   }, []);
 
   return (
-    <div style={{ 
-      position: 'absolute', 
-      top: 0, 
-      left: 0, 
-      width: '100%', 
-      height: '100%', 
-      pointerEvents: 'none',
-      overflow: 'hidden',
-      zIndex: 10
-    }}>
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        overflow: 'hidden',
+        zIndex: 10,
+      }}
+    >
       {particles.map(p => {
         const frame = p.frames[p.currentFrame];
         return (
@@ -1702,7 +1901,7 @@ const Confetti = () => {
               transform: `rotate(${frame.rotation}deg)`,
               opacity: frame.opacity,
               transition: 'none',
-              willChange: 'transform, top, left, opacity'
+              willChange: 'transform, top, left, opacity',
             }}
           />
         );
@@ -1710,7 +1909,5 @@ const Confetti = () => {
     </div>
   );
 };
-
-
 
 export default CoachQuiz;

@@ -351,6 +351,7 @@ export function Login() {
     // Create an object to store the parameters
     const urlParamsObject = {
       coach: urlParams.get('coach') || '',
+      coach_selection_source: urlParams.get('coach_selection_source') || '',
       fprom_tid: urlParams.get('fprom_tid') || '',
       fprom_ref: urlParams.get('fprom_ref') || '',
       utm_campaign: urlParams.get('utm_campaign') || '',

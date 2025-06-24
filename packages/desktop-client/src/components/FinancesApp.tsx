@@ -192,6 +192,14 @@ export function FinancesApp({
   }, [location.search]); // Re-run when URL query parameters change
 
   const handlePlaidCallback = async (oauthStateId, publicToken) => {
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          type: 'handlePlaidCallback',
+        }),
+      );
+    }
+
     const currentUrl =
       window.location.origin +
       window.location.pathname +

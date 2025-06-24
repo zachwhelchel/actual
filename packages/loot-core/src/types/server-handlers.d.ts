@@ -24,10 +24,15 @@ import { EmptyObject } from './util';
 
 export interface ServerHandlers {
   'airtable-clients': () => Promise<Client[]>;
-  'airtable-user': (arg: { url: string; coachId: string }) => Promise<unknown>;
+  'airtable-user': (arg: {
+    url: string;
+    coachId: string;
+    coachSelectionSource: string;
+  }) => Promise<unknown>;
   'airtable-update-coach': (arg: {
     url: string;
     coachId: string;
+    coachSelectionSource: string;
   }) => Promise<unknown>;
   'airtable-update-user': (arg: {
     url: string;

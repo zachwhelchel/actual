@@ -257,6 +257,28 @@ export function App({ someDialogues, initialDialogueId }) {
     window.addEventListener('focus', checkScrollbars);
     window.addEventListener('visibilitychange', onVisibilityChange);
 
+    window.triggerSyncFromNative = async function () {
+      console.log('Sync triggered from React Native');
+      if (!isSyncing) {
+        console.debug('triggering sync because of React Native request');
+        isSyncing = true;
+        await dispatch(sync());
+        isSyncing = false;
+
+        // Send confirmation back to React Native
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(
+            JSON.stringify({
+              type: 'sync_completed',
+              success: true,
+            }),
+          );
+        }
+      } else {
+        console.log('Sync already in progress, skipping');
+      }
+    };
+
     return () => {
       window.removeEventListener('focus', checkScrollbars);
       window.removeEventListener('visibilitychange', onVisibilityChange);

@@ -1005,7 +1005,11 @@ handlers['airtable-clients'] = async function () {
     return { error_code: 'TIMED_OUT' };
   }
 };
-handlers['airtable-user'] = async function ({ url, coachId }) {
+handlers['airtable-user'] = async function ({
+  url,
+  coachId,
+  coachSelectionSource,
+}) {
   const server = determineMBCenv(url);
 
   const userToken = await asyncStorage.getItem('user-token');
@@ -1027,6 +1031,7 @@ handlers['airtable-user'] = async function ({ url, coachId }) {
     server.BASE_SERVER + '/airtable/user',
     {
       coachId,
+      coachSelectionSource,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -1036,7 +1041,11 @@ handlers['airtable-user'] = async function ({ url, coachId }) {
   return data;
 };
 
-handlers['airtable-update-coach'] = async function ({ url, coachId }) {
+handlers['airtable-update-coach'] = async function ({
+  url,
+  coachId,
+  coachSelectionSource,
+}) {
   const server = determineMBCenv(url);
 
   const userToken = await asyncStorage.getItem('user-token');
@@ -1058,6 +1067,7 @@ handlers['airtable-update-coach'] = async function ({ url, coachId }) {
     server.BASE_SERVER + '/airtable/update-coach',
     {
       coachId,
+      coachSelectionSource,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
