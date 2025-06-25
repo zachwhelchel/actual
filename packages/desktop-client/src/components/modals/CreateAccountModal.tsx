@@ -201,6 +201,18 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
     console.log('sssssss');
     console.log(s);
 
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          type: 'plaid',
+          link_token: results.link_token,
+          redirect_uri: s,
+        }),
+      );
+    } else {
+      window.location.href = `https://mbc-plaid.fly.dev?link_token=${results.link_token}&redirect_uri=${s}`;
+    }
+
     //s = "https://www.google.com"
 
     //encodeURIComponent(currentUrl)
@@ -214,7 +226,6 @@ export function CreateAccountModal({ upgradingAccountId }: CreateAccountProps) {
     // });
 
     // window.location.href = `https://cdn.plaid.com/link/v2/stable/link.html?token=${results.link_token}&redirect_uri=${s}`;
-    window.location.href = `https://mbc-plaid.fly.dev?link_token=${results.link_token}&redirect_uri=${s}`;
   };
 
   const getPlaidAccounts = async () => {
