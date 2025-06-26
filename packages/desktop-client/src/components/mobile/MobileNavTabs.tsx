@@ -3,6 +3,8 @@ import React, {
   type ComponentProps,
   type ComponentType,
   type CSSProperties,
+  useState,
+  useEffect,
 } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSpring, animated, config } from 'react-spring';
@@ -37,12 +39,53 @@ export const MOBILE_NAV_HEIGHT = ROW_HEIGHT + PILL_HEIGHT;
 
 export function MobileNavTabs() {
   const { isNarrowWidth } = useResponsive();
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const navTabStyle = {
     flex: `1 1 ${100 / COLUMN_COUNT}%`,
     height: ROW_HEIGHT,
     padding: 10,
   };
+
+  // Add unread count management
+  useEffect(() => {
+    // Function to update unread count from React Native
+    window.updateUnreadCount = count => {
+      console.log('Updating unread count to:', count);
+      setUnreadCount(count);
+    };
+
+    // Listen for unread count events
+    const handleUnreadUpdate = event => {
+      console.log('Received unread count event:', event.detail);
+      setUnreadCount(event.detail);
+    };
+
+    window.addEventListener('unreadCountUpdated', handleUnreadUpdate);
+
+    // Check if there's an initial count already set by React Native
+    if (window.globalUnreadCount !== undefined) {
+      console.log(
+        'Found initial global unread count:',
+        window.globalUnreadCount,
+      );
+      setUnreadCount(window.globalUnreadCount);
+    }
+
+    // Request the current count from React Native when the component mounts
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          type: 'requestUnreadCount',
+        }),
+      );
+    }
+
+    return () => {
+      window.removeEventListener('unreadCountUpdated', handleUnreadUpdate);
+      delete window.updateUnreadCount;
+    };
+  }, []);
 
   const [{ y }, api] = useSpring(() => ({ y: OPEN_DEFAULT_Y }));
 
@@ -108,6 +151,7 @@ export function MobileNavTabs() {
             style: navTabStyle,
             Icon: SvgChatBubbleDots,
             isSpecial: true,
+            unreadCount: unreadCount, // Pass the unread count
           },
         ]
       : []),
@@ -234,7 +278,8 @@ type NavTabProps = {
   Icon: ComponentType<NavTabIconProps>;
   style?: CSSProperties;
   onClick: ComponentProps<typeof NavLink>['onClick'];
-  isSpecial?: boolean; // Add this
+  isSpecial?: boolean;
+  unreadCount?: number; // Add this line
 };
 
 function NavTab({
@@ -244,10 +289,11 @@ function NavTab({
   style,
   onClick,
   isSpecial,
-}: NavTabProps & { isSpecial?: boolean }) {
+  unreadCount,
+}: NavTabProps & { isSpecial?: boolean; unreadCount?: number }) {
   const handleClick = (e: React.MouseEvent) => {
     if (isSpecial && name === 'Messages') {
-      e.preventDefault(); // Prevent navigation
+      e.preventDefault();
       if (window.ReactNativeWebView) {
         window.ReactNativeWebView.postMessage(
           JSON.stringify({
@@ -267,17 +313,36 @@ function NavTab({
         style={{
           ...styles.noTapHighlight,
           alignItems: 'center',
-          color: theme.mobileNavItem, // You might want to handle active state differently
+          color: theme.mobileNavItem,
           display: 'flex',
           flexDirection: 'column',
           textDecoration: 'none',
           textAlign: 'center',
           cursor: 'pointer',
+          position: 'relative', // Add this for positioning the red dot
           ...style,
         }}
         onClick={handleClick}
       >
-        <TabIcon width={22} height={22} />
+        <div style={{ position: 'relative' }}>
+          <TabIcon width={22} height={22} />
+          {/* Red dot indicator */}
+          {unreadCount > 0 && (
+            <div
+              style={{
+                position: 'absolute',
+                top: -2,
+                right: -2,
+                width: 8,
+                height: 8,
+                backgroundColor: '#ff3b30',
+                borderRadius: '50%',
+                border: '1px solid white',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.3)',
+              }}
+            />
+          )}
+        </div>
         {name}
       </div>
     );
