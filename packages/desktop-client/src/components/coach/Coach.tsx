@@ -429,6 +429,7 @@ export function CoachProvider({
           data: {
             userId: REACT_APP_CHAT_USER_ID,
             userToken: REACT_APP_CHAT_ACCESS_TOKEN,
+            zoomLink: REACT_APP_ZOOM_LINK,
           },
         }),
       );
