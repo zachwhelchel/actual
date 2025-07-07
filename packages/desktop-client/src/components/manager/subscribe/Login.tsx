@@ -223,7 +223,29 @@ function OpenIdLogin({ setError }) {
               </div>
 
               <div style={containerStyle}>
-                {likelyHereForSignUp ? (
+                {window.ReactNativeWebView ? (
+                  // ReactNativeWebView - only show login
+                  <>
+                    <Button
+                      variant="primary"
+                      style={primaryButtonStyle}
+                      onPress={() => onSubmitOpenId(false)}
+                    >
+                      <Trans>Log In</Trans>
+                    </Button>
+                    <p
+                      style={{
+                        textAlign: 'center',
+                        marginTop: 8,
+                        fontSize: 14,
+                        color: '#666',
+                      }}
+                    >
+                      You must be a current MyBudgetCoach user to login to this
+                      app.
+                    </p>
+                  </>
+                ) : likelyHereForSignUp ? (
                   // Sign Up is the primary action
                   <>
                     <Button
@@ -233,7 +255,6 @@ function OpenIdLogin({ setError }) {
                     >
                       <Trans>Sign Up</Trans>
                     </Button>
-
                     <button
                       style={secondaryButtonStyle}
                       onClick={() => onSubmitOpenId(false)}
@@ -251,7 +272,6 @@ function OpenIdLogin({ setError }) {
                     >
                       <Trans>Log In</Trans>
                     </Button>
-
                     <button
                       style={secondaryButtonStyle}
                       onClick={() => onSubmitOpenId(true)}
