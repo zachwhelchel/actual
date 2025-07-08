@@ -3,9 +3,9 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.mybudgetcoach.app.twa",
+      "package_name": "com.mybudgetcoach.mybudgetcoach",
       "sha256_cert_fingerprints": [
-        "D2:22:25:58:D0:71:20:C0:96:70:2E:08:A3:0B:C6:89:D1:45:44:AF:A9:6D:58:AF:12:3A:01:76:85:6B:83:4D"
+        "F3:54:21:CB:65:DA:42:F1:ED:2F:51:CB:7B:2F:69:49:7B:CC:12:2E:D7:33:D8:F7:A2:56:F0:AF:64:F6:6C:A3"
       ]
     }
   }
