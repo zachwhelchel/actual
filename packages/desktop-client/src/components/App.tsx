@@ -159,6 +159,20 @@ function AppInner({ someDialogues, initialDialogueId }: AppInnerProps) {
     }
   }, [userData, userData?.tokenExpired]);
 
+  useEffect(() => {
+    if (userData?.userId) {
+      // Only true if userId exists and is truthy
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(
+          JSON.stringify({
+            type: 'logged_in_user',
+            userId: userData.userId,
+          }),
+        );
+      }
+    }
+  }, [userData]);
+
   const imgSrc = '/maskable-192x192.png';
 
   const bg = (
