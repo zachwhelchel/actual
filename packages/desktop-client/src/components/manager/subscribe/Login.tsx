@@ -94,6 +94,14 @@ function OpenIdLogin({ setError }) {
   }
 
   useEffect(() => {
+    // if (window.ReactNativeWebView) {
+    //   window.ReactNativeWebView.postMessage(
+    //     JSON.stringify({
+    //       type: 'login_flow'
+    //     }),
+    //   );
+    // }
+
     send('owner-created').then(created => setWarnMasterCreation(!created));
   }, []);
 
@@ -164,6 +172,20 @@ function OpenIdLogin({ setError }) {
     // Set state based on coach parameter presence
     setLikelyHereForSignUp(hasCoachParam);
   }, []);
+
+  // if (window.ReactNativeWebView) {
+  //   return (
+  //     <View
+  //       style={{
+  //         width: '100%',
+  //         height: '100%',
+  //         backgroundColor: colorPalette.navy100,
+  //         marginTop: 0,
+  //       }}
+  //     >
+  //     </View>
+  //   );
+  // }
 
   return (
     <View>

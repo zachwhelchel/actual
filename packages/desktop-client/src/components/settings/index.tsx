@@ -94,6 +94,16 @@ export function Settings() {
     dispatch(closeBudget());
   };
 
+  const onManageSubscription = () => {
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          type: 'manage_subscription',
+        }),
+      );
+    }
+  };
+
   useEffect(() => {
     const unlisten = listen('prefs-updated', () => {
       dispatch(loadPrefs());
@@ -136,6 +146,11 @@ export function Settings() {
             </FormField>
             <Button onPress={onCloseBudget}>{t('Close Budget')}</Button>
           </View>
+        )}
+        {window.ReactNativeWebView && (
+          <Button onPress={onManageSubscription}>
+            {t('Manage Subscription')}
+          </Button>
         )}
         <About />
         <ThemeSettings />

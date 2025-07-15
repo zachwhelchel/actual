@@ -11,6 +11,9 @@ import { Button, ButtonWithLoading } from '../common/Button2';
 
 import AirtableButton from './airtable-button';
 
+import * as colorPalette from '../../style/palette';
+import { View } from '../common/View';
+
 // const TEST_DATA = {
 //   coaches: [
 //     {
@@ -84,6 +87,22 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
   });
 
   const userData = useSelector((state: State) => state.user.data);
+
+  useEffect(() => {
+    if (window.ReactNativeWebView) {
+      if (userData?.userId !== null) {
+        window.ReactNativeWebView.postMessage(
+          JSON.stringify({
+            type: 'need_stuff_mobile_flow',
+            userId: userData?.userId,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+          }),
+        );
+      }
+    }
+  }, []);
 
   // Contact form data
   // const [formData, setFormData] = useState({
@@ -649,6 +668,19 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       //   </div>
       // </div>
       <div />
+    );
+  }
+
+  if (window.ReactNativeWebView) {
+    return (
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: colorPalette.navy100,
+          marginTop: 0,
+        }}
+      ></View>
     );
   }
 

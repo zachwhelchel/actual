@@ -19,6 +19,7 @@ import {
   SvgTuning,
   SvgWallet,
   SvgChatBubbleDots,
+  SvgUser,
 } from '../../icons/v1';
 import { SvgReports } from '../../icons/v1/Reports';
 import { SvgCalendar } from '../../icons/v2';
@@ -146,10 +147,10 @@ export function MobileNavTabs() {
     ...(window.ReactNativeWebView
       ? [
           {
-            name: 'Messages',
+            name: 'My Coach',
             path: '/reports',
             style: navTabStyle,
-            Icon: SvgChatBubbleDots,
+            Icon: SvgUser,
             isSpecial: true,
             unreadCount: unreadCount, // Pass the unread count
           },
@@ -292,7 +293,7 @@ function NavTab({
   unreadCount,
 }: NavTabProps & { isSpecial?: boolean; unreadCount?: number }) {
   const handleClick = (e: React.MouseEvent) => {
-    if (isSpecial && name === 'Messages') {
+    if (isSpecial && name === 'My Coach') {
       e.preventDefault();
       if (window.ReactNativeWebView) {
         window.ReactNativeWebView.postMessage(
@@ -307,7 +308,7 @@ function NavTab({
     onClick?.(e);
   };
 
-  if (isSpecial && name === 'Messages') {
+  if (isSpecial && name === 'My Coach') {
     return (
       <div
         style={{
