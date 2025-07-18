@@ -191,6 +191,26 @@ export function Accounts({
 
   const messageCenterText = 'Message Center';
 
+  const manageSubscription = () => {
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          type: 'manage_subscription',
+        }),
+      );
+    }
+  };
+
+  const showMessenger = () => {
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          type: 'showMessenger',
+        }),
+      );
+    }
+  };
+
   return (
     <View>
       <div
@@ -571,105 +591,114 @@ export function Accounts({
         }}
       />
 
-      {REACT_APP_UI_MODE === 'user' && mode === 'subscribed' && (
-        <p
-          key="subscribed"
-          style={{
-            marginTop: 15,
-            marginLeft: 15,
-            marginRight: 15,
-            paddingBottom: 15,
-            flexShrink: '1',
-          }}
-        >
-          You are currently subscribed. Manage your subscription{' '}
-          <Link
-            key="manageSubscription"
-            variant="external"
-            linkColor="white"
-            to="https://mybudgetcoach.app/subscription"
-          >
-            here
-          </Link>
-          .
-        </p>
-      )}
-
-      {REACT_APP_UI_MODE === 'user' && mode === 'sponsored' && (
-        <p
-          key="sponsored"
-          style={{
-            marginTop: 15,
-            marginLeft: 15,
-            marginRight: 15,
-            paddingBottom: 15,
-            flexShrink: '1',
-          }}
-        >
-          Your account is currently sponsored.
-        </p>
-      )}
-
-      {REACT_APP_UI_MODE === 'user' && mode === 'free_trial' && (
-        <p
-          key="freeTrial"
-          style={{
-            marginTop: 15,
-            marginLeft: 15,
-            marginRight: 15,
-            paddingBottom: 15,
-            flexShrink: '1',
-          }}
-        >
-          Your Free Trial has {freeTrialDaysLeft} days remaining.{' '}
-          <Link
-            variant="external"
-            linkColor="white"
-            to="https://mybudgetcoach.app/subscription"
-          >
-            Subscribe at any time
-          </Link>{' '}
-          to keep your budget beyond your trial.
-        </p>
-      )}
-
-      {REACT_APP_UI_MODE === 'user' && mode === 'deletion_soon' && (
+      {window.ReactNativeWebView ? (
         <>
-          <p
-            key="deleteSoon"
-            style={{
-              marginTop: 15,
-              marginLeft: 15,
-              marginRight: 15,
-              paddingBottom: 15,
-              flexShrink: '1',
-              color: theme.errorText,
-            }}
-          >
-            Your Free Trial ended {daysUntilDeletion} days ago.{' '}
-            <Link
-              variant="external"
-              linkColor="white"
-              to="https://mybudgetcoach.app/subscription"
+          <Button onClick={manageSubscription}>Manage Subscription</Button>
+          <Button onClick={showMessenger}>My Coach</Button>
+        </>
+      ) : (
+        <>
+          {REACT_APP_UI_MODE === 'user' && mode === 'subscribed' && (
+            <p
+              key="subscribed"
+              style={{
+                marginTop: 15,
+                marginLeft: 15,
+                marginRight: 15,
+                paddingBottom: 15,
+                flexShrink: '1',
+              }}
             >
-              Subscribe now
-            </Link>{' '}
-            to avoid losing your budget.
-          </p>
-          <p
-            key="disappearWarning"
-            style={{
-              marginTop: 0,
-              marginLeft: 15,
-              marginRight: 15,
-              paddingBottom: 15,
-              flexShrink: '1',
-              color: theme.errorText,
-            }}
-          >
-            Note: Once subscribed this warning will disappear within 2 business
-            days.
-          </p>
+              You are currently subscribed. Manage your subscription{' '}
+              <Link
+                key="manageSubscription"
+                variant="external"
+                linkColor="white"
+                to="https://mybudgetcoach.app/subscription"
+              >
+                here
+              </Link>
+              .
+            </p>
+          )}
+
+          {REACT_APP_UI_MODE === 'user' && mode === 'sponsored' && (
+            <p
+              key="sponsored"
+              style={{
+                marginTop: 15,
+                marginLeft: 15,
+                marginRight: 15,
+                paddingBottom: 15,
+                flexShrink: '1',
+              }}
+            >
+              Your account is currently sponsored.
+            </p>
+          )}
+
+          {REACT_APP_UI_MODE === 'user' && mode === 'free_trial' && (
+            <p
+              key="freeTrial"
+              style={{
+                marginTop: 15,
+                marginLeft: 15,
+                marginRight: 15,
+                paddingBottom: 15,
+                flexShrink: '1',
+              }}
+            >
+              Your Free Trial has {freeTrialDaysLeft} days remaining.{' '}
+              <Link
+                variant="external"
+                linkColor="white"
+                to="https://mybudgetcoach.app/subscription"
+              >
+                Subscribe at any time
+              </Link>{' '}
+              to keep your budget beyond your trial.
+            </p>
+          )}
+
+          {REACT_APP_UI_MODE === 'user' && mode === 'deletion_soon' && (
+            <>
+              <p
+                key="deleteSoon"
+                style={{
+                  marginTop: 15,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  paddingBottom: 15,
+                  flexShrink: '1',
+                  color: theme.errorText,
+                }}
+              >
+                Your Free Trial ended {daysUntilDeletion} days ago.{' '}
+                <Link
+                  variant="external"
+                  linkColor="white"
+                  to="https://mybudgetcoach.app/subscription"
+                >
+                  Subscribe now
+                </Link>{' '}
+                to avoid losing your budget.
+              </p>
+              <p
+                key="disappearWarning"
+                style={{
+                  marginTop: 0,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  paddingBottom: 15,
+                  flexShrink: '1',
+                  color: theme.errorText,
+                }}
+              >
+                Note: Once subscribed this warning will disappear within 2
+                business days.
+              </p>
+            </>
+          )}
         </>
       )}
     </View>
