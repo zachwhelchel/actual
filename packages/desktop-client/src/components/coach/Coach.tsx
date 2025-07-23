@@ -430,6 +430,8 @@ export function CoachProvider({
             userId: REACT_APP_CHAT_USER_ID,
             userToken: REACT_APP_CHAT_ACCESS_TOKEN,
             zoomLink: REACT_APP_ZOOM_LINK,
+            userInterfaceMode: REACT_APP_UI_MODE,
+            coachPhoto: REACT_APP_COACH_PHOTO,
           },
         }),
       );
