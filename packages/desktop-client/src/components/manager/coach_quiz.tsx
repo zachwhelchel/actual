@@ -59,13 +59,17 @@ const TEST_DATA = {
 };
 
 const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
-  const [currentStage, setCurrentStage] = useState(jumpToUser ? 3 : 0);
+  const [currentStage, setCurrentStage] = useState(jumpToUser ? 3 : -1);
   const [coaches, setCoaches] = useState([]);
   const [uniqueNiches, setUniqueNiches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [usingTestData, setUsingTestData] = useState(false);
   const [showingAlternatives, setShowingAlternatives] = useState(false);
+
+  const [allCoaches, setAllCoaches] = useState([]);
+  const [allUniqueNiches, setAllUniqueNiches] = useState([]);
+  const [premiumDesired, setPremiumDesired] = useState(false);
 
   // Store answers
   const [selectedNiches, setSelectedNiches] = useState([]);
@@ -111,6 +115,47 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
   //   motivation: ''
   // });
 
+  const basicSelected = async () => {
+    console.log('basicSelected');
+
+    let formattedCoaches = allCoaches;
+
+    const allNiches = formattedCoaches.flatMap(coach => coach.niches);
+    const uniqueNichesList = [...new Set(allNiches)].sort();
+
+    setCoaches(formattedCoaches);
+    setUniqueNiches(uniqueNichesList);
+
+    setPremiumDesired(false);
+    setSelectedNiches([]);
+    setCurrentStage(0);
+  };
+
+  const premiumSelected = async () => {
+    console.log('premiumSelected');
+
+    let formattedCoaches = allCoaches.filter(coach => coach.premium === true);
+
+    const allNiches = formattedCoaches.flatMap(coach => coach.niches);
+    const uniqueNichesList = [...new Set(allNiches)].sort();
+
+    setCoaches(formattedCoaches);
+    setUniqueNiches(uniqueNichesList);
+
+    setPremiumDesired(true);
+    setSelectedNiches([]);
+    setCurrentStage(0);
+  };
+
+  const handleNextFromNiches = async () => {
+    console.log('handleNextFromNiches');
+    if (premiumDesired === true) {
+      setCurrentStage(2);
+    } else {
+      setCurrentStage(1);
+    }
+  };
+
   // Progress bar component
   const ProgressBar = () => (
     <div
@@ -128,7 +173,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
           height: '0.5rem', // h-2
           borderRadius: '9999px', // rounded-full
           transition: 'all 300ms', // transition-all duration-300
-          width: `${((currentStage + 1) / 4) * 100}%`,
+          width: `${((currentStage + 2) / 4) * 100}%`,
         }}
       />
     </div>
@@ -143,7 +188,36 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       );
     }
 
-    setCurrentStage(3);
+    const url = String(window.location.href);
+    if (premiumDesired) {
+      console.log('go pay...');
+
+      // Build success URL with plan_purchased parameter
+      let successUrl = new URL(url);
+      successUrl.searchParams.set('plan_purchased', 'premium');
+
+      // Build cancel URL (current URL without changes)
+      let cancelUrl = url;
+
+      successUrl = successUrl.toString();
+      cancelUrl = cancelUrl.toString();
+
+      let userId = userData.userId;
+
+      const results = await send('airtable-create-checkout-session', {
+        url,
+        userId,
+        successUrl,
+        cancelUrl,
+      });
+
+      console.log('airtable-create-checkout-session');
+      console.log(results);
+
+      window.location.href = results;
+    } else {
+      setCurrentStage(3);
+    }
   };
 
   const handleSubmit = async () => {
@@ -165,10 +239,17 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     // Only proceed if all fields are valid
     if (isValid) {
       if (userData?.userId !== null) {
-        const { coach_free_zoom_link, coach_photo } = await updateUserData(
-          userData?.userId,
-        );
-        if (coach_free_zoom_link !== null) {
+        const { coach_free_zoom_link, coach_cal_user, coach_photo } =
+          await updateUserData(userData?.userId);
+        if (coach_cal_user !== null) {
+          window.open(
+            'https://cal.mybudgetcoach.com/' +
+              coach_cal_user +
+              '/premium-included',
+            '_blank',
+          );
+          window.location.reload();
+        } else if (coach_free_zoom_link !== null) {
           setFreeZoomLink(coach_free_zoom_link);
           setCoachPhoto(coach_photo);
           setCurrentStage(4);
@@ -208,6 +289,10 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     const storedParams = localStorage.getItem('urlParams');
     const params = storedParams ? JSON.parse(storedParams) : null;
 
+    //this is brittle, could miss it. should set more reliably when we get it back or actually
+    //some other whole way of knowing from stripe actually would be better.
+    const urlParams = new URLSearchParams(window.location.search);
+
     const results = await send('airtable-update-user', {
       url,
       first_name: formData.firstName,
@@ -225,6 +310,8 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       utm_source: params?.utm_source,
       utm_term: params?.utm_term,
       utm_content: params?.utm_content,
+      plan_purchased: urlParams.get('plan_purchased') || 'original',
+      status: urlParams.get('plan_purchased') ? 'paid' : 'free_trial',
     });
     console.log('updateUserCoachRelationship');
     console.log(results);
@@ -232,14 +319,21 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     const record = results.fields;
 
     const coach_free_zoom_link = record.coach_free_zoom_link?.[0] || null;
+    let coach_cal_user = null;
+
+    if (record.coach_cal_user && record.plan === 'premium') {
+      coach_cal_user = record.coach_cal_user;
+    }
+
     const coach_photo = record.coach_photo?.[0]?.base64 || null;
 
     console.log(coach_free_zoom_link);
     console.log(coach_photo);
 
     localStorage.removeItem('urlParams');
+    window.history.replaceState({}, document.title, window.location.pathname);
 
-    return { coach_free_zoom_link, coach_photo };
+    return { coach_free_zoom_link, coach_cal_user, coach_photo };
   };
 
   // Coach card component
@@ -280,6 +374,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
             <img
               src={coach.photo}
               alt={coach.name}
+              crossOrigin="anonymous"
               style={{
                 borderRadius: '9999px',
                 objectFit: 'cover',
@@ -434,6 +529,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
             fields: [
               'Name',
               'Price',
+              'Premium',
               'Photo',
               'Niche',
               'Quiz',
@@ -454,20 +550,30 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
           quizQuote: record.get('Quiz Quote'),
           recordId: record.get('Record Id'),
           price: record.get('Price'),
+          photo: record.fields.Photo ? record.fields.Photo[0]?.url : null,
+          premium: record.get('Premium'),
           niches: record.get('Niche') || [],
           quizWeight: parseInt(record.get('Quiz Weight')) || 5,
         }));
 
         //took this out for now bc cors
-        // photo: record.fields.Photo ? record.fields.Photo[0]?.url : null,
 
         formattedCoaches = formattedCoaches.filter(
           coach => coach.quizWeight !== 1,
         );
 
+        if (premiumDesired === true) {
+          formattedCoaches = formattedCoaches.filter(
+            coach => coach.premium === true,
+          );
+        }
+
         // Get unique niches from all coaches
         const allNiches = formattedCoaches.flatMap(coach => coach.niches);
         const uniqueNichesList = [...new Set(allNiches)].sort();
+
+        setAllCoaches(formattedCoaches);
+        setAllUniqueNiches(uniqueNichesList);
 
         setCoaches(formattedCoaches);
         setUniqueNiches(uniqueNichesList);
@@ -1298,6 +1404,485 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     );
   }
 
+  if (currentStage === -1) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          overflow: 'auto',
+          paddingTop: 20,
+          paddingBottom: 20,
+          minHeight: '100vh',
+          backgroundColor: '#f5f5f5',
+        }}
+      >
+        <div
+          style={{
+            width: '90%',
+            maxWidth: '600px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            padding: '1.5rem',
+            backgroundColor: 'white',
+            borderRadius: '0.5rem',
+            boxShadow:
+              '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+          }}
+        >
+          <ProgressBar />
+
+          <div
+            style={{
+              textAlign: 'center',
+              marginBottom: '2rem',
+            }}
+          >
+            <h2
+              style={{
+                fontSize: '1.5rem',
+                fontWeight: 'bold',
+                marginBottom: '0.5rem',
+                color: '#1f2937',
+              }}
+            >
+              Choose A Plan
+            </h2>
+            <p
+              style={{
+                color: '#6b7280',
+                fontSize: '1rem',
+              }}
+            >
+              Select the plan that works best for you
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '1.5rem',
+              marginTop: '2rem',
+            }}
+          >
+            {/* Premium Plan */}
+            <div
+              style={{
+                border: '2px solid #8b5cf6',
+                borderRadius: '0.75rem',
+                padding: '2rem',
+                position: 'relative',
+                backgroundColor: 'white',
+                cursor: 'pointer',
+              }}
+              onClick={premiumSelected}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '-12px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#8b5cf6',
+                  color: 'white',
+                  padding: '0.25rem 1rem',
+                  borderRadius: '9999px',
+                  fontSize: '0.75rem',
+                  fontWeight: '600',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                }}
+              >
+                Popular
+              </div>
+
+              <div
+                style={{
+                  textAlign: 'center',
+                  marginBottom: '1.5rem',
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: '1.25rem',
+                    fontWeight: '600',
+                    color: '#1f2937',
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  Premium
+                </h3>
+                <div
+                  style={{
+                    fontSize: '2rem',
+                    fontWeight: 'bold',
+                    color: '#1f2937',
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  $64.99
+                  <span
+                    style={{
+                      fontSize: '1rem',
+                      fontWeight: 'normal',
+                      color: '#6b7280',
+                    }}
+                  >
+                    /month
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'inline-block',
+                    backgroundColor: '#f3e8ff',
+                    color: '#7c3aed',
+                    padding: '0.25rem 0.75rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.875rem',
+                    fontWeight: '500',
+                  }}
+                >
+                  1 Month Money Back Guarantee
+                </div>
+              </div>
+
+              <div
+                style={{
+                  marginBottom: '1.5rem',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '0.75rem',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: '50%',
+                      backgroundColor: '#10b981',
+                      marginRight: '0.75rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '6px',
+                        height: '6px',
+                        backgroundColor: 'white',
+                        borderRadius: '50%',
+                      }}
+                    ></div>
+                  </div>
+                  <span
+                    style={{
+                      color: '#4b5563',
+                      fontSize: '0.9rem',
+                    }}
+                  >
+                    1 month money back guarantee
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '0.75rem',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: '50%',
+                      backgroundColor: '#8b5cf6',
+                      marginRight: '0.75rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '6px',
+                        height: '6px',
+                        backgroundColor: 'white',
+                        borderRadius: '50%',
+                      }}
+                    ></div>
+                  </div>
+                  <span
+                    style={{
+                      color: '#4b5563',
+                      fontSize: '0.9rem',
+                    }}
+                  >
+                    1 hour session included monthly
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: '50%',
+                      backgroundColor: '#6b7280',
+                      marginRight: '0.75rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '6px',
+                        height: '6px',
+                        backgroundColor: 'white',
+                        borderRadius: '50%',
+                      }}
+                    ></div>
+                  </div>
+                  <span
+                    style={{
+                      color: '#4b5563',
+                      fontSize: '0.9rem',
+                    }}
+                  >
+                    Extra sessions $55 each
+                  </span>
+                </div>
+              </div>
+
+              <button
+                style={{
+                  width: '100%',
+                  padding: '0.75rem 1rem',
+                  backgroundColor: '#8b5cf6',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '0.5rem',
+                  fontSize: '1rem',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                }}
+              >
+                Choose Premium
+              </button>
+            </div>
+
+            {/* Basic Plan */}
+            <div
+              style={{
+                border: '2px solid #e5e7eb',
+                borderRadius: '0.75rem',
+                padding: '2rem',
+                position: 'relative',
+                backgroundColor: 'white',
+                cursor: 'pointer',
+              }}
+              onClick={basicSelected}
+            >
+              <div
+                style={{
+                  textAlign: 'center',
+                  marginBottom: '1.5rem',
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: '1.25rem',
+                    fontWeight: '600',
+                    color: '#1f2937',
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  Basic
+                </h3>
+                <div
+                  style={{
+                    fontSize: '2rem',
+                    fontWeight: 'bold',
+                    color: '#1f2937',
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  $14.99
+                  <span
+                    style={{
+                      fontSize: '1rem',
+                      fontWeight: 'normal',
+                      color: '#6b7280',
+                    }}
+                  >
+                    /month
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'inline-block',
+                    backgroundColor: '#dbeafe',
+                    color: '#1e40af',
+                    padding: '0.25rem 0.75rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.875rem',
+                    fontWeight: '500',
+                  }}
+                >
+                  35 Day Free Trial
+                </div>
+              </div>
+
+              <div
+                style={{
+                  marginBottom: '1.5rem',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '0.75rem',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: '50%',
+                      backgroundColor: '#10b981',
+                      marginRight: '0.75rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '6px',
+                        height: '6px',
+                        backgroundColor: 'white',
+                        borderRadius: '50%',
+                      }}
+                    ></div>
+                  </div>
+                  <span
+                    style={{
+                      color: '#4b5563',
+                      fontSize: '0.9rem',
+                    }}
+                  >
+                    35 day free trial
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '0.75rem',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: '50%',
+                      backgroundColor: '#6b7280',
+                      marginRight: '0.75rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '6px',
+                        height: '6px',
+                        backgroundColor: 'white',
+                        borderRadius: '50%',
+                      }}
+                    ></div>
+                  </div>
+                  <span
+                    style={{
+                      color: '#4b5563',
+                      fontSize: '0.9rem',
+                    }}
+                  >
+                    No included sessions
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: '50%',
+                      backgroundColor: '#6b7280',
+                      marginRight: '0.75rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '6px',
+                        height: '6px',
+                        backgroundColor: 'white',
+                        borderRadius: '50%',
+                      }}
+                    ></div>
+                  </div>
+                  <span
+                    style={{
+                      color: '#4b5563',
+                      fontSize: '0.9rem',
+                    }}
+                  >
+                    Sessions priced separately
+                  </span>
+                </div>
+              </div>
+
+              <button
+                style={{
+                  width: '100%',
+                  padding: '0.75rem 1rem',
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '0.5rem',
+                  fontSize: '1rem',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                }}
+              >
+                Start Free Trial
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Niche selection page
   if (currentStage === 0) {
     return (
@@ -1407,6 +1992,17 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
               </label>
             ))}
           </div>
+
+          <div
+            style={{
+              fontSize: '0.875rem',
+              color: 'rgb(107, 114, 128)',
+              marginBottom: 20,
+            }}
+          >
+            Selected: {selectedNiches.length}/3
+          </div>
+
           <div
             style={{
               display: 'flex',
@@ -1414,17 +2010,20 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
               alignItems: 'center',
             }}
           >
-            <div
+            <button
+              onClick={() => setCurrentStage(-1)}
               style={{
-                fontSize: '0.875rem',
-                color: 'rgb(107, 114, 128)',
+                padding: '0.5rem 1rem',
+                border: '1px solid rgb(209, 213, 219)',
+                borderRadius: '0.25rem',
+                transition: 'background-color 150ms',
               }}
             >
-              Selected: {selectedNiches.length}/3
-            </div>
+              Back
+            </button>
 
             <button
-              onClick={() => setCurrentStage(1)}
+              onClick={handleNextFromNiches}
               disabled={selectedNiches.length === 0}
               style={{
                 padding: '0.5rem 1rem',

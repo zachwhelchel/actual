@@ -34,6 +34,12 @@ export interface ServerHandlers {
     coachId: string;
     coachSelectionSource: string;
   }) => Promise<unknown>;
+  'airtable-create-checkout-session': (arg: {
+    url: string;
+    userId: string;
+    successUrl: string;
+    cancelUrl: string;
+  }) => Promise<unknown>;
   'airtable-update-user': (arg: {
     url: string;
     first_name: string;
@@ -51,6 +57,8 @@ export interface ServerHandlers {
     utm_source: string;
     utm_term: string;
     utm_content: string;
+    plan_purchased: string;
+    status: string;
   }) => Promise<unknown>;
   'airtable-update-internal-client': (arg: {
     url: string;

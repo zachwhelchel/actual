@@ -1077,6 +1077,48 @@ handlers['airtable-update-coach'] = async function ({
   return data;
 };
 
+handlers['airtable-create-checkout-session'] = async function ({
+  url,
+  userId,
+  successUrl,
+  cancelUrl,
+}) {
+  const server = determineMBCenv(url);
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken');
+  console.log(userToken);
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  });
+
+  console.log(userId);
+  console.log(successUrl);
+  console.log(cancelUrl);
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/create-checkout-session',
+    {
+      userId,
+      successUrl,
+      cancelUrl,
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  return data;
+};
+
 handlers['airtable-update-analytics'] = async function ({
   url,
   last_visited_budget_small_screen,
@@ -1179,6 +1221,8 @@ handlers['airtable-update-user'] = async function ({
   utm_source,
   utm_term,
   utm_content,
+  plan_purchased,
+  status,
 }) {
   const server = determineMBCenv(url);
 
@@ -1215,6 +1259,8 @@ handlers['airtable-update-user'] = async function ({
       utm_source,
       utm_term,
       utm_content,
+      plan_purchased,
+      status,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
