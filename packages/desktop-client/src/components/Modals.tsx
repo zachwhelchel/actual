@@ -72,6 +72,7 @@ import { SelectLinkedAccountsModal } from './modals/SelectLinkedAccountsModal';
 import { SimpleFinInitialiseModal } from './modals/SimpleFinInitialiseModal';
 import { SingleInputModal } from './modals/SingleInputModal';
 import { SponsorUserModal } from './modals/SponsorUserModal';
+import { SubscribeModal } from './modals/SubscribeModal';
 import { StartNewConversation } from './modals/StartNewConversation';
 import { TrackingBalanceMenuModal } from './modals/TrackingBalanceMenuModal';
 import { TrackingBudgetMenuModal } from './modals/TrackingBudgetMenuModal';
@@ -147,6 +148,9 @@ export function Modals() {
               onSave={options.onSave}
             />
           );
+
+        case 'subscribe':
+          return <SubscribeModal key={name} />;
 
         case 'start-new-conversation':
           return <StartNewConversation key={name} />;

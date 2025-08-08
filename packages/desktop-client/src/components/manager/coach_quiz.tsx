@@ -203,12 +203,14 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       cancelUrl = cancelUrl.toString();
 
       let userId = userData.userId;
+      let premium = true;
 
       const results = await send('airtable-create-checkout-session', {
         url,
         userId,
         successUrl,
         cancelUrl,
+        premium,
       });
 
       console.log('airtable-create-checkout-session');

@@ -1,11 +1,13 @@
 import React, { useState, useMemo, useContext, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { replaceModal } from 'loot-core/client/actions';
 
 import { moveAccount } from 'loot-core/src/client/actions';
 import * as queries from 'loot-core/src/client/queries';
 import { type State } from 'loot-core/src/client/state-types';
 import { type AccountEntity } from 'loot-core/types/models';
+import { send } from 'loot-core/src/platform/client/fetch';
 
 import {
   REACT_APP_BILLING_STATUS,
@@ -79,6 +81,7 @@ export function Accounts({
   const syncingAccountIds = useSelector(
     (state: State) => state.account.accountsSyncing,
   );
+  const userData = useSelector(state => state.user.data);
 
   const getAccountPath = (account: AccountEntity) => `/accounts/${account.id}`;
 
@@ -116,6 +119,14 @@ export function Accounts({
 
   const onToggleClosedAccounts = () => {
     setShowClosedAccountsPref(!showClosedAccounts);
+  };
+
+  const onSubscribe = async () => {
+    console.log('subscribe');
+
+    dispatch(replaceModal('subscribe', {}));
+
+    return;
   };
 
   const {
@@ -649,11 +660,7 @@ export function Accounts({
               }}
             >
               Your Free Trial has {freeTrialDaysLeft} days remaining.{' '}
-              <Link
-                variant="external"
-                linkColor="white"
-                to="https://mybudgetcoach.app/subscription"
-              >
+              <Link variant="text" linkColor="white" onClick={onSubscribe}>
                 Subscribe at any time
               </Link>{' '}
               to keep your budget beyond your trial.
