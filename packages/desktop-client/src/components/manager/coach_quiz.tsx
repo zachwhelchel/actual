@@ -211,8 +211,6 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
     const url = String(window.location.href);
     if (premiumDesired) {
-      successUrl.searchParams.set('plan_purchased', 'premium');
-
       if (premiumPurchasedAlready) {
         setCurrentStage(3);
       } else {
