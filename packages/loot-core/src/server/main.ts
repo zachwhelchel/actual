@@ -1086,35 +1086,17 @@ handlers['airtable-create-checkout-session'] = async function ({
 }) {
   const server = determineMBCenv(url);
 
-  const userToken = await asyncStorage.getItem('user-token');
-
-  if (!userToken) {
-    return { error: 'unauthorized' };
-  }
-
-  console.log('userToken');
-  console.log(userToken);
-
-  const res = await get(server.SIGNUP_SERVER + '/validate', {
-    headers: {
-      'X-ACTUAL-TOKEN': userToken,
-    },
-  });
-
   console.log(userId);
   console.log(successUrl);
   console.log(cancelUrl);
 
   const data = await post(
-    server.BASE_SERVER + '/airtable/create-checkout-session',
+    server.BASE_SERVER + '/envvariables/create-checkout-session',
     {
       userId,
       successUrl,
       cancelUrl,
       premium,
-    },
-    {
-      'X-ACTUAL-TOKEN': userToken,
     },
   );
 
@@ -1225,6 +1207,7 @@ handlers['airtable-update-user'] = async function ({
   utm_content,
   plan_purchased,
   status,
+  anonymous_purchaser,
 }) {
   const server = determineMBCenv(url);
 
@@ -1263,6 +1246,7 @@ handlers['airtable-update-user'] = async function ({
       utm_content,
       plan_purchased,
       status,
+      anonymous_purchaser,
     },
     {
       'X-ACTUAL-TOKEN': userToken,

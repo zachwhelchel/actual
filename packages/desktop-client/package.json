@@ -1,6 +1,6 @@
 {
   "name": "@zachwhelchel/actual-app-web-multi",
-  "version": "24.0.41",
+  "version": "24.0.42",
   "license": "MIT",
   "files": [
     "build"
@@ -95,5 +95,8 @@
     "test": "vitest",
     "e2e": "npx playwright test --browser=chromium",
     "vrt": "cross-env VRT=true npx playwright test --browser=chromium"
+  },
+  "dependencies": {
+    "react-facebook-pixel": "^1.0.4"
   }
 }

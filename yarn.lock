@@ -7746,6 +7746,7 @@ __metadata:
     react-dnd-html5-backend: "npm:^16.0.1"
     react-dom: "npm:18.2.0"
     react-error-boundary: "npm:^4.0.12"
+    react-facebook-pixel: "npm:^1.0.4"
     react-grid-layout: "npm:^1.4.4"
     react-hotkeys-hook: "npm:^4.5.0"
     react-i18next: "npm:^14.1.2"
@@ -18364,6 +18365,13 @@ __metadata:
   peerDependencies:
     react: ">=16.13.1"
   checksum: 10/ba59f885eae3c3786548086c6c2088a9f511080c4052e778017959e9e0b6461892efdcf58fcfc2b3a6bc3e79e17cf842fc8ccdc6d82698c51c2ccab12c8c0b85
+  languageName: node
+  linkType: hard
+
+"react-facebook-pixel@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "react-facebook-pixel@npm:1.0.4"
+  checksum: 10/ae32f4076bb212225b2643c489dfcf432c604dbd881c37f380fef9b628bd56d739958540b5a4b924f2c585aea427f2c3d788fe1715395f86319c46211e4b4c89
   languageName: node
   linkType: hard
 

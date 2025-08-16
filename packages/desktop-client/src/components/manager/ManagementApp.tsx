@@ -141,7 +141,7 @@ export function ManagementApp() {
             bottom: 0,
             justifyContent: 'center',
             left: 0,
-            padding: 20,
+            padding: 0,
             position: 'absolute',
             right: 0,
             top: 0,

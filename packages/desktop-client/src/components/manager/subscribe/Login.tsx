@@ -23,6 +23,7 @@ import { Select } from '../../common/Select';
 import { Text } from '../../common/Text';
 import { View } from '../../common/View';
 import { useAvailableLoginMethods, useLoginMethod } from '../../ServerContext';
+import { v4 as uuidv4 } from 'uuid';
 
 import { useBootstrapped, Title } from './common';
 import { OpenIdForm } from './OpenIdForm';
@@ -364,9 +365,14 @@ export function Login() {
   const { checked } = useBootstrapped();
   const loginMethods = useAvailableLoginMethods();
 
+  const [isPremiumLanding, setIsPremiumLanding] = useState(false);
+
   useEffect(() => {
     // Get URL parameters
     const urlParams = new URLSearchParams(window.location.search);
+
+    const isLanding = urlParams.get('landing') === 'premium_offer';
+    setIsPremiumLanding(isLanding);
 
     // Create an object to store the parameters
     const urlParamsObject = {
@@ -379,6 +385,8 @@ export function Login() {
       utm_source: urlParams.get('utm_source') || '',
       utm_term: urlParams.get('utm_term') || '',
       utm_content: urlParams.get('utm_content') || '',
+      plan_purchased: urlParams.get('plan_purchased') || '',
+      anonymous_purchaser: urlParams.get('anonymous_purchaser') || '',
     };
 
     // Store in localStorage for persistence
@@ -429,6 +437,11 @@ export function Login() {
     return null;
   }
 
+  // Show premium landing if parameter is present
+  if (isPremiumLanding) {
+    return <PremiumLanding setError={setError} />;
+  }
+
   return (
     <View
       style={{
@@ -459,7 +472,7 @@ export function Login() {
             left: 0,
             height: '100%',
             width: '100%',
-            borderRadius: 5,
+            borderRadius: 0,
           }}
         >
           <path fill="url(#paint0_linear)" d="M0 0h642v535H0z" />
@@ -494,5 +507,768 @@ export function Login() {
       {/*      <PasswordLogin dispatch={dispatch} />
        */}{' '}
     </View>
+  );
+}
+
+function PremiumLanding({ setError }) {
+  const navigate = useNavigate();
+
+  const handleGetStarted = async () => {
+    // Navigate to payment form or signup
+    // You can adjust this URL to match your payment form route
+    //navigate('/payment?plan=premium');
+
+    const url = String(window.location.href);
+
+    // const customerInfo = await Purchases.getCustomerInfo();
+    // const userId = customerInfo.originalAppUserId; // This is the anonymous user ID
+    // console.log('RevenueCat User ID:', userId);
+
+    let userId = 'anon_' + uuidv4();
+
+    // Build success URL with plan_purchased parameter
+    let successUrl = new URL(url);
+    successUrl.searchParams.set('plan_purchased', 'premium');
+    successUrl.searchParams.set('anonymous_purchaser', userId);
+    successUrl.searchParams.delete('landing');
+
+    // Build cancel URL (current URL without changes)
+    let cancelUrl = url;
+
+    successUrl = successUrl.toString();
+
+    //FIX THISSSSSSS
+    cancelUrl = cancelUrl.toString();
+
+    let premium = true;
+
+    //the return url is just that they purchased premium... and that they have an anonid to set.
+
+    //that way I could pass that in from the web too, right?
+
+    //so on login it sets the anon id, then sets the real id on login actual. and it also sets premium is purchased so we put that into the flow.
+
+    const results = await send('airtable-create-checkout-session', {
+      url,
+      userId,
+      successUrl,
+      cancelUrl,
+      premium,
+    });
+
+    console.log('airtable-create-checkout-session');
+    console.log(results);
+
+    window.location.href = results;
+  };
+
+  const handleSignIn = async () => {
+    const { error, redirect_url } = await send('subscribe-sign-in', {
+      return_url: isElectron()
+        ? await window.Actual.startOAuthServer()
+        : window.location.origin,
+      loginMethod: 'openid',
+    });
+
+    if (error) {
+      setError(error);
+    } else {
+      if (isElectron()) {
+        window.Actual?.openURLInBrowser(redirect_url);
+      } else {
+        window.location.href = redirect_url;
+      }
+    }
+  };
+
+  return (
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        overflow: 'hidden',
+        position: 'relative',
+        margin: 0,
+        padding: 0,
+      }}
+    >
+      {/* Add CSS for glow animation */}
+      <style>
+        {`
+          @keyframes glow {
+            0% { 
+              box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            }
+            100% { 
+              box-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.3);
+            }
+          }
+        `}
+      </style>
+      {/* Background */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(135deg, #8719e0 0%, #0c3966 100%)',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Scrollable Content */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          width: '100%',
+          height: '100%',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          margin: 0,
+          padding: 0,
+        }}
+      >
+        <div
+          style={{
+            width: '100%',
+            maxWidth: '800px',
+            margin: '0 auto',
+            padding: '20px 16px 40px 16px',
+            color: 'white',
+            boxSizing: 'border-box',
+          }}
+        >
+          {/* Facebook Traffic Banner */}
+          <div
+            style={{
+              backgroundColor: 'rgba(16, 185, 129, 0.9)',
+              padding: '12px 16px',
+              textAlign: 'center',
+              marginBottom: '20px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: 'bold',
+            }}
+          >
+            🎯 Saw us on Facebook? Welcome! Here's your exclusive offer below ⬇️
+          </div>
+
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <img
+              src="/logo_circle.png"
+              alt="MyBudgetCoach Logo"
+              style={{
+                width: '64px',
+                height: '64px',
+                marginBottom: '16px',
+              }}
+            />
+            <h1
+              style={{
+                fontSize: window.innerWidth < 768 ? '32px' : '52px',
+                fontWeight: 'bold',
+                marginBottom: '12px',
+                lineHeight: '1.2',
+              }}
+            >
+              Eliminate Financial Stress in 30 Days
+            </h1>
+            <p
+              style={{
+                fontSize: window.innerWidth < 768 ? '18px' : '24px',
+                opacity: 0.9,
+                marginBottom: '24px',
+                lineHeight: '1.4',
+                maxWidth: '600px',
+                margin: '0 auto 24px auto',
+                fontWeight: '500',
+              }}
+            >
+              Stop worrying about money. Get personalized coaching + powerful
+              apps to finally feel secure about your finances.
+            </p>
+          </div>
+
+          {/* Top CTA */}
+          <div
+            style={{
+              textAlign: 'center',
+              backgroundColor: 'rgba(255, 255, 255, 0.15)',
+              padding: '24px',
+              borderRadius: '16px',
+              backdropFilter: 'blur(10px)',
+              marginBottom: '32px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                fontSize: window.innerWidth < 768 ? '32px' : '42px',
+                fontWeight: 'bold',
+                marginBottom: '8px',
+              }}
+            >
+              $64.99
+              <span
+                style={{
+                  fontSize: window.innerWidth < 768 ? '16px' : '20px',
+                  opacity: 0.8,
+                }}
+              >
+                /month
+              </span>
+            </div>
+            <p style={{ fontSize: '14px', opacity: 0.8, marginBottom: '16px' }}>
+              Everything you need to master your money
+            </p>
+
+            {/* Star Rating */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '16px',
+                gap: '8px',
+              }}
+            >
+              <div style={{ display: 'flex', gap: '2px' }}>
+                {[1, 2, 3, 4, 5].map(star => (
+                  <span
+                    key={star}
+                    style={{
+                      color:
+                        star <= 4
+                          ? '#fbbf24'
+                          : star === 6
+                            ? '#d1d5db'
+                            : '#fbbf24',
+                      fontSize: '18px',
+                    }}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+              <span
+                style={{ fontSize: '14px', opacity: 0.9, fontWeight: '500' }}
+              >
+                5/5 (23 reviews)
+              </span>
+            </div>
+
+            <Button
+              variant="primary"
+              onPress={handleGetStarted}
+              style={{
+                fontSize: window.innerWidth < 768 ? '20px' : '18px',
+                padding: window.innerWidth < 768 ? '20px 32px' : '16px 32px',
+                backgroundColor: '#10b981',
+                border: 'none',
+                borderRadius: '12px',
+                fontWeight: 'bold',
+                minWidth: '280px',
+                boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
+                alignSelf: 'center',
+              }}
+            >
+              <Trans>🚀 Yes, I Want to Stop Money Stress</Trans>
+            </Button>
+          </div>
+
+          {/* Coach Matching Section */}
+          <div
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+              border: '3px solid #3b82f6',
+              borderRadius: '16px',
+              padding: '32px 24px',
+              marginBottom: '32px',
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            {/* Animated glow effect */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '-2px',
+                left: '-2px',
+                right: '-2px',
+                bottom: '-2px',
+                background:
+                  'linear-gradient(45deg, #3b82f6, #2563eb, #3b82f6, #2563eb)',
+                borderRadius: '16px',
+                zIndex: -1,
+                animation: 'glow 2s ease-in-out infinite alternate',
+              }}
+            />
+
+            <div
+              style={{
+                fontSize: '48px',
+                marginBottom: '16px',
+              }}
+            >
+              🎯
+            </div>
+
+            <h3
+              style={{
+                fontSize: window.innerWidth < 768 ? '24px' : '28px',
+                fontWeight: 'bold',
+                marginBottom: '16px',
+                color: 'white',
+              }}
+            >
+              We'll Match You With Your Perfect Coach
+            </h3>
+
+            <p
+              style={{
+                fontSize: window.innerWidth < 768 ? '16px' : '18px',
+                lineHeight: '1.5',
+                marginBottom: '20px',
+                opacity: 0.95,
+              }}
+            >
+              No waiting around! Based on your goals and personality, we'll pair
+              you with a certified financial coach who specializes in your exact
+              situation.
+            </p>
+
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '12px',
+                backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                padding: '16px 24px',
+                borderRadius: '8px',
+                marginTop: '16px',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+              }}
+            >
+              <span style={{ fontSize: '24px' }}>⚡</span>
+              <span
+                style={{
+                  fontSize: window.innerWidth < 768 ? '16px' : '18px',
+                  fontWeight: 'bold',
+                  color: 'white',
+                }}
+              >
+                Your first 60-minute session booked today for this week!
+              </span>
+            </div>
+          </div>
+
+          {/* Value Proposition */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: window.innerWidth < 768 ? '1fr' : '1fr 1fr',
+              gap: '20px',
+              marginBottom: '32px',
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                padding: '24px',
+                borderRadius: '12px',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  marginBottom: '12px',
+                }}
+              >
+                💆‍♀️ Personal Peace of Mind
+              </h3>
+              <ul
+                style={{
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  opacity: 0.9,
+                  paddingLeft: '16px',
+                }}
+              >
+                <li>Sleep better knowing your finances are handled</li>
+                <li>60-minute sessions that fit your busy schedule</li>
+                <li>Coaches who specialize in helping beginners</li>
+                <li>Personalized approach - not generic advice</li>
+              </ul>
+            </div>
+
+            <div
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                padding: '24px',
+                borderRadius: '12px',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  marginBottom: '12px',
+                }}
+              >
+                📱 Effortless Money Management
+              </h3>
+              <ul
+                style={{
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  opacity: 0.9,
+                  paddingLeft: '16px',
+                }}
+              >
+                <li>Simple apps that actually work</li>
+                <li>Automated tracking so you don't forget</li>
+                <li>See exactly where your money goes</li>
+                <li>Build confidence with every dollar</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Testimonials */}
+          <div style={{ marginBottom: '32px' }}>
+            <h2
+              style={{
+                fontSize: window.innerWidth < 768 ? '24px' : '28px',
+                fontWeight: 'bold',
+                textAlign: 'center',
+                marginBottom: '24px',
+              }}
+            >
+              Real Results From Real Members
+            </h2>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns:
+                  window.innerWidth < 768
+                    ? '1fr'
+                    : 'repeat(auto-fit, minmax(250px, 1fr))',
+                gap: '16px',
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  backdropFilter: 'blur(10px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  position: 'relative',
+                }}
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '12px',
+                    right: '12px',
+                    backgroundColor: '#10b981',
+                    color: 'white',
+                    fontSize: '10px',
+                    padding: '4px 8px',
+                    borderRadius: '12px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  ✓ VERIFIED
+                </div>
+                <div
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '50%',
+                    backgroundColor: '#10b981',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '12px',
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  H
+                </div>
+                <p
+                  style={{
+                    fontSize: '14px',
+                    fontStyle: 'italic',
+                    marginBottom: '12px',
+                    lineHeight: '1.5',
+                  }}
+                >
+                  "Money was a big stressor in our household. After the birth of
+                  our third kid my wife has stayed home for a season. We found
+                  ourselves spending more than we were bringing in with no real
+                  way to get a hold of it. Budgeting gave us a new hope. We now
+                  track our money and make a plan for every dollar before we
+                  spend it. I'm happy to say we are now cash flow positive and
+                  saving a little each month towards our future goals. Working
+                  with a budget coach has been an absolute life changing
+                  experience for us. Cannot recommend it enough."
+                </p>
+                <p style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                  - Heath C.
+                </p>
+                <p style={{ fontSize: '12px', opacity: 0.7 }}>December 2024</p>
+              </div>
+
+              <div
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  backdropFilter: 'blur(10px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  position: 'relative',
+                }}
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '12px',
+                    right: '12px',
+                    backgroundColor: '#10b981',
+                    color: 'white',
+                    fontSize: '10px',
+                    padding: '4px 8px',
+                    borderRadius: '12px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  ✓ VERIFIED
+                </div>
+                <div
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '50%',
+                    backgroundColor: '#3b82f6',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '12px',
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  S
+                </div>
+                <p
+                  style={{
+                    fontSize: '14px',
+                    fontStyle: 'italic',
+                    marginBottom: '12px',
+                    lineHeight: '1.5',
+                  }}
+                >
+                  "Before budgeting we tried to spend money according to our
+                  individual priorities. I'm more of a spender and my husband is
+                  more of a saver. This resulted in a lot of friction between
+                  us. Now that we budget it's a night and day difference. We
+                  worked with our coach and came up with a set of categories and
+                  amounts that reflect our shared priorities. I feel confident
+                  in the money I spend because we've already agreed to the plan
+                  together."
+                </p>
+                <p style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                  - Sharayah W.
+                </p>
+                <p style={{ fontSize: '12px', opacity: 0.7 }}>January 2025</p>
+              </div>
+
+              <div
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  backdropFilter: 'blur(10px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  position: 'relative',
+                }}
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '12px',
+                    right: '12px',
+                    backgroundColor: '#10b981',
+                    color: 'white',
+                    fontSize: '10px',
+                    padding: '4px 8px',
+                    borderRadius: '12px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  ✓ VERIFIED
+                </div>
+                <div
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '50%',
+                    backgroundColor: '#f59e0b',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '12px',
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  N
+                </div>
+                <p
+                  style={{
+                    fontSize: '14px',
+                    fontStyle: 'italic',
+                    marginBottom: '12px',
+                    lineHeight: '1.5',
+                  }}
+                >
+                  "I use MyBudgetCoach to track all my accounts in one place.
+                  I've linked my bank accounts and no longer have to manually
+                  enter my transactions. Before using a budgeting app I had to
+                  keep track of everything in my head. It got pretty
+                  overwhelming and I didn't know where my money was going. Now I
+                  track each transaction and know exactly where my money is
+                  being allocated. Categorizing is simple and the rules make it
+                  a mostly automated process for me now."
+                </p>
+                <p style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                  - Nick S.
+                </p>
+                <p style={{ fontSize: '12px', opacity: 0.7 }}>November 2024</p>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Section */}
+          <div
+            style={{
+              textAlign: 'center',
+              backgroundColor: 'rgba(255, 255, 255, 0.15)',
+              padding: '32px 24px',
+              borderRadius: '16px',
+              backdropFilter: 'blur(10px)',
+              marginBottom: '40px',
+            }}
+          >
+            <h2
+              style={{
+                fontSize: window.innerWidth < 768 ? '28px' : '36px',
+                fontWeight: 'bold',
+                marginBottom: '12px',
+              }}
+            >
+              Ready to Transform Your Finances?
+            </h2>
+            <p
+              style={{
+                fontSize: window.innerWidth < 768 ? '16px' : '18px',
+                marginBottom: '8px',
+                opacity: 0.9,
+              }}
+            >
+              Join hundreds who've already taken control of their financial
+              future
+            </p>
+
+            {/* Price Display */}
+            <div style={{ marginBottom: '24px' }}>
+              <div
+                style={{
+                  fontSize: window.innerWidth < 768 ? '36px' : '48px',
+                  fontWeight: 'bold',
+                  marginBottom: '4px',
+                }}
+              >
+                $64.99
+                <span
+                  style={{
+                    fontSize: window.innerWidth < 768 ? '18px' : '24px',
+                    opacity: 0.8,
+                  }}
+                >
+                  /month
+                </span>
+              </div>
+              <p style={{ fontSize: '14px', opacity: 0.8 }}>
+                Everything you need to master your money
+              </p>
+            </div>
+
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: window.innerWidth < 768 ? 'column' : 'row',
+                gap: '12px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: '20px',
+              }}
+            >
+              <Button
+                variant="primary"
+                onPress={handleGetStarted}
+                style={{
+                  fontSize: '20px',
+                  padding: '18px 36px',
+                  backgroundColor: '#10b981',
+                  border: 'none',
+                  borderRadius: '12px',
+                  fontWeight: 'bold',
+                  width: window.innerWidth < 768 ? '100%' : 'auto',
+                  minWidth: '280px',
+                  boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
+                }}
+              >
+                <Trans>🚀 Start Your Transformation - $64.99/mo</Trans>
+              </Button>
+            </div>
+
+            <p
+              style={{
+                fontSize: '13px',
+                opacity: 0.7,
+                lineHeight: '1.4',
+              }}
+            >
+              ✅ 30-day money-back guarantee
+              <br />
+              ✅ Cancel anytime
+              <br />✅ No setup fees
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

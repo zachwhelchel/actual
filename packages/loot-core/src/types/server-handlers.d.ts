@@ -60,6 +60,7 @@ export interface ServerHandlers {
     utm_content: string;
     plan_purchased: string;
     status: string;
+    anonymous_purchaser: string;
   }) => Promise<unknown>;
   'airtable-update-internal-client': (arg: {
     url: string;

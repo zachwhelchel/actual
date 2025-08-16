@@ -14,6 +14,8 @@ import AirtableButton from './airtable-button';
 import * as colorPalette from '../../style/palette';
 import { View } from '../common/View';
 
+import ReactPixel from 'react-facebook-pixel';
+
 // const TEST_DATA = {
 //   coaches: [
 //     {
@@ -59,7 +61,24 @@ const TEST_DATA = {
 };
 
 const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
-  const [currentStage, setCurrentStage] = useState(jumpToUser ? 3 : -1);
+  var initialStage = -1;
+  var initialPremium = false;
+
+  const storedParams = localStorage.getItem('urlParams');
+  const params = storedParams ? JSON.parse(storedParams) : null;
+  console.log('storedParams');
+  console.log(params);
+
+  if (params?.plan_purchased === 'premium') {
+    initialStage = 0;
+    initialPremium = true;
+  }
+
+  if (jumpToUser) {
+    initialStage = 3;
+  }
+
+  const [currentStage, setCurrentStage] = useState(initialStage);
   const [coaches, setCoaches] = useState([]);
   const [uniqueNiches, setUniqueNiches] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -69,7 +88,9 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
   const [allCoaches, setAllCoaches] = useState([]);
   const [allUniqueNiches, setAllUniqueNiches] = useState([]);
-  const [premiumDesired, setPremiumDesired] = useState(false);
+  const [premiumDesired, setPremiumDesired] = useState(initialPremium);
+  const [premiumPurchasedAlready, setPremiumPurchasedAlready] =
+    useState(initialPremium);
 
   // Store answers
   const [selectedNiches, setSelectedNiches] = useState([]);
@@ -190,33 +211,39 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
     const url = String(window.location.href);
     if (premiumDesired) {
-      console.log('go pay...');
-
-      // Build success URL with plan_purchased parameter
-      let successUrl = new URL(url);
       successUrl.searchParams.set('plan_purchased', 'premium');
 
-      // Build cancel URL (current URL without changes)
-      let cancelUrl = url;
+      if (premiumPurchasedAlready) {
+        setCurrentStage(3);
+      } else {
+        console.log('go pay...');
 
-      successUrl = successUrl.toString();
-      cancelUrl = cancelUrl.toString();
+        // Build success URL with plan_purchased parameter
+        let successUrl = new URL(url);
+        successUrl.searchParams.set('plan_purchased', 'premium');
 
-      let userId = userData.userId;
-      let premium = true;
+        // Build cancel URL (current URL without changes)
+        let cancelUrl = url;
 
-      const results = await send('airtable-create-checkout-session', {
-        url,
-        userId,
-        successUrl,
-        cancelUrl,
-        premium,
-      });
+        successUrl = successUrl.toString();
+        cancelUrl = cancelUrl.toString();
 
-      console.log('airtable-create-checkout-session');
-      console.log(results);
+        let userId = userData.userId;
+        let premium = true;
 
-      window.location.href = results;
+        const results = await send('airtable-create-checkout-session', {
+          url,
+          userId,
+          successUrl,
+          cancelUrl,
+          premium,
+        });
+
+        console.log('airtable-create-checkout-session');
+        console.log(results);
+
+        window.location.href = results;
+      }
     } else {
       setCurrentStage(3);
     }
@@ -295,6 +322,28 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     //some other whole way of knowing from stripe actually would be better.
     const urlParams = new URLSearchParams(window.location.search);
 
+    let plan_purchased_var = 'original';
+    let status_var = 'free_trial';
+    if (
+      premiumPurchasedAlready ||
+      urlParams.get('plan_purchased') === 'premium'
+    ) {
+      plan_purchased_var = 'premium';
+      status_var = 'paid';
+
+      //this is where we can report to the facebook pixel that a purchase has been made.
+
+      ReactPixel.init('476212184832855');
+
+      ReactPixel.track('Purchase', {
+        value: 64.99,
+        currency: 'USD',
+        content_ids: ['premium_subscription'],
+        content_type: 'product',
+        content_name: 'Premium Monthly Subscription',
+      });
+    }
+
     const results = await send('airtable-update-user', {
       url,
       first_name: formData.firstName,
@@ -312,8 +361,9 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       utm_source: params?.utm_source,
       utm_term: params?.utm_term,
       utm_content: params?.utm_content,
-      plan_purchased: urlParams.get('plan_purchased') || 'original',
-      status: urlParams.get('plan_purchased') ? 'paid' : 'free_trial',
+      plan_purchased: plan_purchased_var,
+      status: status_var,
+      anonymous_purchaser: params?.anonymous_purchaser,
     });
     console.log('updateUserCoachRelationship');
     console.log(results);
@@ -2012,18 +2062,21 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
               alignItems: 'center',
             }}
           >
-            <button
-              onClick={() => setCurrentStage(-1)}
-              style={{
-                padding: '0.5rem 1rem',
-                border: '1px solid rgb(209, 213, 219)',
-                borderRadius: '0.25rem',
-                transition: 'background-color 150ms',
-              }}
-            >
-              Back
-            </button>
-
+            {!premiumPurchasedAlready ? (
+              <button
+                onClick={() => setCurrentStage(-1)}
+                style={{
+                  padding: '0.5rem 1rem',
+                  border: '1px solid rgb(209, 213, 219)',
+                  borderRadius: '0.25rem',
+                  transition: 'background-color 150ms',
+                }}
+              >
+                Back
+              </button>
+            ) : (
+              <div></div> // Empty placeholder to maintain layout
+            )}
             <button
               onClick={handleNextFromNiches}
               disabled={selectedNiches.length === 0}
