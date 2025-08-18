@@ -240,7 +240,19 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
         console.log('airtable-create-checkout-session');
         console.log(results);
 
-        window.location.href = results;
+        ReactPixel.init('476212184832855');
+        ReactPixel.track('InitiateCheckout', {
+          value: 64.99,
+          currency: 'USD',
+          content_ids: ['premium_subscription'],
+          content_type: 'product',
+          content_name: 'Premium Monthly Subscription',
+        });
+
+        // Add small delay before redirect
+        setTimeout(() => {
+          window.location.href = results;
+        }, 200); // 100ms is usually enough
       }
     } else {
       setCurrentStage(3);

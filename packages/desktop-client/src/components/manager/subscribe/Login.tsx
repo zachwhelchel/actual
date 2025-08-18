@@ -27,6 +27,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useBootstrapped, Title } from './common';
 import { OpenIdForm } from './OpenIdForm';
+import ReactPixel from 'react-facebook-pixel';
 
 function PasswordLogin({ setError, dispatch }) {
   const [password, setPassword] = useState('');
@@ -559,7 +560,19 @@ function PremiumLanding({ setError }) {
     console.log('airtable-create-checkout-session');
     console.log(results);
 
-    window.location.href = results;
+    ReactPixel.init('476212184832855');
+    ReactPixel.track('InitiateCheckout', {
+      value: 64.99,
+      currency: 'USD',
+      content_ids: ['premium_subscription'],
+      content_type: 'product',
+      content_name: 'Premium Monthly Subscription',
+    });
+
+    // Add small delay before redirect
+    setTimeout(() => {
+      window.location.href = results;
+    }, 200); // 100ms is usually enough
   };
 
   const handleSignIn = async () => {
