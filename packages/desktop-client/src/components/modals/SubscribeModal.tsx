@@ -58,6 +58,7 @@ export function SubscribeModal({}) {
 
     let userId = userData.userId;
     let premium = false;
+    let discount = null;
 
     const results = await send('airtable-create-checkout-session', {
       url,
@@ -65,6 +66,7 @@ export function SubscribeModal({}) {
       successUrl,
       cancelUrl,
       premium,
+      discount,
     });
 
     console.log('airtable-create-checkout-session');
@@ -98,6 +100,7 @@ export function SubscribeModal({}) {
 
     let userId = userData.userId;
     let premium = true;
+    let discount = null;
 
     const results = await send('airtable-create-checkout-session', {
       url,
@@ -105,6 +108,7 @@ export function SubscribeModal({}) {
       successUrl,
       cancelUrl,
       premium,
+      discount,
     });
 
     console.log('airtable-create-checkout-session');

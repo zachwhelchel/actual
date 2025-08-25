@@ -40,6 +40,7 @@ export interface ServerHandlers {
     successUrl: string;
     cancelUrl: string;
     premium: boolean;
+    discount: string;
   }) => Promise<unknown>;
   'airtable-update-user': (arg: {
     url: string;

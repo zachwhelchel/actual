@@ -228,6 +228,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
         let userId = userData.userId;
         let premium = true;
+        let discount = null;
 
         const results = await send('airtable-create-checkout-session', {
           url,
@@ -235,19 +236,22 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
           successUrl,
           cancelUrl,
           premium,
+          discount,
         });
 
         console.log('airtable-create-checkout-session');
         console.log(results);
 
-        ReactPixel.init('476212184832855');
-        ReactPixel.track('InitiateCheckout', {
-          value: 64.99,
-          currency: 'USD',
-          content_ids: ['premium_subscription'],
-          content_type: 'product',
-          content_name: 'Premium Monthly Subscription',
-        });
+        if (!window.location.hostname.includes('localhost')) {
+          ReactPixel.init('476212184832855');
+          ReactPixel.track('InitiateCheckout', {
+            value: 64.99,
+            currency: 'USD',
+            content_ids: ['premium_subscription'],
+            content_type: 'product',
+            content_name: 'Premium Monthly Subscription',
+          });
+        }
 
         // Add small delay before redirect
         setTimeout(() => {
@@ -343,15 +347,32 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
       //this is where we can report to the facebook pixel that a purchase has been made.
 
-      ReactPixel.init('476212184832855');
+      const discountCode = localStorage.getItem('discount_code');
 
-      ReactPixel.track('Purchase', {
-        value: 64.99,
-        currency: 'USD',
-        content_ids: ['premium_subscription'],
-        content_type: 'product',
-        content_name: 'Premium Monthly Subscription',
-      });
+      //50_off_first_month
+
+      if (!window.location.hostname.includes('localhost')) {
+        ReactPixel.init('476212184832855');
+
+        if (discountCode === '50_off_first_month') {
+          ReactPixel.track('Purchase', {
+            value: 32.5, // 50% off the original 64.99
+            currency: 'USD',
+            content_ids: ['premium_subscription_50_percent_off_first_month'],
+            content_type: 'product',
+            content_name: 'Premium Monthly Subscription - 50% Off First Month',
+          });
+        } else {
+          // Default tracking for regular purchases
+          ReactPixel.track('Purchase', {
+            value: 64.99,
+            currency: 'USD',
+            content_ids: ['premium_subscription'],
+            content_type: 'product',
+            content_name: 'Premium Monthly Subscription',
+          });
+        }
+      }
     }
 
     const results = await send('airtable-update-user', {

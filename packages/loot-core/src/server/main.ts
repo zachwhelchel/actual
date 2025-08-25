@@ -1083,6 +1083,7 @@ handlers['airtable-create-checkout-session'] = async function ({
   successUrl,
   cancelUrl,
   premium,
+  discount,
 }) {
   const server = determineMBCenv(url);
 
@@ -1097,6 +1098,7 @@ handlers['airtable-create-checkout-session'] = async function ({
       successUrl,
       cancelUrl,
       premium,
+      discount,
     },
   );
 
