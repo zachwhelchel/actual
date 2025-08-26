@@ -69,6 +69,9 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
   console.log('storedParams');
   console.log(params);
 
+  const sevenDay = localStorage.getItem('seven_day') === 'true';
+  // const sevenDay = true;
+
   if (params?.plan_purchased === 'premium') {
     initialStage = 0;
     initialPremium = true;
@@ -230,6 +233,10 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
         let premium = true;
         let discount = null;
 
+        if (sevenDay) {
+          discount = '7_day_free_trial_and_50_percent_off_first_month';
+        }
+
         const results = await send('airtable-create-checkout-session', {
           url,
           userId,
@@ -244,13 +251,27 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
         if (!window.location.hostname.includes('localhost')) {
           ReactPixel.init('476212184832855');
-          ReactPixel.track('InitiateCheckout', {
-            value: 64.99,
-            currency: 'USD',
-            content_ids: ['premium_subscription'],
-            content_type: 'product',
-            content_name: 'Premium Monthly Subscription',
-          });
+
+          if (sevenDay) {
+            ReactPixel.track('InitiateCheckout', {
+              value: 32.5,
+              currency: 'USD',
+              content_ids: [
+                'premium_subscription_7_day_trial_50_percent_off_first_month',
+              ],
+              content_type: 'product',
+              content_name:
+                'Premium Monthly Subscription - 7 Day Trial, 50% Off First Month',
+            });
+          } else {
+            ReactPixel.track('InitiateCheckout', {
+              value: 64.99,
+              currency: 'USD',
+              content_ids: ['premium_subscription'],
+              content_type: 'product',
+              content_name: 'Premium Monthly Subscription',
+            });
+          }
         }
 
         // Add small delay before redirect
@@ -259,7 +280,66 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
         }, 200); // 100ms is usually enough
       }
     } else {
-      setCurrentStage(3);
+      if (sevenDay) {
+        console.log('go pay...');
+
+        // Build success URL with plan_purchased parameter
+        let successUrl = new URL(url);
+        successUrl.searchParams.set('plan_purchased', 'basic');
+
+        // Build cancel URL (current URL without changes)
+        let cancelUrl = url;
+
+        successUrl = successUrl.toString();
+        cancelUrl = cancelUrl.toString();
+
+        let userId = userData.userId;
+        let premium = false;
+        let discount = null;
+
+        discount = '7_day_free_trial';
+
+        const results = await send('airtable-create-checkout-session', {
+          url,
+          userId,
+          successUrl,
+          cancelUrl,
+          premium,
+          discount,
+        });
+
+        console.log('airtable-create-checkout-session');
+        console.log(results);
+
+        if (!window.location.hostname.includes('localhost')) {
+          ReactPixel.init('476212184832855');
+
+          if (sevenDay) {
+            ReactPixel.track('InitiateCheckout', {
+              value: 14.99,
+              currency: 'USD',
+              content_ids: ['basic_subscription_7_day_trial'],
+              content_type: 'product',
+              content_name: 'Basic Monthly Subscription - 7 Day Trial',
+            });
+          } else {
+            ReactPixel.track('InitiateCheckout', {
+              value: 14.99,
+              currency: 'USD',
+              content_ids: ['basic_subscription'],
+              content_type: 'product',
+              content_name: 'Basic Monthly Subscription',
+            });
+          }
+        }
+
+        // Add small delay before redirect
+        setTimeout(() => {
+          window.location.href = results;
+        }, 200); // 100ms is usually enough
+      } else {
+        setCurrentStage(3);
+      }
     }
   };
 
@@ -284,7 +364,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       if (userData?.userId !== null) {
         const { coach_free_zoom_link, coach_cal_user, coach_photo } =
           await updateUserData(userData?.userId);
-        if (coach_cal_user !== null) {
+        if (coach_cal_user !== null && !sevenDay) {
           window.open(
             'https://cal.mybudgetcoach.com/' +
               coach_cal_user +
@@ -338,12 +418,18 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
     let plan_purchased_var = 'original';
     let status_var = 'free_trial';
+
+    if (sevenDay) {
+      plan_purchased_var = 'basic';
+      status_var = 'paid'; //not really but meh for now.
+    }
+
     if (
       premiumPurchasedAlready ||
       urlParams.get('plan_purchased') === 'premium'
     ) {
       plan_purchased_var = 'premium';
-      status_var = 'paid';
+      status_var = 'paid'; //not really but meh for now.
 
       //this is where we can report to the facebook pixel that a purchase has been made.
 
@@ -353,8 +439,18 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
       if (!window.location.hostname.includes('localhost')) {
         ReactPixel.init('476212184832855');
-
-        if (discountCode === '50_off_first_month') {
+        if (sevenDay) {
+          ReactPixel.track('StartTrial', {
+            value: 32.5, // 50% off the original 64.99
+            currency: 'USD',
+            content_ids: [
+              'premium_subscription_7_day_trial_50_percent_off_first_month',
+            ],
+            content_type: 'product',
+            content_name:
+              'Premium Monthly Subscription - 7 Day Trial, 50% Off First Month',
+          });
+        } else if (discountCode === '50_off_first_month') {
           ReactPixel.track('Purchase', {
             value: 32.5, // 50% off the original 64.99
             currency: 'USD',
@@ -372,6 +468,17 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
             content_name: 'Premium Monthly Subscription',
           });
         }
+      }
+    } else if (sevenDay) {
+      if (!window.location.hostname.includes('localhost')) {
+        ReactPixel.init('476212184832855');
+        ReactPixel.track('StartTrial', {
+          value: 14.99,
+          currency: 'USD',
+          content_ids: ['basic_subscription_7_day_trial'],
+          content_type: 'product',
+          content_name: 'Basic Monthly Subscription - 7 Day Trial',
+        });
       }
     }
 
@@ -1605,7 +1712,13 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                     marginBottom: '0.5rem',
                   }}
                 >
-                  $64.99
+                  {sevenDay ? (
+                    <>
+                      <s>$64.99</s> $32.50
+                    </>
+                  ) : (
+                    <span>$64.99</span>
+                  )}
                   <span
                     style={{
                       fontSize: '1rem',
@@ -1627,8 +1740,33 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                     fontWeight: '500',
                   }}
                 >
-                  1 Month Money Back Guarantee
+                  {sevenDay ? (
+                    <>7 Day Free Trial</>
+                  ) : (
+                    <>1 Month Money Back Guarantee</>
+                  )}
                 </div>
+
+                {sevenDay ? (
+                  <>
+                    <div
+                      style={{
+                        display: 'inline-block',
+                        backgroundColor: '#f3e8ff',
+                        color: '#7c3aed',
+                        padding: '0.25rem 0.75rem',
+                        borderRadius: '9999px',
+                        fontSize: '0.875rem',
+                        fontWeight: '500',
+                        marginLeft: 6,
+                      }}
+                    >
+                      First Month 50% Off
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
 
               <div
@@ -1670,7 +1808,11 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                       fontSize: '0.9rem',
                     }}
                   >
-                    1 month money back guarantee
+                    {sevenDay ? (
+                      <>7 day free trial</>
+                    ) : (
+                      <>1 month money back guarantee</>
+                    )}
                   </span>
                 </div>
                 <div
@@ -1761,7 +1903,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                   cursor: 'pointer',
                 }}
               >
-                Choose Premium
+                {sevenDay ? <>Start Free Trial</> : <>Choose Premium</>}
               </button>
             </div>
 
@@ -1823,7 +1965,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                     fontWeight: '500',
                   }}
                 >
-                  35 Day Free Trial
+                  {sevenDay ? <>7 Day Free Trial</> : <>35 Day Free Trial</>}
                 </div>
               </div>
 
@@ -1866,7 +2008,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                       fontSize: '0.9rem',
                     }}
                   >
-                    35 day free trial
+                    {sevenDay ? <>7 day free trial</> : <>35 day free trial</>}
                   </span>
                 </div>
                 <div

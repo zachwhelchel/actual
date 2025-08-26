@@ -369,6 +369,8 @@ export function Login() {
   const [isPremiumLanding, setIsPremiumLanding] = useState(false);
   const [isPremiumLanding50, setIsPremiumLanding50] = useState(false);
 
+  const [isSevenDay, setIsSevenDay] = useState(false);
+
   useEffect(() => {
     // Get URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -378,6 +380,9 @@ export function Login() {
 
     const isLanding50 = urlParams.get('landing') === 'premium_offer_50';
     setIsPremiumLanding50(isLanding50);
+
+    const sevenDay = urlParams.get('landing') === 'seven_day';
+    localStorage.setItem('seven_day', sevenDay);
 
     // Create an object to store the parameters
     const urlParamsObject = {
