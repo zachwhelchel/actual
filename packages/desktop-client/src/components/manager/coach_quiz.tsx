@@ -132,6 +132,51 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
     }
   }, []);
 
+  useEffect(() => {
+    const updateOnboardingProgress = async () => {
+      const getOnboardingStage = stage => {
+        switch (stage) {
+          case -1:
+            return 'choose_plan';
+          case 0:
+            return 'niche_select';
+          case 1:
+            return 'price';
+          case 2:
+            return 'coach_select';
+          case 3:
+            return 'about_you';
+          case 4:
+            return 'free_zoom';
+          default:
+            return 'unknown_stage';
+        }
+      };
+
+      const onboardingData = {
+        onboarding_progress: 'web_' + getOnboardingStage(currentStage),
+      };
+
+      const url = String(window.location.href);
+      const results = await send('airtable-update-onboarding-progress', {
+        url,
+        ...onboardingData,
+      });
+    };
+
+    if (currentStage === 2) {
+      if (!localStorage.getItem('addtocart_tracked')) {
+        if (!window.location.hostname.includes('localhost')) {
+          ReactPixel.init('476212184832855');
+          ReactPixel.track('AddToCart');
+        }
+        localStorage.setItem('addtocart_tracked', 'true');
+      }
+    }
+
+    updateOnboardingProgress();
+  }, [currentStage]);
+
   // Contact form data
   // const [formData, setFormData] = useState({
   //   name: '',
@@ -364,7 +409,17 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
       if (userData?.userId !== null) {
         const { coach_free_zoom_link, coach_cal_user, coach_photo } =
           await updateUserData(userData?.userId);
+
         if (coach_cal_user !== null && !sevenDay) {
+          const onboardingData = {
+            onboarding_progress: 'web_complete',
+          };
+          const url = String(window.location.href);
+          const results = await send('airtable-update-onboarding-progress', {
+            url,
+            ...onboardingData,
+          });
+
           window.open(
             'https://cal.mybudgetcoach.com/' +
               coach_cal_user +
@@ -377,6 +432,15 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
           setCoachPhoto(coach_photo);
           setCurrentStage(4);
         } else {
+          const onboardingData = {
+            onboarding_progress: 'web_complete',
+          };
+          const url = String(window.location.href);
+          const results = await send('airtable-update-onboarding-progress', {
+            url,
+            ...onboardingData,
+          });
+
           window.location.reload();
         }
       }
@@ -389,6 +453,15 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
   };
 
   const handleDoneWithFreeCall = async () => {
+    const onboardingData = {
+      onboarding_progress: 'web_complete',
+    };
+    const url = String(window.location.href);
+    const results = await send('airtable-update-onboarding-progress', {
+      url,
+      ...onboardingData,
+    });
+
     window.location.reload();
   };
 

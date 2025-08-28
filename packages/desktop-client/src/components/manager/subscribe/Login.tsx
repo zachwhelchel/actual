@@ -189,6 +189,190 @@ function OpenIdLogin({ setError }) {
   //   );
   // }
 
+  if (sevenDay) {
+    return (
+      <View>
+        <>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              minHeight: '100vh',
+            }}
+          >
+            <div
+              style={{
+                width: '380px', // Slightly wider for more content
+                padding: '32px 24px',
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '12px',
+                alignSelf: 'center',
+              }}
+            >
+              {/* Logo */}
+              <img
+                src="/logo_circle.png"
+                alt="Logo"
+                style={{
+                  width: '64px',
+                  height: '64px',
+                }}
+              />
+
+              {/* Welcome Text with Social Proof */}
+              <div style={{ textAlign: 'center' }}>
+                <h2
+                  style={{
+                    fontSize: '22px',
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                    color: 'black',
+                  }}
+                >
+                  MyBudgetCoach
+                </h2>
+              </div>
+
+              {/* Social Proof Stats */}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  backgroundColor: '#f8f9fa',
+                  padding: '16px',
+                  borderRadius: '8px',
+                  marginBottom: '8px',
+                }}
+              >
+                <div style={{ textAlign: 'center', flex: 1 }}>
+                  <div
+                    style={{
+                      fontSize: '18px',
+                      fontWeight: 'bold',
+                      color: '#22c55e',
+                    }}
+                  >
+                    $500+
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#666' }}>
+                    Monthly Savings
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center', flex: 1 }}>
+                  <div
+                    style={{
+                      fontSize: '18px',
+                      fontWeight: 'bold',
+                      color: '#3b82f6',
+                    }}
+                  >
+                    4.9★
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#666' }}>
+                    Average Rating
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center', flex: 1 }}>
+                  <div
+                    style={{
+                      fontSize: '18px',
+                      fontWeight: 'bold',
+                      color: '#8b5cf6',
+                    }}
+                  >
+                    7 Day
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#666' }}>
+                    Free Trial
+                  </div>
+                </div>
+              </div>
+
+              {/* Testimonial Quote */}
+              <div
+                style={{
+                  backgroundColor: '#fef3c7',
+                  padding: '12px',
+                  borderRadius: '6px',
+                  borderLeft: '3px solid #f59e0b',
+                  marginBottom: '8px',
+                  width: '100%',
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: '13px',
+                    fontStyle: 'italic',
+                    color: '#92400e',
+                    margin: 0,
+                    textAlign: 'center',
+                  }}
+                >
+                  "My coach helped me save for my first vacation in 3 years!"
+                </p>
+                <p
+                  style={{
+                    fontSize: '11px',
+                    color: '#92400e',
+                    margin: '4px 0 0 0',
+                    textAlign: 'center',
+                    fontWeight: '500',
+                  }}
+                >
+                  - Sarah M., saved $1,200 in 4 months
+                </p>
+              </div>
+
+              {/* CTA Buttons */}
+              <div style={containerStyle}>
+                <>
+                  <Button
+                    variant="primary"
+                    style={{
+                      ...primaryButtonStyle,
+                      fontSize: '16px',
+                      fontWeight: '600',
+                    }}
+                    onPress={() => onSubmitOpenId(true)}
+                  >
+                    <Trans>Sign Up</Trans>
+                  </Button>
+                  <button
+                    style={{
+                      ...secondaryButtonStyle,
+                      fontSize: '14px',
+                    }}
+                    onClick={() => onSubmitOpenId(false)}
+                  >
+                    <Trans>Already have an account? Log in</Trans>
+                  </button>
+                </>
+              </div>
+
+              {/* Final reassurance */}
+              <p
+                style={{
+                  fontSize: '11px',
+                  color: '#9ca3af',
+                  textAlign: 'center',
+                  margin: '8px 0 0 0',
+                }}
+              >
+                No charge until end of trial • Cancel anytime
+              </p>
+            </div>
+          </div>
+        </>
+      </View>
+    );
+  }
+
   return (
     <View>
       {!reviewOpenIdConfiguration && (

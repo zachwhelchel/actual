@@ -78,7 +78,20 @@ export function NeedStuffApp({
         coachId: params?.coach,
         coachSelectionSource:
           params?.coach_selection_source || 'directory_listing',
+        utm_campaign: params?.utm_campaign,
+        utm_medium: params?.utm_medium,
+        utm_source: params?.utm_source,
+        utm_term: params?.utm_term,
+        utm_content: params?.utm_content,
       });
+
+      if (!localStorage.getItem('registration_tracked')) {
+        if (!window.location.hostname.includes('localhost')) {
+          ReactPixel.init('476212184832855');
+          ReactPixel.track('CompleteRegistration');
+        }
+        localStorage.setItem('registration_tracked', 'true');
+      }
 
       const record = results.fields;
 

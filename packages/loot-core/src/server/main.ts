@@ -1009,6 +1009,11 @@ handlers['airtable-user'] = async function ({
   url,
   coachId,
   coachSelectionSource,
+  utm_campaign,
+  utm_medium,
+  utm_source,
+  utm_term,
+  utm_content,
 }) {
   const server = determineMBCenv(url);
 
@@ -1032,6 +1037,11 @@ handlers['airtable-user'] = async function ({
     {
       coachId,
       coachSelectionSource,
+      utm_campaign,
+      utm_medium,
+      utm_source,
+      utm_term,
+      utm_content,
     },
     {
       'X-ACTUAL-TOKEN': userToken,
@@ -1155,6 +1165,38 @@ handlers['airtable-update-analytics'] = async function ({
 
   const data = await post(
     server.BASE_SERVER + '/airtable/update-analytics',
+    analyticsPayload,
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+  return data;
+};
+
+handlers['airtable-update-onboarding-progress'] = async function ({
+  url,
+  onboarding_progress,
+}) {
+  const server = determineMBCenv(url);
+  const userToken = await asyncStorage.getItem('user-token');
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+  console.log('userToken');
+  console.log(userToken);
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  });
+
+  // Create analytics payload with all fields
+  const analyticsPayload = {};
+
+  analyticsPayload.onboarding_progress = onboarding_progress;
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/update-onboarding-progress',
     analyticsPayload,
     {
       'X-ACTUAL-TOKEN': userToken,
