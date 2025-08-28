@@ -189,6 +189,9 @@ function OpenIdLogin({ setError }) {
   //   );
   // }
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const sevenDay = urlParams.get('landing') === 'seven_day';
+
   if (sevenDay) {
     return (
       <View>
