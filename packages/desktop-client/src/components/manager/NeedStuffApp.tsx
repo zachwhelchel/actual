@@ -40,6 +40,8 @@ import { Login } from './subscribe/Login';
 import { OpenIdCallback } from './subscribe/OpenIdCallback';
 import { WelcomeScreen } from './WelcomeScreen';
 
+import ReactPixel from 'react-facebook-pixel';
+
 export function NeedStuffApp({
   userData,
   setStateSomeDialogues,
