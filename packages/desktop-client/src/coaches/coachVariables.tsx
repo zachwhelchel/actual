@@ -22,6 +22,9 @@ let REACT_APP_COACH_PHOTO = localStorage.getItem('REACT_APP_COACH_PHOTO'); // th
 
 let REACT_APP_RESPONSE_EXPECTATIONS = null;
 
+let REACT_APP_USER_PLAN = localStorage.getItem('REACT_APP_USER_PLAN');
+let REACT_APP_COACH_CAL_ID = localStorage.getItem('REACT_APP_USER_PLAN');
+
 const testableCoachList = [
   ['select', 'Select a Coach...'],
   ['anitadombovari', 'Anita Dombovari'],
@@ -76,6 +79,9 @@ function modifyVars() {
   REACT_APP_USER_EMAIL = localStorage.getItem('REACT_APP_USER_EMAIL');
   REACT_APP_UI_MODE = localStorage.getItem('REACT_APP_UI_MODE');
   REACT_APP_COACH_PHOTO = localStorage.getItem('REACT_APP_COACH_PHOTO');
+
+  REACT_APP_USER_PLAN = localStorage.getItem('REACT_APP_USER_PLAN');
+  REACT_APP_COACH_CAL_ID = localStorage.getItem('REACT_APP_COACH_CAL_ID');
 
   if (url.includes('kristinwade')) {
     REACT_APP_BILLING_STATUS = 'paid';
@@ -474,7 +480,6 @@ function modifyVars() {
     REACT_APP_COACH = 'drawioavatar';
     REACT_APP_COACH_FIRST_NAME = 'Draw.io Avatar';
     REACT_APP_COACH_PHOTO = '/coach-icon-drawioavatar-200x200.png';
-
   }
 
   const testPublishedAvatar = localStorage.getItem('test_published_avatar');
@@ -484,7 +489,7 @@ function modifyVars() {
     REACT_APP_ZOOM_RATE = '0.00 USD / hour';
     REACT_APP_ZOOM_LINK = 'https://calendly.com/';
     REACT_APP_COACH = testPublishedAvatar;
-    REACT_APP_COACH_PHOTO = "/coach-icon-" + REACT_APP_COACH + "-200x200.png";
+    REACT_APP_COACH_PHOTO = '/coach-icon-' + REACT_APP_COACH + '-200x200.png';
 
     if (testPublishedAvatar === 'anitadombovari') {
       REACT_APP_COACH_FIRST_NAME = 'Anita';
@@ -718,6 +723,8 @@ export {
   REACT_APP_CHAT_USER_ID,
   REACT_APP_RESPONSE_EXPECTATIONS,
   REACT_APP_COACH_PHOTO,
+  REACT_APP_USER_PLAN,
+  REACT_APP_COACH_CAL_ID,
   testableCoachList,
   getCoach,
 };

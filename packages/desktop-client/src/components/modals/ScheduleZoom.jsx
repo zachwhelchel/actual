@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   REACT_APP_BILLING_STATUS,
   REACT_APP_TRIAL_END_DATE,
@@ -8,6 +7,8 @@ import {
   REACT_APP_COACH,
   REACT_APP_COACH_FIRST_NAME,
   REACT_APP_USER_FIRST_NAME,
+  REACT_APP_USER_PLAN,
+  REACT_APP_COACH_CAL_ID,
 } from '../../coaches/coachVariables';
 import { colors } from '../../style';
 import { Block } from '../common/Block';
@@ -23,6 +24,23 @@ import { Text } from '../common/Text';
 import { View } from '../common/View';
 
 export function ScheduleZoom({ modalProps }) {
+  const isPremium = REACT_APP_USER_PLAN === 'premium';
+  const isBasic = REACT_APP_USER_PLAN === 'basic';
+
+  const getCalLink = sessionType => {
+    // If no coach cal ID, use the original zoom link
+    if (!REACT_APP_COACH_CAL_ID) {
+      return REACT_APP_ZOOM_LINK;
+    }
+
+    return `https://cal.mybudgetcoach.com/${REACT_APP_COACH_CAL_ID}/${sessionType}`;
+  };
+
+  const handleScheduleClick = sessionType => {
+    const link = getCalLink(sessionType);
+    window.open(link, '_blank');
+  };
+
   return (
     <Modal name="schedule-zoom">
       {({ state: { close } }) => (
@@ -31,12 +49,20 @@ export function ScheduleZoom({ modalProps }) {
             title={<ModalTitle title="Schedule Video Call" shrinkOnOverflow />}
             rightContent={<ModalCloseButton onPress={close} />}
           />
-
           <View style={{ lineHeight: 1.5 }}>
             <Block>
-              You can schedule a video call with your coach (or their team) at
-              any time ({REACT_APP_ZOOM_RATE}). You will be billed seperately.
-              Click the button below to schedule a time that works for you.
+              {isPremium ? (
+                <>
+                  You can schedule your included monthly video call with your
+                  coach at any time, or schedule additional sessions.
+                </>
+              ) : (
+                <>
+                  You can schedule a video call with your coach at any time. You
+                  will be billed separately. Click the button below to schedule
+                  a time that works for you.
+                </>
+              )}
             </Block>
 
             <View
@@ -62,14 +88,33 @@ export function ScheduleZoom({ modalProps }) {
                 >
                   Contact Support
                 </Button>
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    window.open(REACT_APP_ZOOM_LINK, '_blank');
-                  }}
-                >
-                  Schedule a Video Call
-                </Button>
+
+                {isPremium ? (
+                  <>
+                    <Button
+                      type="primary"
+                      style={{ marginRight: 10 }}
+                      onClick={() => handleScheduleClick('premium-included')}
+                    >
+                      Schedule Included Call
+                    </Button>
+                    <Button
+                      type="primary"
+                      onClick={() =>
+                        handleScheduleClick('premium-additional-session')
+                      }
+                    >
+                      Schedule Additional Call
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    type="primary"
+                    onClick={() => handleScheduleClick('basic-session')}
+                  >
+                    Schedule a Video Call
+                  </Button>
+                )}
               </View>
             </View>
           </View>

@@ -61,6 +61,9 @@ export function NeedStuffApp({
   const [airtableAvatarFile, setAirtableAvatarFile] = useState(null);
   const [airtableAvatarPhoto, setAirtableAvatarPhoto] = useState(null);
 
+  const [airtableUserPlan, setAirtableUserPlan] = useState(null);
+  const [airtableCoachCalId, setAirtableCoachCalId] = useState(null);
+
   // const userData = useSelector((state: State) => state.user.data);
   const [airtableLastName, setAirtableLastName] = useState(null);
   const [airtableHeard, setAirtableHeard] = useState(null);
@@ -134,6 +137,12 @@ export function NeedStuffApp({
 
       const coach_photo = record.coach_photo?.[0]?.base64 || null;
       setAirtableAvatarPhoto(coach_photo);
+
+      const plan = record.plan;
+      setAirtableUserPlan(plan);
+
+      const coach_cal_id = record.coach_cal_user;
+      setAirtableCoachCalId(coach_cal_id);
 
       const local_storage_sync = record.local_storage_sync;
 
@@ -251,6 +260,9 @@ export function NeedStuffApp({
       airtableStatus == 'coach_account' ? 'coach' : 'user';
     const REACT_APP_COACH_PHOTO = airtableAvatarPhoto; // this is new.
 
+    const REACT_APP_USER_PLAN = airtableUserPlan;
+    const REACT_APP_COACH_CAL_ID = airtableCoachCalId;
+
     if (REACT_APP_BILLING_STATUS != null) {
       localStorage.setItem(
         'REACT_APP_BILLING_STATUS',
@@ -336,6 +348,18 @@ export function NeedStuffApp({
       localStorage.setItem('REACT_APP_COACH_PHOTO', REACT_APP_COACH_PHOTO);
     } else {
       localStorage.removeItem('REACT_APP_COACH_PHOTO');
+    }
+
+    if (REACT_APP_USER_PLAN != null) {
+      localStorage.setItem('REACT_APP_USER_PLAN', REACT_APP_USER_PLAN);
+    } else {
+      localStorage.removeItem('REACT_APP_USER_PLAN');
+    }
+
+    if (REACT_APP_COACH_CAL_ID != null) {
+      localStorage.setItem('REACT_APP_COACH_CAL_ID', REACT_APP_COACH_CAL_ID);
+    } else {
+      localStorage.removeItem('REACT_APP_COACH_CAL_ID');
     }
 
     //Set up the coach dialogues.
