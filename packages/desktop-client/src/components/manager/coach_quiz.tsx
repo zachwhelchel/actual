@@ -69,15 +69,39 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
   console.log('storedParams');
   console.log(params);
 
-  const sevenDay = localStorage.getItem('seven_day') === 'true';
-  // const sevenDay = true;
+  //const sevenDay = localStorage.getItem('seven_day') === 'true';
+  let sevenDay = true;
+
+  let offer = localStorage.getItem('offer');
+  console.log('Raw localStorage value:', offer);
+
+  // Check for both actual null and the string "null"
+  if (offer == null || offer == undefined || offer === 'null') {
+    offer = '7';
+  }
+
+  console.log('Final offer:', offer);
+
+  if (offer != '7') {
+    sevenDay = false;
+  }
+
+  if (offer == '35_no_card') {
+    initialStage = 0;
+  }
 
   if (params?.plan_purchased === 'premium') {
     initialStage = 0;
     initialPremium = true;
   }
 
-  if (jumpToUser) {
+  const urlParamsNow = new URLSearchParams(window.location.search);
+  const plan_purchasedNow = urlParamsNow.get('plan_purchased');
+
+  if (
+    jumpToUser &&
+    (plan_purchasedNow === 'premium' || plan_purchasedNow === 'basic')
+  ) {
     initialStage = 3;
   }
 
@@ -197,7 +221,17 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
     setPremiumDesired(false);
     setSelectedNiches([]);
-    setCurrentStage(0);
+
+    const storedParams = localStorage.getItem('urlParams');
+    const params = storedParams ? JSON.parse(storedParams) : null;
+
+    if (params.coach != null && params.coach != '') {
+      await goPay(false);
+    } else if (jumpToUser && offer == '35_no_card') {
+      setCurrentStage(3);
+    } else {
+      setCurrentStage(0);
+    }
   };
 
   const premiumSelected = async () => {
@@ -213,7 +247,21 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
     setPremiumDesired(true);
     setSelectedNiches([]);
-    setCurrentStage(0);
+
+    const storedParams = localStorage.getItem('urlParams');
+    const params = storedParams ? JSON.parse(storedParams) : null;
+
+    if (params.hide_premium != null && params.hide_premium != '') {
+      alert(
+        "This coach doesn't support premium currently. Please select another plan.",
+      );
+    } else if (params.coach != null && params.coach != '') {
+      await goPay(true);
+    } else if (jumpToUser && offer == '35_no_card') {
+      setCurrentStage(3);
+    } else {
+      setCurrentStage(0);
+    }
   };
 
   const handleNextFromNiches = async () => {
@@ -242,23 +290,20 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
           height: '0.5rem', // h-2
           borderRadius: '9999px', // rounded-full
           transition: 'all 300ms', // transition-all duration-300
-          width: `${((currentStage + 2) / 4) * 100}%`,
+          width: `${Math.min(((currentStage + 2) / 4) * 100, 100)}%`,
         }}
       />
     </div>
   );
 
-  const selectThisCoach = async (coachName, isTopRecommendation) => {
-    if (userData?.userId !== null) {
-      await updateUserCoachRelationship(
-        userData?.userId,
-        coachName,
-        isTopRecommendation ? 'quiz_top_match' : 'quiz_other_match',
-      );
+  const goPay = async premiumDesiredHere => {
+    if (offer == '35_no_card') {
+      setCurrentStage(3);
+      return;
     }
 
     const url = String(window.location.href);
-    if (premiumDesired) {
+    if (premiumDesiredHere) {
       if (premiumPurchasedAlready) {
         setCurrentStage(3);
       } else {
@@ -280,6 +325,8 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
 
         if (sevenDay) {
           discount = '7_day_free_trial_and_50_percent_off_first_month';
+        } else if (offer == '35') {
+          discount = '35_day_free_trial';
         }
 
         const results = await send('airtable-create-checkout-session', {
@@ -325,67 +372,87 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
         }, 200); // 100ms is usually enough
       }
     } else {
+      console.log('go pay...');
+
+      // Build success URL with plan_purchased parameter
+      let successUrl = new URL(url);
+      successUrl.searchParams.set('plan_purchased', 'basic');
+
+      // Build cancel URL (current URL without changes)
+      let cancelUrl = url;
+
+      successUrl = successUrl.toString();
+      cancelUrl = cancelUrl.toString();
+
+      let userId = userData.userId;
+      let premium = false;
+      let discount = null;
+
       if (sevenDay) {
-        console.log('go pay...');
-
-        // Build success URL with plan_purchased parameter
-        let successUrl = new URL(url);
-        successUrl.searchParams.set('plan_purchased', 'basic');
-
-        // Build cancel URL (current URL without changes)
-        let cancelUrl = url;
-
-        successUrl = successUrl.toString();
-        cancelUrl = cancelUrl.toString();
-
-        let userId = userData.userId;
-        let premium = false;
-        let discount = null;
-
         discount = '7_day_free_trial';
+      } else if (offer == '35') {
+        discount = '35_day_free_trial';
+      }
 
-        const results = await send('airtable-create-checkout-session', {
-          url,
-          userId,
-          successUrl,
-          cancelUrl,
-          premium,
-          discount,
-        });
+      const results = await send('airtable-create-checkout-session', {
+        url,
+        userId,
+        successUrl,
+        cancelUrl,
+        premium,
+        discount,
+      });
 
-        console.log('airtable-create-checkout-session');
-        console.log(results);
+      console.log('airtable-create-checkout-session');
+      console.log(results);
 
-        if (!window.location.hostname.includes('localhost')) {
-          ReactPixel.init('476212184832855');
+      if (!window.location.hostname.includes('localhost')) {
+        ReactPixel.init('476212184832855');
 
-          if (sevenDay) {
-            ReactPixel.track('InitiateCheckout', {
-              value: 14.99,
-              currency: 'USD',
-              content_ids: ['basic_subscription_7_day_trial'],
-              content_type: 'product',
-              content_name: 'Basic Monthly Subscription - 7 Day Trial',
-            });
-          } else {
-            ReactPixel.track('InitiateCheckout', {
-              value: 14.99,
-              currency: 'USD',
-              content_ids: ['basic_subscription'],
-              content_type: 'product',
-              content_name: 'Basic Monthly Subscription',
-            });
-          }
+        if (sevenDay) {
+          ReactPixel.track('InitiateCheckout', {
+            value: 14.99,
+            currency: 'USD',
+            content_ids: ['basic_subscription_7_day_trial'],
+            content_type: 'product',
+            content_name: 'Basic Monthly Subscription - 7 Day Trial',
+          });
+        } else {
+          ReactPixel.track('InitiateCheckout', {
+            value: 14.99,
+            currency: 'USD',
+            content_ids: ['basic_subscription'],
+            content_type: 'product',
+            content_name: 'Basic Monthly Subscription',
+          });
         }
+      }
 
-        // Add small delay before redirect
-        setTimeout(() => {
-          window.location.href = results;
-        }, 200); // 100ms is usually enough
+      // Add small delay before redirect
+      setTimeout(() => {
+        window.location.href = results;
+      }, 200); // 100ms is usually enough
+    }
+  };
+
+  const selectThisCoach = async (coachName, isTopRecommendation) => {
+    if (userData?.userId !== null) {
+      if (window.location.hostname.includes('localhost')) {
+        await updateUserCoachRelationship(
+          userData?.userId,
+          'recEEb7J6SeTKeJwZ',
+          isTopRecommendation ? 'quiz_top_match' : 'quiz_other_match',
+        );
       } else {
-        setCurrentStage(3);
+        await updateUserCoachRelationship(
+          userData?.userId,
+          coachName,
+          isTopRecommendation ? 'quiz_top_match' : 'quiz_other_match',
+        );
       }
     }
+
+    await goPay(premiumDesired);
   };
 
   const handleSubmit = async () => {
@@ -1813,11 +1880,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                     fontWeight: '500',
                   }}
                 >
-                  {sevenDay ? (
-                    <>7 Day Free Trial</>
-                  ) : (
-                    <>1 Month Money Back Guarantee</>
-                  )}
+                  {sevenDay ? <>7 Day Free Trial</> : <>35 Day Free Trial</>}
                 </div>
 
                 {sevenDay ? (
@@ -1881,11 +1944,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                       fontSize: '0.9rem',
                     }}
                   >
-                    {sevenDay ? (
-                      <>7 day free trial</>
-                    ) : (
-                      <>1 month money back guarantee</>
-                    )}
+                    {sevenDay ? <>7 day free trial</> : <>35 day free trial</>}
                   </span>
                 </div>
                 <div
@@ -1922,7 +1981,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                       fontSize: '0.9rem',
                     }}
                   >
-                    1 hour session included monthly
+                    1 hour session included monthly after trial
                   </span>
                 </div>
                 <div
@@ -1976,7 +2035,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                   cursor: 'pointer',
                 }}
               >
-                {sevenDay ? <>Start Free Trial</> : <>Choose Premium</>}
+                {sevenDay ? <>Start Free Trial</> : <>Start Free Trial</>}
               </button>
             </div>
 
@@ -2154,7 +2213,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
                       fontSize: '0.9rem',
                     }}
                   >
-                    Sessions priced separately
+                    Extra sessions $60 each
                   </span>
                 </div>
               </div>
@@ -2527,34 +2586,6 @@ const FreeSessionButton = ({ zoomLink, coachPhoto }) => {
         }}
       />
 
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: '1rem',
-        }}
-      >
-        <Sparkles
-          size={24}
-          style={{ color: '#FFD700', marginRight: '0.5rem' }}
-        />
-        <h2
-          style={{
-            fontSize: '1.5rem',
-            fontWeight: 'bold',
-            color: '#4338ca',
-            margin: 0,
-          }}
-        >
-          Limited Time Offer!
-        </h2>
-        <Sparkles
-          size={24}
-          style={{ color: '#FFD700', marginLeft: '0.5rem' }}
-        />
-      </div>
-
       <p
         style={{
           fontSize: '1.125rem',
@@ -2727,17 +2758,6 @@ const FreeSessionButton = ({ zoomLink, coachPhoto }) => {
       >
         Claim Your Free Session Now
       </a>
-
-      <p
-        style={{
-          marginTop: '1rem',
-          fontSize: '0.875rem',
-          color: '#6b7280',
-          fontStyle: 'italic',
-        }}
-      >
-        *Limited slots available. No credit card required.
-      </p>
     </div>
   );
 };

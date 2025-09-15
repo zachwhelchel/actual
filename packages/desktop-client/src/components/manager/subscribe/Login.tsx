@@ -192,7 +192,10 @@ function OpenIdLogin({ setError }) {
   const urlParams = new URLSearchParams(window.location.search);
   const sevenDay = urlParams.get('landing') === 'seven_day';
 
-  if (sevenDay) {
+  const offer = urlParams.get('offer');
+  const purchasedAlready = urlParams.get('plan_purchased') != null;
+
+  if (true) {
     return (
       <View>
         <>
@@ -281,20 +284,30 @@ function OpenIdLogin({ setError }) {
                     Average Rating
                   </div>
                 </div>
-                <div style={{ textAlign: 'center', flex: 1 }}>
-                  <div
-                    style={{
-                      fontSize: '18px',
-                      fontWeight: 'bold',
-                      color: '#8b5cf6',
-                    }}
-                  >
-                    7 Day
+
+                {!purchasedAlready && (
+                  <div style={{ textAlign: 'center', flex: 1 }}>
+                    <div
+                      style={{
+                        fontSize: '18px',
+                        fontWeight: 'bold',
+                        color: '#8b5cf6',
+                      }}
+                    >
+                      {offer === '35'
+                        ? '35'
+                        : offer === '35_no_card'
+                          ? '35'
+                          : offer === '7'
+                            ? '7'
+                            : '7'}{' '}
+                      Day
+                    </div>
+                    <div style={{ fontSize: '12px', color: '#666' }}>
+                      Free Trial
+                    </div>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#666' }}>
-                    Free Trial
-                  </div>
-                </div>
+                )}
               </div>
 
               {/* Testimonial Quote */}
@@ -317,7 +330,7 @@ function OpenIdLogin({ setError }) {
                     textAlign: 'center',
                   }}
                 >
-                  "My coach helped me save for my first vacation in 3 years!"
+                  "I finally feel like I am in control of my financial future."
                 </p>
                 <p
                   style={{
@@ -328,7 +341,7 @@ function OpenIdLogin({ setError }) {
                     fontWeight: '500',
                   }}
                 >
-                  - Sarah M., saved $1,200 in 4 months
+                  - Brendan G.
                 </p>
               </div>
 
@@ -571,6 +584,9 @@ export function Login() {
     const sevenDay = urlParams.get('landing') === 'seven_day';
     localStorage.setItem('seven_day', sevenDay);
 
+    const offer = urlParams.get('offer');
+    localStorage.setItem('offer', offer);
+
     // Create an object to store the parameters
     const urlParamsObject = {
       coach: urlParams.get('coach') || '',
@@ -584,6 +600,7 @@ export function Login() {
       utm_content: urlParams.get('utm_content') || '',
       plan_purchased: urlParams.get('plan_purchased') || '',
       anonymous_purchaser: urlParams.get('anonymous_purchaser') || '',
+      hide_premium: urlParams.get('hide_premium') || '',
     };
 
     // Store in localStorage for persistence
