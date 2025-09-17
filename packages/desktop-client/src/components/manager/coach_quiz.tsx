@@ -329,6 +329,8 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
           discount = '35_day_free_trial';
         }
 
+        let fp_tid = params?.fprom_tid;
+
         const results = await send('airtable-create-checkout-session', {
           url,
           userId,
@@ -336,6 +338,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
           cancelUrl,
           premium,
           discount,
+          fp_tid,
         });
 
         console.log('airtable-create-checkout-session');
@@ -394,6 +397,8 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
         discount = '35_day_free_trial';
       }
 
+      let fp_tid = params?.fprom_tid;
+
       const results = await send('airtable-create-checkout-session', {
         url,
         userId,
@@ -401,6 +406,7 @@ const CoachQuiz = ({ jumpToUser = false, firstName, lastName, email }) => {
         cancelUrl,
         premium,
         discount,
+        fp_tid,
       });
 
       console.log('airtable-create-checkout-session');

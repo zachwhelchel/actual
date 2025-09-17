@@ -768,6 +768,10 @@ function PremiumLanding({ setError }) {
 
     let discount = null;
 
+    const storedParams = localStorage.getItem('urlParams');
+    const params = storedParams ? JSON.parse(storedParams) : null;
+    let fp_tid = params?.fprom_tid;
+
     const results = await send('airtable-create-checkout-session', {
       url,
       userId,
@@ -775,6 +779,7 @@ function PremiumLanding({ setError }) {
       cancelUrl,
       premium,
       discount,
+      fp_tid,
     });
 
     console.log('airtable-create-checkout-session');
@@ -1558,6 +1563,10 @@ function PremiumLanding50({ setError }) {
 
     let discount = '50_off_first_month';
 
+    const storedParams = localStorage.getItem('urlParams');
+    const params = storedParams ? JSON.parse(storedParams) : null;
+    let fp_tid = params?.fprom_tid;
+
     const results = await send('airtable-create-checkout-session', {
       url,
       userId,
@@ -1565,6 +1574,7 @@ function PremiumLanding50({ setError }) {
       cancelUrl,
       premium,
       discount,
+      fp_tid,
     });
 
     console.log('airtable-create-checkout-session');

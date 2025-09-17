@@ -60,6 +60,10 @@ export function SubscribeModal({}) {
     let premium = false;
     let discount = null;
 
+    const storedParams = localStorage.getItem('urlParams');
+    const params = storedParams ? JSON.parse(storedParams) : null;
+    let fp_tid = params?.fprom_tid;
+
     const results = await send('airtable-create-checkout-session', {
       url,
       userId,
@@ -67,6 +71,7 @@ export function SubscribeModal({}) {
       cancelUrl,
       premium,
       discount,
+      fp_tid,
     });
 
     console.log('airtable-create-checkout-session');
@@ -102,6 +107,10 @@ export function SubscribeModal({}) {
     let premium = true;
     let discount = null;
 
+    const storedParams = localStorage.getItem('urlParams');
+    const params = storedParams ? JSON.parse(storedParams) : null;
+    let fp_tid = params?.fprom_tid;
+
     const results = await send('airtable-create-checkout-session', {
       url,
       userId,
@@ -109,6 +118,7 @@ export function SubscribeModal({}) {
       cancelUrl,
       premium,
       discount,
+      fp_tid,
     });
 
     console.log('airtable-create-checkout-session');
