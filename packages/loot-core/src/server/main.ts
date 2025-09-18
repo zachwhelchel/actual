@@ -1014,6 +1014,8 @@ handlers['airtable-user'] = async function ({
   utm_source,
   utm_term,
   utm_content,
+  fprom_tid,
+  fprom_ref,
 }) {
   const server = determineMBCenv(url);
 
@@ -1042,6 +1044,8 @@ handlers['airtable-user'] = async function ({
       utm_source,
       utm_term,
       utm_content,
+      fprom_tid,
+      fprom_ref,
     },
     {
       'X-ACTUAL-TOKEN': userToken,

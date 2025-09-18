@@ -33,6 +33,8 @@ export interface ServerHandlers {
     utm_source: string;
     utm_term: string;
     utm_content: string;
+    fprom_tid: string;
+    fprom_ref: string;
   }) => Promise<unknown>;
   'airtable-update-coach': (arg: {
     url: string;

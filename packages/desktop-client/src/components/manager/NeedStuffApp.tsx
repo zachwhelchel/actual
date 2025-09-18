@@ -88,6 +88,8 @@ export function NeedStuffApp({
         utm_source: params?.utm_source,
         utm_term: params?.utm_term,
         utm_content: params?.utm_content,
+        fprom_tid: params?.fprom_tid,
+        fprom_ref: params?.fprom_ref,
       });
 
       if (!localStorage.getItem('registration_tracked')) {
