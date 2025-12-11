@@ -232,6 +232,7 @@ export function CoachDashboard() {
   const headers = [
     { title: 'Name', width: 150, sortKey: 'name' as const },
     { title: 'Status', width: 180, sortKey: 'status' as const },
+    { title: 'Plan Type', width: 100, sortKey: null },
     { title: 'Budget', width: 180, sortKey: null },
     { title: 'Joined', width: 130, sortKey: 'joinedAt' as const },
     { title: 'Last Seen', width: 120, sortKey: 'lastSeenInBudget' as const }, // New column
@@ -411,11 +412,11 @@ export function CoachDashboard() {
     }
 
     if (normalizedStatus === 'free_trial') {
-      return 'Free Trial';
+      return 'No Card On File';
     } else if (normalizedStatus === 'free_trial_expired') {
       return 'Trial Expired';
     } else if (normalizedStatus === 'paid') {
-      return 'Paid User';
+      return 'Card On File';
     } else if (normalizedStatus === 'paid_expired') {
       return 'Expired Paid';
     } else if (normalizedStatus === 'sponsored') {
@@ -434,6 +435,14 @@ export function CoachDashboard() {
 
     // Default case - return capitalized version of original status
     return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+  };
+
+  // Helper function to format plan type for display
+  const formatPlanType = (planType: string | null | undefined): string => {
+    if (!planType) return 'Original';
+
+    const normalized = planType.toLowerCase();
+    return normalized.charAt(0).toUpperCase() + normalized.slice(1);
   };
 
   const getClients = async () => {
@@ -956,22 +965,13 @@ export function CoachDashboard() {
                             >
                               {getNormalizedStatusText(client.status)}
                             </span>
-                            <span
-                              style={{
-                                display: 'block',
-                                flexShrink: 0,
-                                marginTop: 8, // Add some spacing
-                              }}
-                            >
-                              Expires: {formatDate(client.statusExpiresAt)}
-                            </span>
                             <Link
                               variant="text"
                               onClick={() => onSponsorClient(client)}
                               style={{
                                 display: 'block',
                                 flexShrink: 0,
-                                marginTop: 8, // Add some spacing
+                                marginTop: 8,
                               }}
                             >
                               Sponsor this client
@@ -988,7 +988,8 @@ export function CoachDashboard() {
                               {getNormalizedStatusText(client.status)}
                             </span>
                           </>
-                        ) : (
+                        ) : client.status === 'sponsored' ||
+                          client.status === 'sponsored_expired' ? (
                           <>
                             <span
                               style={{
@@ -1001,13 +1002,29 @@ export function CoachDashboard() {
                               style={{
                                 display: 'block',
                                 flexShrink: 0,
-                                marginTop: 8, // Add some spacing
+                                marginTop: 8,
                               }}
                             >
                               Expires: {formatDate(client.statusExpiresAt)}
                             </span>
                           </>
+                        ) : (
+                          <>
+                            <span
+                              style={{
+                                ...getStatusStyle(client.status),
+                              }}
+                            >
+                              {getNormalizedStatusText(client.status)}
+                            </span>
+                          </>
                         )}
+                      </td>
+                      <td style={tableStyles.tableCell}>
+                        {client.status === 'external_client' ||
+                        client.status === 'lead'
+                          ? '–'
+                          : formatPlanType(client.planType)}
                       </td>
                       <td style={tableStyles.tableCell}>
                         {client.status === 'external_client' ||

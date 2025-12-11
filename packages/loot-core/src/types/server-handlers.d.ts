@@ -50,6 +50,11 @@ export interface ServerHandlers {
     discount: string;
     fp_tid: string;
   }) => Promise<unknown>;
+  'airtable-create-portal-session': (arg: {
+    url: string;
+    userId: string;
+    successUrl: string;
+  }) => Promise<unknown>;
   'airtable-update-user': (arg: {
     url: string;
     first_name: string;

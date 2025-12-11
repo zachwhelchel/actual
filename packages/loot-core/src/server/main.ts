@@ -1121,6 +1121,45 @@ handlers['airtable-create-checkout-session'] = async function ({
   return data;
 };
 
+handlers['airtable-create-portal-session'] = async function ({
+  url,
+  userId,
+  successUrl,
+}) {
+  const server = determineMBCenv(url);
+
+  console.log(userId);
+  console.log(successUrl);
+
+  const userToken = await asyncStorage.getItem('user-token');
+
+  if (!userToken) {
+    return { error: 'unauthorized' };
+  }
+
+  console.log('userToken');
+  console.log(userToken);
+
+  const res = await get(server.SIGNUP_SERVER + '/validate', {
+    headers: {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  });
+
+  const data = await post(
+    server.BASE_SERVER + '/airtable/create-portal-session',
+    {
+      userId,
+      successUrl,
+    },
+    {
+      'X-ACTUAL-TOKEN': userToken,
+    },
+  );
+
+  return data;
+};
+
 handlers['airtable-update-analytics'] = async function ({
   url,
   last_visited_budget_small_screen,

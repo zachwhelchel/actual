@@ -1578,13 +1578,18 @@ const Transaction = memo(function Transaction({
             if (value === 'split') {
               onSplit(transaction.id);
             } else if (value === 'Create Category') {
+              console.log('onnnnnupdateeeee');
+
               onCreateCategory(transaction.id);
-              try {
-                onEdit(null);
-              } catch (error) {
-                console.error('Error occurred during onEdit:', error);
-              }
-              onUpdate('category', '');
+              // Wait for modal to render before cleanup
+              setTimeout(() => {
+                try {
+                  onEdit(null);
+                  onUpdate('category', '');
+                } catch (error) {
+                  console.error('Error occurred during onEdit:', error);
+                }
+              }, 100); // Adjust timing if needed (50-200ms usually works)
             } else {
               onUpdate('category', value);
             }
@@ -2085,6 +2090,7 @@ function TransactionTableInner({
         onSplit={props.onSplit}
         onManagePayees={props.onManagePayees}
         onCreatePayee={props.onCreatePayee}
+        onCreateCategory={props.onCreateCategory}
         onToggleSplit={props.onToggleSplit}
         onNavigateToTransferAccount={onNavigateToTransferAccount}
         onNavigateToSchedule={onNavigateToSchedule}

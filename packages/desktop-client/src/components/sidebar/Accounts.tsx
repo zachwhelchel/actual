@@ -129,6 +129,14 @@ export function Accounts({
     return;
   };
 
+  const onPortal = async () => {
+    console.log('portal');
+
+    dispatch(replaceModal('portal', {}));
+
+    return;
+  };
+
   const {
     commonElementsRef,
     conversationDeck,
@@ -621,15 +629,10 @@ export function Accounts({
               }}
             >
               You are currently subscribed. Manage your subscription{' '}
-              <Link
-                key="manageSubscription"
-                variant="external"
-                linkColor="white"
-                to="https://mybudgetcoach.app/subscription"
-              >
+              <Link variant="text" linkColor="white" onClick={onPortal}>
                 here
               </Link>
-              .
+              {''}.
             </p>
           )}
 
