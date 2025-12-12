@@ -79,10 +79,22 @@ function PasswordLogin({ setError, dispatch }) {
 }
 
 function OpenIdLogin({ setError }) {
+  const { t } = useTranslation();
   const [warnMasterCreation, setWarnMasterCreation] = useState(false);
   const [reviewOpenIdConfiguration, setReviewOpenIdConfiguration] =
     useState(false);
   const navigate = useNavigate();
+
+  function getErrorMessage(error) {
+    switch (error) {
+      case 'duplicate_account':
+        return t(
+          'An account with this email already exists. Please sign in using the method you originally used (either password or social login).',
+        );
+      default:
+        return t(`An error occurred: {{error}}`, { error });
+    }
+  }
 
   async function onSetOpenId(config: OpenIdConfig) {
     setError(null);
@@ -194,6 +206,7 @@ function OpenIdLogin({ setError }) {
 
   const offer = urlParams.get('offer');
   const purchasedAlready = urlParams.get('plan_purchased') != null;
+  const errorParam = urlParams.get('error');
 
   if (true) {
     return (
@@ -344,6 +357,32 @@ function OpenIdLogin({ setError }) {
                   - Brendan G.
                 </p>
               </div>
+
+              {/* Error Message */}
+              {errorParam && (
+                <div
+                  style={{
+                    backgroundColor: '#fee2e2',
+                    padding: '12px',
+                    borderRadius: '6px',
+                    borderLeft: '3px solid #dc2626',
+                    marginBottom: '8px',
+                    width: '100%',
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: '13px',
+                      color: '#991b1b',
+                      margin: 0,
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {getErrorMessage(errorParam)}
+                  </p>
+                </div>
+              )}
 
               {/* CTA Buttons */}
               <div style={containerStyle}>
